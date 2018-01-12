@@ -1,0 +1,46 @@
+eureka:
+  instance:
+    status-page-url-path: ${management.context-path}/info
+    health-check-url-path: ${management.context-path}/health
+    prefer-ip-address: true
+    hostname: ${eureka.hostname:eureka.zuihou.com}    # 指定该Eureka实例的主机名
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+      management.context-path: ${management.context-path}
+  client:
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/zuihou111/zuihou-admin-cloud
+          search-paths: zuihou-config-repo
+  rabbitmq:
+    host: zuihou.rabbitmq
+
+management:
+  security:
+    enabled: true
+  context-path: /mgmt
+
+security:
+  basic:
+    enabled: true
+    path: ${management.context-path}
+  user:
+    name: admin
+    password: ${SECURITY_USER_PASSWORD:admin}
+endpoints:
+  health:
+    enabled: true
+    sensitive: true  # actuator的health接口是否需要安全保证
+
+info:
+  contact:
+    email: xxx@hengyunsoft.com
+    phone: 10086
+  app: 配置中心
