@@ -1,18 +1,7 @@
 server:
-  port: ${server.port:8500}
-
-spring:
-  application:
-    name: zuihou-eureka
+  port: 10000
 
 eureka:
-  server:
-    enable-self-preservation: false  # 关闭自我保护
-  client:
-    serviceUrl:
-      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
-    registerWithEureka: false
-    fetchRegistry: false
   instance:
     status-page-url-path: ${management.context-path}/info
     health-check-url-path: ${management.context-path}/health
@@ -22,6 +11,18 @@ eureka:
       user.name: ${security.user.name}
       user.password: ${security.user.password}
       management.context-path: ${management.context-path}
+  client:
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  application:
+    name: zuihou-admin
+  rabbitmq:
+    host: zuihou.rabbitmq
+    port: 5672
+    password: guest
+    username: guest
 
 management:
   security:
@@ -42,6 +43,9 @@ endpoints:
 
 info:
   contact:
-    email: xxx@hengyunsoft.com
+    email: 306479353@qq.com
     phone: 10086
-  app: 注册中心
+  app: 后台管理服务
+
+test: t1
+test2: def_test2

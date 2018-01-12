@@ -1,0 +1,4 @@
+server:
+  port: 10000
+
+test: prod

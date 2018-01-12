@@ -1,0 +1,6 @@
+server:
+  port: 10000
+
+
+test: dev
+test2: dev_test2
