@@ -21,6 +21,9 @@ spring:
           search-paths: zuihou-config-repo
   rabbitmq:
     host: zuihou.rabbitmq
+    port: 5672
+    password: guest
+    username: guest
 
 management:
   security:
@@ -44,3 +47,5 @@ info:
     email: xxx@hengyunsoft.com
     phone: 10086
   app: 配置中心
+
+test:t1
