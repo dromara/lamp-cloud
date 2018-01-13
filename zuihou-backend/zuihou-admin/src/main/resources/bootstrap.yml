@@ -38,7 +38,8 @@ spring:
         multiplier: 2
         max-attempts: 10
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://${prod1.eureka.hostname}:${prod1.eureka.server.port}/eureka/,http://${prod2.eureka.hostname}:${prod2.eureka.server.port}/eureka/
+#logging:
+#  path: ./logs/zuihou-admin-server
+#  common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
+#  level:
+#    console: INFO
