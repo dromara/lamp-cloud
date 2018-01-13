@@ -1,3 +1,6 @@
+server:
+  port: 8889
+
 eureka:
   instance:
     status-page-url-path: ${management.context-path}/info

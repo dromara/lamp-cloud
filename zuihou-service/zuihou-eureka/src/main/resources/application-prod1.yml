@@ -5,7 +5,7 @@ eureka:
   environment: prod
   datacenter: linux
   server:
-    enable-self-preservation: false  # 关闭自我保护
+    enable-self-preservation: true  # 关闭自我保护
   instance:
     status-page-url-path: ${management.context-path}/info
     health-check-url-path: ${management.context-path}/health

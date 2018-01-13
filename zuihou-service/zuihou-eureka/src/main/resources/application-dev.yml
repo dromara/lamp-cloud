@@ -8,7 +8,7 @@ eureka:
   environment: dev
   datacenter: linux
   server:
-    enable-self-preservation: true  # 关闭自我保护
+    enable-self-preservation: false  # 关闭自我保护
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${dev.eureka.server.port}/eureka/

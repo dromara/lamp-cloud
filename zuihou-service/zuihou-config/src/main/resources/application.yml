@@ -3,7 +3,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: zuihou-eureka
+    name: zuihou-config
   cloud:
     config:
       server:
@@ -11,7 +11,7 @@ spring:
           uri: https://gitee.com/zuihou111/zuihou-admin-cloud
           search-paths: zuihou-config-repo/*/{application}
   rabbitmq:
-    host: zuihou.rabbitmq
+    host: zuihou.rabbitmq.host
     port: 5672
     password: guest
     username: guest
@@ -51,6 +51,6 @@ endpoints:
 
 info:
   contact:
-    email: 306479353@qq.com
+    email: tangstruggle@sina.com
     phone: 10086
   app: 配置中心

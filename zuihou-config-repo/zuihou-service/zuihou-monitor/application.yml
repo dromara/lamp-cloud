@@ -20,7 +20,7 @@ spring:
           uri: https://gitee.com/zuihou111/zuihou-admin-cloud
           search-paths: zuihou-config-repo
   rabbitmq:
-    host: zuihou.rabbitmq
+    host: zuihou.rabbitmq.host
     port: 5672
     password: guest
     username: guest
