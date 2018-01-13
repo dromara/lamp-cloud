@@ -65,7 +65,7 @@ zuihou:
       host: ${zuihou.mysql.host}
       password: ${zuihou.mysql.password}
       port: ${zuihou.mysql.port}
-      url: jdbc:mysql://${zuihou.mysql.admin.host}:${zuihou.mysql.admin.port}/${zuihou.mysql.admin.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true
+      url: jdbc:mysql://${zuihou.mysql.admin.host}:${zuihou.mysql.admin.port}/${zuihou.mysql.admin.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
       username: ${zuihou.mysql.username}
     driverClassName: com.mysql.cj.jdbc.Driver  # 6.0.6
 #    driverClassName: com.mysql.jdbc.Driver    # 5.x
