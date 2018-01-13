@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: zuihou-admin
+  profiles:
+    active: prod
+  cloud:
+    config:
+      profile: ${spring.profiles.active}
+      label: master
+      uri: http://config.zuihou.com:8888
+#      discovery:
+#        enabled: true
+#        service-id: zuihou-config
+      fail-fast: true
+      username: admin
+      password: ${CONFIG_SERVER_PASSWORD:admin}
+      retry:
+        initial-interval: 2000
+        max-interval: 10000
+        multiplier: 2
+        max-attempts: 10
+

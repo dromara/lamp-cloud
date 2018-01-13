@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: zuihou-config
+
+server:
+  port: 8888
