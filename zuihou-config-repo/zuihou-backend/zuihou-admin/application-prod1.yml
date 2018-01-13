@@ -8,6 +8,9 @@ spring:
 logging:
   level:
     console: WARN
+    rest: WARN
+    service: WARN
+    sql: WARN
 
 test: prod1 修改
 hello: prod_hello_1修改啊
