@@ -1,0 +1,45 @@
+# 公共配置
+spring:
+  profiles:
+    active: dev
+  application:
+    name: zuihou-eureka
+
+prod1:
+  eureka:
+    server:
+      port: 8501
+    hostname: eureka1.zuihou.com
+prod2:
+  eureka:
+    server:
+      port: 8502
+    hostname: eureka2.zuihou.com
+dev:
+  eureka:
+    server:
+      port: 8500
+    hostname: eureka.zuihou.com
+
+management:
+  security:
+    enabled: true
+  context-path: /mgmt
+
+security:
+  basic:
+    enabled: true
+    path: ${management.context-path}
+  user:
+    name: admin
+    password: ${SECURITY_USER_PASSWORD:admin}
+endpoints:
+  health:
+    enabled: true
+    sensitive: true  # actuator的health接口是否需要安全保证
+
+info:
+  contact:
+    email: 306479353@qq.com
+    phone: 10086
+  app: 注册中心

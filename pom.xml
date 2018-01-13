@@ -3,7 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.0.M2</version>
+    </parent>
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -16,11 +20,7 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
-    </parent>
+
     <modules>
         <module>zuihou-common</module>
         <module>zuihou-service</module>
@@ -34,16 +34,37 @@
             <email>306479353@qq.com</email>
         </developer>
     </developers>
-    <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.14</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring.version>5.0.0.RC2</spring.version>
+        <spring-boot-admin.version>1.5.6</spring-boot-admin.version>
+        <spring.boot.version>2.0.0.M2</spring.boot.version>
+        <spring-cloud.version>Finchley.M2</spring-cloud.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+        <mybatis-srping-boot.version>1.3.1</mybatis-srping-boot.version>
+        <fastjson.version>1.2.44</fastjson.version>
+        <alibaba.druid.version>1.1.6</alibaba.druid.version>
+        <mysql.version>5.1.40</mysql.version>
+        <!--<mysql.version>6.0.6</mysql.version>-->
+        <pagehelper.version>1.2.3</pagehelper.version>
+        <springfox.swagger2.version>2.7.0</springfox.swagger2.version>
+        <lombok.version>1.16.20</lombok.version>
+        <dozer.version>5.5.1</dozer.version>
+        <commons-fileupload-version>1.3.3</commons-fileupload-version>
+        <commons-io.version>2.6</commons-io.version> <!-- excel -->
+        <poi-ooxml.version>3.17</poi-ooxml.version>
+    </properties>
+
     <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+        </repository>
         <repository>
             <id>oss</id>
             <name>oss</name>
@@ -56,16 +77,19 @@
         </repository>
     </repositories>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot-admin.version>1.5.3</spring-boot-admin.version>
-        <spring.version>4.3.9.RELEASE</spring.version>
-        <spring.boot.version>1.5.1.RELEASE</spring.boot.version>
-        <spring.cloud.version>Dalston.RELEASE</spring.cloud.version>
-        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
-    </properties>
+    <distributionManagement>
+        <repository>
+            <id>repo.spring.io</id>
+            <name>Spring Release Repository</name>
+            <url>https://repo.spring.io/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>repo.spring.io</id>
+            <name>Spring Snapshot Repository</name>
+            <url>https://repo.spring.io/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 
     <!--依赖管理，用于管理spring-cloud的依赖，其中Camden.SR3是版本号-->
     <dependencyManagement>
@@ -73,20 +97,112 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR1</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.33</version>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
+
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-srping-boot.version}</version>
+            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.github.briandilley.jsonrpc4j</groupId>-->
+                <!--<artifactId>jsonrpc4j</artifactId>-->
+                <!--<version>1.5.0</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>com.github.pagehelper</groupId>-->
+                <!--<artifactId>pagehelper</artifactId>-->
+                <!--<version>5.0.1</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>fastjson</artifactId>-->
+            <!--<version>1.2.44</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
-                <version>1.1.0</version>
+                <version>${alibaba.druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer-spring</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
+            <!-- swagger2 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.swagger2.version}</version>
+            </dependency>
+
+            <!-- 上传文件 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- excel -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
