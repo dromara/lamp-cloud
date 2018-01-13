@@ -1,0 +1,9 @@
+server:
+  port: 10001
+
+spring:
+  redis:
+    key-prefix: prod  # redis key的前缀， 环境的多个实例一定要配置一样（即prod1和prod2文件中需要配置一致）
+
+test: prod1
+hello: prod_hello_1

@@ -1,3 +1,6 @@
+server:
+  port: 8888
+
 eureka:
   instance:
     status-page-url-path: ${management.context-path}/info
@@ -11,3 +14,4 @@ eureka:
   client:
     service-url:
       defaultZone: http://${prod1.eureka.hostname}:${prod1.eureka.server.port}/eureka/,http://${prod2.eureka.hostname}:${prod2.eureka.server.port}/eureka/
+
