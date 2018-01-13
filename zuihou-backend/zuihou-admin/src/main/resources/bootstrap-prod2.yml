@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: prod2
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${prod1.eureka.hostname}:${prod1.eureka.server.port}/eureka/,http://${prod2.eureka.hostname}:${prod2.eureka.server.port}/eureka/

@@ -1,0 +1,48 @@
+# eureka 主机/端口配置 start
+prod1:
+  eureka:
+    server:
+      port: 8501
+    hostname: eureka1.zuihou.com
+prod2:
+  eureka:
+    server:
+      port: 8502
+    hostname: eureka2.zuihou.com
+dev:
+  eureka:
+    server:
+      port: 8500
+    hostname: eureka.zuihou.com
+# eureka 主机/端口配置 end
+
+spring:
+#  application:
+#    name: zuihou-admin
+  profiles:
+    active: dev
+  cloud:
+    config:
+      profile: ${spring.profiles.active}
+      label: master
+      # uri: http://config.zuihou.com:8888  # ConfigServer的服务地址，实现高可用比较麻烦
+      # 配置ConfigServer注册到eureka中的服务名，实现高可用
+      discovery:
+        enabled: true
+        service-id: zuihou-config
+      # 配合spring-retry.jar，实现客户端优先判断ConfigServer获取是否正常，并快速响应失败内容
+      # 详情见《SpringCloud微服务实战》8章-失败快速响应与重试
+      fail-fast: true
+      # 自动重试:配合`spring-retry`、`spring-boot-starter-aop` 实现自动重试
+      retry:
+        initial-interval: 2000  # 下一次间隔的乘数，默认1.1。所以当最初间隔是1000ms时，下一次失败后的间隔为1100ms
+        max-interval: 10000     # 最大间隔，默认2000ms
+        multiplier: 2           # 初始重试间隔时间(ms),默认1000ms
+        max-attempts: 10        # 最大重试次数，默认6次
+      username: admin
+      password: ${CONFIG_SERVER_PASSWORD:admin}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${prod1.eureka.hostname}:${prod1.eureka.server.port}/eureka/,http://${prod2.eureka.hostname}:${prod2.eureka.server.port}/eureka/

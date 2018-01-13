@@ -1,29 +1,36 @@
-eureka:
-  instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
-    prefer-ip-address: true
-    hostname: ${eureka.hostname:eureka.zuihou.com}    # 指定该Eureka实例的主机名
-    metadata-map:
-      user.name: ${security.user.name}
-      user.password: ${security.user.password}
-      management.context-path: ${management.context-path}
-  client:
-    service-url:
-      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8500/eureka/
-
+# 公共配置
 spring:
+  profiles:
+    active: dev
+  application:
+    name: zuihou-config
   cloud:
     config:
       server:
         git:
           uri: https://gitee.com/zuihou111/zuihou-admin-cloud
-          search-paths: zuihou-config-repo
+          search-paths: zuihou-config-repo/*/{application}
   rabbitmq:
     host: zuihou.rabbitmq.host
     port: 5672
     password: guest
     username: guest
+
+prod1:
+  eureka:
+    server:
+      port: 8501
+    hostname: eureka1.zuihou.com
+prod2:
+  eureka:
+    server:
+      port: 8502
+    hostname: eureka2.zuihou.com
+dev:
+  eureka:
+    server:
+      port: 8500
+    hostname: eureka.zuihou.com
 
 management:
   security:
@@ -47,5 +54,3 @@ info:
     email: tangstruggle@sina.com
     phone: 10086
   app: 配置中心
-
-test: t1

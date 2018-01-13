@@ -1,8 +1,8 @@
 //package com.github.zuihou.admin.config;
 //
-//import com.hengyunsoft.base.id.IdGenerate;
-//import com.hengyunsoft.base.id.SnowflakeIDGenerate;
-//import com.hengyunsoft.commons.handler.GlobalExceptionHandler;
+//import com.github.base.id.IdGenerate;
+//import com.github.base.id.SnowflakeIDGenerate;
+//import com.github.commons.handler.GlobalExceptionHandler;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;

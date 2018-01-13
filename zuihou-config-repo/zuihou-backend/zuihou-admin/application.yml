@@ -12,6 +12,8 @@ eureka:
       management.context-path: ${management.context-path}
 
 spring:
+  profiles:
+    active: dev
   application:
     name: zuihou-admin
   rabbitmq:
@@ -65,7 +67,8 @@ zuihou:
       port: ${zuihou.mysql.port}
       url: jdbc:mysql://${zuihou.mysql.admin.host}:${zuihou.mysql.admin.port}/${zuihou.mysql.admin.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true
       username: ${zuihou.mysql.username}
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver  # 6.0.6
+#    driverClassName: com.mysql.jdbc.Driver    # 5.x
     host: zuihou.mysql.host     # 根据环境更改
     port: 3306                  # 根据环境更改
     username: root              # 根据环境更改

@@ -1,3 +1,4 @@
+# eureka 主机/端口配置 start
 prod1:
   eureka:
     server:
@@ -13,6 +14,7 @@ dev:
     server:
       port: 8500
     hostname: eureka.zuihou.com
+# eureka 主机/端口配置 end
 
 spring:
   application:
@@ -36,7 +38,7 @@ spring:
         multiplier: 2
         max-attempts: 10
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://${dev.eureka.hostname}:${dev.eureka.server.port}/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://${prod1.eureka.hostname}:${prod1.eureka.server.port}/eureka/,http://${prod2.eureka.hostname}:${prod2.eureka.server.port}/eureka/

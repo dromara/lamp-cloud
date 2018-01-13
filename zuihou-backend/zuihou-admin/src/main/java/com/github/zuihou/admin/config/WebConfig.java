@@ -1,6 +1,6 @@
 //package com.github.zuihou.admin.config;
 //
-//import com.hengyunsoft.security.auth.client.interceptor.AppAuthRestInterceptor;
+//import com.github.security.auth.client.interceptor.AppAuthRestInterceptor;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.context.annotation.Primary;

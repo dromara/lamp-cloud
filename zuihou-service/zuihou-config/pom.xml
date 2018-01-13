@@ -52,6 +52,19 @@
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>rebel.xml</exclude>
+                    <exclude>*.bakNotes</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
