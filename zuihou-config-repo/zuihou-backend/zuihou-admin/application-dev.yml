@@ -5,5 +5,5 @@ spring:
   redis:
     key-prefix: dev
 
-test: dev
-hello: dev_hello_0
+test: dev_修改
+hello: dev_hello_修改
