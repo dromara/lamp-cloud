@@ -9,6 +9,9 @@ logging:
   common-pattern: '%d{dd HH:mm:ss.SSS}:[%5p] [%t] [%C{1}:%M:%L] --> %m%n'
   level:
     console: INFO
+    rest: INFO
+    service: INFO
+    sql: DEBUG
 
 test: dev_修改2
 hello: dev_hello_修改2

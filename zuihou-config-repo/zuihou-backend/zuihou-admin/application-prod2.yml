@@ -8,6 +8,9 @@ spring:
 logging:
   level:
     console: WARN
+    rest: WARN
+    service: WARN
+    sql: WARN
 
 test: prod2
 hello: prod_hello_2
