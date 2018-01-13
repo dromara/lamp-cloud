@@ -73,3 +73,9 @@ zuihou:
     port: 3306                  # 根据环境更改
     username: root              # 根据环境更改
     password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
+
+logging:
+  path: ./logs/zuihou-admin-server
+  common-pattern: %d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n
+  level:
+    console: INFO
