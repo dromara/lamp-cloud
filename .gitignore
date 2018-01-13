@@ -1,3 +1,6 @@
 .idea
+.git
 *.iml
 target
+logs
+*.gitignore
