@@ -13,7 +13,7 @@ eureka:
       management.context-path: ${management.context-path}
   client:
     service-url:
-      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8500/eureka/
 
 spring:
   application:
