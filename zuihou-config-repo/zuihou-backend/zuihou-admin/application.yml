@@ -23,6 +23,15 @@ spring:
     port: 5672
     password: guest
     username: guest
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    pool:
+      max-active: 20
+      min-idle: 2
+      max-idle: 8
+      max-wait: 100
+    key-prefix: dev
 
 management:
   security:
@@ -49,3 +58,22 @@ info:
 
 test: t1
 test2: def_test2
+
+dozer:
+  mappingFiles: classpath*:dozer/*.dozer.xml
+
+zuihou:
+  mysql:
+    admin:
+      database: zuihou_admin_dev       # 根据环境更改
+      driverClassName: ${zuihou.mysql.driverClassName}
+      host: ${zuihou.mysql.host}
+      password: ${zuihou.mysql.password}
+      port: ${zuihou.mysql.port}
+      url: jdbc:mysql://${zuihou.mysql.admin.host}:${zuihou.mysql.admin.port}/${zuihou.mysql.admin.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true
+      username: ${zuihou.mysql.username}
+    driverClassName: com.mysql.jdbc.Driver
+    host: 127.0.0.1             # 根据环境更改
+    port: 3306                  # 根据环境更改
+    username: root              # 根据环境更改
+    password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
