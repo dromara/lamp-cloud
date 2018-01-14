@@ -118,14 +118,14 @@
                 <version>${mybatis.srping.boot.version}</version>
             </dependency>
             <!--<dependency>-->
-                <!--<groupId>com.github.briandilley.jsonrpc4j</groupId>-->
-                <!--<artifactId>jsonrpc4j</artifactId>-->
-                <!--<version>1.5.0</version>-->
+            <!--<groupId>com.github.briandilley.jsonrpc4j</groupId>-->
+            <!--<artifactId>jsonrpc4j</artifactId>-->
+            <!--<version>1.5.0</version>-->
             <!--</dependency>-->
             <!--<dependency>-->
-                <!--<groupId>com.github.pagehelper</groupId>-->
-                <!--<artifactId>pagehelper</artifactId>-->
-                <!--<version>5.0.1</version>-->
+            <!--<groupId>com.github.pagehelper</groupId>-->
+            <!--<artifactId>pagehelper</artifactId>-->
+            <!--<version>5.0.1</version>-->
             <!--</dependency>-->
             <!--<dependency>-->
             <!--<groupId>com.alibaba</groupId>-->
@@ -194,10 +194,31 @@
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.ooxml.version}</version>
             </dependency>
+
+            <dependency>
+                <!--<groupId>com.netflix.feign</groupId>-->
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-jackson</artifactId>
+                <version>9.5.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>rebel.xml</exclude>
+                    <exclude>**.bakNotes</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -206,6 +227,7 @@
                     <executions>
                         <execution>
                             <goals>
+                                <goal>repackage</goal>
                                 <goal>build-info</goal>
                             </goals>
                         </execution>

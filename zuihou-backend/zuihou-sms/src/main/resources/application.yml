@@ -1,5 +1,5 @@
 info:
-  artifact : zuihou-sms
+  artifact: zuihou-sms
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'

@@ -1,5 +1,5 @@
 info:
-  artifact: zuihou-mail
+  artifact: zuiou-gateway-server
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'

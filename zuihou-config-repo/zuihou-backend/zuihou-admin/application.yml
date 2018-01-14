@@ -1,3 +1,13 @@
+logging:
+  path: ./logs/zuihou-admin
+  file: ${logging.path}/root.log
+  common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
+  level:
+    console: INFO
+    rest: INFO
+    service: INFO
+    sql: DEBUG
+
 server:
   port: 10000
 eureka:
@@ -16,6 +26,10 @@ spring:
     active: dev
   application:
     name: zuihou-admin
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
   rabbitmq:
     host: zuihou.rabbitmq.host
     port: 5672
@@ -30,6 +44,19 @@ spring:
       max-idle: 8
       max-wait: 100
     key-prefix: dev
+  sleuth:
+    sampler:
+      percentage: 1
+    integration:
+      enabled: false
+    scheduled:
+      skip-pattern: "^org.*HystrixStreamTask$"
+  zipkin:
+    service:
+      name: zuihou-zipkin
+    locator:
+      discovery:
+        enabled: true
 
 management:
   security:
@@ -68,12 +95,4 @@ zuihou:
     username: root              # 根据环境更改
     password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
 
-logging:
-  path: ./logs/zuihou-admin
-  file: ${logging.path}/root.log
-  common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
-  level:
-    console: INFO
-    rest: INFO
-    service: INFO
-    sql: DEBUG
+

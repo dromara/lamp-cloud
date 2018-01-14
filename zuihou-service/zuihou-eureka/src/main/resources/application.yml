@@ -48,7 +48,7 @@ endpoints:
     sensitive: true  # actuator的health接口是否需要安全保证
 
 info:
-  artifact : zuihou-eureka
+  artifact: zuihou-eureka
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
