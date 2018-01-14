@@ -61,11 +61,4 @@ endpoints:
     enabled: true
     sensitive: true  #actuator的health接口是否需要安全保证
 
-info:
-  artifact : zuihou-monitor
-  name: '@project.name@'
-  description: descrt
-  version: 1.0
-  spring-boot-version: '@spring.boot.version@'
-  spring-cloud-version: '@spring.cloud.version@'
 
