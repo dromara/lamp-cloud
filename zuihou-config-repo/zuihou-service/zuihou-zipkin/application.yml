@@ -64,8 +64,8 @@ endpoints:
 info:
   artifact : zuihou-monitor
   name: '@project.name@'
-  description: '${project.description}'
-  version: ${project.version}
+  description: descrt
+  version: 1.0
   spring-boot-version: '@spring.boot.version@'
   spring-cloud-version: '@spring.cloud.version@'
 
