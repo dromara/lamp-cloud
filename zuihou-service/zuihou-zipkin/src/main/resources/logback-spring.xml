@@ -22,13 +22,15 @@
     %l
     输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <property name="log.path" value="./logs/gxqpt-zipkin-server"/>
-    <property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
-    <property name="log.level.console" value="INFO"/>
-    <property name="log.level.service" value="WARN"/>
-    <property name="log.level.controller" value="INFO"/>
 
-    <contextName>gxqpt-zipkin-server-logback</contextName>
+    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-zipkin-server"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou-zipkin"/>
+    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
+    <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
+    <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
+
+    <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
+
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -44,36 +46,6 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
             <fileNamePattern>${log.path}/%d{yyyy-MM}/root-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
-            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
-            <maxFileSize>128MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>20GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="SERVICE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/service.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/service-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
-            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
-            <maxFileSize>128MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>20GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="CONTROLLER_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/controller.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/controller-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>128MB</maxFileSize>
             <maxHistory>60</maxHistory>

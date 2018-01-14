@@ -1,13 +1,14 @@
 info:
   artifact : zuihou-monitor
-  name: "@project.name@" #从pom.xml中获取
-  description: "@project.description@"
-  version: "@project.version@"
-  spring-boot-version: "@project.parent.version@"
+  name: @project.name@   #从pom.xml中获取
+  description: @project.description@
+  version: @project.version@
+  spring-boot-version: @spring.boot.version@
 
 management:
   security:
     enabled: true
+    roles: SUPERUSER
   context-path: /mgmt
 security:
   basic:
