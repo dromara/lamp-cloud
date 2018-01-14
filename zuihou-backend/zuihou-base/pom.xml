@@ -13,5 +13,7 @@
     <artifactId>zuihou-base</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>${project.artifactId}</name>
+    <description>基础系统服务</description>
 
 </project>

@@ -50,7 +50,9 @@ endpoints:
     sensitive: true  # actuator的health接口是否需要安全保证
 
 info:
-  contact:
-    email: tangstruggle@sina.com
-    phone: 10086
-  app: 配置中心
+  artifact : zuihou-config
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

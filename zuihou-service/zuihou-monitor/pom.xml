@@ -22,11 +22,12 @@
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-monitor</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
     <description>应用监控中心</description>
     <properties>
-        <spring-boot-admin.version>1.5.3</spring-boot-admin.version>
+        <spring.boot.admin.version>1.5.3</spring.boot.admin.version>
         <spring-boot.version>1.5.1.RELEASE</spring-boot.version>
-        <spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
+        <spring.cloud.version>Dalston.RELEASE</spring.cloud.version>
         <spring.version>4.3.6.RELEASE</spring.version>
     </properties>
     <repositories>
@@ -51,7 +52,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
+                <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -92,28 +93,28 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server</artifactId>
-            <version>${spring-boot-admin.version}</version>
+            <version>${spring.boot.admin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server-ui</artifactId>
-            <version>${spring-boot-admin.version}</version>
+            <version>${spring.boot.admin.version}</version>
         </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server-ui-login</artifactId>
-            <version>${spring-boot-admin.version}</version>
+            <version>${spring.boot.admin.version}</version>
         </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
-            <version>${spring-boot-admin.version}</version>
+            <version>${spring.boot.admin.version}</version>
         </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server-ui-turbine</artifactId>
-            <version>${spring-boot-admin.version}</version>
+            <version>${spring.boot.admin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

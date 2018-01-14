@@ -10,6 +10,10 @@
     </parent>
     <artifactId>zuihou-service</artifactId>
     <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>zuihou-service 监控配置服务父pom, 对jar版本，仓库进行管理</description>
+
+
 
     <modules>
         <module>zuihou-eureka</module>
