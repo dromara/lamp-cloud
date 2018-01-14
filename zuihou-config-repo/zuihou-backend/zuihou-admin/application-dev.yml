@@ -6,12 +6,17 @@ spring:
     key-prefix: dev
 
 logging:
-  common-pattern: '%d{dd HH:mm:ss.SSS}:[%5p] [%t] [%C{1}:%M:%L] --> %m%n'
+  common-pattern: '%d{HH:mm:ss.SSS}:[%5p] [%t] [%C{1}:%M:%L] --> %m%n'
   level:
     console: INFO
     rest: INFO
     service: INFO
     sql: DEBUG
+
+zuihou:
+  mysql:
+    admin:
+      database: zuihou_admin_dev       # 根据环境更改
 
 test: dev_修改2
 hello: dev_hello_修改2

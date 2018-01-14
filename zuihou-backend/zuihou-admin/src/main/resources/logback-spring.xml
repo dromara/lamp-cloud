@@ -28,11 +28,12 @@
     <springProperty scope="context" name="log.level.service" source="logging.level.service" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.sql" source="logging.level.sql" defaultValue="DEBUG"/>
 
+    <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
+
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <!--<include resource="org/springframework/boot/logging/logback/base.xml"/>-->
     <jmxConfigurator/>
 
-    <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">

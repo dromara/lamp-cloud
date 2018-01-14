@@ -22,6 +22,8 @@
         <module>zuihou-mail</module>
         <module>zuihou-file</module>
         <module>zuihou-sms</module>
+        <module>zuihou-gateway</module>
+        <module>zuihou-auth</module>
     </modules>
 
 </project>
