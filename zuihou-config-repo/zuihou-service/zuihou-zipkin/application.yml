@@ -13,7 +13,7 @@ spring:
   datasource:
     schema[0]: classpath:/zipkin.sql #数据库脚本创建地址，当有多个是可使用[x]表示集合第几个元素
     #spring boot数据源配置
-    url: jdbc:mysql://zuihou.mysql.host:3306/zuihou_zipkin_dev?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://zuihou.mysql.host:3306/zuihou_zipkin_dev?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
