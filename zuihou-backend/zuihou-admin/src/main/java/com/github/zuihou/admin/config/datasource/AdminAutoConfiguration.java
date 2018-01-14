@@ -164,7 +164,7 @@ public class AdminAutoConfiguration {
         private String url;
         private String username;
         private String password;
-        private String driverClassName = "com.mysql.jdbc.Driver";
+        private String driverClassName = "com.mysql.cj.jdbc.Driver";
 
         /**
          * MySQL连接串

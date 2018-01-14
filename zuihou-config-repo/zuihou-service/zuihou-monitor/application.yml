@@ -1,35 +1,14 @@
-eureka:
-  instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
-    prefer-ip-address: true
-    hostname: ${eureka.hostname:eureka.zuihou.com}    # 指定该Eureka实例的主机名
-    metadata-map:
-      user.name: ${security.user.name}
-      user.password: ${security.user.password}
-      management.context-path: ${management.context-path}
-  client:
-    service-url:
-      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8500/eureka/
-
-spring:
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://gitee.com/zuihou111/zuihou-admin-cloud
-          search-paths: zuihou-config-repo
-  rabbitmq:
-    host: zuihou.rabbitmq.host
-    port: 5672
-    password: guest
-    username: guest
+info:
+  artifact : zuihou-monitor
+  name: "@project.name@" #从pom.xml中获取
+  description: "@project.description@"
+  version: "@project.version@"
+  spring-boot-version: "@project.parent.version@"
 
 management:
   security:
     enabled: true
   context-path: /mgmt
-
 security:
   basic:
     enabled: true
@@ -42,10 +21,56 @@ endpoints:
     enabled: true
     sensitive: true  # actuator的health接口是否需要安全保证
 
-info:
-  contact:
-    email: tangstruggle@sina.com
-    phone: 10086
-  app: 配置中心
+logging:
+  path: ./logs/zuihou-monitor-server
+  common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
+  level:
+    org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error
+    console: INFO
 
-test: t1
+server:
+  port: 9795
+
+turbine:
+  stream:
+    port: 9796
+
+eureka:
+  instance:
+    status-page-url-path: ${management.context-path}/info
+    health-check-url-path: ${management.context-path}/health
+    prefer-ip-address: true
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+      management.context-path: ${management.context-path}
+
+spring:
+#  mail:
+#    host: smtp.163.com
+#    username: aaa@163.com
+#    password: aaa
+#    properties:
+#      smtp:
+#        auth: true
+#        starttls:
+#          enable: true
+#          required: true
+  rabbitmq:
+    host: zuihou.rabbitmq.host # 在hosts文件中配置地址
+    port: 5672
+    username: guest
+    password: guest
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      turbine:
+        clusters: default
+        location: http://monitor.zuihou.com:${turbine.stream.port}
+#      context-path: ${management.context-path}
+#      notify:      # 加了通知后，spring-boot-admin 通过/health验证当前项目是否
+#        mail:
+#          to: aaa@hengyunsoft.com
+#          from: xxx@163.com
+#          ignore-changes: UNKNOWN:UP

@@ -12,5 +12,10 @@ logging:
     service: WARN
     sql: WARN
 
+zuihou:
+  mysql:
+    admin:
+      database: zuihou_admin_prod       # 根据环境更改
+
 test: prod2
 hello: prod_hello_2

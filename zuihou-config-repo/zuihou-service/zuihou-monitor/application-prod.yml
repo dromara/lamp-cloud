@@ -1,1 +1,3 @@
-test: prod
+logging:
+  level:
+    console: WARN

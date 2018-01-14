@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    url: jdbc:mysql://zuihou.mysql.host:3306/zuihou_zipkin_prod?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+
