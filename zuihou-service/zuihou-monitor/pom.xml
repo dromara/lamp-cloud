@@ -26,7 +26,7 @@
     <description>应用监控中心</description>
     <properties>
         <spring.boot.admin.version>1.5.3</spring.boot.admin.version>
-        <spring-boot.version>1.5.1.RELEASE</spring-boot.version>
+        <spring.boot.version>1.5.1.RELEASE</spring.boot.version>
         <spring.cloud.version>Dalston.RELEASE</spring.cloud.version>
         <spring.version>4.3.6.RELEASE</spring.version>
     </properties>
@@ -59,7 +59,7 @@
             <!--<dependency>-->
                 <!--<groupId>org.springframework.boot</groupId>-->
                 <!--<artifactId>spring-boot-dependencies</artifactId>-->
-                <!--<version>${spring-boot.version}</version>-->
+                <!--<version>${spring.boot.version}</version>-->
                 <!--<type>pom</type>-->
                 <!--<scope>import</scope>-->
             <!--</dependency>-->

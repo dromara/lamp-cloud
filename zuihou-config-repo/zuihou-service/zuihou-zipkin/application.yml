@@ -1,5 +1,5 @@
 logging:
-  path: ./logs/zuihou-zipkin-server
+  path: ./logs/zuihou-zipkin
   file: ${logging.path}/root.log
   common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
   level:

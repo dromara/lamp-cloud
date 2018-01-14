@@ -1,10 +1,3 @@
-# 公共配置
-spring:
-  profiles:
-    active: dev
-  application:
-    name: zuihou-eureka
-
 prod1:
   eureka:
     server:
@@ -20,6 +13,22 @@ dev:
     server:
       port: 8500
     hostname: eureka.zuihou.com
+
+
+logging:
+  path: ./logs/zuihou-eureka
+  file: ${logging.path}/root.log
+  common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
+  level:
+    console: INFO
+
+# 公共配置
+spring:
+  profiles:
+    active: dev
+  application:
+    name: zuihou-eureka
+
 
 management:
   security:

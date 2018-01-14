@@ -19,7 +19,7 @@
        %l
        输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <property name="log.path" value="./logs/zuihou-eureka-server"/>
+    <property name="log.path" value="./logs/zuihou-eureka"/>
     <property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <property name="log.level.console" value="INFO"/>
 
