@@ -1,0 +1,38 @@
+# eureka 主机/端口配置 start
+prod1:
+  eureka:
+    server:
+      port: 8501
+    hostname: eureka1.zuihou.com
+prod2:
+  eureka:
+    server:
+      port: 8502
+    hostname: eureka2.zuihou.com
+dev:
+  eureka:
+    server:
+      port: 8500
+    hostname: eureka.zuihou.com
+# eureka 主机/端口配置 end
+
+spring:
+  application:
+    name: zuihou-gateway-server
+  profiles:
+    active: dev
+  cloud:
+    config:
+      profile: ${spring.profiles.active}
+      label: master
+      discovery:
+        enabled: true
+        service-id: zuihou-config
+      fail-fast: true
+      username: admin
+      password: ${CONFIG_SERVER_PASSWORD:admin}
+      retry:
+        initial-interval: 2000
+        max-interval: 10000
+        multiplier: 2
+        max-attempts: 10

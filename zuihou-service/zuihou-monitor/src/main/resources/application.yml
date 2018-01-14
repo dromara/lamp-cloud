@@ -1,5 +1,5 @@
 info:
-  artifact : zuihou-monitor
+  artifact: zuihou-monitor
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
