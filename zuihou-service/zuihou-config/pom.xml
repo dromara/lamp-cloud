@@ -12,7 +12,8 @@
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-config</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <name>${project.artifactId}</name>
+    <description>配置服务中心</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -13,5 +13,7 @@
     <artifactId>zuihou-commons</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>${project.artifactId}</name>
+    <description>业务系统公共模块</description>
 
 </project>
