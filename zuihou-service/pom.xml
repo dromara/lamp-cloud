@@ -14,7 +14,7 @@
     <modules>
         <module>zuihou-eureka</module>
         <module>zuihou-config</module>
-        <module>zuihou-monitor</module>
+        <!--<module>zuihou-monitor</module>-->
         <module>zuihou-zipkin</module>
     </modules>
 

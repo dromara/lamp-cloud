@@ -1,3 +1,9 @@
+logging:
+  path: ./logs/zuihou-zipkin-server
+  common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
+  level:
+    console: INFO
+
 spring:
   profiles:
     active: dev
@@ -40,6 +46,7 @@ eureka:
 management:
   security:
     enabled: true
+    roles: SUPERUSER
   context-path: /mgmt
 
 security:
@@ -48,16 +55,17 @@ security:
     path: ${management.context-path}
   user:
     name: admin
-    password: ${GXQPT_ZIPKIN_SERVER_PASSWORD:gxqptadmin}
+    password: ${SECURITY_USER_PASSWORD:admin}
 endpoints:
   health:
     enabled: true
     sensitive: true  #actuator的health接口是否需要安全保证
 
 info:
-  artifact : zuihou-zipkin
-  name: "@project.name@" #从pom.xml中获取
-  description: "@project.description@"
-  version: "@project.version@"
-  spring-boot-version: "@project.parent.version@"
+  artifact : zuihou-monitor
+  name: @project.name@
+  description: @project.description@
+  version: @project.version@
+  spring-boot-version: @spring.boot.version@
+  spring-cloud-version: @spring.cloud.version@
 

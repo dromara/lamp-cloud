@@ -22,14 +22,11 @@
     %l
     输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-admin-server"/>
-    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou-admin"/>
+    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-monitor-server"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou-monitor"/>
     <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
-    <springProperty scope="context" name="log.level.rest" source="logging.level.rest" defaultValue="INFO"/>
-    <springProperty scope="context" name="log.level.service" source="logging.level.service" defaultValue="INFO"/>
-    <springProperty scope="context" name="log.level.sql" source="logging.level.sql" defaultValue="DEBUG"/>
 
     <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
