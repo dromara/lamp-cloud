@@ -1,0 +1,6 @@
+info:
+  artifact : zuihou-admin
+  name: @project.name@
+  description: @project.description@
+  version: @project.version@
+  spring-boot-version: @spring.boot.version@
