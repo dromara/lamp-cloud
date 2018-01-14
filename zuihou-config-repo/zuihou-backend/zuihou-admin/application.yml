@@ -48,12 +48,6 @@ endpoints:
     enabled: true
     sensitive: true  # actuator的health接口是否需要安全保证
 
-info:
-  artifact : zuihou-admin
-  name: "@project.name@" #从pom.xml中获取
-  description: "@project.description@"
-  version: "@project.version@"
-  spring-boot-version: "@project.parent.version@"
 
 dozer:
   mappingFiles: classpath*:dozer/*.dozer.xml
@@ -76,7 +70,7 @@ zuihou:
     password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
 
 logging:
-  path: ./logs/zuihou-admin-server
+  path: ./logs/zuihou-admin
   common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
   level:
     console: INFO

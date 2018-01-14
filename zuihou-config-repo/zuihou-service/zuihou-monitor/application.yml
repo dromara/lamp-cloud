@@ -16,7 +16,8 @@ endpoints:
     sensitive: true  # actuator的health接口是否需要安全保证
 
 logging:
-  path: ./logs/zuihou-monitor-server
+  path: ./logs/zuihou-monitor
+  file: root.log
   common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
   level:
     org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error

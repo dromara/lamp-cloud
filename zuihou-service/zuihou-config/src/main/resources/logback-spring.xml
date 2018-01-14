@@ -19,15 +19,21 @@
        %l
        输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <property name="log.path" value="./logs/zuihou-config-server"/>
-    <property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
-    <property name="log.level.console" value="INFO"/>
+    <!--<property name="log.path" value="./logs/zuihou-config"/>-->
+    <!--<property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] &ndash;&gt; %m%n"/>-->
+    <!--<property name="log.level.console" value="INFO"/>-->
+    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-config"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou-config"/>
+    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
+    <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
+    <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
+
+    <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <!--<include resource="org/springframework/boot/logging/logback/base.xml"/>-->
     <jmxConfigurator/>
 
-    <contextName>zuihou-config-server-dev-logback</contextName>
 
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">

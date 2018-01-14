@@ -1,3 +1,26 @@
+prod1:
+  eureka:
+    server:
+      port: 8501
+    hostname: eureka1.zuihou.com
+prod2:
+  eureka:
+    server:
+      port: 8502
+    hostname: eureka2.zuihou.com
+dev:
+  eureka:
+    server:
+      port: 8500
+    hostname: eureka.zuihou.com
+
+logging:
+  path: ./logs/zuihou-config
+  file: ${logging.path}/root.log
+  common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
+  level:
+    console: INFO
+
 # 公共配置
 spring:
   profiles:
@@ -16,21 +39,6 @@ spring:
     password: guest
     username: guest
 
-prod1:
-  eureka:
-    server:
-      port: 8501
-    hostname: eureka1.zuihou.com
-prod2:
-  eureka:
-    server:
-      port: 8502
-    hostname: eureka2.zuihou.com
-dev:
-  eureka:
-    server:
-      port: 8500
-    hostname: eureka.zuihou.com
 
 management:
   security:

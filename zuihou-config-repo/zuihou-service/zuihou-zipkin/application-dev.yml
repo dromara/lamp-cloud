@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://zuihou.mysql.host:3306/zuihou_zipkin_dev?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
 logging:
-  path: ./logs/zuihou-zipkin-server
+  path: ./logs/zuihou-zipkin
   common-pattern: '%d{HH:mm:ss.SSS}:[%5p] [%t] [%C{1}:%M:%L] --> %m%n'
   level:
     console: INFO
