@@ -6,6 +6,5 @@ spring:
     url: jdbc:mysql://zuihou.mysql.host:3306/zuihou_zipkin_prod?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
 
 logging:
-  path: ./logs/zuihou-zipkin
   level:
     console: WARN
