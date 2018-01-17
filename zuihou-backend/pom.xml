@@ -14,10 +14,6 @@
     <description>业务系统服务父pom</description>
 
     <modules>
-        <!-- <module>zuihou-common</module>
-        <module>zuihou-service</module>
-        <module>zuihou-backend</module>
-        <module>zuihou-frontend</module> -->
         <module>zuihou-base</module>
         <module>zuihou-admin</module>
         <module>zuihou-mail</module>
