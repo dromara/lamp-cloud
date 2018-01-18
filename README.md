@@ -68,8 +68,8 @@ OpenAPI鉴权：
 │  |  |  |─zuihou-auth-common-----------------鉴权中心公共包
 │  |  |  |─zuihou-auth-server-----------------鉴权中心服务
 │  |  ├─zuihou-gateway------------------------统一网关负载中心
-│  |  |  |─zuihou-gate-ratelimit--------------网关限流插件
-│  |  |  |─zuihou-gate-server-----------------项目网关服务
+│  |  |  |─zuihou-gateway-ratelimit--------------网关限流插件
+│  |  |  |─zuihou-gateway-server-----------------项目网关服务
 │  │ 
 │  ├─zuihou-commons---------------------------公共模块（这里一直没想好怎么调整，有想法的朋友可以给我留言）
 │  |  ├─zuihou-commons------------------------项目公共包

@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * 配置HTTP BASIC权限验证
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-04 16:03
  */
 @Configuration

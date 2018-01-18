@@ -96,3 +96,46 @@ zuihou:
     password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
 
 
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  config:
+    stream:
+      maxConcurrentConnections: 50
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+swagger2:
+  package: com.github.zuihou.admin.impl
+  service:
+    name: admin 后台管理 服务
+    description: 后台管理服务
+    contact:
+      name: 最后
+      url: http://www.zuihou.com/
+      email: tangstruggle@sina.com
+
+auth:
+  serviceId: zuihou-auth-server
+  app:
+    token-header: token # 其三方应用token
+    pub-key:
+      path: app/pub.key
+  client:
+    id: zuihou-admin-server
+    secret: 123456
+    token-header: client-token
+    admin-header: _isAdmin
+    pub-key:
+      path: client/pub.key
+
+id-generator:
+  machine-code: 1  # id生成器机器掩码
+
+

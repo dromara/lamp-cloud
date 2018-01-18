@@ -66,6 +66,6 @@ spring:
 #      context-path: ${management.context-path}
 #      notify:      # 加了通知后，spring-boot-admin 通过/health验证当前项目是否
 #        mail:
-#          to: aaa@hengyunsoft.com
+#          to: aaa@qq.com
 #          from: xxx@163.com
 #          ignore-changes: UNKNOWN:UP

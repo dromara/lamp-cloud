@@ -3,7 +3,7 @@ package com.github.zuihou.admin;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-14 0:00
  */
 @Slf4j

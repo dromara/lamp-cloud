@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 15:10
  */
 public class LogDto implements Serializable {

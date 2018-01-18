@@ -68,7 +68,7 @@ security:
     path: ${management.context-path}
   user:
     name: admin
-    password: ${SECURITY_USER_PASSWORD:gxqptadmin}
+    password: ${SECURITY_USER_PASSWORD:admin}
 endpoints:
   health:
     enabled: true
@@ -157,7 +157,7 @@ auth:
     pub-key:  # 服务端公钥路径
       path: app/pub.key
   client:
-    id: gxqpt-gate-server  #不填则默认读取spring.application.name
+    id: zuihou-gateway-server  #不填则默认读取spring.application.name
     secret: 123456
     token-header: client-token
     admin-header: _isAdmin
