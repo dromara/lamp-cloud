@@ -8,7 +8,7 @@ import org.springframework.cloud.sleuth.zipkin.stream.EnableZipkinStreamServer;
 /**
  * https://my.oschina.net/roccn/blog/834278
  * 启动类
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-14 12:04
  */
 @SpringBootApplication

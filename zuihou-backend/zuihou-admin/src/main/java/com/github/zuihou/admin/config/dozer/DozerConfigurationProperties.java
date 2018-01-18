@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 /**
  * dozer 配置属性
- * @author tyh
+ * @author zuihou
  * @createTime 2017-11-23 16:25
  */
 @ConfigurationProperties(prefix = "dozer")

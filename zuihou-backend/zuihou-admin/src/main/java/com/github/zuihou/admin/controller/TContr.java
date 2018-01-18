@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-13 1:42
  */
 //加了这个注解，刷新才能生效

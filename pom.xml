@@ -175,6 +175,12 @@
                 <version>${springfox.swagger2.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.7.0</version>
+            </dependency>
+
             <!-- 上传文件 -->
             <dependency>
                 <groupId>commons-fileupload</groupId>

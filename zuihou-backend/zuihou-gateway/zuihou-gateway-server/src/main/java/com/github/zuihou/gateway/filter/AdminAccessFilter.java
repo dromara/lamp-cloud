@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * admin 权限 过滤器
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 15:22
  */
 @Component
@@ -56,7 +56,7 @@ public class AdminAccessFilter extends ZuulFilter {
      */
     @PostConstruct
     public void init() {
-        //InstanceInfo prodSvcInfo = discoveryClient.getNextServerFromEureka("GXQPT-ADMIN-SERVER", false);
+        //InstanceInfo prodSvcInfo = discoveryClient.getNextServerFromEureka("ZUIHOU-ADMIN-SERVER", false);
         //ServiceFeignInterceptor serviceFeignInterceptor = new ServiceFeignInterceptor();
         //serviceFeignInterceptor.setServiceAuthConfig(serviceAuthConfig);
         //serviceFeignInterceptor.setServiceAuthUtil(serviceAuthUtil);

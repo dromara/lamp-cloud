@@ -11,9 +11,25 @@
 
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-auth</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>zuihou-auth-server</module>
+        <module>zuihou-auth-client</module>
+        <module>zuihou-auth-common</module>
+    </modules>
 
     <name>${project.artifactId}</name>
     <description>授权系统服务</description>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 </project>

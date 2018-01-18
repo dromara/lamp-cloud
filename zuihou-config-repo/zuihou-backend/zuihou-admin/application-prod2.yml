@@ -17,5 +17,8 @@ zuihou:
     admin:
       database: zuihou_admin_prod       # 根据环境更改
 
+id-generator:
+  machine-code: 2  # id生成器机器掩码
+
 test: prod2
 hello: prod_hello_2

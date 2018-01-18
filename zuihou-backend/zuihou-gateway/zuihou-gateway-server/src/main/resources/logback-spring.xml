@@ -3,7 +3,6 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <jmxConfigurator/>
 
-    <contextName>gxqpt-gate-server-dev-logback</contextName>
     <!--
     %m
     输出代码中指定的消息
@@ -29,6 +28,8 @@
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.filter" source="logging.level.filter" defaultValue="INFO"/>
+
+    <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">

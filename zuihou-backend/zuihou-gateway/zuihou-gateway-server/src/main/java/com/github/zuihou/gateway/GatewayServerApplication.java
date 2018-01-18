@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 15:02
  */
 @SpringBootApplication
@@ -16,7 +16,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
         "com.github.zuihou.auth.client.feign"})
 @EnableZuulProxy
 //@EnableScheduling
-//@EnableGxqptAuthClient
+//@EnableZuihouAuthClient
 //@EnableAceGateRateLimit
 public class GatewayServerApplication {
     public static void main(String[] args) {
