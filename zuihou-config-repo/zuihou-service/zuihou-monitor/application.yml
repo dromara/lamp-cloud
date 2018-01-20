@@ -24,11 +24,11 @@ logging:
     console: INFO
 
 server:
-  port: 9795
+  port: 8515
 
 turbine:
   stream:
-    port: 9796
+    port: 8516
 
 eureka:
   instance:
