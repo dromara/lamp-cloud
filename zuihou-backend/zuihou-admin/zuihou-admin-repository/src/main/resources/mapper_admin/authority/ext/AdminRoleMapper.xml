@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.admin.repository.authority.dao.AdminRoleMapper">
+  <sql id="R_Column_List">
+    r.id, r.app_id, r.code, r.name, r.is_enable, r.is_delete, r.description, r.create_user, r.create_time,
+    r.update_user, r.update_time
+  </sql>
+  <select id="findRole" parameterType="map" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    <include refid="R_Column_List"/>
+    from a_role r
+    INNER JOIN a_application_role ar on r.id = ar.role_id
+    where r.app_id = ar.app_id
+    and r.app_id = #{appId, jdbcType=VARCHAR}
+    and ar.applications_id = #{applicationId, jdbcType=BIGINT}
+    and r.is_delete = 0
+    and r.is_enable = 1
+  </select>
+</mapper>
