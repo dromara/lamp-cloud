@@ -80,7 +80,6 @@ eureka:
     status-page-url-path: ${management.context-path}/info
     health-check-url-path: ${management.context-path}/health
     preferIpAddress: true
-    hostname: eureka.gxqpt.com
     ip-address: 127.0.0.1
     metadata-map:
       user.name: ${security.user.name}
@@ -99,7 +98,7 @@ security:
     path: ${management.context-path}
   user:
     name: admin
-    password: ${GXQPT_AUTH_SERVER_PASSWORD:gxqptadmin}
+    password: ${ZUIHOU_AUTH_SERVER_PASSWORD:admin}
 endpoints:
   health:
     enabled: true
@@ -114,7 +113,7 @@ jwt:
     path: app/pub.key
 
 client:
-  id: gxqpt-auth-server
+  id: zuihou-auth-server
   secret: 123456
   token-header: browser-token
   admin-header: _isAdmin

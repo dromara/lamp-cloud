@@ -125,7 +125,7 @@ OpenAPI鉴权：
     - zuihou-backend/zuihou-base/zuihou-base-server/init.sql
     - zuihou-backend/zuihou-admin/zuihou-admin-server/init.sql
 
-- 通过一下方法，进行密码加密：
+- 通过以下方法，进行密码加密：
 ```
     public static void main(String[] args) throws Exception {
         System.out.println(ConfigTools.encrypt("your mysql password"));
@@ -135,12 +135,15 @@ OpenAPI鉴权：
 - 修改配置数据库配置：
     - zuihou-config-repo/zuihou-backend/zuihou-admin/application.yml
     - zuihou-config-repo/zuihou-backend/zuihou-base/application.yml
+    - zuihou-config-repo/zuihou-service/zuihou-zipkin/application.yml
 
 - 按`顺序`运行main类：
-    - ZuihouEurekaApplication（zuihou-eureka）、
-    - ZuihouOpenServerApplication（zuihou-open）、
-    - ZuihouAdminServerApplication（zuihou-admin）、
-    - ZuihouAuthApplication（zuihou-auth-server）、
-    - ZuihouGateServerApplication（zuihou-gate）
+    - ZuihouEurekaApplication（zuihou-eureka）
+    - ZuihouOpenServerApplication（zuihou-open-server）
+    - ZuihouAdminServerApplication（zuihou-admin-server）
+    - ZuihouAuthApplication（zuihou-auth-server）
+    - ZuihouGateServerApplication（zuihou-gateway-server）
+    - MonitorApplication（zuihou-monitor）
+    - ZipkinApplication（zuihou-zipkin）
 
   ​
