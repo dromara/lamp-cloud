@@ -5,7 +5,7 @@ import com.github.zuihou.exception.code.BaseExceptionCode;
 
 /**
  * 业务系统错误码
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 16:22
  */
 public enum ExceptionCode implements BaseExceptionCode {

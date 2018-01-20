@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * Created by tangyh on 2017/9/15.
+ * Created by zuihou on 2017/9/15.
  */
 @Configuration
 @EnableScheduling

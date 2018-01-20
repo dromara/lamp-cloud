@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  * 启用高新区授权client
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 15:26
  */
 @Target(ElementType.TYPE)

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 第三方
- * Created by tangyh on 2017/9/15.
+ * Created by zuihou on 2017/9/15.
  */
 @Configuration
 public class AppAuthUtil {

@@ -2,7 +2,7 @@ package com.github.zuihou.commons.context;
 
 /**
  * 全局常量表
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 15:44
  */
 public class CommonConstants {

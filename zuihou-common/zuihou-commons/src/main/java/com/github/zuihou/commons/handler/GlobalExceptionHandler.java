@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 17:04
  */
 @ControllerAdvice(value = {

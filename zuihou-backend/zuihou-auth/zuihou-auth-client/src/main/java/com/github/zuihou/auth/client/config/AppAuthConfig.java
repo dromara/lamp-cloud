@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 第三方应用 token 配置
- * Created by tangyh on 2017/9/15.
+ * Created by zuihou on 2017/9/15.
  */
 public class AppAuthConfig {
     @Value("${auth.app.pub-key.path}")

@@ -1,7 +1,7 @@
 package com.github.zuihou.commons.constant;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 10:08
  */
 public enum EnableStatus {

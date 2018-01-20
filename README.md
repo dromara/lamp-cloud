@@ -2,7 +2,8 @@
 基于SpringCloud(Finchley.M2)  + SpringBoot(2.0.0.M2) 的微服务 SaaS 开发平台，
 具有统一授权、认证后台管理系统，其中包含具备用户管理、资源权限管理、网关API、OpenAPI管理等多个模块，
 支持多业务系统并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，适合学习和直接项目中使用。
-核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Redis、RibbitMQ等主要框架和中间件。
+核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Redis、
+RibbitMQ、FastDFS等主要框架和中间件。
 
 该项目为本人在学习过程中通过一些其他的开源项目，资料，文章进行整合的一个项目。
 目前国内的一些资料讲解和使用的SpringCloud版本都比较低，自己在基于现有的开源项目和资料学习的同时，

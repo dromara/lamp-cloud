@@ -3,7 +3,7 @@ package com.github.zuihou.commons.constant;
 /**
  * 删除状态
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 10:08
  */
 public enum DeleteStatus {

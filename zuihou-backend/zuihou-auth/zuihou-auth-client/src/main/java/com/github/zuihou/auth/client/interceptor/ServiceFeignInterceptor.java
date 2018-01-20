@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author tangyh
+ * @author zuihou
  * @date 2017/9/15
  */
 public class ServiceFeignInterceptor implements RequestInterceptor {
