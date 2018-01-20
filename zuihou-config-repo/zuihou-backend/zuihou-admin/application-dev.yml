@@ -1,5 +1,5 @@
 server:
-  port: 10000
+  port: 9765
   
 spring:
   redis:

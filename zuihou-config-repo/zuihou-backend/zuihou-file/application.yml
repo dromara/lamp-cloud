@@ -1,0 +1,12 @@
+server:
+  port: 9755
+
+fileServer:
+  domain: http://10.28.1.136:8888
+
+files:
+  docservice:
+    url: http://127.0.0.1/web-apps/apps/api/documents/api.js
+spring:
+  thymeleaf:
+    cache: false

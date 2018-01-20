@@ -105,6 +105,8 @@ OpenAPI鉴权：
 127.0.0.1 monitor.zuihou.com
 127.0.0.1 zipkin.zuihou.com
 127.0.0.1 zuihou.rabbitmq.host
+127.0.0.1 zuihou.mysql.host
+127.0.0.1 zuihou.redis.host
 ```
 - 生产环境(prod)Hosts文件配置：
 
@@ -119,6 +121,8 @@ OpenAPI鉴权：
 127.0.0.1 monitor.zuihou.com
 127.0.0.1 zipkin.zuihou.com
 127.0.0.1 zuihou.rabbitmq.host
+127.0.0.1 zuihou.mysql.host
+127.0.0.1 zuihou.redis.host
 ```
 
 - 依次运行数据库脚本：
@@ -146,4 +150,36 @@ OpenAPI鉴权：
     - MonitorApplication（zuihou-monitor）
     - ZipkinApplication（zuihou-zipkin）
 
-  ​
+- 端口号:
+
+| 服务 | 端口号 |
+|:----:|:----:|
+| zuihou-eureka | 8500 |  ​
+| zuihou-config | 8505 |  ​
+| zuihou-zipkin | 8510 |  ​ 
+| zuihou-monitor | 8515,8516 |  ​
+| - | - |​- | ​
+| zuihou-auth | 9775 |  ​
+| zuihou-gateway | 9770 |  ​
+| zuihou-admin | 9765 |  ​
+| zuihou-base | 9760 |  ​
+| zuihou-file | 9755 |  ​
+| zuihou-sms | 9750 |  ​
+| zuihou-email | 9745 |  ​
+
+
+
+| 服务 | 端口号1 | 端口号2 |
+|:----:|:----:|:----:|
+| zuihou-eureka | 8501 | 8502 | ​
+| zuihou-config | 8506 | 8507 | 
+| zuihou-zipkin | 8511 | 8512 |
+| zuihou-monitor | 8515,8516 | 8517,8518 |  ​
+| - | - |​- |
+| zuihou-auth | 9776 | 9777 |  ​
+| zuihou-gateway | 9771 | 9772 | 
+| zuihou-admin | 9766 | 9767 |  ​
+| zuihou-base | 9761 | 9762 |  ​
+| zuihou-file | 9756 | 9757 |  ​
+| zuihou-sms | 9751 | 9752 | ​​
+| zuihou-email | 9746 | 9747 | ​​

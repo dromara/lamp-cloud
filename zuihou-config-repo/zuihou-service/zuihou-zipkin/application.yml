@@ -32,7 +32,7 @@ zipkin:
     type: mysql
 
 server:
-  port: 9800
+  port: 8510
 
 eureka:
   instance:

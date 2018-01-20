@@ -9,7 +9,7 @@ logging:
     sql: DEBUG
 
 server:
-  port: 10000
+  port: 9765
 eureka:
   instance:
     status-page-url-path: ${management.context-path}/info
