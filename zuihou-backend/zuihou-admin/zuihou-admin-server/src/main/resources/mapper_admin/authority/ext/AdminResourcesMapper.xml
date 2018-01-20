@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.admin.repository.authority.dao.AdminResourcesMapper">
+    <select id="countChildren" parameterType="map" resultType="java.lang.Integer">
+        SELECT count(c.id) from a_resources c
+        where INSTR(c.path,
+        (SELECT CONCAT(',',p.code,',')  code from a_resources p
+        where p.app_id = #{appId, jdbcType=VARCHAR}
+        and p.id = #{id,jdbcType=BIGINT}
+        and p.is_delete = 0)
+        ) > 0
+        and c.is_delete = 0
+    </select>
+    <select id="checkMenu" parameterType="map" resultType="java.lang.Integer">
+        select count(r.id) from a_resources r
+        LEFT JOIN a_menu_group mg on r.menu_group_code = mg.`code`
+        where mg.app_id = #{appId, jdbcType=VARCHAR}
+        and mg.id = #{id,jdbcType=BIGINT}
+        and r.is_delete = 0
+        and mg.is_delete = 0
+    </select>
+    <sql id="R_Column_List">
+    r.id, r.app_id, r.code, r.name, r.menu_group_code, r.parent_id, r.type, r.href, r.method, r.targets,
+    r.icon, r.order_num, r.description, r.path, r.is_enable, r.is_delete, r.create_user, r.create_time,
+    r.update_user, r.update_time
+  </sql>
+
+    <select id="findResourcesByApplicationId" parameterType="map" resultMap="BaseResultMap">
+        select DISTINCT
+        <include refid="R_Column_List"/>
+        from a_resources r
+        INNER join a_role_resource ra on r.id = ra.resource_id
+        where 1=1
+        <if test="menuGroupCode != null and menuGroupCode != '' ">
+            and r.menu_group_code = #{menuGroupCode, jdbcType=VARCHAR}
+        </if>
+        and r.type in
+        <foreach collection="resourcesTypeList" open="(" close=")" item="type" separator=",">
+            #{type}
+        </foreach>
+        and r.is_delete = 0
+        and r.is_enable = 1
+        and ra.role_id in (
+        SELECT DISTINCT r.id from a_role r
+        INNER JOIN a_application_role ru on r.id = ru.role_id
+        INNER JOIN a_applications a on ru.applications_id = a.id
+        where 1=1
+        and a.app_id = #{appId, jdbcType=VARCHAR}
+        and r.is_delete = 0
+        and r.is_enable = 1
+        and a.is_delete = 0
+        and a.is_enable = 1
+        )
+    </select>
+</mapper>

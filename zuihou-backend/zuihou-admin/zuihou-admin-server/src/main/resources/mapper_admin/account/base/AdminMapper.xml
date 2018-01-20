@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.admin.repository.account.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+    @mbggenerated
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+    @mbggenerated
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, app_id, type, username, password, name, email, mobile, logo_url, is_enable, is_delete, 
+    description, create_user, create_time, update_user, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.github.zuihou.admin.repository.account.example.AdminExample" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from a_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitValue != null">
+      limit ${limitValue}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from a_admin
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectEntity" parameterType="com.github.zuihou.admin.repository.account.example.AdminExample" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from a_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 0,1 
+  </select>
+  <select id="selectByAppIdAndId" parameterType="map" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <include refid="Base_Column_List" />
+    from a_admin
+    where 1=1 and app_id = #{appId,jdbcType=VARCHAR} and id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByAppIdAndId" parameterType="java.lang.Long">
+    <!--
+    @mbggenerated
+    -->
+    delete from a_admin
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.github.zuihou.admin.repository.account.example.AdminExample">
+    <!--
+    @mbggenerated
+    -->
+    delete from a_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <delete id="deleteByAppIdAndIds" parameterType="list">
+    <!--
+    @mbggenerated
+    -->
+    delete from  a_admin where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach> 
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </delete>
+  <update id="removeByExample" parameterType="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    update a_admin
+    set is_delete = 1 
+
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="removeByAppIdAndIds" parameterType="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    update a_admin
+    set is_delete = 1 
+ where 1=1 and id in 
+ <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+    #{item}
+  </foreach>
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <update id="removeByAppIdAndId" parameterType="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    update a_admin
+    set is_delete = 1 
+
+     where 1=1 and id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    insert into a_admin (id, app_id, type,
+      username, password, name, 
+      email, mobile, logo_url, 
+      is_enable, is_delete, description, 
+      create_user, create_time, update_user, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR}, 
+      #{isEnable,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="batchInsert" parameterType="java.util.List">
+    <!--
+    @mbggenerated
+    -->
+    insert into a_admin (id, app_id, type, username, password, name, email, mobile, logo_url, is_enable, is_delete, description, create_user, create_time, update_user, update_time ) values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.appId,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER}, 
+        #{item.username,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.email,jdbcType=VARCHAR}, #{item.mobile,jdbcType=VARCHAR}, #{item.logoUrl,jdbcType=VARCHAR}, 
+        #{item.isEnable,jdbcType=BIT}, #{item.isDelete,jdbcType=BIT}, #{item.description,jdbcType=VARCHAR}, 
+        #{item.createUser,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUser,jdbcType=VARCHAR}, 
+        #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    insert into a_admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="logoUrl != null">
+        logo_url,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null">
+        #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.github.zuihou.admin.repository.account.example.AdminExample" resultType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    select count(*) from a_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+    @mbggenerated
+    -->
+    update a_admin
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logoUrl != null">
+        logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isEnable != null">
+        is_enable = #{record.isEnable,jdbcType=BIT},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+    @mbggenerated
+    -->
+    update a_admin
+    set id = #{record.id,jdbcType=BIGINT},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      is_enable = #{record.isEnable,jdbcType=BIT},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      description = #{record.description,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByAppIdAndIdSelective" parameterType="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    update a_admin
+    <set>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null">
+        logo_url = #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByAppIdAndId" parameterType="com.github.zuihou.admin.entity.account.po.Admin">
+    <!--
+    @mbggenerated
+    -->
+    update a_admin
+    set app_id = #{appId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      logo_url = #{logoUrl,jdbcType=VARCHAR},
+      is_enable = #{isEnable,jdbcType=BIT},
+      is_delete = #{isDelete,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+</mapper>
