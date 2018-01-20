@@ -1,6 +1,8 @@
 package com.github.zuihou.commons.context;
 
 import com.github.zuihou.commons.utils.StringHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,12 @@ import java.util.Map;
  * @createTime 2017-12-13 16:52
  */
 public class BaseContextHandler {
-    public static ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
+    private static final Logger log = LoggerFactory.getLogger(BaseContextHandler.class);
+    private static final ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
+
+    private BaseContextHandler() {
+        super();
+    }
 
     public static void set(String key, Object value) {
         Map<String, Object> map = threadLocal.get();
@@ -36,7 +43,8 @@ public class BaseContextHandler {
         if (value != null && !"".equals(value)) {
             try {
                 return Long.valueOf(value.toString());
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
+                log.error("get adminId error:", e);
                 return -1L;
             }
         }

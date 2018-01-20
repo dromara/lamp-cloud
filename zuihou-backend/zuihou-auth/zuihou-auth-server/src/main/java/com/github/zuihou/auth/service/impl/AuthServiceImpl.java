@@ -1,6 +1,9 @@
 package com.github.zuihou.auth.service.impl;
 
 
+import com.github.zuihou.admin.entity.account.po.Admin;
+import com.github.zuihou.admin.repository.account.service.AdminService;
+import com.github.zuihou.auth.common.jwt.JWTInfo;
 import com.github.zuihou.auth.common.jwt.TokenVo;
 import com.github.zuihou.auth.service.AuthService;
 import com.github.zuihou.auth.util.client.JwtTokenUtil;
@@ -17,8 +20,8 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    //@Autowired
-    //private AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
     @Override
     public TokenVo login(String userName, String passWord) throws BizException {
@@ -26,12 +29,11 @@ public class AuthServiceImpl implements AuthService {
                 || userName.isEmpty() || passWord.isEmpty()) {
             throw new BizException(ExceptionCode.USER_NAME_PWD_ERROR.getCode(), ExceptionCode.USER_NAME_PWD_ERROR.getMsg());
         }
-        //Admin admin = adminService.get(userName, passWord);
-        //if (admin == null) {
-        //    throw new BizException(ExceptionCode.USER_NAME_PWD_ERROR.getCode(), ExceptionCode.USER_NAME_PWD_ERROR.getMsg());
-        //}
-        //return jwtTokenUtil.generateToken(new JWTInfo(admin.getUsername(), admin.getId(), admin.getName(), admin.getAppId()));
-        return null;
+        Admin admin = adminService.get(userName, passWord);
+        if (admin == null) {
+            throw new BizException(ExceptionCode.USER_NAME_PWD_ERROR.getCode(), ExceptionCode.USER_NAME_PWD_ERROR.getMsg());
+        }
+        return jwtTokenUtil.generateToken(new JWTInfo(admin.getUsername(), admin.getId(), admin.getName(), admin.getAppId()));
     }
 
     @Override

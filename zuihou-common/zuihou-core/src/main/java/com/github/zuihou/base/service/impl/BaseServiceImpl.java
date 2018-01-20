@@ -22,10 +22,11 @@ import java.util.List;
 public abstract class BaseServiceImpl<I extends Serializable, T extends BaseEntity<I>, TE extends BaseExample>
         implements BaseService<I, T, TE> {
 
-    protected abstract BaseDao<I, T, TE> getDao();
-
     @Autowired
     private IdGenerate<I> idGenerator;
+
+    protected abstract BaseDao<I, T, TE> getDao();
+
     @Override
     public final I getId() {
         return idGenerator.generate();

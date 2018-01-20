@@ -3,6 +3,8 @@ package com.github.zuihou.utils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 
@@ -11,6 +13,7 @@ import java.text.SimpleDateFormat;
  * @createTime 2017-12-16 22:38
  */
 public class JSONUtils {
+    private static final Logger log = LoggerFactory.getLogger(JSONUtils.class);
     public final static String DEF_SDF = "yyyy-MM-dd HH:mm:ss";
 
     private JSONUtils() {
@@ -60,6 +63,7 @@ public class JSONUtils {
             mapper.setDateFormat(outputFormat);
             return mapper.writeValueAsString(object);
         } catch (Exception e) {
+            log.error("Json to string error:", e);
         }
         return null;
     }
@@ -137,7 +141,7 @@ public class JSONUtils {
             }
             return mapper.readValue(content, valueType);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Json parse error:", e);
         }
         return null;
     }

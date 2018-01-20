@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by ace on 2017/9/10.
+ *   2017/9/10.
+ * @author zuihou
  */
 public class StringHelper {
+    private StringHelper(){
+        super();
+    }
     public static String getObjectValue(Object obj) {
         return obj == null ? "" : obj.toString();
     }
@@ -21,9 +25,8 @@ public class StringHelper {
         // Performance tuned for 2.0 (JDK1.4)
         // Direct code is quicker than StringTokenizer.
         // Also, StringTokenizer uses isSpace() not isWhitespace()
-
         if (str == null) {
-            return null;
+            return new String[0];
         }
         final int len = str.length();
         if (len == 0) {

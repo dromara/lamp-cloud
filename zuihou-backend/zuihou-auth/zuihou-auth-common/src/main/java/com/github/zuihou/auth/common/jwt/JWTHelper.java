@@ -53,7 +53,7 @@ public class JWTHelper {
                             .compact();
             return new TokenVo(compactJws, expire);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            log.error("errcode:{}, message:{}", ExceptionCode.JWT_GEN_TOKEN_FAIL.getCode(), e.getMessage());
+            log.error("message:", e);
             throw new BizException(ExceptionCode.JWT_GEN_TOKEN_FAIL.getCode(), ExceptionCode.JWT_GEN_TOKEN_FAIL.getMsg());
         }
     }
@@ -70,16 +70,19 @@ public class JWTHelper {
         try {
             return Jwts.parser().setSigningKey(rsaKeyHelper.getPublicKey(pubKeyPath)).parseClaimsJws(token);
         } catch (ExpiredJwtException ex) {
+            log.error("ExpiredJwtException:", ex);
             //过期
             throw new BizException(ExceptionCode.JWT_TOKEN_EXPIRED.getCode(), ExceptionCode.JWT_TOKEN_EXPIRED.getMsg());
         } catch (SignatureException ex) {
+            log.error("SignatureException:", ex);
             //签名错误
             throw new BizException(ExceptionCode.JWT_SIGNATURE.getCode(), ExceptionCode.JWT_SIGNATURE.getMsg());
         } catch (IllegalArgumentException ex) {
+            log.error("IllegalArgumentException:", ex);
             //token 为空
             throw new BizException(ExceptionCode.JWT_ILLEGAL_ARGUMENT.getCode(), ExceptionCode.JWT_ILLEGAL_ARGUMENT.getMsg());
         } catch (Exception e) {
-            log.error("errcode:{}, message:{}", ExceptionCode.JWT_PARSER_TOKEN_FAIL.getCode(), e.getMessage());
+            log.error("message:", e);
             throw new BizException(ExceptionCode.JWT_PARSER_TOKEN_FAIL.getCode(), ExceptionCode.JWT_PARSER_TOKEN_FAIL.getMsg());
         }
     }
@@ -103,6 +106,7 @@ public class JWTHelper {
         try {
             aId = adminId == null || adminId.isEmpty() ? -1L : Long.valueOf(adminId);
         } catch (Exception e) {
+            log.error("message:", e);
         }
         return new JWTInfo(body.getSubject(),
                 aId,

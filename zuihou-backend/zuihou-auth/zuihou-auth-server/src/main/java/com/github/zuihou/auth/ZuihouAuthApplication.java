@@ -13,11 +13,11 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableEurekaClient
 @ComponentScan(basePackages = {"com.github.zuihou.auth"})
-//@ComponentScan(basePackages = {
-//        "com.github.zuihou.admin.repository.account.service",
-//        "com.github.zuihou.admin.repository.authority.service",
-//        "com.github.zuihou.base.id",
-//})
+@ComponentScan(basePackages = {
+        "com.github.zuihou.admin.repository.account.service",
+        "com.github.zuihou.admin.repository.authority.service",
+        "com.github.zuihou.base.id",
+})
 @RemoteApplicationEventScan(basePackages = "com.github.zuihou.auth.common.event")
 public class ZuihouAuthApplication {
     public static void main(String[] args) {
