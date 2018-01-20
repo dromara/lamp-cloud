@@ -15,7 +15,7 @@ import java.util.Properties;
 /**
  * Mysql工厂工具类
  *
- * @author brook
+ * @author zuihou
  */
 public final class DataSourceFactory {
 

@@ -3,7 +3,7 @@ package com.github.zuihou.commons.utils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 17:22
  */
 public class ClientUtil {

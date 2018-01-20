@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 15:27
  */
 @Configuration

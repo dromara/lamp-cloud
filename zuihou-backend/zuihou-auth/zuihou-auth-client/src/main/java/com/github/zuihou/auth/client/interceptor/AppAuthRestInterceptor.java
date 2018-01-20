@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 验证第三方外部请求
- * Created by tangyh on 2017/9/10.
+ * Created by zuihou on 2017/9/10.
  *
- * @author tyh
+ * @author zuihou
  */
 public class AppAuthRestInterceptor extends HandlerInterceptorAdapter {
     private static final Logger log = LoggerFactory.getLogger(AppAuthRestInterceptor.class);
