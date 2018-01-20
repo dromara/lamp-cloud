@@ -114,6 +114,14 @@
             <pattern>${common-pattern}</pattern>
         </encoder>
     </appender>
+    <appender name="CONSOLE_SQL_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${log.level.sql}</level>
+        </filter>
+        <encoder>
+            <pattern>${common-pattern}</pattern>
+        </encoder>
+    </appender>
 
     <root level="${log.level.console}" >
         <appender-ref ref="CONSOLE_APPENDER"/>

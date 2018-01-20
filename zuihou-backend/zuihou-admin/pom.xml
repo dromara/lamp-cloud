@@ -16,6 +16,7 @@
     <modules>
         <module>zuihou-admin-server</module>
         <module>zuihou-admin-rest</module>
+        <module>zuihou-admin-repository</module>
     </modules>
     <name>${project.artifactId}</name>
     <description>后台管理业务系统服务</description>
@@ -34,6 +35,11 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-admin-repository</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

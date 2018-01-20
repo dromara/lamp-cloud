@@ -1,12 +1,9 @@
 package com.github.zuihou.admin.config.datasource;
 
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.github.pagehelper.PageInterceptor;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.ibatis.plugin.Interceptor;
+import com.github.zuihou.core.spring.autoconfigure.datasource.DataSourceFactory;
+import com.github.zuihou.core.spring.autoconfigure.datasource.DataSourceProperties;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -18,8 +15,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -30,11 +25,10 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
 
 /**
  * 一体化平台 中心数据库配置
@@ -64,31 +58,9 @@ public class AdminAutoConfiguration {
     @Bean(name = "dataSource_admin", initMethod = "init", destroyMethod = "close")
     @Primary
     public DataSource rdsDataSource() {
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
-        dataSource.setUrl(dataSourceProperties.getUrl());
-        dataSource.setUsername(dataSourceProperties.getUsername());
-        dataSource.setPassword(dataSourceProperties.getPassword());
-        dataSource.setInitialSize(2);
-        dataSource.setMinIdle(2);
-        dataSource.setMaxActive(10);
-        dataSource.setMaxWait(60000);
-        dataSource.setTimeBetweenEvictionRunsMillis(3600000);
-        dataSource.setMinEvictableIdleTimeMillis(300000);
-        dataSource.setValidationQuery("select current_timestamp()");
-        dataSource.setTestWhileIdle(true);
-        dataSource.setTestOnBorrow(false);
-        dataSource.setTestOnReturn(false);
-        dataSource.setPoolPreparedStatements(true);
-        dataSource.setMaxPoolPreparedStatementPerConnectionSize(20);
-        try {
-            dataSource.setFilters("config");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        dataSource.setConnectionProperties("config.decrypt=true");
-        return dataSource;
+        return DataSourceFactory.createDataSource(this.dataSourceProperties);
     }
+
 
     @Bean(name = "tx_admin")
     public DataSourceTransactionManager rdsTransactionManager() {
@@ -96,28 +68,8 @@ public class AdminAutoConfiguration {
     }
 
     @Bean(name = "sqlSessionFactory_admin")
-    public SqlSessionFactory rdsSqlSessionFactory(@Qualifier("dataSource_admin") DataSource rdsDataSource) throws Exception {
-        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(rdsDataSource);
-
-        Properties properties = new Properties();
-        properties.put("helperDialect", "mysql");
-        properties.put("reasonable", "true");
-
-        PageInterceptor pi = new PageInterceptor();
-        pi.setProperties(properties);
-        sessionFactory.setPlugins(new Interceptor[]{pi});
-        String[] resourceLocationPatterns = new String[]{"classpath:mapper_admin/**/*.xml"};
-        if (!Objects.isNull(resourceLocationPatterns) && resourceLocationPatterns.length > 0) {
-            Resource[] all = new Resource[]{};
-            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-            for (String locationPattern : resourceLocationPatterns) {
-                all = ArrayUtils.addAll(all, resolver.getResources(locationPattern));
-            }
-            sessionFactory.setMapperLocations(all);
-        }
-
-        return sessionFactory.getObject();
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource_admin") DataSource rdsDataSource) throws Exception {
+        return DataSourceFactory.createSqlSessionFactoryBean(rdsDataSource, new String[]{"classpath:mapper_admin/**/*.xml"}).getObject();
     }
 
     @Bean
@@ -146,8 +98,7 @@ public class AdminAutoConfiguration {
         txMap.put("list*", readOnlyTx);
         txMap.put("page*", readOnlyTx);
         source.setNameMap(txMap);
-        TransactionInterceptor txAdvice = new TransactionInterceptor(transactionManager, source);
-        return txAdvice;
+        return new TransactionInterceptor(transactionManager, source);
     }
 
     @Bean
@@ -160,58 +111,7 @@ public class AdminAutoConfiguration {
     @ConfigurationProperties(
             prefix = "zuihou.mysql.admin"
     )
-    static class AdminDataSourceProperties {
-        //static class AdminDataSourceProperties extends DataSourceProperties {
-        private String url;
-        private String username;
-        private String password;
-        private String driverClassName = "com.mysql.cj.jdbc.Driver";
+    static class AdminDataSourceProperties extends DataSourceProperties {
 
-        /**
-         * MySQL连接串
-         *
-         * @return
-         */
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        /**
-         * MySQL用户名
-         *
-         * @return
-         */
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        /**
-         * MySQL密码
-         *
-         * @return
-         */
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getDriverClassName() {
-            return driverClassName;
-        }
-
-        public void setDriverClassName(String driverClassName) {
-            this.driverClassName = driverClassName;
-        }
     }
 }

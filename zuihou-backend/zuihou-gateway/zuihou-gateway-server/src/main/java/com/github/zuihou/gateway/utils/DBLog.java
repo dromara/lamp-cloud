@@ -62,7 +62,7 @@ public class DBLog extends Thread {
             try {
                 bufferedLogList.add(logInfoQueue.take());
                 logInfoQueue.drainTo(bufferedLogList);
-                if (bufferedLogList != null && !bufferedLogList.isEmpty()) {
+                if (!bufferedLogList.isEmpty()) {
                     // 写入日志
                     bufferedLogList.forEach((log) -> logService.saveLog(log));
                 }
@@ -72,12 +72,14 @@ public class DBLog extends Thread {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception eee) {
+                    log.error("Log sleep error:", e);
                 }
             } finally {
-                if (bufferedLogList != null && !bufferedLogList.isEmpty()) {
+                if (!bufferedLogList.isEmpty()) {
                     try {
                         bufferedLogList.clear();
                     } catch (Exception e) {
+                        log.error("clear bufferedLogList error:", e);
                     }
                 }
             }

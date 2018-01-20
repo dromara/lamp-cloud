@@ -122,7 +122,7 @@ public abstract class BaseExample<T> implements Serializable {
      */
     public T createCriteria() {
         T criteria = createCriteriaInternal();
-        if (oredCriteria.size() == 0) {
+        if (oredCriteria.isEmpty()) {
             oredCriteria.add(criteria);
         }
         return criteria;
@@ -137,7 +137,7 @@ public abstract class BaseExample<T> implements Serializable {
         try {
             criteria = persistentClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("BaseExample T instance error", e);
         }
         return criteria;
     }

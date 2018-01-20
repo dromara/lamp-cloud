@@ -9,6 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -62,8 +63,9 @@ public final class DataSourceFactory {
      * @param resourceLocationPatterns
      * @return
      */
-    public static SqlSessionFactoryBean createSqlSessionFactoryBean(DataSource rdsDataSource,
-                                                                    String[] resourceLocationPatterns) throws Exception {
+    public static SqlSessionFactoryBean createSqlSessionFactoryBean(
+            DataSource rdsDataSource,
+            String[] resourceLocationPatterns) throws IOException {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(rdsDataSource);
 

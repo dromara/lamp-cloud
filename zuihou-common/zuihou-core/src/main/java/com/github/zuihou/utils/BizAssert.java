@@ -342,7 +342,7 @@ public class BizAssert {
         if (expected == null && actual == null) {
             return;
         }
-        if (expected.equals(actual)) {
+        if (expected != null && expected.equals(actual)) {
             return;
         }
         fail(exceptionCode);

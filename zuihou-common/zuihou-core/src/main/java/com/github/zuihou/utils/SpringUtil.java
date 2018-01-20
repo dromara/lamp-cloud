@@ -19,7 +19,7 @@ public class SpringUtil {
 
     public static void setApplicationContext(ApplicationContext ctx) {
         Assert.notNull(ctx, "SpringUtil injection ApplicationContext is null");
-        applicationContext = ctx;
+        SpringUtil.applicationContext = ctx;
     }
 
     public static Object getBean(String name) {
@@ -39,6 +39,6 @@ public class SpringUtil {
     }
 
     public void destroy() {
-        applicationContext = null;
+        SpringUtil.applicationContext = null;
     }
 }
