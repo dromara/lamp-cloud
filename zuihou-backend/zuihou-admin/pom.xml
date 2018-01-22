@@ -15,21 +15,17 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>zuihou-admin-server</module>
-        <module>zuihou-admin-rest</module>
+        <module>zuihou-admin-api</module>
         <module>zuihou-admin-repository</module>
     </modules>
     <name>${project.artifactId}</name>
     <description>后台管理业务系统服务</description>
 
-    <properties>
-        <pagehelper.version>5.1.2</pagehelper.version>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-admin-rest</artifactId>
+                <artifactId>zuihou-admin-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -48,11 +44,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
-                <version>${pagehelper.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

@@ -53,6 +53,7 @@
         <!--<mysql.version>5.1.40</mysql.version>-->
         <mysql.version>6.0.6</mysql.version>
         <pagehelper.starter.version>1.2.3</pagehelper.starter.version>
+        <pagehelper.version>5.1.2</pagehelper.version>
         <springfox.swagger2.version>2.7.0</springfox.swagger2.version>
         <lombok.version>1.16.20</lombok.version>
         <dozer.version>5.5.1</dozer.version>

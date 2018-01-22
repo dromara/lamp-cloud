@@ -34,6 +34,11 @@
                 <artifactId>zuihou-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

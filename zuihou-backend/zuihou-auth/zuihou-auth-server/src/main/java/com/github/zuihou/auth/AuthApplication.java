@@ -19,8 +19,8 @@ import org.springframework.context.annotation.ComponentScan;
         "com.github.zuihou.base.id",
 })
 @RemoteApplicationEventScan(basePackages = "com.github.zuihou.auth.common.event")
-public class ZuihouAuthApplication {
+public class AuthApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ZuihouAuthApplication.class,args);
+        SpringApplication.run(AuthApplication.class,args);
     }
 }
