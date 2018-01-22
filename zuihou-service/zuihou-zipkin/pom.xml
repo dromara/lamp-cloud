@@ -14,6 +14,12 @@
     <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>链路监控中心</description>
+
+    <!--
+    https://repo.spring.io/libs-milestone/org/springframework/cloud/spring-cloud-sleuth-zipkin-stream/
+    由于目前仓库中 spring-cloud-sleuth-zipkin-stream 只有M2版本，故这里只用到此版本
+    -->
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
