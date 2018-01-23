@@ -77,12 +77,12 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 类名：首字母大写驼峰规则；方法名：首字母小写驼峰规则；常量：全大写；变量：首字母小写驼峰规则，尽量非缩写
 - 模块命名为`项目`-`业务`，如`zuihou-admin`
 - 数据表命名为：`子系统`_`表`，如`b_role`
-- 更多规范，参考[[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
+- 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
 
 ## 期待您的加入：
     1，前端哥哥
     2，后端哥哥
-    3，土豪哥哥(求捐献服务器)
+    3，土豪哥哥(求赞助服务器)
     4，小姐姐
 
 ## 启动指南
