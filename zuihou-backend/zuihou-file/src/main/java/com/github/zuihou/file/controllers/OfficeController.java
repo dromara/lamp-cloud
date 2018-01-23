@@ -25,8 +25,15 @@ public class OfficeController {
     @Value("${fileServer.domain}")
     String domain;
 
-    @Value("${files.docservice.url.api}")
+    @Value("${files.docservice.url}")
     String doc_api;
+
+
+    @RequestMapping("/upload")
+    public String test(){
+
+        return "file";
+    }
 
     @RequestMapping
     public String office(ModelMap map, String url, String filename) throws UnknownHostException {

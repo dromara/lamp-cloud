@@ -68,7 +68,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - nginx
     - keepalive
 
-本代码采用示例采用 Intellij IDEA(2018.1 EAP) 来编写，但源码与具体的 IDE 无关。
+本代码采用 Intellij IDEA(2018.1 EAP) 来编写，但源码与具体的 IDE 无关。
 
 ## 约定：
 
@@ -174,8 +174,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ```
 
 - 依次运行数据库脚本：
-    - zuihou-backend/zuihou-base/zuihou-base-server/init.sql
-    - zuihou-backend/zuihou-admin/zuihou-admin-server/init.sql
+    - doc/zuihou_admin_dev.sql
 
 - 通过以下方法，进行密码加密：
 ```
@@ -184,7 +183,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
     }
 ```    
 
-- 修改配置数据库配置：
+- 修改配置数据库/redis/rabbitMQ配置：
+    - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
     - zuihou-config-repo/zuihou-backend/zuihou-admin/application.yml
     - zuihou-config-repo/zuihou-backend/zuihou-base/application.yml
     - zuihou-config-repo/zuihou-service/zuihou-zipkin/application.yml
@@ -231,3 +231,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 | zuihou-file | 9756 | 9757 |  ​
 | zuihou-sms | 9751 | 9752 | ​​
 | zuihou-email | 9746 | 9747 | ​​
+
+
+## 常见报错：
+ - 1，找不到fastdfs-client-java(1.27-SNAPSHOT) jar？
+    - 答： 去附件附件(gitee)列表自行下载后安装到仓库即可
