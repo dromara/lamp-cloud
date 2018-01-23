@@ -1,3 +1,9 @@
+按3篇文章讲的非常详细，照做即可：
+http://blog.csdn.net/u012453843/article/details/68957209
+http://blog.csdn.net/u012453843/article/details/69055570
+http://blog.csdn.net/u012453843/article/details/69172423
+
+
 CentOS7.x 安装教程， centos6 安装可能与此不同
 使用 zuihou 帐号安装。某些文件夹没有权限的， 需要sudo授权
 
@@ -175,7 +181,7 @@ sudo make install
 #8.1 ,安装nginx和fastdfs-nginx-module模块 
 查看nginx安装了那些模块： nginx/sbin/nginx -V
 
-
+./configure --user=zuihou --group=zuihou --prefix=/usr/local/nginx --add-module=/usr/local/src/ngx_cache_purge-2.1 --with-http_stub_status_module --with-http_ssl_module
 
 ```
 tar -zxvf fastdfs-nginx-module_v1.16.tar.gz
@@ -289,8 +295,6 @@ group_count = 1 #设置组的个数，事实上这次只使用了group1
 建立软连接:
 `ln  -s  /home/zuihou/fastdfs/storage/data  /home/zuihou/fastdfs/storage/M00`
 
-ln  -s  /home/tyh/fastdfs/storage/data  /home/tyh/fastdfs/storage/M00
-    
 启动nginx：
 /usr/local/nginx/sbin/nginx
 或者 重启
@@ -299,9 +303,9 @@ ln  -s  /home/tyh/fastdfs/storage/data  /home/tyh/fastdfs/storage/M00
 
 #测试上传
 1. 打开 /etc/fdfs 文件夹，编辑 client.conf 文件，编辑内容如下:
-  a. base_path=/home/zuihou/fastdfs/tracker      #存放路径
+  a. base_path=/home/zuihou/fastdfs/tracker       #存放路径
   b. tracker_server=192.168.65.141:22122          #tracker服务器IP地址和端口号
-  c. http.tracker_server_port=6080              #tracker服务器的http端口号，注意，这个配置在fastdfs5.0.5中已经没有用了
+  c. http.tracker_server_port=6080                #tracker服务器的http端口号，注意，这个配置在fastdfs5.0.5中已经没有用了
 
 2. 模拟上传文件，执行如下命令: /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg
 
@@ -317,7 +321,7 @@ ln  -s  /home/tyh/fastdfs/storage/data  /home/tyh/fastdfs/storage/M00
 ```
  mv db-6.2.32 /usr/local/src
  cd /usr/local/src/db-6.2.32/build_unix
- ../dist/configure --prefix=/usr/local/db-6.2.32
+ ../dist/configure  --prefix=/usr/local/db-6.2.32
  make
  make install
 ```
@@ -382,4 +386,9 @@ fdhtd: error while loading shared libraries: libdb-6.2.so: cannot open shared ob
 | /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg | 测试上传                                     |
 
 
+/usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/tyh/fastdfs_src/a.jpg
+/usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/tyh/fastdfs_src/b.jpg
+/usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/tyh/fastdfs_src/aaa.png
 ​    
+
+telnet 192.168.0.1 22122 连接成功则说明可以正常访问fastdfs服务了。
