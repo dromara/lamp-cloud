@@ -47,7 +47,7 @@ public class IndexController {
     /*
      *  文件管理根目录,此处为了方便采用Hard Code
      */
-    //public static String ROOT = "/home/tyh/gxqpt/logs/";
+    //public static String ROOT = "/home/zuihou/gxqpt/logs/";
     public static String ROOT = "E:\\etc\\cas\\";
 
     /**
