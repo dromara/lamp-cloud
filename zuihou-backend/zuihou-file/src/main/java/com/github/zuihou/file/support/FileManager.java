@@ -65,11 +65,13 @@ public class FileManager implements Config {
         }
     }
 
-    public void upload(final FileModel file) {
+    public void upload(String remoteUriPrefix, final FileModel file) {
         logger.info("File Name: " + file.getFilename() + ". File Length: " + file.getContent().length);
 
-        final NameValuePair[] meta_list = new NameValuePair[]{new NameValuePair("mime", file.getMime()),
-                new NameValuePair("size", file.getSize()), new NameValuePair("filename", file.getFilename())};
+        final NameValuePair[] meta_list = new NameValuePair[]{
+                new NameValuePair("mime", file.getMime()),
+                new NameValuePair("size", file.getSize()),
+                new NameValuePair("filename", file.getFilename())};
 
         long startTime = System.currentTimeMillis();
         String[] uploadResults = null;
@@ -88,8 +90,7 @@ public class FileManager implements Config {
             final String groupName = uploadResults[0];
             final String remoteFileName = uploadResults[1];
 
-            //String fileAbsolutePath = PropertiesUtil.getString("remote.file.uri.prefix") + groupName + SEPARATOR + remoteFileName;
-            String fileAbsolutePath = "http://192.168.65.147:6080/" + groupName + SEPARATOR + remoteFileName;
+            String fileAbsolutePath = remoteUriPrefix + groupName + SEPARATOR + remoteFileName;
             file.setRemotePath(fileAbsolutePath);
             logger.info("upload_file time used: " + (System.currentTimeMillis() - startTime) + " ms. group_name: "
                     + groupName + ", remoteFileName:" + " " + remoteFileName);

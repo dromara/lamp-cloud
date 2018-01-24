@@ -102,7 +102,8 @@ public class IndexController {
             Collection<Part> parts = request.getParts();
 
             for (Part part : parts) {
-                if (part.getContentType() != null) {  // 忽略路径字段,只处理文件类型
+                // 忽略路径字段,只处理文件类型
+                if (part.getContentType() != null) {
                     String path = ROOT + destination;
 
                     File f = new File(path, FileUtils.getFileName(part.getHeader("content-disposition")));
@@ -202,112 +203,6 @@ public class IndexController {
 
                 FileCopyUtils.copy(srcFile, destFile);
             }
-            return success();
-        } catch (Exception e) {
-            return error(e.getMessage());
-        }
-    }
-
-    /**
-     * 移动文件或目录
-     */
-    @RequestMapping("move")
-    public Object move(@RequestBody JSONObject json) {
-        try {
-            String newpath = json.getString("newPath");
-            JSONArray items = json.getJSONArray("items");
-
-            for (int i = 0; i < items.size(); i++) {
-                String path = items.getString(i);
-
-                File srcFile = new File(ROOT, path);
-                File destFile = new File(ROOT + newpath, srcFile.getName());
-
-                if (srcFile.isFile()) {
-                    org.apache.commons.io.FileUtils.moveFile(srcFile, destFile);
-                } else {
-                    org.apache.commons.io.FileUtils.moveDirectory(srcFile, destFile);
-                }
-            }
-            return success();
-        } catch (Exception e) {
-            return error(e.getMessage());
-        }
-    }
-
-    /**
-     * 删除文件或目录
-     */
-    @RequestMapping("remove")
-    public Object remove(@RequestBody JSONObject json) {
-        try {
-            JSONArray items = json.getJSONArray("items");
-            for (int i = 0; i < items.size(); i++) {
-                String path = items.getString(i);
-                File srcFile = new File(ROOT, path);
-                if (!org.apache.commons.io.FileUtils.deleteQuietly(srcFile)) {
-                    throw new Exception("删除失败: " + srcFile.getAbsolutePath());
-                }
-            }
-            return success();
-        } catch (Exception e) {
-            return error(e.getMessage());
-        }
-    }
-
-    /**
-     * 重命名文件或目录
-     */
-    @RequestMapping("rename")
-    public Object rename(@RequestBody JSONObject json) {
-        try {
-            String path = json.getString("item");
-            String newPath = json.getString("newItemPath");
-
-            File srcFile = new File(ROOT, path);
-            File destFile = new File(ROOT, newPath);
-            if (srcFile.isFile()) {
-                org.apache.commons.io.FileUtils.moveFile(srcFile, destFile);
-            } else {
-                org.apache.commons.io.FileUtils.moveDirectory(srcFile, destFile);
-            }
-            return success();
-        } catch (Exception e) {
-            return error(e.getMessage());
-        }
-    }
-
-    /**
-     * 查看文件内容,针对html、txt等可编辑文件
-     */
-    @RequestMapping("getContent")
-    public Object getContent(@RequestBody JSONObject json) {
-        try {
-            String path = json.getString("item");
-            File srcFile = new File(ROOT, path);
-
-            String content = org.apache.commons.io.FileUtils.readFileToString(srcFile);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("result", content);
-            return jsonObject;
-        } catch (Exception e) {
-            return error(e.getMessage());
-        }
-    }
-
-    /**
-     * 修改文件内容,针对html、txt等可编辑文件
-     */
-    @RequestMapping("edit")
-    public Object edit(@RequestBody JSONObject json) {
-        try {
-            String path = json.getString("item");
-            String content = json.getString("content");
-
-            File srcFile = new File(ROOT, path);
-            org.apache.commons.io.FileUtils.writeStringToFile(srcFile, content);
-
             return success();
         } catch (Exception e) {
             return error(e.getMessage());

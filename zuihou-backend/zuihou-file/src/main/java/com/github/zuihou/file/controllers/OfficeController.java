@@ -48,7 +48,7 @@ public class OfficeController {
 
         map.put("doc_api", doc_api);
 
-        map.put("documentType", FileUtils.GetFileType(filename).toString().toLowerCase());
+        map.put("documentType", FileUtils.getFileType(filename).toString().toLowerCase());
 
         return "office";
     }

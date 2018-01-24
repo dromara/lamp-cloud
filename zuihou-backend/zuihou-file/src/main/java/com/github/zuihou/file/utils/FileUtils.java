@@ -49,14 +49,7 @@ public class FileUtils {
                     ".odp", ".fodp"
             );
 
-    public static String getExtension(String fileName) {
-        if (StringUtils.INDEX_NOT_FOUND == StringUtils.indexOf(fileName, ".")) {
-            return StringUtils.EMPTY;
-        }
-        String ext = StringUtils.substring(fileName,
-                StringUtils.lastIndexOf(fileName, "."));
-        return StringUtils.trimToEmpty(ext);
-    }
+
 
     public static String getFileName(String header) {
         String[] tempArr1 = header.split(";");
@@ -147,7 +140,7 @@ public class FileUtils {
 
     }
 
-    public static FileType GetFileType(String fileName) {
+    public static FileType getFileType(String fileName) {
         String ext = getExtension(fileName).toLowerCase();
 
         if (ExtsDocument.contains(ext)) {
@@ -163,5 +156,20 @@ public class FileUtils {
         }
 
         return FileType.Text;
+    }
+
+    public static String getExtension(String fileName) {
+        if (StringUtils.INDEX_NOT_FOUND == StringUtils.indexOf(fileName, ".")) {
+            return StringUtils.EMPTY;
+        }
+        String ext = StringUtils.substring(fileName,
+                StringUtils.lastIndexOf(fileName, "."));
+        return StringUtils.trimToEmpty(ext);
+    }
+
+    public static void main(String[] args) {
+        String filePath = "/home/xx.";
+        //System.out.println(filePath.substring(filePath.lastIndexOf(".") + 1));
+        System.out.println(getExtension(filePath));
     }
 }
