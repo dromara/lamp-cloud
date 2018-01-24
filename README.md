@@ -17,6 +17,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 后期会引入`Docker`（慢慢学，还没到这一步）
 
+## 项目地址
+[github] https://github.com/zuihou/zuihou-admin-cloud
+[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud
 
 ## 架构详解:
  - 服务注册与调用：
@@ -79,6 +82,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 模块命名为`项目`-`业务`，如`zuihou-admin`
 - 数据表命名为：`子系统`_`表`，如`b_role`
 - 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
+
+
 
 ## 期待您的加入：
     1，前端哥哥

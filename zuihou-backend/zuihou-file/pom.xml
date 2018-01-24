@@ -19,7 +19,14 @@
         <fastjson.version>1.2.44</fastjson.version>
     </properties>
     <dependencies>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -111,10 +118,10 @@
             <version>1.12</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>commons-fileupload</groupId>-->
+            <!--<artifactId>commons-fileupload</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.webjars</groupId>
@@ -153,6 +160,15 @@
             <version>0.7</version>
         </dependency>
 
+
+        <!-- 插件 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- 这个jar需要去附件下载后，install到自己的仓库 -->
         <dependency>
             <groupId>org.csource</groupId>
             <artifactId>fastdfs-client-java</artifactId>

@@ -6,3 +6,7 @@ info:
   spring-boot-version: '@spring.boot.version@'
   spring-cloud-version: '@spring.cloud.version@'
 
+zuihou:
+  file:
+    upload-path: /home/uploadfile/
+    remote-uri-prefix: http://192.168.65.147:6080/
