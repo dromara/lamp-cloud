@@ -192,12 +192,12 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 5， 在IDE中启动：
 - 5.1， 在IDE中启动：编译代码，修改启动参数：
     - 以IDEA为例， Eclipse 请自行意淫 (图片看不清，请看doc/image/**)
-    - ![eureka.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/admin(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![config.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/config(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![admin.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/admin(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![monitor.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/monitor(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+    - ![eureka.png](doc/image/启动配置/eureka(dev)启动配置.png)
+    - ![config.png](doc/image/启动配置/config(dev)启动配置.png)
+    - ![admin.png](doc/image/启动配置/admin(dev)启动配置.png)
+    - ![monitor.png](doc/image/启动配置/monitor(dev)启动配置.png)
     - 这里只演示其中几个服务， 剩余的服务，按照相同的方法配置
-    - 最终运行实例: ![启动.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%BF%90%E8%A1%8C%E5%AE%9E%E4%BE%8B.png)
+    - 最终运行实例: ![启动.png](doc/image/启动配置/开发环境运行实例.png)
 - 5.2，按`顺序`运行main类：
     - EurekaApplication（zuihou-eureka）  # 第一步
     - ConfigApplication（zuihou-config）  # 第二步
@@ -261,9 +261,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 5， 在IDE中启动：
 - 5.1， 在IDE中启动：编译代码，修改启动参数：
     - 以IDEA为例， Eclipse 请自行意淫 (图片看不清，请看doc/image/**)
-    - ![eureka1.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod1)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![eureka2.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod2)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![monitor.png](https://github.com/zuihou/zuihou-admin-cloud/blob/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/monitor(prod)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png?raw=true)
+    - ![eureka1.png](doc/image/启动配置/eureka(prod1)启动配置.png)
+    - ![eureka2.png](doc/image/启动配置/eureka(prod2)启动配置.png)
+    - ![monitor.png](doc/image/启动配置/monitor(prod)启动配置.png)
     - 这里只演示其中几个服务， 剩余的服务，按照相同的方法配置
 
 - 5.2，按`顺序`运行main类：

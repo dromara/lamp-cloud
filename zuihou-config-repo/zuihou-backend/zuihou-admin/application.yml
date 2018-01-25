@@ -1,5 +1,5 @@
 logging:
-  path: ./logs/zuihou-admin
+  path: ./logs/zuihou-admin-server
   file: ${logging.path}/root.log
   common-pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n'
   level:
@@ -26,7 +26,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: zuihou-admin
+    name: zuihou-admin-server
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
