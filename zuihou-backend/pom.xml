@@ -31,7 +31,17 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-auth-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

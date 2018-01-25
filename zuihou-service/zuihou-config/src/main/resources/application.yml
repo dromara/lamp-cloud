@@ -40,6 +40,7 @@ spring:
     username: guest
 
 
+
 management:
   security:
     enabled: true
