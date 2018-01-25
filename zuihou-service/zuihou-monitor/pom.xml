@@ -91,11 +91,20 @@
             <artifactId>spring-retry</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server</artifactId>
             <version>${spring.boot.admin.version}</version>
         </dependency>
-
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server-ui</artifactId>
@@ -116,6 +125,7 @@
             <artifactId>spring-boot-admin-server-ui-turbine</artifactId>
             <version>${spring.boot.admin.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-turbine-stream</artifactId>
@@ -135,14 +145,6 @@
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
         <!-- 邮件通知的支持 -->
         <!--<dependency>-->
         <!--<groupId>org.springframework.boot</groupId>-->

@@ -1,15 +1,15 @@
 package com.github.zuihou.admin.config.datasource;
 
 
+import com.github.zuihou.admin.configuration.AdminDataSourceProperties;
 import com.github.zuihou.core.spring.autoconfigure.datasource.DataSourceFactory;
-import com.github.zuihou.core.spring.autoconfigure.datasource.DataSourceProperties;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +25,6 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,13 +44,14 @@ import java.util.Map;
                 "com.github.zuihou.admin.repository.authority.dao",
         },
         sqlSessionFactoryRef = "sqlSessionFactory_admin")
-@EnableConfigurationProperties({AdminAutoConfiguration.AdminDataSourceProperties.class})
+@EnableConfigurationProperties({AdminDataSourceProperties.class})
 public class AdminAutoConfiguration {
     private static final int TX_METHOD_TIMEOUT = 60;
     private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.github.zuihou.admin.impl..impl.*.*(..))";
 
     private final AdminDataSourceProperties dataSourceProperties;
 
+    @Autowired
     public AdminAutoConfiguration(AdminDataSourceProperties dataSourceProperties) {
         this.dataSourceProperties = dataSourceProperties;
     }
@@ -127,13 +127,5 @@ public class AdminAutoConfiguration {
         return new DefaultPointcutAdvisor(pointcut, txAdvice(transactionManager));
     }
 
-    /**
-     * 读取yml配置的信息
-     */
-    @ConfigurationProperties(
-            prefix = "zuihou.mysql.admin"
-    )
-    static class AdminDataSourceProperties extends DataSourceProperties {
 
-    }
 }

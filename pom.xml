@@ -11,7 +11,7 @@
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <url>https://gitee.com/zuihou111/zuihou-admin</url>
+    <url>https://gitee.com/zuihou111/zuihou-admin-cloud</url>
     <name>${project.artifactId}</name>
     <description>zuihou-admin-cloud父pom, 对jar版本，仓库进行管理</description>
     <licenses>

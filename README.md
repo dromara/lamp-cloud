@@ -81,7 +81,10 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - zuihou-xxx-api 项目中提供feign客户端，dto
 - 区分po、dto，不要把po中的所有字段都返回给前端。 前端需要什么字段，就返回什么字段
 - 类名：首字母大写驼峰规则；方法名：首字母小写驼峰规则；常量：全大写；变量：首字母小写驼峰规则，尽量非缩写
-- 模块命名为`项目`-`业务`，如`zuihou-admin`
+- 业务模块接口层命名为`项目`-`业务-api`，如`zuihou-admin-api`
+- 业务模块业务层命名为`项目`-`业务-repository`，如`zuihou-admin-repository`
+- 业务模块容器命名为`项目`-`业务-server`，如`zuihou-admin-server`
+- 监控模块命名为`项目`-`业务`，如`zuihou-admin`
 - 数据表命名为：`子系统`_`表`，如`b_role`
 - 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
 
@@ -180,13 +183,13 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - （画重点）修改配置需要各位自己在github或者gitee上创建自己的仓库，但目录结构需要和`zuihou-config-repo`的结构一致，
       然后在修改`zuihou-config`服务`application.yml`中的`spring.cloud.config.server.git.uri:`项。（画重点）
     - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
-    - zuihou-config-repo/zuihou-backend/zuihou-admin/application-dev.yml
+    - zuihou-config-repo/zuihou-backend/zuihou-admin-server/application-dev.yml
     - zuihou-config-repo/zuihou-backend/zuihou-gateway-server/application-dev.yml
     - zuihou-config-repo/zuihou-backend/zuihou-auth-server/application-dev.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-base/application-dev.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-file/application-dev.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-mail/application-dev.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-sms/application-dev.yml      # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-base-server/application-dev.yml     # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-file-server/application-dev.yml     # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-mail-server/application-dev.yml     # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-sms-server/application-dev.yml      # 待开发
 
     - zuihou-config-repo/zuihou-service/zuihou-zipkin/application-dev.yml
     - zuihou-config-repo/zuihou-service/zuihou-monitor/application-dev.yml
@@ -248,13 +251,13 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
     - prod1 代表实例1  prod2 代表实例2 ， 实例1和实例2 的启动端口根据自己的情况进行修改，但最好跟我的保持一致
 
-    - zuihou-config-repo/zuihou-backend/zuihou-admin/application-prod*.yml
+    - zuihou-config-repo/zuihou-backend/zuihou-admin-server/application-prod*.yml
     - zuihou-config-repo/zuihou-backend/zuihou-gateway-server/application-prod*.yml
     - zuihou-config-repo/zuihou-backend/zuihou-auth-server/application-prod*.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-base/application-prod*.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-file/application-prod*.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-mail/application-prod*.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-sms/application-prod*.yml      # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-base-server/application-prod*.yml     # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-file-server/application-prod*.yml     # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-mail-server/application-prod*.yml     # 待开发
+    - zuihou-config-repo/zuihou-backend/zuihou-sms-server/application-prod*.yml      # 待开发
 
     - zuihou-config-repo/zuihou-service/zuihou-zipkin/application-prod*.yml
     - zuihou-config-repo/zuihou-service/zuihou-monitor/application-prod*.yml
@@ -298,13 +301,13 @@ RibbitMQ、FastDFS等主要框架和中间件。
 | zuihou-zipkin | 8510 |  ​ 
 | zuihou-monitor | 8515,8516 |  ​
 | - | - |​- | ​
-| zuihou-auth | 9775 |  ​
-| zuihou-gateway | 9770 |  ​
-| zuihou-admin | 9765 |  ​
-| zuihou-base | 9760 |  ​
-| zuihou-file | 9755 |  ​
-| zuihou-sms | 9750 |  ​
-| zuihou-email | 9745 |  ​
+| zuihou-auth-server | 9775 |  ​
+| zuihou-gateway-server | 9770 |  ​
+| zuihou-admin-server | 9765 |  ​
+| zuihou-base-server | 9760 |  ​
+| zuihou-file-server | 9755 |  ​
+| zuihou-sms-server | 9750 |  ​
+| zuihou-email-server | 9745 |  ​
 
 - 端口号介绍（prod）:
 
@@ -315,13 +318,13 @@ RibbitMQ、FastDFS等主要框架和中间件。
 | zuihou-zipkin | 8511 | 8512 |
 | zuihou-monitor | 8515,8516 | 8517,8518 |  ​
 | - | - |​- |
-| zuihou-auth | 9776 | 9777 |  ​
-| zuihou-gateway | 9771 | 9772 | 
-| zuihou-admin | 9766 | 9767 |  ​
-| zuihou-base | 9761 | 9762 |  ​
-| zuihou-file | 9756 | 9757 |  ​
-| zuihou-sms | 9751 | 9752 | ​​
-| zuihou-email | 9746 | 9747 | ​​
+| zuihou-auth-server | 9776 | 9777 |  ​
+| zuihou-gateway-server | 9771 | 9772 | 
+| zuihou-admin-server | 9766 | 9767 |  ​
+| zuihou-base-server | 9761 | 9762 |  ​
+| zuihou-file-server | 9756 | 9757 |  ​
+| zuihou-sms-server | 9751 | 9752 | ​​
+| zuihou-email-server | 9746 | 9747 | ​​
 
 ## 项目截图：
 spring-boot-admin监控界面:
