@@ -147,7 +147,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 运行步骤: 
  接下来分别介绍开发环境(dev)和正式环境(prod1,prod2)的运行步骤. 
  生产环境所有服务单例运行，生产环境所有服务运行2个实例（除了zuihou-monitor,zuihou-zipkin.这2个监控服务）
- 
+
 ### 开发环境
 - 1, 开发环境(dev)Hosts文件配置：
 ```
@@ -173,10 +173,10 @@ RibbitMQ、FastDFS等主要框架和中间件。
     public static void main(String[] args) throws Exception {
         System.out.println(ConfigTools.encrypt("your mysql password"));
     }
-```   
+```
 - 4, 修改配置数据库/redis/rabbitMQ配置：
     - （画重点）修改配置需要各位自己在github或者gitee上创建自己的仓库，但目录结构需要和`zuihou-config-repo`的结构一致，
-    然后在修改`zuihou-config`服务`application.yml`中的`spring.cloud.config.server.git.uri:`项。
+      然后在修改`zuihou-config`服务`application.yml`中的`spring.cloud.config.server.git.uri:`项。
     - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
     - zuihou-config-repo/zuihou-backend/zuihou-admin/application-dev.yml
     - zuihou-config-repo/zuihou-backend/zuihou-gateway-server/application-dev.yml
@@ -185,19 +185,19 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - zuihou-config-repo/zuihou-backend/zuihou-file/application-dev.yml     # 待开发
     - zuihou-config-repo/zuihou-backend/zuihou-mail/application-dev.yml     # 待开发
     - zuihou-config-repo/zuihou-backend/zuihou-sms/application-dev.yml      # 待开发
-    
+
     - zuihou-config-repo/zuihou-service/zuihou-zipkin/application-dev.yml
     - zuihou-config-repo/zuihou-service/zuihou-monitor/application-dev.yml
 
 - 5， 在IDE中启动：
 - 5.1， 在IDE中启动：编译代码，修改启动参数：
     - 以IDEA为例， Eclipse 请自行意淫 (图片看不清，请看doc/image/**)
-    - ![eureka.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/eureka(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![config.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/config(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![admin.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/admin(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![monitor.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/monitor(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+    - ![eureka.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/admin(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+    - ![config.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/config(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+    - ![admin.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/admin(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+    - ![monitor.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/monitor(dev)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
     - 这里只演示其中几个服务， 剩余的服务，按照相同的方法配置
-
+    - 最终运行实例: ![启动.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%BF%90%E8%A1%8C%E5%AE%9E%E4%BE%8B.png)
 - 5.2，按`顺序`运行main类：
     - EurekaApplication（zuihou-eureka）  # 第一步
     - ConfigApplication（zuihou-config）  # 第二步
@@ -212,7 +212,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - java -jar -Dspring.profiles.active=dev zuihou-eureka.jar 
     - java -jar -Dspring.profiles.active=dev zuihou-config.jar 
     - java -jar -Dspring.profiles.active=dev zuihou-***.jar  
-    
+
 ### 生产环境 
 
 - 1, 生产环境(prod1,prod2)Hosts文件配置：
@@ -234,19 +234,18 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 - 2, 依次运行数据库脚本：
     - doc/sql/zuihou_admin_prod.sql  (数据库，redis，rabbitmq 暂时不考虑高可用)
-    
 
 - 3, 通过以下方法，进行密码加密：
 ```
     public static void main(String[] args) throws Exception {
         System.out.println(ConfigTools.encrypt("your mysql password"));
     }
-```    
+```
 
 - 4, 修改配置数据库/redis/rabbitMQ配置：
     - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
     - prod1 代表实例1  prod2 代表实例2 ， 实例1和实例2 的启动端口根据自己的情况进行修改，但最好跟我的保持一致
-    
+
     - zuihou-config-repo/zuihou-backend/zuihou-admin/application-prod*.yml
     - zuihou-config-repo/zuihou-backend/zuihou-gateway-server/application-prod*.yml
     - zuihou-config-repo/zuihou-backend/zuihou-auth-server/application-prod*.yml
@@ -254,7 +253,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - zuihou-config-repo/zuihou-backend/zuihou-file/application-prod*.yml     # 待开发
     - zuihou-config-repo/zuihou-backend/zuihou-mail/application-prod*.yml     # 待开发
     - zuihou-config-repo/zuihou-backend/zuihou-sms/application-prod*.yml      # 待开发
-    
+
     - zuihou-config-repo/zuihou-service/zuihou-zipkin/application-prod*.yml
     - zuihou-config-repo/zuihou-service/zuihou-monitor/application-prod*.yml
 
@@ -262,9 +261,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 5， 在IDE中启动：
 - 5.1， 在IDE中启动：编译代码，修改启动参数：
     - 以IDEA为例， Eclipse 请自行意淫 (图片看不清，请看doc/image/**)
-    - ![eureka1.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/eureka(prod1)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![eureka2.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/eureka(prod2)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-    - ![monitor.png](https://github.com/zuihou/zuihou-admin-cloud/blob/master/doc/image/monitor(prod)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png?raw=true)
+    - ![eureka1.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod1)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+    - ![eureka2.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod2)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+    - ![monitor.png](https://github.com/zuihou/zuihou-admin-cloud/blob/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/monitor(prod)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png?raw=true)
     - 这里只演示其中几个服务， 剩余的服务，按照相同的方法配置
 
 - 5.2，按`顺序`运行main类：
@@ -322,11 +321,21 @@ RibbitMQ、FastDFS等主要框架和中间件。
 | zuihou-sms | 9751 | 9752 | ​​
 | zuihou-email | 9746 | 9747 | ​​
 
+## 项目截图：
+![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A21.png)
+![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A22.png)
+![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A23.png)
+![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A24.png)
+![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A25.png)
+![zikpin监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod1)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+![zikpin监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod1)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
+![admin-api.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-zipkin%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A21.png)
+![eureka-admin.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-zikpin%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A22.png)
 
 ## 常见报错：
  - 1，找不到fastdfs-client-java(1.27-SNAPSHOT) jar？
     - 答： 去附件(gitee)列表自行下载后安装到仓库即可
-    
+
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   
