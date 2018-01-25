@@ -51,6 +51,8 @@ spring:
     scheduled:
       skip-pattern: "^org.*HystrixStreamTask$"
   zipkin:
+    rabbitmq:
+      queue: zipkin1
     service:
       name: zuihou-zipkin
     locator:
