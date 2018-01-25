@@ -15,6 +15,7 @@ eureka:
     status-page-url-path: ${management.context-path}/info
     health-check-url-path: ${management.context-path}/health
     prefer-ip-address: true
+    status-page-url: http://gateway.zuihou.com:9770/api/admin/swagger-ui.html
 #    hostname: ${eureka.hostname:eureka.zuihou.com}    # 指定该Eureka实例的主机名
     metadata-map:
       user.name: ${security.user.name}

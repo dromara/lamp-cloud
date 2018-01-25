@@ -6,6 +6,7 @@ import com.github.zuihou.auth.common.jwt.TokenVo;
 import com.github.zuihou.auth.service.AuthService;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.exception.BizException;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("client")
+@Api(value = "客服端token申请", description = "客服端token申请， 用于各个内部微服务之间的token申请")
 public class AuthController {
     @Value("${jwt.token-header}")
     private String tokenHeader;

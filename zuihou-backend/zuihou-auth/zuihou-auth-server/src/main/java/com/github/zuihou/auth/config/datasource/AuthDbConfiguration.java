@@ -1,4 +1,4 @@
-package com.github.zuihou.auth.configuration.datasource;
+package com.github.zuihou.auth.config.datasource;
 
 
 import com.github.zuihou.core.spring.autoconfigure.datasource.DataSourceFactory;

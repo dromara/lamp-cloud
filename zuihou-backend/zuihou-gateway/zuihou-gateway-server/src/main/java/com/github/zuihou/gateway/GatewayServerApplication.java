@@ -12,8 +12,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients({"com.github.zuihou.geteway.feign",
-        "com.github.zuihou.auth.client.feign"})
+@EnableFeignClients({"com.github.zuihou.gateway.feign"})
 @EnableZuulProxy
 //@EnableScheduling
 //@EnableZuihouAuthClient

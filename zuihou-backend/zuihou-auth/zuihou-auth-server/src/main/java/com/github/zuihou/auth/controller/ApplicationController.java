@@ -5,6 +5,7 @@ import com.github.zuihou.auth.common.jwt.TokenVo;
 import com.github.zuihou.auth.service.ApplicationService;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.exception.BizException;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("app")
+@Api(value = "应用token申请", description = "对外第三方应用的token申请")
 public class ApplicationController {
     @Autowired
     private ApplicationService applicationService;

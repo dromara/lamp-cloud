@@ -28,7 +28,7 @@ CREATE TABLE `a_admin` (
   `name` varchar(255) DEFAULT '' COMMENT '昵称',
   `email` varchar(64) DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
-  `logo` varchar(255) DEFAULT '' COMMENT '头像',
+  `logo_url` varchar(255) DEFAULT '' COMMENT '头像',
   `is_enable` bit(1) DEFAULT b'1' COMMENT '是否禁用 \r\n  1：启用\r\n    0：禁用',
   `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除 \r\n  1：已删除\r\n   0：未删除',
   `description` varchar(255) DEFAULT '',

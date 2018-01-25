@@ -80,6 +80,7 @@ eureka:
     status-page-url-path: ${management.context-path}/info
     health-check-url-path: ${management.context-path}/health
     preferIpAddress: true
+    status-page-url: http://gateway.zuihou.com:9770/api/auth/swagger-ui.html
     ip-address: 127.0.0.1
     metadata-map:
       user.name: ${security.user.name}
@@ -126,3 +127,13 @@ client:
 
 id-generator:
   machine-code: 1  # id生成器机器掩码
+
+swagger2:
+  package: com.github.zuihou.admin.impl
+  service:
+    name: 认证服务
+    description: 认证服务，用于token管理
+    contact:
+      name: 最后
+      url: http://www.zuihou.com/
+      email: tangstruggle@sina.com
