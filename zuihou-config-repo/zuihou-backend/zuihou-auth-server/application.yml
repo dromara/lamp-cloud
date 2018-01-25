@@ -54,7 +54,7 @@ spring:
     password: guest
   zipkin:
     rabbitmq:
-      queue: zipkin1
+      queue: zipkin
 
 
 ribbon:
