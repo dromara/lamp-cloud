@@ -1,5 +1,5 @@
 info:
-  artifact: zuihou-admin
+  artifact: zuihou-admin-server
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'

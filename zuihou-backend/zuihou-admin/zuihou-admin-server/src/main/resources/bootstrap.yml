@@ -18,7 +18,7 @@ dev:
 
 spring:
   application:
-    name: zuihou-admin
+    name: zuihou-admin-server
   profiles:
     active: dev
   cloud:
