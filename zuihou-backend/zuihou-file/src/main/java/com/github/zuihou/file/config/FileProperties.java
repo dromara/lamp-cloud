@@ -3,6 +3,7 @@ package com.github.zuihou.file.config;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import static com.github.zuihou.file.config.FileProperties.FILE_PREFIX;
 
@@ -15,7 +16,7 @@ import static com.github.zuihou.file.config.FileProperties.FILE_PREFIX;
 @ConfigurationProperties(prefix = FILE_PREFIX)
 @Data
 @NoArgsConstructor
-//@Configuration
+@Configuration
 public class FileProperties {
     public static final String FILE_PREFIX = "zuihou.file";
     /**

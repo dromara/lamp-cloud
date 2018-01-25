@@ -16,7 +16,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * 一体化平台 中心数据库配置
+ * 统一平台 中心数据库配置
  *
  * @author zuihou
  * @createTime 2017-11-18 0:34
