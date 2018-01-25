@@ -52,6 +52,9 @@ spring:
     port: 5672
     username: guest
     password: guest
+  zipkin:
+    rabbitmq:
+      queue: zipkin1
 
 
 ribbon:
@@ -124,7 +127,6 @@ client:
     path: client/pri.key
   pub-key:
     path: client/pub.key
-
 
 id-generator:
   machine-code: 1  # id生成器机器掩码
