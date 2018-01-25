@@ -47,6 +47,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 利用Spring Boot Admin 来监控各个独立Service的运行状态；利用turbine来实时查看接口的运行状态和调用频率；通过Zipkin来查看各个服务之间的调用链等。
 
+## 项目架构图
+![frame.png](doc/image/项目相关/frame.jpg)
+![frame.jpg](doc/image/项目相关/frame.png)
 
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有 ：
@@ -322,20 +325,40 @@ RibbitMQ、FastDFS等主要框架和中间件。
 | zuihou-email | 9746 | 9747 | ​​
 
 ## 项目截图：
-![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A21.png)
-![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A22.png)
-![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A23.png)
-![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A24.png)
-![SBA监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-monitor%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A25.png)
-![zikpin监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod1)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-![zikpin监控.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/eureka(prod1)%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE.png)
-![admin-api.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-zipkin%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A21.png)
-![eureka-admin.png](https://raw.githubusercontent.com/zuihou/zuihou-admin-cloud/master/doc/image/%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A2/zuihou-zikpin%E7%9B%91%E6%8E%A7%E7%95%8C%E9%9D%A22.png)
+spring-boot-admin监控界面:
+![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面1.png)
+spring-boot-admin监控界面:
+![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面2.png)
+spring-boot-admin监控界面:
+![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面3.png)
+spring-boot-admin监控界面:
+![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面4.png)
+spring-boot-admin监控界面:
+![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面5.png)
+zipkin监控界面:
+![zipkin监控.png](doc/image/监控界面/zuihou-zipkin监控界面1.png)
+zipkin监控界面:
+![zipkin监控.png](doc/image/监控界面/zuihou-zipkin监控界面2.png)
+API 界面:
+![admin-api.png](doc/image/项目相关/admin-api.png)
+注册中心界面:
+![eureka注册中心界面.png](doc/image/项目相关/eureka注册中心界面.png)
 
 ## 常见报错：
  - 1，找不到fastdfs-client-java(1.27-SNAPSHOT) jar？
     - 答： 去附件(gitee)列表自行下载后安装到仓库即可
-
+ - 2, 很多依赖死活都下载不下来？
+    - 答： 由于spring-boot和spring-cloud等版本比较新，所以目前国内的一些仓库还没有新版本的jar。
+    需要配置spring的maven仓库。 （配置后还是无法下载，就先注释掉settings.xml中其他的仓库，只保留这个）
+``` 
+    <mirror>
+        <id>spring-milestones</id>
+        <name>Spring Milestones</name>
+        <url>https://repo.spring.io/libs-milestone</url>
+        <mirrorOf>central</mirrorOf>
+    </mirror>
+```
+    
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   
