@@ -9,3 +9,14 @@ logging:
   level:
     console: INFO
     filter: INFO
+
+spring:
+  rabbitmq:
+    host: zuihou.rabbitmq.host
+    port: 5672
+    password: guest
+    username: guest
+  redis:
+    host: zuihou.redis.host
+    port: 6379
+# rabbitMQ/Mysql/Redis ip，端口，帐号等根据环境自行修改。

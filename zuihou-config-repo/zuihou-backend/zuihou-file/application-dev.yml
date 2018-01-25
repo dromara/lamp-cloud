@@ -9,3 +9,8 @@ logging:
   level:
     console: INFO
     filter: INFO
+
+zuihou:
+  file:
+    upload-path: D:\home\uploadfile\
+    remote-uri-prefix: http://192.168.65.147:6080/

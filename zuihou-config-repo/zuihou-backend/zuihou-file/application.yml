@@ -7,15 +7,14 @@ fileServer:
 files:
   docservice:
     url: http://127.0.0.1/web-apps/apps/api/documents/api.js
-spring:
-  thymeleaf:
-    cache: false
 
 spring:
+  application:
+    name: zuihou-file-server
   profiles:
     active: dev
-  application:
-    name: zuihou-file
+  thymeleaf:
+    cache: false
   sleuth:
     sampler:
       percentage: 1
@@ -57,3 +56,8 @@ endpoints:
   health:
     enabled: true
     sensitive: true  # actuator的health接口是否需要安全保证
+
+zuihou:
+  file:
+    upload-path: /home/uploadfile/
+    remote-uri-prefix: http://192.168.65.147:6080/

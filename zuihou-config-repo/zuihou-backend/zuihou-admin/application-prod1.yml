@@ -12,10 +12,24 @@ logging:
     service: WARN
     sql: WARN
 
+spring:
+  rabbitmq:
+    host: zuihou.rabbitmq.host
+    port: 5672
+    password: guest
+    username: guest
+  redis:
+    host: zuihou.redis.host
+    port: 6379
 zuihou:
   mysql:
     admin:
       database: zuihou_admin_prod       # 根据环境更改
+    host: zuihou.mysql.host     # 根据环境更改
+    port: 3306                  # 根据环境更改
+    username: root              # 根据环境更改
+    password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
+# rabbitMQ/Mysql/Redis ip，端口，帐号等根据环境自行修改。
 
 id-generator:
   machine-code: 1  # id生成器机器掩码

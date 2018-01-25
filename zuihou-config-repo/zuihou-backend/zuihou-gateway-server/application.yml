@@ -100,6 +100,15 @@ zuul:
     auth:    # 其中 auth 是路由名称，可以随便定义，但是path和service-id需要一一对应
       path: /auth/**
       serviceId: zuihou-auth-server
+    file:
+      path: /file/**
+      serviceId: zuihou-file-server
+    file:
+      path: /mail/**
+      serviceId: zuihou-mail-server
+    file:
+      path: /sms/**
+      serviceId: zuihou-sms-server
 
 # 网关忽略拦截前缀（自定义）
 gateway:

@@ -18,7 +18,7 @@ dev:
 
 spring:
   application:
-    name: zuihou-file
+    name: zuihou-file-server
   profiles:
     active: dev
   cloud:

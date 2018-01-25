@@ -39,6 +39,7 @@ spring:
     time-zone: GMT+8
     default-property-inclusion: non_null
   redis:
+    key-prefix: dev
     database: 1
     host: zuihou.redis.host
     pool:
@@ -129,7 +130,7 @@ id-generator:
   machine-code: 1  # id生成器机器掩码
 
 swagger2:
-  package: com.github.zuihou.admin.impl
+  package: com.github.zuihou.auth.controller
   service:
     name: 认证服务
     description: 认证服务，用于token管理

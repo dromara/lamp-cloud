@@ -1,12 +1,7 @@
 info:
-  artifact: zuihou-file
+  artifact: zuihou-file-server
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
   spring-boot-version: '@spring.boot.version@'
   spring-cloud-version: '@spring.cloud.version@'
-
-zuihou:
-  file:
-    upload-path: /home/uploadfile/
-    remote-uri-prefix: http://192.168.65.147:6080/
