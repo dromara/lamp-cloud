@@ -2,8 +2,17 @@ server:
   port: 9775
 
 spring:
+  profiles:
+    active: dev
   redis:
     key-prefix: dev  # redis key的前缀， 环境的多个实例一定要配置一样（即prod1和prod2文件中需要配置一致）
+    database: 1
+    host: zuihou.redis.host
+  rabbitmq:
+    host: zuihou.rabbitmq.host
+    port: 5672
+    username: guest
+    password: guest
 
 zuihou:
   mysql:
@@ -17,3 +26,5 @@ logging:
 
 id-generator:
   machine-code: 1  # id生成器机器掩码
+
+# rabbitMQ/Mysql/Redis ip，端口，帐号等根据环境自行修改。

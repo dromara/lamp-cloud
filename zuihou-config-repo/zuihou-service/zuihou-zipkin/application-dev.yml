@@ -1,8 +1,17 @@
 spring:
   profiles:
     active: dev
+  rabbitmq:
+    host: zuihou.rabbitmq.host # 在hosts文件中配置地址
+    port: 5672
+    username: guest
+    password: guest
   datasource:
     url: jdbc:mysql://zuihou.mysql.host:3306/zuihou_zipkin_dev?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
+    username: root
+    password: root  # 这里不需要加密
+# rabbitMQ/Mysql/Redis ip，端口，帐号等根据环境自行修改。
+
 logging:
   common-pattern: '%d{HH:mm:ss.SSS}:[%5p] [%t] [%C{1}:%M:%L] --> %m%n'
   level:

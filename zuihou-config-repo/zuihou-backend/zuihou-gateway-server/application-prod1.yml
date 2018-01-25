@@ -11,3 +11,6 @@ logging:
   level:
     console: WARN
     filter: WARN
+
+
+# rabbitMQ/Mysql/Redis ip，端口，帐号等根据环境自行修改。

@@ -48,7 +48,6 @@ RibbitMQ、FastDFS等主要框架和中间件。
 利用Spring Boot Admin 来监控各个独立Service的运行状态；利用turbine来实时查看接口的运行状态和调用频率；通过Zipkin来查看各个服务之间的调用链等。
 
 ## 项目架构图
-![frame.png](doc/image/项目相关/frame.jpg)
 ![frame.jpg](doc/image/项目相关/frame.png)
 
 ## 技术栈/版本介绍：
@@ -179,7 +178,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ```
 - 4, 修改配置数据库/redis/rabbitMQ配置：
     - （画重点）修改配置需要各位自己在github或者gitee上创建自己的仓库，但目录结构需要和`zuihou-config-repo`的结构一致，
-      然后在修改`zuihou-config`服务`application.yml`中的`spring.cloud.config.server.git.uri:`项。
+      然后在修改`zuihou-config`服务`application.yml`中的`spring.cloud.config.server.git.uri:`项。（画重点）
     - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
     - zuihou-config-repo/zuihou-backend/zuihou-admin/application-dev.yml
     - zuihou-config-repo/zuihou-backend/zuihou-gateway-server/application-dev.yml
@@ -358,6 +357,8 @@ API 界面:
         <mirrorOf>central</mirrorOf>
     </mirror>
 ```
+ - 3, 很多类缺少get/set方法？
+    - 答：请用IDEA或Eclipse安装`lombok`插件
     
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
