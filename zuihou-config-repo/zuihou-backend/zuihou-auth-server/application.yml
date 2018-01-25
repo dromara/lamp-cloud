@@ -47,7 +47,7 @@ spring:
       max-idle: 8
       max-wait: 100
   rabbitmq:
-    host: rabbitmq.redis.host
+    host: zuihou.rabbitmq.host
     port: 5672
     username: guest
     password: guest
