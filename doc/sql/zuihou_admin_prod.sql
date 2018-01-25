@@ -175,7 +175,7 @@ INSERT INTO `a_resources` VALUES ('31', '10000', 'adminClient', '微服务客户
 INSERT INTO `a_resources` VALUES ('40', '10000', 'adminMonitor', '系统监控', 'SYSTEM_LEFT', '1', 'DIR', 'javascript:void(0);', 'GET', '_self', '', '0', '', ',40,', '', '\0', '', null, '', null);
 INSERT INTO `a_resources` VALUES ('41', '10000', 'adminAdminDruid', 'Admin Druid数据监控', 'SYSTEM_LEFT', '40', 'MENU', null, 'GET', '_self', '', '0', '', ',40,41,', '', '\0', '', null, '', null);
 INSERT INTO `a_resources` VALUES ('42', '10000', 'adminOpenDruid', 'Open Druid数据监控', 'SYSTEM_LEFT', '40', 'MENU', '', 'GET', '_self', '', '0', '', ',40,42,', '', '\0', '', null, '', null);
-INSERT INTO `a_resources` VALUES ('100', '10000', 'openSys', '数聚高新一体化平台', 'APP_LEFT', '-1', 'DIR', 'javascript:void(0);', 'GET', '_self', '', '0', '', ',', '', '\0', '', null, '', null);
+INSERT INTO `a_resources` VALUES ('100', '10000', 'openSys', '统一平台', 'APP_LEFT', '-1', 'DIR', 'javascript:void(0);', 'GET', '_self', '', '0', '', ',', '', '\0', '', null, '', null);
 INSERT INTO `a_resources` VALUES ('101', '10000', 'openBase', '基础配置', 'APP_LEFT', '100', 'DIR', 'javascript:void(0);', 'GET', '_self', '', '0', '', ',101,', '', '\0', '', null, '', null);
 INSERT INTO `a_resources` VALUES ('102', '10000', 'openUser', '用户管理', 'APP_LEFT', '101', 'MENU', '', 'GET', '_self', '', '0', '', ',101,102,', '', '\0', '', null, '', null);
 INSERT INTO `a_resources` VALUES ('103', '10000', 'openMenuGroup', '菜单组管理', 'APP_LEFT', '101', 'MENU', '', 'GET', '_self', '', '0', '', ',101,103,', '', '\0', '', null, '', null);

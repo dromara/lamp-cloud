@@ -237,7 +237,7 @@ upstream fdfs_group2 {
 
 server {
         listen 6080;
-        #server_name www.zuihou.com;  # Here to modify the domain name by tangyh
+        #server_name www.zuihou.com;  # Here to modify the domain name by 
         server_name 192.168.65.141;
         server_tokens off;
 
@@ -386,9 +386,5 @@ fdhtd: error while loading shared libraries: libdb-6.2.so: cannot open shared ob
 | /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg | 测试上传                                     |
 
 
-/usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/tyh/fastdfs_src/a.jpg
-/usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/tyh/fastdfs_src/b.jpg
-/usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/tyh/fastdfs_src/aaa.png
-​    
 
 telnet 192.168.0.1 22122 连接成功则说明可以正常访问fastdfs服务了。

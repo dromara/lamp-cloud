@@ -180,7 +180,7 @@ upstream fdfs_group2 {
 
 server {
         listen 6080;
-        #server_name www.zuihou.com;  # Here to modify the domain name by tangyh
+        #server_name www.zuihou.com;  # Here to modify the domain name by 
         server_name 123.249.76.119;
         server_tokens off;
 
