@@ -33,11 +33,10 @@ zipkin:
     type: mysql
   collector:
     rabbitmq:
-      addresses: zuihou.rabbitmq.host
-      port: 5672
+      addresses: zuihou.rabbitmq.host:5672
       username: guest
       password: guest
-      queue: zipkin1
+      queue: zipkin
 
 server:
   port: 8510
