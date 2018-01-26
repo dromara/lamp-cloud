@@ -33,7 +33,7 @@ zipkin:
     type: mysql
   collector:
     http:
-      enabled: false
+      enabled: true  # 这里开启了http模式，不确定是走rabbitmq，还是http 进行监控的
     rabbitmq:
       addresses: zuihou.rabbitmq.host:5672
       username: guest
