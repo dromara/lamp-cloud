@@ -53,6 +53,12 @@ spring:
     username: guest
     password: guest
   zipkin:
+    base-url: http://zuihou-zipkin:8510
+    locator:
+      discovery:
+        enabled: true
+    service:
+      name: ${spring.application.name}
     rabbitmq:
       queue: zipkin
 

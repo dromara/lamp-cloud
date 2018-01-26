@@ -6,3 +6,14 @@ info:
   spring-boot-version: '@spring.boot.version@'
   spring-cloud-version: '@spring.cloud.version@'
 
+#zipkin:
+#  storage:
+#    type: mysql
+#  collector:
+#    http:
+#      enabled: false
+#    rabbitmq:
+#      addresses: zuihou.rabbitmq.host:5672
+#      username: guest
+#      password: guest
+#      queue: zipkin

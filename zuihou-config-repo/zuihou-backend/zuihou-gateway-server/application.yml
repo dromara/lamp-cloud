@@ -51,13 +51,14 @@ spring:
     scheduled:
       skip-pattern: "^org.*HystrixStreamTask$"
   zipkin:
-    rabbitmq:
-      queue: zipkin
-    service:
-      name: zuihou-zipkin
+    base-url: http://zuihou-zipkin:8510
     locator:
       discovery:
         enabled: true
+    service:
+      name: ${spring.application.name}
+    rabbitmq:
+      queue: zipkin
 
 management:
   security:

@@ -32,6 +32,8 @@ zipkin:
   storage:
     type: mysql
   collector:
+    http:
+      enabled: false
     rabbitmq:
       addresses: zuihou.rabbitmq.host:5672
       username: guest

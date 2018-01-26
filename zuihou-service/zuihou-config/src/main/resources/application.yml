@@ -32,14 +32,13 @@ spring:
       server:
         git:
           uri: https://gitee.com/zuihou111/zuihou-admin-cloud
+#          uri: https://gitee.com/zuihou111/zuihou-admin-cloud-config-repo
           search-paths: zuihou-config-repo/*/{application}
   rabbitmq:
     host: zuihou.rabbitmq.host
     port: 5672
     password: guest
     username: guest
-
-
 
 management:
   security:
