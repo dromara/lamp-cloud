@@ -48,7 +48,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 利用Spring Boot Admin 来监控各个独立Service的运行状态；利用turbine来实时查看接口的运行状态和调用频率；通过Zipkin来查看各个服务之间的调用链等。
 
 ## 项目架构图
-![frame.jpg](doc/image/项目相关/frame.png)
+![frame.jpg](doc/image/项目相关/frame.jpg)
 
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有 ：
