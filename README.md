@@ -229,8 +229,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 127.0.0.1 base1.zuihou.com base2.zuihou.com
 127.0.0.1 gateway1.zuihou.com gateway2.zuihou.com
 127.0.0.1 auth1.zuihou.com auth2.zuihou.com
-127.0.0.1 monitor1.zuihou.com monitor2.zuihou.com
-127.0.0.1 zipkin1.zuihou.com zipkin2.zuihou.com zuihou-zipkin
+127.0.0.1 monitor.zuihou.com
+127.0.0.1 zipkin.zuihou.com zuihou-zipkin
 
 127.0.0.1 zuihou.rabbitmq.host
 127.0.0.1 zuihou.mysql.host
