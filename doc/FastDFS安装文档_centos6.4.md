@@ -386,5 +386,8 @@ fdhtd: error while loading shared libraries: libdb-6.2.so: cannot open shared ob
 | /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg | 测试上传                                     |
 
 
+永久关闭防火墙：
+sudo chkconfig iptables off 
+service iptables stop
 
 telnet 192.168.0.1 22122 连接成功则说明可以正常访问fastdfs服务了。
