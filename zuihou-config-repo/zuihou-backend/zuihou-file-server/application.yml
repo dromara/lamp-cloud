@@ -130,9 +130,6 @@ auth:
 id-generator:
   machine-code: 1
 
-# 数据库
-zuihou:
-
 # 文件上传相关信息
 zuihou:
   mysql:
