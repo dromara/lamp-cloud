@@ -385,6 +385,11 @@ fdhtd: error while loading shared libraries: libdb-6.2.so: cannot open shared ob
 | /usr/bin/fdfs_monitor /etc/fdfs/storage.conf | 看storage服务器是否已经登记到 tracker服务器(192.168.65.141  ACTIVE代表已登记成功) |
 | /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg | 测试上传                                     |
 
+查看fdfs和fdht拥有那些命令
+ls /usr/bin/fdfs_*
+ls /usr/local/bin/fdht*
+
+http://blog.csdn.net/pzw_0612/article/details/52610328
 
 永久关闭防火墙：
 sudo chkconfig iptables off 

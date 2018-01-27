@@ -116,7 +116,7 @@ hystrix:
             timeoutInMilliseconds: 10000
 
 swagger2:
-  package: com.github.zuihou.admin.impl
+  package: com.github.zuihou.admin.rest
   service:
     name: admin 后台管理 服务
     description: 后台管理服务

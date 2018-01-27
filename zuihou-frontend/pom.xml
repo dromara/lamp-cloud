@@ -11,14 +11,11 @@
     <artifactId>zuihou-frontend</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
-    <description>zuihou-front 前端父pom. </description>
+    <description>zuihou-front 前端父pom</description>
 
 
     <modules>
-        <!-- <module>zuihou-common</module>
-        <module>zuihou-service</module>
-        <module>zuihou-backend</module>
-        <module>zuihou-frontend</module> -->
+        <module>zuihou-manage-center</module>
     </modules>
 
 </project>
