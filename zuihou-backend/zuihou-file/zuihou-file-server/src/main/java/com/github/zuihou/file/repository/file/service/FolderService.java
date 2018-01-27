@@ -5,7 +5,7 @@ import com.github.zuihou.file.entity.file.po.ZhFolder;
 import com.github.zuihou.file.repository.file.example.ZhFolderExample;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-26 23:05
  */
 public interface FolderService extends BaseService<Long, ZhFolder, ZhFolderExample> {

@@ -1,7 +1,7 @@
 package com.github.zuihou.file.rest;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-27 22:56
  */
 public class FileDirectory {

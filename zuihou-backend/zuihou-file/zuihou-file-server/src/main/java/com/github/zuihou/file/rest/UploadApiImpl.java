@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * api上传文件接口， 跟FileApiImpl的不同之处在于这里提供给前端接口
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-27 20:00
  */
 @Api(value = "API - UploadApiImpl", description = "文件管理")
