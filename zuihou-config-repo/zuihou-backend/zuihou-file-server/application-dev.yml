@@ -15,9 +15,6 @@ zuihou:
     port: 3306                  # 根据环境更改
     username: root              # 根据环境更改
     password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
-
-# 文件上传相关信息
-zuihou:
   file:
     upload-path-prefix: D:\home\uploadfile\
     remote-uri-prefix: http://192.168.65.147:6080/
