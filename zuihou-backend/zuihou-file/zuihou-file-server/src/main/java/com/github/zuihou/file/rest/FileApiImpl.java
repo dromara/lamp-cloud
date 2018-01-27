@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * 文件管理的接口，跟UploadApiImpl的不同之处在于这里提供给文件管理系统
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-26 22:59
  */
 @Api(value = "API - FileApiImpl", description = "文件管理")
