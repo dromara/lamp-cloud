@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.file.repository.file.dao.ZhFileMapper">
+  <resultMap id="BaseResultMap" type="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="folder_id" jdbcType="BIGINT" property="folderId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="object_id" jdbcType="VARCHAR" property="objectId" />
+    <result column="namespace" jdbcType="VARCHAR" property="namespace" />
+    <result column="u_key" jdbcType="VARCHAR" property="uKey" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="absolute_path" jdbcType="VARCHAR" property="absolutePath" />
+    <result column="relative_path" jdbcType="VARCHAR" property="relativePath" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+    <result column="mime" jdbcType="VARCHAR" property="mime" />
+    <result column="submitted_file_name" jdbcType="VARCHAR" property="submittedFileName" />
+    <result column="ext" jdbcType="VARCHAR" property="ext" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+    @mbggenerated
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+    @mbggenerated
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, app_id, folder_id, type, object_id, namespace, u_key, url, absolute_path, relative_path, 
+    filename, mime, submitted_file_name, ext, size, icon, create_time, create_name, update_time, 
+    update_name
+  </sql>
+  <select id="selectByExample" parameterType="com.github.zuihou.file.repository.file.example.ZhFileExample" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from f_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitValue != null">
+      limit ${limitValue}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from f_file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectEntity" parameterType="com.github.zuihou.file.repository.file.example.ZhFileExample" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from f_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 0,1 
+  </select>
+  <select id="selectByAppIdAndId" parameterType="map" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <include refid="Base_Column_List" />
+    from f_file
+    where 1=1 and app_id = #{appId,jdbcType=VARCHAR} and id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByAppIdAndId" parameterType="java.lang.Long">
+    <!--
+    @mbggenerated
+    -->
+    delete from f_file
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.github.zuihou.file.repository.file.example.ZhFileExample">
+    <!--
+    @mbggenerated
+    -->
+    delete from f_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <delete id="deleteByAppIdAndIds" parameterType="list">
+    <!--
+    @mbggenerated
+    -->
+    delete from  f_file where id in 
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach> 
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </delete>
+  <update id="removeByExample" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    update f_file
+    set is_delete = 1 
+
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="removeByAppIdAndIds" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    update f_file
+    set is_delete = 1 
+ where 1=1 and id in 
+ <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+    #{item}
+  </foreach>
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <update id="removeByAppIdAndId" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    update f_file
+    set is_delete = 1 
+
+     where 1=1 and id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    insert into f_file (id, app_id, folder_id, 
+      type, object_id, namespace, 
+      u_key, url, absolute_path, 
+      relative_path, filename, mime, 
+      submitted_file_name, ext, size, 
+      icon, create_time, create_name, 
+      update_time, update_name)
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{folderId,jdbcType=BIGINT}, 
+      #{type,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{namespace,jdbcType=VARCHAR}, 
+      #{uKey,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{absolutePath,jdbcType=VARCHAR}, 
+      #{relativePath,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{mime,jdbcType=VARCHAR}, 
+      #{submittedFileName,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="batchInsert" parameterType="java.util.List">
+    <!--
+    @mbggenerated
+    -->
+    insert into f_file (id, app_id, folder_id, type, object_id, namespace, u_key, url, absolute_path, relative_path, filename, mime, submitted_file_name, ext, size, icon, create_time, create_name, update_time, update_name ) values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.appId,jdbcType=VARCHAR}, #{item.folderId,jdbcType=BIGINT}, 
+        #{item.type,jdbcType=VARCHAR}, #{item.objectId,jdbcType=VARCHAR}, #{item.namespace,jdbcType=VARCHAR}, 
+        #{item.uKey,jdbcType=VARCHAR}, #{item.url,jdbcType=VARCHAR}, #{item.absolutePath,jdbcType=VARCHAR}, 
+        #{item.relativePath,jdbcType=VARCHAR}, #{item.filename,jdbcType=VARCHAR}, #{item.mime,jdbcType=VARCHAR}, 
+        #{item.submittedFileName,jdbcType=VARCHAR}, #{item.ext,jdbcType=VARCHAR}, #{item.size,jdbcType=VARCHAR}, 
+        #{item.icon,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createName,jdbcType=VARCHAR}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateName,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    insert into f_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="folderId != null">
+        folder_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="objectId != null">
+        object_id,
+      </if>
+      <if test="namespace != null">
+        namespace,
+      </if>
+      <if test="uKey != null">
+        u_key,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="absolutePath != null">
+        absolute_path,
+      </if>
+      <if test="relativePath != null">
+        relative_path,
+      </if>
+      <if test="filename != null">
+        filename,
+      </if>
+      <if test="mime != null">
+        mime,
+      </if>
+      <if test="submittedFileName != null">
+        submitted_file_name,
+      </if>
+      <if test="ext != null">
+        ext,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createName != null">
+        create_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateName != null">
+        update_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="folderId != null">
+        #{folderId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null">
+        #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="namespace != null">
+        #{namespace,jdbcType=VARCHAR},
+      </if>
+      <if test="uKey != null">
+        #{uKey,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="absolutePath != null">
+        #{absolutePath,jdbcType=VARCHAR},
+      </if>
+      <if test="relativePath != null">
+        #{relativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="mime != null">
+        #{mime,jdbcType=VARCHAR},
+      </if>
+      <if test="submittedFileName != null">
+        #{submittedFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null">
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateName != null">
+        #{updateName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.github.zuihou.file.repository.file.example.ZhFileExample" resultType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    select count(*) from f_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+    @mbggenerated
+    -->
+    update f_file
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.folderId != null">
+        folder_id = #{record.folderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objectId != null">
+        object_id = #{record.objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.namespace != null">
+        namespace = #{record.namespace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uKey != null">
+        u_key = #{record.uKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.absolutePath != null">
+        absolute_path = #{record.absolutePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relativePath != null">
+        relative_path = #{record.relativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filename != null">
+        filename = #{record.filename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mime != null">
+        mime = #{record.mime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submittedFileName != null">
+        submitted_file_name = #{record.submittedFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext != null">
+        ext = #{record.ext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null">
+        size = #{record.size,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createName != null">
+        create_name = #{record.createName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateName != null">
+        update_name = #{record.updateName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+    @mbggenerated
+    -->
+    update f_file
+    set id = #{record.id,jdbcType=BIGINT},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      folder_id = #{record.folderId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=VARCHAR},
+      object_id = #{record.objectId,jdbcType=VARCHAR},
+      namespace = #{record.namespace,jdbcType=VARCHAR},
+      u_key = #{record.uKey,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      absolute_path = #{record.absolutePath,jdbcType=VARCHAR},
+      relative_path = #{record.relativePath,jdbcType=VARCHAR},
+      filename = #{record.filename,jdbcType=VARCHAR},
+      mime = #{record.mime,jdbcType=VARCHAR},
+      submitted_file_name = #{record.submittedFileName,jdbcType=VARCHAR},
+      ext = #{record.ext,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_name = #{record.createName,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_name = #{record.updateName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByAppIdAndIdSelective" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    update f_file
+    <set>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="folderId != null">
+        folder_id = #{folderId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null">
+        object_id = #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="namespace != null">
+        namespace = #{namespace,jdbcType=VARCHAR},
+      </if>
+      <if test="uKey != null">
+        u_key = #{uKey,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="absolutePath != null">
+        absolute_path = #{absolutePath,jdbcType=VARCHAR},
+      </if>
+      <if test="relativePath != null">
+        relative_path = #{relativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="mime != null">
+        mime = #{mime,jdbcType=VARCHAR},
+      </if>
+      <if test="submittedFileName != null">
+        submitted_file_name = #{submittedFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null">
+        ext = #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createName != null">
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByAppIdAndId" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
+    <!--
+    @mbggenerated
+    -->
+    update f_file
+    set app_id = #{appId,jdbcType=VARCHAR},
+      folder_id = #{folderId,jdbcType=BIGINT},
+      type = #{type,jdbcType=VARCHAR},
+      object_id = #{objectId,jdbcType=VARCHAR},
+      namespace = #{namespace,jdbcType=VARCHAR},
+      u_key = #{uKey,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      absolute_path = #{absolutePath,jdbcType=VARCHAR},
+      relative_path = #{relativePath,jdbcType=VARCHAR},
+      filename = #{filename,jdbcType=VARCHAR},
+      mime = #{mime,jdbcType=VARCHAR},
+      submitted_file_name = #{submittedFileName,jdbcType=VARCHAR},
+      ext = #{ext,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_name = #{createName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_name = #{updateName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+</mapper>

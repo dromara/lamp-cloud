@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.file.repository.file.dao.ZhFolderMapper">
+  <resultMap id="BaseResultMap" type="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+    @mbggenerated
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+    @mbggenerated
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, app_id, name, order_num, parent_id, create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.github.zuihou.file.repository.file.example.ZhFolderExample" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from f_folder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitValue != null">
+      limit ${limitValue}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from f_folder
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectEntity" parameterType="com.github.zuihou.file.repository.file.example.ZhFolderExample" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from f_folder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 0,1 
+  </select>
+  <select id="selectByAppIdAndId" parameterType="map" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <include refid="Base_Column_List" />
+    from f_folder
+    where 1=1 and app_id = #{appId,jdbcType=VARCHAR} and id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByAppIdAndId" parameterType="java.lang.Long">
+    <!--
+    @mbggenerated
+    -->
+    delete from f_folder
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.github.zuihou.file.repository.file.example.ZhFolderExample">
+    <!--
+    @mbggenerated
+    -->
+    delete from f_folder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <delete id="deleteByAppIdAndIds" parameterType="list">
+    <!--
+    @mbggenerated
+    -->
+    delete from  f_folder where id in 
+    <foreach collection="list" open="(" close=")" index="index" item="item" separator=",">
+      #{item}
+    </foreach> 
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </delete>
+  <update id="removeByExample" parameterType="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    update f_folder
+    set is_delete = 1 
+
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="removeByAppIdAndIds" parameterType="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    update f_folder
+    set is_delete = 1 
+ where 1=1 and id in 
+ <foreach collection="list" open="(" close=")" index="index" item="item" separator=",">
+    #{item}
+  </foreach>
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <update id="removeByAppIdAndId" parameterType="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    update f_folder
+    set is_delete = 1 
+
+     where 1=1 and id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    insert into f_folder (id, app_id, name, 
+      order_num, parent_id, create_time, 
+      create_user, update_time, update_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{orderNum,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="batchInsert" parameterType="java.util.List">
+    <!--
+    @mbggenerated
+    -->
+    insert into f_folder (id, app_id, name, order_num, parent_id, create_time, create_user, update_time, update_user ) values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.appId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.orderNum,jdbcType=INTEGER}, #{item.parentId,jdbcType=BIGINT}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.createUser,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateUser,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    insert into f_folder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.github.zuihou.file.repository.file.example.ZhFolderExample" resultType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    select count(*) from f_folder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+    @mbggenerated
+    -->
+    update f_folder
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNum != null">
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+    @mbggenerated
+    -->
+    update f_folder
+    set id = #{record.id,jdbcType=BIGINT},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByAppIdAndIdSelective" parameterType="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    update f_folder
+    <set>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByAppIdAndId" parameterType="com.github.zuihou.file.entity.file.po.ZhFolder">
+    <!--
+    @mbggenerated
+    -->
+    update f_folder
+    set app_id = #{appId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+     and app_id = #{appId,jdbcType=VARCHAR}
+  </update>
+</mapper>
