@@ -1,9 +1,9 @@
 # zuihou-admin-cloud
 
- 测试分支
+ 测试 Edgware　相关功能
 
 ## 简介：
-基于`SpringCloud(Finchley.M2)`  + `SpringBoot(2.0.0.M2)` 的微服务 SaaS 开发平台，
+基于`SpringCloud(Edgware.RELEASE)`  + `SpringBoot(1.5.9.RELEASE)` 的微服务 SaaS 开发平台，
 具有统一授权、认证后台管理系统，其中包含具备用户管理、配置中心、存储系统、资源权限管理、
 网关API、OpenAPI管理、日志分析、任务和通知等多个模块，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。
