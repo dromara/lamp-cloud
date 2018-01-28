@@ -29,6 +29,7 @@ spring:
     name: zuihou-config
   cloud:
     config:
+      label: Edgware
       server:
         git:
           uri: https://gitee.com/zuihou111/zuihou-admin-cloud
@@ -57,6 +58,7 @@ endpoints:
     enabled: true
     sensitive: true  # actuator的health接口是否需要安全保证
 
+# info 信息放在仓库中，无法动态获取属性
 info:
   artifact: zuihou-config
   name: '@project.name@'

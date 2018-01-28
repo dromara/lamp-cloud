@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.0.M2</version>
+        <version>1.5.9.RELEASE</version>
     </parent>
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>MyEdgware.M1</version>
     <url>https://gitee.com/zuihou111/zuihou-admin-cloud</url>
     <name>${project.artifactId}</name>
     <description>zuihou-admin-cloud父pom, 对jar版本，仓库进行管理</description>
@@ -42,14 +42,10 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.version>5.0.2.RELEASE</spring.version>
-        <!--<spring.version>5.0.0.RC2</spring.version>-->
+        <!--<spring.version>5.0.2.RELEASE</spring.version>-->
         <spring.boot.admin.version>1.5.6</spring.boot.admin.version>
-        <!-- 不知道Finchley.M5改变了什么，一个简单的例子都无法启动 -->
-        <!--<spring.boot.version>2.0.0.M7</spring.boot.version>-->
-        <!--<spring.cloud.version>Finchley.M5</spring.cloud.version>-->
-        <spring.boot.version>2.0.0.M2</spring.boot.version>
-        <spring.cloud.version>Finchley.M2</spring.cloud.version>
+        <spring.boot.version>1.5.9.RELEASE</spring.boot.version>
+        <spring.cloud.version>Edgware.RELEASE</spring.cloud.version>
         <!--<spring.boot.version>2.0.0.M5</spring.boot.version>-->
         <!--<spring.cloud.version>Finchley.M3</spring.cloud.version>-->
         <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
@@ -64,6 +60,7 @@
         <lombok.version>1.16.20</lombok.version>
         <dozer.version>5.5.1</dozer.version>
         <commons.fileupload.version>1.3.3</commons.fileupload.version>
+        <commons-lang3.version>3.6</commons-lang3.version>
         <commons.io.version>2.6</commons.io.version> <!-- excel -->
         <commons.beanutils.version>1.9.3</commons.beanutils.version>
         <poi.ooxml.version>3.17</poi.ooxml.version>
@@ -194,6 +191,11 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons.fileupload.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>

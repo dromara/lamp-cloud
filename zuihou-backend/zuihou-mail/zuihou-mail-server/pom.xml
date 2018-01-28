@@ -5,13 +5,13 @@
     <parent>
         <artifactId>zuihou-mail</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>MyEdgware.M1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-mail-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
+
 
     <name>${project.artifactId}</name>
     <description>邮件系统服务</description>
@@ -77,20 +77,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-netflix-hystrix-stream</artifactId>
         </dependency>
-        <!-- 日志收集工具包，封装了Dapper和log-based追踪以及Zipkin和HTrace操作，
-              为SpringCloud应用实现了一种分布式追踪解决方案。 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-stream</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
@@ -101,6 +88,29 @@
             <artifactId>jolokia-core</artifactId>
         </dependency>
         <!-- 以上的jar主要用在 spring-boot-admin + zipkin 监控 end  -->
+
+        <!-- 日志收集工具包，封装了Dapper和log-based追踪以及Zipkin和HTrace操作，
+              为SpringCloud应用实现了一种分布式追踪解决方案。 -->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-sleuth</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-sleuth-stream</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-stream-binder-rabbit</artifactId>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

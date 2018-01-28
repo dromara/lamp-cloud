@@ -1,3 +1,4 @@
+# info 信息放在仓库中，无法动态获取属性
 info:
   artifact: zuiou-gateway-server
   name: '@project.name@'

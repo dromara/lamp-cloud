@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableZuihouAuthClient
 public class FileManagerApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(FileManagerApplication.class, args);
     }

@@ -28,7 +28,6 @@
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
 
-    <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <!--<include resource="org/springframework/boot/logging/logback/base.xml"/>-->

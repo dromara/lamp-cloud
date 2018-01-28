@@ -24,7 +24,7 @@ spring:
   cloud:
     config:
       profile: ${spring.profiles.active}
-      label: master
+      label: Edgware
 #      uri: http://config.zuihou.com:8888
       discovery:
         enabled: true

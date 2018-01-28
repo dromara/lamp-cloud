@@ -1,5 +1,6 @@
 package com.github.zuihou.file.rest;
 
+import com.github.zuihou.auth.client.annotation.IgnoreAppToken;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.commons.context.BaseContextHandler;
 import com.github.zuihou.file.config.FileProperties;
@@ -19,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,20 +55,28 @@ public class UploadApiImpl {
     private DozerUtils dozerUtils;
     @Autowired
     private FileProperties fileProperties;
+    @Value("${hello:def}")
+    private String hello;
+
+    @RequestMapping("test")
+    @IgnoreAppToken
+    public Object list(String name) {
+    System.out.println("-----------" + hello);
+        return null;
+    }
 
 
     /**
      * 上传文件(支持批量)
      * * 1，先将文件存在本地,并且生成文件名
      * * 2，然后在上传到fastdfs
-     *
+     * <p>
      * 还没找到swagger 如何支持 多文件上传的配置。 有解决方法的朋友给我留言
-     *
      */
     @ApiOperation(value = "文件上传", notes = "文件上传")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "类型", dataType = "string", paramType = "query", example = "API,SYSTEM", defaultValue = "API"),
-            @ApiImplicitParam(name = "file0", value = "文件1", dataType="string", paramType = "query"),
+            @ApiImplicitParam(name = "file0", value = "文件1", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "file1", value = "文件2", dataTypeClass = MultipartFile.class, paramType = "query")
     })
     @RequestMapping(value = "list", method = RequestMethod.POST)
@@ -139,7 +149,9 @@ public class UploadApiImpl {
         }
     }
 
-    /** 测试 swagger2 如何支持文件 */
+    /**
+     * 测试 swagger2 如何支持文件
+     */
     @ApiOperation(value = "单文件上传文件")
     @RequestMapping(value = "u2", method = RequestMethod.POST)
     public Result<UploadFileDto> upload2(
@@ -148,7 +160,10 @@ public class UploadApiImpl {
         System.out.println("---");
         return null;
     }
-    /** 测试 swagger2 如何支持文件 */
+
+    /**
+     * 测试 swagger2 如何支持文件
+     */
     @ApiOperation(value = "单文件上传文件")
     @RequestMapping(value = "u3", method = RequestMethod.POST)
     public Result<UploadFileDto> uploa3(

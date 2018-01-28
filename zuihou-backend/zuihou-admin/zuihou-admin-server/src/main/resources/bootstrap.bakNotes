@@ -24,7 +24,7 @@ spring:
   cloud:
     config:
       profile: ${spring.profiles.active}
-      label: master
+      label: Edgware
       # uri: http://config.zuihou.com:8888  # ConfigServer的服务地址，实现高可用比较麻烦
       # 配置ConfigServer注册到eureka中的服务名，实现高可用
       discovery:

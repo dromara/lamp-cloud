@@ -24,7 +24,7 @@ spring:
   cloud:
     config:
       profile: ${spring.profiles.active}
-      label: master
+      label: Edgware
       discovery:
         enabled: true
         service-id: zuihou-config

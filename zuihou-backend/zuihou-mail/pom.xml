@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-backend</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>MyEdgware.M1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

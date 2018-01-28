@@ -3,8 +3,8 @@ server:
 
 eureka:
   instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
+#    status-page-url-path: ${management.context-path}/info
+#    health-check-url-path: ${management.context-path}/health
 #    prefer-ip-address: true
 #    hostname: ${eureka.hostname:eureka.zuihou.com}    # 指定该Eureka实例的主机名
     metadata-map:
