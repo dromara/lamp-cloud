@@ -6,6 +6,7 @@ import com.github.zuihou.file.config.FileProperties;
 import com.github.zuihou.file.entity.file.po.ZhFile;
 import com.github.zuihou.file.repository.file.service.FileService;
 import com.github.zuihou.file.rest.dozer.DozerUtils;
+import com.github.zuihou.file.rest.file.constant.FileType;
 import com.github.zuihou.file.rest.file.dto.UploadFileDto;
 import com.github.zuihou.file.rest.file.dto.UploadListDto;
 import com.github.zuihou.file.support.FileModel;
@@ -58,10 +59,13 @@ public class UploadApiImpl {
      * 上传文件(支持批量)
      * * 1，先将文件存在本地,并且生成文件名
      * * 2，然后在上传到fastdfs
+     *
+     * 还没找到swagger 如何支持 多文件上传的配置。 有解决方法的朋友给我留言
+     *
      */
     @ApiOperation(value = "文件上传", notes = "文件上传")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "type", value = "类型", dataType = "string", paramType = "query", example = "API,PAN"),
+            @ApiImplicitParam(name = "type", value = "类型", dataType = "string", paramType = "query", example = "API,SYSTEM", defaultValue = "API"),
             @ApiImplicitParam(name = "file0", value = "文件1", dataType="string", paramType = "query"),
             @ApiImplicitParam(name = "file1", value = "文件2", dataTypeClass = MultipartFile.class, paramType = "query")
     })
@@ -70,7 +74,7 @@ public class UploadApiImpl {
         try {
             String appId = BaseContextHandler.getAppId();
             String userName = BaseContextHandler.getUserName();
-            type = StringUtils.isEmpty(type) ? "" : type;
+            type = StringUtils.isEmpty(type) ? FileType.API.toString() : type;
 
             // Servlet3.0方式上传文件
             Collection<Part> parts = request.getParts();
@@ -135,6 +139,7 @@ public class UploadApiImpl {
         }
     }
 
+    /** 测试 swagger2 如何支持文件 */
     @ApiOperation(value = "单文件上传文件")
     @RequestMapping(value = "u2", method = RequestMethod.POST)
     public Result<UploadFileDto> upload2(
@@ -143,6 +148,7 @@ public class UploadApiImpl {
         System.out.println("---");
         return null;
     }
+    /** 测试 swagger2 如何支持文件 */
     @ApiOperation(value = "单文件上传文件")
     @RequestMapping(value = "u3", method = RequestMethod.POST)
     public Result<UploadFileDto> uploa3(
