@@ -6,13 +6,6 @@ logging:
     console: INFO
     filter: INFO
 
-info:
-  artifact: zuiou-gateway-server
-  name: '@project.name@'
-  description: '@project.description@'
-  version: '@project.version@'
-  spring-boot-version: '@spring.boot.version@'
-  spring-cloud-version: '@spring.cloud.version@'
 
 server:
   port: 9770 #启动端口
@@ -102,7 +95,7 @@ zuul:
         - origin
         - url
   routes:  # 路由配置方式
-    open:  # 其中 back 是路由名称，可以随便定义，但是path和service-id需要一一对应
+    base:  # 其中 back 是路由名称，可以随便定义，但是path和service-id需要一一对应
       path: /base/**
       serviceId: zuihou-base-server
     admin:  # 其中 admin 是路由名称，可以随便定义，但是path和service-id需要一一对应
@@ -114,10 +107,10 @@ zuul:
     file:
       path: /file/**
       serviceId: zuihou-file-server
-    file:
+    mail:
       path: /mail/**
       serviceId: zuihou-mail-server
-    file:
+    sms:
       path: /sms/**
       serviceId: zuihou-sms-server
 

@@ -146,11 +146,3 @@ swagger2:
       name: 最后
       url: http://www.zuihou.com/
       email: tangstruggle@sina.com
-
-info:
-  artifact: zuihou-auth-server
-  name: '@project.name@'
-  description: '@project.description@'
-  version: '@project.version@'
-  spring-boot-version: '@spring.boot.version@'
-  spring-cloud-version: '@spring.cloud.version@'

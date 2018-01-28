@@ -10,6 +10,7 @@ logging:
 
 server:
   port: 9765
+
 eureka:
   instance:
 #    status-page-url-path: ${management.context-path}/info
@@ -142,11 +143,3 @@ auth:
 id-generator:
   machine-code: 1  # id生成器机器掩码
 
-
-info:
-  artifact: zuihou-admin-server
-  name: '@project.name@'
-  description: '@project.description@'
-  version: '@project.version@'
-  spring-boot-version: '@spring.boot.version@'
-  spring-cloud-version: '@spring.cloud.version@'
