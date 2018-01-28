@@ -42,13 +42,16 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.version>5.0.0.RC2</spring.version>
+        <spring.version>5.0.2.RELEASE</spring.version>
+        <!--<spring.version>5.0.0.RC2</spring.version>-->
         <spring.boot.admin.version>1.5.6</spring.boot.admin.version>
         <!-- 不知道Finchley.M5改变了什么，一个简单的例子都无法启动 -->
         <!--<spring.boot.version>2.0.0.M7</spring.boot.version>-->
         <!--<spring.cloud.version>Finchley.M5</spring.cloud.version>-->
         <spring.boot.version>2.0.0.M2</spring.boot.version>
         <spring.cloud.version>Finchley.M2</spring.cloud.version>
+        <!--<spring.boot.version>2.0.0.M5</spring.boot.version>-->
+        <!--<spring.cloud.version>Finchley.M3</spring.cloud.version>-->
         <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
         <mybatis.srping.boot.version>1.3.1</mybatis.srping.boot.version>
         <fastjson.version>1.2.44</fastjson.version>

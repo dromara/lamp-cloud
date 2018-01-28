@@ -18,6 +18,7 @@
     <!--
     https://repo.spring.io/libs-milestone/org/springframework/cloud/spring-cloud-sleuth-zipkin-stream/
     由于目前仓库中 spring-cloud-sleuth-zipkin-stream 只有M2版本，故这里只用到此版本
+    M3 之后的版本都变化很大
     -->
 
     <dependencies>
