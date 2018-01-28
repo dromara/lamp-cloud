@@ -1,6 +1,6 @@
 # zuihou-admin-cloud
 
- 测试分支
+ 测试master
 
 ## 简介：
 基于`SpringCloud(Finchley.M2)`  + `SpringBoot(2.0.0.M2)` 的微服务 SaaS 开发平台，
