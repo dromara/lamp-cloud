@@ -12,11 +12,11 @@ spring:
     name: zuihou-zipkin
   sleuth:
     enabled: false # 表示当前程序不使用sleuth
-#  rabbitmq:
-#    host: zuihou.rabbitmq.host # 在hosts文件中配置地址
-#    port: 5672
-#    username: guest
-#    password: guest
+  rabbitmq:
+    host: zuihou.rabbitmq.host # 在hosts文件中配置地址
+    port: 5672
+    username: guest
+    password: guest
   datasource:
     schema[0]: classpath:/zipkin.sql #数据库脚本创建地址，当有多个是可使用[x]表示集合第几个元素
     #spring boot数据源配置
@@ -31,14 +31,14 @@ spring:
 zipkin:
   storage:
     type: mysql
-  collector:
-    http:
-      enabled: true  # 这里开启了http模式，不确定是走rabbitmq，还是http 进行监控的
-    rabbitmq:
-      addresses: zuihou.rabbitmq.host:5672
-      username: guest
-      password: guest
-      queue: zipkin
+#  collector:
+#    http:
+#      enabled: true  # 这里开启了http模式，不确定是走rabbitmq，还是http 进行监控的
+#    rabbitmq:
+#      addresses: zuihou.rabbitmq.host:5672
+#      username: guest
+#      password: guest
+#      queue: zipkin
 
 server:
   port: 8510
