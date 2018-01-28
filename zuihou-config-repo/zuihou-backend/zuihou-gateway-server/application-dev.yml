@@ -1,15 +1,12 @@
 server:
   port: 9770
 
-spring:
-  redis:
-    key-prefix: dev  # redis key的前缀， 环境的多个实例一定要配置一样（即prod1和prod2文件中需要配置一致）
-
 logging:
   level:
     console: INFO
     filter: INFO
 
+# rabbitMQ/Mysql/Redis ip，端口，帐号等根据环境自行修改。
 spring:
   rabbitmq:
     host: zuihou.rabbitmq.host
@@ -19,4 +16,4 @@ spring:
   redis:
     host: zuihou.redis.host
     port: 6379
-# rabbitMQ/Mysql/Redis ip，端口，帐号等根据环境自行修改。
+    key-prefix: dev  # redis key的前缀， 环境的多个实例一定要配置一样（即prod1和prod2文件中需要配置一致）

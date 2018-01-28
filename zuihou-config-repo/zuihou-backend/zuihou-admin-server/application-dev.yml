@@ -1,10 +1,6 @@
 server:
   port: 9765
   
-spring:
-  redis:
-    key-prefix: dev
-
 logging:
   common-pattern: '%d{HH:mm:ss.SSS}:[%5p] [%t] [%C{1}:%M:%L] --> %m%n'
   level:
@@ -22,6 +18,7 @@ spring:
   redis:
     host: zuihou.redis.host
     port: 6379
+    key-prefix: dev
 zuihou:
   mysql:
     admin:
