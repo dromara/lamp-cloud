@@ -151,3 +151,6 @@ zuihou:
     remote-uri-prefix: http://192.168.65.147:6080/
     fastdfs:
       enabled: true
+
+
+hello: Edgware
