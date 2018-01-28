@@ -1,5 +1,7 @@
 # zuihou-admin-cloud
 
+ 测试分支
+
 ## 简介：
 基于`SpringCloud(Finchley.M2)`  + `SpringBoot(2.0.0.M2)` 的微服务 SaaS 开发平台，
 具有统一授权、认证后台管理系统，其中包含具备用户管理、配置中心、存储系统、资源权限管理、
