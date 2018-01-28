@@ -32,8 +32,8 @@ turbine:
 
 eureka:
   instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
+#    status-page-url-path: ${management.context-path}/info
+#    health-check-url-path: ${management.context-path}/health
     prefer-ip-address: true
     metadata-map:
       user.name: ${security.user.name}
@@ -69,3 +69,11 @@ spring:
 #          to: aaa@qq.com
 #          from: xxx@163.com
 #          ignore-changes: UNKNOWN:UP
+
+info:
+  artifact: zuihou-monitor
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

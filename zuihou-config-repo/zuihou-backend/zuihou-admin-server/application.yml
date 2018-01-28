@@ -12,8 +12,8 @@ server:
   port: 9765
 eureka:
   instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
+#    status-page-url-path: ${management.context-path}/info
+#    health-check-url-path: ${management.context-path}/health
     prefer-ip-address: true
     status-page-url: http://gateway.zuihou.com:9770/api/admin/swagger-ui.html
 #    hostname: ${eureka.hostname:eureka.zuihou.com}    # 指定该Eureka实例的主机名
@@ -143,3 +143,10 @@ id-generator:
   machine-code: 1  # id生成器机器掩码
 
 
+info:
+  artifact: zuihou-admin-server
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

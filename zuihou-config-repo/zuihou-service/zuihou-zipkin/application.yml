@@ -45,8 +45,8 @@ server:
 
 eureka:
   instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
+#    status-page-url-path: ${management.context-path}/info
+#    health-check-url-path: ${management.context-path}/health
     preferIpAddress: true
     metadata-map:
       user.name: ${security.user.name}
@@ -71,4 +71,10 @@ endpoints:
     enabled: true
     sensitive: true  #actuator的health接口是否需要安全保证
 
-
+info:
+  artifact: zuihou-zipkin
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

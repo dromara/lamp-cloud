@@ -87,8 +87,8 @@ hystrix:
 
 eureka:
   instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
+#    status-page-url-path: ${management.context-path}/info
+#    health-check-url-path: ${management.context-path}/health
     preferIpAddress: true
     status-page-url: http://gateway.zuihou.com:9770/api/auth/swagger-ui.html
     ip-address: 127.0.0.1
@@ -146,3 +146,11 @@ swagger2:
       name: 最后
       url: http://www.zuihou.com/
       email: tangstruggle@sina.com
+
+info:
+  artifact: zuihou-auth-server
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

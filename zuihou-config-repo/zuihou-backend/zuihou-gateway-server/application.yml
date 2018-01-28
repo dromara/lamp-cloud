@@ -6,14 +6,22 @@ logging:
     console: INFO
     filter: INFO
 
+info:
+  artifact: zuiou-gateway-server
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'
+
 server:
   port: 9770 #启动端口
 
 # eureka实例的状态页面和健康监控默认为/info和/health，这是spring boot actuator提供的默认终端点。当应用不使用默认的上下文(context path或servlet path，比如配置server.servletPath=/test），或者管理zhongduan路径（比如配置management.contextPath=/admin）。
 eureka:
   instance:
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
+#    status-page-url-path: ${management.context-path}/info
+#    health-check-url-path: ${management.context-path}/health
     preferIpAddress: true
     metadata-map:
       user.name: ${security.user.name}
