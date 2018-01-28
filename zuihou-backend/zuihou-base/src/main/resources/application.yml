@@ -1,0 +1,8 @@
+# info 信息放在仓库中，无法动态获取属性
+info:
+  artifact: zuihou-base-server
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'
