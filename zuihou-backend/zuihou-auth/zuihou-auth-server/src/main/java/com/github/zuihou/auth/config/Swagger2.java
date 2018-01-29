@@ -1,18 +1,25 @@
 package com.github.zuihou.auth.config;
 
+import com.github.zuihou.commons.exception.core.ExceptionCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
 
 /**
  * Swagger2的配置类
@@ -57,12 +64,32 @@ public class Swagger2 extends WebMvcConfigurerAdapter {
 
     @Bean
     public Docket createRestApi() {
+        //自定义异常响应头信息
+        ArrayList<ResponseMessage> responseMessages = new ArrayList<ResponseMessage>() {{
+            add(new ResponseMessageBuilder().code(0).message("成功").build());
+            add(new ResponseMessageBuilder().code(ExceptionCode.JWT_TOKEN_EXPIRED.getCode()).message(ExceptionCode.JWT_TOKEN_EXPIRED.getMsg())
+                    .responseModel(new ModelRef("Error")).build());
+            add(new ResponseMessageBuilder().code(ExceptionCode.JWT_SIGNATURE.getCode()).message(ExceptionCode.JWT_SIGNATURE.getMsg())
+                    .responseModel(new ModelRef("Error")).build());
+            add(new ResponseMessageBuilder().code(ExceptionCode.JWT_ILLEGAL_ARGUMENT.getCode()).message(ExceptionCode.JWT_ILLEGAL_ARGUMENT.getMsg())
+                    .responseModel(new ModelRef("Error")).build());
+            add(new ResponseMessageBuilder().code(ExceptionCode.JWT_PARSER_TOKEN_FAIL.getCode()).message(ExceptionCode.JWT_PARSER_TOKEN_FAIL.getMsg())
+                    .responseModel(new ModelRef("Error")).build());
+            add(new ResponseMessageBuilder().code(ExceptionCode.SYSTEM_TIMEOUT.getCode()).message(ExceptionCode.SYSTEM_TIMEOUT.getMsg())
+                    .responseModel(new ModelRef("Error")).build());
+            add(new ResponseMessageBuilder().code(ExceptionCode.SYSTEM_BUSY.getCode()).message(ExceptionCode.SYSTEM_BUSY.getMsg())
+                    .responseModel(new ModelRef("Error")).build());
+        }};
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(basePackage))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .globalResponseMessage(RequestMethod.GET, responseMessages)
+                .globalResponseMessage(RequestMethod.POST, responseMessages)
+                .globalResponseMessage(RequestMethod.PUT, responseMessages)
+                .globalResponseMessage(RequestMethod.DELETE, responseMessages);
     }
 
     private ApiInfo apiInfo() {

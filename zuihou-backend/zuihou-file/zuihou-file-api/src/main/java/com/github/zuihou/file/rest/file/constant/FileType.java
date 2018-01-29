@@ -1,7 +1,7 @@
 package com.github.zuihou.file.rest.file.constant;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2018-01-28 2:04
  */
 public enum FileType {
