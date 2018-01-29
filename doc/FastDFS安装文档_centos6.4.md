@@ -396,3 +396,18 @@ sudo chkconfig iptables off
 service iptables stop
 
 telnet 192.168.0.1 22122 连接成功则说明可以正常访问fastdfs服务了。
+
+让zuihou 用户有启动nginx的权限：
+chown root /usr/local/nginx/sbin/nginx
+chmod +s /usr/local/nginx/sbin/nginx
+
+同理：
+chown root /usr/bin/fdfs_storaged
+chmod +s /usr/bin/fdfs_storaged
+同理：
+chown root /usr/bin/fdfs_trackerd
+chmod +s /usr/bin/fdfs_trackerd
+
+
+chown root /usr/local/bin/fdhtd
+chmod +s /usr/local/bin/fdhtd
