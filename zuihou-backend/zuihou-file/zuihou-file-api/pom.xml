@@ -40,6 +40,12 @@
             <artifactId>springfox-swagger2</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
 
     </dependencies>
 
