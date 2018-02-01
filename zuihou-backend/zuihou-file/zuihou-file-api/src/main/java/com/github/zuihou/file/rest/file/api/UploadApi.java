@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
-@FeignClient(name = "${zuihou.file.feign.server:zuihou-file-server}", fallback = UploadApiHystrix.class)
+@FeignClient(name = "${zuihou.feign-server.gateway:zuihou-gateway-server}", fallback = UploadApiHystrix.class)
 public interface UploadApi {
 
     /**
@@ -17,7 +17,7 @@ public interface UploadApi {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/upload/multi", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/file/upload/multi", method = RequestMethod.POST)
     Result<UploadListDto> uploadMulti(HttpServletRequest request);
 
 }

@@ -13,9 +13,26 @@
     <name>${project.artifactId}</name>
     <description>zuihou-front 前端父pom</description>
 
-
+    <properties>
+        <shiro-version>1.4.0</shiro-version>
+    </properties>
     <modules>
         <module>zuihou-manage-center</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-admin-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-starter-shiro</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

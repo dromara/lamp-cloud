@@ -19,8 +19,8 @@
        %l
        输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-file"/>
-    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou-file"/>
+    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-manage-center"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou--manage-center"/>
     <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>

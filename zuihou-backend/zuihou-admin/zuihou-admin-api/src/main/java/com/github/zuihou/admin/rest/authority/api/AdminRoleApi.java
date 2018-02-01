@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author zuihou
  * @createTime 2017-12-08 16:07
  */
-@FeignClient(name = "${zuihou.admin.feign.server:zuihou-admin-server}", fallback = AdminRoleApiHystrix.class)
+@FeignClient(name = "${zuihou.feign-server.gateway:zuihou-gateway-server}", fallback = AdminRoleApiHystrix.class)
 public interface AdminRoleApi {
 
     /**
@@ -33,10 +33,10 @@ public interface AdminRoleApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/role/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/role/get", method = RequestMethod.GET)
     Result<AdminRoleDto> getRoleByAppIdAndId(@RequestParam("id") Long id);
 
-    @RequestMapping(value = "/role/getByCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/role/getByCode", method = RequestMethod.GET)
     Result<AdminRoleDto> getRoleByAppIdAndCode(@RequestParam("code") String code);
 
     /**
@@ -44,16 +44,16 @@ public interface AdminRoleApi {
      *
      * @return
      */
-    @RequestMapping(value = "/role/page", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/role/page", method = RequestMethod.GET)
     Result<PageInfo<AdminRoleDto>> page(OpenApiReq openApiReq, AdminRolePageReqDto rolePageReqDto);
 
-    @RequestMapping(value = "/role/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/role/save", method = RequestMethod.POST)
     Result<AdminRoleDto> save(@RequestBody AdminRoleSaveDto adminRoleSaveDto);
 
-    @RequestMapping(value = "/role/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/role/update", method = RequestMethod.POST)
     Result<Boolean> update(@RequestBody AdminRoleUpdateDto adminRoleUpdateDto);
 
-    @RequestMapping(value = "/role/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/role/remove", method = RequestMethod.POST)
     Result<Boolean> remove(@RequestParam("id") Long id);
 
 }
