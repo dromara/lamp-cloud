@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "API - AdminApiImpl", description = "帐号管理")
 @RestController
-@RequestMapping("admin")
+@RequestMapping("/admin")
 @Slf4j
 public class AdminApiImpl implements AdminApi {
     @Autowired

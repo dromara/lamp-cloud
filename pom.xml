@@ -67,6 +67,7 @@
         <commons.io.version>2.6</commons.io.version> <!-- excel -->
         <commons.beanutils.version>1.9.3</commons.beanutils.version>
         <poi.ooxml.version>3.17</poi.ooxml.version>
+        <shiro.version>1.4.0</shiro.version>
     </properties>
 
     <repositories>

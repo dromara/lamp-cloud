@@ -26,21 +26,21 @@ import java.util.List;
  * @author zuihou
  * @createTime 2017-12-15 11:17
  */
-@FeignClient(name = "${zuihou.admin.feign.server:zuihou-admin-server}", fallback = AdminResourcesApi.class)
+@FeignClient(name = "${zuihou.feign-server.gateway:zuihou-gateway-server}", fallback = AdminResourcesApi.class)
 public interface AdminResourcesApi {
     /**
      * 根据id查询菜单组
      * @param id
      * @return
      */
-    @RequestMapping(value = "/menu/group/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/group/get", method = RequestMethod.GET)
     Result<MenuGroupDto> groupGet(@RequestParam("id") Long id);
 
     /**
      * 查询所有的菜单组
      * @return
      */
-    @RequestMapping(value = "/menu/group/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/group/list", method = RequestMethod.GET)
     Result<List<MenuGroupDto>> listGroup();
 
     /**
@@ -48,7 +48,7 @@ public interface AdminResourcesApi {
      * @param menuDto
      * @return
      */
-    @RequestMapping(value = "/menu/group/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/group/save", method = RequestMethod.POST)
     Result<MenuGroupDto> groupSave(@RequestBody MenuGroupSaveReqDto menuDto);
 
     /**
@@ -56,7 +56,7 @@ public interface AdminResourcesApi {
      * @param menuDto
      * @return
      */
-    @RequestMapping(value = "/menu/group/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/group/update", method = RequestMethod.POST)
     Result<Boolean> groupUpdate(@RequestBody MenuGroupUpdateReqDto menuDto);
 
     /**
@@ -64,7 +64,7 @@ public interface AdminResourcesApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/menu/group/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/group/remove", method = RequestMethod.POST)
     Result<Boolean> groupRemove(@RequestParam("id") Long id);
 
     /**
@@ -72,7 +72,7 @@ public interface AdminResourcesApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/menu/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/get", method = RequestMethod.GET)
     Result<MenuDto> get(@RequestParam("id") Long id);
 
     /**
@@ -80,7 +80,7 @@ public interface AdminResourcesApi {
      * @param menuGroupCode
      * @return
      */
-    @RequestMapping(value = "/menu/findTree", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/findTree", method = RequestMethod.GET)
     Result<List<MenuTreeDto>> findTree(@RequestParam("menuGroupCode") String menuGroupCode);
 
     /**
@@ -88,7 +88,7 @@ public interface AdminResourcesApi {
      * @param menuGroupCode
      * @return
      */
-    @RequestMapping(value = "/menu/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/list", method = RequestMethod.GET)
     Result<List<MenuDto>> list(@RequestParam("menuGroupCode") String menuGroupCode);
 
     /**
@@ -96,7 +96,7 @@ public interface AdminResourcesApi {
      * @param parentId
      * @return
      */
-    @RequestMapping(value = "/menu/findByParentId", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/findByParentId", method = RequestMethod.GET)
     Result<List<MenuDto>> findByParentId(@RequestParam("parentId") Long parentId);
 
     /**
@@ -104,7 +104,7 @@ public interface AdminResourcesApi {
      * @param menuDto
      * @return
      */
-    @RequestMapping(value = "/menu/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/save", method = RequestMethod.POST)
     Result<MenuDto> save(@RequestBody MenuSaveDto menuDto);
 
     /**
@@ -112,7 +112,7 @@ public interface AdminResourcesApi {
      * @param menuDto
      * @return
      */
-    @RequestMapping(value = "/menu/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/update", method = RequestMethod.POST)
     Result<Boolean> update(@RequestBody MenuUpdateDto menuDto);
 
     /**
@@ -120,7 +120,7 @@ public interface AdminResourcesApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/menu/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/remove", method = RequestMethod.POST)
     Result<Boolean> remove(@RequestParam("id") Long id);
 
     /**
@@ -129,7 +129,7 @@ public interface AdminResourcesApi {
      * @param resourcePageReqDto
      * @return
      */
-    @RequestMapping(value = "/menu/resource/page", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/resource/page", method = RequestMethod.GET)
     Result<PageInfo<ResourceDto>> page(OpenApiReq openApiReq, ResourcePageReqDto resourcePageReqDto);
 
     /**
@@ -137,7 +137,7 @@ public interface AdminResourcesApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/menu/resource/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/resource/get", method = RequestMethod.GET)
     Result<ResourceDto> resourceGet(@RequestParam("id") Long id);
 
     /**
@@ -145,7 +145,7 @@ public interface AdminResourcesApi {
      * @param resourceDto
      * @return
      */
-    @RequestMapping(value = "/menu/resource/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/resource/save", method = RequestMethod.POST)
     Result<ResourceDto> resourceSave(@RequestBody ResourceSaveReqDto resourceDto);
 
     /**
@@ -153,7 +153,7 @@ public interface AdminResourcesApi {
      * @param resourceDto
      * @return
      */
-    @RequestMapping(value = "/menu/resource/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/resource/update", method = RequestMethod.POST)
     Result<Boolean> resourceUpdate(@RequestBody ResourceUpdateReqDto resourceDto);
 
     /**
@@ -161,7 +161,7 @@ public interface AdminResourcesApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/menu/resource/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/menu/resource/remove", method = RequestMethod.POST)
     Result<Boolean> resourceRemove(@RequestParam("id") Long id);
 
     /**
@@ -170,7 +170,7 @@ public interface AdminResourcesApi {
      * @param menuGroupCode
      * @return
      */
-    @RequestMapping(value = "/menu/listMenu", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/listMenu", method = RequestMethod.GET)
     Result<List<MenuDto>> listMenu();
     /**
      * 查询指定applicationId的菜单列表
@@ -178,7 +178,7 @@ public interface AdminResourcesApi {
      * @param menuGroupCode
      * @return
      */
-    @RequestMapping(value = "/menu/tree", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/tree", method = RequestMethod.GET)
     Result<List<MenuTreeDto>> treeMenu();
 
     /**
@@ -187,7 +187,7 @@ public interface AdminResourcesApi {
      * @param menuGroupCode
      * @return
      */
-    @RequestMapping(value = "/menu/resource/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/menu/resource/list", method = RequestMethod.GET)
     Result<List<ResourceDto>> listResource();
 
 }

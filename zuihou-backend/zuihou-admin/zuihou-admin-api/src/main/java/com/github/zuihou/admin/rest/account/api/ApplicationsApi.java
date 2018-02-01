@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author zuihou
  * @createTime 2017-12-08 16:07
  */
-@FeignClient(name = "${zuihou.admin.feign.server:zuihou-admin-server}", fallback = ApplicationsApiHystrix.class)
+@FeignClient(name = "${zuihou.feign-server.gateway:zuihou-gateway-server}", fallback = ApplicationsApiHystrix.class)
 public interface ApplicationsApi {
     /**
      * 根据appid 和 密码 查找应用
@@ -21,6 +21,7 @@ public interface ApplicationsApi {
      * @param appSecret appSecret
      * @return
      */
-    @RequestMapping(value = "/app/getBySecret", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/admin/app/getBySecret", method = RequestMethod.GET)
     Result<ApplicationsDto> getBySecret(@RequestParam("appId") String appId, @RequestParam("appSecret") String appSecret);
+
 }

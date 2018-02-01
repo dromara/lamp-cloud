@@ -17,6 +17,8 @@
     <modules>
         <module>zuihou-core</module>
         <module>zuihou-commons</module>
+        <module>zuihou-starters</module>
+        <module>zuihou-autoconfigures</module>
     </modules>
 
 
@@ -25,6 +27,12 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-autoconfigure-shiro</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
