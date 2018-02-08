@@ -1,6 +1,6 @@
 package com.github.zuihou.admin.rest.account.api;
 
-import com.github.zuihou.admin.rest.account.dto.ApplicationsDto;
+import com.github.zuihou.admin.rest.account.dto.ApplicationsDTO;
 import com.github.zuihou.admin.rest.account.api.hystrix.ApplicationsApiHystrix;
 import com.github.zuihou.base.Result;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -21,7 +21,7 @@ public interface ApplicationsApi {
      * @param appSecret appSecret
      * @return
      */
-    @RequestMapping(value = "/api/admin/app/getBySecret", method = RequestMethod.GET)
-    Result<ApplicationsDto> getBySecret(@RequestParam("appId") String appId, @RequestParam("appSecret") String appSecret);
+    @RequestMapping(value = "/api/admin/app", method = RequestMethod.GET)
+    Result<ApplicationsDTO> getBySecret(@RequestParam("appId") String appId, @RequestParam("appSecret") String appSecret);
 
 }

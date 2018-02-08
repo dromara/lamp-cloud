@@ -1,5 +1,6 @@
 package com.github.zuihou.admin.repository.account.service.impl;
 
+import com.github.zuihou.admin.entity.account.domain.AccountDO;
 import com.github.zuihou.admin.entity.account.po.Admin;
 import com.github.zuihou.admin.repository.account.dao.AdminMapper;
 import com.github.zuihou.admin.repository.account.example.AdminExample;
@@ -37,6 +38,11 @@ public class AdminServiceImpl extends BaseServiceImpl<Long, Admin, AdminExample>
             return null;
         }
         return admin;
+    }
+
+    @Override
+    public AccountDO getAccount(String userName) {
+        return adminMapper.getAccount(userName);
     }
 
     @Override

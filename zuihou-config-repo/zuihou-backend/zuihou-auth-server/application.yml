@@ -43,7 +43,7 @@ spring:
     database: 1
     host: zuihou.redis.host
     pool:
-      max-active: 20
+      max-active: 100
       min-idle: 2
       max-idle: 8
       max-wait: 100
@@ -126,7 +126,7 @@ jwt:
 client:
   id: zuihou-auth-server
   secret: 123456
-  token-header: browser-token
+  token-header: token
   admin-header: _isAdmin
   expire: 7200
   pri-key: # client 私钥

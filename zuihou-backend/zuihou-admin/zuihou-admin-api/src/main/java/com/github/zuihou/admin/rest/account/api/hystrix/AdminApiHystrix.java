@@ -1,8 +1,9 @@
 package com.github.zuihou.admin.rest.account.api.hystrix;
 
 import com.github.zuihou.admin.rest.account.api.AdminApi;
-import com.github.zuihou.admin.rest.account.dto.AdminDto;
-import com.github.zuihou.admin.rest.account.dto.AdminRegisterDto;
+import com.github.zuihou.admin.rest.account.dto.AccountDTO;
+import com.github.zuihou.admin.rest.account.dto.AdminDTO;
+import com.github.zuihou.admin.rest.account.dto.AdminRegisterDTO;
 import com.github.zuihou.base.Result;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +14,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminApiHystrix implements AdminApi {
     @Override
-    public Result<AdminDto> getByPwd(String userName, String passWord) {
+    public Result<AdminDTO> getByPwd(String userName, String passWord) {
         return Result.timeout();
     }
 
     @Override
-    public Result<AdminDto> get(String userName) {
+    public Result<AccountDTO> getAccount(String userName) {
+        return Result.timeout();
+    }
+
+    @Override
+    public Result<AdminDTO> get(String userName) {
         return Result.timeout();
     }
 
@@ -28,7 +34,7 @@ public class AdminApiHystrix implements AdminApi {
     }
 
     @Override
-    public Result<Boolean> registry(AdminRegisterDto adminRegisterDto) {
+    public Result<Boolean> registry(AdminRegisterDTO adminRegisterDTO) {
         return Result.timeout();
     }
 }

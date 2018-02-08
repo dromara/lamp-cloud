@@ -1,12 +1,15 @@
 package com.github.zuihou.auth.controller;
 
 
+import com.github.zuihou.auth.api.AuthTokenApi;
 import com.github.zuihou.auth.bean.JwtAuthRequest;
 import com.github.zuihou.auth.common.jwt.TokenVo;
+import com.github.zuihou.auth.dto.TokenDTO;
 import com.github.zuihou.auth.service.AuthService;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.exception.BizException;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,12 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 客户端获取token
  * jwt token管理
+ *
  * @author zuihou
  */
 @RestController
 @RequestMapping("client")
 @Api(value = "客服端token申请", description = "客服端token申请， 用于各个内部微服务之间的token申请")
-public class AuthController {
+public class AuthController implements AuthTokenApi {
     @Value("${jwt.token-header}")
     private String tokenHeader;
 
@@ -40,6 +44,19 @@ public class AuthController {
     @RequestMapping(value = "token", method = RequestMethod.POST)
     public Result<TokenVo> token(@RequestBody JwtAuthRequest jwtAuthRequest) throws BizException {
         return Result.success(authService.login(jwtAuthRequest.getUserName(), jwtAuthRequest.getPassWord()));
+    }
+
+    /**
+     * 获取token
+     *
+     * @param userName
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "获取应用token", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public Result<TokenDTO> login(String userName) throws BizException {
+        return Result.success(authService.login(userName));
     }
 
     /**

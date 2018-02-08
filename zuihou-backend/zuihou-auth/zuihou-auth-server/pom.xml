@@ -143,6 +143,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-auth-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

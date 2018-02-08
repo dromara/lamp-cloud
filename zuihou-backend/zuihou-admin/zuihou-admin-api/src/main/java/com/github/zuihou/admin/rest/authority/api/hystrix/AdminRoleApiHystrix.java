@@ -2,10 +2,10 @@ package com.github.zuihou.admin.rest.authority.api.hystrix;
 
 import com.github.pagehelper.PageInfo;
 import com.github.zuihou.admin.rest.authority.api.AdminRoleApi;
-import com.github.zuihou.admin.rest.authority.dto.AdminRoleDto;
-import com.github.zuihou.admin.rest.authority.dto.AdminRolePageReqDto;
-import com.github.zuihou.admin.rest.authority.dto.AdminRoleSaveDto;
-import com.github.zuihou.admin.rest.authority.dto.AdminRoleUpdateDto;
+import com.github.zuihou.admin.rest.authority.dto.AdminRoleDTO;
+import com.github.zuihou.admin.rest.authority.dto.AdminRolePageReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.AdminRoleSaveDTO;
+import com.github.zuihou.admin.rest.authority.dto.AdminRoleUpdateDTO;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.page.plugins.openapi.OpenApiReq;
 import org.springframework.stereotype.Component;
@@ -19,27 +19,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminRoleApiHystrix implements AdminRoleApi {
     @Override
-    public Result<AdminRoleDto> getRoleByAppIdAndId(Long id) {
+    public Result<AdminRoleDTO> getRoleByAppIdAndId(Long id) {
         return Result.timeout();
     }
 
     @Override
-    public Result<AdminRoleDto> getRoleByAppIdAndCode(String code) {
+    public Result<AdminRoleDTO> getRoleByAppIdAndCode(String code) {
         return Result.timeout();
     }
 
     @Override
-    public Result<PageInfo<AdminRoleDto>> page(OpenApiReq openApiReq, AdminRolePageReqDto rolePageReqDto) {
+    public Result<PageInfo<AdminRoleDTO>> page(OpenApiReq openApiReq, AdminRolePageReqDTO rolePageReqDto) {
         return Result.timeout();
     }
 
     @Override
-    public Result<AdminRoleDto> save(AdminRoleSaveDto adminRoleSaveDto) {
+    public Result<AdminRoleDTO> save(AdminRoleSaveDTO adminRoleSaveDTO) {
         return Result.timeout();
     }
 
     @Override
-    public Result<Boolean> update(AdminRoleUpdateDto adminRoleUpdateDto) {
+    public Result<Boolean> update(AdminRoleUpdateDTO adminRoleUpdateDTO) {
         return Result.timeout();
     }
 

@@ -1,10 +1,12 @@
 package com.github.zuihou.auth.service.impl;
 
 
+import com.github.zuihou.admin.entity.account.domain.AccountDO;
 import com.github.zuihou.admin.entity.account.po.Admin;
 import com.github.zuihou.admin.repository.account.service.AdminService;
 import com.github.zuihou.auth.common.jwt.JWTInfo;
 import com.github.zuihou.auth.common.jwt.TokenVo;
+import com.github.zuihou.auth.dto.TokenDTO;
 import com.github.zuihou.auth.service.AuthService;
 import com.github.zuihou.auth.util.client.JwtTokenUtil;
 import com.github.zuihou.commons.exception.core.ExceptionCode;
@@ -34,6 +36,19 @@ public class AuthServiceImpl implements AuthService {
             throw new BizException(ExceptionCode.USER_NAME_PWD_ERROR.getCode(), ExceptionCode.USER_NAME_PWD_ERROR.getMsg());
         }
         return jwtTokenUtil.generateToken(new JWTInfo(admin.getUsername(), admin.getId(), admin.getName(), admin.getAppId()));
+    }
+
+    @Override
+    public TokenDTO login(String userName) throws BizException {
+        if (userName == null || userName.isEmpty()) {
+            throw new BizException(ExceptionCode.USER_NAME_PWD_ERROR.getCode(), ExceptionCode.USER_NAME_PWD_ERROR.getMsg());
+        }
+        AccountDO account = adminService.getAccount(userName);
+        if (account == null) {
+            throw new BizException(ExceptionCode.USER_NAME_PWD_ERROR.getCode(), ExceptionCode.USER_NAME_PWD_ERROR.getMsg());
+        }
+        TokenVo tokenVo = jwtTokenUtil.generateToken(new JWTInfo(account.getUserName(), account.getAdminId(), account.getName(), account.getAppId()));
+        return new TokenDTO(tokenVo.getToken(), tokenVo.getExpire());
     }
 
     @Override
