@@ -1,0 +1,39 @@
+shiro:
+  realm: com.github.zuihou.center.shiro.ShiroAuthorizingRealm
+  loginUrl: http://center.zuihou.com:${server.port}/login
+  successUrl: http://center.zuihou.com:${server.port}/index
+  unauthorizedUrl: http://center.zuihou.com:${server.port}/unauthorized
+  filterChainDefinitions:
+    anon:
+      - /login
+      - /register
+      - /static/**
+      - /mgmt/**
+      - /webjars/**
+    logout:
+      - /logout
+    authc:
+      /**
+
+zuihou:
+  variable:
+    gate-way-url-prefix: http://127.0.0.1:9970
+
+server:
+  port: 9740
+
+security:
+  basic:
+    enabled: false
+
+management:
+  security:
+    enabled: false
+
+spring:
+  thymeleaf:
+    cache: false
+  mvc:
+    static-path-pattern: /static/**
+    view:
+      suffix: .html
