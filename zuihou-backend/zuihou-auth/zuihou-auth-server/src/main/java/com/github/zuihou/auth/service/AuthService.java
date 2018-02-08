@@ -2,6 +2,8 @@ package com.github.zuihou.auth.service;
 
 
 import com.github.zuihou.auth.common.jwt.TokenVo;
+import com.github.zuihou.auth.dto.TokenDTO;
+import com.github.zuihou.exception.BizException;
 
 /**
  * @author zuihou
@@ -9,6 +11,8 @@ import com.github.zuihou.auth.common.jwt.TokenVo;
  */
 public interface AuthService {
     TokenVo login(String userName, String passWord) ;
+
+    TokenDTO login(String userName) throws BizException;
 
     TokenVo refresh(String userName, String passWord) ;
 

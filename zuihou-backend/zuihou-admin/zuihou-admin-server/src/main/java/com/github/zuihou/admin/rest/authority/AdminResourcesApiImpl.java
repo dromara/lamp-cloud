@@ -10,17 +10,17 @@ import com.github.zuihou.admin.repository.authority.example.AdminResourcesExampl
 import com.github.zuihou.admin.repository.authority.service.AdminMenuGroupService;
 import com.github.zuihou.admin.repository.authority.service.AdminResourcesService;
 import com.github.zuihou.admin.rest.authority.api.AdminResourcesApi;
-import com.github.zuihou.admin.rest.authority.dto.MenuDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuGroupDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuGroupSaveReqDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuGroupUpdateReqDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuSaveDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuTreeDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuUpdateDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourceDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourcePageReqDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourceSaveReqDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourceUpdateReqDto;
+import com.github.zuihou.admin.rest.authority.dto.MenuDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuGroupDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuGroupSaveReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuGroupUpdateReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuSaveDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuTreeDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuUpdateDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourceDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourcePageReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourceSaveReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourceUpdateReqDTO;
 import com.github.zuihou.admin.rest.dozer.DozerUtils;
 import com.github.zuihou.admin.utils.TreeUtil;
 import com.github.zuihou.base.Result;
@@ -40,6 +40,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -78,25 +79,25 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
 
     @Override
     @ApiOperation(value = "获取单个菜单组", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "/group/get", method = RequestMethod.GET)
-    public Result<MenuGroupDto> groupGet(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/group/{id}", method = RequestMethod.GET)
+    public Result<MenuGroupDTO> groupGet(@PathVariable(value = "id")  Long id) {
         String appId = BaseContextHandler.getAppId();
         AdminMenuGroup menuGroup = adminMenuGroupService.getByAppIdAndId(appId, id);
         if (menuGroup.getIsDelete()) {
             return Result.success(null);
         }
-        return Result.success(dozerUtils.map(menuGroup, MenuGroupDto.class));
+        return Result.success(dozerUtils.map(menuGroup, MenuGroupDTO.class));
     }
 
     @Override
     @ApiOperation(value = "获取所有菜单组", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "/group/list", method = RequestMethod.GET)
-    public Result<List<MenuGroupDto>> listGroup() {
+    @RequestMapping(value = "/group", method = RequestMethod.GET)
+    public Result<List<MenuGroupDTO>> listGroup() {
         String appId = BaseContextHandler.getAppId();
         AdminMenuGroupExample example = new AdminMenuGroupExample();
         example.createCriteria().andAppIdEqualTo(appId).andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal());
         List<AdminMenuGroup> menuGroupList = adminMenuGroupService.find(example);
-        return Result.success(dozerUtils.mapList(menuGroupList, MenuGroupDto.class));
+        return Result.success(dozerUtils.mapList(menuGroupList, MenuGroupDTO.class));
     }
 
 
@@ -108,8 +109,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
             @ApiResponse(code = 51002, message = "菜单组CODE已存在"),
             @ApiResponse(code = 51003, message = "菜单组最多只能创建20个"),
     })
-    @RequestMapping(value = "/group/save", method = RequestMethod.POST)
-    public Result<MenuGroupDto> groupSave(@RequestBody MenuGroupSaveReqDto menuGroupDto) {
+    @RequestMapping(value = "/group", method = RequestMethod.POST)
+    public Result<MenuGroupDTO> groupSave(@RequestBody MenuGroupSaveReqDTO menuGroupDto) {
         assertNotNull(ExceptionCode.MENU_GROUP_NULL, menuGroupDto);
         assertNotEmpty(ExceptionCode.MENU_GROUP_CODE_EMPTY, menuGroupDto.getCode());
 
@@ -130,7 +131,7 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
         menuGroup.setIsDelete(DeleteStatus.UN_DELETE.getVal());
         menuGroup.setAppId(appId);
         menuGroup = adminMenuGroupService.saveSelective(menuGroup);
-        return Result.success(dozerUtils.map(menuGroup, MenuGroupDto.class));
+        return Result.success(dozerUtils.map(menuGroup, MenuGroupDTO.class));
     }
 
     @Override
@@ -139,8 +140,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
             @ApiResponse(code = 51000, message = "菜单组不能为空"),
             @ApiResponse(code = 51004, message = "菜单组id不能为空"),
     })
-    @RequestMapping(value = "/group/update", method = RequestMethod.POST)
-    public Result<Boolean> groupUpdate(@RequestBody MenuGroupUpdateReqDto menuGroupUpdateReqDto) {
+    @RequestMapping(value = "/group", method = RequestMethod.PUT)
+    public Result<Boolean> groupUpdate(@RequestBody MenuGroupUpdateReqDTO menuGroupUpdateReqDto) {
         assertNotNull(ExceptionCode.MENU_GROUP_NULL, menuGroupUpdateReqDto);
         assertNotNull(ExceptionCode.MENU_GROUP_ID_NULL, menuGroupUpdateReqDto.getId());
 
@@ -156,8 +157,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
     @ApiResponses({
             @ApiResponse(code = 51005, message = "该菜单组存在子菜，无法删除"),
     })
-    @RequestMapping(value = "/group/remove", method = RequestMethod.POST)
-    public Result<Boolean> groupRemove(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/group/{id}", method = RequestMethod.DELETE)
+    public Result<Boolean> groupRemove(@PathVariable(value = "id")  Long id) {
         String appId = BaseContextHandler.getAppId();
         //1，检测是否存在子菜单
         if (adminResourcesService.checkMenu(appId, id)) {
@@ -170,21 +171,21 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
 
     @Override
     @ApiOperation(value = "获取单个菜单", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public Result<MenuDto> get(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Result<MenuDTO> get(@PathVariable(value = "id")  Long id) {
         String appId = BaseContextHandler.getAppId();
         AdminResources resources = adminResourcesService.getByAppIdAndId(appId, id);
         if (resources == null || resources.getIsDelete()) {
             return Result.success(null);
         }
-        return Result.success(dozerUtils.map(resources, MenuDto.class));
+        return Result.success(dozerUtils.map(resources, MenuDTO.class));
     }
 
     @Override
     @ApiOperation(value = "获取菜单树", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @ApiImplicitParam(name = "menuGroupCode", value = "菜单组编码", defaultValue = "DEF", required = false, dataType = "string", paramType = "query")
-    @RequestMapping(value = "/findTree", method = RequestMethod.GET)
-    public Result<List<MenuTreeDto>> findTree(@RequestParam(value = "menuGroupCode", required = false, defaultValue = "DEF") String menuGroupCode) {
+    @ApiImplicitParam(name = "menuGroupCode", value = "菜单组编码", defaultValue = "DEF", dataType = "string", paramType = "query")
+    @RequestMapping(value = "/tree", method = RequestMethod.GET)
+    public Result<List<MenuTreeDTO>> findTree(@RequestParam(value = "menuGroupCode", required = false, defaultValue = "DEF") String menuGroupCode) {
         String appId = BaseContextHandler.getAppId();
         if (Strings.isNullOrEmpty(menuGroupCode)) {
             menuGroupCode = CommonConstants.MENU_GROUP_CODE_DEF;
@@ -194,15 +195,15 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
                 .andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal())
                 .andTypeIn(Arrays.asList(ResourcesType.DIR.toString(), ResourcesType.MENU.toString()));
         List<AdminResources> resourcesList = adminResourcesService.find(example);
-        List<MenuTreeDto> treeList = dozerUtils.mapList(resourcesList, MenuTreeDto.class);
+        List<MenuTreeDTO> treeList = dozerUtils.mapList(resourcesList, MenuTreeDTO.class);
         return Result.success(TreeUtil.bulid(treeList, CommonConstants.PARENT_ID_DEF));
     }
 
     @Override
-    @ApiOperation(value = "获取菜单树", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @ApiImplicitParam(name = "menuGroupCode", value = "菜单组编码", defaultValue = "DEF", required = false)
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<List<MenuDto>> list(@RequestParam(value = "menuGroupCode", required = false, defaultValue = "DEF") String menuGroupCode) {
+    @ApiOperation(value = "获取所有菜单", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
+    @ApiImplicitParam(name = "menuGroupCode", value = "菜单组编码", defaultValue = "DEF", dataType = "string", paramType = "query")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public Result<List<MenuDTO>> list(@RequestParam(value = "menuGroupCode", required = false, defaultValue = "DEF") String menuGroupCode) {
         String appId = BaseContextHandler.getAppId();
         if (Strings.isNullOrEmpty(menuGroupCode)) {
             menuGroupCode = CommonConstants.MENU_GROUP_CODE_DEF;
@@ -212,20 +213,20 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
                 .andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal())
                 .andTypeIn(Arrays.asList(ResourcesType.DIR.toString(), ResourcesType.MENU.toString()));
         List<AdminResources> resourcesList = adminResourcesService.find(example);
-        return Result.success(dozerUtils.mapList(resourcesList, MenuDto.class));
+        return Result.success(dozerUtils.mapList(resourcesList, MenuDTO.class));
     }
 
     @Override
     @ApiOperation(value = "获取所有的子菜单", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "/findByParentId", method = RequestMethod.GET)
-    public Result<List<MenuDto>> findByParentId(@RequestParam("parentId") Long parentId) {
+    @RequestMapping(value = "/{parentId}/children", method = RequestMethod.GET)
+    public Result<List<MenuDTO>> findByParentId(@PathVariable(value = "parentId") Long parentId) {
         String appId = BaseContextHandler.getAppId();
         AdminResourcesExample example = new AdminResourcesExample();
         example.createCriteria().andAppIdEqualTo(appId).andParentIdEqualTo(parentId)
                 .andTypeIn(Arrays.asList(ResourcesType.DIR.toString(), ResourcesType.MENU.toString()))
                 .andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal());
         List<AdminResources> resourcesList = adminResourcesService.find(example);
-        return Result.success(dozerUtils.mapList(resourcesList, MenuDto.class));
+        return Result.success(dozerUtils.mapList(resourcesList, MenuDTO.class));
     }
 
     @Override
@@ -238,8 +239,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
             @ApiResponse(code = 51104, message = "每组菜单最多只能创建500个"),
             @ApiResponse(code = 51201, message = "菜单/资源编码[code]已存在"),
     })
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Result<MenuDto> save(@RequestBody MenuSaveDto menuDto) {
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public Result<MenuDTO> save(@RequestBody MenuSaveDTO menuDto) {
         //1，验证参数
         assertNotNull(ExceptionCode.MENU_NULL, menuDto);
         assertNotEmpty(ExceptionCode.MENU_CODE_EMPTY, menuDto.getCode());
@@ -287,7 +288,7 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
         }
         menu.setIsDelete(DeleteStatus.UN_DELETE.getVal());
         menu = adminResourcesService.save(menu);
-        return Result.success(dozerUtils.map(menu, MenuDto.class));
+        return Result.success(dozerUtils.map(menu, MenuDTO.class));
     }
 
     @Override
@@ -296,8 +297,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
             @ApiResponse(code = 51100, message = "菜单不能为空"),
             @ApiResponse(code = 51105, message = "菜单[id]不能为空"),
     })
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Result<Boolean> update(@RequestBody MenuUpdateDto menuDto) {
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public Result<Boolean> update(@RequestBody MenuUpdateDTO menuDto) {
         assertNotNull(ExceptionCode.MENU_NULL, menuDto);
         assertNotNull(ExceptionCode.MENU_ID_NULL, menuDto.getId());
 
@@ -313,8 +314,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
     @ApiResponses({
             @ApiResponse(code = 51106, message = "该菜单存在子菜单或子资源，无法删除"),
     })
-    @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public Result<Boolean> remove(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Result<Boolean> remove(@PathVariable(value = "id") Long id) {
         String appId = BaseContextHandler.getAppId();
         //1，检测是否存在子菜单，子资源
         if (adminResourcesService.checkChildren(appId, id)) {
@@ -331,30 +332,30 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
             @ApiImplicitParam(name = "pageSize", value = "每页多少条", defaultValue = "10", dataType = "int", paramType = "query")
     })
     @RequestMapping(value = "/resource/page", method = RequestMethod.GET)
-    public Result<PageInfo<ResourceDto>> page(OpenApiReq openApiReq, ResourcePageReqDto resourcePageReqDto) {
+    public Result<PageInfo<ResourceDTO>> page(OpenApiReq openApiReq, ResourcePageReqDTO resourcePageReqDTO) {
         String appId = BaseContextHandler.getAppId();
         AdminResourcesExample example = new AdminResourcesExample();
         example.createCriteria().andAppIdEqualTo(appId).andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal())
-                .andParentIdEqualTo(resourcePageReqDto.getMenuId()).andCodeEqualTo(resourcePageReqDto.getCode())
+                .andParentIdEqualTo(resourcePageReqDTO.getMenuId()).andCodeEqualTo(resourcePageReqDTO.getCode())
                 .andTypeIn(Lists.newArrayList(ResourcesType.BUTTON.toString(), ResourcesType.URI.toString()))
-                .andNameLike(AdminResourcesExample.fullLike(resourcePageReqDto.getName()));
+                .andNameLike(AdminResourcesExample.fullLike(resourcePageReqDTO.getName()));
         example.setOrderByClause("create_time desc");
         PageHelper.startPage(openApiReq.getPageNo(), openApiReq.getPageSize());
         List<AdminResources> resourcesList = adminResourcesService.find(example);
-        List<ResourceDto> resourceDtoList = dozerUtils.mapPage(resourcesList, ResourceDto.class);
+        List<ResourceDTO> resourceDtoList = dozerUtils.mapPage(resourcesList, ResourceDTO.class);
         return Result.success(new PageInfo<>(resourceDtoList));
     }
 
     @Override
     @ApiOperation(value = "获取单个菜单下的资源", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "/resource/get", method = RequestMethod.GET)
-    public Result<ResourceDto> resourceGet(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/resource/{id}", method = RequestMethod.GET)
+    public Result<ResourceDTO> resourceGet(@PathVariable(value = "id") Long id) {
         String appId = BaseContextHandler.getAppId();
         AdminResources resources = adminResourcesService.getByAppIdAndId(appId, id);
         if (resources.getIsDelete()) {
             return Result.success(null);
         }
-        return Result.success(dozerUtils.map(resources, ResourceDto.class));
+        return Result.success(dozerUtils.map(resources, ResourceDTO.class));
     }
 
     @Override
@@ -367,8 +368,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
             @ApiResponse(code = 51204, message = "菜单/资源编码[code]已存在"),
             @ApiResponse(code = 51206, message = "菜单不存在"),
     })
-    @RequestMapping(value = "/resource/save", method = RequestMethod.POST)
-    public Result<ResourceDto> resourceSave(@RequestBody ResourceSaveReqDto resourceDto) {
+    @RequestMapping(value = "/resource", method = RequestMethod.POST)
+    public Result<ResourceDTO> resourceSave(@RequestBody ResourceSaveReqDTO resourceDto) {
         assertNotNull(ExceptionCode.RESOURCES_NULL, resourceDto);
         assertNotEmpty(ExceptionCode.RESOURCES_CODE_EMPTY, resourceDto.getCode());
         assertNotNull(ExceptionCode.RESOURCES_MENU_ID_NULL, resourceDto.getMenuId());
@@ -393,7 +394,7 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
         }
         resources.setIsDelete(DeleteStatus.UN_DELETE.getVal());
         resources = adminResourcesService.saveSelective(resources);
-        return Result.success(dozerUtils.map(resources, ResourceDto.class));
+        return Result.success(dozerUtils.map(resources, ResourceDTO.class));
     }
 
     @Override
@@ -402,8 +403,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
             @ApiResponse(code = 51200, message = "资源信息不能为空"),
             @ApiResponse(code = 51205, message = "资源id[id]不能为空"),
     })
-    @RequestMapping(value = "/resource/update", method = RequestMethod.POST)
-    public Result<Boolean> resourceUpdate(@RequestBody ResourceUpdateReqDto resourceDto) {
+    @RequestMapping(value = "/resource", method = RequestMethod.PUT)
+    public Result<Boolean> resourceUpdate(@RequestBody ResourceUpdateReqDTO resourceDto) {
         assertNotNull(ExceptionCode.RESOURCES_NULL, resourceDto);
         assertNotNull(ExceptionCode.RESOURCES_ID_NULL, resourceDto.getId());
 
@@ -425,8 +426,8 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
     @ApiResponses(
             @ApiResponse(code = 10000, message = "无法软删除")
     )
-    @RequestMapping(value = "/resource/remove", method = RequestMethod.POST)
-    public Result<Boolean> resourceRemove(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/resource/{id}", method = RequestMethod.DELETE)
+    public Result<Boolean> resourceRemove(@PathVariable(value = "id") Long id) {
         String appId = BaseContextHandler.getAppId();
         adminResourcesService.removeByAppIdAndId(appId, id);
         return Result.success(true);
@@ -436,49 +437,44 @@ public class AdminResourcesApiImpl implements AdminResourcesApi {
     /**
      * 查询指定userId的菜单列表
      *
-     * @param applicationId
-     * @param menuGroupCode
      * @return
      */
     @Override
     @ApiOperation(value = "查询当前应用拥有的的菜单列表", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "/listMenu", method = RequestMethod.GET)
-    public Result<List<MenuDto>> listMenu() {
+    @RequestMapping(value = "/self", method = RequestMethod.GET)
+    public Result<List<MenuDTO>> listMenu() {
         String appId = BaseContextHandler.getAppId();
         List<AdminResources> list = adminResourcesService.findMenu(appId);
-        return Result.success(dozerUtils.mapList(list, MenuDto.class));
+        return Result.success(dozerUtils.mapList(list, MenuDTO.class));
     }
 
-    @Override
     /**
      * 查询指定userId的菜单列表
-     * @param applicationId
-     * @param menuGroupCode
+     *
      * @return
      */
+    @Override
     @ApiOperation(value = "查询当前应用拥有的的菜单列表树", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-
-    @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public Result<List<MenuTreeDto>> treeMenu() {
+    @RequestMapping(value = "/self/tree", method = RequestMethod.GET)
+    public Result<List<MenuTreeDTO>> treeMenu() {
         String appId = BaseContextHandler.getAppId();
         List<AdminResources> menuList = adminResourcesService.findMenu(appId);
 
-        List<MenuTreeDto> treeList = dozerUtils.mapList(menuList, MenuTreeDto.class);
+        List<MenuTreeDTO> treeList = dozerUtils.mapList(menuList, MenuTreeDTO.class);
         return Result.success(TreeUtil.bulid(treeList, CommonConstants.PARENT_ID_DEF));
     }
 
-    @Override
     /**
      * 查询指定userId的资源列表
-     * @param applicationId
-     * @param menuGroupCode
+     *
      * @return
      */
+    @Override
     @ApiOperation(value = "查询当前应用拥有的的资源列表树", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "/resource/list", method = RequestMethod.GET)
-    public Result<List<ResourceDto>> listResource() {
+    @RequestMapping(value = "/resource/self", method = RequestMethod.GET)
+    public Result<List<ResourceDTO>> listResource() {
         String appId = BaseContextHandler.getAppId();
         List<AdminResources> list = adminResourcesService.findResources(appId);
-        return Result.success(dozerUtils.mapList(list, ResourceDto.class));
+        return Result.success(dozerUtils.mapList(list, ResourceDTO.class));
     }
 }

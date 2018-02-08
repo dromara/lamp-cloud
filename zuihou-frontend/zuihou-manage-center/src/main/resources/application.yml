@@ -15,6 +15,10 @@ shiro:
     authc:
       /**
 
+zuihou:
+  variable:
+    gate-way-url-prefix: http://127.0.0.1:9970
+
 server:
   port: 9740
 

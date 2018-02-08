@@ -8,8 +8,8 @@ import com.github.zuihou.file.repository.file.service.FileService;
 import com.github.zuihou.file.rest.dozer.DozerUtils;
 import com.github.zuihou.file.rest.file.api.UploadApi;
 import com.github.zuihou.file.rest.file.constant.FileType;
-import com.github.zuihou.file.rest.file.dto.UploadFileDto;
-import com.github.zuihou.file.rest.file.dto.UploadListDto;
+import com.github.zuihou.file.rest.file.dto.UploadFileDTO;
+import com.github.zuihou.file.rest.file.dto.UploadListDTO;
 import com.github.zuihou.file.support.FileModel;
 import com.github.zuihou.file.utils.FileUtils;
 import com.github.zuihou.file.utils.UploadUtil;
@@ -67,7 +67,7 @@ public class UploadApiImpl implements UploadApi {
             @ApiImplicitParam(name = "file1", value = "文件2", dataTypeClass = MultipartFile.class, paramType = "query")
     })
     @RequestMapping(value = "multi", method = RequestMethod.POST)
-    public Result<UploadListDto> uploadMulti(HttpServletRequest request) {
+    public Result<UploadListDTO> uploadMulti(HttpServletRequest request) {
         try {
             String appId = BaseContextHandler.getAppId();
             String userName = BaseContextHandler.getUserName();
@@ -116,10 +116,10 @@ public class UploadApiImpl implements UploadApi {
                 fileService.save(zhFileList);
 
                 //4,转换
-                List<UploadFileDto> list = dozerUtils.mapList(zhFileList, UploadFileDto.class);
-                UploadListDto uploadListDto = new UploadListDto();
-                uploadListDto.setList(list);
-                return Result.success(uploadListDto);
+                List<UploadFileDTO> list = dozerUtils.mapList(zhFileList, UploadFileDTO.class);
+                UploadListDTO uploadListDTO = new UploadListDTO();
+                uploadListDTO.setList(list);
+                return Result.success(uploadListDTO);
             }
             return Result.success(null);
         } catch (Exception e) {

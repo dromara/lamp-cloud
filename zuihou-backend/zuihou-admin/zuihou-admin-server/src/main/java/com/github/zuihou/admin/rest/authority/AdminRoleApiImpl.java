@@ -6,10 +6,10 @@ import com.github.zuihou.admin.entity.authority.po.AdminRole;
 import com.github.zuihou.admin.repository.authority.example.AdminRoleExample;
 import com.github.zuihou.admin.repository.authority.service.AdminRoleService;
 import com.github.zuihou.admin.rest.authority.api.AdminRoleApi;
-import com.github.zuihou.admin.rest.authority.dto.AdminRoleDto;
-import com.github.zuihou.admin.rest.authority.dto.AdminRolePageReqDto;
-import com.github.zuihou.admin.rest.authority.dto.AdminRoleSaveDto;
-import com.github.zuihou.admin.rest.authority.dto.AdminRoleUpdateDto;
+import com.github.zuihou.admin.rest.authority.dto.AdminRoleDTO;
+import com.github.zuihou.admin.rest.authority.dto.AdminRolePageReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.AdminRoleSaveDTO;
+import com.github.zuihou.admin.rest.authority.dto.AdminRoleUpdateDTO;
 import com.github.zuihou.admin.rest.dozer.DozerUtils;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.commons.constant.DeleteStatus;
@@ -26,10 +26,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -54,25 +54,25 @@ public class AdminRoleApiImpl implements AdminRoleApi {
 
     @Override
     @ApiOperation(value = "查找角色", notes = "根据角色id[id]查找角色")
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public Result<AdminRoleDto> getRoleByAppIdAndId(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Result<AdminRoleDTO> getRoleByAppIdAndId(@PathVariable(value = "id") Long id) {
         String appId = BaseContextHandler.getAppId();
         AdminRole role = adminRoleService.getByAppIdAndId(appId, id);
         if (role.getIsDelete()) {
             return Result.success(null);
         }
-        return Result.success(dozerUtils.map(role, AdminRoleDto.class));
+        return Result.success(dozerUtils.map(role, AdminRoleDTO.class));
     }
 
     @Override
     @ApiOperation(value = "查找角色", notes = "根据角色编码[code]查找角色")
-    @RequestMapping(value = "/getByCode", method = RequestMethod.GET)
-    public Result<AdminRoleDto> getRoleByAppIdAndCode(@RequestParam("code") String code) {
+    @RequestMapping(value = "/code/{code}", method = RequestMethod.GET)
+    public Result<AdminRoleDTO> getRoleByAppIdAndCode(@PathVariable(value = "code") String code) {
         String appId = BaseContextHandler.getAppId();
         AdminRoleExample example = new AdminRoleExample();
         example.createCriteria().andAppIdEqualTo(appId).andCodeEqualTo(code)
                 .andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal());
-        return Result.success(dozerUtils.map(adminRoleService.getUnique(example), AdminRoleDto.class));
+        return Result.success(dozerUtils.map(adminRoleService.getUnique(example), AdminRoleDTO.class));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class AdminRoleApiImpl implements AdminRoleApi {
             @ApiImplicitParam(name = "pageSize", value = "每页多少条", defaultValue = "10", dataType = "int", paramType = "query")
     })
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public Result<PageInfo<AdminRoleDto>> page(OpenApiReq openApiReq, AdminRolePageReqDto rolePageReqDto) {
+    public Result<PageInfo<AdminRoleDTO>> page(OpenApiReq openApiReq, AdminRolePageReqDTO rolePageReqDto) {
         String appId = BaseContextHandler.getAppId();
         AdminRoleExample example = new AdminRoleExample();
         example.createCriteria().andAppIdEqualTo(appId).andCodeEqualTo(rolePageReqDto.getCode())
@@ -92,7 +92,7 @@ public class AdminRoleApiImpl implements AdminRoleApi {
         example.setOrderByClause("create_time desc");
         PageHelper.startPage(openApiReq.getPageNo(), openApiReq.getPageSize());
         List<AdminRole> roleList = adminRoleService.find(example);
-        return Result.success(new PageInfo<>(dozerUtils.mapPage(roleList, AdminRoleDto.class)));
+        return Result.success(new PageInfo<>(dozerUtils.mapPage(roleList, AdminRoleDTO.class)));
 
     }
 
@@ -103,8 +103,8 @@ public class AdminRoleApiImpl implements AdminRoleApi {
             @ApiResponse(code = 52001, message = "角色编码[code]不能为空"),
             @ApiResponse(code = 52002, message = "角色编码[code]已存在"),
     })
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Result<AdminRoleDto> save(@RequestBody AdminRoleSaveDto adminRoleSaveDto) {
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public Result<AdminRoleDTO> save(@RequestBody AdminRoleSaveDTO adminRoleSaveDto) {
         assertNotNull(ExceptionCode.ROLE_NULL, adminRoleSaveDto);
         assertNotEmpty(ExceptionCode.ROLE_CODE_EMPTY, adminRoleSaveDto.getCode());
         String appId = BaseContextHandler.getAppId();
@@ -118,7 +118,7 @@ public class AdminRoleApiImpl implements AdminRoleApi {
         role.setCreateUser(userName);
         role.setUpdateUser(userName);
         role = adminRoleService.saveSelective(role);
-        return Result.success(dozerUtils.map(role, AdminRoleDto.class));
+        return Result.success(dozerUtils.map(role, AdminRoleDTO.class));
     }
 
     @Override
@@ -127,8 +127,8 @@ public class AdminRoleApiImpl implements AdminRoleApi {
             @ApiResponse(code = 52000, message = "角色信息不能为空"),
             @ApiResponse(code = 52003, message = "角色[id]不能为空"),
     })
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Result<Boolean> update(@RequestBody AdminRoleUpdateDto adminRoleUpdateDto) {
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public Result<Boolean> update(@RequestBody AdminRoleUpdateDTO adminRoleUpdateDto) {
         assertNotNull(ExceptionCode.ROLE_NULL, adminRoleUpdateDto);
         assertNotNull(ExceptionCode.ROLE_ID_NULL, adminRoleUpdateDto.getId());
 
@@ -144,9 +144,9 @@ public class AdminRoleApiImpl implements AdminRoleApi {
 
     @Override
     @ApiOperation(value = "删除角色", notes = "删除指定id的角色")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "query", dataType = "long")
-    @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public Result<Boolean> remove(@RequestParam("id") Long id) {
+    @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "path", dataType = "long")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Result<Boolean> remove(@PathVariable(value = "id") Long id) {
         String appId = BaseContextHandler.getAppId();
         adminRoleService.removeByAppIdAndId(appId, id);
         return Result.success(true);

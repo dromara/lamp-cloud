@@ -2,17 +2,17 @@ package com.github.zuihou.admin.rest.authority.api.hystrix;
 
 import com.github.pagehelper.PageInfo;
 import com.github.zuihou.admin.rest.authority.api.AdminResourcesApi;
-import com.github.zuihou.admin.rest.authority.dto.MenuDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuGroupDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuGroupSaveReqDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuGroupUpdateReqDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuSaveDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuTreeDto;
-import com.github.zuihou.admin.rest.authority.dto.MenuUpdateDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourceDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourcePageReqDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourceSaveReqDto;
-import com.github.zuihou.admin.rest.authority.dto.ResourceUpdateReqDto;
+import com.github.zuihou.admin.rest.authority.dto.MenuDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuGroupDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuGroupSaveReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuGroupUpdateReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuSaveDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuTreeDTO;
+import com.github.zuihou.admin.rest.authority.dto.MenuUpdateDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourceDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourcePageReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourceSaveReqDTO;
+import com.github.zuihou.admin.rest.authority.dto.ResourceUpdateReqDTO;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.page.plugins.openapi.OpenApiReq;
 import org.springframework.stereotype.Component;
@@ -26,22 +26,22 @@ import java.util.List;
 @Component
 public class AdminResourcesApiHystrix implements AdminResourcesApi {
     @Override
-    public Result<MenuGroupDto> groupGet(Long id) {
+    public Result<MenuGroupDTO> groupGet(Long id) {
         return Result.timeout();
     }
 
     @Override
-    public Result<List<MenuGroupDto>> listGroup() {
+    public Result<List<MenuGroupDTO>> listGroup() {
         return Result.timeout();
     }
 
     @Override
-    public Result<MenuGroupDto> groupSave(MenuGroupSaveReqDto menuDto) {
+    public Result<MenuGroupDTO> groupSave(MenuGroupSaveReqDTO menuDto) {
         return Result.timeout();
     }
 
     @Override
-    public Result<Boolean> groupUpdate(MenuGroupUpdateReqDto menuDto) {
+    public Result<Boolean> groupUpdate(MenuGroupUpdateReqDTO menuDto) {
         return Result.timeout();
     }
 
@@ -51,32 +51,32 @@ public class AdminResourcesApiHystrix implements AdminResourcesApi {
     }
 
     @Override
-    public Result<MenuDto> get(Long id) {
+    public Result<MenuDTO> get(Long id) {
         return Result.timeout();
     }
 
     @Override
-    public Result<List<MenuTreeDto>> findTree(String menuGroupCode) {
+    public Result<List<MenuTreeDTO>> findTree(String menuGroupCode) {
         return Result.timeout();
     }
 
     @Override
-    public Result<List<MenuDto>> list(String menuGroupCode) {
+    public Result<List<MenuDTO>> list(String menuGroupCode) {
         return Result.timeout();
     }
 
     @Override
-    public Result<List<MenuDto>> findByParentId(Long parentId) {
+    public Result<List<MenuDTO>> findByParentId(Long parentId) {
         return Result.timeout();
     }
 
     @Override
-    public Result<MenuDto> save(MenuSaveDto menuDto) {
+    public Result<MenuDTO> save(MenuSaveDTO menuDto) {
         return Result.timeout();
     }
 
     @Override
-    public Result<Boolean> update(MenuUpdateDto menuDto) {
+    public Result<Boolean> update(MenuUpdateDTO menuDto) {
         return Result.timeout();
     }
 
@@ -86,22 +86,22 @@ public class AdminResourcesApiHystrix implements AdminResourcesApi {
     }
 
     @Override
-    public Result<PageInfo<ResourceDto>> page(OpenApiReq openApiReq, ResourcePageReqDto resourcePageReqDto) {
+    public Result<PageInfo<ResourceDTO>> page(OpenApiReq openApiReq, ResourcePageReqDTO resourcePageReqDTO) {
         return Result.timeout();
     }
 
     @Override
-    public Result<ResourceDto> resourceGet(Long id) {
+    public Result<ResourceDTO> resourceGet(Long id) {
         return Result.timeout();
     }
 
     @Override
-    public Result<ResourceDto> resourceSave(ResourceSaveReqDto resourceDto) {
+    public Result<ResourceDTO> resourceSave(ResourceSaveReqDTO resourceDto) {
         return Result.timeout();
     }
 
     @Override
-    public Result<Boolean> resourceUpdate(ResourceUpdateReqDto resourceDto) {
+    public Result<Boolean> resourceUpdate(ResourceUpdateReqDTO resourceDto) {
         return Result.timeout();
     }
 
@@ -111,17 +111,17 @@ public class AdminResourcesApiHystrix implements AdminResourcesApi {
     }
 
     @Override
-    public Result<List<MenuDto>> listMenu() {
+    public Result<List<MenuDTO>> listMenu() {
         return Result.timeout();
     }
 
     @Override
-    public Result<List<MenuTreeDto>> treeMenu() {
+    public Result<List<MenuTreeDTO>> treeMenu() {
         return Result.timeout();
     }
 
     @Override
-    public Result<List<ResourceDto>> listResource() {
+    public Result<List<ResourceDTO>> listResource() {
         return Result.timeout();
     }
 }

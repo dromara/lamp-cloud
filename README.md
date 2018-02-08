@@ -21,6 +21,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 ## 项目地址
 [github] https://github.com/zuihou/zuihou-admin-cloud
+
 [gitee] https://gitee.com/zuihou111/zuihou-admin-cloud
 
 ## 架构详解:
@@ -125,6 +126,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 │  |  ├─zuihou-mail---------------------------邮件模块服务[未开始]
 │  |  ├─zuihou-sms----------------------------短信模块服务[未开始]
 │  |  ├─zuihou-auth---------------------------鉴权中心
+│  |  |  |─zuihou-auth-api--------------------鉴权中心api[已开发]
 │  |  |  |─zuihou-auth-client-----------------鉴权中心客户端[已开发]
 │  |  |  |─zuihou-auth-common-----------------鉴权中心公共包[已开发]
 │  |  |  |─zuihou-auth-server-----------------鉴权中心服务[已开发]

@@ -134,7 +134,7 @@ auth:
   client:
     id: zuihou-admin-server
     secret: 123456
-    token-header: client-token
+    token-header: token
     admin-header: _isAdmin
     pub-key:
       path: client/pub.key

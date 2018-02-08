@@ -3,7 +3,6 @@ package com.github.zuihou.file.rest;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.file.config.FileProperties;
 import com.github.zuihou.file.repository.file.service.FileService;
-import com.github.zuihou.file.repository.file.service.FolderService;
 import com.github.zuihou.file.rest.dozer.DozerUtils;
 import com.github.zuihou.file.rest.file.api.FileApi;
 import io.swagger.annotations.Api;
@@ -31,8 +30,6 @@ import java.util.Map;
 public class FileApiImpl implements FileApi {
     @Autowired
     private FileService fileService;
-    @Autowired
-    private FolderService folderService;
     @Autowired
     private DozerUtils dozerUtils;
     @Autowired

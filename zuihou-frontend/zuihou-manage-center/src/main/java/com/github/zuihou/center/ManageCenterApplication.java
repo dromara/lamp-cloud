@@ -12,6 +12,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @EnableFeignClients({
         "com.github.zuihou.admin.rest.account.api",
         "com.github.zuihou.admin.rest.authority.api",
+        "com.github.zuihou.auth.api",
 })
 @EnableHystrix
 public class ManageCenterApplication {

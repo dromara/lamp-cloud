@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class ShiroPrincipal implements Serializable {
     private String appId;
     private String appName;
+    private String name;
     private Long adminId;
     private String userName;
 

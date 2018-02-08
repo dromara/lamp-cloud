@@ -169,7 +169,7 @@ auth:
   client:
     id: zuihou-gateway-server  #不填则默认读取spring.application.name
     secret: 123456
-    token-header: client-token
+    token-header: token
     admin-header: _isAdmin
     pub-key: # 客服端公钥路径
       path: client/pub.key

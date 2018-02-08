@@ -17,6 +17,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-admin-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-auth-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -119,6 +123,10 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-starter-shiro</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-auth-api</artifactId>
         </dependency>
 
         <!--<dependency>-->

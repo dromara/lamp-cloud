@@ -1,7 +1,9 @@
 package com.github.zuihou.center.shiro;
 
 import com.github.zuihou.admin.rest.account.api.AdminApi;
-import com.github.zuihou.admin.rest.account.dto.AdminDto;
+import com.github.zuihou.admin.rest.account.dto.AccountDTO;
+import com.github.zuihou.auth.api.AuthTokenApi;
+import com.github.zuihou.auth.dto.TokenDTO;
 import com.github.zuihou.base.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AccountException;
@@ -29,6 +31,8 @@ public class ShiroAuthorizingRealm extends AuthorizingRealm {
     //注入用户管理对象
     @Autowired
     private AdminApi adminApi;
+    @Autowired
+    private AuthTokenApi authTokenApi;
 
     /**
      * 构造函数，设置安全的初始化信息
@@ -41,7 +45,7 @@ public class ShiroAuthorizingRealm extends AuthorizingRealm {
 
     /**
      * 获取当前认证实体的授权信息（授权包括：角色、权限）
-     *  授权(验证权限时调用)
+     * 授权(验证权限时调用)
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -95,24 +99,30 @@ public class ShiroAuthorizingRealm extends AuthorizingRealm {
             log.warn("用户名不能为空");
             throw new AccountException("用户名不能为空");
         }
-        AdminDto admin = null;
 
         String password = new String(upToken.getPassword());
-        Result<AdminDto> result = adminApi.getByPwd(username, password);
+        Result<AccountDTO> result = adminApi.getAccount(username);
         if (!result.isSuccess()) {
-            log.warn("获取用户失败\n" + result.getErrmsg());
+            log.warn("获取用户失败:{}", result.getErrmsg());
+            throw new AccountException("账号或密码错误:" + result.getErrmsg());
         }
-        admin = result.getData();
+        Result<TokenDTO> tokenResult = authTokenApi.login(username);
+        if (!tokenResult.isSuccess()) {
+            throw new AccountException("获取token失败:" + tokenResult.getErrmsg());
+        }
+
+        AccountDTO admin = result.getData();
         if (admin == null) {
             log.warn("用户名或密码错误");
             throw new UnknownAccountException("用户名或密码错误");
         }
 
         ShiroPrincipal subject = new ShiroPrincipal();
-        subject.setUserName(admin.getUsername());
-        subject.setAdminId(admin.getId());
-        subject.setAppId("10000");
-        subject.setAppName("appname");
+        subject.setUserName(admin.getUserName());
+        subject.setAdminId(admin.getAdminId());
+        subject.setAppId(admin.getAppId());
+        subject.setAppName(admin.getAppName());
+        subject.setName(admin.getName());
         return new SimpleAuthenticationInfo(subject, upToken.getPassword(), getName());
     }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.admin.repository.account.dao.AdminMapper">
+
+    <resultMap id="AccountResultMap" type="com.github.zuihou.admin.entity.account.domain.AccountDO">
+        <result column="id" jdbcType="BIGINT" property="adminId"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+    </resultMap>
+
+    <select id="getAccount" resultMap="AccountResultMap" parameterType="map">
+        SELECT a.`name`, a.username , a.id, app.app_id, app.app_name
+        from  a_admin a INNER JOIN a_applications app on a.app_id = app.app_id
+        where a.is_delete = 0 and app.is_delete = 0
+        and a.username = #{userName, jdbcType=VARCHAR}
+    </select>
+</mapper>

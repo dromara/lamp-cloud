@@ -2,7 +2,7 @@ package com.github.zuihou.admin.rest.account;
 
 import com.github.zuihou.admin.repository.account.service.ApplicationsService;
 import com.github.zuihou.admin.rest.account.api.ApplicationsApi;
-import com.github.zuihou.admin.rest.account.dto.ApplicationsDto;
+import com.github.zuihou.admin.rest.account.dto.ApplicationsDTO;
 import com.github.zuihou.admin.rest.dozer.DozerUtils;
 import com.github.zuihou.base.Result;
 import io.swagger.annotations.Api;
@@ -35,8 +35,8 @@ public class ApplicationsApiImpl implements ApplicationsApi {
      * @return
      */
     @Override
-    @RequestMapping(value = "/getBySecret", method = RequestMethod.GET)
-    public Result<ApplicationsDto> getBySecret(@RequestParam("appId") String appId, @RequestParam("appSecret") String appSecret) {
-        return Result.success(dozerUtils.map(applicationsService.getBySecret(appId, appSecret), ApplicationsDto.class));
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public Result<ApplicationsDTO> getBySecret(@RequestParam("appId") String appId, @RequestParam("appSecret") String appSecret) {
+        return Result.success(dozerUtils.map(applicationsService.getBySecret(appId, appSecret), ApplicationsDTO.class));
     }
 }

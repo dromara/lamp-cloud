@@ -17,6 +17,7 @@
         <module>zuihou-auth-server</module>
         <module>zuihou-auth-client</module>
         <module>zuihou-auth-common</module>
+        <module>zuihou-auth-api</module>
     </modules>
 
     <name>${project.artifactId}</name>

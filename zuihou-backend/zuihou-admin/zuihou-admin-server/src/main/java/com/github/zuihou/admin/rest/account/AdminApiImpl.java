@@ -2,14 +2,16 @@ package com.github.zuihou.admin.rest.account;
 
 import com.github.zuihou.admin.constant.AdminType;
 import com.github.zuihou.admin.constant.AppType;
+import com.github.zuihou.admin.entity.account.domain.AccountDO;
 import com.github.zuihou.admin.entity.account.po.Admin;
 import com.github.zuihou.admin.entity.account.po.Applications;
 import com.github.zuihou.admin.repository.account.example.AdminExample;
 import com.github.zuihou.admin.repository.account.service.AdminService;
 import com.github.zuihou.admin.repository.account.service.ApplicationsService;
 import com.github.zuihou.admin.rest.account.api.AdminApi;
-import com.github.zuihou.admin.rest.account.dto.AdminDto;
-import com.github.zuihou.admin.rest.account.dto.AdminRegisterDto;
+import com.github.zuihou.admin.rest.account.dto.AccountDTO;
+import com.github.zuihou.admin.rest.account.dto.AdminDTO;
+import com.github.zuihou.admin.rest.account.dto.AdminRegisterDTO;
 import com.github.zuihou.admin.rest.dozer.DozerUtils;
 import com.github.zuihou.auth.client.annotation.IgnoreAppToken;
 import com.github.zuihou.base.Result;
@@ -19,6 +21,7 @@ import com.github.zuihou.commons.exception.core.ExceptionCode;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,17 +45,25 @@ public class AdminApiImpl implements AdminApi {
     private DozerUtils dozerUtils;
 
     @Override
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     @IgnoreAppToken
-    public Result<AdminDto> get(@RequestParam("userName") String userName) {
+    public Result<AdminDTO> get(@RequestParam("userName") String userName) {
         AdminExample example = new AdminExample();
         example.createCriteria().andUsernameEqualTo(userName).andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal());
         Admin admin = adminService.getUnique(example);
         if (admin == null) {
             return Result.fail(ExceptionCode.USER_NOT_EXIST);
         }
-        AdminDto dto = dozerUtils.map(admin, AdminDto.class);
+        AdminDTO dto = dozerUtils.map(admin, AdminDTO.class);
         return Result.success(dto);
+    }
+
+    @Override
+    @RequestMapping(value = "/account/{userName}", method = RequestMethod.GET)
+    @IgnoreAppToken
+    public Result<AccountDTO> getAccount(@PathVariable(value = "userName")  String userName) {
+        AccountDO accountDO = adminService.getAccount(userName);
+        return Result.success(dozerUtils.map(accountDO, AccountDTO.class));
     }
 
     /**
@@ -64,13 +75,13 @@ public class AdminApiImpl implements AdminApi {
      */
     @Override
     @IgnoreAppToken
-    @RequestMapping(value = "/getByPwd", method = RequestMethod.GET)
-    public Result<AdminDto> getByPwd(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord) {
+    @RequestMapping(value = "/pwd", method = RequestMethod.GET)
+    public Result<AdminDTO> getByPwd(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord) {
         Admin admin = adminService.get(userName, passWord);
         if (admin == null) {
             return Result.fail(ExceptionCode.USER_NAME_PWD_ERROR);
         }
-        AdminDto dto = dozerUtils.map(admin, AdminDto.class);
+        AdminDTO dto = dozerUtils.map(admin, AdminDTO.class);
         return Result.success(dto);
     }
 
@@ -102,7 +113,7 @@ public class AdminApiImpl implements AdminApi {
     @Override
     @IgnoreAppToken
     @RequestMapping(value = "/registry", method = RequestMethod.POST)
-    public Result<Boolean> registry(@RequestBody AdminRegisterDto adminRegisterDto) {
+    public Result<Boolean> registry(@RequestBody AdminRegisterDTO adminRegisterDto) {
         //1，验证参数
         //BizAssert.assertNull("", adminRegisterDto);
         //adminRegisterDto.getUsername();
