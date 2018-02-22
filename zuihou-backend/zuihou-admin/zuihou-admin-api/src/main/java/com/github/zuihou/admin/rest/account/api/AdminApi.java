@@ -25,14 +25,14 @@ public interface AdminApi {
      * @return
      */
     @RequestMapping(value = "/api/admin/admin/pwd", method = RequestMethod.GET)
-    Result<AdminDTO> getByPwd(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord);
+    Result<AdminDTO> getByPwd(@RequestParam(value = "userName") String userName, @RequestParam(value = "passWord") String passWord);
     /**
      * 根据用户查找用户
      * @param userName 登录名
      * @return
      */
     @RequestMapping(value = "/api/admin/admin", method = RequestMethod.GET)
-    Result<AdminDTO> get(@RequestParam("userName") String userName);
+    Result<AdminDTO> get(@RequestParam(value = "userName") String userName);
 
     /**
      * 登录后，获取用户的详细信息
@@ -49,7 +49,7 @@ public interface AdminApi {
      * @return
      */
     @RequestMapping(value = "/api/admin/admin/check", method = RequestMethod.GET)
-    Result<Boolean> check(@RequestParam("userName") String userName);
+    Result<Boolean> check(@RequestParam(value = "userName") String userName);
 
     /**
      * 注册帐号

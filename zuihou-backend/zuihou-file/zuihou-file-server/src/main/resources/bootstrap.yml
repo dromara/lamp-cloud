@@ -1,19 +1,30 @@
 # eureka 主机/端口配置 start
-prod1:
+#prod1:
+#  eureka:
+#    server:
+#      port: 8501
+#    hostname: eureka1.zuihou.com
+#prod2:
+#  eureka:
+#    server:
+#      port: 8502
+#    hostname: eureka2.zuihou.com
+#dev:
+#  eureka:
+#    server:
+#      port: 8500
+#    hostname: eureka.zuihou.com
+zuihou:
   eureka:
     server:
-      port: 8501
-    hostname: eureka1.zuihou.com
-prod2:
-  eureka:
-    server:
-      port: 8502
-    hostname: eureka2.zuihou.com
-dev:
-  eureka:
-    server:
-      port: 8500
-    hostname: eureka.zuihou.com
+      port:
+        dev: 8500
+        prod1: 8501
+        prod2: 8502
+    hostname:
+      dev: eureka.zuihou.com
+      prod1: eureka1.zuihou.com
+      prod2: eureka2.zuihou.com
 # eureka 主机/端口配置 end
 
 spring:

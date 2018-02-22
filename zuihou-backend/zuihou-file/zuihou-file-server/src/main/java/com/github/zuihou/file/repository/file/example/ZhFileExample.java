@@ -1,9 +1,7 @@
 package com.github.zuihou.file.repository.file.example;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class ZhFileExample extends com.github.zuihou.example.BaseExample<ZhFileExample.Criteria> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -204,6 +202,136 @@ public class ZhFileExample extends com.github.zuihou.example.BaseExample<ZhFileE
             return (Criteria) this;
         }
 
+        public Criteria andFolderNameIsNull() {
+            addCriterion("folder_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameIsNotNull() {
+            addCriterion("folder_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameEqualTo(String value) {
+            addCriterion("folder_name =", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameNotEqualTo(String value) {
+            addCriterion("folder_name <>", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameGreaterThan(String value) {
+            addCriterion("folder_name >", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameGreaterThanOrEqualTo(String value) {
+            addCriterion("folder_name >=", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameLessThan(String value) {
+            addCriterion("folder_name <", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameLessThanOrEqualTo(String value) {
+            addCriterion("folder_name <=", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameLike(String value) {
+            addCriterion("folder_name like", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameNotLike(String value) {
+            addCriterion("folder_name not like", value, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameIn(java.util.List<java.lang.String> values) {
+            addCriterion("folder_name in", values, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameNotIn(java.util.List<java.lang.String> values) {
+            addCriterion("folder_name not in", values, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameBetween(String value1, String value2) {
+            addCriterion("folder_name between", value1, value2, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderNameNotBetween(String value1, String value2) {
+            addCriterion("folder_name not between", value1, value2, "folderName");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteIsNull() {
+            addCriterion("is_delete is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteIsNotNull() {
+            addCriterion("is_delete is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteEqualTo(Boolean value) {
+            addCriterion("is_delete =", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteNotEqualTo(Boolean value) {
+            addCriterion("is_delete <>", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteGreaterThan(Boolean value) {
+            addCriterion("is_delete >", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_delete >=", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteLessThan(Boolean value) {
+            addCriterion("is_delete <", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_delete <=", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteIn(java.util.List<java.lang.Boolean> values) {
+            addCriterion("is_delete in", values, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteNotIn(java.util.List<java.lang.Boolean> values) {
+            addCriterion("is_delete not in", values, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_delete between", value1, value2, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_delete not between", value1, value2, "isDelete");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;
@@ -271,6 +399,76 @@ public class ZhFileExample extends com.github.zuihou.example.BaseExample<ZhFileE
 
         public Criteria andTypeNotBetween(String value1, String value2) {
             addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeIsNull() {
+            addCriterion("data_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeIsNotNull() {
+            addCriterion("data_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeEqualTo(String value) {
+            addCriterion("data_type =", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeNotEqualTo(String value) {
+            addCriterion("data_type <>", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeGreaterThan(String value) {
+            addCriterion("data_type >", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("data_type >=", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeLessThan(String value) {
+            addCriterion("data_type <", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeLessThanOrEqualTo(String value) {
+            addCriterion("data_type <=", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeLike(String value) {
+            addCriterion("data_type like", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeNotLike(String value) {
+            addCriterion("data_type not like", value, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeIn(java.util.List<java.lang.String> values) {
+            addCriterion("data_type in", values, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeNotIn(java.util.List<java.lang.String> values) {
+            addCriterion("data_type not in", values, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeBetween(String value1, String value2) {
+            addCriterion("data_type between", value1, value2, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataTypeNotBetween(String value1, String value2) {
+            addCriterion("data_type not between", value1, value2, "dataType");
             return (Criteria) this;
         }
 
@@ -694,6 +892,76 @@ public class ZhFileExample extends com.github.zuihou.example.BaseExample<ZhFileE
             return (Criteria) this;
         }
 
+        public Criteria andSubmittedFileNameIsNull() {
+            addCriterion("submitted_file_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameIsNotNull() {
+            addCriterion("submitted_file_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameEqualTo(String value) {
+            addCriterion("submitted_file_name =", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameNotEqualTo(String value) {
+            addCriterion("submitted_file_name <>", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameGreaterThan(String value) {
+            addCriterion("submitted_file_name >", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameGreaterThanOrEqualTo(String value) {
+            addCriterion("submitted_file_name >=", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameLessThan(String value) {
+            addCriterion("submitted_file_name <", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameLessThanOrEqualTo(String value) {
+            addCriterion("submitted_file_name <=", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameLike(String value) {
+            addCriterion("submitted_file_name like", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameNotLike(String value) {
+            addCriterion("submitted_file_name not like", value, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameIn(java.util.List<java.lang.String> values) {
+            addCriterion("submitted_file_name in", values, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameNotIn(java.util.List<java.lang.String> values) {
+            addCriterion("submitted_file_name not in", values, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameBetween(String value1, String value2) {
+            addCriterion("submitted_file_name between", value1, value2, "submittedFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmittedFileNameNotBetween(String value1, String value2) {
+            addCriterion("submitted_file_name not between", value1, value2, "submittedFileName");
+            return (Criteria) this;
+        }
+
         public Criteria andFilenameIsNull() {
             addCriterion("filename is null");
             return (Criteria) this;
@@ -834,73 +1102,73 @@ public class ZhFileExample extends com.github.zuihou.example.BaseExample<ZhFileE
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameIsNull() {
-            addCriterion("submitted_file_name is null");
+        public Criteria andTreePathIsNull() {
+            addCriterion("tree_path is null");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameIsNotNull() {
-            addCriterion("submitted_file_name is not null");
+        public Criteria andTreePathIsNotNull() {
+            addCriterion("tree_path is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameEqualTo(String value) {
-            addCriterion("submitted_file_name =", value, "submittedFileName");
+        public Criteria andTreePathEqualTo(String value) {
+            addCriterion("tree_path =", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameNotEqualTo(String value) {
-            addCriterion("submitted_file_name <>", value, "submittedFileName");
+        public Criteria andTreePathNotEqualTo(String value) {
+            addCriterion("tree_path <>", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameGreaterThan(String value) {
-            addCriterion("submitted_file_name >", value, "submittedFileName");
+        public Criteria andTreePathGreaterThan(String value) {
+            addCriterion("tree_path >", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameGreaterThanOrEqualTo(String value) {
-            addCriterion("submitted_file_name >=", value, "submittedFileName");
+        public Criteria andTreePathGreaterThanOrEqualTo(String value) {
+            addCriterion("tree_path >=", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameLessThan(String value) {
-            addCriterion("submitted_file_name <", value, "submittedFileName");
+        public Criteria andTreePathLessThan(String value) {
+            addCriterion("tree_path <", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameLessThanOrEqualTo(String value) {
-            addCriterion("submitted_file_name <=", value, "submittedFileName");
+        public Criteria andTreePathLessThanOrEqualTo(String value) {
+            addCriterion("tree_path <=", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameLike(String value) {
-            addCriterion("submitted_file_name like", value, "submittedFileName");
+        public Criteria andTreePathLike(String value) {
+            addCriterion("tree_path like", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameNotLike(String value) {
-            addCriterion("submitted_file_name not like", value, "submittedFileName");
+        public Criteria andTreePathNotLike(String value) {
+            addCriterion("tree_path not like", value, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameIn(java.util.List<java.lang.String> values) {
-            addCriterion("submitted_file_name in", values, "submittedFileName");
+        public Criteria andTreePathIn(java.util.List<java.lang.String> values) {
+            addCriterion("tree_path in", values, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameNotIn(java.util.List<java.lang.String> values) {
-            addCriterion("submitted_file_name not in", values, "submittedFileName");
+        public Criteria andTreePathNotIn(java.util.List<java.lang.String> values) {
+            addCriterion("tree_path not in", values, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameBetween(String value1, String value2) {
-            addCriterion("submitted_file_name between", value1, value2, "submittedFileName");
+        public Criteria andTreePathBetween(String value1, String value2) {
+            addCriterion("tree_path between", value1, value2, "treePath");
             return (Criteria) this;
         }
 
-        public Criteria andSubmittedFileNameNotBetween(String value1, String value2) {
-            addCriterion("submitted_file_name not between", value1, value2, "submittedFileName");
+        public Criteria andTreePathNotBetween(String value1, String value2) {
+            addCriterion("tree_path not between", value1, value2, "treePath");
             return (Criteria) this;
         }
 

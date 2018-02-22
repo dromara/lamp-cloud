@@ -5,4 +5,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${prod1.eureka.hostname}:${prod1.eureka.server.port}/eureka/,http://${prod2.eureka.hostname}:${prod2.eureka.server.port}/eureka/
+      defaultZone: http://${zuihou.eureka.hostname.prod1}:${zuihou.eureka.server.port.prod1}/eureka/,http://${zuihou.eureka.hostname.prod2}:${zuihou.eureka.server.port.prod2}/eureka/

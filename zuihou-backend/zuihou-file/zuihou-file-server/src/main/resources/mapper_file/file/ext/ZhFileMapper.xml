@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.file.repository.file.dao.ZhFileMapper">
+    <update id="removeDirByAppIdAndId">
+        update f_file
+        set is_delete = 1
+        where 1=1 and app_id = #{appId, jdbcType=VARCHAR}
+        and (find_in_set(#{id, jdbcType=BIGINT}, tree_path) or id=#{id, jdbcType=BIGINT})
+    </update>
+
+</mapper>

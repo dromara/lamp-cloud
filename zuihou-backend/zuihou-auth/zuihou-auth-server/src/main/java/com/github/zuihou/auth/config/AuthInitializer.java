@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * 初始化open server 容器
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-25 16:31
  */
 @Component

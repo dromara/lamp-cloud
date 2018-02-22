@@ -8,16 +8,20 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="app_id" jdbcType="VARCHAR" property="appId" />
     <result column="folder_id" jdbcType="BIGINT" property="folderId" />
+    <result column="folder_name" jdbcType="VARCHAR" property="folderName" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
     <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="data_type" jdbcType="VARCHAR" property="dataType" />
     <result column="object_id" jdbcType="VARCHAR" property="objectId" />
     <result column="namespace" jdbcType="VARCHAR" property="namespace" />
     <result column="u_key" jdbcType="VARCHAR" property="uKey" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="absolute_path" jdbcType="VARCHAR" property="absolutePath" />
     <result column="relative_path" jdbcType="VARCHAR" property="relativePath" />
+    <result column="submitted_file_name" jdbcType="VARCHAR" property="submittedFileName" />
     <result column="filename" jdbcType="VARCHAR" property="filename" />
     <result column="mime" jdbcType="VARCHAR" property="mime" />
-    <result column="submitted_file_name" jdbcType="VARCHAR" property="submittedFileName" />
+    <result column="tree_path" jdbcType="VARCHAR" property="treePath" />
     <result column="ext" jdbcType="VARCHAR" property="ext" />
     <result column="size" jdbcType="VARCHAR" property="size" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
@@ -94,9 +98,9 @@
     <!--
     @mbggenerated
     -->
-    id, app_id, folder_id, type, object_id, namespace, u_key, url, absolute_path, relative_path, 
-    filename, mime, submitted_file_name, ext, size, icon, create_time, create_name, update_time, 
-    update_name
+    id, app_id, folder_id, folder_name, is_delete, type, data_type, object_id, namespace, 
+    u_key, url, absolute_path, relative_path, submitted_file_name, filename, mime, tree_path, 
+    ext, size, icon, create_time, create_name, update_time, update_name
   </sql>
   <select id="selectByExample" parameterType="com.github.zuihou.file.repository.file.example.ZhFileExample" resultMap="BaseResultMap">
     <!--
@@ -225,33 +229,39 @@
     @mbggenerated
     -->
     insert into f_file (id, app_id, folder_id, 
-      type, object_id, namespace, 
+      folder_name, is_delete, type, 
+      data_type, object_id, namespace, 
       u_key, url, absolute_path, 
-      relative_path, filename, mime, 
-      submitted_file_name, ext, size, 
-      icon, create_time, create_name, 
-      update_time, update_name)
+      relative_path, submitted_file_name, filename, 
+      mime, tree_path, ext, 
+      size, icon, create_time, 
+      create_name, update_time, update_name
+      )
     values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{folderId,jdbcType=BIGINT}, 
-      #{type,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{namespace,jdbcType=VARCHAR}, 
+      #{folderName,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{type,jdbcType=VARCHAR}, 
+      #{dataType,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{namespace,jdbcType=VARCHAR}, 
       #{uKey,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{absolutePath,jdbcType=VARCHAR}, 
-      #{relativePath,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{mime,jdbcType=VARCHAR}, 
-      #{submittedFileName,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
-      #{icon,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createName,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateName,jdbcType=VARCHAR})
+      #{relativePath,jdbcType=VARCHAR}, #{submittedFileName,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, 
+      #{mime,jdbcType=VARCHAR}, #{treePath,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR}, 
+      #{size,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="batchInsert" parameterType="java.util.List">
     <!--
     @mbggenerated
     -->
-    insert into f_file (id, app_id, folder_id, type, object_id, namespace, u_key, url, absolute_path, relative_path, filename, mime, submitted_file_name, ext, size, icon, create_time, create_name, update_time, update_name ) values 
+    insert into f_file (id, app_id, folder_id, folder_name, is_delete, type, data_type, object_id, namespace, u_key, url, absolute_path, relative_path, submitted_file_name, filename, mime, tree_path, ext, size, icon, create_time, create_name, update_time, update_name ) values 
     <foreach collection="list" index="index" item="item" separator=",">
       (#{item.id,jdbcType=BIGINT}, #{item.appId,jdbcType=VARCHAR}, #{item.folderId,jdbcType=BIGINT}, 
-        #{item.type,jdbcType=VARCHAR}, #{item.objectId,jdbcType=VARCHAR}, #{item.namespace,jdbcType=VARCHAR}, 
+        #{item.folderName,jdbcType=VARCHAR}, #{item.isDelete,jdbcType=BIT}, #{item.type,jdbcType=VARCHAR}, 
+        #{item.dataType,jdbcType=VARCHAR}, #{item.objectId,jdbcType=VARCHAR}, #{item.namespace,jdbcType=VARCHAR}, 
         #{item.uKey,jdbcType=VARCHAR}, #{item.url,jdbcType=VARCHAR}, #{item.absolutePath,jdbcType=VARCHAR}, 
-        #{item.relativePath,jdbcType=VARCHAR}, #{item.filename,jdbcType=VARCHAR}, #{item.mime,jdbcType=VARCHAR}, 
-        #{item.submittedFileName,jdbcType=VARCHAR}, #{item.ext,jdbcType=VARCHAR}, #{item.size,jdbcType=VARCHAR}, 
-        #{item.icon,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createName,jdbcType=VARCHAR}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateName,jdbcType=VARCHAR})
+        #{item.relativePath,jdbcType=VARCHAR}, #{item.submittedFileName,jdbcType=VARCHAR}, 
+        #{item.filename,jdbcType=VARCHAR}, #{item.mime,jdbcType=VARCHAR}, #{item.treePath,jdbcType=VARCHAR}, 
+        #{item.ext,jdbcType=VARCHAR}, #{item.size,jdbcType=VARCHAR}, #{item.icon,jdbcType=VARCHAR}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.createName,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.updateName,jdbcType=VARCHAR})
     </foreach>
   </insert>
   <insert id="insertSelective" parameterType="com.github.zuihou.file.entity.file.po.ZhFile">
@@ -269,8 +279,17 @@
       <if test="folderId != null">
         folder_id,
       </if>
+      <if test="folderName != null">
+        folder_name,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="dataType != null">
+        data_type,
       </if>
       <if test="objectId != null">
         object_id,
@@ -290,14 +309,17 @@
       <if test="relativePath != null">
         relative_path,
       </if>
+      <if test="submittedFileName != null">
+        submitted_file_name,
+      </if>
       <if test="filename != null">
         filename,
       </if>
       <if test="mime != null">
         mime,
       </if>
-      <if test="submittedFileName != null">
-        submitted_file_name,
+      <if test="treePath != null">
+        tree_path,
       </if>
       <if test="ext != null">
         ext,
@@ -331,8 +353,17 @@
       <if test="folderId != null">
         #{folderId,jdbcType=BIGINT},
       </if>
+      <if test="folderName != null">
+        #{folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
       </if>
       <if test="objectId != null">
         #{objectId,jdbcType=VARCHAR},
@@ -352,14 +383,17 @@
       <if test="relativePath != null">
         #{relativePath,jdbcType=VARCHAR},
       </if>
+      <if test="submittedFileName != null">
+        #{submittedFileName,jdbcType=VARCHAR},
+      </if>
       <if test="filename != null">
         #{filename,jdbcType=VARCHAR},
       </if>
       <if test="mime != null">
         #{mime,jdbcType=VARCHAR},
       </if>
-      <if test="submittedFileName != null">
-        #{submittedFileName,jdbcType=VARCHAR},
+      <if test="treePath != null">
+        #{treePath,jdbcType=VARCHAR},
       </if>
       <if test="ext != null">
         #{ext,jdbcType=VARCHAR},
@@ -408,8 +442,17 @@
       <if test="record.folderId != null">
         folder_id = #{record.folderId,jdbcType=BIGINT},
       </if>
+      <if test="record.folderName != null">
+        folder_name = #{record.folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataType != null">
+        data_type = #{record.dataType,jdbcType=VARCHAR},
       </if>
       <if test="record.objectId != null">
         object_id = #{record.objectId,jdbcType=VARCHAR},
@@ -429,14 +472,17 @@
       <if test="record.relativePath != null">
         relative_path = #{record.relativePath,jdbcType=VARCHAR},
       </if>
+      <if test="record.submittedFileName != null">
+        submitted_file_name = #{record.submittedFileName,jdbcType=VARCHAR},
+      </if>
       <if test="record.filename != null">
         filename = #{record.filename,jdbcType=VARCHAR},
       </if>
       <if test="record.mime != null">
         mime = #{record.mime,jdbcType=VARCHAR},
       </if>
-      <if test="record.submittedFileName != null">
-        submitted_file_name = #{record.submittedFileName,jdbcType=VARCHAR},
+      <if test="record.treePath != null">
+        tree_path = #{record.treePath,jdbcType=VARCHAR},
       </if>
       <if test="record.ext != null">
         ext = #{record.ext,jdbcType=VARCHAR},
@@ -472,16 +518,20 @@
     set id = #{record.id,jdbcType=BIGINT},
       app_id = #{record.appId,jdbcType=VARCHAR},
       folder_id = #{record.folderId,jdbcType=BIGINT},
+      folder_name = #{record.folderName,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=BIT},
       type = #{record.type,jdbcType=VARCHAR},
+      data_type = #{record.dataType,jdbcType=VARCHAR},
       object_id = #{record.objectId,jdbcType=VARCHAR},
       namespace = #{record.namespace,jdbcType=VARCHAR},
       u_key = #{record.uKey,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       absolute_path = #{record.absolutePath,jdbcType=VARCHAR},
       relative_path = #{record.relativePath,jdbcType=VARCHAR},
+      submitted_file_name = #{record.submittedFileName,jdbcType=VARCHAR},
       filename = #{record.filename,jdbcType=VARCHAR},
       mime = #{record.mime,jdbcType=VARCHAR},
-      submitted_file_name = #{record.submittedFileName,jdbcType=VARCHAR},
+      tree_path = #{record.treePath,jdbcType=VARCHAR},
       ext = #{record.ext,jdbcType=VARCHAR},
       size = #{record.size,jdbcType=VARCHAR},
       icon = #{record.icon,jdbcType=VARCHAR},
@@ -505,8 +555,17 @@
       <if test="folderId != null">
         folder_id = #{folderId,jdbcType=BIGINT},
       </if>
+      <if test="folderName != null">
+        folder_name = #{folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=VARCHAR},
       </if>
       <if test="objectId != null">
         object_id = #{objectId,jdbcType=VARCHAR},
@@ -526,14 +585,17 @@
       <if test="relativePath != null">
         relative_path = #{relativePath,jdbcType=VARCHAR},
       </if>
+      <if test="submittedFileName != null">
+        submitted_file_name = #{submittedFileName,jdbcType=VARCHAR},
+      </if>
       <if test="filename != null">
         filename = #{filename,jdbcType=VARCHAR},
       </if>
       <if test="mime != null">
         mime = #{mime,jdbcType=VARCHAR},
       </if>
-      <if test="submittedFileName != null">
-        submitted_file_name = #{submittedFileName,jdbcType=VARCHAR},
+      <if test="treePath != null">
+        tree_path = #{treePath,jdbcType=VARCHAR},
       </if>
       <if test="ext != null">
         ext = #{ext,jdbcType=VARCHAR},
@@ -567,16 +629,20 @@
     update f_file
     set app_id = #{appId,jdbcType=VARCHAR},
       folder_id = #{folderId,jdbcType=BIGINT},
+      folder_name = #{folderName,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
       type = #{type,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
       object_id = #{objectId,jdbcType=VARCHAR},
       namespace = #{namespace,jdbcType=VARCHAR},
       u_key = #{uKey,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       absolute_path = #{absolutePath,jdbcType=VARCHAR},
       relative_path = #{relativePath,jdbcType=VARCHAR},
+      submitted_file_name = #{submittedFileName,jdbcType=VARCHAR},
       filename = #{filename,jdbcType=VARCHAR},
       mime = #{mime,jdbcType=VARCHAR},
-      submitted_file_name = #{submittedFileName,jdbcType=VARCHAR},
+      tree_path = #{treePath,jdbcType=VARCHAR},
       ext = #{ext,jdbcType=VARCHAR},
       size = #{size,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},

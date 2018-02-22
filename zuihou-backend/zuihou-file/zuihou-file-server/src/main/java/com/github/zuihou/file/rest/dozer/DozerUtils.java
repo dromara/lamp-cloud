@@ -55,6 +55,16 @@ public class DozerUtils {
         mapper.map(source, destination);
     }
 
+    public <T> T map2(Object source, Class<T> destinationClass) {
+        if (source == null) {
+            try {
+                return destinationClass.newInstance();
+            }catch (Exception e){
+            }
+        }
+        return mapper.map(source, destinationClass);
+    }
+
     /**
      * Constructs new instance of destinationClass and performs mapping between from source
      *
