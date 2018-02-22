@@ -130,6 +130,10 @@ gateway:
       - /admin/webjars
       - /admin/v2/api-docs
       - /admin/swagger-resources
+      - /file/swagger-ui.html
+      - /file/webjars
+      - /file/v2/api-docs
+      - /file/swagger-resources
 
 #请求和响应GZIP压缩支持
 feign:
