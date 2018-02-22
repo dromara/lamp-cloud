@@ -96,7 +96,7 @@ zuul:
         - origin
         - url
   routes:  # 路由配置方式
-    open:  # 其中 back 是路由名称，可以随便定义，但是path和service-id需要一一对应
+    base:  # 其中 back 是路由名称，可以随便定义，但是path和service-id需要一一对应
       path: /base/**
       serviceId: zuihou-base-server
     admin:  # 其中 admin 是路由名称，可以随便定义，但是path和service-id需要一一对应
@@ -108,10 +108,10 @@ zuul:
     file:
       path: /file/**
       serviceId: zuihou-file-server
-    file:
+    mail:
       path: /mail/**
       serviceId: zuihou-mail-server
-    file:
+    sms:
       path: /sms/**
       serviceId: zuihou-sms-server
 
