@@ -23,7 +23,7 @@ public class FileProperties {
     /**
      * 文件上传到服务器的临时目录前缀
      */
-    private String uploadPathPrefix = "/home/uploadfile/";
+    private String uploadPathPrefix = "/home/zuihou/uploadfile/";
     /**
      * 远程文件服务器 访问url前缀
      */

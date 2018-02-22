@@ -47,7 +47,7 @@ public class AdminApiImpl implements AdminApi {
     @Override
     @RequestMapping(value = "", method = RequestMethod.GET)
     @IgnoreAppToken
-    public Result<AdminDTO> get(@RequestParam("userName") String userName) {
+    public Result<AdminDTO> get(@RequestParam(value = "userName") String userName) {
         AdminExample example = new AdminExample();
         example.createCriteria().andUsernameEqualTo(userName).andIsDeleteEqualTo(DeleteStatus.UN_DELETE.getVal());
         Admin admin = adminService.getUnique(example);
@@ -76,7 +76,7 @@ public class AdminApiImpl implements AdminApi {
     @Override
     @IgnoreAppToken
     @RequestMapping(value = "/pwd", method = RequestMethod.GET)
-    public Result<AdminDTO> getByPwd(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord) {
+    public Result<AdminDTO> getByPwd(@RequestParam(value = "userName") String userName, @RequestParam(value = "passWord") String passWord) {
         Admin admin = adminService.get(userName, passWord);
         if (admin == null) {
             return Result.fail(ExceptionCode.USER_NAME_PWD_ERROR);
@@ -94,7 +94,7 @@ public class AdminApiImpl implements AdminApi {
     @Override
     @IgnoreAppToken
     @RequestMapping(value = "/check", method = RequestMethod.GET)
-    public Result<Boolean> check(@RequestParam("userName") String userName) {
+    public Result<Boolean> check(@RequestParam(value = "userName") String userName) {
         AdminExample example = new AdminExample();
         example.createCriteria().andUsernameEqualTo(userName);
         int count = adminService.count(example);

@@ -99,8 +99,20 @@ public enum ExceptionCode implements BaseExceptionCode {
     DICTIONARY_CODE_EMPTY(54502, "数据字典code不能为空"),
     DICTIONARY_CODE_EXIST(54503, "数据字典code不能重复"),
     //数据字典相关 end
-    ;
 
+
+    // 文件夹相关 start
+    FOLDER_NULL(55000, "文件夹为空"),
+    FOLDER_NAME_EMPTY(55001, "文件夹名称为空"),
+    FOLDER_PARENT_NULL(55002, "父文件夹为空"),
+
+
+    FILE_NULL(55500, "文件为空"),
+    FILE_NAME_EMPTY(55501, "文件名称为空"),
+    FILE_FOLDER_NULL(55502, "文件夹为空"),
+
+    // 文件夹相关 end
+    ;
     private  int code;
     private  String msg;
 

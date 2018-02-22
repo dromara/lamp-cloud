@@ -22,35 +22,56 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     private Long folderId;
 
     /**
-     * 文件类型 pan:云盘  接口:api
+     * 文件夹名称
+     *
+     * @mbggenerated
+     */
+    private String folderName;
+
+    /**
+     * 是否删除 0:否 1：是
+     *
+     * @mbggenerated
+     */
+    private Boolean isDelete;
+
+    /**
+     * 文件所属类型 PAN:云盘  API:接口
      *
      * @mbggenerated
      */
     private String type;
 
     /**
-     * 对象id
+     * 数据类型 IMAGE/VIDEO/AUDIO/DOC/OTHER/DIR
+     *
+     * @mbggenerated
+     */
+    private String dataType;
+
+    /**
+     * 对象id （FASTDHT使用）
      *
      * @mbggenerated
      */
     private String objectId;
 
     /**
-     * 命名空间
+     * 命名空间 （FASTDHT使用）
      *
      * @mbggenerated
      */
     private String namespace;
 
     /**
-     * 文件的唯一key
+     * 文件的唯一key （FASTDHT使用）
      *
      * @mbggenerated
      */
     private String uKey;
 
     /**
-     * 链接
+     * 文件访问链接
      *
      * @mbggenerated
      */
@@ -75,25 +96,32 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     private String relativePath;
 
     /**
-     * 文件名
+     * 原始文件名(文件夹名)
+     *
+     * @mbggenerated
+     */
+    private String submittedFileName;
+
+    /**
+     * 程序生成唯一文件名
      *
      * @mbggenerated
      */
     private String filename;
 
     /**
-     * 类型
+     * mime类型
      *
      * @mbggenerated
      */
     private String mime;
 
     /**
-     * 原始文件名
+     * 树路径
      *
      * @mbggenerated
      */
-    private String submittedFileName;
+    private String treePath;
 
     /**
      * 后缀 (没有.)
@@ -171,7 +199,43 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 文件类型 pan:云盘  接口:api
+     * 文件夹名称
+     *
+     * @mbggenerated
+     */
+    public String getFolderName() {
+        return folderName;
+    }
+
+    /**
+     * 文件夹名称
+     *
+     * @mbggenerated
+     */
+    public void setFolderName(String folderName) {
+        this.folderName = folderName == null ? null : folderName.trim();
+    }
+
+    /**
+     * 是否删除 0:否 1：是
+     *
+     * @mbggenerated
+     */
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    /**
+     * 是否删除 0:否 1：是
+     *
+     * @mbggenerated
+     */
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    /**
+     * 文件所属类型 PAN:云盘  API:接口
      *
      * @mbggenerated
      */
@@ -180,7 +244,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 文件类型 pan:云盘  接口:api
+     * 文件所属类型 PAN:云盘  API:接口
      *
      * @mbggenerated
      */
@@ -189,7 +253,25 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 对象id
+     * 数据类型 IMAGE/VIDEO/AUDIO/DOC/OTHER/DIR
+     *
+     * @mbggenerated
+     */
+    public String getDataType() {
+        return dataType;
+    }
+
+    /**
+     * 数据类型 IMAGE/VIDEO/AUDIO/DOC/OTHER/DIR
+     *
+     * @mbggenerated
+     */
+    public void setDataType(String dataType) {
+        this.dataType = dataType == null ? null : dataType.trim();
+    }
+
+    /**
+     * 对象id （FASTDHT使用）
      *
      * @mbggenerated
      */
@@ -198,7 +280,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 对象id
+     * 对象id （FASTDHT使用）
      *
      * @mbggenerated
      */
@@ -207,7 +289,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 命名空间
+     * 命名空间 （FASTDHT使用）
      *
      * @mbggenerated
      */
@@ -216,7 +298,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 命名空间
+     * 命名空间 （FASTDHT使用）
      *
      * @mbggenerated
      */
@@ -225,7 +307,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 文件的唯一key
+     * 文件的唯一key （FASTDHT使用）
      *
      * @mbggenerated
      */
@@ -234,7 +316,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 文件的唯一key
+     * 文件的唯一key （FASTDHT使用）
      *
      * @mbggenerated
      */
@@ -243,7 +325,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 链接
+     * 文件访问链接
      *
      * @mbggenerated
      */
@@ -252,7 +334,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 链接
+     * 文件访问链接
      *
      * @mbggenerated
      */
@@ -305,43 +387,7 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 文件名
-     *
-     * @mbggenerated
-     */
-    public String getFilename() {
-        return filename;
-    }
-
-    /**
-     * 文件名
-     *
-     * @mbggenerated
-     */
-    public void setFilename(String filename) {
-        this.filename = filename == null ? null : filename.trim();
-    }
-
-    /**
-     * 类型
-     *
-     * @mbggenerated
-     */
-    public String getMime() {
-        return mime;
-    }
-
-    /**
-     * 类型
-     *
-     * @mbggenerated
-     */
-    public void setMime(String mime) {
-        this.mime = mime == null ? null : mime.trim();
-    }
-
-    /**
-     * 原始文件名
+     * 原始文件名(文件夹名)
      *
      * @mbggenerated
      */
@@ -350,12 +396,66 @@ public class ZhFile extends CommonBaseEntity<Long> implements Serializable {
     }
 
     /**
-     * 原始文件名
+     * 原始文件名(文件夹名)
      *
      * @mbggenerated
      */
     public void setSubmittedFileName(String submittedFileName) {
         this.submittedFileName = submittedFileName == null ? null : submittedFileName.trim();
+    }
+
+    /**
+     * 程序生成唯一文件名
+     *
+     * @mbggenerated
+     */
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     * 程序生成唯一文件名
+     *
+     * @mbggenerated
+     */
+    public void setFilename(String filename) {
+        this.filename = filename == null ? null : filename.trim();
+    }
+
+    /**
+     * mime类型
+     *
+     * @mbggenerated
+     */
+    public String getMime() {
+        return mime;
+    }
+
+    /**
+     * mime类型
+     *
+     * @mbggenerated
+     */
+    public void setMime(String mime) {
+        this.mime = mime == null ? null : mime.trim();
+    }
+
+    /**
+     * 树路径
+     *
+     * @mbggenerated
+     */
+    public String getTreePath() {
+        return treePath;
+    }
+
+    /**
+     * 树路径
+     *
+     * @mbggenerated
+     */
+    public void setTreePath(String treePath) {
+        this.treePath = treePath == null ? null : treePath.trim();
     }
 
     /**

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author zuihou
  */
 @RestController
-@RequestMapping("client")
+@RequestMapping("/client")
 @Api(value = "客服端token申请", description = "客服端token申请， 用于各个内部微服务之间的token申请")
 public class AuthController implements AuthTokenApi {
     @Value("${jwt.token-header}")
@@ -41,7 +42,7 @@ public class AuthController implements AuthTokenApi {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "token", method = RequestMethod.POST)
+    @RequestMapping(value = "/token", method = RequestMethod.POST)
     public Result<TokenVo> token(@RequestBody JwtAuthRequest jwtAuthRequest) throws BizException {
         return Result.success(authService.login(jwtAuthRequest.getUserName(), jwtAuthRequest.getPassWord()));
     }
@@ -53,9 +54,10 @@ public class AuthController implements AuthTokenApi {
      * @return
      * @throws Exception
      */
+    @Override
     @ApiOperation(value = "获取应用token", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public Result<TokenDTO> login(String userName) throws BizException {
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public Result<TokenDTO> login(@RequestParam(value = "userName") String userName) throws BizException {
         return Result.success(authService.login(userName));
     }
 
@@ -64,7 +66,7 @@ public class AuthController implements AuthTokenApi {
      *
      * @return
      */
-    @RequestMapping(value = "refresh", method = RequestMethod.GET)
+    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public Result<TokenVo> refreshAndGetAuthenticationToken(@RequestBody JwtAuthRequest jwtAuthRequest) throws BizException {
         TokenVo refreshedToken = authService.refresh(jwtAuthRequest.getUserName(), jwtAuthRequest.getPassWord());
         return Result.success(refreshedToken);
@@ -77,7 +79,7 @@ public class AuthController implements AuthTokenApi {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "verify", method = RequestMethod.GET)
+    @RequestMapping(value = "/verify", method = RequestMethod.GET)
     public Result<Boolean> verify(String token) throws BizException {
         authService.validate(token);
         return Result.success(true);
@@ -89,7 +91,7 @@ public class AuthController implements AuthTokenApi {
      * @param token
      * @return
      */
-    @RequestMapping(value = "invalid", method = RequestMethod.POST)
+    @RequestMapping(value = "/invalid", method = RequestMethod.POST)
     public Result<Boolean> invalid(String token) throws BizException {
         authService.invalid(token);
         return Result.success(true);

@@ -117,7 +117,7 @@ public interface AdminResourcesApi {
      * @return
      */
     @RequestMapping(value = "/api/admin/menu/tree", method = RequestMethod.GET)
-    Result<List<MenuTreeDTO>> findTree(@RequestParam("menuGroupCode") String menuGroupCode);
+    Result<List<MenuTreeDTO>> findTree(@RequestParam(value = "menuGroupCode") String menuGroupCode);
 
     /**
      * 查询所有菜单列表
@@ -125,7 +125,7 @@ public interface AdminResourcesApi {
      * @return
      */
     @RequestMapping(value = "/api/admin/menu/all", method = RequestMethod.GET)
-    Result<List<MenuDTO>> list(@RequestParam("menuGroupCode") String menuGroupCode);
+    Result<List<MenuDTO>> list(@RequestParam(value = "menuGroupCode") String menuGroupCode);
     /**
      * 查询指定applicationId的菜单列表
      * @return

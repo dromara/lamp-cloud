@@ -23,8 +23,8 @@ public class SecurityController {
     }
 
     @PostMapping(value = "/login")
-    public String login(@RequestParam("username") String username,
-                        @RequestParam("password") String password) {
+    public String login(@RequestParam(value = "username") String username,
+                        @RequestParam(value = "password") String password) {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
 
         Subject subject = SecurityUtils.getSubject();

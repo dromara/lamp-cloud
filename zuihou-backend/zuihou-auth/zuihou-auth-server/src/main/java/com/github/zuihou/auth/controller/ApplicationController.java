@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by ace on 2017/9/10.
  */
 @RestController
-@RequestMapping("app")
+@RequestMapping("/app")
 @Api(value = "应用token申请", description = "对外第三方应用的token申请")
 public class ApplicationController {
     @Autowired

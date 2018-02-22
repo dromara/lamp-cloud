@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "API - ApplicationsApiImpl", description = "第三方应用管理")
 @Slf4j
 @RestController
-@RequestMapping("app")
+@RequestMapping("/app")
 public class ApplicationsApiImpl implements ApplicationsApi {
     @Autowired
     private ApplicationsService applicationsService;
@@ -36,7 +36,7 @@ public class ApplicationsApiImpl implements ApplicationsApi {
      */
     @Override
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Result<ApplicationsDTO> getBySecret(@RequestParam("appId") String appId, @RequestParam("appSecret") String appSecret) {
+    public Result<ApplicationsDTO> getBySecret(@RequestParam(value = "appId") String appId, @RequestParam(value = "appSecret") String appSecret) {
         return Result.success(dozerUtils.map(applicationsService.getBySecret(appId, appSecret), ApplicationsDTO.class));
     }
 }

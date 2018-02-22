@@ -22,6 +22,6 @@ public interface ApplicationsApi {
      * @return
      */
     @RequestMapping(value = "/api/admin/app", method = RequestMethod.GET)
-    Result<ApplicationsDTO> getBySecret(@RequestParam("appId") String appId, @RequestParam("appSecret") String appSecret);
+    Result<ApplicationsDTO> getBySecret(@RequestParam(value = "appId") String appId, @RequestParam(value = "appSecret") String appSecret);
 
 }

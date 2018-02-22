@@ -23,4 +23,9 @@ public class FileServiceImpl extends BaseServiceImpl
     protected BaseDao<Long, ZhFile, ZhFileExample> getDao() {
         return zhFileMapper;
     }
+
+    @Override
+    public Integer removeDirByAppIdAndId(String appId, Long id) {
+        return  zhFileMapper.removeDirByAppIdAndId(appId, id);
+    }
 }

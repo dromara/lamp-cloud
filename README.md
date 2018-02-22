@@ -139,7 +139,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 │  |  ├─zuihou-core---------------------------项目核心包
 │  │ 
 │  ├─zuihou-frontend--------------------------项目前端
-│  |  ├─zuihou-center-web---------------------管理后台
+│  |  ├─zuihou-manage-center------------------管理后台
 │  │
 │  ├─zuihou-config-repo-----------------------远程配置文件仓库
 │  │
@@ -355,7 +355,7 @@ API 界面:
  - 2, 很多依赖死活都下载不下来？
     - 答： 由于spring-boot和spring-cloud等版本比较新，所以目前国内的一些仓库还没有新版本的jar。
     需要配置spring的maven仓库。 （配置后还是无法下载，就先注释掉settings.xml中其他的仓库，只保留这个）
-``` 
+```
     <mirror>
         <id>spring-milestones</id>
         <name>Spring Milestones</name>
