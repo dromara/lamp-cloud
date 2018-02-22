@@ -25,6 +25,10 @@ spring:
     active: dev
   application:
     name: zuihou-gateway-server
+  http:
+    multipart:
+      max-file-size: 2000Mb      # Max file size，默认1M
+      max-request-size: 2500Mb   # Max request size，默认10M
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

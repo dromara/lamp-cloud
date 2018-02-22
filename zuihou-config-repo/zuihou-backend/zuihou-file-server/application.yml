@@ -26,6 +26,7 @@ eureka:
     status-page-url-path: ${management.context-path}/info
     health-check-url-path: ${management.context-path}/health
     prefer-ip-address: true
+    status-page-url: http://${zuihou.hostname.gateway:gateway.zuihou.com}:9770/api/file/swagger-ui.html
 #    hostname: ${eureka.hostname:eureka.zuihou.com}    # 指定该Eureka实例的主机名
     metadata-map:
       user.name: ${security.user.name}
@@ -42,15 +43,24 @@ spring:
     name: zuihou-file-server
   profiles:
     active: dev
+  http:
+    multipart:
+      max-file-size: 2000Mb      # Max file size，默认1M
+      max-request-size: 2500Mb   # Max request size，默认10M
   redis:
     host: zuihou.redis.host
     port: 6379
     pool:
-      max-active: 20
+      max-active: 100
       min-idle: 2
       max-idle: 8
       max-wait: 100
     key-prefix: dev
+  rabbitmq:
+    host: zuihou.rabbitmq.host
+    port: 5672               # 根据环境更改
+    password: guest          # 根据环境更改
+    username: guest          # 根据环境更改
   sleuth:
     sampler:
       percentage: 0.5
@@ -147,7 +157,9 @@ zuihou:
     username: root              # 根据环境更改
     password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
   file:
-    upload-path-prefix: /home/uploadfile/
+    upload-path-prefix: /home/zuihou/uploadfile/
     remote-uri-prefix: http://192.168.65.147:6080/
     fastdfs:
       enabled: true
+  hostname:
+    gateway: 127.0.0.1

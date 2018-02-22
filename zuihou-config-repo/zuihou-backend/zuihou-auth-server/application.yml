@@ -40,7 +40,6 @@ spring:
     default-property-inclusion: non_null
   redis:
     key-prefix: dev
-    database: 1
     host: zuihou.redis.host
     pool:
       max-active: 100
