@@ -29,6 +29,8 @@ zuihou:
     remote-uri-prefix: http://192.168.65.147:6080/
     fastdfs:
       enabled: true
+  hostname:
+    gateway: 127.0.0.1
 
  # id生成器机器掩码
 id-generator:
