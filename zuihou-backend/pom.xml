@@ -14,7 +14,7 @@
     <description>业务系统服务父pom</description>
 
     <modules>
-        <!--<module>zuihou-authority</module>-->
+        <module>zuihou-authority</module>
         <!--<module>zuihou-mail</module>-->
         <!--<module>zuihou-file</module>-->
         <!--<module>zuihou-gateway</module>-->
