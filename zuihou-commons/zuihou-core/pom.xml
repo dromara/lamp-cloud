@@ -9,9 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>核心模块</description>
 
