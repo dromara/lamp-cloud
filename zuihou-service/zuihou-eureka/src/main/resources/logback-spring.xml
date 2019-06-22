@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <jmxConfigurator/>
     <!--
        %m
        输出代码中指定的消息
@@ -19,16 +22,11 @@
        %l
        输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <property name="log.path" value="./logs/zuihou-eureka"/>
+    <springProperty scope="context" name="log.path" source="logging.path"/>
     <property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <property name="log.level.console" value="INFO"/>
 
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <!--<include resource="org/springframework/boot/logging/logback/base.xml"/>-->
-    <jmxConfigurator/>
-
-    <contextName>zuihou-eureka-server-dev-logback</contextName>
-
+    <contextName>zuihou-eureka-server-logback</contextName>
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">

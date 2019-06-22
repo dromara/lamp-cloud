@@ -1,7 +1,103 @@
+zuihou:
+  ip:
+    rabbitmq: ${RABBIT_IP:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    local: ${spring.cloud.client.ip-address:127.0.0.1}
+  context-path:
+    eureka: /zuihou-eureka # eureka的项目名
+  port:
+    nginx: 80
+    eureka: 8761
+
+server:
+  port: 8762
+  servlet:
+    context-path: /${spring.application.name}   # 监控系统项目名
+
+turbine:
+  stream:
+    port: 8763
+
+logging:
+  file: ${logging.path}/root.log
+  #  level:
+  #    org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error
+  path: /projects/logs/${spring.application.name}
+
+eureka:
+  instance:
+    status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}
+    status-page-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/info
+    health-check-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/health
+    home-page-url-path: ${server.servlet.context-path:}
+    preferIpAddress: true
+    ip-address: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.context-path:}
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+      management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:${zuihou.port.eureka}${zuihou.context-path.eureka}/eureka/
+
+
+
+spring:
+  application:
+    name: zuihou-monitor
+  profiles:
+    active: dev
+  #  mail:
+  #    host: smtp.163.com
+  #    username: adadminfocus@163.com
+  #    password: adsugar123
+  #    properties:
+  #      smtp:
+  #        auth: true
+  #        starttls:
+  #          enable: true
+  #          required: true
+  rabbitmq:
+    port: 5672
+    username: guest
+    password: guest
+    host: ${zuihou.ip.rabbitmq}
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      turbine:
+        clusters: default
+        location: http://${zuihou.ip.local}:${turbine.stream.port}${server.servlet.context-path}
+  #      context-path: ${management.context-path}
+  #      notify:
+  #        mail:
+  #          to: 306479353@qq.com
+  #          from: adadminfocus@163.com
+  #          ignore-changes: UNKNOWN:UP
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: USER
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+
 info:
-  artifact: zuihou-monitor
-  name: '@project.name@'
-  description: '@project.description@'
-  version: '@project.version@'
-  spring-boot-version: '@spring.boot.version@'
-  spring-cloud-version: '@spring.cloud.version@'
+  name: "@project.name@"
+  description: "@project.description@"
+  version: "@project.version@"
+  spring-boot-version: "@spring.boot.version@"
+  spring-cloud-version: "@spring.cloud.version@"
+
