@@ -55,7 +55,7 @@ public class BaseContextHandler {
         set(BaseContextConstants.JWT_KEY_USER_ID, userId);
     }
 
-    public static void setAccountId(String userId) {
+    public static void setUserId(String userId) {
         setUserId(NumberHelper.longValueOf0(userId));
     }
 
@@ -132,22 +132,22 @@ public class BaseContextHandler {
     }
 
     public static String getOrgId() {
-        Object value = get(BaseContextConstants.JWT_KEY_ORGID);
+        Object value = get(BaseContextConstants.JWT_KEY_ORG_ID);
         return StringHelper.getObjectValue(value);
     }
 
     public static void setOrgId(String val) {
-        set(BaseContextConstants.JWT_KEY_ORGID, val);
+        set(BaseContextConstants.JWT_KEY_ORG_ID, val);
     }
 
 
     public static String getDepartmentId() {
-        Object value = get(BaseContextConstants.JWT_KEY_DEPARTMENTID);
+        Object value = get(BaseContextConstants.JWT_KEY_DEPARTMENT_ID);
         return StringHelper.getObjectValue(value);
     }
 
     public static void setDepartmentId(String val) {
-        set(BaseContextConstants.JWT_KEY_DEPARTMENTID, val);
+        set(BaseContextConstants.JWT_KEY_DEPARTMENT_ID, val);
     }
 
 
