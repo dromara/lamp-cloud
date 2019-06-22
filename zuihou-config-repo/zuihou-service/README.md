@@ -1,1 +1,0 @@
-注意这里文件夹的命名！一定要和服务的spring.application.name 一致！！！
