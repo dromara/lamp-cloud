@@ -1,8 +1,8 @@
 package com.github.zuihou.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
+import com.github.zuihou.utils.JSONUtils;
 
 
 /**
@@ -12,13 +12,18 @@ import com.github.zuihou.exception.code.BaseExceptionCode;
 public class Result<T> {
     public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";
     public static final String HYSTRIX_ERROR_MESSAGE = "请求超时，请稍候再试";
-    private static final int SUCCESS = 0;
-    private static final int FAIL = -1;
-
+    public static final int SUCCESS_CODE = 0;
+    public static final int FAIL_CODE = -1;
+    public static final int TIMEOUT_CODE = -2;
+    /**
+     * 统一参数验证异常
+     */
+    public static final int VALID_EX_CODE = -9;
+    public static final int OPERATION_EX_CODE = -10;
     /**
      * 调用是否成功标识，0：成功，-1:系统繁忙，此时请开发者稍候再试 详情见[ExceptionCode]
      */
-    private int errcode;
+    private int code;
 
     /**
      * 调用结果
@@ -28,16 +33,21 @@ public class Result<T> {
     /**
      * 结果消息，如果调用成功，消息通常为空T
      */
-    private String errmsg = "ok";
+    private String msg = "ok";
 
     private Result() {
         super();
     }
 
-    public Result(int errcode, T data, String errmsg) {
-        this.errcode = errcode;
+    public Result(int code, T data, String msg) {
+        this.code = code;
         this.data = data;
-        this.errmsg = errmsg;
+        this.msg = msg;
+    }
+
+    public static <E> Result<E> result(int code, E data, String msg) {
+        return new Result<>(code, data, msg);
+
     }
 
     /**
@@ -47,7 +57,11 @@ public class Result<T> {
      * @return RPC调用结果
      */
     public static <E> Result<E> success(E data) {
-        return new Result<>(SUCCESS, data, "ok");
+        return new Result<>(SUCCESS_CODE, data, "ok");
+    }
+
+    public static Result<Boolean> success() {
+        return new Result<>(SUCCESS_CODE, true, "ok");
     }
 
     /**
@@ -58,7 +72,7 @@ public class Result<T> {
      * @return RPC调用结果
      */
     public static <E> Result<E> success(E data, String msg) {
-        return new Result<>(SUCCESS, data, msg);
+        return new Result<>(SUCCESS_CODE, data, msg);
     }
 
     /**
@@ -72,13 +86,12 @@ public class Result<T> {
     }
 
     public static <E> Result<E> fail(String msg) {
-        return fail(FAIL, msg);
+        return fail(OPERATION_EX_CODE, msg);
     }
 
 
     public static <E> Result<E> fail(BaseExceptionCode exceptionCode) {
-        return new Result<>(exceptionCode.getCode(), null,
-                (exceptionCode.getMsg() == null || exceptionCode.getMsg().isEmpty()) ? DEF_ERROR_MESSAGE : exceptionCode.getMsg());
+        return validFail(exceptionCode);
     }
 
     public static <E> Result<E> fail(BizException exception) {
@@ -95,19 +108,28 @@ public class Result<T> {
      * @return RPC调用结果
      */
     public static <E> Result<E> fail(Throwable throwable) {
-        return fail(throwable != null ? throwable.getMessage() : DEF_ERROR_MESSAGE);
+        return fail(FAIL_CODE, throwable != null ? throwable.getMessage() : DEF_ERROR_MESSAGE);
+    }
+
+    public static <E> Result<E> validFail(String msg) {
+        return new Result<>(VALID_EX_CODE, null, (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg);
+    }
+
+    public static <E> Result<E> validFail(BaseExceptionCode exceptionCode) {
+        return new Result<>(exceptionCode.getCode(), null,
+                (exceptionCode.getMsg() == null || exceptionCode.getMsg().isEmpty()) ? DEF_ERROR_MESSAGE : exceptionCode.getMsg());
     }
 
     public static <E> Result<E> timeout() {
-        return fail(HYSTRIX_ERROR_MESSAGE);
+        return fail(TIMEOUT_CODE, HYSTRIX_ERROR_MESSAGE);
     }
 
-    public int getErrcode() {
-        return errcode;
+    public int getCode() {
+        return code;
     }
 
-    public void setErrcode(int errcode) {
-        this.errcode = errcode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public T getData() {
@@ -118,12 +140,12 @@ public class Result<T> {
         this.data = data;
     }
 
-    public String getErrmsg() {
-        return errmsg;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setErrmsg(String errmsg) {
-        this.errmsg = errmsg;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     /**
@@ -131,8 +153,12 @@ public class Result<T> {
      *
      * @return 是否成功
      */
-    @JsonIgnore
-    public boolean isSuccess() {
-        return this.errcode == SUCCESS;
+    public Boolean getIsSuccess() {
+        return this.code == SUCCESS_CODE;
+    }
+
+    @Override
+    public String toString() {
+        return JSONUtils.toJsonString(this);
     }
 }
