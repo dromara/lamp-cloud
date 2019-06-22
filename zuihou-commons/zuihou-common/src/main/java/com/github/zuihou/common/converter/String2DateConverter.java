@@ -17,20 +17,20 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class String2DateConverter implements Converter<String, Date> {
 
-    protected static final Map<String, String> FORMARTS = new LinkedHashMap(11);
+    protected static final Map<String, String> FORMAT = new LinkedHashMap(11);
 
     static {
-        FORMARTS.put("yyyy", "^\\d{4}");
-        FORMARTS.put("yyyy-MM", "^\\d{4}-\\d{1,2}$");
-        FORMARTS.put("yyyy-MM-dd", "^\\d{4}-\\d{1,2}-\\d{1,2}$");
-        FORMARTS.put("yyyy-MM-dd HH", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}");
-        FORMARTS.put("yyyy-MM-dd HH:mm", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$");
-        FORMARTS.put("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
-        FORMARTS.put("yyyy/MM", "^\\d{4}/\\d{1,2}$");
-        FORMARTS.put("yyyy/MM/dd", "^\\d{4}/\\d{1,2}/\\d{1,2}$");
-        FORMARTS.put("yyyy/MM/dd HH", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}");
-        FORMARTS.put("yyyy/MM/dd HH:mm", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}:\\d{1,2}$");
-        FORMARTS.put("yyyy/MM/dd HH:mm:ss", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
+        FORMAT.put("yyyy", "^\\d{4}");
+        FORMAT.put("yyyy-MM", "^\\d{4}-\\d{1,2}$");
+        FORMAT.put("yyyy-MM-dd", "^\\d{4}-\\d{1,2}-\\d{1,2}$");
+        FORMAT.put("yyyy-MM-dd HH", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}");
+        FORMAT.put("yyyy-MM-dd HH:mm", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$");
+        FORMAT.put("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
+        FORMAT.put("yyyy/MM", "^\\d{4}/\\d{1,2}$");
+        FORMAT.put("yyyy/MM/dd", "^\\d{4}/\\d{1,2}/\\d{1,2}$");
+        FORMAT.put("yyyy/MM/dd HH", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}");
+        FORMAT.put("yyyy/MM/dd HH:mm", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}:\\d{1,2}$");
+        FORMAT.put("yyyy/MM/dd HH:mm:ss", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
     }
 
     /**
@@ -59,7 +59,7 @@ public class String2DateConverter implements Converter<String, Date> {
             return null;
         }
         source = source.trim();
-        Set<Map.Entry<String, String>> entries = FORMARTS.entrySet();
+        Set<Map.Entry<String, String>> entries = FORMAT.entrySet();
         for (Map.Entry<String, String> entry : entries) {
             if (source.matches(entry.getValue())) {
                 return parseDate(source, entry.getKey());

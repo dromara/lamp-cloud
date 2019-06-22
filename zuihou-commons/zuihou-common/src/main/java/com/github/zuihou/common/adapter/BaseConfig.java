@@ -23,15 +23,15 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.hengyunsoft.base.id.CodeGenerate;
-import com.hengyunsoft.base.id.IdGenerate;
-import com.hengyunsoft.base.id.SnowflakeIDGenerate;
-import com.hengyunsoft.commons.converter.DateFormatRegister;
-import com.hengyunsoft.commons.converter.HengyunEnumDeserializer;
-import com.hengyunsoft.commons.converter.String2DateConverter;
-import com.hengyunsoft.commons.handler.GlobalExceptionHandler;
-import com.hengyunsoft.db.MyMetaObjectHandler;
-import com.hengyunsoft.utils.SpringUtil;
+import com.github.zuihou.base.id.CodeGenerate;
+import com.github.zuihou.base.id.IdGenerate;
+import com.github.zuihou.base.id.SnowflakeIDGenerate;
+import com.github.zuihou.common.converter.DateFormatRegister;
+import com.github.zuihou.common.converter.EnumDeserializer;
+import com.github.zuihou.common.converter.String2DateConverter;
+import com.github.zuihou.common.handler.GlobalExceptionHandler;
+import com.github.zuihou.datasource.MyMetaObjectHandler;
+import com.github.zuihou.utils.SpringUtil;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -92,7 +92,7 @@ public abstract class BaseConfig {
 
         //在进出前后台的时候，设置BigDecimal和字符串之间转换
         simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
-        simpleModule.addDeserializer(Enum.class, HengyunEnumDeserializer.instance);
+        simpleModule.addDeserializer(Enum.class, EnumDeserializer.instance);
 
         objectMapper.registerModule(simpleModule);
 

@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  *
  * @author 潘定遥
  */
-public class HengyunEnumDeserializer extends StdDeserializer<Enum<?>> {
-    public final static HengyunEnumDeserializer instance = new HengyunEnumDeserializer();
+public class EnumDeserializer extends StdDeserializer<Enum<?>> {
+    public final static EnumDeserializer instance = new EnumDeserializer();
     private final static String ALL_ENUM_STRING_CONVERCAT_METHOD = "get";
     private final static String ALL_ENUM_KEY_FIELD = "code";
 
-    public HengyunEnumDeserializer() {
+    public EnumDeserializer() {
         super(Enum.class);
     }
 
