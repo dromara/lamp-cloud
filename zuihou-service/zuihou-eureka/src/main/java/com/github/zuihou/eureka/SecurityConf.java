@@ -10,7 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
  * 一定要有这个类， eureka 设置密码后，其他服务才能注册进来
  * 但同时也会因为这个类，导致验证密码的界面 消失， 需要研究一下
  *
- * @author tangyh
+ * @author zuihou
  * @date 2018/09/06
  */
 @EnableWebSecurity

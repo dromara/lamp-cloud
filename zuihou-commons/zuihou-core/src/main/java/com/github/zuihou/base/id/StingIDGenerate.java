@@ -12,14 +12,13 @@ package com.github.zuihou.base.id;
  *
  * @author pdy
  */
-public class SnowflakeIDGenerate extends AbstractIdGenerate<Long> {
-
-    public SnowflakeIDGenerate(final long machineCode) {
+public class StingIDGenerate extends AbstractIdGenerate<String> {
+    public StingIDGenerate(final long machineCode) {
         super(machineCode);
     }
 
     @Override
-    public Long generate() {
-        return super.generateLong();
+    public String generate() {
+        return String.valueOf(super.generateLong());
     }
 }
