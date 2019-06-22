@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 获取ip工具类
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 17:22
  */
 public class ClientUtil {

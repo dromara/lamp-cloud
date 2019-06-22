@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-25 16:27
  */
 @SuppressWarnings("squid:S1166")

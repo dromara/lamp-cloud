@@ -135,7 +135,7 @@ public abstract class Swagger2WebMvcConfigurerAdapter extends WebMvcConfigurerAd
             try {
                 aClass = (Class<? extends Annotation>) Class.forName(module.getClazz());
             } catch (ClassNotFoundException e) {
-                log.error("生成swagger时，解析【clazz】字段出错。请输入完整包名+类名. 如： com.hengyunsoft.commons.servicemodule.annotation.AuthModule. {}", e);
+                log.error("生成swagger时，解析【clazz】字段出错。请输入完整包名+类名. 如： com.github.xxx.AuthModule. {}", e);
             }
             selector = RequestHandlerSelectors.withClassAnnotation(aClass);
         } else {
@@ -293,7 +293,7 @@ public abstract class Swagger2WebMvcConfigurerAdapter extends WebMvcConfigurerAd
          */
         private String packages;
         /**
-         * 扫描的子模块对应的注解类， 需要完整的路径 eg: com.hengyun.xx.XxxModule.  packages/clazz任选其一，packages优先级大
+         * 扫描的子模块对应的注解类， 需要完整的路径 eg: com.github.xx.XxxModule.  packages/clazz任选其一，packages优先级大
          */
         private String clazz;
     }

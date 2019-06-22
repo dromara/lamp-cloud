@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.conditions.update.Update;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.hengyunsoft.mybatis.typehandler.BaseLikeTypeHandler;
+import com.github.zuihou.mybatis.typehandler.BaseLikeTypeHandler;
 
 import org.apache.commons.lang3.StringUtils;
 

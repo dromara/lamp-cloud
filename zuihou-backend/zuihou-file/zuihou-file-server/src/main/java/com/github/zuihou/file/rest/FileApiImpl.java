@@ -194,7 +194,6 @@ public class FileApiImpl implements FileApi {
                 try {
                     //日期文件夹
                     String secDir = LocalDate.now().format(DTF);
-                    // /home/tyh/APP_ID/YYYY/MM
                     String relativePath = Paths.get(appId, secDir).toString();
                     String absolutePath = Paths.get(fileProperties.getUploadPathPrefix(), relativePath).toString();
 

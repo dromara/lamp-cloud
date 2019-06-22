@@ -66,7 +66,7 @@ public abstract class BaseController {
      * 默认每页条目20,最大条目数100
      */
     int DEFAULT_LIMIT = 20;
-    int MAX_LIMIT = 100;
+    int MAX_LIMIT = 10000;
 
     /**
      * 成功返回
@@ -122,24 +122,16 @@ public abstract class BaseController {
     /**
      * 获取当前用户id
      */
-    protected Long currentAccountId() {
-        return BaseContextHandler.getAccountId();
+    protected Long getUserId() {
+        return BaseContextHandler.getUserId();
     }
 
-    protected String currentAccount() {
+    protected String getAccount() {
         return BaseContextHandler.getAccount();
     }
 
-    protected String currentName() {
-        return BaseContextHandler.getName();
-    }
-
-    protected String currentAppId() {
-        return BaseContextHandler.getAppCode();
-    }
-
-    protected String currentAppName() {
-        return BaseContextHandler.getAppName();
+    protected String getNickName() {
+        return BaseContextHandler.getNickName();
     }
 
     /**
@@ -164,18 +156,6 @@ public abstract class BaseController {
         // 分页大小
         Integer pageSize = NumberHelper.intValueOf(request.getParameter(PAGE_SIZE), DEFAULT_LIMIT);
         // 是否查询分页
-        return buildPage(openSort, pageNo, pageSize);
-    }
-
-    protected <T> Page<T> getPage(PageParam req) {
-        return getPage(req, false);
-    }
-
-    protected <T> Page<T> getPage(PageParam req, boolean openSort) {
-        // 页数
-        long pageNo = req.getPageNo();
-        // 分页大小
-        long pageSize = req.getPageSize();
         return buildPage(openSort, pageNo, pageSize);
     }
 
