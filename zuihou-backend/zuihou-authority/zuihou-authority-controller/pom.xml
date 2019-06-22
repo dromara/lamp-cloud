@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-repository</artifactId>
+            <artifactId>zuihou-authority-biz</artifactId>
         </dependency>
 
         <dependency>

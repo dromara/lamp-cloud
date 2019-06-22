@@ -10,9 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.zuihou</groupId>
-    <artifactId>zuihou-authority-repository</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
+    <artifactId>zuihou-authority-biz</artifactId>
 
     <dependencies>
         <dependency>
