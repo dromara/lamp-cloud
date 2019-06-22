@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.authority.dao.auth.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.authority.entity.auth.User">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="account_" jdbcType="VARCHAR" property="account"/>
+        <result column="password_expire_time" jdbcType="TIMESTAMP" property="passwordExpireTime"/>
+        <result column="password_" jdbcType="VARCHAR" property="password"/>
+        <result column="name_" jdbcType="VARCHAR" property="name"/>
+        <result column="photo" jdbcType="VARCHAR" property="photo"/>
+        <result column="isdelete" jdbcType="BIT" property="isdelete"/>
+        <result column="mainmobile" jdbcType="VARCHAR" property="mainmobile"/>
+        <result column="work_desc" jdbcType="VARCHAR" property="workDesc"/>
+        <result column="login_count" jdbcType="INTEGER" property="loginCount"/>
+        <result column="pass_continuation_error_day" jdbcType="DATE" property="passContinuationErrorDay"/>
+        <result column="pass_continuation_error_count" jdbcType="INTEGER" property="passContinuationErrorCount"/>
+        <result column="loginable" jdbcType="BIT" property="loginable"/>
+        <result column="entity_id" jdbcType="VARCHAR" property="entityId"/>
+        <result column="account_type" jdbcType="VARCHAR" property="accountType"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_user, create_time, update_user, update_time, 
+        account_, password_expire_time, password_, name_, photo, isdelete, mainmobile, work_desc, login_count, pass_continuation_error_day, pass_continuation_error_count, loginable, entity_id, account_type
+    </sql>
+
+</mapper>
