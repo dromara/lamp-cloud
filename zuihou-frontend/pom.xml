@@ -17,7 +17,7 @@
         <shiro-version>1.4.0</shiro-version>
     </properties>
     <modules>
-        <module>zuihou-manage-center</module>
+        <!--<module>zuihou-manage-center</module>-->
     </modules>
 
     <dependencyManagement>

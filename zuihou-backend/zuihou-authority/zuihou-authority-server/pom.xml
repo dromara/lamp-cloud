@@ -19,7 +19,7 @@
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-rest</artifactId>
+            <artifactId>zuihou-authority-controller</artifactId>
         </dependency>
 
         <dependency>
@@ -136,8 +136,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.hengyunsoft</groupId>
-            <artifactId>code-generator-plus</artifactId>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-generator</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
