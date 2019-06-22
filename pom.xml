@@ -24,7 +24,7 @@
     </licenses>
 
     <modules>
-        <module>zuihou-common</module>
+        <module>zuihou-commons</module>
         <module>zuihou-service</module>
         <module>zuihou-backend</module>
         <module>zuihou-frontend</module>

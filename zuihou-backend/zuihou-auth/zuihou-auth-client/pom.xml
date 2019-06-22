@@ -20,12 +20,9 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-auth-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-commons</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -41,6 +38,21 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
