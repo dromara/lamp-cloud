@@ -49,7 +49,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-commons</artifactId>
+                <artifactId>zuihou-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

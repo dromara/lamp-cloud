@@ -74,13 +74,6 @@ public enum ExceptionCode implements BaseExceptionCode {
     JWT_ILLEGAL_ARGUMENT(40003, "缺少token参数"),
     JWT_GEN_TOKEN_FAIL(40004, "生成token失败"),
     JWT_PARSER_TOKEN_FAIL(40005, "解析token失败"),
-
-    JWT_USER_TOKEN_EXPIRED(40011, "用户token超时，请检查 token 的有效期"),
-    JWT_USER_SIGNATURE(40012, "不合法的用户token，请认真比对 token 的签名"),
-    JWT_USER_ILLEGAL_ARGUMENT(40013, "缺少用户token参数"),
-    JWT_USER_PARSER_TOKEN_FAIL(40015, "解析用户token失败"),
-    JWT_USER_ENABLED(40016, "生成user-token时，发现用户已经被禁用！"),
-    JWT_USER_INVALID(40017, "生成user-token时，检测用户信息无效"),
     //jwt token 相关 end
 
     ;

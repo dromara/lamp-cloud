@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-commons</artifactId>
+            <artifactId>zuihou-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
