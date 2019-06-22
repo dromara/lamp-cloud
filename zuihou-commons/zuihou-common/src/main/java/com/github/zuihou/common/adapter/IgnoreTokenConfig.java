@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.util.AntPathMatcher;
 
 /**
- * This is a Description
+ * 忽略token 配置类
  *
  * @author zuihou
  * @date 2019/01/03
