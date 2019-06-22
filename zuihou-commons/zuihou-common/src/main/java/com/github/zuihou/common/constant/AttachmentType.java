@@ -2,8 +2,9 @@ package com.github.zuihou.common.constant;
 
 import java.util.Arrays;
 
-import com.hengyunsoft.commons.exception.core.ExceptionCode;
-import com.hengyunsoft.utils.BizAssert;
+import com.github.zuihou.common.excode.ExceptionCode;
+import com.github.zuihou.utils.BizAssert;
+
 
 /**
  * 附件表中事先约定的业务类型。

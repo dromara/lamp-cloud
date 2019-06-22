@@ -43,6 +43,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+/**
+ * 基础配置类
+ *
+ * @author tangyh
+ * @date 2019-06-22 22:53
+ */
 public abstract class BaseConfig {
 
     /**
