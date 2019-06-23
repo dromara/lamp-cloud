@@ -6,20 +6,20 @@
         <artifactId>zuihou-backend</artifactId>
         <groupId>com.github.zuihou</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zuihou-authority</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>zuihou-authority-server</module>
-        <module>zuihou-authority-controller</module>
-        <module>zuihou-authority-entity</module>
-        <module>zuihou-authority-biz</module>
-    </modules>
     <name>${project.artifactId}</name>
     <description>后台管理业务系统服务</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>zuihou-authority-entity</module>
+        <module>zuihou-authority-biz</module>
+        <module>zuihou-authority-controller</module>
+        <module>zuihou-authority-server</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>

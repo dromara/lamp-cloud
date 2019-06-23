@@ -1,6 +1,8 @@
-package com.github.zuihou.admin;
+package com.github.zuihou;
 
 import java.net.InetAddress;
+
+import com.github.zuihou.auth.server.EnableAuthServer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableTransactionManagement
-//@EnableAuthServer
+@EnableAuthServer
 @Configuration
 @Slf4j
 public class AuthorityApplication {

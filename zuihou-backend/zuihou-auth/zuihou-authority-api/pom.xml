@@ -10,11 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zuihou-authority-api</artifactId>
+
     <dependencies>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-core</artifactId>
+            <artifactId>zuihou-authority-entity</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -31,15 +34,16 @@
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <scope>compile</scope>
         </dependency>
 
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
