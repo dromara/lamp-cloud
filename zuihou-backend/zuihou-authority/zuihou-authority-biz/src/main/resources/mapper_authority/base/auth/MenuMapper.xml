@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.authority.dao.auth.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.authority.entity.auth.Menu">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="describe" jdbcType="VARCHAR" property="describe"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="is_public" jdbcType="BIT" property="isPublic"/>
+        <result column="href" jdbcType="VARCHAR" property="href"/>
+        <result column="target" jdbcType="VARCHAR" property="target"/>
+        <result column="is_enable" jdbcType="BIT" property="isEnable"/>
+        <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="group_" jdbcType="VARCHAR" property="group"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_user, create_time, update_user, update_time, 
+        name, describe, code, type, is_public, href, target, is_enable, sortvalue, icon, group_, parent_id
+    </sql>
+
+</mapper>
