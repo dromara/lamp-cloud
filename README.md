@@ -3,7 +3,7 @@
  测试master
 
 ## 简介：
-基于`SpringCloud(Finchley.M2)`  + `SpringBoot(2.0.0.M2)` 的微服务 SaaS 开发平台，
+基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的微服务 脚手架，
 具有统一授权、认证后台管理系统，其中包含具备用户管理、配置中心、存储系统、资源权限管理、
 网关API、OpenAPI管理、日志分析、任务和通知等多个模块，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。
@@ -17,7 +17,10 @@ RibbitMQ、FastDFS等主要框架和中间件。
 目前国内的一些资料讲解和使用的SpringCloud版本都比较低，自己在基于现有的开源项目和资料学习的同时，
 一边以自己的一些想法改造搭建一个相对较新版本的项目。
 
-后期会引入`Docker`（慢慢学，还没到这一步）
+部署方面, 可以采用以下3种方式，并会陆续公布jenkins集合以下3种部署方式的脚本和配置文件：
+- jar部署
+- docker部署 
+- k8s部署
 
 ## 项目地址
 [github] https://github.com/zuihou/zuihou-admin-cloud
@@ -56,9 +59,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有 ：
     - JSON序列化:Jackson
-    - 缓存：Redis 3.0.500（待升级 4.0.6）
+    - 缓存：Redis 4.0.6
     - 消息队列：RibbitMQ
-    - 数据库： MySQL 5.7.9(驱动6.0.6)
+    - 数据库： MySQL 5.7.9 (驱动6.0.6)
     - 定时器：Quartz Scheduler
     - Java模版：Thymeleaf  3.0.6.RELEASE
     - 前端：Bootstrap + Vue2.0 （期待前端大神参与）
@@ -70,12 +73,12 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - 服务熔断：Hystrix
     - 项目构建：Maven 3.3
     - 文件服务器：FastDFS 5.0.5
-    - 服务器：centos
-- 后期引入：
-    - Docker
-    - Jenkins
     - nginx
-    - keepalive
+- 部署方面：
+    - 服务器：centos
+    - Jenkins
+    - Docker
+    - Kubernetes
 
 本代码采用 Intellij IDEA(2018.1 EAP) 来编写，但源码与具体的 IDE 无关。
 
@@ -85,7 +88,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 区分po、dto，不要把po中的所有字段都返回给前端。 前端需要什么字段，就返回什么字段
 - 类名：首字母大写驼峰规则；方法名：首字母小写驼峰规则；常量：全大写；变量：首字母小写驼峰规则，尽量非缩写
 - 业务模块接口层命名为`项目`-`业务-api`，如`zuihou-admin-api`
-- 业务模块业务层命名为`项目`-`业务-repository`，如`zuihou-admin-repository`
+- 业务模块业务层命名为`项目`-`业务-biz`，如`zuihou-admin-biz`
+- 业务模块控制层命名为`项目`-`业务-controller`，如`zuihou-admin-controller`
 - 业务模块容器命名为`项目`-`业务-server`，如`zuihou-admin-server`
 - 监控模块命名为`项目`-`业务`，如`zuihou-admin`
 - 数据表命名为：`子系统`_`表`，如`b_role`
