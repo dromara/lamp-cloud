@@ -76,7 +76,7 @@ public abstract class BaseDbConfiguration {
      * @param sessionFactory
      */
     private static void addTypeHandler(final MybatisSqlSessionFactoryBean sessionFactory) {
-        TypeHandler<?>[] typeHandlers = new TypeHandler[4];
+        TypeHandler<?>[] typeHandlers = new TypeHandler[3];
         typeHandlers[0] = new LeftLikeTypeHandler();
         typeHandlers[1] = new RightLikeTypeHandler();
         typeHandlers[2] = new FullLikeTypeHandler();

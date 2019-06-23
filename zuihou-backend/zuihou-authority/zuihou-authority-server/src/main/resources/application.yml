@@ -2,7 +2,6 @@ zuihou:
   port:
     nginx: 80
     eureka: 8761
-    file-nginx: 80
   ip:
     redis: ${REDIS_HOST:${spring.cloud.client.ip-address}}
     rabbitmq: ${RABBIT_HOST:${spring.cloud.client.ip-address}}
@@ -205,7 +204,7 @@ swagger:
       modules:
         priAuth:
           group-name: 认证服务接口
-          packages: com.zuihousoft.platform.authority.controller.auth
+          packages: com.github.zuihou.authority.controller.auth
     core:
       title: 组织架构服务
       description: 组织架构服务服务接口
@@ -213,7 +212,7 @@ swagger:
       modules:
         priCore:
           group-name: 组织架构服务
-          packages: com.zuihousoft.platform.authority.controller.core
+          packages: com.github.zuihou.authority.controller.core
     common:
       title: 通用接口
       description: 通用接口服务
@@ -221,7 +220,7 @@ swagger:
       modules:
         priCommon:
           group-name: 通用接口服务
-          packages: com.zuihousoft.platform.authority.controller.common
+          packages: com.github.zuihou.authority.controller.common
   contact-name: fighter
   contact-url: https://github.com/zuihou/zuihou-admin-cloud.git
   contact-email: zkhy@zuihousoft.com
