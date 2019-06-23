@@ -23,13 +23,13 @@ import lombok.Getter;
 public enum ResourceType {
 
     /**
-     * MENU="菜单"
+     * BUTTON="按钮"
      */
-    MENU("菜单"),
+    BUTTON("按钮"),
     /**
-     * OPT="按钮"
+     * URI="链接"
      */
-    OPT("按钮"),
+    URI("链接"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -60,7 +60,7 @@ public enum ResourceType {
         return eq(val.name());
     }
 
-    @ApiModelProperty(value = "编码", allowableValues = "MENU,OPT", example = "MENU")
+    @ApiModelProperty(value = "编码", allowableValues = "BUTTON,URI", example = "BUTTON")
     public String getCode() {
         return this.name();
     }

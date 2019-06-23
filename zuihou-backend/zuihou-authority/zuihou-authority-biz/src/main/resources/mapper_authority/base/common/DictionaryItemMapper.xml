@@ -12,17 +12,17 @@
         <result column="dictionary_id" jdbcType="BIGINT" property="dictionaryId"/>
         <result column="dictionary_code" jdbcType="VARCHAR" property="dictionaryCode"/>
         <result column="dictionary_item_code" jdbcType="VARCHAR" property="dictionaryItemCode"/>
-        <result column="name_" jdbcType="VARCHAR" property="name"/>
-        <result column="enable_is" jdbcType="BIT" property="enableIs"/>
-        <result column="delete_is" jdbcType="BIT" property="deleteIs"/>
-        <result column="desc_" jdbcType="VARCHAR" property="desc"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="is_enable" jdbcType="BIT" property="isEnable"/>
+        <result column="is_delete" jdbcType="BIT" property="isDelete"/>
+        <result column="describe" jdbcType="VARCHAR" property="describe"/>
         <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        dictionary_id, dictionary_code, dictionary_item_code, name_, enable_is, delete_is, desc_, sortvalue
+        dictionary_id, dictionary_code, dictionary_item_code, name, is_enable, is_delete, describe, sortvalue
     </sql>
 
 </mapper>

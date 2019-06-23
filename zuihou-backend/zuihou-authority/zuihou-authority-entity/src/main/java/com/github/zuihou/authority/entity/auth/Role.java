@@ -43,7 +43,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "角色名称")
     @Length(max = 30, message = "角色名称长度不能超过30")
-    @TableField("name_")
+    @TableField("name")
     private String name;
 
     /**
@@ -51,7 +51,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "角色编码")
     @Length(max = 20, message = "角色编码长度不能超过20")
-    @TableField("code_")
+    @TableField("code")
     private String code;
 
     /**
@@ -59,8 +59,8 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "功能描述")
     @Length(max = 100, message = "功能描述长度不能超过100")
-    @TableField("desc_")
-    private String desc;
+    @TableField("describe")
+    private String describe;
 
     /**
      * 是否启用
@@ -79,7 +79,7 @@ public class Role extends Entity<Long> {
 
     @Builder
     public Role(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String code, String desc, Boolean isEnable, Boolean isReadonly) {
+                String name, String code, String describe, Boolean isEnable, Boolean isReadonly) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -87,7 +87,7 @@ public class Role extends Entity<Long> {
         this.updateTime = updateTime;
         this.name = name;
         this.code = code;
-        this.desc = desc;
+        this.describe = describe;
         this.isEnable = isEnable;
         this.isReadonly = isReadonly;
     }

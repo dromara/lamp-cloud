@@ -20,11 +20,14 @@ import com.github.zuihoou.generator.type.GenerateType;
 public class AuthorityGenerator {
     public static void main(String[] args) {
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "c_auth_",
+                build("authority", "", "zuihou",
+                        "c_auth_",
+//                        "c_common_",
 //                build("msgs", "sms", "tangyh", "",
 //                        Arrays.asList("c_auth_.*"));
+                        Arrays.asList("c_auth_menu"));
 //                        Arrays.asList("c_common_.*"));
-                        Arrays.asList("c_auth_user_role", "c_auth_role_resource", "c_auth_authorized_api_resource"));
+//                        Arrays.asList("c_auth_user_role", "c_auth_role_resource", "c_auth_authorized_api_resource"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_authority_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
         build.setProjectRootPath("/Users/tangyh/githubspace/zuihou-admin-cloud/zuihou-backend/zuihou-authority");
@@ -45,8 +48,8 @@ public class AuthorityGenerator {
 
         build.setChildPackageName("auth");
 //        build.setChildPackageName("common");
-//        build.setSuperEntity(EntityType.ENTITY);
-        build.setSuperEntity(EntityType.SUPER_ENTITY);
+        build.setSuperEntity(EntityType.ENTITY);
+//        build.setSuperEntity(EntityType.SUPER_ENTITY);
 
         //手动指定枚举类 生成的路径
         Set<EntityFiledType> filedTypes = new HashSet<>();

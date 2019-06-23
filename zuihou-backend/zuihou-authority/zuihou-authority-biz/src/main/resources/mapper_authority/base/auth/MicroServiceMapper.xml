@@ -9,8 +9,8 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="name_" jdbcType="VARCHAR" property="name"/>
-        <result column="desc_" jdbcType="VARCHAR" property="desc"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="describe" jdbcType="VARCHAR" property="describe"/>
         <result column="eureka_code" jdbcType="VARCHAR" property="eurekaCode"/>
         <result column="swagger_url" jdbcType="VARCHAR" property="swaggerUrl"/>
         <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
@@ -19,7 +19,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        name_, desc_, eureka_code, swagger_url, sortvalue
+        name, describe, eureka_code, swagger_url, sortvalue
     </sql>
 
 </mapper>
