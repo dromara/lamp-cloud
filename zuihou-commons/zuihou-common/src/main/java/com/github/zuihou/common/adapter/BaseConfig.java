@@ -274,7 +274,7 @@ public abstract class BaseConfig {
      * @param machineCode
      * @return
      */
-    @Bean("snowflakeIDGenerate")
+    @Bean("snowflakeIdGenerate")
     public IdGenerate getIdGenerate(@Value("${id-generator.machine-code:1}") Long machineCode) {
         return new SnowflakeIDGenerate(machineCode);
     }
@@ -291,7 +291,7 @@ public abstract class BaseConfig {
     }
 
     @Bean("myMetaObjectHandler")
-    public MetaObjectHandler getMyMetaObjectHandler(@Qualifier("snowflakeIDGenerate") IdGenerate<Long> idGenerate) {
+    public MetaObjectHandler getMyMetaObjectHandler(@Qualifier("snowflakeIdGenerate") IdGenerate<Long> idGenerate) {
         return new MyMetaObjectHandler(idGenerate);
     }
 

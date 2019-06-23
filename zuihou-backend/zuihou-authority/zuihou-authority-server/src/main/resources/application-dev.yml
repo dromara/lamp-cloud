@@ -1,0 +1,16 @@
+zuihou:
+  port:
+    nginx: ${server.port}
+    eureka: 8761
+  ip:
+    redis: ${REDIS_HOST:${spring.cloud.client.ip-address}}
+    rabbitmq: ${RABBIT_HOST:${spring.cloud.client.ip-address}}
+    mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
+  mysql:
+    authority:
+      database: zuihou_authority_dev
+    port: 3306
+    username: root
+    password: root
