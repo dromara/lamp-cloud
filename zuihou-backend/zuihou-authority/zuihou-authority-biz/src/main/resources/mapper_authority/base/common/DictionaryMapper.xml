@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.authority.dao.common.DictionaryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.authority.entity.common.Dictionary">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="code_" jdbcType="VARCHAR" property="code"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="name_" jdbcType="VARCHAR" property="name"/>
+        <result column="desc_" jdbcType="VARCHAR" property="desc"/>
+        <result column="enable_is" jdbcType="BIT" property="enableIs"/>
+        <result column="delete_is" jdbcType="BIT" property="deleteIs"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_user, create_time, update_user, update_time, 
+        code_, parent_id, name_, desc_, enable_is, delete_is
+    </sql>
+
+</mapper>

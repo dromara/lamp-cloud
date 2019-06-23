@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.github.zuihou.authority.enumeration.auth.AccountType;
 import com.github.zuihou.base.entity.Entity;
 
 import io.swagger.annotations.ApiModel;
@@ -150,20 +151,19 @@ public class User extends Entity<Long> {
     private String entityId;
 
     /**
-     * 账号类型
-     * #AccountType{USER:用户;OTHER:其他}，以后需要可以在增加定义
+     * 账号类型  
+     * #AccountType{USER:用户;OTHER:其他;}
      */
     @ApiModelProperty(value = "账号类型")
-    @Length(max = 8, message = "账号类型长度不能超过8")
     @TableField("account_type")
-    private String accountType;
+    private AccountType accountType;
 
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                 String account, LocalDateTime passwordExpireTime, String password, String name, String photo,
                 Boolean isdelete, String mainmobile, String workDesc, Integer loginCount, LocalDate passContinuationErrorDay, Integer passContinuationErrorCount,
-                Boolean loginable, String entityId, String accountType) {
+                Boolean loginable, String entityId, AccountType accountType) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
