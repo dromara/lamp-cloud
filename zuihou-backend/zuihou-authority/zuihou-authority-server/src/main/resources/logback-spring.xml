@@ -19,10 +19,11 @@
        %l
        输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-admin-server"/>
-    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou-admin-server"/>
-    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
-    <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
+    <springProperty scope="context" name="log.path" source="logging.path"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
+    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active"/>
+    <springProperty scope="context" name="common-pattern" source="logging.common-pattern"
+                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.rest" source="logging.level.rest" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.service" source="logging.level.service" defaultValue="INFO"/>
@@ -30,8 +31,7 @@
 
     <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <!--<include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <jmxConfigurator/>
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
@@ -72,11 +72,11 @@
             <pattern>${common-pattern}</pattern>
         </encoder>
     </appender>
-    <appender name="IMPL_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/impl.log</file>
+    <appender name="CONTROLLER_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/controller.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/impl-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/controller-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>128MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -123,26 +123,26 @@
         </encoder>
     </appender>
 
-    <root level="${log.level.console}" >
+    <root level="${log.level.console}">
         <appender-ref ref="CONSOLE_APPENDER"/>
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
     <logger name="com.github.zuihou.commons.handler" additivity="true" level="ERROR">
-        <appender-ref ref = "EXCEPTION_APPENDER"/>
+        <appender-ref ref="EXCEPTION_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.admin.repository" additivity="true" level="${log.level.service}">
-        <appender-ref ref = "SERVICE_APPENDER"/>
+    <logger name="com.github.zuihou.authority.repository" additivity="true" level="${log.level.service}">
+        <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.admin.impl" additivity="true" level="${log.level.impl}">
-        <appender-ref ref = "IMPL_APPENDER"/>
+    <logger name="com.github.zuihou.authority.impl" additivity="true" level="${log.level.impl}">
+        <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.admin.repository.account.dao" additivity="false" level="${log.level.sql}">
-        <appender-ref ref = "CONSOLE_SQL_APPENDER"/>
-        <appender-ref ref = "SQL_APPENDER"/>
+    <logger name="com.github.zuihou.authority.repository.account.dao" additivity="false" level="${log.level.sql}">
+        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
+        <appender-ref ref="SQL_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.admin.repository.authority.dao" additivity="false" level="${log.level.sql}">
-        <appender-ref ref = "CONSOLE_SQL_APPENDER"/>
-        <appender-ref ref = "SQL_APPENDER"/>
+    <logger name="com.github.zuihou.authority.repository.authority.dao" additivity="false" level="${log.level.sql}">
+        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
+        <appender-ref ref="SQL_APPENDER"/>
     </logger>
 
 

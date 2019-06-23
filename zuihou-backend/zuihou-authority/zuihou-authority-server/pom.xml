@@ -6,12 +6,11 @@
         <artifactId>zuihou-authority</artifactId>
         <groupId>com.github.zuihou</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-authority-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>后台管理业务系统服务</description>
 

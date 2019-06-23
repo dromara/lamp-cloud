@@ -9,17 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-gateway</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>zuihou-gateway-server</module>
-        <module>zuihou-gateway-ratelimit</module>
-    </modules>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>API统一网关系统服务</description>
 
+    <modules>
+        <module>zuihou-gateway-server</module>
+        <module>zuihou-gateway-ratelimit</module>
+    </modules>
     <dependencyManagement>
         <dependencies>
             <dependency>

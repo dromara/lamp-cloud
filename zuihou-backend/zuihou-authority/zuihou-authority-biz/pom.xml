@@ -6,10 +6,10 @@
         <artifactId>zuihou-authority</artifactId>
         <groupId>com.github.zuihou</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-authority-biz</artifactId>
 
     <dependencies>
@@ -39,9 +39,6 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>generatorConfig.xml</exclude>
-                </excludes>
             </resource>
         </resources>
     </build>
