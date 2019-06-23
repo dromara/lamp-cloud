@@ -61,7 +61,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用名称")
     @Length(max = 20, message = "应用名称长度不能超过20")
-    @TableField("name_")
+    @TableField("name")
     private String name;
 
     /**
@@ -77,8 +77,8 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "功能描述")
     @Length(max = 200, message = "功能描述长度不能超过200")
-    @TableField("desc_")
-    private String desc;
+    @TableField("describe")
+    private String describe;
 
     /**
      * 应用编码
@@ -87,7 +87,7 @@ public class Application extends Entity<Long> {
     @ApiModelProperty(value = "应用编码")
     @NotEmpty(message = "应用编码不能为空")
     @Length(max = 20, message = "应用编码长度不能超过20")
-    @TableField("code_")
+    @TableField("code")
     private String code;
 
     /**
@@ -139,7 +139,7 @@ public class Application extends Entity<Long> {
 
     @Builder
     public Application(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                       String indexUrl, String fullRootPath, String name, String logoUrl, String desc,
+                       String indexUrl, String fullRootPath, String name, String logoUrl, String describe,
                        String code, Integer sortvalue, Boolean isEnable, String icpCode, String titleIcon, String supportUnit, String commonRecord) {
         this.id = id;
         this.createUser = createUser;
@@ -150,7 +150,7 @@ public class Application extends Entity<Long> {
         this.fullRootPath = fullRootPath;
         this.name = name;
         this.logoUrl = logoUrl;
-        this.desc = desc;
+        this.describe = describe;
         this.code = code;
         this.sortvalue = sortvalue;
         this.isEnable = isEnable;

@@ -23,13 +23,13 @@ import lombok.Getter;
 public enum AccountType {
 
     /**
-     * USER="用户"
+     * CUSTOMER="客户"
      */
-    USER("用户"),
+    CUSTOMER("客户"),
     /**
-     * OTHER="其他"
+     * BUILT_IN="内置"
      */
-    OTHER("其他"),
+    BUILT_IN("内置"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -60,7 +60,7 @@ public enum AccountType {
         return eq(val.name());
     }
 
-    @ApiModelProperty(value = "编码", allowableValues = "USER,OTHER", example = "USER")
+    @ApiModelProperty(value = "编码", allowableValues = "CUSTOMER,BUILT_IN", example = "CUSTOMER")
     public String getCode() {
         return this.name();
     }

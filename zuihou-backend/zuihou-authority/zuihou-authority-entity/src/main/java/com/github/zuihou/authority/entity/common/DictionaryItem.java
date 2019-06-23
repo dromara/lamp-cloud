@@ -73,7 +73,7 @@ public class DictionaryItem extends Entity<Long> {
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过64")
-    @TableField("name_")
+    @TableField("name")
     private String name;
 
     /**
@@ -81,24 +81,24 @@ public class DictionaryItem extends Entity<Long> {
      */
     @ApiModelProperty(value = "是否启用")
     @NotNull(message = "是否启用不能为空")
-    @TableField("enable_is")
-    private Boolean enableIs;
+    @TableField("is_enable")
+    private Boolean isEnable;
 
     /**
      * 是否删除
      */
     @ApiModelProperty(value = "是否删除")
     @NotNull(message = "是否删除不能为空")
-    @TableField("delete_is")
-    private Boolean deleteIs;
+    @TableField("is_delete")
+    private Boolean isDelete;
 
     /**
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 200, message = "描述长度不能超过200")
-    @TableField("desc_")
-    private String desc;
+    @Length(max = 255, message = "描述长度不能超过255")
+    @TableField("describe")
+    private String describe;
 
     /**
      * 排序
@@ -110,8 +110,8 @@ public class DictionaryItem extends Entity<Long> {
 
     @Builder
     public DictionaryItem(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                          Long dictionaryId, String dictionaryCode, String dictionaryItemCode, String name, Boolean enableIs,
-                          Boolean deleteIs, String desc, Integer sortvalue) {
+                          Long dictionaryId, String dictionaryCode, String dictionaryItemCode, String name, Boolean isEnable,
+                          Boolean isDelete, String describe, Integer sortvalue) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -121,9 +121,9 @@ public class DictionaryItem extends Entity<Long> {
         this.dictionaryCode = dictionaryCode;
         this.dictionaryItemCode = dictionaryItemCode;
         this.name = name;
-        this.enableIs = enableIs;
-        this.deleteIs = deleteIs;
-        this.desc = desc;
+        this.isEnable = isEnable;
+        this.isDelete = isDelete;
+        this.describe = describe;
         this.sortvalue = sortvalue;
     }
 

@@ -9,18 +9,18 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="code_" jdbcType="VARCHAR" property="code"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
-        <result column="name_" jdbcType="VARCHAR" property="name"/>
-        <result column="desc_" jdbcType="VARCHAR" property="desc"/>
-        <result column="enable_is" jdbcType="BIT" property="enableIs"/>
-        <result column="delete_is" jdbcType="BIT" property="deleteIs"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="describe" jdbcType="VARCHAR" property="describe"/>
+        <result column="is_enable" jdbcType="BIT" property="isEnable"/>
+        <result column="is_delete" jdbcType="BIT" property="isDelete"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        code_, parent_id, name_, desc_, enable_is, delete_is
+        code, parent_id, name, describe, is_enable, is_delete
     </sql>
 
 </mapper>

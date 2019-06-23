@@ -2,6 +2,8 @@ package com.github.zuihou.authority.entity.auth;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -43,6 +45,7 @@ public class UserRole extends SuperEntity<Long> {
      * #c_auth_role
      */
     @ApiModelProperty(value = "角色id")
+    @NotNull(message = "角色id不能为空")
     @TableField("role_id")
     private Long roleId;
 
@@ -51,6 +54,7 @@ public class UserRole extends SuperEntity<Long> {
      * #c_core_account
      */
     @ApiModelProperty(value = "用户id")
+    @NotNull(message = "用户id不能为空")
     @TableField("user_id")
     private Long userId;
 

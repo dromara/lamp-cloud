@@ -43,7 +43,7 @@ public class MicroService extends Entity<Long> {
      */
     @ApiModelProperty(value = "服务名称")
     @Length(max = 20, message = "服务名称长度不能超过20")
-    @TableField("name_")
+    @TableField("name")
     private String name;
 
     /**
@@ -51,8 +51,8 @@ public class MicroService extends Entity<Long> {
      */
     @ApiModelProperty(value = "服务描述")
     @Length(max = 100, message = "服务描述长度不能超过100")
-    @TableField("desc_")
-    private String desc;
+    @TableField("describe")
+    private String describe;
 
     /**
      * eureka编码
@@ -81,14 +81,14 @@ public class MicroService extends Entity<Long> {
 
     @Builder
     public MicroService(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                        String name, String desc, String eurekaCode, String swaggerUrl, Integer sortvalue) {
+                        String name, String describe, String eurekaCode, String swaggerUrl, Integer sortvalue) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
         this.name = name;
-        this.desc = desc;
+        this.describe = describe;
         this.eurekaCode = eurekaCode;
         this.swaggerUrl = swaggerUrl;
         this.sortvalue = sortvalue;

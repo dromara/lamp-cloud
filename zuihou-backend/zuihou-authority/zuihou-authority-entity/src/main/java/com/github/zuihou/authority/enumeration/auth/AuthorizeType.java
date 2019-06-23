@@ -10,8 +10,7 @@ import lombok.Getter;
 /**
  * <p>
  * 实体注释中生成的类型枚举
- * 资源API分配
- * 资源中需要请求的api  并且此api会被鉴权，若不需要鉴权的api就不要加入到
+ * 角色的资源
  * </p>
  *
  * @author zuihou
@@ -19,18 +18,18 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-@ApiModel(value = "AuthorizeType", description = "授权类型-枚举")
+@ApiModel(value = "AuthorizeType", description = "权限类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum AuthorizeType {
 
     /**
-     * MANUAL="手动"
+     * MENU="菜单"
      */
-    MANUAL("手动"),
+    MENU("菜单"),
     /**
-     * AUTO="自动"
+     * RESOURCE="资源"
      */
-    AUTO("自动"),
+    RESOURCE("资源"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -61,7 +60,7 @@ public enum AuthorizeType {
         return eq(val.name());
     }
 
-    @ApiModelProperty(value = "编码", allowableValues = "MANUAL,AUTO", example = "MANUAL")
+    @ApiModelProperty(value = "编码", allowableValues = "MENU,RESOURCE", example = "MENU")
     public String getCode() {
         return this.name();
     }

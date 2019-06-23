@@ -48,11 +48,11 @@ public class Dictionary extends Entity<Long> {
     @ApiModelProperty(value = "编码")
     @NotEmpty(message = "编码不能为空")
     @Length(max = 64, message = "编码长度不能超过64")
-    @TableField("code_")
+    @TableField("code")
     private String code;
 
     /**
-     * 父级id
+     * 父级id  
      * 顶级的字典父级id是自己
      */
     @ApiModelProperty(value = "父级id")
@@ -66,7 +66,7 @@ public class Dictionary extends Entity<Long> {
     @ApiModelProperty(value = "字典名称")
     @NotEmpty(message = "字典名称不能为空")
     @Length(max = 64, message = "字典名称长度不能超过64")
-    @TableField("name_")
+    @TableField("name")
     private String name;
 
     /**
@@ -74,29 +74,29 @@ public class Dictionary extends Entity<Long> {
      */
     @ApiModelProperty(value = "字典描述")
     @Length(max = 200, message = "字典描述长度不能超过200")
-    @TableField("desc_")
-    private String desc;
+    @TableField("describe")
+    private String describe;
 
     /**
      * 是否启用
      */
     @ApiModelProperty(value = "是否启用")
     @NotNull(message = "是否启用不能为空")
-    @TableField("enable_is")
-    private Boolean enableIs;
+    @TableField("is_enable")
+    private Boolean isEnable;
 
     /**
      * 是否删除
      */
     @ApiModelProperty(value = "是否删除")
     @NotNull(message = "是否删除不能为空")
-    @TableField("delete_is")
-    private Boolean deleteIs;
+    @TableField("is_delete")
+    private Boolean isDelete;
 
 
     @Builder
     public Dictionary(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                      String code, Long parentId, String name, String desc, Boolean enableIs, Boolean deleteIs) {
+                      String code, Long parentId, String name, String describe, Boolean isEnable, Boolean isDelete) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -105,9 +105,9 @@ public class Dictionary extends Entity<Long> {
         this.code = code;
         this.parentId = parentId;
         this.name = name;
-        this.desc = desc;
-        this.enableIs = enableIs;
-        this.deleteIs = deleteIs;
+        this.describe = describe;
+        this.isEnable = isEnable;
+        this.isDelete = isDelete;
     }
 
 }

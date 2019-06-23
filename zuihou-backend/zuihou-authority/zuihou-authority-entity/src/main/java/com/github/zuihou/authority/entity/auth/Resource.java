@@ -2,13 +2,11 @@ package com.github.zuihou.authority.entity.auth;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotNull;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
-import com.github.zuihou.authority.enumeration.auth.UrlOpenMethod;
+import com.github.zuihou.authority.enumeration.auth.MenuType;
 import com.github.zuihou.base.entity.Entity;
+import com.github.zuihou.common.enums.HttpMethod;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,133 +41,104 @@ public class Resource extends Entity<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 资源名称
-     */
-    @ApiModelProperty(value = "资源名称")
-    @Length(max = 20, message = "资源名称长度不能超过20")
-    @TableField("name_")
-    private String name;
-
-    /**
-     * 功能描述
-     */
-    @ApiModelProperty(value = "功能描述")
-    @Length(max = 200, message = "功能描述长度不能超过200")
-    @TableField("desc_")
-    private String desc;
-
-    /**
      * 资源编码
      */
     @ApiModelProperty(value = "资源编码")
     @Length(max = 255, message = "资源编码长度不能超过255")
-    @TableField("code_")
+    @TableField("code")
     private String code;
 
     /**
-     * 资源类型
-     * #ResourceType{MENU:菜单;OPT:按钮;}
+     * 资源类型 
+     * #ResourceType{BUTTON:按钮;URI:链接;}
      */
     @ApiModelProperty(value = "资源类型")
-    @TableField("type_")
-    private ResourceType type;
+    @TableField("type")
+    private MenuType type;
 
     /**
-     * 是否公有资源
-     * 就是无需分配就可以访问的。所有人可见
+     * 接口名称
      */
-    @ApiModelProperty(value = "是否公有资源")
-    @NotNull(message = "是否公有资源不能为空")
-    @TableField("is_public")
-    private Boolean isPublic;
+    @ApiModelProperty(value = "接口名称")
+    @Length(max = 255, message = "接口名称长度不能超过255")
+    @TableField("name")
+    private String name;
 
     /**
-     * 路径
+     * 菜单id
+     * #c_auth_menu
      */
-    @ApiModelProperty(value = "路径")
-    @Length(max = 100, message = "路径长度不能超过100")
-    @TableField("url_")
-    private String url;
+    @ApiModelProperty(value = "菜单id")
+    @TableField("menu_id")
+    private Long menuId;
 
     /**
-     * 打开方式
-     * #UrlOpenMethod{SELF:相同框架;TOP:当前页;BLANK:新建窗口;PAREN:父窗口}
+     * 基础路径
      */
-    @ApiModelProperty(value = "打开方式")
-    @TableField("target_")
-    private UrlOpenMethod target;
+    @ApiModelProperty(value = "基础路径")
+    @Length(max = 100, message = "基础路径长度不能超过100")
+    @TableField("base_path")
+    private String basePath;
 
     /**
-     * 是否启用
+     * 接口描述
      */
-    @ApiModelProperty(value = "是否启用")
-    @NotNull(message = "是否启用不能为空")
-    @TableField("is_enable")
-    private Boolean isEnable;
+    @ApiModelProperty(value = "接口描述")
+    @Length(max = 255, message = "接口描述长度不能超过255")
+    @TableField("description")
+    private String description;
 
     /**
-     * 序号
+     * 地址
      */
-    @ApiModelProperty(value = "序号")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @ApiModelProperty(value = "地址")
+    @Length(max = 150, message = "地址长度不能超过150")
+    @TableField("uri")
+    private String uri;
 
     /**
-     * 应用CODE
-     * #c_auth_application
+     * 请求方式
+     * #HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}
+     *          
      */
-    @ApiModelProperty(value = "应用CODE")
-    @Length(max = 64, message = "应用CODE长度不能超过64")
-    @TableField("app_code")
-    private String appCode;
+    @ApiModelProperty(value = "请求方式")
+    @TableField("http_method")
+    private HttpMethod httpMethod;
 
     /**
-     * 菜单图标
+     * 是否过时
      */
-    @ApiModelProperty(value = "菜单图标")
-    @Length(max = 255, message = "菜单图标长度不能超过255")
-    @TableField("icon_")
-    private String icon;
+    @ApiModelProperty(value = "是否过时")
+    @TableField("deprecated")
+    private Boolean deprecated;
 
     /**
-     * 菜单分组
+     * 是否需要认证
      */
-    @ApiModelProperty(value = "菜单分组")
-    @Length(max = 20, message = "菜单分组长度不能超过20")
-    @TableField("group_")
-    private String group;
-
-    /**
-     * 父级菜单id
-     */
-    @ApiModelProperty(value = "父级菜单id")
-    @TableField("parent_id")
-    private Long parentId;
+    @ApiModelProperty(value = "是否需要认证")
+    @TableField("is_certification")
+    private Boolean isCertification;
 
 
     @Builder
     public Resource(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                    String name, String desc, String code, ResourceType type, Boolean isPublic,
-                    String url, UrlOpenMethod target, Boolean isEnable, Integer sortvalue, String appCode, String icon,
-                    String group, Long parentId) {
+                    String code, MenuType type, String name, Long menuId, String basePath,
+                    String description, String uri, HttpMethod httpMethod, Boolean deprecated, Boolean isCertification) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
-        this.name = name;
-        this.desc = desc;
         this.code = code;
         this.type = type;
-        this.isPublic = isPublic;
-        this.url = url;
-        this.target = target;
-        this.isEnable = isEnable;
-        this.sortvalue = sortvalue;
-        this.appCode = appCode;
-        this.icon = icon;
-        this.group = group;
-        this.parentId = parentId;
+        this.name = name;
+        this.menuId = menuId;
+        this.basePath = basePath;
+        this.description = description;
+        this.uri = uri;
+        this.httpMethod = httpMethod;
+        this.deprecated = deprecated;
+        this.isCertification = isCertification;
     }
 
 }
