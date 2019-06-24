@@ -1,8 +1,0 @@
-spring:
-  profiles:
-    active: dev
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://${zuihou.eureka.hostname.dev}:${zuihou.eureka.server.port.dev}/eureka/
