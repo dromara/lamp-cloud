@@ -10,7 +10,7 @@ import lombok.Getter;
 /**
  * <p>
  * 实体注释中生成的类型枚举
- * 文件表
+ * 文件回收站
  * </p>
  *
  * @author zuihou

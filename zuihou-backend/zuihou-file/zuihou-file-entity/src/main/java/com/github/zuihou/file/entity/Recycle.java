@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- * 文件表
+ * 文件回收站
  * </p>
  *
  * @author zuihou
@@ -33,9 +33,9 @@ import org.hibernate.validator.constraints.Length;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("f_file")
-@ApiModel(value = "File", description = "文件表")
-public class File extends Entity<Long> {
+@TableName("f_recycle")
+@ApiModel(value = "Recycle", description = "文件回收站")
+public class Recycle extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +49,8 @@ public class File extends Entity<Long> {
 
     /**
      * 原始文件名
+     * 很长的换行的注释
+     * 很长的换行的注释
      */
     @ApiModelProperty(value = "原始文件名")
     @Length(max = 255, message = "原始文件名长度不能超过255")
@@ -56,10 +58,11 @@ public class File extends Entity<Long> {
     private String submittedFileName;
 
     /**
-     * 父目录层级关系
+     * 树形结构
+     * 用,拼接所有父类的id
      */
-    @ApiModelProperty(value = "父目录层级关系")
-    @Length(max = 255, message = "父目录层级关系长度不能超过255")
+    @ApiModelProperty(value = "树形结构")
+    @Length(max = 255, message = "树形结构长度不能超过255")
     @TableField("tree_path")
     private String treePath;
 
@@ -72,26 +75,17 @@ public class File extends Entity<Long> {
     private Integer grade;
 
     /**
-     * 是否删除
-     * #BooleanStatus{TRUE:1,已删除;FALSE:0,未删除}
+     * 文件夹id
      */
-    @ApiModelProperty(value = "是否删除")
-    @TableField("is_delete")
-    private Boolean isDelete;
-
-    /**
-     * 父文件夹ID
-     */
-    @ApiModelProperty(value = "父文件夹ID")
+    @ApiModelProperty(value = "文件夹id")
     @TableField("folder_id")
     private Long folderId;
 
     /**
-     * 文件访问链接
-     * 需要通过nginx配置路由，才能访问
+     * 链接
      */
-    @ApiModelProperty(value = "文件访问链接")
-    @Length(max = 255, message = "文件访问链接长度不能超过255")
+    @ApiModelProperty(value = "链接")
+    @Length(max = 255, message = "链接长度不能超过255")
     @TableField("url")
     private String url;
 
@@ -113,7 +107,6 @@ public class File extends Entity<Long> {
 
     /**
      * FastDFS组
-     * 用于FastDFS
      */
     @ApiModelProperty(value = "FastDFS组")
     @Length(max = 255, message = "FastDFS组长度不能超过255")
@@ -122,7 +115,6 @@ public class File extends Entity<Long> {
 
     /**
      * FastDFS远程文件名
-     * 用于FastDFS
      */
     @ApiModelProperty(value = "FastDFS远程文件名")
     @Length(max = 255, message = "FastDFS远程文件名长度不能超过255")
@@ -130,7 +122,7 @@ public class File extends Entity<Long> {
     private String path;
 
     /**
-     * 文件的相对路径 
+     * 文件的相对路径
      */
     @ApiModelProperty(value = "文件的相对路径 ")
     @Length(max = 255, message = "文件的相对路径 长度不能超过255")
@@ -146,8 +138,15 @@ public class File extends Entity<Long> {
     private String fileMd5;
 
     /**
+     * 类型
+     */
+    @ApiModelProperty(value = "类型")
+    @Length(max = 255, message = "类型长度不能超过255")
+    @TableField("mime")
+    private String mime;
+
+    /**
      * 文件类型
-     * 取上传文件的值
      */
     @ApiModelProperty(value = "文件类型")
     @Length(max = 255, message = "文件类型长度不能超过255")
@@ -155,65 +154,36 @@ public class File extends Entity<Long> {
     private String contextType;
 
     /**
-     * 唯一文件名
+     * 文件名
      */
-    @ApiModelProperty(value = "唯一文件名")
-    @Length(max = 255, message = "唯一文件名长度不能超过255")
+    @ApiModelProperty(value = "文件名")
+    @Length(max = 255, message = "文件名长度不能超过255")
     @TableField("filename")
     private String filename;
 
     /**
-     * 文件名后缀 
+     * 后缀
      * (没有.)
      */
-    @ApiModelProperty(value = "文件名后缀")
-    @Length(max = 64, message = "文件名后缀长度不能超过64")
+    @ApiModelProperty(value = "后缀")
+    @Length(max = 64, message = "后缀长度不能超过64")
     @TableField("ext")
     private String ext;
 
     /**
-     * 文件图标
-     * 用于云盘显示
+     * 图标
      */
-    @ApiModelProperty(value = "文件图标")
-    @Length(max = 64, message = "文件图标长度不能超过64")
+    @ApiModelProperty(value = "图标")
+    @Length(max = 64, message = "图标长度不能超过64")
     @TableField("icon")
     private String icon;
 
-    /**
-     * 创建时年月
-     * 格式：yyyy-MM 用于统计
-     */
-    @ApiModelProperty(value = "创建时年月")
-    @Length(max = 10, message = "创建时年月长度不能超过10")
-    @TableField("create_month")
-    private String createMonth;
-
-    /**
-     * 创建时年周
-     * yyyy-ww 用于统计
-     */
-    @ApiModelProperty(value = "创建时年周")
-    @Length(max = 10, message = "创建时年周长度不能超过10")
-    @TableField("create_week")
-    private String createWeek;
-
-    /**
-     * 创建时年月日
-     * 格式： yyyy-MM-dd 用于统计
-     */
-    @ApiModelProperty(value = "创建时年月日")
-    @Length(max = 12, message = "创建时年月日长度不能超过12")
-    @TableField("create_day")
-    private String createDay;
-
 
     @Builder
-    public File(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser, 
-                    DataType dataType, String submittedFileName, String treePath, Integer grade, Boolean isDelete, 
-                    Long folderId, String url, Long size, String folderName, String group, String path, 
-                    String relativePath, String fileMd5, String contextType, String filename, String ext, String icon, 
-                    String createMonth, String createWeek, String createDay) {
+    public Recycle(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
+                   DataType dataType, String submittedFileName, String treePath, Integer grade, Long folderId,
+                   String url, Long size, String folderName, String group, String path, String relativePath,
+                   String fileMd5, String mime, String contextType, String filename, String ext, String icon) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -223,7 +193,6 @@ public class File extends Entity<Long> {
         this.submittedFileName = submittedFileName;
         this.treePath = treePath;
         this.grade = grade;
-        this.isDelete = isDelete;
         this.folderId = folderId;
         this.url = url;
         this.size = size;
@@ -232,13 +201,11 @@ public class File extends Entity<Long> {
         this.path = path;
         this.relativePath = relativePath;
         this.fileMd5 = fileMd5;
+        this.mime = mime;
         this.contextType = contextType;
         this.filename = filename;
         this.ext = ext;
         this.icon = icon;
-        this.createMonth = createMonth;
-        this.createWeek = createWeek;
-        this.createDay = createDay;
     }
 
 }
