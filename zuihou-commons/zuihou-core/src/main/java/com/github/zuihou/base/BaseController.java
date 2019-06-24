@@ -143,6 +143,14 @@ public abstract class BaseController {
         return getPage(false);
     }
 
+    protected Integer getPageNo() {
+        return NumberHelper.intValueOf(request.getParameter(PAGE_NO), 1);
+    }
+
+    protected Integer getPageSize() {
+        return NumberHelper.intValueOf(request.getParameter(PAGE_SIZE), DEFAULT_LIMIT);
+    }
+
     /**
      * 获取分页对象
      *
@@ -150,11 +158,10 @@ public abstract class BaseController {
      * @return
      */
     protected <T> Page<T> getPage(boolean openSort) {
-        int index = 1;
         // 页数
-        Integer pageNo = NumberHelper.intValueOf(request.getParameter(PAGE_NO), index);
+        Integer pageNo = getPageNo();
         // 分页大小
-        Integer pageSize = NumberHelper.intValueOf(request.getParameter(PAGE_SIZE), DEFAULT_LIMIT);
+        Integer pageSize = getPageSize();
         // 是否查询分页
         return buildPage(openSort, pageNo, pageSize);
     }
