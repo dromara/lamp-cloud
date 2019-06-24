@@ -3,15 +3,16 @@ zuihou:
     nginx: ${server.port}
     eureka: 8761
   ip:
-    redis: ${REDIS_HOST:${spring.cloud.client.ip-address}}
-    rabbitmq: ${RABBIT_HOST:${spring.cloud.client.ip-address}}
     mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
     nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
     eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
   mysql:
-    authority:
-      database: zuihou_authority_dev
-    port: 3306
-    username: root
+    file:
+      database: zuihou_file_dev       # 根据环境更改
+    port: 3306                  # 根据环境更改
+    username: root              # 根据环境更改
     password: root
+  file:
+    type: LOCAL # FASTDFS LOCAL
+
 

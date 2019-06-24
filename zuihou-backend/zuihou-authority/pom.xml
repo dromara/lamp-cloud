@@ -31,19 +31,10 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-authority-entity</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-authority-controller</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-auth-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

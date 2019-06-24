@@ -16,7 +16,7 @@
     <modules>
         <module>zuihou-authority</module>
         <!--<module>zuihou-mail</module>-->
-        <!--<module>zuihou-file</module>-->
+        <module>zuihou-file</module>
         <module>zuihou-gateway</module>
         <module>zuihou-auth</module>
     </modules>
@@ -37,12 +37,29 @@
                 <artifactId>zuihou-auth-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-authority-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-file-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!--<dependency>-->
             <!--<groupId>com.github.zuihou</groupId>-->
             <!--<artifactId>zuihou-authority-api</artifactId>-->
             <!--<version>${project.version}</version>-->
             <!--</dependency>-->
-
+            <!--<dependency>-->
+            <!--<groupId>com.github.zuihou</groupId>-->
+            <!--<artifactId>zuihou-file-api</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--</dependency>-->
 
         </dependencies>
     </dependencyManagement>
