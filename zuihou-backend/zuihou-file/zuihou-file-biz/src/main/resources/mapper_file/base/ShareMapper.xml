@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.file.dao.ShareMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.file.entity.Share">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime"/>
+        <result column="thumbs_up" jdbcType="INTEGER" property="thumbsUp"/>
+        <result column="download_count" jdbcType="INTEGER" property="downloadCount"/>
+        <result column="save_count" jdbcType="INTEGER" property="saveCount"/>
+        <result column="view_count" jdbcType="INTEGER" property="viewCount"/>
+        <result column="create_user_name" jdbcType="VARCHAR" property="createUserName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, create_user, update_time, update_user, 
+        name, password, icon, url, expire_time, thumbs_up, download_count, save_count, view_count, create_user_name
+    </sql>
+
+</mapper>
