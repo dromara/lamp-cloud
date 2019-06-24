@@ -13,5 +13,29 @@ import com.github.zuihou.file.entity.Recycle;
  * @date 2019-06-24
  */
 public interface RecycleService extends IService<Recycle> {
+    /**
+     * 批量删除回收站和源文件
+     *
+     * @param userId
+     * @param ids
+     */
+    void deleteBatch(Long userId, Long[] ids);
 
+    /**
+     * 清空回收站
+     *
+     * @param userId 指定用户
+     * @return
+     * @author tangyh
+     * @date 2019-05-07 16:15
+     */
+    void clear(Long userId);
+
+    /**
+     * 还原
+     *
+     * @param userId
+     * @param ids
+     */
+    void reset(Long userId, Long[] ids);
 }

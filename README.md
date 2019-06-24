@@ -96,6 +96,11 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
 
 
+## 小技巧
+- 多线程编译： clean install -T8 
+- mapper类上增加注解@Repository, 防止 IDEA 提示注入报错。
+- IDEA提交代码时，勾选Reformat code、Rearrange code、Optimize imports, 让代码更整洁
+
 
 ## 期待您的加入：
     1，前端哥哥
