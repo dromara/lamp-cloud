@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-23
+ * @date 2019-06-24
  */
 @Slf4j
 @Validated
@@ -53,7 +53,7 @@ public class UserRoleController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询角色分配", notes = "分页查询角色分配")
-    @PostMapping("/page")
+    @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
     public Result<IPage<UserRole>> page(@Valid UserRoleDTO data) {
         IPage<UserRole> page = getPage();

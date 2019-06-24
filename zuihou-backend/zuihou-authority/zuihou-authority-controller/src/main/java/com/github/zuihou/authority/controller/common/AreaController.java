@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-23
+ * @date 2019-06-24
  */
 @Slf4j
 @Validated
@@ -52,7 +52,7 @@ public class AreaController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询地区表", notes = "分页查询地区表")
-    @PostMapping("/page")
+    @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
     public Result<IPage<Area>> page(@Valid AreaDTO data) {
         IPage<Area> page = getPage();
