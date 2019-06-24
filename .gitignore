@@ -4,6 +4,7 @@ logs
 rebel.xml
 target/
 !.mvn/wrapper/maven-wrapper.jar
+log.path_IS_UNDEFINED
 
 ### STS ###
 .apt_generated
