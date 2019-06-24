@@ -22,7 +22,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 /**
  * admin 权限 过滤器
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-13 15:22
  */
 @Component

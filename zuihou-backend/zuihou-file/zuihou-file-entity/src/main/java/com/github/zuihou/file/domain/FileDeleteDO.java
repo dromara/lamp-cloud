@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 文件删除
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/07
  */
 @Data

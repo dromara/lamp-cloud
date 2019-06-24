@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * 文件锁工具类
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-06-14
  */
 @Component
@@ -23,7 +23,7 @@ public class FileLock {
      *
      * @param key
      * @return java.util.concurrent.locks.Lock
-     * @author tangyh
+     * @author zuihou
      * @date 2019-06-14 11:30
      */
     public static synchronized Lock getLock(String key) {
@@ -41,7 +41,7 @@ public class FileLock {
      *
      * @param key
      * @return void
-     * @author tangyh
+     * @author zuihou
      * @date 2019-06-14 11:33
      */
     public static synchronized void removeLock(String key) {

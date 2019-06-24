@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 /**
  * 文件和附件的一些公共方法
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/06
  */
 @Component

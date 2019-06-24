@@ -28,7 +28,7 @@ import static com.github.zuihou.file.utils.FileDataTypeUtil.URI_SEPARATOR;
 /**
  * 本地上传配置
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/18
  */
 

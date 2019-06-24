@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 /**
  * 分片上传工具类
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-06-14 11:50
  */
 @Service

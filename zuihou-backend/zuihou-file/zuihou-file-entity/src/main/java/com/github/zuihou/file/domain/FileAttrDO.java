@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * 文件部分属性
  *
- * @author tangyh
+ * @author zuihou
  */
 @NoArgsConstructor
 @AllArgsConstructor

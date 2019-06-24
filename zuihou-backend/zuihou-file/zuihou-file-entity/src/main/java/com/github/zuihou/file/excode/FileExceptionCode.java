@@ -10,7 +10,7 @@ import lombok.Getter;
  * * 文件服务（gxqpt-file 项目）相关的异常代码
  * * 60000~64999, 每个子模块加500， 每个异常代码+1
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/08
  */
 @Getter

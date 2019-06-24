@@ -26,7 +26,7 @@ public interface ShareFileMapper extends BaseMapper<ShareFile> {
      * @param page
      * @param data
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-08 09:18
      */
     IPage<ShareFileDTO> page(IPage page, @Param("data") SharePageDTO data);

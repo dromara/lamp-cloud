@@ -11,7 +11,7 @@ import lombok.Data;
 /**
  * 附件返回实体
  *
- * @author tangyh
+ * @author zuihou
  * @date 2018/12/12
  */
 @Data

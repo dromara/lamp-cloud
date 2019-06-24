@@ -1,8 +1,8 @@
-hengyun:
+zuihou:
   port:
     nginx: 80
     eureka: 8761
-  hostname:
+  ip:
     redis: ${REDIS_HOST:${spring.cloud.client.ip-address}}
     rabbitmq: ${RABBIT_HOST:${spring.cloud.client.ip-address}}
     mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
@@ -36,7 +36,7 @@ spring:
     default-property-inclusion: NON_NULL
   redis:
     database: 1
-    host: ${hengyun.hostname.redis}
+    host: ${zuihou.ip.redis}
     port: 16379
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
     jedis:
@@ -46,7 +46,7 @@ spring:
         max-idle: 10     # 最大闲置
     key-prefix: zuihou:${spring.profiles.active}
   rabbitmq:
-    host: ${hengyun.hostname.rabbitmq}
+    host: ${zuihou.ip.rabbitmq}
     port: 5672
     password: zuihou
     username: zuihou
@@ -99,7 +99,7 @@ server:
 
 eureka:
   instance:
-    status-page-url: http://${hengyun.hostname.nginx}:${hengyun.port.nginx}${server.servlet.context-path}${spring.mvc.servlet.path}/doc.html
+    status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}${spring.mvc.servlet.path}/doc.html
     status-page-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}/info
     health-check-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}/health
     home-page-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}
@@ -112,7 +112,7 @@ eureka:
       management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
   client:
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${hengyun.hostname.eureka}:${hengyun.port.eureka}${hengyun.context-path.eureka}/eureka/
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:${zuihou.port.eureka}${zuihou.context-path.eureka}/eureka/
 
 
 zuul:

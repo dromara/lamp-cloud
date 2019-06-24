@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 根据类型识别工具
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-05-06
  */
 public class FileDataTypeUtil {
@@ -36,7 +36,7 @@ public class FileDataTypeUtil {
      *
      * @param
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-06 13:41
      */
     public static DataType getDataType(String mime) {
