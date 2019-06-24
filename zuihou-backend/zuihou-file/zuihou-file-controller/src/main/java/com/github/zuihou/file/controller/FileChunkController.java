@@ -34,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 注意：该类下的所有方法均需要webuploder.js插件进行配合使用。
  * md5
  *
- * @author tangyh
+ * @author zuihou
  * @date 2018/08/24
  */
 @RestController

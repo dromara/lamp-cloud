@@ -50,7 +50,7 @@ import static java.util.stream.Collectors.groupingBy;
  * 附件表 前端控制器
  * </p>
  *
- * @author tangyh
+ * @author zuihou
  * @since 2019-04-29
  */
 @RestController
@@ -71,7 +71,7 @@ public class AttachmentController {
      *
      * @param
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-06 16:28
      */
     @ApiOperation(value = "附件上传", notes = "附件上传")
@@ -173,7 +173,7 @@ public class AttachmentController {
      * @param bizIds   业务id
      * @param bizTypes 业务类型
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-12 21:23
      */
     @ApiImplicitParams({
@@ -197,7 +197,7 @@ public class AttachmentController {
      * @param url      文件链接
      * @param filename 文件名称
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-12 21:24
      */
     @ApiOperation(value = "下载文件", notes = "根据文件的url下载文件")

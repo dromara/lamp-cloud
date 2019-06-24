@@ -28,7 +28,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 /**
  * 中心数据库配置
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2017-11-18 0:34
  */
 @Configuration

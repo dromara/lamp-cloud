@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * http://dozer.sourceforge.net/documentation/usage.html
  * http://www.jianshu.com/p/bf8f0e8aee23
  *
- * @author tyh
+ * @author zuihou
  * @createTime 2017-11-23 16:27
  */
 @Configuration

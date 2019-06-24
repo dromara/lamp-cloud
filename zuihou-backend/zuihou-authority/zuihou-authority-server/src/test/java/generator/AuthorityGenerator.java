@@ -14,7 +14,7 @@ import com.github.zuihoou.generator.type.GenerateType;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/25
  */
 public class AuthorityGenerator {
@@ -23,7 +23,7 @@ public class AuthorityGenerator {
                 build("authority", "", "zuihou",
 //                        "c_auth_",
                         "c_common_",
-//                build("msgs", "sms", "tangyh", "",
+//                build("msgs", "sms", "zuihou", "",
 //                        Arrays.asList("c_auth_.*"));
                         Arrays.asList("c_common_.*"));
 //                        Arrays.asList("c_auth_user_role", "c_auth_role_authority"));

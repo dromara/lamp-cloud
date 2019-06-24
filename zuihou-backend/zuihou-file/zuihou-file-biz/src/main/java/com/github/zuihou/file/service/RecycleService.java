@@ -26,7 +26,7 @@ public interface RecycleService extends IService<Recycle> {
      *
      * @param userId 指定用户
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-07 16:15
      */
     void clear(Long userId);

@@ -32,7 +32,7 @@ import static com.github.zuihou.file.utils.FileDataTypeUtil.EXT_SEPARATOR;
 /**
  * 文件分片处理 抽象策略类
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/19
  */
 @Slf4j

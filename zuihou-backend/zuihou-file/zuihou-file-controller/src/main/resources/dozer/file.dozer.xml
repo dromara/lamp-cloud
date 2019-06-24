@@ -4,16 +4,16 @@
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
 
     <mapping date-format="yyyy-MM-dd HH:mm:ss">
-        <class-a>com.hengyunsoft.platform.file.dto.FolderSaveDTO</class-a>
-        <class-b>com.hengyunsoft.platform.file.entity.File</class-b>
+        <class-a>com.github.zuihou.file.dto.FolderSaveDTO</class-a>
+        <class-b>com.github.zuihou.file.entity.File</class-b>
         <field>
             <a>parentId</a>
             <b>folderId</b>
         </field>
     </mapping>
     <mapping date-format="yyyy-MM-dd HH:mm:ss">
-        <class-a>com.hengyunsoft.platform.file.dto.FolderDTO</class-a>
-        <class-b>com.hengyunsoft.platform.file.entity.File</class-b>
+        <class-a>com.github.zuihou.file.dto.FolderDTO</class-a>
+        <class-b>com.github.zuihou.file.entity.File</class-b>
         <field>
             <a>parentId</a>
             <b>folderId</b>

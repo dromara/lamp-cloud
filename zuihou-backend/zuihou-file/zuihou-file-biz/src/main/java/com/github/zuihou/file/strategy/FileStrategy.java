@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/17
  */
 public interface FileStrategy {
@@ -19,7 +19,7 @@ public interface FileStrategy {
      *
      * @param file 文件
      * @return 文件对象
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-06 16:38
      */
     File upload(MultipartFile file);
@@ -29,7 +29,7 @@ public interface FileStrategy {
      *
      * @param list 列表
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-07 11:41
      */
     boolean delete(List<FileDeleteDO> list);

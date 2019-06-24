@@ -23,7 +23,7 @@ import static com.github.zuihou.common.excode.ExceptionCode.BASE_VALID_PARAM;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/17
  */
 @Slf4j
@@ -101,7 +101,7 @@ public abstract class AbstractFileStrategy implements FileStrategy {
      *
      * @param list
      * @param file
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-07
      */
     protected abstract void delete(List<FileDeleteDO> list, FileDeleteDO file);

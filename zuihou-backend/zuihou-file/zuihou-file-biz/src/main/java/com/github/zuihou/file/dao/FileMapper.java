@@ -28,7 +28,7 @@ public interface FileMapper extends BaseMapper<File> {
      * @param userId
      * @param ids
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-07 20:49
      */
     List<FileQueryDO> findByIds(@Param("userId") Long userId, @Param("ids") Long[] ids);

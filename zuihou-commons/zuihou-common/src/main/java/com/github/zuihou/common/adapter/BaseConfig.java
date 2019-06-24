@@ -46,7 +46,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 /**
  * 基础配置类
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-06-22 22:53
  */
 public abstract class BaseConfig {

@@ -42,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 文件表 前端控制器
  * </p>
  *
- * @author tangyh
+ * @author zuihou
  * @since 2019-04-29
  */
 @Validated
@@ -77,7 +77,7 @@ public class FileController extends BaseController {
     /**
      * 获取文件分页
      *
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-06
      */
     @ApiOperation(value = "获取文件分页", notes = "获取文件分页")
@@ -92,7 +92,7 @@ public class FileController extends BaseController {
      *
      * @param
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-06 16:28
      */
     @ApiOperation(value = "上传文件", notes = "上传文件 ")
@@ -124,7 +124,7 @@ public class FileController extends BaseController {
      *
      * @param
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-06 16:28
      */
     @ApiResponses({

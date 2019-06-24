@@ -8,7 +8,7 @@ import lombok.ToString;
 /**
  * 分片检测参数
  *
- * @author tangyh
+ * @author zuihou
  * @date 2018/08/28
  */
 @Data

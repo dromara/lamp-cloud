@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * <p>
  * 有个前提： nginx的端口要和访问端口一致，否则重定向出错
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-06-21 18:22
  */
 @Controller

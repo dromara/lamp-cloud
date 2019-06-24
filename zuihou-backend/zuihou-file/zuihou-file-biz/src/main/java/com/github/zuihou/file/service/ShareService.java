@@ -19,7 +19,7 @@ public interface ShareService extends IService<Share> {
      * @param userId
      * @param ids
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-05-08 08:44
      */
     void cancel(Long userId, Long[] ids);

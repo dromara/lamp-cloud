@@ -8,7 +8,7 @@ import com.github.zuihou.file.entity.File;
 /**
  * 文件分片处理策略类
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/19
  */
 public interface FileChunkStrategy {

@@ -17,7 +17,7 @@ import org.springframework.http.client.ClientHttpResponse;
 /**
  * This is a Description
  *
- * @auth tangyh
+ * @auth zuihou
  * @date 2018/07/09
  */
 public abstract class AbstractServiceFallbackProvider implements FallbackProvider {

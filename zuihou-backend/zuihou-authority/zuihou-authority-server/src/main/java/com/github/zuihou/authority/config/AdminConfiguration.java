@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 /**
- * @author tyh
+ * @author zuihou
  * @createTime 2017-12-15 14:42
  */
 @Configuration
