@@ -130,7 +130,7 @@
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
 
-    <logger name="com.github.zuihou.commons.handler" additivity="true" level="ERROR">
+    <logger name="com.github.zuihou.common.handler" additivity="true" level="ERROR">
         <appender-ref ref = "EXCEPTION_APPENDER"/>
     </logger>
     <logger name="com.github.zuihou.file.repository" additivity="true" level="${log.level.service}">

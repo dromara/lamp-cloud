@@ -1,10 +1,12 @@
 package com.github.zuihou.gateway;
 
+import com.github.zuihou.auth.client.EnableAuthClient;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author zuihou
@@ -14,12 +16,9 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 @EnableDiscoveryClient
 @EnableFeignClients({"com.github.zuihou.gateway.feign"})
 @EnableZuulProxy
-//@EnableScheduling
-//@EnableZuihouAuthClient
-//@EnableAceGateRateLimit
+@EnableAuthClient
 public class GatewayServerApplication {
     public static void main(String[] args) {
-        //DBLog.getInstance().start();
         SpringApplication.run(GatewayServerApplication.class, args);
     }
 }

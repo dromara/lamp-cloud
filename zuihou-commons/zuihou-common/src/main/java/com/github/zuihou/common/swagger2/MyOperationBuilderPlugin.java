@@ -66,7 +66,7 @@ public class MyOperationBuilderPlugin implements OperationBuilderPlugin {
         }
 
         if (!"prod".equals(profiles)) {
-            Parameter parameter = new ParameterBuilder().name("pversion").description("想要路由的服务后缀")
+            Parameter parameter = new ParameterBuilder().name("serviceSuffix").description("想要路由的服务后缀")
                     .modelRef(new ModelRef("string")).parameterType("header").required(false).order(2).build();
             parameters.add(parameter);
         }
