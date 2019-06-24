@@ -1,7 +1,198 @@
+hengyun:
+  port:
+    nginx: 80
+    eureka: 8761
+  hostname:
+    redis: ${REDIS_HOST:${spring.cloud.client.ip-address}}
+    rabbitmq: ${RABBIT_HOST:${spring.cloud.client.ip-address}}
+    mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
+  context-path:
+    eureka: /zuihou-eureka
+
+logging:
+  file: ${logging.path}/root.log
+  path: /projects/logs/${spring.application.name}
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    servlet:
+      path: /gate
+  freemarker:
+    template-loader-path: classpath:/templates
+    cache: false
+    charset: UTF-8
+    suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB     # Max file size，默认1M
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: NON_NULL
+  redis:
+    database: 1
+    host: ${hengyun.hostname.redis}
+    port: 16379
+    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
+    jedis:
+      pool:
+        max-active: 20   # 最大活跃数量
+        min-idle: 2     # 最小闲置
+        max-idle: 10     # 最大闲置
+    key-prefix: zuihou:${spring.profiles.active}
+  rabbitmq:
+    host: ${hengyun.hostname.rabbitmq}
+    port: 5672
+    password: zuihou
+    username: zuihou
+    key-prefix: zuihou:${spring.profiles.active}
+  sleuth:
+    sampler:
+      percentage: 0.01            # 采集比率 0-100  表示一百个请求     会记录多少请求调用跟踪链
+    integration:
+      enabled: false             # 集成
+    scheduled:
+      skip-pattern: "^org.*HystrixStreamTask$"
+  zipkin:
+    locator:
+      discovery:
+        enabled: true
+    service:
+      name: appid-gate   #zikpin中的endpoint-service-name   请设置为appid
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: USER
+  boot:
+    admin:
+      client:
+        enabled: true
+        instance:
+          health-url: ${server.servlet.context-path}${spring.mvc.servlet.path}${management.endpoints.web.base-path}/health2
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+
+server:
+  port: 8760
+  servlet:
+    context-path: /api  # = server.servlet.context-path
+  #    path: /gate   # = server.servlet-path   # spring.mvc.servlet.path
+  undertow: #   undertow
+    io-threads: 4 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    worker-threads: 80  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    buffer-size: 1024  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
+    direct-buffers: true  # 是否分配的直接内存
+
+eureka:
+  instance:
+    status-page-url: http://${hengyun.hostname.nginx}:${hengyun.port.nginx}${server.servlet.context-path}${spring.mvc.servlet.path}/doc.html
+    status-page-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}/info
+    health-check-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}/health
+    home-page-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}
+    preferIpAddress: true
+    ip-address: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.context-path:}
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+      management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${hengyun.hostname.eureka}:${hengyun.port.eureka}${hengyun.context-path.eureka}/eureka/
+
+
+zuul:
+  retryable: false
+  servlet-path: /         # 默认是/zuul , 上传文件需要加/zuul前缀才不会出现乱码，这个改成/ 即可不加前缀
+  ignored-services: "*"   # 忽略eureka上的所有服务
+  sensitive-headers:  # 一些比较敏感的请求头，不想通过zuul传递过去， 可以通过该属性进行设置
+  #  prefix: /api #为zuul设置一个公共的前缀
+  #  strip-prefix: false     #对于代理前缀默认会被移除   故加入false  表示不要移除
+  ratelimit: # 网关限流
+    key-prefix: gate_rate
+    enabled: true
+    repository: REDIS #REDIS, JPA, IN_MEMORY
+    behind-proxy: true   # ip 是否代理
+    default-policy: #optional - will apply unless specific policy exists
+      cycle-type: 1
+      limit: 10     # 接口限制次数
+      refresh-interval: 60  # 阀值限制时间 (in seconds)
+      type: #optional
+        - APP
+        - URL
+  routes:  # 路由配置方式
+    authority:  # 其中 admin 是路由名称，可以随便定义，但是path和service-id需要一一对应
+      path: /authority/**
+      serviceId: zuihou-authority-server
+    file:
+      path: /file/**
+      serviceId: zuihou-file-server
+    msgs:
+      path: /msgs/**
+      serviceId: zuihou-msgs-server
+
+feign:
+  hystrix:
+    enabled: true   # feign 熔断机制是否开启
+    #支持压缩的mime types
+  compression:  # 请求压缩
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:  # 响应压缩
+      enabled: true
+
+ribbon:
+  #  retryable: true
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  eureka:
+    enabled: true
+  ReadTimeout: 30000     #
+  ConnectTimeout: 30000  # [ribbon超时时间]大于[熔断超时],那么会先走熔断，相当于你配的ribbon超时就不生效了  ribbon和hystrix是同时生效的，哪个值小哪个生效
+  MaxAutoRetries: 0             # 最大自动重试
+  MaxAutoRetriesNextServer: 1   # 最大自动像下一个服务重试
+  OkToRetryOnAllOperations: false  #无论是请求超时或者socket read timeout都进行重试，
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000 # #并发执行的最大线程数，默认10
+      maxQueueSize: 1000 # #BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 500 # #即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 120000  # 熔断超时 ribbon和hystrix是同时生效的，哪个值小哪个生效
+
+authentication:
+  user:
+    header-name: token
+    pub-key: client/pub.key    # 解密
+
 info:
-  artifact: zuiou-gateway-server
-  name: '@project.name@'
-  description: '@project.description@'
-  version: '@project.version@'
-  spring-boot-version: '@spring.boot.version@'
-  spring-cloud-version: '@spring.cloud.version@'
+  name: "@project.name@"
+  description: "@project.description@"
+  version: "@project.version@"
+  spring-boot-version: "@spring.boot.version@"
+  spring-cloud-version: "@spring.cloud.version@"
+

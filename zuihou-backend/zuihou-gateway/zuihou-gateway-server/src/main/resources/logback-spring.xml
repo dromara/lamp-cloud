@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <jmxConfigurator/>
 
     <!--
     %m
@@ -22,14 +20,24 @@
     %l
     输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-gateway-server"/>
-    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="zuihou-gateway-server"/>
-    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
-    <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
+    <!--<springProperty scope="context" name="log.path" source="logging.path"/>-->
+    <!--<property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] &ndash;&gt; %m%n"/>-->
+    <!--<property name="log.level.console" value="INFO"/>-->
+
+    <springProperty scope="context" name="log.path" source="logging.path"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
+    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active"/>
+    <springProperty scope="context" name="common-pattern" source="logging.common-pattern"
+                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
-    <springProperty scope="context" name="log.level.filter" source="logging.level.filter" defaultValue="INFO"/>
+    <springProperty scope="context" name="log.level.rest" source="logging.level.rest" defaultValue="INFO"/>
+    <springProperty scope="context" name="log.level.service" source="logging.level.service" defaultValue="INFO"/>
+    <springProperty scope="context" name="log.level.sql" source="logging.level.sql" defaultValue="DEBUG"/>
 
     <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <jmxConfigurator/>
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -44,7 +52,7 @@
         <file>${log.path}/root.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/root-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/root_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>128MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -58,7 +66,7 @@
         <file>${log.path}/filter.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/filter-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/filter_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>128MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -72,7 +80,7 @@
         <file>${log.path}/exception.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/exception-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/exception_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>128MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -88,10 +96,10 @@
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
 
-    <logger name="com.github.zuihou.commons.handler" additivity="true" level="ERROR">
-        <appender-ref ref = "EXCEPTION_APPENDER"/>
+    <logger name="com.github.zuihou.common.handler" additivity="true" level="ERROR">
+        <appender-ref ref="EXCEPTION_APPENDER"/>
     </logger>
     <logger name="com.github.zuihou.gateway.filter" additivity="true" level="${log.level.filter}">
-        <appender-ref ref = "FILTER_APPENDER"/>
+        <appender-ref ref="FILTER_APPENDER"/>
     </logger>
 </configuration>
