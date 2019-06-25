@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.auth.server.utils.JwtTokenServerUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
+import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.common.excode.ExceptionCode;
@@ -26,18 +27,22 @@ public class AuthManager {
     @Autowired
     private UserService accountService;
 
-    public Token generateToken(String account, String password) throws BizException {
-        String passwordMd5 = DigestUtils.md5Hex(password);
-        User user = accountService.getOne(Wrappers.<User>lambdaQuery()
-                .eq(User::getAccount, account)
-                .eq(User::getIsDelete, false));
-        if (user == null || !user.getPassword().equals(passwordMd5)) {
-            throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
-        }
-        if (user.getIsCanLogin() == null || !user.getIsCanLogin()) {
-            throw new BizException(ExceptionCode.JWT_USER_ENABLED.getCode(), ExceptionCode.JWT_USER_ENABLED.getMsg());
-        }
 
+    public LoginDTO login(String account, String password) {
+        User user = getUser(account, password);
+        Token token = getToken(user);
+        return LoginDTO.builder().user(user).token(token).build();
+    }
+
+
+    public Token generateToken(String account, String password) throws BizException {
+        User user = getUser(account, password);
+
+        Token token = getToken(user);
+        return token;
+    }
+
+    private Token getToken(User user) {
         JwtUserInfo userInfo = null;
 
         userInfo = new JwtUserInfo
@@ -48,6 +53,20 @@ public class AuthManager {
         return token;
     }
 
+    private User getUser(String account, String password) {
+        String passwordMd5 = DigestUtils.md5Hex(password);
+        User user = accountService.getOne(Wrappers.<User>lambdaQuery()
+                .eq(User::getAccount, account)
+                .eq(User::getIsDelete, false));
+        if (user == null || !user.getPassword().equalsIgnoreCase(passwordMd5)) {
+            throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
+        }
+        if (user.getIsCanLogin() == null || !user.getIsCanLogin()) {
+            throw new BizException(ExceptionCode.JWT_USER_ENABLED.getCode(), ExceptionCode.JWT_USER_ENABLED.getMsg());
+        }
+        return user;
+    }
+
     public JwtUserInfo validateUserToken(String token) throws BizException {
         return jwtTokenServerUtils.getUserInfo(token);
     }
@@ -55,4 +74,5 @@ public class AuthManager {
     public void invalidUserToken(String token) throws BizException {
 
     }
+
 }

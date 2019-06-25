@@ -17,21 +17,17 @@
         <shiro-version>1.4.0</shiro-version>
     </properties>
     <modules>
-        <!--<module>zuihou-manage-center</module>-->
+        <module>zuihou-manage-center</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-admin-api</artifactId>
+                <artifactId>zuihou-authority-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-auth-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-starter-shiro</artifactId>

@@ -16,6 +16,8 @@
 
     <modules>
         <module>zuihou-auth-client</module>
+        <module>zuihou-authority-api</module>
+        <module>zuihou-file-api</module>
     </modules>
 
 

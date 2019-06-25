@@ -1,7 +1,5 @@
 # zuihou-admin-cloud
 
- 测试master
-
 ## 简介：
 基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的微服务 脚手架，
 具有统一授权、认证后台管理系统，其中包含具备用户管理、配置中心、存储系统、资源权限管理、

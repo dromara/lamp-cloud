@@ -3,6 +3,7 @@ package com.github.zuihou.authority.controller.auth;
 
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
+import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.authority.mananger.AuthManager;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.exception.BizException;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "UserAuthController", description = "用户级别的token管理")
 @Slf4j
 @RefreshScope
-public class UserAuthController {
+public class AuthTokenController {
 
     @Autowired
     private AuthManager authManager;
@@ -41,11 +42,19 @@ public class UserAuthController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "刷新并获取token", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
+    @ApiOperation(value = "刷新并获取token", notes = "刷新并获取token")
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     public Result<Token> token(@RequestParam(value = "account") String account,
                                @RequestParam(value = "password") String password) throws BizException {
         return Result.success(authManager.generateToken(account, password));
+    }
+
+
+    @ApiOperation(value = "验证登录并刷新token", notes = "验证登录并刷新token")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public Result<LoginDTO> login(@RequestParam(value = "account") String account,
+                                  @RequestParam(value = "password") String password) throws BizException {
+        return Result.success(authManager.login(account, password));
     }
 
     /**
