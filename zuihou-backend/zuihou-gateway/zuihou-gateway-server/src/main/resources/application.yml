@@ -3,9 +3,6 @@ zuihou:
     nginx: 80
     eureka: 8761
   ip:
-    redis: ${REDIS_HOST:${spring.cloud.client.ip-address}}
-    rabbitmq: ${RABBIT_HOST:${spring.cloud.client.ip-address}}
-    mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
     nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
     eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
   context-path:
@@ -34,23 +31,6 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     default-property-inclusion: NON_NULL
-  redis:
-    database: 1
-    host: ${zuihou.ip.redis}
-    port: 16379
-    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
-    jedis:
-      pool:
-        max-active: 20   # 最大活跃数量
-        min-idle: 2     # 最小闲置
-        max-idle: 10     # 最大闲置
-    key-prefix: zuihou:${spring.profiles.active}
-  rabbitmq:
-    host: ${zuihou.ip.rabbitmq}
-    port: 5672
-    password: zuihou
-    username: zuihou
-    key-prefix: zuihou:${spring.profiles.active}
   sleuth:
     sampler:
       percentage: 0.01            # 采集比率 0-100  表示一百个请求     会记录多少请求调用跟踪链

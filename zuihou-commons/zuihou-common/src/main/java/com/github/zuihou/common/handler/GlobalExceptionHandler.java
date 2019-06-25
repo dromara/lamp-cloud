@@ -40,7 +40,7 @@ import static com.github.zuihou.common.excode.ExceptionCode.REQUIRED_FILE_PARAM_
  * @createTime 2017-12-13 17:04
  */
 @ControllerAdvice(annotations = {RestController.class, Controller.class})
-@ResponseBody  //返回结果为json
+@ResponseBody
 @Slf4j
 public class GlobalExceptionHandler {
 

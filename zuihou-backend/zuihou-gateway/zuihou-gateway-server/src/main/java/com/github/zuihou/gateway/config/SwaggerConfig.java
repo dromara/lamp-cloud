@@ -31,7 +31,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwaggerBootstrapUI
 @Configuration
 public class SwaggerConfig {
-    @Value("http://${zuihou.hostname.nginx}:${zuihou.port.nginx}")
+    @Value("http://${zuihou.ip.nginx}:${zuihou.port.nginx}")
     private String host;
 
     @LoadBalanced
