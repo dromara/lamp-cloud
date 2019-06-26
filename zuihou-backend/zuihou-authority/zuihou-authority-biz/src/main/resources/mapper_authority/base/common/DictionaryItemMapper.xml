@@ -15,14 +15,14 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="is_enable" jdbcType="BIT" property="isEnable"/>
         <result column="is_delete" jdbcType="BIT" property="isDelete"/>
-        <result column="describe" jdbcType="VARCHAR" property="describe"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        dictionary_id, dictionary_code, dictionary_item_code, name, is_enable, is_delete, describe, sortvalue
+        dictionary_id, dictionary_code, dictionary_item_code, name, is_enable, is_delete, describe_, sortvalue
     </sql>
 
 </mapper>

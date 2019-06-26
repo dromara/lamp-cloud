@@ -1,14 +1,20 @@
 package com.github.zuihou.authority.controller.auth;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ResourceDTO;
+import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
+import com.github.zuihou.authority.dto.auth.ResourceTreeDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.TreeUtil;
+import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -44,6 +50,8 @@ public class ResourceController extends BaseController {
 
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private DozerUtils dozerUtils;
 
     /**
      * 分页查询资源
@@ -113,5 +121,34 @@ public class ResourceController extends BaseController {
         resourceService.removeById(id);
         return success(true);
     }
+
+    /**
+     * 查询用户可用的所有资源
+     *
+     * @param resource <br>
+     *                 appCode 应用code * <br>
+     *                 type 类型 <br>
+     *                 group 菜单分组 <br>
+     *                 resourceId 上级资源id <br>
+     *                 accountId 当前登录人id
+     * @return
+     */
+    @ApiOperation(value = "查询用户可用的所有资源", notes = "查询用户可用的所有资源")
+    @GetMapping
+    public Result<List<ResourceTreeDTO>> all(ResourceQueryDTO resource) {
+        if (resource == null) {
+            resource = new ResourceQueryDTO();
+        }
+
+        if (resource.getUserId() == null) {
+            resource.setUserId(getUserId());
+        }
+//        List<Resource> list = resourceService.findVisibleResource(resource);
+        List<Resource> list = null;
+        List<ResourceTreeDTO> treeList = dozerUtils.mapList(list, ResourceTreeDTO.class);
+
+        return Result.success(TreeUtil.builderTreeOrdered(treeList));
+    }
+
 
 }

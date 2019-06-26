@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-23
+ * @since 2019-06-26
  */
 @Data
 @NoArgsConstructor
@@ -63,7 +63,7 @@ public class User extends Entity<Long> {
     private String name;
 
     /**
-     * 账号类型
+     * 账号类型  
      * #AccountType{CUSTOMER:客户;BUILT_IN:内置}
      */
     @ApiModelProperty(value = "账号类型")
@@ -115,8 +115,8 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "工作描述")
     @Length(max = 255, message = "工作描述长度不能超过255")
-    @TableField("work_desc")
-    private String workDesc;
+    @TableField("work_describe")
+    private String workDescribe;
 
     /**
      * 登录次数
@@ -163,7 +163,7 @@ public class User extends Entity<Long> {
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                 String account, String name, AccountType accountType, String mobile, Sex sex,
-                Boolean isCanLogin, Boolean isDelete, String photo, String workDesc, Integer loginCount, LocalDate continuationErrorDay,
+                Boolean isCanLogin, Boolean isDelete, String photo, String workDescribe, Integer loginCount, LocalDate continuationErrorDay,
                 Integer continuationErrorCount, LocalDateTime passwordExpireTime, String password) {
         this.id = id;
         this.createUser = createUser;
@@ -178,7 +178,7 @@ public class User extends Entity<Long> {
         this.isCanLogin = isCanLogin;
         this.isDelete = isDelete;
         this.photo = photo;
-        this.workDesc = workDesc;
+        this.workDescribe = workDescribe;
         this.loginCount = loginCount;
         this.continuationErrorDay = continuationErrorDay;
         this.continuationErrorCount = continuationErrorCount;

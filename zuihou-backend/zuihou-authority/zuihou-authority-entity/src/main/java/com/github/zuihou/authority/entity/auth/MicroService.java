@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-23
+ * @since 2019-06-26
  */
 @Data
 @NoArgsConstructor
@@ -51,7 +51,7 @@ public class MicroService extends Entity<Long> {
      */
     @ApiModelProperty(value = "服务描述")
     @Length(max = 100, message = "服务描述长度不能超过100")
-    @TableField("describe")
+    @TableField("describe_")
     private String describe;
 
     /**
