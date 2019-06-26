@@ -26,7 +26,6 @@ public class FileGenerator {
                         Arrays.asList("f_.*"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_file_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
-//        build.setProjectRootPath("/Users/tangyh/githubspace/zuihou-admin-cloud/zuihou-backend/zuihou-file");
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-file");
 
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);

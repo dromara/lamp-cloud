@@ -16,7 +16,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
  * @createTime 2017-12-15 14:42
  */
 @Configuration
-public class AdminConfiguration extends BaseConfig {
+public class AuthorityConfiguration extends BaseConfig {
     @Bean
     public Validator validator() {
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
