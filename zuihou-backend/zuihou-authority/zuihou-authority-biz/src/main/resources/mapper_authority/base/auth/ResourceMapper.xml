@@ -10,7 +10,7 @@
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
-        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="resource_type" jdbcType="VARCHAR" property="resourceType"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="menu_id" jdbcType="BIGINT" property="menuId"/>
         <result column="base_path" jdbcType="VARCHAR" property="basePath"/>
@@ -24,7 +24,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        code, type, name, menu_id, base_path, describe_, uri, http_method, deprecated, is_certification
+        code, resource_type, name, menu_id, base_path, describe_, uri, http_method, deprecated, is_certification
     </sql>
 
 </mapper>

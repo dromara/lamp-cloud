@@ -29,26 +29,14 @@ public class ResourceQueryDTO {
     private ResourceType type;
 
     /**
-     * 菜单分组
-     */
-    @ApiModelProperty(value = "菜单分组")
-    private String group;
-
-    /**
      * 父资源id， 用于查询按钮
      */
-    @ApiModelProperty(value = "父级资源id", notes = "父级资源id，用于按钮查询")
-    private Long resourceId;
+    @ApiModelProperty(value = "菜单id", notes = "指定菜单id")
+    private Long menuId;
     /**
      * 登录人用户id
      */
-    @ApiModelProperty(value = "当前登录人id", notes = "当前登录人id，前端不用传，自动获取")
+    @ApiModelProperty(value = "指定用户id", notes = "指定用户id，前端不传则自动获取")
     private Long userId;
-
-    /**
-     * 资源id
-     */
-    @ApiModelProperty(value = "资源id", notes = "资源id")
-    private Long roleId;
 
 }

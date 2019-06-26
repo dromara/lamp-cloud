@@ -1,6 +1,9 @@
 package com.github.zuihou.authority.service.auth;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 
 /**
@@ -14,4 +17,11 @@ import com.github.zuihou.authority.entity.auth.Resource;
  */
 public interface ResourceService extends IService<Resource> {
 
+    /**
+     * 查询 拥有的资源
+     *
+     * @param resource
+     * @return
+     */
+    List<Resource> findVisibleResource(ResourceQueryDTO resource);
 }
