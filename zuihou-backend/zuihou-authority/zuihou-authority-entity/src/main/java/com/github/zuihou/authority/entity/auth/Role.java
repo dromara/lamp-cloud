@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-23
+ * @since 2019-06-26
  */
 @Data
 @NoArgsConstructor
@@ -59,7 +59,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "功能描述")
     @Length(max = 100, message = "功能描述长度不能超过100")
-    @TableField("describe")
+    @TableField("describe_")
     private String describe;
 
     /**

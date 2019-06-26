@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
@@ -318,44 +317,6 @@ public class DateUtils {
         return Date.from(zdt.toInstant());
     }
 
-    /***
-     * 获得今天的指定时间点
-     * @param time 格式为"HH:mm:ss"
-     * @return
-     */
-    @Deprecated
-    public static Date getTodayTime(String time) {
-        return getDateTime(new Date(), time);
-    }
-
-    /***
-     *获得日期的指定时间点
-     * @param date
-     * @param time  格式为"hh:mm:ss"
-     * @return
-     */
-    @Deprecated
-    public static Date getDateTime(Date date, String time) {
-        SimpleDateFormat simpledateformat = new SimpleDateFormat(
-                "HH:mm:ss");
-        try {
-            Date parse = simpledateformat.parse(time);
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.setTime(parse);
-
-            Calendar calendar2 = Calendar.getInstance();
-            calendar2.setTime(date);
-
-            calendar2.set(Calendar.HOUR_OF_DAY, calendar1.get(Calendar.HOUR_OF_DAY));
-            calendar2.set(Calendar.MINUTE, calendar1.get(Calendar.MINUTE));
-            calendar2.set(Calendar.SECOND, calendar1.get(Calendar.SECOND));
-            calendar2.set(Calendar.MILLISECOND, 0);
-            return calendar2.getTime();
-        } catch (ParseException e) {
-
-        }
-        return null;
-    }
     //--解析日期 end-----------------------------------------
 
 

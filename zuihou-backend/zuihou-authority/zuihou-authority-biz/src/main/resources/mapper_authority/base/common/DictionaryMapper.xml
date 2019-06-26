@@ -12,7 +12,7 @@
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="describe" jdbcType="VARCHAR" property="describe"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="is_enable" jdbcType="BIT" property="isEnable"/>
         <result column="is_delete" jdbcType="BIT" property="isDelete"/>
     </resultMap>
@@ -20,7 +20,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        code, parent_id, name, describe, is_enable, is_delete
+        code, parent_id, name, describe_, is_enable, is_delete
     </sql>
 
 </mapper>

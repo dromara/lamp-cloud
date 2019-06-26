@@ -1,18 +1,25 @@
 package com.github.zuihou.authority.controller.auth;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.MenuDTO;
+import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.TreeUtil;
+import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -44,6 +52,8 @@ public class MenuController extends BaseController {
 
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private DozerUtils dozerUtils;
 
     /**
      * 分页查询菜单
@@ -114,4 +124,32 @@ public class MenuController extends BaseController {
         return success(true);
     }
 
+    /**
+     * 查询用户可用的所有资源
+     *
+     * @param group  菜单分组 <br>
+     * @param userId 指定用户id
+     * @return
+     */
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "group", value = "菜单组", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
+    })
+    @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
+    @GetMapping
+    public Result<List<MenuTreeDTO>> myMenus(@RequestParam(value = "group", required = false) String group, @RequestParam(value = "userId", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            userId = getUserId();
+        }
+        List<Menu> list = menuService.findVisibleMenu(group, userId);
+        List<MenuTreeDTO> treeList = dozerUtils.mapList(list, MenuTreeDTO.class);
+
+        return Result.success(TreeUtil.builderTreeOrdered(treeList));
+    }
+
+    @ApiOperation(value = "查询系统所有的菜单", notes = "查询系统所有的菜单")
+    @GetMapping("/all")
+    public Result<List<Menu>> all() {
+        return Result.success(menuService.list());
+    }
 }

@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.service.auth;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.Menu;
 
@@ -14,4 +16,12 @@ import com.github.zuihou.authority.entity.auth.Menu;
  */
 public interface MenuService extends IService<Menu> {
 
+    /**
+     * 查询用户可用菜单
+     *
+     * @param group
+     * @param userId
+     * @return
+     */
+    List<Menu> findVisibleMenu(String group, Long userId);
 }

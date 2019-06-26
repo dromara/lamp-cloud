@@ -13,7 +13,7 @@
         <result column="full_root_path" jdbcType="VARCHAR" property="fullRootPath"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="logo_url" jdbcType="VARCHAR" property="logoUrl"/>
-        <result column="describe" jdbcType="VARCHAR" property="describe"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
         <result column="is_enable" jdbcType="BIT" property="isEnable"/>
@@ -26,7 +26,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        index_url, full_root_path, name, logo_url, describe, code, sortvalue, is_enable, icp_code, title_icon, support_unit, common_record
+        index_url, full_root_path, name, logo_url, describe_, code, sortvalue, is_enable, icp_code, title_icon, support_unit, common_record
     </sql>
 
 </mapper>

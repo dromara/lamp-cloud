@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-23
+ * @since 2019-06-26
  */
 @Data
 @NoArgsConstructor
@@ -85,8 +85,8 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "接口描述")
     @Length(max = 255, message = "接口描述长度不能超过255")
-    @TableField("description")
-    private String description;
+    @TableField("describe_")
+    private String describe;
 
     /**
      * 地址
@@ -123,7 +123,7 @@ public class Resource extends Entity<Long> {
     @Builder
     public Resource(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                     String code, MenuType type, String name, Long menuId, String basePath,
-                    String description, String uri, HttpMethod httpMethod, Boolean deprecated, Boolean isCertification) {
+                    String describe, String uri, HttpMethod httpMethod, Boolean deprecated, Boolean isCertification) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -134,7 +134,7 @@ public class Resource extends Entity<Long> {
         this.name = name;
         this.menuId = menuId;
         this.basePath = basePath;
-        this.description = description;
+        this.describe = describe;
         this.uri = uri;
         this.httpMethod = httpMethod;
         this.deprecated = deprecated;

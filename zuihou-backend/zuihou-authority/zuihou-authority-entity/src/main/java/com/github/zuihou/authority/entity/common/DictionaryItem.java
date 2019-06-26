@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-23
+ * @since 2019-06-26
  */
 @Data
 @NoArgsConstructor
@@ -97,7 +97,7 @@ public class DictionaryItem extends Entity<Long> {
      */
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
-    @TableField("describe")
+    @TableField("describe_")
     private String describe;
 
     /**

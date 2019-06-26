@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-23
+ * @since 2019-06-26
  */
 @Data
 @NoArgsConstructor
@@ -55,7 +55,7 @@ public class Menu extends Entity<Long> {
      */
     @ApiModelProperty(value = "功能描述")
     @Length(max = 200, message = "功能描述长度不能超过200")
-    @TableField("describe")
+    @TableField("describe_")
     private String describe;
 
     /**
@@ -67,7 +67,7 @@ public class Menu extends Entity<Long> {
     private String code;
 
     /**
-     * 菜单类型
+     * 菜单类型 
      * #MenuType{MENU:菜单;DIR:目录;}
      */
     @ApiModelProperty(value = "菜单类型")
