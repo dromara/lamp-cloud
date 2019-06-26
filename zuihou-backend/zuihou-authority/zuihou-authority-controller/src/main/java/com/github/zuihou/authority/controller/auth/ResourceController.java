@@ -7,13 +7,11 @@ import javax.validation.Valid;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ResourceDTO;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
-import com.github.zuihou.authority.dto.auth.ResourceTreeDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.common.utils.TreeUtil;
 import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -135,7 +133,7 @@ public class ResourceController extends BaseController {
      */
     @ApiOperation(value = "查询用户可用的所有资源", notes = "查询用户可用的所有资源")
     @GetMapping
-    public Result<List<ResourceTreeDTO>> all(ResourceQueryDTO resource) {
+    public Result<List<Resource>> all(ResourceQueryDTO resource) {
         if (resource == null) {
             resource = new ResourceQueryDTO();
         }
@@ -143,11 +141,7 @@ public class ResourceController extends BaseController {
         if (resource.getUserId() == null) {
             resource.setUserId(getUserId());
         }
-//        List<Resource> list = resourceService.findVisibleResource(resource);
-        List<Resource> list = null;
-        List<ResourceTreeDTO> treeList = dozerUtils.mapList(list, ResourceTreeDTO.class);
-
-        return Result.success(TreeUtil.builderTreeOrdered(treeList));
+        return Result.success(resourceService.findVisibleResource(resource));
     }
 
 

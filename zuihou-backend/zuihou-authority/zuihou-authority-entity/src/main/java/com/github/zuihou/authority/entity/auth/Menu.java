@@ -71,8 +71,8 @@ public class Menu extends Entity<Long> {
      * #MenuType{MENU:菜单;DIR:目录;}
      */
     @ApiModelProperty(value = "菜单类型")
-    @TableField("type")
-    private MenuType type;
+    @TableField("menu_type")
+    private MenuType menuType;
 
     /**
      * 是否公开菜单
@@ -140,7 +140,7 @@ public class Menu extends Entity<Long> {
 
     @Builder
     public Menu(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String describe, String code, MenuType type, Boolean isPublic,
+                String name, String describe, String code, MenuType menuType, Boolean isPublic,
                 String href, TargetType target, Boolean isEnable, Integer sortvalue, String icon, String group, Long parentId) {
         this.id = id;
         this.createUser = createUser;
@@ -150,7 +150,7 @@ public class Menu extends Entity<Long> {
         this.name = name;
         this.describe = describe;
         this.code = code;
-        this.type = type;
+        this.menuType = menuType;
         this.isPublic = isPublic;
         this.href = href;
         this.target = target;

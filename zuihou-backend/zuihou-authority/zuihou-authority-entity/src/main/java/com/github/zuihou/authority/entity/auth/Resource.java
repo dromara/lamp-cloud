@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.authority.enumeration.auth.MenuType;
+import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.base.entity.Entity;
 import com.github.zuihou.common.enums.HttpMethod;
 
@@ -53,8 +53,8 @@ public class Resource extends Entity<Long> {
      * #ResourceType{BUTTON:按钮;URI:链接;}
      */
     @ApiModelProperty(value = "资源类型")
-    @TableField("type")
-    private MenuType type;
+    @TableField("resource_type")
+    private ResourceType resourceType;
 
     /**
      * 接口名称
@@ -122,7 +122,7 @@ public class Resource extends Entity<Long> {
 
     @Builder
     public Resource(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                    String code, MenuType type, String name, Long menuId, String basePath,
+                    String code, ResourceType resourceType, String name, Long menuId, String basePath,
                     String describe, String uri, HttpMethod httpMethod, Boolean deprecated, Boolean isCertification) {
         this.id = id;
         this.createUser = createUser;
@@ -130,7 +130,7 @@ public class Resource extends Entity<Long> {
         this.updateUser = updateUser;
         this.updateTime = updateTime;
         this.code = code;
-        this.type = type;
+        this.resourceType = resourceType;
         this.name = name;
         this.menuId = menuId;
         this.basePath = basePath;
