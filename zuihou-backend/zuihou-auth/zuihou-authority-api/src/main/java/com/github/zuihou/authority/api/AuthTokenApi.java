@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/25
  */
 @FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}")

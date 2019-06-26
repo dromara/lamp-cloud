@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 /**
  * 登录返回信息
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/25
  */
 @Data

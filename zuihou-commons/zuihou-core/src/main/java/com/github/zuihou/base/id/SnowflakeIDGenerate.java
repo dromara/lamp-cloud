@@ -10,7 +10,7 @@ package com.github.zuihou.base.id;
  * 第43bit到第59bit使用自增的序列号       17bit  可用序列号最大131071个，说明一毫秒我们可以生成131071个不同的序列号。
  * 第60bit到第64bit使用机器码	5bit   可以使系统可以分布式，最大分布式数量是32台机子。
  *
- * @author pdy
+ * @author zuihou
  */
 public class SnowflakeIDGenerate extends AbstractIdGenerate<Long> {
 

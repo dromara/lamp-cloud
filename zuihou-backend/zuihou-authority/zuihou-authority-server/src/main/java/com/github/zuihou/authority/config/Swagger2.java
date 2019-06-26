@@ -44,7 +44,7 @@ public class Swagger2 extends Swagger2WebMvcConfigurerAdapter {
     }
 
     /**
-     * token 对外 swagger文档
+     * 权限文档
      *
      * @return
      */
@@ -53,15 +53,19 @@ public class Swagger2 extends Swagger2WebMvcConfigurerAdapter {
         return getDefDocket("auth", "priAuth");
     }
 
-    @Bean
-    public Docket createCoreInsideApi() {
-        return getDefDocket("core", "priCore");
-    }
-
+    /**
+     * 公共部分文档
+     *
+     * @return
+     */
     @Bean
     public Docket createCommonApi() {
         return getDefDocket("common", "priCommon");
     }
 
+    /*@Bean
+    public Docket createCoreInsideApi() {
+        return getDefDocket("core", "priCore");
+    }*/
 
 }

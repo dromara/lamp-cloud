@@ -29,7 +29,7 @@ public class AuthorityGenerator {
 //                        Arrays.asList("c_auth_user_role", "c_auth_role_authority"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_authority_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
-        build.setProjectRootPath("/Users/tangyh/githubspace/zuihou-admin-cloud/zuihou-backend/zuihou-authority");
+        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
 
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
