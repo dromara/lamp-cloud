@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.common.excode.ExceptionCode;
 
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
@@ -47,7 +47,7 @@ public abstract class AbstractServiceFallbackProvider implements FallbackProvide
 
             @Override
             public InputStream getBody() throws IOException {
-                return new ByteArrayInputStream(Result.fail(ExceptionCode.SYSTEM_TIMEOUT).toString().getBytes());
+                return new ByteArrayInputStream(R.fail(ExceptionCode.SYSTEM_TIMEOUT).toString().getBytes());
             }
 
             @Override

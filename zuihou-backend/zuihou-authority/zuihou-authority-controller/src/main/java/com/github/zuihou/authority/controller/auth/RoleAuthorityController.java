@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.auth.RoleAuthorityDTO;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -54,7 +54,7 @@ public class RoleAuthorityController extends BaseController {
     @ApiOperation(value = "分页查询角色的资源", notes = "分页查询角色的资源")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<RoleAuthority>> page(@Valid RoleAuthorityDTO data) {
+    public R<IPage<RoleAuthority>> page(@Valid RoleAuthorityDTO data) {
         IPage<RoleAuthority> page = getPage();
         // 构建查询条件
         LbqWrapper<RoleAuthority> query = Wraps.lbQ();
@@ -70,7 +70,7 @@ public class RoleAuthorityController extends BaseController {
      */
     @ApiOperation(value = "查询角色的资源", notes = "查询角色的资源")
     @GetMapping("/{id}")
-    public Result<RoleAuthority> get(@PathVariable Long id) {
+    public R<RoleAuthority> get(@PathVariable Long id) {
         return success(roleAuthorityService.getById(id));
     }
 
@@ -82,7 +82,7 @@ public class RoleAuthorityController extends BaseController {
      */
     @ApiOperation(value = "保存角色的资源", notes = "保存角色的资源不为空的字段")
     @PostMapping
-    public Result<RoleAuthority> save(@RequestBody @Valid RoleAuthority roleAuthority) {
+    public R<RoleAuthority> save(@RequestBody @Valid RoleAuthority roleAuthority) {
         roleAuthorityService.save(roleAuthority);
         return success(roleAuthority);
     }
@@ -96,7 +96,7 @@ public class RoleAuthorityController extends BaseController {
     @ApiOperation(value = "修改角色的资源", notes = "修改角色的资源不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<RoleAuthority> update(@RequestBody @Valid RoleAuthority roleAuthority) {
+    public R<RoleAuthority> update(@RequestBody @Valid RoleAuthority roleAuthority) {
         roleAuthorityService.updateById(roleAuthority);
         return success(roleAuthority);
     }
@@ -109,7 +109,7 @@ public class RoleAuthorityController extends BaseController {
      */
     @ApiOperation(value = "删除角色的资源", notes = "根据id物理删除角色的资源")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         roleAuthorityService.removeById(id);
         return success(true);
     }

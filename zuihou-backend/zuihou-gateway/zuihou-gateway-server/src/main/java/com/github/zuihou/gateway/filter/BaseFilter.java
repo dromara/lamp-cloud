@@ -2,7 +2,7 @@ package com.github.zuihou.gateway.filter;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.common.adapter.IgnoreTokenConfig;
 import com.github.zuihou.utils.JSONUtils;
 import com.netflix.zuul.ZuulFilter;
@@ -98,7 +98,7 @@ public abstract class BaseFilter extends ZuulFilter {
     }
 
     protected void errorResponse(String errMsg, int errCode, int httpStatusCode) {
-        Result tokenError = Result.fail(errCode, errMsg);
+        R tokenError = R.fail(errCode, errMsg);
         setFailedRequest(JSONUtils.toJsonString(tokenError), httpStatusCode);
     }
 }

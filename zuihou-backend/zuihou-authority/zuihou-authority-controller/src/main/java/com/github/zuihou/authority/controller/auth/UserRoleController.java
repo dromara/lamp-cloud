@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.auth.UserRoleDTO;
 import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -55,7 +55,7 @@ public class UserRoleController extends BaseController {
     @ApiOperation(value = "分页查询角色分配", notes = "分页查询角色分配")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<UserRole>> page(@Valid UserRoleDTO data) {
+    public R<IPage<UserRole>> page(@Valid UserRoleDTO data) {
         IPage<UserRole> page = getPage();
         // 构建查询条件
         LbqWrapper<UserRole> query = Wraps.lbQ();
@@ -71,7 +71,7 @@ public class UserRoleController extends BaseController {
      */
     @ApiOperation(value = "查询角色分配", notes = "查询角色分配")
     @GetMapping("/{id}")
-    public Result<UserRole> get(@PathVariable Long id) {
+    public R<UserRole> get(@PathVariable Long id) {
         return success(userRoleService.getById(id));
     }
 
@@ -83,7 +83,7 @@ public class UserRoleController extends BaseController {
      */
     @ApiOperation(value = "保存角色分配", notes = "保存角色分配不为空的字段")
     @PostMapping
-    public Result<UserRole> save(@RequestBody @Valid UserRole userRole) {
+    public R<UserRole> save(@RequestBody @Valid UserRole userRole) {
         userRoleService.save(userRole);
         return success(userRole);
     }
@@ -97,7 +97,7 @@ public class UserRoleController extends BaseController {
     @ApiOperation(value = "修改角色分配", notes = "修改角色分配不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<UserRole> update(@RequestBody @Valid UserRole userRole) {
+    public R<UserRole> update(@RequestBody @Valid UserRole userRole) {
         userRoleService.updateById(userRole);
         return success(userRole);
     }
@@ -110,7 +110,7 @@ public class UserRoleController extends BaseController {
      */
     @ApiOperation(value = "删除角色分配", notes = "根据id物理删除角色分配")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         userRoleService.removeById(id);
         return success(true);
     }

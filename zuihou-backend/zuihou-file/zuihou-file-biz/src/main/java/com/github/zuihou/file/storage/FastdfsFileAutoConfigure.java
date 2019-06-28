@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.AppendFileStorageClient;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
 
@@ -45,7 +45,7 @@ public class FastdfsFileAutoConfigure {
         }
 
         @Override
-        protected Result<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException {
+        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException {
             StorePath storePath = null;
 
             long start = System.currentTimeMillis();
@@ -70,7 +70,7 @@ public class FastdfsFileAutoConfigure {
                     .group(storePath.getGroup())
                     .path(storePath.getPath())
                     .build();
-            return Result.success(filePo);
+            return R.success(filePo);
         }
     }
 }

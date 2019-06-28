@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.auth.UserDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -54,7 +54,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "分页查询账号", notes = "分页查询账号")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<User>> page(@Valid UserDTO data) {
+    public R<IPage<User>> page(@Valid UserDTO data) {
         IPage<User> page = getPage();
         // 构建查询条件
         LbqWrapper<User> query = Wraps.lbQ();
@@ -70,7 +70,7 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "查询账号", notes = "查询账号")
     @GetMapping("/{id}")
-    public Result<User> get(@PathVariable Long id) {
+    public R<User> get(@PathVariable Long id) {
         return success(userService.getById(id));
     }
 
@@ -82,7 +82,7 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "保存账号", notes = "保存账号不为空的字段")
     @PostMapping
-    public Result<User> save(@RequestBody @Valid User user) {
+    public R<User> save(@RequestBody @Valid User user) {
         userService.save(user);
         return success(user);
     }
@@ -96,7 +96,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "修改账号", notes = "修改账号不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<User> update(@RequestBody @Valid User user) {
+    public R<User> update(@RequestBody @Valid User user) {
         userService.updateById(user);
         return success(user);
     }
@@ -109,7 +109,7 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "删除账号", notes = "根据id物理删除账号")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         userService.removeById(id);
         return success(true);
     }

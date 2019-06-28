@@ -74,8 +74,12 @@ public abstract class BaseController {
      * @param data
      * @return
      */
-    public <T> Result<T> success(T data) {
-        return Result.success(data);
+    public <T> R<T> success(T data) {
+        return R.success(data);
+    }
+
+    public R<Boolean> success() {
+        return R.success();
     }
 
     /**
@@ -84,8 +88,8 @@ public abstract class BaseController {
      * @param msg
      * @return
      */
-    public <T> Result<T> fail(String msg) {
-        return Result.fail(msg);
+    public <T> R<T> fail(String msg) {
+        return R.fail(msg);
     }
 
     /**
@@ -95,28 +99,28 @@ public abstract class BaseController {
      * @param msg
      * @return
      */
-    public <T> Result<T> fail(int code, String msg) {
-        return Result.fail(code, msg);
+    public <T> R<T> fail(int code, String msg) {
+        return R.fail(code, msg);
     }
 
-    public <T> Result<T> fail(BaseExceptionCode exceptionCode) {
-        return Result.fail(exceptionCode);
+    public <T> R<T> fail(BaseExceptionCode exceptionCode) {
+        return R.fail(exceptionCode);
     }
 
-    public <T> Result<T> fail(BizException exception) {
-        return Result.fail(exception);
+    public <T> R<T> fail(BizException exception) {
+        return R.fail(exception);
     }
 
-    public <T> Result<T> fail(Throwable throwable) {
-        return Result.fail(throwable);
+    public <T> R<T> fail(Throwable throwable) {
+        return R.fail(throwable);
     }
 
-    public <T> Result<T> validFail(String msg) {
-        return Result.validFail(msg);
+    public <T> R<T> validFail(String msg) {
+        return R.validFail(msg);
     }
 
-    public <T> Result<T> validFail(BaseExceptionCode exceptionCode) {
-        return Result.validFail(exceptionCode);
+    public <T> R<T> validFail(BaseExceptionCode exceptionCode) {
+        return R.validFail(exceptionCode);
     }
 
     /**

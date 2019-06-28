@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.github.zuihou.auth.client.properties.AuthClientProperties;
 import com.github.zuihou.auth.client.utils.JwtTokenClientUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.utils.StringHelper;
@@ -107,7 +107,7 @@ public class TokenContextFilter extends BaseFilter {
             errorResponse(e.getMessage(), e.getCode(), 200);
             return null;
         } catch (Exception e) {
-            errorResponse("验证token出错", Result.FAIL_CODE, 200);
+            errorResponse("验证token出错", R.FAIL_CODE, 200);
             return null;
         }
 

@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.auth.MicroServiceDTO;
 import com.github.zuihou.authority.entity.auth.MicroService;
 import com.github.zuihou.authority.service.auth.MicroServiceService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -54,7 +54,7 @@ public class MicroServiceController extends BaseController {
     @ApiOperation(value = "分页查询服务表", notes = "分页查询服务表")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<MicroService>> page(@Valid MicroServiceDTO data) {
+    public R<IPage<MicroService>> page(@Valid MicroServiceDTO data) {
         IPage<MicroService> page = getPage();
         // 构建查询条件
         LbqWrapper<MicroService> query = Wraps.lbQ();
@@ -70,7 +70,7 @@ public class MicroServiceController extends BaseController {
      */
     @ApiOperation(value = "查询服务表", notes = "查询服务表")
     @GetMapping("/{id}")
-    public Result<MicroService> get(@PathVariable Long id) {
+    public R<MicroService> get(@PathVariable Long id) {
         return success(microServiceService.getById(id));
     }
 
@@ -82,7 +82,7 @@ public class MicroServiceController extends BaseController {
      */
     @ApiOperation(value = "保存服务表", notes = "保存服务表不为空的字段")
     @PostMapping
-    public Result<MicroService> save(@RequestBody @Valid MicroService microService) {
+    public R<MicroService> save(@RequestBody @Valid MicroService microService) {
         microServiceService.save(microService);
         return success(microService);
     }
@@ -96,7 +96,7 @@ public class MicroServiceController extends BaseController {
     @ApiOperation(value = "修改服务表", notes = "修改服务表不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<MicroService> update(@RequestBody @Valid MicroService microService) {
+    public R<MicroService> update(@RequestBody @Valid MicroService microService) {
         microServiceService.updateById(microService);
         return success(microService);
     }
@@ -109,7 +109,7 @@ public class MicroServiceController extends BaseController {
      */
     @ApiOperation(value = "删除服务表", notes = "根据id物理删除服务表")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         microServiceService.removeById(id);
         return success(true);
     }

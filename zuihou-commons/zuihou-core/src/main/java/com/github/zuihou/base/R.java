@@ -9,7 +9,7 @@ import com.github.zuihou.utils.JSONUtils;
  * @author zuihou
  * @createTime 2017-12-13 10:55
  */
-public class Result<T> {
+public class R<T> {
     public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";
     public static final String HYSTRIX_ERROR_MESSAGE = "请求超时，请稍候再试";
     public static final int SUCCESS_CODE = 0;
@@ -35,18 +35,18 @@ public class Result<T> {
      */
     private String msg = "ok";
 
-    private Result() {
+    private R() {
         super();
     }
 
-    public Result(int code, T data, String msg) {
+    public R(int code, T data, String msg) {
         this.code = code;
         this.data = data;
         this.msg = msg;
     }
 
-    public static <E> Result<E> result(int code, E data, String msg) {
-        return new Result<>(code, data, msg);
+    public static <E> R<E> result(int code, E data, String msg) {
+        return new R<>(code, data, msg);
 
     }
 
@@ -56,12 +56,12 @@ public class Result<T> {
      * @param data 结果
      * @return RPC调用结果
      */
-    public static <E> Result<E> success(E data) {
-        return new Result<>(SUCCESS_CODE, data, "ok");
+    public static <E> R<E> success(E data) {
+        return new R<>(SUCCESS_CODE, data, "ok");
     }
 
-    public static Result<Boolean> success() {
-        return new Result<>(SUCCESS_CODE, true, "ok");
+    public static R<Boolean> success() {
+        return new R<>(SUCCESS_CODE, true, "ok");
     }
 
     /**
@@ -71,8 +71,8 @@ public class Result<T> {
      * @param msg  消息
      * @return RPC调用结果
      */
-    public static <E> Result<E> success(E data, String msg) {
-        return new Result<>(SUCCESS_CODE, data, msg);
+    public static <E> R<E> success(E data, String msg) {
+        return new R<>(SUCCESS_CODE, data, msg);
     }
 
     /**
@@ -81,24 +81,24 @@ public class Result<T> {
      * @param msg
      * @return
      */
-    public static <E> Result<E> fail(int code, String msg) {
-        return new Result<>(code, null, (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg);
+    public static <E> R<E> fail(int code, String msg) {
+        return new R<>(code, null, (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg);
     }
 
-    public static <E> Result<E> fail(String msg) {
+    public static <E> R<E> fail(String msg) {
         return fail(OPERATION_EX_CODE, msg);
     }
 
 
-    public static <E> Result<E> fail(BaseExceptionCode exceptionCode) {
+    public static <E> R<E> fail(BaseExceptionCode exceptionCode) {
         return validFail(exceptionCode);
     }
 
-    public static <E> Result<E> fail(BizException exception) {
+    public static <E> R<E> fail(BizException exception) {
         if (exception == null) {
             return fail(DEF_ERROR_MESSAGE);
         }
-        return new Result<>(exception.getCode(), null, exception.getMessage());
+        return new R<>(exception.getCode(), null, exception.getMessage());
     }
 
     /**
@@ -107,20 +107,20 @@ public class Result<T> {
      * @param throwable 异常
      * @return RPC调用结果
      */
-    public static <E> Result<E> fail(Throwable throwable) {
+    public static <E> R<E> fail(Throwable throwable) {
         return fail(FAIL_CODE, throwable != null ? throwable.getMessage() : DEF_ERROR_MESSAGE);
     }
 
-    public static <E> Result<E> validFail(String msg) {
-        return new Result<>(VALID_EX_CODE, null, (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg);
+    public static <E> R<E> validFail(String msg) {
+        return new R<>(VALID_EX_CODE, null, (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg);
     }
 
-    public static <E> Result<E> validFail(BaseExceptionCode exceptionCode) {
-        return new Result<>(exceptionCode.getCode(), null,
+    public static <E> R<E> validFail(BaseExceptionCode exceptionCode) {
+        return new R<>(exceptionCode.getCode(), null,
                 (exceptionCode.getMsg() == null || exceptionCode.getMsg().isEmpty()) ? DEF_ERROR_MESSAGE : exceptionCode.getMsg());
     }
 
-    public static <E> Result<E> timeout() {
+    public static <E> R<E> timeout() {
         return fail(TIMEOUT_CODE, HYSTRIX_ERROR_MESSAGE);
     }
 

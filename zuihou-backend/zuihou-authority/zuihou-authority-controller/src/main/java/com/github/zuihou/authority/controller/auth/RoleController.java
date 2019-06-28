@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.auth.RoleDTO;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -54,7 +54,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "分页查询角色", notes = "分页查询角色")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<Role>> page(@Valid RoleDTO data) {
+    public R<IPage<Role>> page(@Valid RoleDTO data) {
         IPage<Role> page = getPage();
         // 构建查询条件
         LbqWrapper<Role> query = Wraps.lbQ();
@@ -70,7 +70,7 @@ public class RoleController extends BaseController {
      */
     @ApiOperation(value = "查询角色", notes = "查询角色")
     @GetMapping("/{id}")
-    public Result<Role> get(@PathVariable Long id) {
+    public R<Role> get(@PathVariable Long id) {
         return success(roleService.getById(id));
     }
 
@@ -82,7 +82,7 @@ public class RoleController extends BaseController {
      */
     @ApiOperation(value = "保存角色", notes = "保存角色不为空的字段")
     @PostMapping
-    public Result<Role> save(@RequestBody @Valid Role role) {
+    public R<Role> save(@RequestBody @Valid Role role) {
         roleService.save(role);
         return success(role);
     }
@@ -96,7 +96,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "修改角色", notes = "修改角色不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<Role> update(@RequestBody @Valid Role role) {
+    public R<Role> update(@RequestBody @Valid Role role) {
         roleService.updateById(role);
         return success(role);
     }
@@ -109,7 +109,7 @@ public class RoleController extends BaseController {
      */
     @ApiOperation(value = "删除角色", notes = "根据id物理删除角色")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         roleService.removeById(id);
         return success(true);
     }

@@ -1,7 +1,7 @@
 package com.github.zuihou.file.strategy;
 
 
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
 import com.github.zuihou.file.entity.File;
 
@@ -29,5 +29,5 @@ public interface FileChunkStrategy {
      * @param merge
      * @return
      */
-    Result<File> chunksMerge(FileChunksMergeDTO merge);
+    R<File> chunksMerge(FileChunksMergeDTO merge);
 }

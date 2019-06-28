@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.common.enums.DateType;
@@ -75,28 +75,28 @@ public class ShareController extends BaseController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<Share>> page(@Valid Share data) {
+    public R<IPage<Share>> page(@Valid Share data) {
         IPage<Share> page = getPage();
         Wrapper<Share> query = LbqWrapper.<Share>lambdaQuery()
                 .eq(Share::getCreateUser, getUserId())
                 .like(Share::getName, data.getName())
                 .orderByDesc(Share::getUpdateTime);
         shareService.page(page, query);
-        return Result.success(page);
+        return success(page);
     }
 
     @ApiOperation(value = "分页查询分享的具体文件", notes = "分页查询分享的具体文件")
     @GetMapping("/page/file")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<ShareFileDTO>> pageFile(@Valid SharePageDTO data) {
+    public R<IPage<ShareFileDTO>> pageFile(@Valid SharePageDTO data) {
 
-        return Result.success(shareFileService.pageFile(getPage(), data));
+        return success(shareFileService.pageFile(getPage(), data));
     }
 
     @ApiOperation(value = "保存", notes = "保存不为空的字段")
     @ApiResponses({})
     @PostMapping
-    public Result<Share> save(@Valid @RequestBody ShareSaveDTO shareSave) {
+    public R<Share> save(@Valid @RequestBody ShareSaveDTO shareSave) {
         if (shareSave.getDateType() == null) {
             shareSave.setDateType(DateType.NUL);
         }
@@ -140,15 +140,15 @@ public class ShareController extends BaseController {
                 .collect(Collectors.toList());
         shareFileService.saveBatch(list);
 
-        return Result.success(share);
+        return success(share);
     }
 
 
     @ApiOperation(value = "取消分享", notes = "取消分享")
     @DeleteMapping(value = "/cancel")
-    public Result<Boolean> cancel(@RequestParam(value = "ids[]") Long[] ids) {
+    public R<Boolean> cancel(@RequestParam(value = "ids[]") Long[] ids) {
         shareService.cancel(getUserId(), ids);
-        return Result.success(true);
+        return success(true);
     }
 
 }

@@ -6,7 +6,7 @@ import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.file.dto.FilePageReqDTO;
@@ -66,12 +66,12 @@ public class FileController extends BaseController {
      */
     @ApiOperation(value = "获取文件", notes = "获取文件")
     @GetMapping
-    public Result<File> get(@RequestParam(value = "id") Long id) {
+    public R<File> get(@RequestParam(value = "id") Long id) {
         File file = fileService.getById(id);
         if (file != null && file.getIsDelete()) {
-            return Result.success(null);
+            return success(null);
         }
-        return Result.success(file);
+        return success(file);
     }
 
     /**
@@ -83,8 +83,8 @@ public class FileController extends BaseController {
     @ApiOperation(value = "获取文件分页", notes = "获取文件分页")
     @GetMapping(value = "/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<File>> page(@Valid FilePageReqDTO data) {
-        return Result.success(fileRestManager.page(getPage(), data));
+    public R<IPage<File>> page(@Valid FilePageReqDTO data) {
+        return success(fileRestManager.page(getPage(), data));
     }
 
     /**
@@ -104,18 +104,18 @@ public class FileController extends BaseController {
             @ApiImplicitParam(name = "file", value = "附件", dataType = "MultipartFile", allowMultiple = true, required = true),
     })
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public Result<File> upload(@RequestParam(value = "folderId") Long folderId,
-                               @RequestParam(value = "file") MultipartFile simpleFile) {
+    public R<File> upload(@RequestParam(value = "folderId") Long folderId,
+                          @RequestParam(value = "file") MultipartFile simpleFile) {
         //1，先将文件存在本地,并且生成文件名
         log.info("contentType={}, name={} , sfname={}", simpleFile.getContentType(), simpleFile.getName(), simpleFile.getOriginalFilename());
         // 忽略路径字段,只处理文件类型
         if (simpleFile.getContentType() == null) {
-            return Result.fail("文件为空");
+            return fail("文件为空");
         }
 
         File file = fileService.upload(simpleFile, folderId);
 
-        return Result.success(file);
+        return success(file);
     }
 
 
@@ -134,11 +134,11 @@ public class FileController extends BaseController {
     })
     @ApiOperation(value = "保存文件夹", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public Result<FolderDTO> saveFolder(@Valid @RequestBody FolderSaveDTO folderSaveDto) {
+    public R<FolderDTO> saveFolder(@Valid @RequestBody FolderSaveDTO folderSaveDto) {
         //2，获取身份
 
         FolderDTO folder = fileService.saveFolder(folderSaveDto);
-        return Result.success(folder);
+        return success(folder);
     }
 
     /**
@@ -152,7 +152,7 @@ public class FileController extends BaseController {
             @ApiResponse(code = 60100, message = "文件为空"),
     })
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public Result<Boolean> update(@Valid @RequestBody FileUpdateDTO fileUpdateDTO) {
+    public R<Boolean> update(@Valid @RequestBody FileUpdateDTO fileUpdateDTO) {
         // 判断文件名是否有 后缀
         if (StringUtils.isNotEmpty(fileUpdateDTO.getSubmittedFileName())) {
             File oldFile = fileService.getById(fileUpdateDTO.getId());
@@ -163,7 +163,7 @@ public class FileController extends BaseController {
         File file = dozerUtils.map2(fileUpdateDTO, File.class);
 
         fileService.updateById(file);
-        return Result.success(true);
+        return success(true);
     }
 
     /**
@@ -174,9 +174,9 @@ public class FileController extends BaseController {
      */
     @ApiOperation(value = "根据Ids进行文件删除", notes = "根据Ids进行文件删除  ")
     @DeleteMapping(value = "/list")
-    public Result<Boolean> removeList(@RequestParam(value = "ids[]") Long[] ids) {
+    public R<Boolean> removeList(@RequestParam(value = "ids[]") Long[] ids) {
         Long userId = getUserId();
-        return Result.success(fileService.removeList(userId, ids));
+        return success(fileService.removeList(userId, ids));
     }
 
     /**

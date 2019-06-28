@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.properties.FileServerProperties;
@@ -75,17 +75,17 @@ public class LocalFileAutoConfigure {
 
 
         @Override
-        protected Result<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException {
+        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException {
             //创建合并后的文件
             java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
             if (outputFile.exists()) {
                 log.error("文件[" + folder + "]随机命名冲突");
 
-                return Result.fail("文件随机命名冲突");
+                return R.fail("文件随机命名冲突");
             }
             boolean newFile = outputFile.createNewFile();
             if (!newFile) {
-                return Result.fail("创建文件失败");
+                return R.fail("创建文件失败");
             }
             FileChannel outChannel = new FileOutputStream(outputFile).getChannel();
 
@@ -119,7 +119,7 @@ public class LocalFileAutoConfigure {
                     .relativePath(relativePath)
                     .url(StringUtils.replace(url, "\\\\", URI_SEPARATOR))
                     .build();
-            return Result.success(filePo);
+            return R.success(filePo);
         }
     }
 }

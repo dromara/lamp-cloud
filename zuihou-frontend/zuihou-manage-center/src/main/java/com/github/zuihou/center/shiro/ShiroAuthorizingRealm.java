@@ -4,7 +4,7 @@ import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.api.AuthTokenApi;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AccountException;
@@ -98,7 +98,7 @@ public class ShiroAuthorizingRealm extends AuthorizingRealm {
 
         String password = new String(upToken.getPassword());
 
-        Result<LoginDTO> result = authTokenApi.login(username, password);
+        R<LoginDTO> result = authTokenApi.login(username, password);
 
         if (!result.getIsSuccess() && result.getData() != null) {
             log.warn("获取用户失败:{}", result.getMsg());

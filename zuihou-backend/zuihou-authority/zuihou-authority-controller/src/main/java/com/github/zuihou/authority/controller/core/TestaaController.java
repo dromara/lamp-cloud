@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.controller.core;
 
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 
 import io.swagger.annotations.Api;
@@ -32,7 +32,7 @@ public class TestaaController extends BaseController {
     @ApiOperation(value = "测试一下", notes = "测试一下")
     @PostMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<String> page() {
+    public R<String> page() {
 
         return success("测试一下");
     }
