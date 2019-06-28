@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.common.enums.IconType;
 import com.github.zuihou.file.domain.FileAttrDO;
 import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
@@ -101,14 +101,14 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
     protected abstract void copyFile(File file);
 
     @Override
-    public Result<File> chunksMerge(FileChunksMergeDTO info) {
+    public R<File> chunksMerge(FileChunksMergeDTO info) {
 
         String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
 
         String filename = new StringBuilder(info.getName())
                 .append(EXT_SEPARATOR)
                 .append(info.getExt()).toString();
-        Result<File> result = chunksMerge(uploadFolder, info.getMd5(), info.getName(), filename, info.getExt(), info.getChunks());
+        R<File> result = chunksMerge(uploadFolder, info.getMd5(), info.getName(), filename, info.getExt(), info.getChunks());
 
         log.info("path={}", result);
         if (result.getIsSuccess() && result.getData() != null) {
@@ -133,7 +133,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                     .setFolderName(attr.getFolderName());
 
             fileService.save(filePo);
-            return Result.success(filePo);
+            return R.success(filePo);
         }
         return result;
     }
@@ -154,7 +154,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
      * @param ext      文件后缀(不含.)
      * @return 返回合并后的文件存放绝对路径
      */
-    private Result<File> chunksMerge(String path, String md5, String folder, String fileName, String ext, int chunks) {
+    private R<File> chunksMerge(String path, String md5, String folder, String fileName, String ext, int chunks) {
         //合并后的目标文件
         String target;
 
@@ -178,7 +178,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                         return 1;
                     });
 
-                    Result<File> result = merge(files, path, md5, folder, fileName, ext);
+                    R<File> result = merge(files, path, md5, folder, fileName, ext);
                     files = null;
 
                     //清理：文件夹，tmp文件
@@ -188,7 +188,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                 }
             } catch (Exception ex) {
                 log.error("数据分片合并失败", ex);
-                return Result.fail("数据分片合并失败");
+                return R.fail("数据分片合并失败");
             } finally {
                 //解锁
                 lock.unlock();
@@ -201,9 +201,9 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         File file = this.md5Check(md5);
         if (file == null) {
             log.error("文件[签名:" + md5 + "]数据不完整，可能该文件正在合并中");
-            return Result.fail("数据不完整，可能该文件正在合并中, 也有可能是上传过程中某些分片丢失");
+            return R.fail("数据不完整，可能该文件正在合并中, 也有可能是上传过程中某些分片丢失");
         }
-        return Result.success(file);
+        return R.success(file);
     }
 
     /**
@@ -218,7 +218,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
      * @return
      * @throws Exception
      */
-    protected abstract Result<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException;
+    protected abstract R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException;
 
     /**
      * 将MD5签名和目标文件path的映射关系存入持久层

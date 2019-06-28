@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.R;
 import com.github.zuihou.file.dto.AttachmentDTO;
 import com.github.zuihou.file.dto.AttachmentRemoveDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
@@ -57,7 +58,7 @@ import static java.util.stream.Collectors.groupingBy;
 @RequestMapping("/attachment")
 @Slf4j
 @Api(value = "附件表", description = "附件表")
-public class AttachmentController {
+public class AttachmentController extends BaseController {
 
     /**
      * 业务类型判断符
@@ -83,7 +84,7 @@ public class AttachmentController {
             @ApiImplicitParam(name = "file", value = "附件", dataType = "MultipartFile", allowMultiple = true, required = true),
     })
     @PostMapping(value = "/upload")
-    public Result<AttachmentDTO> upload(
+    public R<AttachmentDTO> upload(
             @RequestParam(value = "file") MultipartFile file,
             @RequestParam(value = "appCode", required = false) String appCode,
             @RequestParam(value = "id", required = false) Long id,
@@ -93,12 +94,12 @@ public class AttachmentController {
         assertNotEmpty(BASE_VALID_PARAM.build("业务类型不能为空"), bizType);
         // 忽略路径字段,只处理文件类型
         if (file.isEmpty()) {
-            return Result.fail(BASE_VALID_PARAM.build("请求中必须至少包含一个有效文件"));
+            return fail(BASE_VALID_PARAM.build("请求中必须至少包含一个有效文件"));
         }
 
         AttachmentDTO attachment = attachmentService.upload(file, appCode, id, bizType, bizId);
 
-        return Result.success(attachment);
+        return success(attachment);
     }
 
     @ApiOperation(value = "删除文件", notes = "删除文件")
@@ -106,16 +107,16 @@ public class AttachmentController {
             @ApiImplicitParam(name = "ids[]", value = "文件ids", dataType = "long", paramType = "query"),
     })
     @DeleteMapping(value = "")
-    public Result<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
+    public R<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
         attachmentService.remove(ids);
-        return Result.success(true);
+        return success(true);
     }
 
     @ApiOperation(value = "根据业务类型或业务id删除文件", notes = "根据业务类型或业务id删除文件")
     @DeleteMapping(value = "/biz")
-    public Result<Boolean> removeByBizIdAndBizType(@RequestBody AttachmentRemoveDTO dto) {
+    public R<Boolean> removeByBizIdAndBizType(@RequestBody AttachmentRemoveDTO dto) {
         attachmentService.removeByBizIdAndBizType(dto.getBizId(), dto.getBizType());
-        return Result.success(true);
+        return success(true);
     }
 
     @ApiOperation(value = "查询附件", notes = "查询附件")
@@ -123,29 +124,29 @@ public class AttachmentController {
             @ApiResponse(code = 60103, message = "文件id为空")
     )
     @GetMapping
-    public Result<List<AttachmentResultDTO>> findAttachment(@RequestParam(value = "bizTypes", required = false) String[] bizTypes,
-                                                            @RequestParam(value = "bizIds", required = false) String[] bizIds) {
+    public R<List<AttachmentResultDTO>> findAttachment(@RequestParam(value = "bizTypes", required = false) String[] bizTypes,
+                                                       @RequestParam(value = "bizIds", required = false) String[] bizIds) {
         //不能同时为空
         BizAssert.assertTrue(BASE_VALID_PARAM.build("业务类型不能为空"), !(ArrayUtils.isEmpty(bizTypes) && ArrayUtils.isEmpty(bizIds)));
-        return Result.success(attachmentService.find(bizTypes, bizIds));
+        return success(attachmentService.find(bizTypes, bizIds));
     }
 
 
     @ApiOperation(value = "根据业务类型或者业务id查询附件", notes = "根据业务类型或者业务id查询附件")
     @GetMapping(value = "/{type}")
-    public Result<Map<String, List<Attachment>>> findAttachmentByBiz(@PathVariable String type, @RequestParam("biz[]") String[] biz) {
+    public R<Map<String, List<Attachment>>> findAttachmentByBiz(@PathVariable String type, @RequestParam("biz[]") String[] biz) {
         SFunction<Attachment, String> sf = Attachment::getBizType;
         if (TYPE_BIZ_ID.equalsIgnoreCase(type)) {
             sf = Attachment::getBizId;
         }
         List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery().in(sf, biz).orderByAsc(Attachment::getCreateTime));
         if (list.isEmpty()) {
-            return Result.success(MapUtils.EMPTY_MAP);
+            return success(MapUtils.EMPTY_MAP);
         }
         if (TYPE_BIZ_ID.equalsIgnoreCase(type)) {
-            return Result.success(list.stream().collect(groupingBy(Attachment::getBizType)));
+            return success(list.stream().collect(groupingBy(Attachment::getBizType)));
         } else {
-            return Result.success(list.stream().collect(groupingBy(Attachment::getBizId)));
+            return success(list.stream().collect(groupingBy(Attachment::getBizId)));
         }
     }
 
@@ -219,8 +220,8 @@ public class AttachmentController {
     })
     @ApiOperation(value = "根据业务类型和业务id下载图片附件", notes = "根据业务类型和业务id在前端img标签中回显图片附件， 但存在多个附件时，默认显示第一个图片")
     @GetMapping(value = "/download/{bizType}/{bizId}", produces = "image/png")
-    public Result<Boolean> findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
-                                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public R<Boolean> findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery()
                 .eq(Attachment::getBizType, bizType).eq(Attachment::getBizId, bizId)
@@ -236,8 +237,8 @@ public class AttachmentController {
             //实例生成验证码对象
             //向页面输出验证码图片
             attachmentService.download(request, response, new Long[]{list.get(0).getId()});
-            return Result.success();
+            return success();
         }
-        return Result.fail("附件不存在");
+        return fail("附件不存在");
     }
 }

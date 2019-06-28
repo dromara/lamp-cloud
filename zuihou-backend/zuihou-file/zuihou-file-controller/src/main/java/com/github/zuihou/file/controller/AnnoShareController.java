@@ -8,7 +8,7 @@ import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.dto.ShareFileDTO;
@@ -66,33 +66,33 @@ public class AnnoShareController extends BaseController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<ShareFileDTO>> page(@Valid SharePageDTO data) {
+    public R<IPage<ShareFileDTO>> page(@Valid SharePageDTO data) {
         IPage<ShareFileDTO> page = this.getPage();
         Share share = shareService.getById(data.getId());
         assertNotNull(BASE_VALID_PARAM.build("分享的文件不存在"), share);
 
         if (share.getExpireTime() != null && share.getExpireTime().isBefore(LocalDateTime.now())) {
-            return Result.validFail(SHARE_EXPIRE);
+            return validFail(SHARE_EXPIRE);
         }
 
         if (StringUtils.isNotEmpty(share.getPassword())) {
             if (StringUtils.isEmpty(data.getPassword())) {
-                return Result.validFail(SHARE_PWD_NULL);
+                return validFail(SHARE_PWD_NULL);
             }
             if (!share.getPassword().equals(data.getPassword())) {
-                return Result.validFail(SHARE_PWD_ERROR);
+                return validFail(SHARE_PWD_ERROR);
             }
         }
 
-        return Result.success(shareFileService.pageFile(page, data));
+        return success(shareFileService.pageFile(page, data));
     }
 
     @ApiOperation(value = "获取文件分页", notes = "获取文件分页")
     @GetMapping(value = "/page/file")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<File>> pageFile(@Valid FilePageReqDTO data) {
+    public R<IPage<File>> pageFile(@Valid FilePageReqDTO data) {
         IPage<File> page = getPage();
-        return Result.success(fileRestManager.page(page, data));
+        return success(fileRestManager.page(page, data));
     }
 
     @ApiOperation(value = "下载一个文件或多个文件打包下载", notes = "下载一个文件或多个文件打包下载")

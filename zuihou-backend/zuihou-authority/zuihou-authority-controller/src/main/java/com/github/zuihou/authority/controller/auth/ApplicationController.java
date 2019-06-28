@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.auth.ApplicationDTO;
 import com.github.zuihou.authority.entity.auth.Application;
 import com.github.zuihou.authority.service.auth.ApplicationService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -54,7 +54,7 @@ public class ApplicationController extends BaseController {
     @ApiOperation(value = "分页查询应用", notes = "分页查询应用")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<Application>> page(@Valid ApplicationDTO data) {
+    public R<IPage<Application>> page(@Valid ApplicationDTO data) {
         IPage<Application> page = getPage();
         // 构建查询条件
         LbqWrapper<Application> query = Wraps.lbQ();
@@ -70,7 +70,7 @@ public class ApplicationController extends BaseController {
      */
     @ApiOperation(value = "查询应用", notes = "查询应用")
     @GetMapping("/{id}")
-    public Result<Application> get(@PathVariable Long id) {
+    public R<Application> get(@PathVariable Long id) {
         return success(applicationService.getById(id));
     }
 
@@ -82,7 +82,7 @@ public class ApplicationController extends BaseController {
      */
     @ApiOperation(value = "保存应用", notes = "保存应用不为空的字段")
     @PostMapping
-    public Result<Application> save(@RequestBody @Valid Application application) {
+    public R<Application> save(@RequestBody @Valid Application application) {
         applicationService.save(application);
         return success(application);
     }
@@ -96,7 +96,7 @@ public class ApplicationController extends BaseController {
     @ApiOperation(value = "修改应用", notes = "修改应用不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<Application> update(@RequestBody @Valid Application application) {
+    public R<Application> update(@RequestBody @Valid Application application) {
         applicationService.updateById(application);
         return success(application);
     }
@@ -109,7 +109,7 @@ public class ApplicationController extends BaseController {
      */
     @ApiOperation(value = "删除应用", notes = "根据id物理删除应用")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         applicationService.removeById(id);
         return success(true);
     }

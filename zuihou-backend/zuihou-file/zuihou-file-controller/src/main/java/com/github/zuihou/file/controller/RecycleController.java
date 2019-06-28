@@ -4,7 +4,7 @@ import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.file.entity.Recycle;
 import com.github.zuihou.file.service.RecycleService;
@@ -42,7 +42,7 @@ public class RecycleController extends BaseController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<Recycle>> page(@Valid Recycle recycle) {
+    public R<IPage<Recycle>> page(@Valid Recycle recycle) {
         IPage<Recycle> page = getPage();
         LbqWrapper<Recycle> query = LbqWrapper.lambdaQuery();
         query.eq(Recycle::getCreateUser, getUserId())
@@ -51,33 +51,33 @@ public class RecycleController extends BaseController {
                 .like(Recycle::getSubmittedFileName, recycle.getSubmittedFileName())
                 .orderByDesc(Recycle::getUpdateTime);
         recycleService.page(page, query);
-        return Result.success(page);
+        return success(page);
     }
 
     @ApiOperation(value = "单体查询", notes = "单体查询")
     @GetMapping("/{id}")
-    public Result<Recycle> get(@PathVariable Long id) {
-        return Result.success(recycleService.getById(id));
+    public R<Recycle> get(@PathVariable Long id) {
+        return success(recycleService.getById(id));
     }
 
     @ApiOperation(value = "删除回收站数据", notes = "批量删除回收站数据")
     @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
-    public Result<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
+    public R<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
         recycleService.deleteBatch(getUserId(), ids);
-        return Result.success(true);
+        return success(true);
     }
 
     @ApiOperation(value = "还原", notes = "还原回收站数据")
     @RequestMapping(value = "/reset", method = RequestMethod.GET)
-    public Result<Boolean> reset(@RequestParam(value = "ids[]") Long[] ids) {
+    public R<Boolean> reset(@RequestParam(value = "ids[]") Long[] ids) {
         recycleService.reset(getUserId(), ids);
-        return Result.success(true);
+        return success(true);
     }
 
     @ApiOperation(value = "清空回收站", notes = "清空回收站")
     @RequestMapping(value = "/clear", method = RequestMethod.GET)
-    public Result<Boolean> clear() {
+    public R<Boolean> clear() {
         recycleService.clear(getUserId());
-        return Result.success(true);
+        return success(true);
     }
 }

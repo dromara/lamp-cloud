@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import javax.annotation.Resource;
 
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.file.domain.FileAttrDO;
 import com.github.zuihou.file.dto.chunk.FileChunkCheckDTO;
 import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
@@ -63,11 +63,11 @@ public class FileChunkController extends BaseController {
     @ApiOperation(value = "秒传接口，上传文件前先验证， 存在则启动秒传", notes = "前端通过webUploader获取文件md5，上传前的验证")
     @RequestMapping(value = "/md5Check", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Boolean> saveMd5Check(@RequestParam(name = "md5") String md5,
-                                        @RequestParam(name = "folderId", defaultValue = "-1") Long folderId) {
+    public R<Boolean> saveMd5Check(@RequestParam(name = "md5") String md5,
+                                   @RequestParam(name = "folderId", defaultValue = "-1") Long folderId) {
         Long accountId = getUserId();
         File file = fileChunkStrategy.md5Check(md5, folderId, accountId);
-        return Result.success(file != null ? true : false);
+        return success(file != null ? true : false);
     }
 
     /**
@@ -79,12 +79,12 @@ public class FileChunkController extends BaseController {
     @ApiOperation(value = "续传接口，检查每个分片存不存在", notes = "断点续传功能检查分片是否存在， 已存在的分片无需重复上传， 达到续传效果")
     @RequestMapping(value = "/chunkCheck", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Boolean> chunkCheck(@RequestBody FileChunkCheckDTO info) {
+    public R<Boolean> chunkCheck(@RequestBody FileChunkCheckDTO info) {
         log.info("info={}", info);
         String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
         //检查目标分片是否存在且完整
         boolean chunkCheck = wu.chunkCheck(Paths.get(uploadFolder, info.getName(), String.valueOf(info.getChunkIndex())).toString(), info.getSize());
-        return Result.success(chunkCheck);
+        return success(chunkCheck);
     }
 
 
@@ -99,12 +99,12 @@ public class FileChunkController extends BaseController {
     @ApiOperation(value = "分片上传", notes = "前端通过webUploader获取截取分片， 然后逐个上传")
     @RequestMapping(value = "/chunkUpload", method = RequestMethod.POST)
     @ResponseBody
-    public Result<String> uploadFile(FileUploadDTO info, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+    public R<String> uploadFile(FileUploadDTO info, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
         //验证请求不会包含数据上传，所以避免NullPoint这里要检查一下file变量是否为null
         if (file == null || file.isEmpty()) {
             log.error("请求参数不完整");
-            return Result.fail("请求参数不完整");
+            return fail("请求参数不完整");
         }
 
         log.info("info={}", info);
@@ -124,17 +124,17 @@ public class FileChunkController extends BaseController {
             upload.setGrade(fileAttrDO.getGrade());
             upload.setTreePath(fileAttrDO.getTreePath());
             fileService.save(upload);
-            return Result.success(file.getOriginalFilename());
+            return success(file.getOriginalFilename());
         } else {
             //为上传的文件准备好对应的位置
             java.io.File target = wu.getReadySpace(info, uploadFolder);
 
             if (target == null) {
-                return Result.fail(wu.getErrorMsg());
+                return fail(wu.getErrorMsg());
             }
             //保存上传文件
             file.transferTo(target);
-            return Result.success(target.getName());
+            return success(target.getName());
         }
 
 
@@ -150,7 +150,7 @@ public class FileChunkController extends BaseController {
     @ApiOperation(value = "分片合并", notes = "所有分片上传成功后，调用该接口对分片进行合并")
     @RequestMapping(value = "/chunksMerge", method = RequestMethod.POST)
     @ResponseBody
-    public Result<File> saveChunksMerge(@RequestBody FileChunksMergeDTO info) {
+    public R<File> saveChunksMerge(@RequestBody FileChunksMergeDTO info) {
         log.info("info={}", info);
 
         return fileChunkStrategy.chunksMerge(info);

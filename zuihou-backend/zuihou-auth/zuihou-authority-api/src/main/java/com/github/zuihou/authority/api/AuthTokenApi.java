@@ -2,7 +2,7 @@ package com.github.zuihou.authority.api;
 
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ public interface AuthTokenApi {
      * @return
      */
     @RequestMapping(value = "/anno/token", method = RequestMethod.GET)
-    Result<Token> token(@RequestParam("account") String account, @RequestParam("password") String password);
+    R<Token> token(@RequestParam("account") String account, @RequestParam("password") String password);
 
     /**
      * 登录接口
@@ -36,6 +36,6 @@ public interface AuthTokenApi {
      * @return
      */
     @RequestMapping(value = "/anno/login", method = RequestMethod.GET)
-    Result<LoginDTO> login(@RequestParam("account") String account, @RequestParam("password") String password);
+    R<LoginDTO> login(@RequestParam("account") String account, @RequestParam("password") String password);
 
 }

@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.common.excode.ExceptionCode;
 import com.github.zuihou.exception.BizException;
 
@@ -45,13 +45,13 @@ import static com.github.zuihou.common.excode.ExceptionCode.REQUIRED_FILE_PARAM_
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BizException.class)
-    public Result<String> baseExceptionHandler(BizException ex) {
+    public R<String> baseExceptionHandler(BizException ex) {
         log.info("BizException:", ex);
-        return Result.result(ex.getCode(), null, ex.getMessage());
+        return R.result(ex.getCode(), null, ex.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public Result httpMessageNotReadableException(HttpMessageNotReadableException ex) {
+    public R httpMessageNotReadableException(HttpMessageNotReadableException ex) {
         log.error("HttpMessageNotReadableException:", ex);
         String message = ex.getMessage();
         if (message != null && !"".equals(message)) {
@@ -59,14 +59,14 @@ public class GlobalExceptionHandler {
                 String msg = "无法正确的解析json类型的参数：" +
                         message.substring(message.indexOf("Could not read document:") +
                                 "Could not read document:".length(), message.indexOf(" at "));
-                return Result.result(ExceptionCode.PARAM_EX.getCode(), null, msg);
+                return R.result(ExceptionCode.PARAM_EX.getCode(), null, msg);
             }
         }
-        return Result.result(ExceptionCode.PARAM_EX.getCode(), "", ExceptionCode.PARAM_EX.getMsg());
+        return R.result(ExceptionCode.PARAM_EX.getCode(), "", ExceptionCode.PARAM_EX.getMsg());
     }
 
     @ExceptionHandler(BindException.class)
-    public Result BindException(BindException eee) {
+    public R BindException(BindException eee) {
         log.error("BindException:", eee);
         StringBuilder msg = new StringBuilder();
         List<FieldError> fieldErrors = eee.getFieldErrors();
@@ -75,95 +75,95 @@ public class GlobalExceptionHandler {
                         .append(oe.getField()).append("]的值[").append(oe.getRejectedValue()).append("]与实际类型不匹配.")
 
         );
-        return Result.result(ExceptionCode.PARAM_EX.getCode(), null, msg.toString());
+        return R.result(ExceptionCode.PARAM_EX.getCode(), null, msg.toString());
     }
 
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public Result MethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+    public R MethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         log.error("MethodArgumentTypeMismatchException:", ex);
         MethodArgumentTypeMismatchException eee = (MethodArgumentTypeMismatchException) ex;
         StringBuilder msg = new StringBuilder("参数[").append(eee.getName()).append("]的值[")
                 .append(eee.getValue()).append("]与实际类型[").append(eee.getRequiredType().getName()).append("]不匹配");
-        return Result.result(ExceptionCode.PARAM_EX.getCode(), null, msg.toString());
+        return R.result(ExceptionCode.PARAM_EX.getCode(), null, msg.toString());
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public Result IllegalStateException(IllegalStateException ex) {
+    public R IllegalStateException(IllegalStateException ex) {
         log.error("IllegalStateException:", ex);
-        return Result.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
+        return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public Result missingServletRequestParameterException(MissingServletRequestParameterException e) {
+    public R missingServletRequestParameterException(MissingServletRequestParameterException e) {
         log.error("MissingServletRequestParameterException:", e);
         StringBuilder msg = new StringBuilder();
         msg.append("缺少必须的[").append(e.getParameterType()).append("] 类型的参数[").append(e.getParameterName()).append("]");
-        return Result.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, msg.toString());
+        return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, msg.toString());
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public Result nullPointerException(NullPointerException ex) {
+    public R nullPointerException(NullPointerException ex) {
         log.error("NullPointerException:", ex);
-        return Result.result(ExceptionCode.NULL_POINT_EX.getCode(), null, ExceptionCode.NULL_POINT_EX.getMsg());
+        return R.result(ExceptionCode.NULL_POINT_EX.getCode(), null, ExceptionCode.NULL_POINT_EX.getMsg());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public Result illegalArgumentException(IllegalArgumentException ex) {
+    public R illegalArgumentException(IllegalArgumentException ex) {
         log.error("IllegalArgumentException:", ex);
-        return Result.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
+        return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
     }
 
     @ExceptionHandler(SQLException.class)
-    public Result sQLException(SQLException ex) {
+    public R sQLException(SQLException ex) {
         log.error("SQLException:", ex);
-        return Result.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
+        return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public Result dataIntegrityViolationException(DataIntegrityViolationException ex) {
+    public R dataIntegrityViolationException(DataIntegrityViolationException ex) {
         log.error("DataIntegrityViolationException:", ex);
-        return Result.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
+        return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
     }
 
     @ExceptionHandler(PersistenceException.class)
-    public Result<String> persistenceException(PersistenceException ex) {
+    public R<String> persistenceException(PersistenceException ex) {
         log.error("PersistenceException:", ex);
-        return Result.result(ExceptionCode.SQL_EX.getCode(), "", ExceptionCode.SQL_EX.getMsg());
+        return R.result(ExceptionCode.SQL_EX.getCode(), "", ExceptionCode.SQL_EX.getMsg());
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public Result httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
+    public R httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
         log.error("HttpMediaTypeNotSupportedException:", e);
         MediaType contentType = e.getContentType();
         if (contentType != null) {
             StringBuilder msg = new StringBuilder();
             msg.append("请求类型(Content-Type)[").append(contentType.toString()).append("] 与实际接口的请求类型不匹配");
-            return Result.result(ExceptionCode.MEDIA_TYPE_EX.getCode(), null, msg.toString());
+            return R.result(ExceptionCode.MEDIA_TYPE_EX.getCode(), null, msg.toString());
         }
-        return Result.result(ExceptionCode.MEDIA_TYPE_EX.getCode(), null, "无效的Content-Type类型");
+        return R.result(ExceptionCode.MEDIA_TYPE_EX.getCode(), null, "无效的Content-Type类型");
     }
 
     @ExceptionHandler(MissingServletRequestPartException.class)
-    public Result missingServletRequestPartException(MissingServletRequestPartException ex) {
+    public R missingServletRequestPartException(MissingServletRequestPartException ex) {
         log.error("MissingServletRequestPartException:", ex);
-        return Result.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
+        return R.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
     }
 
     @ExceptionHandler(ServletException.class)
-    public Result servletException(ServletException ex) {
+    public R servletException(ServletException ex) {
         log.error("ServletException:", ex);
         String msg = "UT010016: Not a multi part request";
         if (msg.equalsIgnoreCase(ex.getMessage())) {
-            return Result.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
+            return R.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
         }
-        return Result.result(ExceptionCode.SYSTEM_BUSY.getCode(), "", ex.getMessage());
+        return R.result(ExceptionCode.SYSTEM_BUSY.getCode(), "", ex.getMessage());
     }
 
     @ExceptionHandler(MultipartException.class)
-    public Result multipartException(MultipartException ex) {
+    public R multipartException(MultipartException ex) {
         log.error("MultipartException:", ex);
-        return Result.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
+        return R.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
     }
 
     /**
@@ -173,11 +173,11 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result<String> constraintViolationException(ConstraintViolationException ex) {
+    public R<String> constraintViolationException(ConstraintViolationException ex) {
         log.error("ConstraintViolationException:", ex);
         Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
         String message = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(";"));
-        return Result.result(ExceptionCode.BASE_VALID_PARAM.getCode(), "", message);
+        return R.result(ExceptionCode.BASE_VALID_PARAM.getCode(), "", message);
     }
 
     /**
@@ -188,7 +188,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object methodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        return Result.result(ExceptionCode.BASE_VALID_PARAM.getCode(), "", ex.getBindingResult().getFieldError().getDefaultMessage());
+        return R.result(ExceptionCode.BASE_VALID_PARAM.getCode(), "", ex.getBindingResult().getFieldError().getDefaultMessage());
     }
 
     /**
@@ -198,9 +198,9 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    public Result<String> otherExceptionHandler(Exception ex) {
+    public R<String> otherExceptionHandler(Exception ex) {
         log.error("Exception:", ex);
-        return Result.result(ExceptionCode.SYSTEM_BUSY.getCode(), "", ExceptionCode.SYSTEM_BUSY.getMsg());
+        return R.result(ExceptionCode.SYSTEM_BUSY.getCode(), "", ExceptionCode.SYSTEM_BUSY.getMsg());
     }
 
 }

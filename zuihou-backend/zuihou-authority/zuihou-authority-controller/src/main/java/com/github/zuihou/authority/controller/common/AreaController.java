@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.common.AreaDTO;
 import com.github.zuihou.authority.entity.common.Area;
 import com.github.zuihou.authority.service.common.AreaService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -54,7 +54,7 @@ public class AreaController extends BaseController {
     @ApiOperation(value = "分页查询地区表", notes = "分页查询地区表")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<Area>> page(@Valid AreaDTO data) {
+    public R<IPage<Area>> page(@Valid AreaDTO data) {
         IPage<Area> page = getPage();
         // 构建查询条件
         LbqWrapper<Area> query = Wraps.lbQ();
@@ -70,7 +70,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "查询地区表", notes = "查询地区表")
     @GetMapping("/{id}")
-    public Result<Area> get(@PathVariable Long id) {
+    public R<Area> get(@PathVariable Long id) {
         return success(areaService.getById(id));
     }
 
@@ -82,7 +82,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "保存地区表", notes = "保存地区表不为空的字段")
     @PostMapping
-    public Result<Area> save(@RequestBody @Valid Area area) {
+    public R<Area> save(@RequestBody @Valid Area area) {
         areaService.save(area);
         return success(area);
     }
@@ -96,7 +96,7 @@ public class AreaController extends BaseController {
     @ApiOperation(value = "修改地区表", notes = "修改地区表不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<Area> update(@RequestBody @Valid Area area) {
+    public R<Area> update(@RequestBody @Valid Area area) {
         areaService.updateById(area);
         return success(area);
     }
@@ -109,7 +109,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "删除地区表", notes = "根据id物理删除地区表")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         areaService.removeById(id);
         return success(true);
     }

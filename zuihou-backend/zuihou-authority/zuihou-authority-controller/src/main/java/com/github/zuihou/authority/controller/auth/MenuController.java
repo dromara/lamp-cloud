@@ -10,7 +10,7 @@ import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.common.utils.TreeUtil;
 import com.github.zuihou.common.utils.context.DozerUtils;
@@ -64,7 +64,7 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "分页查询菜单", notes = "分页查询菜单")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<Menu>> page(@Valid MenuDTO data) {
+    public R<IPage<Menu>> page(@Valid MenuDTO data) {
         IPage<Menu> page = getPage();
         // 构建查询条件
         LbqWrapper<Menu> query = Wraps.lbQ();
@@ -80,7 +80,7 @@ public class MenuController extends BaseController {
      */
     @ApiOperation(value = "查询菜单", notes = "查询菜单")
     @GetMapping("/{id}")
-    public Result<Menu> get(@PathVariable Long id) {
+    public R<Menu> get(@PathVariable Long id) {
         return success(menuService.getById(id));
     }
 
@@ -92,7 +92,7 @@ public class MenuController extends BaseController {
      */
     @ApiOperation(value = "保存菜单", notes = "保存菜单不为空的字段")
     @PostMapping
-    public Result<Menu> save(@RequestBody @Valid Menu menu) {
+    public R<Menu> save(@RequestBody @Valid Menu menu) {
         menuService.save(menu);
         return success(menu);
     }
@@ -106,7 +106,7 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "修改菜单", notes = "修改菜单不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<Menu> update(@RequestBody @Valid Menu menu) {
+    public R<Menu> update(@RequestBody @Valid Menu menu) {
         menuService.updateById(menu);
         return success(menu);
     }
@@ -119,7 +119,7 @@ public class MenuController extends BaseController {
      */
     @ApiOperation(value = "删除菜单", notes = "根据id物理删除菜单")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         menuService.removeById(id);
         return success(true);
     }
@@ -137,19 +137,19 @@ public class MenuController extends BaseController {
     })
     @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
     @GetMapping
-    public Result<List<MenuTreeDTO>> myMenus(@RequestParam(value = "group", required = false) String group, @RequestParam(value = "userId", required = false) Long userId) {
+    public R<List<MenuTreeDTO>> myMenus(@RequestParam(value = "group", required = false) String group, @RequestParam(value = "userId", required = false) Long userId) {
         if (userId == null || userId <= 0) {
             userId = getUserId();
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
         List<MenuTreeDTO> treeList = dozerUtils.mapList(list, MenuTreeDTO.class);
 
-        return Result.success(TreeUtil.builderTreeOrdered(treeList));
+        return success(TreeUtil.builderTreeOrdered(treeList));
     }
 
     @ApiOperation(value = "查询系统所有的菜单", notes = "查询系统所有的菜单")
     @GetMapping("/all")
-    public Result<List<Menu>> all() {
-        return Result.success(menuService.list());
+    public R<List<Menu>> all() {
+        return success(menuService.list());
     }
 }

@@ -7,7 +7,7 @@ import com.github.zuihou.authority.dto.common.DictionaryDTO;
 import com.github.zuihou.authority.entity.common.Dictionary;
 import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
@@ -54,7 +54,7 @@ public class DictionaryController extends BaseController {
     @ApiOperation(value = "分页查询字典目录", notes = "分页查询字典目录")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<Dictionary>> page(@Valid DictionaryDTO data) {
+    public R<IPage<Dictionary>> page(@Valid DictionaryDTO data) {
         IPage<Dictionary> page = getPage();
         // 构建查询条件
         LbqWrapper<Dictionary> query = Wraps.lbQ();
@@ -70,7 +70,7 @@ public class DictionaryController extends BaseController {
      */
     @ApiOperation(value = "查询字典目录", notes = "查询字典目录")
     @GetMapping("/{id}")
-    public Result<Dictionary> get(@PathVariable Long id) {
+    public R<Dictionary> get(@PathVariable Long id) {
         return success(dictionaryService.getById(id));
     }
 
@@ -82,7 +82,7 @@ public class DictionaryController extends BaseController {
      */
     @ApiOperation(value = "保存字典目录", notes = "保存字典目录不为空的字段")
     @PostMapping
-    public Result<Dictionary> save(@RequestBody @Valid Dictionary dictionary) {
+    public R<Dictionary> save(@RequestBody @Valid Dictionary dictionary) {
         dictionaryService.save(dictionary);
         return success(dictionary);
     }
@@ -96,7 +96,7 @@ public class DictionaryController extends BaseController {
     @ApiOperation(value = "修改字典目录", notes = "修改字典目录不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<Dictionary> update(@RequestBody @Valid Dictionary dictionary) {
+    public R<Dictionary> update(@RequestBody @Valid Dictionary dictionary) {
         dictionaryService.updateById(dictionary);
         return success(dictionary);
     }
@@ -109,7 +109,7 @@ public class DictionaryController extends BaseController {
      */
     @ApiOperation(value = "删除字典目录", notes = "根据id物理删除字典目录")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public R<Boolean> delete(@PathVariable Long id) {
         dictionaryService.removeById(id);
         return success(true);
     }
