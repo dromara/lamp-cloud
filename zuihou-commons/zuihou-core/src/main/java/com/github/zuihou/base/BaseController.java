@@ -27,7 +27,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
-import com.github.zuihou.utils.AntiSQLFilter;
+import com.github.zuihou.utils.AntiSqlFilter;
 import com.github.zuihou.utils.NumberHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,6 +188,6 @@ public abstract class BaseController {
      * @return
      */
     protected String[] getParameterSafeValues(String parameter) {
-        return AntiSQLFilter.getSafeValues(request.getParameterValues(parameter));
+        return AntiSqlFilter.getSafeValues(request.getParameterValues(parameter));
     }
 }

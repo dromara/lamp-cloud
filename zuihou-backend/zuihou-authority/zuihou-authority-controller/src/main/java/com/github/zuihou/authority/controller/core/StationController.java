@@ -1,11 +1,11 @@
-package com.github.zuihou.authority.controller.auth;
+package com.github.zuihou.authority.controller.core;
 
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.UserDTO;
-import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.dto.core.StationDTO;
+import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.authority.service.core.StationService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * <p>
  * 前端控制器
- * 账号
+ *
  * </p>
  *
  * @author zuihou
@@ -38,79 +38,79 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/user")
-@Api(value = "User", description = "账号")
-public class UserController extends BaseController {
+@RequestMapping("/station")
+@Api(value = "Station", description = "")
+public class StationController extends BaseController {
 
     @Autowired
-    private UserService userService;
+    private StationService stationService;
 
     /**
-     * 分页查询账号
+     * 分页查询
      *
      * @param data 分页查询对象
      * @return 查询结果
      */
-    @ApiOperation(value = "分页查询账号", notes = "分页查询账号")
+    @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<User>> page(@Valid UserDTO data) {
-        IPage<User> page = getPage();
+    public R<IPage<Station>> page(@Valid StationDTO data) {
+        IPage<Station> page = getPage();
         // 构建查询条件
-        LbqWrapper<User> query = Wraps.lbQ();
-        userService.page(page, query);
+        LbqWrapper<Station> query = Wraps.lbQ();
+        stationService.page(page, query);
         return success(page);
     }
 
     /**
-     * 单体查询账号
+     * 单体查询
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询账号", notes = "查询账号")
+    @ApiOperation(value = "查询", notes = "查询")
     @GetMapping("/{id}")
-    public R<User> get(@PathVariable Long id) {
-        return success(userService.getById(id));
+    public R<Station> get(@PathVariable Long id) {
+        return success(stationService.getById(id));
     }
 
     /**
-     * 保存账号
+     * 保存
      *
-     * @param user 保存对象
+     * @param station 保存对象
      * @return 保存结果
      */
-    @ApiOperation(value = "保存账号", notes = "保存账号不为空的字段")
+    @ApiOperation(value = "保存", notes = "保存不为空的字段")
     @PostMapping
-    public R<User> save(@RequestBody @Valid User user) {
-        userService.save(user);
-        return success(user);
+    public R<Station> save(@RequestBody @Valid Station station) {
+        stationService.save(station);
+        return success(station);
     }
 
     /**
-     * 修改账号
+     * 修改
      *
-     * @param user 修改对象
+     * @param station 修改对象
      * @return 修改结果
      */
-    @ApiOperation(value = "修改账号", notes = "修改账号不为空的字段")
+    @ApiOperation(value = "修改", notes = "修改不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<User> update(@RequestBody @Valid User user) {
-        userService.updateById(user);
-        return success(user);
+    public R<Station> update(@RequestBody @Valid Station station) {
+        stationService.updateById(station);
+        return success(station);
     }
 
     /**
-     * 删除账号
+     * 删除
      *
      * @param id 主键id
      * @return 删除结果
      */
-    @ApiOperation(value = "删除账号", notes = "根据id物理删除账号")
+    @ApiOperation(value = "删除", notes = "根据id物理删除")
     @DeleteMapping(value = "/{id}")
     public R<Boolean> delete(@PathVariable Long id) {
-        userService.removeById(id);
+        stationService.removeById(id);
         return success(true);
     }
 

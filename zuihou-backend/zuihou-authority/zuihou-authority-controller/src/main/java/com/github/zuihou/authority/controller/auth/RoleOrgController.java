@@ -3,9 +3,9 @@ package com.github.zuihou.authority.controller.auth;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.UserDTO;
-import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.dto.auth.RoleOrgDTO;
+import com.github.zuihou.authority.entity.auth.RoleOrg;
+import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * <p>
  * 前端控制器
- * 账号
+ * 角色部门关系
  * </p>
  *
  * @author zuihou
@@ -38,79 +38,79 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/user")
-@Api(value = "User", description = "账号")
-public class UserController extends BaseController {
+@RequestMapping("/roleOrg")
+@Api(value = "RoleOrg", description = "角色部门关系")
+public class RoleOrgController extends BaseController {
 
     @Autowired
-    private UserService userService;
+    private RoleOrgService roleOrgService;
 
     /**
-     * 分页查询账号
+     * 分页查询角色部门关系
      *
      * @param data 分页查询对象
      * @return 查询结果
      */
-    @ApiOperation(value = "分页查询账号", notes = "分页查询账号")
+    @ApiOperation(value = "分页查询角色部门关系", notes = "分页查询角色部门关系")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<User>> page(@Valid UserDTO data) {
-        IPage<User> page = getPage();
+    public R<IPage<RoleOrg>> page(@Valid RoleOrgDTO data) {
+        IPage<RoleOrg> page = getPage();
         // 构建查询条件
-        LbqWrapper<User> query = Wraps.lbQ();
-        userService.page(page, query);
+        LbqWrapper<RoleOrg> query = Wraps.lbQ();
+        roleOrgService.page(page, query);
         return success(page);
     }
 
     /**
-     * 单体查询账号
+     * 单体查询角色部门关系
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询账号", notes = "查询账号")
+    @ApiOperation(value = "查询角色部门关系", notes = "查询角色部门关系")
     @GetMapping("/{id}")
-    public R<User> get(@PathVariable Long id) {
-        return success(userService.getById(id));
+    public R<RoleOrg> get(@PathVariable Long id) {
+        return success(roleOrgService.getById(id));
     }
 
     /**
-     * 保存账号
+     * 保存角色部门关系
      *
-     * @param user 保存对象
+     * @param roleOrg 保存对象
      * @return 保存结果
      */
-    @ApiOperation(value = "保存账号", notes = "保存账号不为空的字段")
+    @ApiOperation(value = "保存角色部门关系", notes = "保存角色部门关系不为空的字段")
     @PostMapping
-    public R<User> save(@RequestBody @Valid User user) {
-        userService.save(user);
-        return success(user);
+    public R<RoleOrg> save(@RequestBody @Valid RoleOrg roleOrg) {
+        roleOrgService.save(roleOrg);
+        return success(roleOrg);
     }
 
     /**
-     * 修改账号
+     * 修改角色部门关系
      *
-     * @param user 修改对象
+     * @param roleOrg 修改对象
      * @return 修改结果
      */
-    @ApiOperation(value = "修改账号", notes = "修改账号不为空的字段")
+    @ApiOperation(value = "修改角色部门关系", notes = "修改角色部门关系不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<User> update(@RequestBody @Valid User user) {
-        userService.updateById(user);
-        return success(user);
+    public R<RoleOrg> update(@RequestBody @Valid RoleOrg roleOrg) {
+        roleOrgService.updateById(roleOrg);
+        return success(roleOrg);
     }
 
     /**
-     * 删除账号
+     * 删除角色部门关系
      *
      * @param id 主键id
      * @return 删除结果
      */
-    @ApiOperation(value = "删除账号", notes = "根据id物理删除账号")
+    @ApiOperation(value = "删除角色部门关系", notes = "根据id物理删除角色部门关系")
     @DeleteMapping(value = "/{id}")
     public R<Boolean> delete(@PathVariable Long id) {
-        userService.removeById(id);
+        roleOrgService.removeById(id);
         return success(true);
     }
 

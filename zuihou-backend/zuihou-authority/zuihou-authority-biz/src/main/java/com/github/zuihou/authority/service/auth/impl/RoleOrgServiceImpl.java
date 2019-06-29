@@ -1,9 +1,9 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.zuihou.authority.dao.auth.UserMapper;
-import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.dao.auth.RoleOrgMapper;
+import com.github.zuihou.authority.entity.auth.RoleOrg;
+import com.github.zuihou.authority.service.auth.RoleOrgService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * <p>
  * 业务实现类
- * 账号
+ * 角色部门关系
  * </p>
  *
  * @author zuihou
@@ -19,6 +19,6 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class RoleOrgServiceImpl extends ServiceImpl<RoleOrgMapper, RoleOrg> implements RoleOrgService {
 
 }

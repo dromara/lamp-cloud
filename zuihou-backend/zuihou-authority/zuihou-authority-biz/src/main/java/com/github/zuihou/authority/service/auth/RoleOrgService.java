@@ -1,17 +1,17 @@
 package com.github.zuihou.authority.service.auth;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.auth.RoleOrg;
 
 /**
  * <p>
  * 业务接口
- * 账号
+ * 角色部门关系
  * </p>
  *
  * @author zuihou
  * @date 2019-06-29
  */
-public interface UserService extends IService<User> {
+public interface RoleOrgService extends IService<RoleOrg> {
 
 }
