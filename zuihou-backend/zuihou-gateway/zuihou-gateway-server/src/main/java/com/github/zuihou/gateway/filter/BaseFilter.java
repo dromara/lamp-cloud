@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.adapter.IgnoreTokenConfig;
-import com.github.zuihou.utils.JSONUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
@@ -99,6 +98,6 @@ public abstract class BaseFilter extends ZuulFilter {
 
     protected void errorResponse(String errMsg, int errCode, int httpStatusCode) {
         R tokenError = R.fail(errCode, errMsg);
-        setFailedRequest(JSONUtils.toJsonString(tokenError), httpStatusCode);
+        setFailedRequest(tokenError.toString(), httpStatusCode);
     }
 }

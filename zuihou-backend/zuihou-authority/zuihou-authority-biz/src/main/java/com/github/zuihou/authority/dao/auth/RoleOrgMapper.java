@@ -1,20 +1,20 @@
 package com.github.zuihou.authority.dao.auth;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.auth.RoleOrg;
 
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
  * Mapper 接口
- * 账号
+ * 角色部门关系
  * </p>
  *
  * @author zuihou
  * @date 2019-06-29
  */
 @Repository
-public interface UserMapper extends BaseMapper<User> {
+public interface RoleOrgMapper extends BaseMapper<RoleOrg> {
 
 }

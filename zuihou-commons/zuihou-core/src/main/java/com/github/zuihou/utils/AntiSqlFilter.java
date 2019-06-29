@@ -51,7 +51,7 @@ import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
  * @author rbellia
  * @version 0.1
  */
-public class AntiSQLFilter {
+public class AntiSqlFilter {
 
     private static final String[] keyWords = {";", "\"", "\'", "/*", "*/", "--", "exec",
             "select", "update", "delete", "insert",

@@ -1,8 +1,8 @@
 package com.github.zuihou.base;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
-import com.github.zuihou.utils.JSONUtils;
 
 
 /**
@@ -159,6 +159,6 @@ public class R<T> {
 
     @Override
     public String toString() {
-        return JSONUtils.toJsonString(this);
+        return JSONObject.toJSONString(this);
     }
 }
