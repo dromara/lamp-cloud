@@ -3,12 +3,15 @@ package com.github.zuihou.authority.controller.common;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.common.DictionaryDTO;
+import com.github.zuihou.authority.dto.common.DictionarySaveDTO;
+import com.github.zuihou.authority.dto.common.DictionaryUpdateDTO;
 import com.github.zuihou.authority.entity.common.Dictionary;
 import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-24
+ * @date 2019-07-02
  */
 @Slf4j
 @Validated
@@ -44,6 +47,8 @@ public class DictionaryController extends BaseController {
 
     @Autowired
     private DictionaryService dictionaryService;
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询字典目录
@@ -54,10 +59,11 @@ public class DictionaryController extends BaseController {
     @ApiOperation(value = "分页查询字典目录", notes = "分页查询字典目录")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<Dictionary>> page(@Valid DictionaryDTO data) {
+    @SysLog("分页查询字典目录")
+    public R<IPage<Dictionary>> page(@Valid Dictionary data) {
         IPage<Dictionary> page = getPage();
-        // 构建查询条件
-        LbqWrapper<Dictionary> query = Wraps.lbQ();
+        // 构建值不为null的查询条件
+        LbqWrapper<Dictionary> query = Wraps.lbQ(data);
         dictionaryService.page(page, query);
         return success(page);
     }
@@ -68,8 +74,9 @@ public class DictionaryController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询字典目录", notes = "查询字典目录")
+    @ApiOperation(value = "单体查询字典目录", notes = "单体查询字典目录")
     @GetMapping("/{id}")
+    @SysLog("单体查询字典目录")
     public R<Dictionary> get(@PathVariable Long id) {
         return success(dictionaryService.getById(id));
     }
@@ -77,12 +84,14 @@ public class DictionaryController extends BaseController {
     /**
      * 保存字典目录
      *
-     * @param dictionary 保存对象
+     * @param data 保存对象
      * @return 保存结果
      */
     @ApiOperation(value = "保存字典目录", notes = "保存字典目录不为空的字段")
     @PostMapping
-    public R<Dictionary> save(@RequestBody @Valid Dictionary dictionary) {
+    @SysLog("保存字典目录")
+    public R<Dictionary> save(@RequestBody @Valid DictionarySaveDTO data) {
+        Dictionary dictionary = dozer.map(data, Dictionary.class);
         dictionaryService.save(dictionary);
         return success(dictionary);
     }
@@ -90,13 +99,15 @@ public class DictionaryController extends BaseController {
     /**
      * 修改字典目录
      *
-     * @param dictionary 修改对象
+     * @param data 修改对象
      * @return 修改结果
      */
     @ApiOperation(value = "修改字典目录", notes = "修改字典目录不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<Dictionary> update(@RequestBody @Valid Dictionary dictionary) {
+    @SysLog("修改字典目录")
+    public R<Dictionary> update(@RequestBody @Valid DictionaryUpdateDTO data) {
+        Dictionary dictionary = dozer.map(data, Dictionary.class);
         dictionaryService.updateById(dictionary);
         return success(dictionary);
     }
@@ -109,6 +120,7 @@ public class DictionaryController extends BaseController {
      */
     @ApiOperation(value = "删除字典目录", notes = "根据id物理删除字典目录")
     @DeleteMapping(value = "/{id}")
+    @SysLog("删除字典目录")
     public R<Boolean> delete(@PathVariable Long id) {
         dictionaryService.removeById(id);
         return success(true);

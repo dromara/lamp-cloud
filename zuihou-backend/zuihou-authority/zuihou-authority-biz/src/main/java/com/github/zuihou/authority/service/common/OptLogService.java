@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.common;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.zuihou.authority.entity.common.Log;
+import com.github.zuihou.authority.entity.common.OptLog;
 
 /**
  * <p>
@@ -10,8 +10,8 @@ import com.github.zuihou.authority.entity.common.Log;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-01
+ * @date 2019-07-02
  */
-public interface LogService extends IService<Log> {
+public interface OptLogService extends IService<OptLog> {
 
 }

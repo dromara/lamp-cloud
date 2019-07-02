@@ -25,7 +25,7 @@ public class AuthorityGenerator {
 //                        "c_common_",
 //                build("msgs", "sms", "zuihou", "",
 //                        Arrays.asList("c_core_.*"));
-                        Arrays.asList("c_common_log"));
+                        Arrays.asList("c_common_opt_log"));
 //                        Arrays.asList("c_common_.*"));
 //                        Arrays.asList("c_auth_user_role", "c_auth_role_authority"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_authority_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -54,8 +54,9 @@ public class AuthorityGenerator {
         //手动指定枚举类 生成的路径
         Set<EntityFiledType> filedTypes = new HashSet<>();
         filedTypes.addAll(Arrays.asList(
-                EntityFiledType.builder()
-                        .name("httpMethod").table("c_common_log")
+                EntityFiledType.builder().name("httpMethod").table("c_common_opt_log")
+                        .packagePath("com.github.zuihou.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
+                , EntityFiledType.builder().name("httpMethod").table("c_auth_resource")
                         .packagePath("com.github.zuihou.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);

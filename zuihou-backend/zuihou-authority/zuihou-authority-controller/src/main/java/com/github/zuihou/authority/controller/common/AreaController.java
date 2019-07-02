@@ -3,12 +3,15 @@ package com.github.zuihou.authority.controller.common;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.common.AreaDTO;
+import com.github.zuihou.authority.dto.common.AreaSaveDTO;
+import com.github.zuihou.authority.dto.common.AreaUpdateDTO;
 import com.github.zuihou.authority.entity.common.Area;
 import com.github.zuihou.authority.service.common.AreaService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-24
+ * @date 2019-07-02
  */
 @Slf4j
 @Validated
@@ -44,6 +47,8 @@ public class AreaController extends BaseController {
 
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询地区表
@@ -54,10 +59,11 @@ public class AreaController extends BaseController {
     @ApiOperation(value = "分页查询地区表", notes = "分页查询地区表")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<Area>> page(@Valid AreaDTO data) {
+    @SysLog("分页查询地区表")
+    public R<IPage<Area>> page(@Valid Area data) {
         IPage<Area> page = getPage();
-        // 构建查询条件
-        LbqWrapper<Area> query = Wraps.lbQ();
+        // 构建值不为null的查询条件
+        LbqWrapper<Area> query = Wraps.lbQ(data);
         areaService.page(page, query);
         return success(page);
     }
@@ -68,8 +74,9 @@ public class AreaController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询地区表", notes = "查询地区表")
+    @ApiOperation(value = "单体查询地区表", notes = "单体查询地区表")
     @GetMapping("/{id}")
+    @SysLog("单体查询地区表")
     public R<Area> get(@PathVariable Long id) {
         return success(areaService.getById(id));
     }
@@ -77,12 +84,14 @@ public class AreaController extends BaseController {
     /**
      * 保存地区表
      *
-     * @param area 保存对象
+     * @param data 保存对象
      * @return 保存结果
      */
     @ApiOperation(value = "保存地区表", notes = "保存地区表不为空的字段")
     @PostMapping
-    public R<Area> save(@RequestBody @Valid Area area) {
+    @SysLog("保存地区表")
+    public R<Area> save(@RequestBody @Valid AreaSaveDTO data) {
+        Area area = dozer.map(data, Area.class);
         areaService.save(area);
         return success(area);
     }
@@ -90,13 +99,15 @@ public class AreaController extends BaseController {
     /**
      * 修改地区表
      *
-     * @param area 修改对象
+     * @param data 修改对象
      * @return 修改结果
      */
     @ApiOperation(value = "修改地区表", notes = "修改地区表不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<Area> update(@RequestBody @Valid Area area) {
+    @SysLog("修改地区表")
+    public R<Area> update(@RequestBody @Valid AreaUpdateDTO data) {
+        Area area = dozer.map(data, Area.class);
         areaService.updateById(area);
         return success(area);
     }
@@ -109,6 +120,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "删除地区表", notes = "根据id物理删除地区表")
     @DeleteMapping(value = "/{id}")
+    @SysLog("删除地区表")
     public R<Boolean> delete(@PathVariable Long id) {
         areaService.removeById(id);
         return success(true);

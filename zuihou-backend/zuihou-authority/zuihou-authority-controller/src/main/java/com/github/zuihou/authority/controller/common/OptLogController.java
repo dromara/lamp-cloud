@@ -3,12 +3,15 @@ package com.github.zuihou.authority.controller.common;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.common.LogDTO;
-import com.github.zuihou.authority.entity.common.Log;
-import com.github.zuihou.authority.service.common.LogService;
+import com.github.zuihou.authority.dto.common.OptLogSaveDTO;
+import com.github.zuihou.authority.dto.common.OptLogUpdateDTO;
+import com.github.zuihou.authority.entity.common.OptLog;
+import com.github.zuihou.authority.service.common.OptLogService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -33,17 +36,19 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-01
+ * @date 2019-07-02
  */
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/log")
-@Api(value = "Log", description = "系统日志")
-public class LogController extends BaseController {
+@RequestMapping("/optLog")
+@Api(value = "OptLog", description = "系统日志")
+public class OptLogController extends BaseController {
 
     @Autowired
-    private LogService logService;
+    private OptLogService optLogService;
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询系统日志
@@ -54,11 +59,12 @@ public class LogController extends BaseController {
     @ApiOperation(value = "分页查询系统日志", notes = "分页查询系统日志")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<Log>> page(@Valid LogDTO data) {
-        IPage<Log> page = getPage();
-        // 构建查询条件
-        LbqWrapper<Log> query = Wraps.lbQ();
-        logService.page(page, query);
+    @SysLog("分页查询系统日志")
+    public R<IPage<OptLog>> page(@Valid OptLog data) {
+        IPage<OptLog> page = getPage();
+        // 构建值不为null的查询条件
+        LbqWrapper<OptLog> query = Wraps.lbQ(data);
+        optLogService.page(page, query);
         return success(page);
     }
 
@@ -68,37 +74,42 @@ public class LogController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询系统日志", notes = "查询系统日志")
+    @ApiOperation(value = "单体查询系统日志", notes = "单体查询系统日志")
     @GetMapping("/{id}")
-    public R<Log> get(@PathVariable Long id) {
-        return success(logService.getById(id));
+    @SysLog("单体查询系统日志")
+    public R<OptLog> get(@PathVariable Long id) {
+        return success(optLogService.getById(id));
     }
 
     /**
      * 保存系统日志
      *
-     * @param log 保存对象
+     * @param data 保存对象
      * @return 保存结果
      */
     @ApiOperation(value = "保存系统日志", notes = "保存系统日志不为空的字段")
     @PostMapping
-    public R<Log> save(@RequestBody @Valid Log log) {
-        logService.save(log);
-        return success(log);
+    @SysLog("保存系统日志")
+    public R<OptLog> save(@RequestBody @Valid OptLogSaveDTO data) {
+        OptLog optLog = dozer.map(data, OptLog.class);
+        optLogService.save(optLog);
+        return success(optLog);
     }
 
     /**
      * 修改系统日志
      *
-     * @param log 修改对象
+     * @param data 修改对象
      * @return 修改结果
      */
     @ApiOperation(value = "修改系统日志", notes = "修改系统日志不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<Log> update(@RequestBody @Valid Log log) {
-        logService.updateById(log);
-        return success(log);
+    @SysLog("修改系统日志")
+    public R<OptLog> update(@RequestBody @Valid OptLogUpdateDTO data) {
+        OptLog optLog = dozer.map(data, OptLog.class);
+        optLogService.updateById(optLog);
+        return success(optLog);
     }
 
     /**
@@ -109,8 +120,9 @@ public class LogController extends BaseController {
      */
     @ApiOperation(value = "删除系统日志", notes = "根据id物理删除系统日志")
     @DeleteMapping(value = "/{id}")
+    @SysLog("删除系统日志")
     public R<Boolean> delete(@PathVariable Long id) {
-        logService.removeById(id);
+        optLogService.removeById(id);
         return success(true);
     }
 

@@ -2,7 +2,7 @@ package com.github.zuihou.authority.api;
 
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.api.hystrix.LogApiHystrix;
-import com.github.zuihou.authority.entity.common.Log;
+import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.base.R;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -25,6 +25,6 @@ public interface LogApi {
      * @return
      */
     @RequestMapping(value = "/log", method = RequestMethod.POST)
-    R<Token> save(@RequestBody Log log);
+    R<Token> save(@RequestBody OptLog log);
 
 }
