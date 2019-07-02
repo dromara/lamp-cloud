@@ -58,7 +58,7 @@
         <swagger.version>1.5.21</swagger.version>
         <sbu.version>1.9.4</sbu.version>
         <dozer.version>6.4.0</dozer.version>
-        <lombok.version>1.18.4</lombok.version>
+        <lombok.version>1.18.8</lombok.version>
         <guava.version>20.0</guava.version>
         <tobato-fastdfs-client.version>1.26.6</tobato-fastdfs-client.version>
 
@@ -77,6 +77,10 @@
         <quartz.version>2.3.0</quartz.version>
 
         <jetty-server.version>9.4.14.v20181114</jetty-server.version>
+
+        <hutool.version>4.5.6</hutool.version>
+        <antisamy.version>1.5.3</antisamy.version>
+        <commons-lang.version>2.6</commons-lang.version>
     </properties>
 
     <repositories>
@@ -128,6 +132,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -188,12 +194,12 @@
                 <version>${mysql.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-                <scope>provided</scope>
-            </dependency>
+            <!--<dependency>-->
+            <!--<groupId>org.projectlombok</groupId>-->
+            <!--<artifactId>lombok</artifactId>-->
+            <!--<version>${lombok.version}</version>-->
+            <!--<scope>provided</scope>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -210,11 +216,11 @@
                 <artifactId>fastdfs-client</artifactId>
                 <version>${tobato-fastdfs-client.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
+            <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>fastjson</artifactId>-->
+            <!--<version>${fastjson.version}</version>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -325,9 +331,51 @@
                 <version>${spring-boot-admin.version}</version>
             </dependency>
 
-        </dependencies>
+            <dependency>
+                <groupId>org.owasp.antisamy</groupId>
+                <artifactId>antisamy</artifactId>
+                <version>${antisamy.version}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang.version}</version>
+            </dependency>
+
+        </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <!--&lt;!&ndash;配置文件处理器&ndash;&gt;-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
+        <!--</dependency>-->
+    </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -339,7 +387,6 @@
                 </includes>
                 <excludes>
                     <exclude>rebel.xml</exclude>
-                    <exclude>**.bakNotes</exclude>
                 </excludes>
                 <filtering>true</filtering>
             </resource>

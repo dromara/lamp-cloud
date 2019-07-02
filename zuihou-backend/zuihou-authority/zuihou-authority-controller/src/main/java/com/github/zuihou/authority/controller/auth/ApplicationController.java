@@ -1,5 +1,8 @@
 package com.github.zuihou.authority.controller.auth;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,6 +12,7 @@ import com.github.zuihou.authority.service.auth.ApplicationService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -52,6 +56,7 @@ public class ApplicationController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询应用", notes = "分页查询应用")
+    @SysLog("分页查询应用")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
     public R<IPage<Application>> page(@Valid ApplicationDTO data) {
@@ -82,10 +87,32 @@ public class ApplicationController extends BaseController {
      */
     @ApiOperation(value = "保存应用", notes = "保存应用不为空的字段")
     @PostMapping
+    @SysLog("保存应用")
     public R<Application> save(@RequestBody @Valid Application application) {
         applicationService.save(application);
         return success(application);
     }
+
+    @PostMapping("/ex")
+    @SysLog("yichang应用")
+    public R<Application> ex(@RequestBody @Valid Application application) {
+        int i = 1 / 0;
+        return success(application);
+    }
+
+
+    @GetMapping("/map")
+    @SysLog("yichang应用")
+    public R<Map<String, String>> map() {
+        Map<String, String> map = new HashMap<>();
+        map.put("123", "123<div>alert(\"1\")</div>");
+        map.put("123<div>alert(\"1\")</div>", "456");
+        map.put("123", "123<script>alert(\"1\")</script>");
+        map.put("<script>alert(\"1\")</script>456", "123<script>alert(\"1\")</script>");
+        return success(map);
+    }
+
+
 
     /**
      * 修改应用

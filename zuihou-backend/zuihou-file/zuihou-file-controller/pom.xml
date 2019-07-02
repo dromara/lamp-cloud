@@ -11,7 +11,10 @@
 
     <artifactId>zuihou-file-controller</artifactId>
     <dependencies>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-log</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-file-biz</artifactId>
