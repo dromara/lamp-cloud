@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-23
+ * @date 2019-07-02
  */
 @Repository
 public interface AreaMapper extends BaseMapper<Area> {

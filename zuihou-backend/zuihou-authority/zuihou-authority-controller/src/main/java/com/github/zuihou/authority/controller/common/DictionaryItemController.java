@@ -3,12 +3,15 @@ package com.github.zuihou.authority.controller.common;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.common.DictionaryItemDTO;
+import com.github.zuihou.authority.dto.common.DictionaryItemSaveDTO;
+import com.github.zuihou.authority.dto.common.DictionaryItemUpdateDTO;
 import com.github.zuihou.authority.entity.common.DictionaryItem;
 import com.github.zuihou.authority.service.common.DictionaryItemService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-24
+ * @date 2019-07-02
  */
 @Slf4j
 @Validated
@@ -44,6 +47,8 @@ public class DictionaryItemController extends BaseController {
 
     @Autowired
     private DictionaryItemService dictionaryItemService;
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询字典项
@@ -54,10 +59,11 @@ public class DictionaryItemController extends BaseController {
     @ApiOperation(value = "分页查询字典项", notes = "分页查询字典项")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<DictionaryItem>> page(@Valid DictionaryItemDTO data) {
+    @SysLog("分页查询字典项")
+    public R<IPage<DictionaryItem>> page(@Valid DictionaryItem data) {
         IPage<DictionaryItem> page = getPage();
-        // 构建查询条件
-        LbqWrapper<DictionaryItem> query = Wraps.lbQ();
+        // 构建值不为null的查询条件
+        LbqWrapper<DictionaryItem> query = Wraps.lbQ(data);
         dictionaryItemService.page(page, query);
         return success(page);
     }
@@ -68,8 +74,9 @@ public class DictionaryItemController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询字典项", notes = "查询字典项")
+    @ApiOperation(value = "单体查询字典项", notes = "单体查询字典项")
     @GetMapping("/{id}")
+    @SysLog("单体查询字典项")
     public R<DictionaryItem> get(@PathVariable Long id) {
         return success(dictionaryItemService.getById(id));
     }
@@ -77,12 +84,14 @@ public class DictionaryItemController extends BaseController {
     /**
      * 保存字典项
      *
-     * @param dictionaryItem 保存对象
+     * @param data 保存对象
      * @return 保存结果
      */
     @ApiOperation(value = "保存字典项", notes = "保存字典项不为空的字段")
     @PostMapping
-    public R<DictionaryItem> save(@RequestBody @Valid DictionaryItem dictionaryItem) {
+    @SysLog("保存字典项")
+    public R<DictionaryItem> save(@RequestBody @Valid DictionaryItemSaveDTO data) {
+        DictionaryItem dictionaryItem = dozer.map(data, DictionaryItem.class);
         dictionaryItemService.save(dictionaryItem);
         return success(dictionaryItem);
     }
@@ -90,13 +99,15 @@ public class DictionaryItemController extends BaseController {
     /**
      * 修改字典项
      *
-     * @param dictionaryItem 修改对象
+     * @param data 修改对象
      * @return 修改结果
      */
     @ApiOperation(value = "修改字典项", notes = "修改字典项不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<DictionaryItem> update(@RequestBody @Valid DictionaryItem dictionaryItem) {
+    @SysLog("修改字典项")
+    public R<DictionaryItem> update(@RequestBody @Valid DictionaryItemUpdateDTO data) {
+        DictionaryItem dictionaryItem = dozer.map(data, DictionaryItem.class);
         dictionaryItemService.updateById(dictionaryItem);
         return success(dictionaryItem);
     }
@@ -109,6 +120,7 @@ public class DictionaryItemController extends BaseController {
      */
     @ApiOperation(value = "删除字典项", notes = "根据id物理删除字典项")
     @DeleteMapping(value = "/{id}")
+    @SysLog("删除字典项")
     public R<Boolean> delete(@PathVariable Long id) {
         dictionaryItemService.removeById(id);
         return success(true);

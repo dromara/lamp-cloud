@@ -8,7 +8,7 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.zuihou.authority.entity.common.Log;
+import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.enumeration.common.LogType;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.enums.HttpMethod;
@@ -48,7 +48,7 @@ public class SysLogAspect {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private Log sysLog = new Log();
+    private OptLog sysLog = new OptLog();
     private long beginTime = 0;
 
     /***

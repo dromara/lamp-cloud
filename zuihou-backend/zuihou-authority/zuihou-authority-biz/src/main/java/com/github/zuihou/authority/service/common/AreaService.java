@@ -10,7 +10,7 @@ import com.github.zuihou.authority.entity.common.Area;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-23
+ * @date 2019-07-02
  */
 public interface AreaService extends IService<Area> {
 

@@ -1,7 +1,7 @@
 package com.github.zuihou.log.event;
 
 
-import com.github.zuihou.authority.entity.common.Log;
+import com.github.zuihou.authority.entity.common.OptLog;
 
 import org.springframework.context.ApplicationEvent;
 
@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class SysLogEvent extends ApplicationEvent {
 
-    public SysLogEvent(Log source) {
+    public SysLogEvent(OptLog source) {
         super(source);
     }
 }
