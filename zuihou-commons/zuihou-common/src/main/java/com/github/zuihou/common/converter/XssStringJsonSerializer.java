@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * 基于xss的JsonSerializer
  * 只做序列化，不做反序列化， 数据库存的还是有问题的值， 但返回给前端是解析过的。
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/06/28
  */
 @Slf4j
@@ -28,8 +28,8 @@ public class XssStringJsonSerializer extends JsonSerializer<String> {
                           SerializerProvider serializerProvider) throws IOException {
         if (value != null) {
             try {
+                /*String encodedValue = HtmlUtils.htmlEscape(value);*/
                 String encodedValue = XssUtils.xssClean(value, null);
-//                String encodedValue = HtmlUtils.htmlEscape(value);
                 jsonGenerator.writeString(encodedValue);
             } catch (Exception e) {
                 log.error("序列化失败:[{}]", value, e);

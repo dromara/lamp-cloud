@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/02
  */
 @FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = LogApiHystrix.class)
