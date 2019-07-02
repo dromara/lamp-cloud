@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Map;
+import java.util.StringJoiner;
 import java.util.TimeZone;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -29,14 +31,18 @@ import com.github.zuihou.base.id.SnowflakeIDGenerate;
 import com.github.zuihou.common.converter.DateFormatRegister;
 import com.github.zuihou.common.converter.EnumDeserializer;
 import com.github.zuihou.common.converter.String2DateConverter;
+import com.github.zuihou.common.converter.XssStringJsonSerializer;
+import com.github.zuihou.common.filter.XssFilter;
 import com.github.zuihou.common.handler.GlobalExceptionHandler;
 import com.github.zuihou.datasource.MyMetaObjectHandler;
 import com.github.zuihou.utils.SpringUtil;
+import com.google.common.collect.Maps;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -100,6 +106,7 @@ public abstract class BaseConfig {
         simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
         simpleModule.addDeserializer(Enum.class, EnumDeserializer.instance);
 
+        simpleModule.addSerializer(new XssStringJsonSerializer());
         objectMapper.registerModule(simpleModule);
 
 
@@ -310,4 +317,38 @@ public abstract class BaseConfig {
     public GlobalExceptionHandler getGlobalExceptionHandler() {
         return new GlobalExceptionHandler();
     }
+
+
+    /**
+     * 配置跨站攻击过滤器
+     *
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean filterRegistration = new FilterRegistrationBean(new XssFilter());
+        filterRegistration.addUrlPatterns("/*");
+        filterRegistration.setOrder(1);
+
+        Map<String, String> initParameters = Maps.newHashMap();
+        String excludes = new StringJoiner(",")
+                .add("/favicon.ico")
+                .add("/doc.html")
+                .add("/swagger-ui.html")
+                .add("/csrf")
+                .add("/webjars/*")
+                .add("/v2/*")
+                .add("/swagger-resources/*")
+                .add("/resources/*")
+                .add("/static/*")
+                .add("/public/*")
+                .add("/classpath:*")
+                .add("/actuator/*")
+                .toString();
+        initParameters.put("excludes", excludes);
+        initParameters.put("isIncludeRichText", "true");
+        filterRegistration.setInitParameters(initParameters);
+        return filterRegistration;
+    }
+
 }

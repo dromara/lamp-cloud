@@ -1,4 +1,4 @@
-package com.github.zuihou.file;
+package com.github.zuihou;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

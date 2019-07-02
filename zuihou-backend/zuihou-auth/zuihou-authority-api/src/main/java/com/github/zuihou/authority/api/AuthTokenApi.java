@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.api;
 
 import com.github.zuihou.auth.utils.Token;
+import com.github.zuihou.authority.api.hystrix.AuthTokenApiHystrix;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.base.R;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author zuihou
  * @date 2019/06/25
  */
-@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}")
+@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = AuthTokenApiHystrix.class)
 public interface AuthTokenApi {
 
     /**

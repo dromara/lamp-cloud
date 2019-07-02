@@ -16,6 +16,7 @@ import com.github.zuihou.file.dto.FolderSaveDTO;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.manager.FileRestManager;
 import com.github.zuihou.file.service.FileService;
+import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -64,8 +65,9 @@ public class FileController extends BaseController {
      * @param id
      * @return
      */
-    @ApiOperation(value = "获取文件", notes = "获取文件")
+    @ApiOperation(value = "查询文件", notes = "获取文件")
     @GetMapping
+    @SysLog("查询文件")
     public R<File> get(@RequestParam(value = "id") Long id) {
         File file = fileService.getById(id);
         if (file != null && file.getIsDelete()) {

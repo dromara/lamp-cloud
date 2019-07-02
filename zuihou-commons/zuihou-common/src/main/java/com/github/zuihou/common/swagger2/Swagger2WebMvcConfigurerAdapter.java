@@ -169,7 +169,6 @@ public abstract class Swagger2WebMvcConfigurerAdapter extends WebMvcConfigurerAd
         String[] urls = {
                 "/error",
                 "/login",
-                "/p/login/**",
                 "/v2/api-docs",
                 "/v2/api-docs-ext",
                 "/swagger-resources/**",

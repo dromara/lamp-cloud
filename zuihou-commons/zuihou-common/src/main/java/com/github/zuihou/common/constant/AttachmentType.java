@@ -26,7 +26,6 @@ public abstract class AttachmentType {
     public static final String[] ALL_TYPES = {
             Authority.APPLICATION_LOGO_URL,
             Authority.APPLICATION_TITLE_ICON,
-            Mt.VERSION_ER_WEI_MA,
     };
 
     private AttachmentType() {
@@ -55,20 +54,10 @@ public abstract class AttachmentType {
     }
 
     /**
-     * 云盘 业务类型定义
+     * 文件 业务类型定义
      */
     interface File {
 
-    }
-
-    /**
-     * 移动终端  业务类型定义
-     */
-    interface Mt {
-        /**
-         * 移动终端发布后二维码
-         */
-        String VERSION_ER_WEI_MA = "version-er-wei-ma";
     }
 
 
@@ -79,10 +68,5 @@ public abstract class AttachmentType {
 
     }
 
-    /**
-     * 共享交换 业务类型定义
-     */
-    interface Exchange {
 
-    }
 }
