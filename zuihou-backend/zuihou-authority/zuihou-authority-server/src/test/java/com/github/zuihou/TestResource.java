@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
-import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +31,6 @@ public class TestResource {
     @Autowired
     private ResourceService resourceService;
 
-    @Test
-    public void test() {
-        ResourceQueryDTO resource = ResourceQueryDTO.builder()
-                .userId(1L).menuId(4L).type(ResourceType.BUTTON).build();
-        List<Resource> list = resourceMapper.findVisibleResource(resource);
-        System.out.println(list.size());
-    }
 
     @Test
     public void test2() {

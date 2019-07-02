@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-29
+ * @date 2019-07-03
  */
 @Repository
 public interface RoleOrgMapper extends BaseMapper<RoleOrg> {

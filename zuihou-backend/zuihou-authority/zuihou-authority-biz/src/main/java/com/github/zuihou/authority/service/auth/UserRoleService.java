@@ -11,7 +11,7 @@ import com.github.zuihou.authority.entity.auth.UserRole;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-23
+ * @date 2019-07-03
  */
 public interface UserRoleService extends IService<UserRole> {
 

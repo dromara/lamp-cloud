@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-29
+ * @since 2019-07-03
  */
 @Data
 @NoArgsConstructor
@@ -58,7 +58,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "姓名")
     @NotEmpty(message = "姓名不能为空")
-    @Length(max = 20, message = "姓名长度不能超过20")
+    @Length(max = 50, message = "姓名长度不能超过50")
     @TableField("name")
     private String name;
 
@@ -79,12 +79,12 @@ public class User extends Entity<Long> {
     private Long stationId;
 
     /**
-     * 账号类型
+     * 账号类型  
      * #AccountType{CUSTOMER:客户;BUILT_IN:内置}
-            */
-            @ApiModelProperty(value = "账号类型")
-            @TableField("account_type")
-            private AccountType accountType;
+     */
+    @ApiModelProperty(value = "账号类型")
+    @TableField("account_type")
+    private AccountType accountType;
 
     /**
      * 手机
@@ -99,7 +99,7 @@ public class User extends Entity<Long> {
      * #Sex{W:女;M:男}
      */
     @ApiModelProperty(value = "性别")
-            @TableField("sex")
+    @TableField("sex")
     private Sex sex;
 
     /**
@@ -130,8 +130,8 @@ public class User extends Entity<Long> {
      * 比如：  市长、管理员、局长等等   用于登陆展示
      */
     @ApiModelProperty(value = "工作描述")
-                @Length(max = 255, message = "工作描述长度不能超过255")
-            @TableField("work_describe")
+    @Length(max = 255, message = "工作描述长度不能超过255")
+    @TableField("work_describe")
     private String workDescribe;
 
     /**
@@ -200,8 +200,8 @@ public class User extends Entity<Long> {
         this.loginCount = loginCount;
         this.continuationErrorDay = continuationErrorDay;
         this.continuationErrorCount = continuationErrorCount;
-    this.passwordExpireTime = passwordExpireTime;
-    this.password = password;
-}
+        this.passwordExpireTime = passwordExpireTime;
+        this.password = password;
+    }
 
 }

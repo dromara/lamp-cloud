@@ -1,0 +1,65 @@
+package com.github.zuihou.authority.entity.core;
+
+import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.github.zuihou.base.entity.Entity;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
+/**
+ * <p>
+ * 实体类
+ * 角色部门关系
+ * </p>
+ *
+ * @author zuihou
+ * @since 2019-07-03
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@ApiModel(value = "CAuthRoleOrg", description = "角色部门关系")
+public class CAuthRoleOrg extends Entity<Long> {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 角色ID
+     * #c_auth_role
+     */
+    @ApiModelProperty(value = "角色ID")
+    @TableField("role_id")
+    private Long roleId;
+
+    /**
+     * 部门ID
+     * #c_core_org
+     */
+    @ApiModelProperty(value = "部门ID")
+    @TableField("org_id")
+    private Long orgId;
+
+
+    @Builder
+    public CAuthRoleOrg(Long id, LocalDateTime createTime, Long createUser,
+                        Long roleId, Long orgId) {
+        this.id = id;
+        this.createTime = createTime;
+        this.createUser = createUser;
+        this.roleId = roleId;
+        this.orgId = orgId;
+    }
+
+}

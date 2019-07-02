@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 /**
  * <p>
  * Mapper 接口
- *
+ * 
  * </p>
  *
  * @author zuihou
- * @date 2019-06-29
+ * @date 2019-07-03
  */
 @Repository
 public interface OrgMapper extends BaseMapper<Org> {
