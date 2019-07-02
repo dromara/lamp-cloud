@@ -10,7 +10,7 @@ import com.github.zuihou.authority.entity.auth.Application;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-23
+ * @date 2019-07-03
  */
 public interface ApplicationService extends IService<Application> {
 

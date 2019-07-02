@@ -20,11 +20,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- *
+ * 
  * </p>
  *
  * @author zuihou
- * @since 2019-06-29
+ * @since 2019-07-03
  */
 @Data
 @NoArgsConstructor

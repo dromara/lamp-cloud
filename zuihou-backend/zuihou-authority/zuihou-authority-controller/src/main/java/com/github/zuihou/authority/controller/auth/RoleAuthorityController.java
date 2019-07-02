@@ -3,12 +3,15 @@ package com.github.zuihou.authority.controller.auth;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.RoleAuthorityDTO;
+import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
+import com.github.zuihou.authority.dto.auth.RoleAuthorityUpdateDTO;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-24
+ * @date 2019-07-03
  */
 @Slf4j
 @Validated
@@ -44,6 +47,8 @@ public class RoleAuthorityController extends BaseController {
 
     @Autowired
     private RoleAuthorityService roleAuthorityService;
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询角色的资源
@@ -54,10 +59,11 @@ public class RoleAuthorityController extends BaseController {
     @ApiOperation(value = "分页查询角色的资源", notes = "分页查询角色的资源")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<RoleAuthority>> page(@Valid RoleAuthorityDTO data) {
+    @SysLog("分页查询角色的资源")
+    public R<IPage<RoleAuthority>> page(@Valid RoleAuthority data) {
         IPage<RoleAuthority> page = getPage();
-        // 构建查询条件
-        LbqWrapper<RoleAuthority> query = Wraps.lbQ();
+        // 构建值不为null的查询条件
+        LbqWrapper<RoleAuthority> query = Wraps.lbQ(data);
         roleAuthorityService.page(page, query);
         return success(page);
     }
@@ -68,8 +74,9 @@ public class RoleAuthorityController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询角色的资源", notes = "查询角色的资源")
+    @ApiOperation(value = "单体查询角色的资源", notes = "单体查询角色的资源")
     @GetMapping("/{id}")
+    @SysLog("单体查询角色的资源")
     public R<RoleAuthority> get(@PathVariable Long id) {
         return success(roleAuthorityService.getById(id));
     }
@@ -77,12 +84,14 @@ public class RoleAuthorityController extends BaseController {
     /**
      * 保存角色的资源
      *
-     * @param roleAuthority 保存对象
+     * @param data 保存对象
      * @return 保存结果
      */
     @ApiOperation(value = "保存角色的资源", notes = "保存角色的资源不为空的字段")
     @PostMapping
-    public R<RoleAuthority> save(@RequestBody @Valid RoleAuthority roleAuthority) {
+    @SysLog("保存角色的资源")
+    public R<RoleAuthority> save(@RequestBody @Valid RoleAuthoritySaveDTO data) {
+        RoleAuthority roleAuthority = dozer.map(data, RoleAuthority.class);
         roleAuthorityService.save(roleAuthority);
         return success(roleAuthority);
     }
@@ -90,13 +99,15 @@ public class RoleAuthorityController extends BaseController {
     /**
      * 修改角色的资源
      *
-     * @param roleAuthority 修改对象
+     * @param data 修改对象
      * @return 修改结果
      */
     @ApiOperation(value = "修改角色的资源", notes = "修改角色的资源不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<RoleAuthority> update(@RequestBody @Valid RoleAuthority roleAuthority) {
+    @SysLog("修改角色的资源")
+    public R<RoleAuthority> update(@RequestBody @Valid RoleAuthorityUpdateDTO data) {
+        RoleAuthority roleAuthority = dozer.map(data, RoleAuthority.class);
         roleAuthorityService.updateById(roleAuthority);
         return success(roleAuthority);
     }
@@ -109,6 +120,7 @@ public class RoleAuthorityController extends BaseController {
      */
     @ApiOperation(value = "删除角色的资源", notes = "根据id物理删除角色的资源")
     @DeleteMapping(value = "/{id}")
+    @SysLog("删除角色的资源")
     public R<Boolean> delete(@PathVariable Long id) {
         roleAuthorityService.removeById(id);
         return success(true);

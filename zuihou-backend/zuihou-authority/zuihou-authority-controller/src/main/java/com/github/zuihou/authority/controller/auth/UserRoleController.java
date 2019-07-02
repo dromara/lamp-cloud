@@ -3,12 +3,15 @@ package com.github.zuihou.authority.controller.auth;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.UserRoleDTO;
+import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
+import com.github.zuihou.authority.dto.auth.UserRoleUpdateDTO;
 import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
@@ -34,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-06-24
+ * @date 2019-07-03
  */
 @Slf4j
 @Validated
@@ -45,6 +48,8 @@ public class UserRoleController extends BaseController {
 
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询角色分配
@@ -55,10 +60,11 @@ public class UserRoleController extends BaseController {
     @ApiOperation(value = "分页查询角色分配", notes = "分页查询角色分配")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<UserRole>> page(@Valid UserRoleDTO data) {
+    @SysLog("分页查询角色分配")
+    public R<IPage<UserRole>> page(@Valid UserRole data) {
         IPage<UserRole> page = getPage();
-        // 构建查询条件
-        LbqWrapper<UserRole> query = Wraps.lbQ();
+        // 构建值不为null的查询条件
+        LbqWrapper<UserRole> query = Wraps.lbQ(data);
         userRoleService.page(page, query);
         return success(page);
     }
@@ -69,8 +75,9 @@ public class UserRoleController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询角色分配", notes = "查询角色分配")
+    @ApiOperation(value = "单体查询角色分配", notes = "单体查询角色分配")
     @GetMapping("/{id}")
+    @SysLog("单体查询角色分配")
     public R<UserRole> get(@PathVariable Long id) {
         return success(userRoleService.getById(id));
     }
@@ -78,12 +85,14 @@ public class UserRoleController extends BaseController {
     /**
      * 保存角色分配
      *
-     * @param userRole 保存对象
+     * @param data 保存对象
      * @return 保存结果
      */
     @ApiOperation(value = "保存角色分配", notes = "保存角色分配不为空的字段")
     @PostMapping
-    public R<UserRole> save(@RequestBody @Valid UserRole userRole) {
+    @SysLog("保存角色分配")
+    public R<UserRole> save(@RequestBody @Valid UserRoleSaveDTO data) {
+        UserRole userRole = dozer.map(data, UserRole.class);
         userRoleService.save(userRole);
         return success(userRole);
     }
@@ -91,13 +100,15 @@ public class UserRoleController extends BaseController {
     /**
      * 修改角色分配
      *
-     * @param userRole 修改对象
+     * @param data 修改对象
      * @return 修改结果
      */
     @ApiOperation(value = "修改角色分配", notes = "修改角色分配不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<UserRole> update(@RequestBody @Valid UserRole userRole) {
+    @SysLog("修改角色分配")
+    public R<UserRole> update(@RequestBody @Valid UserRoleUpdateDTO data) {
+        UserRole userRole = dozer.map(data, UserRole.class);
         userRoleService.updateById(userRole);
         return success(userRole);
     }
@@ -110,6 +121,7 @@ public class UserRoleController extends BaseController {
      */
     @ApiOperation(value = "删除角色分配", notes = "根据id物理删除角色分配")
     @DeleteMapping(value = "/{id}")
+    @SysLog("删除角色分配")
     public R<Boolean> delete(@PathVariable Long id) {
         userRoleService.removeById(id);
         return success(true);

@@ -21,13 +21,14 @@ public class AuthorityGenerator {
     public static void main(String[] args) {
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou",
-                        "c_common_",
 //                        "c_common_",
-//                build("msgs", "sms", "zuihou", "",
+//                        "c_core_",
+                        "c_auth_",
 //                        Arrays.asList("c_core_.*"));
-                        Arrays.asList("c_common_opt_log"));
+//                        Arrays.asList("c_common_opt_log"));
 //                        Arrays.asList("c_common_.*"));
-//                        Arrays.asList("c_auth_user_role", "c_auth_role_authority"));
+//                        Arrays.asList("c_auth_.*"));
+                        Arrays.asList("c_auth_user_role", "c_auth_role_authority", "c_auth_role_org"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_authority_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
@@ -45,9 +46,9 @@ public class AuthorityGenerator {
 
         build.setFileCreateConfig(fileCreateConfig);
 
-//        build.setChildPackageName("auth");
+        build.setChildPackageName("auth");
 //        build.setChildPackageName("core");
-        build.setChildPackageName("common");
+//        build.setChildPackageName("common");
 //        build.setSuperEntity(EntityType.ENTITY);
         build.setSuperEntity(EntityType.SUPER_ENTITY);
 

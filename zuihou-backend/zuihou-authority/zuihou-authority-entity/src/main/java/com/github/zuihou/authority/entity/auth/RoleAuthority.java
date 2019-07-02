@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
-import com.github.zuihou.base.entity.Entity;
+import com.github.zuihou.base.entity.SuperEntity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,7 +26,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zuihou
- * @since 2019-06-26
+ * @since 2019-07-03
  */
 @Data
 @NoArgsConstructor
@@ -36,7 +36,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("c_auth_role_authority")
 @ApiModel(value = "RoleAuthority", description = "角色的资源")
-public class RoleAuthority extends Entity<Long> {
+public class RoleAuthority extends SuperEntity<Long> {
 
     private static final long serialVersionUID = 1L;
 
