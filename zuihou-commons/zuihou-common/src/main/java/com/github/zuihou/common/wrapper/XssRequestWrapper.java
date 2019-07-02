@@ -14,7 +14,7 @@ import static com.github.zuihou.common.utils.XssUtils.xssClean;
 /**
  * 跨站攻击请求包装器
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-06-28 17:04
  */
 @Slf4j
