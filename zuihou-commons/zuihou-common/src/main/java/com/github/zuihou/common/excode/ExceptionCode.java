@@ -35,7 +35,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     SYSTEM_BUSY(-1, "系统繁忙"),
     SYSTEM_TIMEOUT(-2, "服务超时"),
     PARAM_EX(-3, "参数类型解析异常"),
-    SQL_EX(-4, "数据库异常"),
+    SQL_EX(-4, "运行SQL出现异常"),
     NULL_POINT_EX(-5, "空指针异常"),
     ILLEGALA_ARGUMENT_EX(-6, "无效参数异常"),
     MEDIA_TYPE_EX(-7, "请求类型异常"),
@@ -58,7 +58,7 @@ public enum ExceptionCode implements BaseExceptionCode {
      * @see <a href="http://tools.ietf.org/html/rfc7231#section-6.5.4">HTTP/1.1: Semantics and Content, section 6.5.4</a>
      */
     NOT_FOUND(404, "没有找到资源"),
-    METHOD_NOT_ALLOWED(405, "方法不允许"),
+    METHOD_NOT_ALLOWED(405, "不支持当前请求方法"),
 
     TOO_MANY_REQUESTS(429, "请求超过次数限制"),
     INTERNAL_SERVER_ERROR(500, "内部服务错误"),
@@ -69,7 +69,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),
     //jwt token 相关 start
 
-    JWT_TOKEN_EXPIRED(40001, "token超时，请检查 token 的有效期"),
+    JWT_TOKEN_EXPIRED(40001, "token超时，请重新登录"),
     JWT_SIGNATURE(40002, "不合法的token，请认真比对 token 的签名"),
     JWT_ILLEGAL_ARGUMENT(40003, "缺少token参数"),
     JWT_GEN_TOKEN_FAIL(40004, "生成token失败"),

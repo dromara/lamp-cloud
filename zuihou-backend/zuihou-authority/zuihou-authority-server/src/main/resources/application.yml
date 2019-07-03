@@ -1,4 +1,7 @@
 zuihou:
+  swagger:
+    enabled: true
+    base-package: com.github.zuihou.authority.controller
   port:
     nginx: 80
     eureka: 8761
@@ -165,35 +168,35 @@ hystrix:
             timeoutInMilliseconds: 120000  # 熔断超时 ribbon和hystrix是同时生效的，哪个值小哪个生效
 
 
-swagger:
-  docket-info:
-    auth:
-      title: 认证相关服务
-      description: 认证服务接口
-      order: 1
-      modules:
-        priAuth:
-          group-name: 认证服务接口
-          packages: com.github.zuihou.authority.controller.auth
-    core:
-      title: 组织架构服务
-      description: 组织架构服务服务接口
-      order: 2
-      modules:
-        priCore:
-          group-name: 组织架构服务
-          packages: com.github.zuihou.authority.controller.core
-    common:
-      title: 通用接口
-      description: 通用接口服务
-      order: 3
-      modules:
-        priCommon:
-          group-name: 通用接口服务
-          packages: com.github.zuihou.authority.controller.common
-  contact-name: fighter
-  contact-url: https://github.com/zuihou/zuihou-admin-cloud.git
-  contact-email: 306479353@qq.com
+#swagger:
+#  docket-info:
+#    auth:
+#      title: 认证相关服务
+#      description: 认证服务接口
+#      order: 1
+#      modules:
+#        priAuth:
+#          group-name: 认证服务接口
+#          packages: com.github.zuihou.authority.controller.auth
+#    core:
+#      title: 组织架构服务
+#      description: 组织架构服务服务接口
+#      order: 2
+#      modules:
+#        priCore:
+#          group-name: 组织架构服务
+#          packages: com.github.zuihou.authority.controller.core
+#    common:
+#      title: 通用接口
+#      description: 通用接口服务
+#      order: 3
+#      modules:
+#        priCommon:
+#          group-name: 通用接口服务
+#          packages: com.github.zuihou.authority.controller.common
+#  contact-name: fighter
+#  contact-url: https://github.com/zuihou/zuihou-admin-cloud.git
+#  contact-email: 306479353@qq.com
 
 
 authentication:

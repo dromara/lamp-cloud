@@ -27,6 +27,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -68,6 +69,8 @@ public class SysLogAspect {
         beginTime = Instant.now().toEpochMilli();
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         BaseContextHandler.getAccount();
+        BeanUtils.copyProperties(new OptLog(), sysLog);
+
         sysLog.setCreateUser(BaseContextHandler.getUserId());
         sysLog.setRequestIp(ServletUtil.getClientIP(request));
         sysLog.setUserName(BaseContextHandler.getNickName());

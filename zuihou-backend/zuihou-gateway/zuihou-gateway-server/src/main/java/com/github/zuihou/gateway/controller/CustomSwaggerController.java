@@ -29,6 +29,9 @@ public class CustomSwaggerController {
      */
     @GetMapping("${server.servlet.context-path}/{service}/v2/{ext}")
     public String apiDocs(@PathVariable String service, @PathVariable String ext, String group) throws Exception {
+        if (group == null) {
+            group = "default";
+        }
         String newGroup = group;
         if (group.contains("-")) {
             newGroup = StringUtils.substring(group, group.indexOf("-") + 1);

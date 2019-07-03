@@ -65,7 +65,6 @@ public abstract class Swagger2WebMvcConfigurerAdapter {
         ).stream().map((val) ->
                 new ResponseMessageBuilder().code(val.getCode()).message(val.getMsg()).build()
         ).collect(Collectors.toList());
-
         return collect;
     }
 
