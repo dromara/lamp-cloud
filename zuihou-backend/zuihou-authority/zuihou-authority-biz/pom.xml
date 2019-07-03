@@ -15,6 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-databases</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-entity</artifactId>
         </dependency>
         <dependency>

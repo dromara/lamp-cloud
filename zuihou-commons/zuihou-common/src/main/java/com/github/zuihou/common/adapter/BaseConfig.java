@@ -7,12 +7,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.TimeZone;
 
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,18 +32,17 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.base.id.IdGenerate;
-import com.github.zuihou.base.id.SnowflakeIDGenerate;
+import com.github.zuihou.base.id.SnowflakeIdGenerate;
 import com.github.zuihou.common.converter.DateFormatRegister;
 import com.github.zuihou.common.converter.EnumDeserializer;
 import com.github.zuihou.common.converter.String2DateConverter;
 import com.github.zuihou.common.converter.XssStringJsonSerializer;
 import com.github.zuihou.common.filter.XssFilter;
 import com.github.zuihou.common.handler.GlobalExceptionHandler;
-import com.github.zuihou.datasource.MyMetaObjectHandler;
 import com.github.zuihou.utils.SpringUtil;
 import com.google.common.collect.Maps;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -48,6 +52,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 基础配置类
@@ -55,7 +64,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
  * @author zuihou
  * @date 2019-06-22 22:53
  */
-public abstract class BaseConfig {
+public abstract class BaseConfig implements WebMvcConfigurer {
 
     /**
      * 默认日期时间格式
@@ -283,7 +292,7 @@ public abstract class BaseConfig {
      */
     @Bean("snowflakeIdGenerate")
     public IdGenerate getIdGenerate(@Value("${id-generator.machine-code:1}") Long machineCode) {
-        return new SnowflakeIDGenerate(machineCode);
+        return new SnowflakeIdGenerate(machineCode);
     }
 
     /**
@@ -297,11 +306,12 @@ public abstract class BaseConfig {
         return new CodeGenerate(machineCode.intValue());
     }
 
-    @Bean("myMetaObjectHandler")
-    public MetaObjectHandler getMyMetaObjectHandler(@Qualifier("snowflakeIdGenerate") IdGenerate<Long> idGenerate) {
-        return new MyMetaObjectHandler(idGenerate);
-    }
-
+    /**
+     * Spring 工具类
+     *
+     * @param applicationContext
+     * @return
+     */
     @Bean
     public SpringUtil springUtil(ApplicationContext applicationContext) {
         SpringUtil.setApplicationContext(applicationContext);
@@ -317,7 +327,6 @@ public abstract class BaseConfig {
     public GlobalExceptionHandler getGlobalExceptionHandler() {
         return new GlobalExceptionHandler();
     }
-
 
     /**
      * 配置跨站攻击过滤器
@@ -351,4 +360,107 @@ public abstract class BaseConfig {
         return filterRegistration;
     }
 
+    /////////////////////////////////////////////以下验证器配置///////////////////////////////////////////////////////
+
+    @Bean
+    public Validator validator() {
+        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+                .configure()
+                //快速失败返回模式
+                .addProperty("hibernate.validator.fail_fast", "true")
+                .buildValidatorFactory();
+        return validatorFactory.getValidator();
+    }
+
+    /**
+     * Method:  开启快速返回
+     * Description:
+     * 如果参数校验有异常，直接抛异常，不会进入到 controller，使用全局异常拦截进行拦截
+     * Author: liu kai
+     * Date: 2018/7/12 17:33
+     *
+     * @param
+     * @return org.springframework.validation.beanvalidation.MethodValidationPostProcessor
+     */
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
+        /**设置validator模式为快速失败返回*/
+        postProcessor.setValidator(validator());
+        return postProcessor;
+    }
+
+    /////////////////////////////////////////////以下是拦截器配置///////////////////////////////////////////////////////
+
+    /**
+     * 这个地方要重新注入一下资源文件，不然不会注入资源的，也没有注入requestHandlerMappping,相当于xml配置的
+     * <!--swagger资源配置-->
+     * <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
+     * <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+     * 不知道为什么，这也是spring boot的一个缺点（菜鸟觉得的）
+     *
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars*")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    /**
+     * 注册 拦截器
+     *
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        if (getHandlerInterceptor() != null) {
+            ArrayList<String> commonPathPatterns = getExcludeCommonPathPatterns();
+            registry.addInterceptor(getHandlerInterceptor()).addPathPatterns("/**")
+                    .excludePathPatterns(commonPathPatterns.toArray(new String[]{}));
+        }
+        WebMvcConfigurer.super.addInterceptors(registry);
+
+    }
+
+    protected HandlerInterceptor getHandlerInterceptor() {
+        return null;
+    }
+
+    /**
+     * auth-client 中的拦截器需要排除拦截的地址
+     *
+     * @return
+     */
+    protected ArrayList<String> getExcludeCommonPathPatterns() {
+        ArrayList<String> list = new ArrayList<>();
+        String[] urls = {
+                "/error",
+                "/login",
+                "/v2/api-docs",
+                "/v2/api-docs-ext",
+                "/swagger-resources/**",
+                "/webjars/**",
+
+                "/",
+                "/csrf",
+
+                "/META-INF/resources/**",
+                "/resources/**",
+                "/static/**",
+                "/public/**",
+                "classpath:/META-INF/resources/**",
+                "classpath:/resources/**",
+                "classpath:/static/**",
+                "classpath:/public/**",
+
+                "/cache/**",
+                "/swagger-ui.html**",
+                "/doc.html**"
+        };
+        Collections.addAll(list, urls);
+        return list;
+    }
 }
