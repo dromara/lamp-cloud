@@ -119,6 +119,10 @@ public class SwaggerProperties {
          **/
         private String title = "在线文档";
         /**
+         * 自定义组名
+         */
+        private String group = "";
+        /**
          * 描述
          **/
         private String description = "zuihou-admin-cloud 在线文档";
@@ -161,6 +165,13 @@ public class SwaggerProperties {
          * 排序
          */
         private Integer order = 1;
+
+        public String getGroup() {
+            if (group == null || "".equals(group)) {
+                return title;
+            }
+            return group;
+        }
     }
 
     @Data

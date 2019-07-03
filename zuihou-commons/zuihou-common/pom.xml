@@ -48,16 +48,16 @@
             <artifactId>dozer-core</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
-            <scope>compile</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>io.springfox</groupId>-->
+            <!--<artifactId>springfox-swagger2</artifactId>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.github.xiaoymin</groupId>-->
+            <!--<artifactId>swagger-bootstrap-ui</artifactId>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
         <!--<dependency>-->
         <!--<groupId>org.springframework</groupId>-->
         <!--<artifactId>spring-tx</artifactId>-->
@@ -91,6 +91,7 @@
         <!--<optional>true</optional>-->
         <!--</dependency>-->
 
+        <!-- jdk8 Time-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -115,6 +116,7 @@
         <!--<artifactId>hibernate-validator</artifactId>-->
         <!--</dependency>-->
 
+        <!-- XSS -->
         <dependency>
             <groupId>org.owasp.antisamy</groupId>
             <artifactId>antisamy</artifactId>

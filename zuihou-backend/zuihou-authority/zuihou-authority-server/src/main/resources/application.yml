@@ -1,7 +1,16 @@
 zuihou:
   swagger:
     enabled: true
-    base-package: com.github.zuihou.authority.controller
+    docket:
+      auth:
+        title: 权限模块
+        base-package: com.github.zuihou.authority.controller.auth
+      common:
+        title: 公共模块
+        base-package: com.github.zuihou.authority.controller.common
+      core:
+        title: 核心模块
+        base-package: com.github.zuihou.authority.controller.core
   port:
     nginx: 80
     eureka: 8761
