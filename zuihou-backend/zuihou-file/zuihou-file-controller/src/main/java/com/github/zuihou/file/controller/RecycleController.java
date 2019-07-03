@@ -1,11 +1,8 @@
 package com.github.zuihou.file.controller;
 
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.file.entity.Recycle;
 import com.github.zuihou.file.service.RecycleService;
@@ -14,7 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +37,7 @@ public class RecycleController extends BaseController {
 
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<Recycle>> page(@Valid Recycle recycle) {
+    public R<IPage<Recycle>> page(Recycle recycle) {
         IPage<Recycle> page = getPage();
         LbqWrapper<Recycle> query = LbqWrapper.lambdaQuery();
         query.eq(Recycle::getCreateUser, getUserId())

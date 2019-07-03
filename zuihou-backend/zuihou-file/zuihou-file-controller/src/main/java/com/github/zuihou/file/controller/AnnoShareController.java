@@ -4,12 +4,10 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.dto.ShareFileDTO;
 import com.github.zuihou.file.dto.SharePageDTO;
@@ -65,8 +63,7 @@ public class AnnoShareController extends BaseController {
 
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<ShareFileDTO>> page(@Valid SharePageDTO data) {
+    public R<IPage<ShareFileDTO>> page(SharePageDTO data) {
         IPage<ShareFileDTO> page = this.getPage();
         Share share = shareService.getById(data.getId());
         assertNotNull(BASE_VALID_PARAM.build("分享的文件不存在"), share);
@@ -89,8 +86,7 @@ public class AnnoShareController extends BaseController {
 
     @ApiOperation(value = "获取文件分页", notes = "获取文件分页")
     @GetMapping(value = "/page/file")
-    @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<File>> pageFile(@Valid FilePageReqDTO data) {
+    public R<IPage<File>> pageFile(FilePageReqDTO data) {
         IPage<File> page = getPage();
         return success(fileRestManager.page(page, data));
     }
