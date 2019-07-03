@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -61,7 +62,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用名称")
     @Length(max = 20, message = "应用名称长度不能超过20")
-    @TableField("name")
+    @TableField(value = "name", strategy = FieldStrategy.NOT_EMPTY)
     private String name;
 
     /**
@@ -69,7 +70,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用logo")
     @Length(max = 255, message = "应用logo长度不能超过255")
-    @TableField("logo_url")
+    @TableField(value = "logo_url", strategy = FieldStrategy.NOT_EMPTY)
     private String logoUrl;
 
     /**

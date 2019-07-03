@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,6 +33,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import static com.github.zuihou.common.excode.ExceptionCode.METHOD_NOT_ALLOWED;
 import static com.github.zuihou.common.excode.ExceptionCode.REQUIRED_FILE_PARAM_EX;
 
 
@@ -115,7 +117,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(SQLException.class)
-    public R sQLException(SQLException ex) {
+    public R sqlException(SQLException ex) {
         log.error("SQLException:", ex);
         return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
     }
@@ -203,4 +205,12 @@ public class GlobalExceptionHandler {
         return R.result(ExceptionCode.SYSTEM_BUSY.getCode(), "", ExceptionCode.SYSTEM_BUSY.getMsg());
     }
 
+
+    /**
+     * 返回状态码:405
+     */
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
+    public R<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        return R.fail(METHOD_NOT_ALLOWED);
+    }
 }

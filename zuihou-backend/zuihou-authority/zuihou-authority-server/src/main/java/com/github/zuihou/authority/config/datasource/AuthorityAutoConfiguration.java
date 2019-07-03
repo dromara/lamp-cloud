@@ -110,8 +110,7 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
      */
     @Bean("authorityGlobalConfig")
     public GlobalConfig globalConfig() {
-        GlobalConfig conf = new GlobalConfig();
-        return conf;
+        return defGlobalConfig();
     }
 
     /**

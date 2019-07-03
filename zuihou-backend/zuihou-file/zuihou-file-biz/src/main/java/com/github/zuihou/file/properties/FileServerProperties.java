@@ -12,7 +12,7 @@ import static com.github.zuihou.file.utils.FileDataTypeUtil.URI_SEPARATOR;
 
 
 /**
- * @author zlt
+ * @author zuihou
  */
 @Setter
 @Getter

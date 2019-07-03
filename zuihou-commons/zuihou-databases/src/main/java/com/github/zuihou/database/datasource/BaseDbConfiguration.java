@@ -8,9 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.parser.ISqlParser;
+import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -234,6 +238,10 @@ public abstract class BaseDbConfiguration {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        List<ISqlParser> sqlParserList = new ArrayList<>();
+        // 攻击 SQL 阻断解析器、加入解析链
+        sqlParserList.add(new BlockAttackSqlParser());
+        paginationInterceptor.setSqlParserList(sqlParserList);
         return paginationInterceptor;
     }
 
@@ -271,4 +279,12 @@ public abstract class BaseDbConfiguration {
         return new MyMetaObjectHandler(idGenerate);
     }
 
+    protected GlobalConfig defGlobalConfig() {
+        GlobalConfig conf = new GlobalConfig();
+        GlobalConfig.DbConfig config = new GlobalConfig.DbConfig();
+        config.setIdType(IdType.INPUT);
+        config.setFieldStrategy(FieldStrategy.NOT_EMPTY);
+        conf.setDbConfig(config);
+        return conf;
+    }
 }

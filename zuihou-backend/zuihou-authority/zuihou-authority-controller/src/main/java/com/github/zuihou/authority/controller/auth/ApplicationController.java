@@ -58,9 +58,8 @@ public class ApplicationController extends BaseController {
      */
     @ApiOperation(value = "分页查询应用", notes = "分页查询应用")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
     @SysLog("分页查询应用")
-    public R<IPage<Application>> page(@Valid Application data) {
+    public R<IPage<Application>> page(Application data) {
         IPage<Application> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Application> query = Wraps.lbQ(data);

@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * FastDFS配置
  *
- * @author zlt
+ * @author zuihou
  */
 @Configuration
 @ConditionalOnProperty(name = "zuihou.file.type", havingValue = "FASTDFS")

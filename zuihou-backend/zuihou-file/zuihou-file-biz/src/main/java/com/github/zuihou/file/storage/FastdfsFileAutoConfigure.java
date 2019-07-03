@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 /**
  * FastDFS配置
  *
- * @author zlt
+ * @author zuihou
  */
 @Configuration
 @Slf4j
