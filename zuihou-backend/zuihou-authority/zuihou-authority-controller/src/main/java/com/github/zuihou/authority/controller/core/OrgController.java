@@ -3,21 +3,19 @@ package com.github.zuihou.authority.controller.core;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.base.R;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.dto.core.OrgSaveDTO;
 import com.github.zuihou.authority.dto.core.OrgUpdateDTO;
-import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.core.OrgService;
-import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.log.annotation.SysLog;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -58,9 +57,8 @@ public class OrgController extends BaseController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
     @SysLog("分页查询")
-    public R<IPage<Org>> page(@Valid Org data) {
+    public R<IPage<Org>> page(Org data) {
         IPage<Org> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Org> query = Wraps.lbQ(data);

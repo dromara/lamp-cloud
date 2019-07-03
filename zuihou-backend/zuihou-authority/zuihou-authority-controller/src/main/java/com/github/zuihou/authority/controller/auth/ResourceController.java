@@ -21,6 +21,7 @@ import com.github.zuihou.log.annotation.SysLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -61,9 +63,8 @@ public class ResourceController extends BaseController {
      */
     @ApiOperation(value = "分页查询资源", notes = "分页查询资源")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
     @SysLog("分页查询资源")
-    public R<IPage<Resource>> page(@Valid Resource data) {
+    public R<IPage<Resource>> page(Resource data) {
         IPage<Resource> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Resource> query = Wraps.lbQ(data);
