@@ -284,6 +284,7 @@ public abstract class BaseDbConfiguration {
         GlobalConfig.DbConfig config = new GlobalConfig.DbConfig();
         config.setIdType(IdType.INPUT);
         config.setFieldStrategy(FieldStrategy.NOT_EMPTY);
+        config.setColumnLike(true);
         conf.setDbConfig(config);
         return conf;
     }
