@@ -5,6 +5,12 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.base.R;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.dto.auth.MenuSaveDTO;
 import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 import com.github.zuihou.authority.dto.auth.MenuUpdateDTO;
@@ -24,6 +30,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -65,9 +73,8 @@ public class MenuController extends BaseController {
      */
     @ApiOperation(value = "分页查询菜单", notes = "分页查询菜单")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
     @SysLog("分页查询菜单")
-    public R<IPage<Menu>> page(@Valid Menu data) {
+    public R<IPage<Menu>> page(Menu data) {
         IPage<Menu> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Menu> query = Wraps.lbQ(data);

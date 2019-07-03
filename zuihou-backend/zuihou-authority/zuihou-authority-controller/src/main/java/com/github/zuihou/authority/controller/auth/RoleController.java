@@ -3,21 +3,19 @@ package com.github.zuihou.authority.controller.auth;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.base.R;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
 import com.github.zuihou.authority.dto.auth.RoleUpdateDTO;
-import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.service.auth.RoleService;
-import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.log.annotation.SysLog;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -58,9 +57,8 @@ public class RoleController extends BaseController {
      */
     @ApiOperation(value = "分页查询角色", notes = "分页查询角色")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
     @SysLog("分页查询角色")
-    public R<IPage<Role>> page(@Valid Role data) {
+    public R<IPage<Role>> page(Role data) {
         IPage<Role> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Role> query = Wraps.lbQ(data);
