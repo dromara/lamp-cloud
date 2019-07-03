@@ -71,12 +71,6 @@
             <artifactId>mybatis</artifactId>
         </dependency>
 
-        <!-- 插件 -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

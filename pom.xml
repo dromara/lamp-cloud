@@ -133,7 +133,6 @@
                 <scope>import</scope>
             </dependency>
 
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -194,13 +193,6 @@
                 <version>${mysql.version}</version>
             </dependency>
 
-            <!--<dependency>-->
-            <!--<groupId>org.projectlombok</groupId>-->
-            <!--<artifactId>lombok</artifactId>-->
-            <!--<version>${lombok.version}</version>-->
-            <!--<scope>provided</scope>-->
-            <!--</dependency>-->
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
@@ -216,11 +208,6 @@
                 <artifactId>fastdfs-client</artifactId>
                 <version>${tobato-fastdfs-client.version}</version>
             </dependency>
-            <!--<dependency>-->
-            <!--<groupId>com.alibaba</groupId>-->
-            <!--<artifactId>fastjson</artifactId>-->
-            <!--<version>${fastjson.version}</version>-->
-            <!--</dependency>-->
 
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -278,26 +265,6 @@
                 <artifactId>jjwt</artifactId>
                 <version>0.7.0</version>
             </dependency>
-
-            <!-- 上传文件 -->
-            <!--<dependency>-->
-            <!--<groupId>commons-fileupload</groupId>-->
-            <!--<artifactId>commons-fileupload</artifactId>-->
-            <!--<version>${commons.fileupload.version}</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>commons-io</groupId>-->
-            <!--<artifactId>commons-io</artifactId>-->
-            <!--<version>${commons.io.version}</version>-->
-            <!--</dependency>-->
-
-            <!-- excel -->
-            <!--<dependency>-->
-            <!--<groupId>org.apache.poi</groupId>-->
-            <!--<artifactId>poi-ooxml</artifactId>-->
-            <!--<version>${poi.ooxml.version}</version>-->
-            <!--</dependency>-->
-
 
             <!-- LocalDateTime 序列化 -->
             <dependency>
@@ -370,11 +337,7 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
-        <!--&lt;!&ndash;配置文件处理器&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
-        <!--</dependency>-->
+
     </dependencies>
 
     <build>
@@ -416,7 +379,6 @@
                         <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
-
 
             </plugins>
         </pluginManagement>
