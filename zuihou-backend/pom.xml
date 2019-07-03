@@ -31,6 +31,11 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-databases</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-common</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -13,9 +13,14 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class CodeGenerate {
 
-    //字符仅仅取值大写的，因为数据库一般期望不区分大小写
+    /**
+     * 字符仅仅取值大写的，因为数据库一般期望不区分大小写
+     */
+
     public final static char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-    //固定为26个字符
+    /**
+     * 固定为26个字符
+     */
     public final static int charsNum = chars.length;
     /**
      * Fri Feb 01 01:01:01 CST 2019

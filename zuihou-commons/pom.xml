@@ -19,6 +19,7 @@
         <module>zuihou-core</module>
         <module>zuihou-common</module>
         <module>zuihou-log</module>
+        <module>zuihou-databases</module>
         <module>zuihou-starters</module>
         <module>zuihou-autoconfigures</module>
     </modules>
@@ -29,6 +30,11 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-databases</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

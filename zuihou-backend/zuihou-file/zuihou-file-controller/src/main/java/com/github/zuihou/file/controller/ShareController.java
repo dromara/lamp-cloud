@@ -13,6 +13,7 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.common.enums.DateType;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.file.dto.ShareFileDTO;
 import com.github.zuihou.file.dto.SharePageDTO;
 import com.github.zuihou.file.dto.ShareSaveDTO;
@@ -23,7 +24,6 @@ import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.file.service.ShareFileService;
 import com.github.zuihou.file.service.ShareService;
-import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.StringHelper;
 
 import io.swagger.annotations.Api;

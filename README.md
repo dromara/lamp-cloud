@@ -34,10 +34,6 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 通过JWT的方式来加强服务之间调度的权限验证，保证内部服务的安全性。
 
- - OpenAPI鉴权：
-
-通过JWT的方式来加强对外暴露接口调度的权限验证，保证api接口的安全性。
-
  - 负载均衡：
 
 将服务保留的rest进行代理和网关控制，除了平常经常使用的node.js、nginx外，Spring Cloud系列的zuul和rebbion，可以帮我们进行正常的网关管控和负载均衡。其中扩展和借鉴国外项目的扩展基于JWT的Zuul限流插件，方面进行限流。
@@ -51,29 +47,34 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 利用Spring Boot Admin 来监控各个独立Service的运行状态；利用turbine来实时查看接口的运行状态和调用频率；通过Zipkin来查看各个服务之间的调用链等。
 
+ - 数据权限：
+
+实现了简单的数据权限
+
 ## 项目架构图
 ![frame.jpg](doc/image/项目相关/frame.jpg)
 
 ## 技术栈/版本介绍：
-- 所涉及的相关的技术有 ：
+- 所涉及的相关的技术有：
     - JSON序列化:Jackson
     - 缓存：Redis 4.0.6
     - 消息队列：RibbitMQ
     - 数据库： MySQL 5.7.9 (驱动6.0.6)
     - 定时器：Quartz Scheduler
     - Java模版：Thymeleaf  3.0.6.RELEASE
-    - 前端：Bootstrap + Vue2.0 （期待前端大神参与）
+    - 前端：Bootstrap + Vue2.0
     - API网关：Zuul 
     - 服务注册与发现：Eureka 
-    - 服务消费：Ribbon、OpenFeign
+    - 代码生成器：Mybatis-plus  https://github.com/zuihou/zuihou-generator.git
+    - 服务消费：OpenFeign
     - 负载均衡：Ribbon
-    - 配置中心：Config Server  （git）
+    - 配置中心：Nacos
     - 服务熔断：Hystrix
     - 项目构建：Maven 3.3
     - 文件服务器：FastDFS 5.0.5
-    - nginx
+    - Nginx
 - 部署方面：
-    - 服务器：centos
+    - 服务器：CentOS
     - Jenkins
     - Docker
     - Kubernetes

@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.file.entity.Recycle;
 import com.github.zuihou.file.service.RecycleService;
-import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

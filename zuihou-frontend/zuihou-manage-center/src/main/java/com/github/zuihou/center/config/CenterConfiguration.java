@@ -7,21 +7,13 @@ import com.github.zuihou.common.adapter.BaseConfig;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @Primary
-public class CenterConfiguration extends BaseConfig implements WebMvcConfigurer {
+public class CenterConfiguration extends BaseConfig {
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        ArrayList<String> commonPathPatterns = getExcludeCommonPathPatterns();
-//        super.addInterceptors(registry);
-        WebMvcConfigurer.super.addInterceptors(registry);
-    }
-
-    private ArrayList<String> getExcludeCommonPathPatterns() {
+    protected ArrayList<String> getExcludeCommonPathPatterns() {
         ArrayList<String> list = new ArrayList<>();
         String[] urls = {
                 "/v2/api-docs",
@@ -32,6 +24,8 @@ public class CenterConfiguration extends BaseConfig implements WebMvcConfigurer 
                 "/jwt/**"
         };
         Collections.addAll(list, urls);
+        ArrayList<String> superList = super.getExcludeCommonPathPatterns();
+        Collections.addAll(list, superList.toArray(new String[superList.size()]));
         return list;
     }
 

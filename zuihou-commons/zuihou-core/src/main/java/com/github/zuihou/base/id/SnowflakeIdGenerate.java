@@ -12,9 +12,9 @@ package com.github.zuihou.base.id;
  *
  * @author zuihou
  */
-public class SnowflakeIDGenerate extends AbstractIdGenerate<Long> {
+public class SnowflakeIdGenerate extends AbstractIdGenerate<Long> {
 
-    public SnowflakeIDGenerate(final long machineCode) {
+    public SnowflakeIdGenerate(final long machineCode) {
         super(machineCode);
     }
 

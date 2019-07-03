@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.file.biz.FileBiz;
 import com.github.zuihou.file.dao.AttachmentMapper;
 import com.github.zuihou.file.domain.FileDO;
@@ -25,7 +26,6 @@ import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.service.AttachmentService;
 import com.github.zuihou.file.strategy.FileStrategy;
-import com.github.zuihou.mybatis.conditions.Wraps;
 import com.github.zuihou.utils.DateUtils;
 
 import lombok.extern.slf4j.Slf4j;
