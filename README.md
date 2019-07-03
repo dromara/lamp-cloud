@@ -38,7 +38,6 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 将服务保留的rest进行代理和网关控制，除了平常经常使用的node.js、nginx外，Spring Cloud系列的zuul和rebbion，可以帮我们进行正常的网关管控和负载均衡。其中扩展和借鉴国外项目的扩展基于JWT的Zuul限流插件，方面进行限流。
 
-
  - 熔断机制：
 
 因为采取了服务的分布，为了避免服务之间的调用“雪崩”，采用了Hystrix的作为熔断器，避免了服务之间的“雪崩”。
@@ -111,9 +110,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 ## 环境须知：
 
-- nginx (暂时没用到)
-- mysql ，redis ，rabbitmq
-- jdk1.8
+- nginx (文件下载、预览时需要使用)
+- mysql 5.7.9+，redis 4+ ，rabbitmq 3.6+
+- JDK8
 - IDE插件一个(Eclipse, IDEA都需要安装插件)，`lombok插件`
 
 ## 项目结构:
@@ -122,37 +121,23 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ├─zuihou-admin-cloud
 │  │  
 │  ├─zuihou-backend---------------------------后端服务
-│  |  ├─zuihou-admin--------------------------后端管理服务[正在开发]
-│  |  |  ├─zuihou-admin-api-------------------后端管理服务api接口
-│  |  |  ├─zuihou-admin-repository------------后端管理业务/持久层
+│  |  ├─zuihou-authority----------------------后端管理服务[正在开发]
+│  |  |  ├─zuihou-admin-biz-------------------后端管理业务/持久层
+│  |  |  ├─zuihou-admin-controller------------后端管理业务/持久层
 │  |  |  ├─zuihou-admin-server----------------后端管理服务
-│  |  |─zuihou-base---------------------------基础模块服务[未开始]
-│  |  |  ├─zuihou-base-api--------------------基础模块接口/dto
-│  |  |  ├─zuihou-base-repository-------------基础模块业务/持久层
-│  |  |  ├─zuihou-base-server-----------------基础模块服务
 │  |  ├─zuihou-file---------------------------文件模块服务[正在开发]
-│  |  ├─zuihou-mail---------------------------邮件模块服务[未开始]
-│  |  ├─zuihou-sms----------------------------短信模块服务[未开始]
-│  |  ├─zuihou-auth---------------------------鉴权中心
-│  |  |  |─zuihou-auth-api--------------------鉴权中心api[已开发]
-│  |  |  |─zuihou-auth-client-----------------鉴权中心客户端[已开发]
-│  |  |  |─zuihou-auth-common-----------------鉴权中心公共包[已开发]
-│  |  |  |─zuihou-auth-server-----------------鉴权中心服务[已开发]
 │  |  ├─zuihou-gateway------------------------统一网关负载中心
 │  |  |  |─zuihou-gateway-ratelimit-----------网关限流插件[未开始]
 │  |  |  |─zuihou-gateway-server--------------项目网关服务[未开始]
 │  │ 
-│  ├─zuihou-common----------------------------公共模块（这里一直没想好怎么调整，有想法的朋友可以给我留言）
-│  |  ├─zuihou-commons------------------------项目公共包
+│  ├─zuihou-commons----------------------------公共模块（这里一直没想好怎么调整，有想法的朋友可以给我留言）
+│  |  ├─zuihou-common------------------------项目公共包
 │  |  ├─zuihou-core---------------------------项目核心包
 │  │ 
 │  ├─zuihou-frontend--------------------------项目前端
 │  |  ├─zuihou-manage-center------------------管理后台
 │  │
-│  ├─zuihou-config-repo-----------------------远程配置文件仓库
-│  │
-│  ├─zuihou-service---------------------------服务模块
-│  |  ├─zuihou-config-------------------------配置中心[已开发]
+│  ├─zuihou-support---------------------------服务模块
 │  |  ├─zuihou-eureka-------------------------注册中心[已开发]
 │  |  ├─zuihou-monitor------------------------spring-boot-admin监控中心[已开发]
 │  |  ├─zuihou-zipkin-------------------------zipkin分布式链路跟踪[已开发]
@@ -165,177 +150,45 @@ RibbitMQ、FastDFS等主要框架和中间件。
  生产环境所有服务单例运行，生产环境所有服务运行2个实例（除了zuihou-monitor,zuihou-zipkin.这2个监控服务）
 
 ### 开发环境
-- 1, 开发环境(dev)Hosts文件配置：
-```
-127.0.0.1 casserver.zuihou.com
-127.0.0.1 eureka.zuihou.com
-127.0.0.1 config.zuihou.com
-127.0.0.1 admin.zuihou.com
-127.0.0.1 base.zuihou.com
-127.0.0.1 gateway.zuihou.com
-127.0.0.1 auth.zuihou.com
-127.0.0.1 monitor.zuihou.com
-127.0.0.1 zipkin.zuihou.com zuihou-zipkin
+- 1, 依次运行数据库脚本：
+    - doc/sql/zuihou_authority_dev.sql
+    - doc/sql/zuihou_file_dev.sql
 
-127.0.0.1 zuihou.rabbitmq.host
-127.0.0.1 zuihou.mysql.host
-127.0.0.1 zuihou.redis.host
-```
-- 2, 依次运行数据库脚本：
-    - doc/sql/zuihou_admin_dev.sql
+- 2, 修改配置数据库/redis/rabbitMQ配置：
 
-- 3, 通过以下方法，进行密码加密：
-```
-    public static void main(String[] args) throws Exception {
-        System.out.println(ConfigTools.encrypt("your mysql password"));
-    }
-```
-- 4, 修改配置数据库/redis/rabbitMQ配置：
-    - （画重点）修改配置需要各位自己在github或者gitee上创建自己的仓库，但目录结构需要和`zuihou-config-repo`的结构一致，
-      然后在修改`zuihou-config`服务`application.yml`中的`spring.cloud.config.server.git.uri:`项。（画重点）
-    - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
-    - zuihou-config-repo/zuihou-backend/zuihou-admin-server/application-dev.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-gateway-server/application-dev.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-auth-server/application-dev.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-base-server/application-dev.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-file-server/application-dev.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-mail-server/application-dev.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-sms-server/application-dev.yml      # 待开发
-
-    - zuihou-config-repo/zuihou-service/zuihou-zipkin/application-dev.yml
-    - zuihou-config-repo/zuihou-service/zuihou-monitor/application-dev.yml
-
-- 5， 在IDE中启动：
-- 5.1， 在IDE中启动：编译代码，修改启动参数：
+- 3， 在IDE中启动：
+- 3.1， 在IDE中启动：编译代码，修改启动参数：
     - 以IDEA为例， Eclipse 请自行意淫 (图片看不清，请看doc/image/**)
     - ![eureka.png](doc/image/启动配置/eureka(dev)启动配置.png)
-    - ![config.png](doc/image/启动配置/config(dev)启动配置.png)
-    - ![admin.png](doc/image/启动配置/admin(dev)启动配置.png)
-    - ![monitor.png](doc/image/启动配置/monitor(dev)启动配置.png)
+    - ![authority.png](doc/image/启动配置/admin(dev)启动配置.png)
     - 这里只演示其中几个服务， 剩余的服务，按照相同的方法配置
     - 最终运行实例: ![启动.png](doc/image/启动配置/开发环境运行实例.png)
-- 5.2，按`顺序`运行main类：
+- 3.2，按`顺序`运行main类：
     - EurekaApplication（zuihou-eureka）  # 第一步
-    - ConfigApplication（zuihou-config）  # 第二步
-    - AdminServerApplication（zuihou-admin-server）  #下面的顺序无所谓
-    - AuthApplication（zuihou-auth-server）
-    - GatewayServerApplication（zuihou-gateway-server）
+    - GatewayServerApplication（zuihou-gateway-server）#下面的顺序无所谓
+    - AuthorityServerApplication（zuihou-authority-server）  
+    - FileServerApplication（zuihou-file-server）  
     - MonitorApplication（zuihou-monitor）
     - ZipkinApplication（zuihou-zipkin）
 
-- 6， 命令行启动:
+- 4， 命令行启动:
     - 先cd 到各个服务的target目录，依次启动即可：
     - java -jar -Dspring.profiles.active=dev zuihou-eureka.jar 
-    - java -jar -Dspring.profiles.active=dev zuihou-config.jar 
     - java -jar -Dspring.profiles.active=dev zuihou-***.jar  
-
-### 生产环境 
-
-- 1, 生产环境(prod1,prod2)Hosts文件配置：
-```
-127.0.0.1 casserver.zuihou.com
-127.0.0.1 eureka1.zuihou.com eureka2.zuihou.com
-127.0.0.1 config1.zuihou.com config2.zuihou.com  
-127.0.0.1 admin1.zuihou.com admin2.zuihou.com
-127.0.0.1 base1.zuihou.com base2.zuihou.com
-127.0.0.1 gateway1.zuihou.com gateway2.zuihou.com
-127.0.0.1 auth1.zuihou.com auth2.zuihou.com
-127.0.0.1 monitor.zuihou.com
-127.0.0.1 zipkin.zuihou.com zuihou-zipkin
-
-127.0.0.1 zuihou.rabbitmq.host
-127.0.0.1 zuihou.mysql.host
-127.0.0.1 zuihou.redis.host
-```
-
-- 2, 依次运行数据库脚本：
-    - doc/sql/zuihou_admin_prod.sql  (数据库，redis，rabbitmq 暂时不考虑高可用)
-
-- 3, 通过以下方法，进行密码加密：
-```
-    public static void main(String[] args) throws Exception {
-        System.out.println(ConfigTools.encrypt("your mysql password"));
-    }
-```
-
-- 4, 修改配置数据库/redis/rabbitMQ配置：
-    - 理论上只需根据自己的需求修改端口、帐号、密码。 ip 尽量采用虚拟域名，统一修改hosts文件。
-    - prod1 代表实例1  prod2 代表实例2 ， 实例1和实例2 的启动端口根据自己的情况进行修改，但最好跟我的保持一致
-
-    - zuihou-config-repo/zuihou-backend/zuihou-admin-server/application-prod*.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-gateway-server/application-prod*.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-auth-server/application-prod*.yml
-    - zuihou-config-repo/zuihou-backend/zuihou-base-server/application-prod*.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-file-server/application-prod*.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-mail-server/application-prod*.yml     # 待开发
-    - zuihou-config-repo/zuihou-backend/zuihou-sms-server/application-prod*.yml      # 待开发
-
-    - zuihou-config-repo/zuihou-service/zuihou-zipkin/application-prod*.yml
-    - zuihou-config-repo/zuihou-service/zuihou-monitor/application-prod*.yml
-
-
-- 5， 在IDE中启动：
-- 5.1， 在IDE中启动：编译代码，修改启动参数：
-    - 以IDEA为例， Eclipse 请自行意淫 (图片看不清，请看doc/image/**)
-    - ![eureka1.png](doc/image/启动配置/eureka(prod1)启动配置.png)
-    - ![eureka2.png](doc/image/启动配置/eureka(prod2)启动配置.png)
-    - ![monitor.png](doc/image/启动配置/monitor(prod)启动配置.png)
-    - 这里只演示其中几个服务， 剩余的服务，按照相同的方法配置
-
-- 5.2，按`顺序`运行main类：
-    - EurekaApplication（zuihou-eureka）  # 第一步
-    - ConfigApplication（zuihou-config）  # 第二步
-    - AdminServerApplication（zuihou-admin-server）  #下面的顺序无所谓
-    - AuthApplication（zuihou-auth-server）
-    - GatewayServerApplication（zuihou-gateway-server）
-    - MonitorApplication（zuihou-monitor）
-    - ZipkinApplication（zuihou-zipkin）
-
-- 6， 命令行启动:
-    - 先cd 到各个服务的target目录，依次启动即可：
-    - java -jar -Dspring.profiles.active=prod1 zuihou-eureka.jar 
-    - java -jar -Dspring.profiles.active=prod2 zuihou-eureka.jar 
-    - java -jar -Dspring.profiles.active=prod1 zuihou-config.jar 
-    - java -jar -Dspring.profiles.active=prod2 zuihou-config.jar 
-    - java -jar -Dspring.profiles.active=prod zuihou-monitor.jar    # 这2个是监控服务，暂时不部署多实例(别问为什么，运行太多屌丝机器吃不消)          
-    - java -jar -Dspring.profiles.active=prod zuihou-zipkin.jar     # 这2个是监控服务，暂时不部署多实例(别问为什么，运行太多屌丝机器吃不消) 
-    - java -jar -Dspring.profiles.active=prod1 zuihou-***.jar  
-    - java -jar -Dspring.profiles.active=prod2 zuihou-***.jar  
-
 
 ## 端口号介绍（dev）:
 
 | 服务 | 端口号 |
 |:----:|:----:|
 | zuihou-eureka | 8500 |  ​
-| zuihou-config | 8505 |  ​
 | zuihou-zipkin | 8510 |  ​ 
 | zuihou-monitor | 8515,8516 |  ​
 | - | - |​- | ​
-| zuihou-auth-server | 9775 |  ​
 | zuihou-gateway-server | 9770 |  ​
-| zuihou-admin-server | 9765 |  ​
-| zuihou-base-server | 9760 |  ​
+| zuihou-authority-server | 9765 |  ​
 | zuihou-file-server | 9755 |  ​
-| zuihou-sms-server | 9750 |  ​
-| zuihou-email-server | 9745 |  ​
+| zuihou-msgs-server | 9745 |  ​
 
-- 端口号介绍（prod）:
-
-| 服务 | 端口号1 | 端口号2 |
-|:----:|:----:|:----:|
-| zuihou-eureka | 8501 | 8502 | ​
-| zuihou-config | 8506 | 8507 | 
-| zuihou-zipkin | 8511 | 8512 |
-| zuihou-monitor | 8515,8516 | 8517,8518 |  ​
-| - | - |​- |
-| zuihou-auth-server | 9776 | 9777 |  ​
-| zuihou-gateway-server | 9771 | 9772 | 
-| zuihou-admin-server | 9766 | 9767 |  ​
-| zuihou-base-server | 9761 | 9762 |  ​
-| zuihou-file-server | 9756 | 9757 |  ​
-| zuihou-sms-server | 9751 | 9752 | ​​
-| zuihou-email-server | 9746 | 9747 | ​​
 
 ## 项目截图：
 spring-boot-admin监控界面:
@@ -358,9 +211,7 @@ API 界面:
 ![eureka注册中心界面.png](doc/image/项目相关/eureka注册中心界面.png)
 
 ## 常见报错：
- - 1，找不到fastdfs-client-java(1.27-SNAPSHOT) jar？
-    - 答： 去附件(gitee)列表自行下载后安装到仓库即可
- - 2, 很多依赖死活都下载不下来？
+ - 1, 很多依赖死活都下载不下来？
     - 答： 由于spring-boot和spring-cloud等版本比较新，所以目前国内的一些仓库还没有新版本的jar。
     需要配置spring的maven仓库。 （配置后还是无法下载，就先注释掉settings.xml中其他的仓库，只保留这个）
 ```
@@ -371,7 +222,7 @@ API 界面:
         <mirrorOf>central</mirrorOf>
     </mirror>
 ```
- - 3, 很多类缺少get/set方法？
+ - 2, 很多类缺少get/set方法？
     - 答：请用IDEA或Eclipse安装`lombok`插件
     
 ## 写在最后：

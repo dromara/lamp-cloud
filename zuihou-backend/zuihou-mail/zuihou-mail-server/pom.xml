@@ -163,12 +163,6 @@
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
 
-        <!-- 插件 -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- 测试 -->
         <dependency>
