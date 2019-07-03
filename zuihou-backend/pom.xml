@@ -19,7 +19,7 @@
         <!--<module>zuihou-mail</module>-->
         <module>zuihou-file</module>
         <module>zuihou-gateway</module>
-        <module>zuihou-auth</module>
+        <module>zuihou-client</module>
     </modules>
     <dependencyManagement>
         <dependencies>

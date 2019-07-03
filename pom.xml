@@ -25,7 +25,7 @@
 
     <modules>
         <module>zuihou-commons</module>
-        <module>zuihou-service</module>
+        <module>zuihou-support</module>
         <module>zuihou-backend</module>
         <module>zuihou-frontend</module>
     </modules>

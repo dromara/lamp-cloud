@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.zuihou</groupId>
+        <artifactId>zuihou-admin-cloud</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <artifactId>zuihou-support</artifactId>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>zuihou-service 监控配置服务父pom, 对jar版本，仓库进行管理</description>
+
+
+
+    <modules>
+        <module>zuihou-eureka</module>
+        <module>zuihou-monitor</module>
+        <!--<module>zuihou-zipkin</module>-->
+    </modules>
+
+</project>
