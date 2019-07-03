@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.dto.FileUpdateDTO;
@@ -84,8 +83,7 @@ public class FileController extends BaseController {
      */
     @ApiOperation(value = "获取文件分页", notes = "获取文件分页")
     @GetMapping(value = "/page")
-    @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<File>> page(@Valid FilePageReqDTO data) {
+    public R<IPage<File>> page(FilePageReqDTO data) {
         return success(fileRestManager.page(getPage(), data));
     }
 
