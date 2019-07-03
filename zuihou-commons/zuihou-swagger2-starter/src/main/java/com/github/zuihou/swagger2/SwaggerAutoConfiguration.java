@@ -111,7 +111,7 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
                     .apiInfo(apiInfo)
                     .globalOperationParameters(assemblyGlobalOperationParameters(swaggerProperties.getGlobalOperationParameters(),
                             docketInfo.getGlobalOperationParameters()))
-                    .groupName(groupName)
+                    .groupName(docketInfo.getGroup())
                     .select()
                     .apis(RequestHandlerSelectors.basePackage(docketInfo.getBasePackage()))
                     .paths(
