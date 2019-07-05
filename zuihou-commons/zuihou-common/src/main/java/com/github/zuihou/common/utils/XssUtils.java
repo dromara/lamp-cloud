@@ -6,7 +6,6 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.CleanResults;
@@ -54,13 +53,18 @@ public class XssUtils {
                 return paramValue;
             } else {
                 final CleanResults cr = antiSamy.scan(paramValue, policy);
-                String str = StringEscapeUtils.escapeHtml(cr.getCleanHTML());
-                str = str.replaceAll((antiSamy.scan("&nbsp;", policy)).getCleanHTML(), "");
-                str = StringEscapeUtils.unescapeHtml(str);
+                cr.getErrorMessages().forEach(log::info);
+                String str = cr.getCleanHTML();
+//                String str = StringEscapeUtils.escapeHtml(cr.getCleanHTML());
+//                str = str.replaceAll((antiSamy.scan("&nbsp;", policy)).getCleanHTML(), "");
+//                str = StringEscapeUtils.unescapeHtml(str);
                 str = str.replaceAll("&quot;", "\"");
                 str = str.replaceAll("&amp;", "&");
                 str = str.replaceAll("'", "'");
                 str = str.replaceAll("'", "＇");
+
+                str = str.replaceAll("&lt;", "<");
+                str = str.replaceAll("&gt;", ">");
                 log.debug("xssfilter value after xssClean" + str);
 
                 return str;
