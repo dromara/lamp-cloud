@@ -1,0 +1,12 @@
+zuihou:
+  ip:
+    mysql: ${MYSQL_HOST:127.0.0.1}
+  mysql:
+    database: zuihou_jobs_dev
+    port: 3306
+    username: root
+    password: root
+
+spring:
+  profiles:
+    active: dev

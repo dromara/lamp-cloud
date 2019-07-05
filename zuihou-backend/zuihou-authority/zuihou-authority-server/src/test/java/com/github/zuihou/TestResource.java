@@ -5,7 +5,10 @@ import java.util.List;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -30,6 +33,22 @@ public class TestResource {
     private ResourceMapper resourceMapper;
     @Autowired
     private ResourceService resourceService;
+
+    @Test
+    public void test3() {
+
+
+        LbqWrapper<Resource> query2 = Wraps.lbQ(Resource.builder().name("新增").build());
+        List<Resource> resources2 = resourceMapper.selectList(query2);
+        System.out.println(resources2.size());
+
+
+        LbqWrapper<Resource> query = Wraps.lbQ(Resource.builder().name("%").resourceType(ResourceType.BUTTON).build());
+        List<Resource> resources = resourceMapper.selectList(query);
+        System.out.println(resources.size());
+
+
+    }
 
 
     @Test
