@@ -14,9 +14,11 @@ Slashdot allowed tags taken from "Reply" page:
     <directives>
         <directive name="omitXmlDeclaration" value="true"/>
         <directive name="omitDoctypeDeclaration" value="true"/>
-        <directive name="maxInputSize" value="5000"/>
+        <directive name="maxInputSize" value="500000"/>
         <directive name="useXHTML" value="true"/>
-        <directive name="formatOutput" value="true"/>
+        <directive name="formatOutput" value="false"/>
+        <directive name="preserveComments" value="true"/>
+        <directive name="onUnknownTag" value="encode"/>
 
         <directive name="embedStyleSheets" value="false"/>
     </directives>
