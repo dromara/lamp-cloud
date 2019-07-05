@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.2.RELEASE</version>
+    </parent>
+    <groupId>com.github.zuihou</groupId>
+    <artifactId>zuihou-jobs</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+
+    <modules>
+        <module>zuihou-jobs-api</module>
+        <module>zuihou-jobs-core</module>
+        <module>zuihou-jobs-server</module>
+    </modules>
+
+    <properties>
+        <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
+        <commons.collections4.version>4.1</commons.collections4.version>
+        <commons-exec.version>1.3</commons-exec.version>
+        <commons-email.version>1.5</commons-email.version>
+        <mysql.version>6.0.6</mysql.version>
+        <alibaba.druid.version>1.1.9</alibaba.druid.version>
+        <fastjson.version>1.2.45</fastjson.version>
+        <groovy-all.version>2.5.5</groovy-all.version>
+        <quartz.version>2.3.0</quartz.version>
+
+        <!--<springboot.mybatis.version>2.0.0</springboot.mybatis.version>-->
+        <jackson.version>2.9.8</jackson.version>
+        <jetty-server.version>9.4.14.v20181114</jetty-server.version>
+        <spring.version>5.1.4.RELEASE</spring.version>
+        <springboot.mybatis.version>2.0.0</springboot.mybatis.version>
+        <alibaba.druid.version>1.1.9</alibaba.druid.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-jobs-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-jobs-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- jetty -->
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty-server.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-util</artifactId>
+                <version>${jetty-server.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-http</artifactId>
+                <version>${jetty-server.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-io</artifactId>
+                <version>${jetty-server.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-client</artifactId>
+                <version>${jetty-server.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <dependencies>
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+
+    </dependencies>
+
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

@@ -20,6 +20,7 @@
         <module>zuihou-file</module>
         <module>zuihou-gateway</module>
         <module>zuihou-client</module>
+        <module>zuihou-executor</module>
     </modules>
     <dependencyManagement>
         <dependencies>

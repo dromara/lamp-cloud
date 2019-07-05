@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>zuihou-backend</artifactId>
+        <groupId>com.github.zuihou</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <artifactId>zuihou-executor</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>zuihou-executor-server</module>
+    </modules>
+
+    <properties>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-jobs-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 以下持久层用于 定时执行器 -->
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-file-biz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-authority-biz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

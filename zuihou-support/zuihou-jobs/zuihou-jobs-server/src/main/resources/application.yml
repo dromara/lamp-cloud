@@ -1,0 +1,78 @@
+zuihou:
+  ip:
+    mysql: ${MYSQL_HOST:127.0.0.1}
+  mysql:
+    database: zuihou_jobs_dev
+    port: 3306
+    username: root
+    password: root
+
+### xxl-job email
+xxl.job:
+  mail:
+    host: smtp.163.com
+    port: 25
+    ssl: false
+    username: ovono802302@163.com
+    password: asdfzxcv
+    sendNick: 《任务调度平台ZUIHOU-JOB》
+  login:
+    username: admin
+    password: 123456
+  accessToken:
+  i18n:
+
+logging:
+  path: /projects/logs/${spring.application.name}
+
+server:
+  servlet:
+    context-path: /${spring.application.name}
+  port: 8767
+  undertow: # jetty  undertow
+    io-threads: 4 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    worker-threads: 80  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    buffer-size: 1024  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
+    direct-buffers: true  # 是否分配的直接内存
+
+mybatis:
+  mapper-locations: classpath:mybatis-mapper/*.xml
+
+spring:
+  application:
+    name: zuihou-jobs-server
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://${zuihou.ip.mysql}:${zuihou.mysql.port}/${zuihou.mysql.database}?Unicode=true&characterEncoding=UTF-8
+    username: ${zuihou.mysql.username}
+    password: ${zuihou.mysql.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+  freemarker:
+    templateLoaderPath: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+    request-context-attribute: request
+    settings:
+      number_format: 0.##       #解決freemarker数字输出中的逗号问题
+      #      classic_compatible: true  #默认情况变量为null则替换为空字符串，如果需要自定义，写上${empty!"EmptyValue of fbysss"}的形式即可
+      whitespace_stripping: true      # 剥离前后空字符串
+      boolean_format: true,false      # 布尔类型格式化
+      datetime_format: yyyy-MM-dd HH:mm:ss  # dateTime 类型格式化， 使用日期类型时， 需要在参数后追加 ?datetime eg: ${date?datetime}
+      date_format: yyyy-MM-dd   # date 类型格式化， 使用日期类型时， 需要在参数后追加 ?date eg: ${date?date}
+      time_format: HH:mm:ss      # time 类型格式化， 使用日期类型时， 需要在参数后追加 ?time eg: ${date?time}
+      template_exception_handler: ignore   # 忽略模版异常
+      default_encoding: UTF-8      # 默认编码
+      url_escaping_charset: UTF-8  # url 转义编码
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+
+

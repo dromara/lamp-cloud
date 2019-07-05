@@ -1,0 +1,27 @@
+zuihou:
+  port:
+    nginx: 10086
+    eureka: 8080
+  ip:
+    jobs: ${JOBS_HOST:zuihou-jobs-server}
+    rabbitmq: ${RABBIT_HOST:192.168.1.204}
+    mysql: ${MYSQL_HOST:58.16.181.23}
+    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_HOST:zuihou-eureka}
+    executor: ${EXECUTOR_HOST:}
+  mysql:
+    file:
+      database: zuihou_file_dev
+    authority:
+      database: zuihou_authority_dev
+
+    port: 3306                  # 根据环境更改
+
+spring:
+  application:
+    name: zuihou-executor-server
+  profiles:
+    active: docker
+
+
+

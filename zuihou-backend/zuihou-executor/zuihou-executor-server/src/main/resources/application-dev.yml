@@ -1,0 +1,26 @@
+zuihou:
+  port:
+    nginx: ${server.port}
+    eureka: 8761
+  ip:
+    jobs: ${JOBS_HOST:127.0.0.1}
+    mysql: ${MYSQL_HOST:127.0.0.1}
+    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_HOST:127.0.0.1}
+  mysql:
+    file:
+      database: zuihou_file_dev    # 根据环境更改
+    authority:
+      database: zuihou_authority_dev    # 根据环境更改
+    port: 3306                  # 根据环境更改
+  #    username: root              # 根据环境更改
+
+spring:
+  application:
+    name: zuihou-executor-server
+  profiles:
+    active: dev
+
+
+
+
