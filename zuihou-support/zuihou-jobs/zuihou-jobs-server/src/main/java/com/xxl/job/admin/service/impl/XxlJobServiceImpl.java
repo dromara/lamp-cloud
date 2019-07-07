@@ -87,7 +87,12 @@ public class XxlJobServiceImpl implements XxlJobService {
     @Override
     public ReturnT<String> add(XxlJobInfo jobInfo) {
         // valid 执行器是否存在
-        XxlJobGroup group = xxlJobGroupDao.load(jobInfo.getJobGroup());
+        XxlJobGroup group = null;
+        if (jobInfo.getJobGroup() > 0) {
+            group = xxlJobGroupDao.load(jobInfo.getJobGroup());
+        } else {
+            group = xxlJobGroupDao.get(jobInfo.getJobGroupName());
+        }
         if (group == null) {
             return new ReturnT<>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_choose") + I18nUtil.getString("jobinfo_field_jobgroup")));
         }

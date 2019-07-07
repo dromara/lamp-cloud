@@ -10,6 +10,7 @@ import com.xxl.job.admin.core.route.ExecutorRouteStrategyEnum;
 import com.xxl.job.admin.core.schedule.XxlJobDynamicScheduler;
 import com.xxl.job.admin.core.thread.JobFailMonitorHelper;
 import com.xxl.job.admin.core.util.I18nUtil;
+import com.xxl.job.admin.core.util.TaskUtils;
 import com.xxl.job.core.biz.ExecutorBiz;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.biz.model.TriggerParam;
@@ -130,31 +131,39 @@ public class XxlJobTrigger {
         // 3、init address
         String address = null;
         ReturnT<String> routeAddressResult = null;
-        if (CollectionUtils.isNotEmpty(group.getRegistryList())) {
-            if (ExecutorRouteStrategyEnum.SHARDING_BROADCAST == executorRouteStrategyEnum) {
-                if (index < group.getRegistryList().size()) {
-                    address = group.getRegistryList().get(index);
+
+        ReturnT<String> triggerResult = null;
+
+        //3.1 判断是远程调用还是本地执行
+        if (GroupTypeEnum.LOCAL.eq(group.getAddressType())) {
+            triggerResult = runExecutor(triggerParam);
+        } else {
+            if (CollectionUtils.isNotEmpty(group.getRegistryList())) {
+                if (ExecutorRouteStrategyEnum.SHARDING_BROADCAST == executorRouteStrategyEnum) {
+                    if (index < group.getRegistryList().size()) {
+                        address = group.getRegistryList().get(index);
+                    } else {
+                        address = group.getRegistryList().get(0);
+                    }
                 } else {
-                    address = group.getRegistryList().get(0);
+                    routeAddressResult = executorRouteStrategyEnum.getRouter().route(triggerParam, group.getRegistryList());
+                    if (routeAddressResult.getCode() == ReturnT.SUCCESS_CODE) {
+                        address = routeAddressResult.getContent();
+                    }
                 }
             } else {
-                routeAddressResult = executorRouteStrategyEnum.getRouter().route(triggerParam, group.getRegistryList());
-                if (routeAddressResult.getCode() == ReturnT.SUCCESS_CODE) {
-                    address = routeAddressResult.getContent();
-                }
+                //调度失败：执行器地址为空
+                routeAddressResult = new ReturnT<String>(ReturnT.FAIL_CODE, I18nUtil.getString("jobconf_trigger_address_empty"));
             }
-        } else {
-            //调度失败：执行器地址为空
-            routeAddressResult = new ReturnT<String>(ReturnT.FAIL_CODE, I18nUtil.getString("jobconf_trigger_address_empty"));
+
+            // 4、trigger remote executor 触发远程执行
+            if (address != null) {
+                triggerResult = runExecutor(triggerParam, address);
+            } else {
+                triggerResult = new ReturnT<String>(ReturnT.FAIL_CODE, null);
+            }
         }
 
-        // 4、trigger remote executor 触发远程执行
-        ReturnT<String> triggerResult = null;
-        if (address != null) {
-            triggerResult = runExecutor(triggerParam, address);
-        } else {
-            triggerResult = new ReturnT<String>(ReturnT.FAIL_CODE, null);
-        }
 
         // 5、collection trigger info
         StringBuffer triggerMsgSb = new StringBuffer();
@@ -209,6 +218,25 @@ public class XxlJobTrigger {
 
         StringBuffer runResultSB = new StringBuffer(I18nUtil.getString("jobconf_trigger_run") + "：");
         runResultSB.append("<br>address：").append(address);
+        runResultSB.append("<br>code：").append(runResult.getCode());
+        runResultSB.append("<br>msg：").append(runResult.getMsg());
+
+        runResult.setMsg(runResultSB.toString());
+        return runResult;
+    }
+
+
+    public static ReturnT<String> runExecutor(TriggerParam triggerParam) {
+        ReturnT<String> runResult = null;
+        try {
+            runResult = TaskUtils.invokeMethod(triggerParam);
+        } catch (Exception e) {
+            logger.error(">>>>>>>>>>> xxl-job trigger error, please check if the executor[{}] is running.", "localhost", e);
+            runResult = new ReturnT<String>(ReturnT.FAIL_CODE, ThrowableUtil.toString(e));
+        }
+
+        StringBuffer runResultSB = new StringBuffer(I18nUtil.getString("jobconf_trigger_run") + "：");
+        runResultSB.append("<br>address：").append("localhost");
         runResultSB.append("<br>code：").append(runResult.getCode());
         runResultSB.append("<br>msg：").append(runResult.getMsg());
 

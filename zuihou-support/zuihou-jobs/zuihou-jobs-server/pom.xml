@@ -109,10 +109,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-jobs-api</artifactId>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.github.zuihou</groupId>-->
+        <!--<artifactId>zuihou-jobs-api</artifactId>-->
+        <!--</dependency>-->
 
     </dependencies>
 
