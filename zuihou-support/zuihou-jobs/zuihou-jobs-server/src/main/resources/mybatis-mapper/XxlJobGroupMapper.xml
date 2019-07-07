@@ -63,4 +63,11 @@
         WHERE t.id = #{id}
     </select>
 
+    <select id="get" parameterType="java.lang.String" resultMap="XxlJobGroup">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM xxl_job_qrtz_trigger_group AS t
+        WHERE t.app_name = #{appName}
+    </select>
+
 </mapper>

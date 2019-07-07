@@ -32,11 +32,11 @@ public abstract class IJobHandler {
      * @return
      * @throws Exception
      */
-    public ReturnT<String> execute(String param) throws Exception {
+    public ReturnT<String> execute(String param) {
         try {
             return execute2(param);
         } catch (Exception e) {
-            XxlJobLogger.log("定时刷新微信token执行失败", e.getMessage());
+            XxlJobLogger.log("任务处理器执行失败", e.getMessage());
             return new ReturnT<>(IJobHandler.FAIL.getCode(), e.getMessage());
         }
     }

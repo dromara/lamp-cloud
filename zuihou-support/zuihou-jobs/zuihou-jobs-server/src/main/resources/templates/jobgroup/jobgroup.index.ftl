@@ -53,7 +53,7 @@
                                             <td>${group.order}</td>
                                             <td>${group.appName}</td>
                                             <td>${group.title}</td>
-                                            <td><#if group.addressType==0>${I18n.jobgroup_field_addressType_0}<#else>${I18n.jobgroup_field_addressType_1}</#if></td>
+                                            <td><#if group.addressType==0>${I18n.jobgroup_field_addressType_0}<#elseif group.addressType==1>${I18n.jobgroup_field_addressType_1}<#else>本地执行</#if></td>
                                             <td>
                                                 <#if group.registryList?exists>
                                                     <#list group.registryList as item>
@@ -129,6 +129,7 @@
                                        checked/>${I18n.jobgroup_field_addressType_0}
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="radio" name="addressType" value="1"/>${I18n.jobgroup_field_addressType_1}
+                                <input type="radio" name="addressType" value="2"/>本地执行
                             </div>
                         </div>
                         <div class="form-group">
@@ -192,6 +193,7 @@
                                 <input type="radio" name="addressType" value="0"/>${I18n.jobgroup_field_addressType_0}
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="radio" name="addressType" value="1"/>${I18n.jobgroup_field_addressType_1}
+                                <input type="radio" name="addressType" value="2"/>本地执行
                             </div>
                         </div>
                         <div class="form-group">

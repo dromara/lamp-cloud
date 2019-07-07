@@ -18,6 +18,7 @@ public class XxlJobInfo {
      * 执行器主键ID	(JobKey.group)
      */
     private int jobGroup;
+    private String jobGroupName;
 
     /**
      * 任务执行CRON表达式 【base on quartz】
@@ -334,4 +335,11 @@ public class XxlJobInfo {
         this.jobStatus = jobStatus;
     }
 
+    public String getJobGroupName() {
+        return jobGroupName;
+    }
+
+    public void setJobGroupName(String jobGroupName) {
+        this.jobGroupName = jobGroupName;
+    }
 }

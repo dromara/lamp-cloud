@@ -10,6 +10,7 @@ import java.util.Map;
 import com.github.zuihou.jobs.utils.Assert;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 任务
@@ -17,12 +18,13 @@ import lombok.Data;
  * @author xuxueli  2016-1-12 18:25:49
  */
 @Data
+@Accessors(chain = true)
 public class XxlJobInfo {
     public static final ThreadLocal<Map<String, Object>> THREAD_LOCAL = new ThreadLocal<>();
     /**
      * 执行器主键ID	(JobKey.group)
      */
-    private Integer jobGroup = 1;
+    private String jobGroupName;
     /**
      * 开始执行时间
      */
@@ -60,14 +62,14 @@ public class XxlJobInfo {
      */
     private String executorParam;
 
-    private XxlJobInfo(int jobGroup, Date startExecuteTime, String executorHandler) {
-        this.jobGroup = jobGroup;
+    private XxlJobInfo(String jobGroupName, Date startExecuteTime, String executorHandler) {
+        this.jobGroupName = jobGroupName;
         this.startExecuteTime = startExecuteTime;
         this.executorHandler = executorHandler;
     }
 
-    private XxlJobInfo(int jobGroup, Date startExecuteTime, String executorHandler, String executorParam) {
-        this(jobGroup, startExecuteTime, executorHandler);
+    private XxlJobInfo(String jobGroupName, Date startExecuteTime, String executorHandler, String executorParam) {
+        this(jobGroupName, startExecuteTime, executorHandler);
         this.executorParam = executorParam;
     }
 
@@ -82,62 +84,26 @@ public class XxlJobInfo {
 
     private static String getCurAuthor() {
         Map<String, Object> map = getLocalMap();
-        return (String) map.getOrDefault("account", "");
+        return (String) map.getOrDefault("name", "");
     }
 
-    public static XxlJobInfo build(int jobGroup, Date startExecuteTime, String executorHandler) {
-        return new XxlJobInfo(jobGroup, startExecuteTime, executorHandler)
+    public static XxlJobInfo build(String jobGroupName, Date startExecuteTime, String executorHandler) {
+        return new XxlJobInfo(jobGroupName, startExecuteTime, executorHandler)
                 .setAuthor(getCurAuthor());
     }
 
-    public static XxlJobInfo build(int jobGroup, Date startExecuteTime, String executorHandler, String executorParam) {
+    public static XxlJobInfo build(String jobGroupName, Date startExecuteTime, String executorHandler, String executorParam) {
         Assert.assertNotNull("发送时间能为空", startExecuteTime);
         Assert.assertNotNull("处理类不能为空", executorHandler);
-        return new XxlJobInfo(jobGroup, startExecuteTime, executorHandler, executorParam)
+        return new XxlJobInfo(jobGroupName, startExecuteTime, executorHandler, executorParam)
                 .setAuthor(getCurAuthor());
     }
 
-    public static XxlJobInfo build(int jobGroup, LocalDateTime startExecuteTime, String executorHandler, String executorParam) {
+    public static XxlJobInfo build(String jobGroupName, LocalDateTime startExecuteTime, String executorHandler, String executorParam) {
         Assert.assertNotNull("发送时间能为空", startExecuteTime);
         ZoneId zoneId = ZoneId.systemDefault();
         ZonedDateTime zdt = startExecuteTime.atZone(zoneId);
-        return build(jobGroup, Date.from(zdt.toInstant()), executorHandler, executorParam);
+        return build(jobGroupName, Date.from(zdt.toInstant()), executorHandler, executorParam);
     }
-
-    public XxlJobInfo setEndExecuteTime(Date endExecuteTime) {
-        this.endExecuteTime = endExecuteTime;
-        return this;
-    }
-
-    public XxlJobInfo setIntervalSeconds(Integer intervalSeconds) {
-        this.intervalSeconds = intervalSeconds;
-        return this;
-    }
-
-    public XxlJobInfo setRepeatCount(Integer repeatCount) {
-        this.repeatCount = repeatCount;
-        return this;
-    }
-
-    public XxlJobInfo setJobDesc(String jobDesc) {
-        this.jobDesc = jobDesc;
-        return this;
-    }
-
-    public XxlJobInfo setAuthor(String author) {
-        this.author = author;
-        return this;
-    }
-
-    public XxlJobInfo setAlarmEmail(String alarmEmail) {
-        this.alarmEmail = alarmEmail;
-        return this;
-    }
-
-    public XxlJobInfo setExecutorParam(String executorParam) {
-        this.executorParam = executorParam;
-        return this;
-    }
-
 
 }
