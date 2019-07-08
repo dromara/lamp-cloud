@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.zuihou</groupId>
-        <artifactId>zuihou-admin-cloud</artifactId>
+        <artifactId>zuihou-dependencies</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../zuihou-dependencies</relativePath>
     </parent>
     <artifactId>zuihou-backend</artifactId>
     <packaging>pom</packaging>
@@ -20,7 +20,6 @@
         <module>zuihou-file</module>
         <module>zuihou-gateway</module>
         <module>zuihou-client</module>
-        <module>zuihou-executor</module>
     </modules>
     <dependencyManagement>
         <dependencies>

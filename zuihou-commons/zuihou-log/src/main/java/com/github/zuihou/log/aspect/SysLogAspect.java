@@ -8,11 +8,9 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.zuihou.authority.entity.common.OptLog;
-import com.github.zuihou.authority.enumeration.common.LogType;
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.enums.HttpMethod;
 import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.log.event.SysLogEvent;
 import com.github.zuihou.log.util.LogUtil;
 
@@ -27,7 +25,6 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -49,7 +46,7 @@ public class SysLogAspect {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private OptLog sysLog = new OptLog();
+    private OptLogDTO sysLog = new OptLogDTO();
     private long beginTime = 0;
 
     /***
@@ -68,8 +65,7 @@ public class SysLogAspect {
         // 开始时间
         beginTime = Instant.now().toEpochMilli();
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        BaseContextHandler.getAccount();
-        BeanUtils.copyProperties(new OptLog(), sysLog);
+//        BeanUtils.copyProperties(new OptLogDTO(), sysLog);
 
         sysLog.setCreateUser(BaseContextHandler.getUserId());
         sysLog.setRequestIp(ServletUtil.getClientIP(request));
@@ -81,7 +77,7 @@ public class SysLogAspect {
         //获取执行的方法名
         sysLog.setActionMethod(joinPoint.getSignature().getName());
         sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-        sysLog.setHttpMethod(HttpMethod.get(request.getMethod()));
+        sysLog.setHttpMethod(request.getMethod());
         // 参数
         Object[] args = joinPoint.getArgs();
         sysLog.setParams(getText(JSONObject.toJSONString(args)));
@@ -103,9 +99,9 @@ public class SysLogAspect {
         log.info("ret={}", ret);
         R r = Convert.convert(R.class, ret);
         if (r.getIsSuccess()) {
-            sysLog.setType(LogType.OPT);
+            sysLog.setType("OPT");
         } else {
-            sysLog.setType(LogType.EX);
+            sysLog.setType("EX");
             sysLog.setExDetail(r.getMsg());
         }
         if (ret != null) {
@@ -133,7 +129,7 @@ public class SysLogAspect {
         log.info("当前线程id={}", Thread.currentThread().getId());
         log.info("e={}", e);
 
-        sysLog.setType(LogType.EX);
+        sysLog.setType("EX");
 
         // 异常对象
         sysLog.setExDetail(LogUtil.getStackTrace(e));
@@ -141,6 +137,16 @@ public class SysLogAspect {
         sysLog.setExDesc(e.getMessage());
 
         publishEvent();
+    }
+
+    /**
+     * 截取指定长度的字符串
+     *
+     * @param val
+     * @return
+     */
+    private String getText(String val) {
+        return StringUtils.substring(val, 0, 65535);
     }
 
 //    @Around("@annotation(sLog)")
@@ -198,15 +204,5 @@ public class SysLogAspect {
 //        return obj;
 //    }
 
-
-    /**
-     * 截取指定长度的字符串
-     *
-     * @param val
-     * @return
-     */
-    private String getText(String val) {
-        return StringUtils.substring(val, 0, 65535);
-    }
 
 }

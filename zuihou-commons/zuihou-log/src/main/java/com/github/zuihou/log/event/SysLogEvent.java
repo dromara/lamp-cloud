@@ -1,7 +1,7 @@
 package com.github.zuihou.log.event;
 
 
-import com.github.zuihou.authority.entity.common.OptLog;
+import com.github.zuihou.log.entity.OptLogDTO;
 
 import org.springframework.context.ApplicationEvent;
 
@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class SysLogEvent extends ApplicationEvent {
 
-    public SysLogEvent(OptLog source) {
+    public SysLogEvent(OptLogDTO source) {
         super(source);
     }
 }

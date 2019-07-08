@@ -3,7 +3,7 @@ package com.github.zuihou.log.event;
 
 import java.util.function.Consumer;
 
-import com.github.zuihou.authority.entity.common.OptLog;
+import com.github.zuihou.log.entity.OptLogDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import org.springframework.scheduling.annotation.Async;
 @AllArgsConstructor
 public class SysLogListener {
 
-    private Consumer<OptLog> consumer;
+    private Consumer<OptLogDTO> consumer;
 
     @Async
     @Order
@@ -30,7 +30,7 @@ public class SysLogListener {
     public void saveSysLog(SysLogEvent event) {
         log.info("[{}], [{}]", event.getSource(), event.getTimestamp());
 
-        OptLog sysLog = (OptLog) event.getSource();
+        OptLogDTO sysLog = (OptLogDTO) event.getSource();
         consumer.accept(sysLog);
     }
 
