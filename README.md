@@ -25,6 +25,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 [gitee] https://gitee.com/zuihou111/zuihou-admin-cloud
 
+[代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
+
 ## 架构详解:
  - 服务注册与调用：
 
