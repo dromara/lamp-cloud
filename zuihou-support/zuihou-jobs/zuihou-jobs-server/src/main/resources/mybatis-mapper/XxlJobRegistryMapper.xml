@@ -21,14 +21,14 @@
 
     <delete id="removeDead" parameterType="java.lang.Integer">
 		DELETE FROM xxl_job_qrtz_trigger_registry
-		WHERE update_time <![CDATA[ < ]]> DATE_ADD(NOW(),INTERVAL -#{timeout} SECOND)
+		WHERE update_time <![CDATA[ < ]]> DATE_ADD(SYSDATE(),INTERVAL - ${timeout} SECOND)
 	</delete>
 
     <select id="findAll" parameterType="java.lang.Integer" resultMap="XxlJobRegistry">
         SELECT
         <include refid="Base_Column_List"/>
         FROM xxl_job_qrtz_trigger_registry AS t
-        WHERE t.update_time <![CDATA[ > ]]> DATE_ADD(NOW(),INTERVAL -#{timeout} SECOND)
+        WHERE t.update_time <![CDATA[ > ]]> DATE_ADD(SYSDATE(),INTERVAL - ${timeout} SECOND)
     </select>
 
     <update id="registryUpdate">
@@ -41,7 +41,7 @@
 
     <insert id="registrySave">
         INSERT INTO xxl_job_qrtz_trigger_registry( `registry_group` , `registry_key` , `registry_value`, `update_time`)
-        VALUES( #{registryGroup}  , #{registryKey} , #{registryValue}, NOW())
+        VALUES( #{registryGroup}  , #{registryKey} , #{registryValue}, SYSDATE())
     </insert>
 
     <delete id="registryDelete">

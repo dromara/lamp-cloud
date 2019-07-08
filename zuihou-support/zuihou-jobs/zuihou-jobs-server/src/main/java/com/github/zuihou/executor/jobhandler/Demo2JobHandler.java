@@ -1,11 +1,13 @@
 package com.github.zuihou.executor.jobhandler;
 
+import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,11 +26,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class Demo2JobHandler extends IJobHandler {
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public ReturnT<String> execute2(String param) throws Exception {
         //记录日志的方法推荐使用这个:XxlJobLogger.log ，因为这个记录的日志，可以在hengyun-jobs-server管理后台查看
         XxlJobLogger.log("执行结果--->param={}, user={} ", param, "hello");
-        log.info("执行结果--->user:[{}]", "hello local");
+        log.info("执行结果--->hello:{}, user:[{}] ", "hello local", userMapper.selectById(1));
+
+
         return SUCCESS;
     }
 

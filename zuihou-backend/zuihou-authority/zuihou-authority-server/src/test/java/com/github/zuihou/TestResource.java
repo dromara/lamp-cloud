@@ -3,6 +3,7 @@ package com.github.zuihou;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
@@ -32,7 +33,10 @@ public class TestResource {
     @Autowired
     private ResourceMapper resourceMapper;
     @Autowired
+    private MenuMapper menuMapper;
+    @Autowired
     private ResourceService resourceService;
+
 
     @Test
     public void test3() {

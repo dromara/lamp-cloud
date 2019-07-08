@@ -50,6 +50,11 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 实现了简单的数据权限
 
+ - 定时任务调度器：
+
+基于xxl-jobs进行了功能增强（指定时间发送任务、本地任务执行）
+
+
 ## 项目架构图
 ![frame.jpg](doc/image/项目相关/frame.jpg)
 
@@ -224,6 +229,10 @@ API 界面:
 ```
  - 2, 很多类缺少get/set方法？
     - 答：请用IDEA或Eclipse安装`lombok`插件
+    
+ - 3, zuihou-generator jar缺失？
+    - 答： https://github.com/zuihou/zuihou-generator 。去我github下载这个项目，自行编译。
+    
     
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 

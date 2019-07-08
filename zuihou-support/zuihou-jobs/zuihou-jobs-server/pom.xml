@@ -20,6 +20,18 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-databases</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-authority-biz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
@@ -44,18 +56,21 @@
         </dependency>
 
         <!-- 持久层相关 -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${springboot.mybatis.version}</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.mybatis.spring.boot</groupId>-->
+        <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
+        <!--<version>${springboot.mybatis.version}</version>-->
+        <!--</dependency>-->
 
         <!-- 持久层相关 -->
 
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${alibaba.druid.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -68,11 +83,11 @@
         <!--<version>${alibaba.druid.version}</version>-->
         <!--</dependency>-->
         <!---->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.alibaba</groupId>-->
+        <!--<artifactId>fastjson</artifactId>-->
+        <!--<version>${fastjson.version}</version>-->
+        <!--</dependency>-->
 
         <!-- commons-collections4 -->
         <dependency>
@@ -109,10 +124,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.github.zuihou</groupId>-->
-        <!--<artifactId>zuihou-jobs-api</artifactId>-->
-        <!--</dependency>-->
 
     </dependencies>
 

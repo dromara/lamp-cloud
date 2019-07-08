@@ -180,7 +180,7 @@ public class JobLogController {
     public ReturnT<String> clearLog(Integer jobGroup, Integer jobId, Integer type) {
 
         Date clearBeforeTime = null;
-        int clearBeforeNum = 0;
+        Integer clearBeforeNum = 0;
         if (type == 1) {
             clearBeforeTime = DateUtils.addMonths(new Date(), -1);    // 清理一个月之前日志数据
         } else if (type == 2) {
@@ -198,7 +198,7 @@ public class JobLogController {
         } else if (type == 8) {
             clearBeforeNum = 100000;    // 清理十万条以前日志数据
         } else if (type == 9) {
-            clearBeforeNum = 0;            // 清理所有日志数据
+            clearBeforeNum = null;            // 清理所有日志数据
         } else {
             return new ReturnT<String>(ReturnT.FAIL_CODE, I18nUtil.getString("joblog_clean_type_unvalid"));
         }
