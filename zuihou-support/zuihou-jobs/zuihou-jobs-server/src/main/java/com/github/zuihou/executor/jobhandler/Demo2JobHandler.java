@@ -1,7 +1,8 @@
-package com.github.zuihou.jobhandler;
+package com.github.zuihou.executor.jobhandler;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
+import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +19,15 @@ import org.springframework.stereotype.Component;
  *
  * @author xuxueli 2015-12-19 19:43:36
  */
+@JobHandler(value = "demo2JobHandler")
 @Component
 @Slf4j
-public class DemoJobHandler extends IJobHandler {
+public class Demo2JobHandler extends IJobHandler {
 
     @Override
     public ReturnT<String> execute2(String param) throws Exception {
         //记录日志的方法推荐使用这个:XxlJobLogger.log ，因为这个记录的日志，可以在hengyun-jobs-server管理后台查看
-        XxlJobLogger.log("执行结果--->param={}, user={} ", param, "local");
+        XxlJobLogger.log("执行结果--->param={}, user={} ", param, "hello");
         log.info("执行结果--->user:[{}]", "hello local");
         return SUCCESS;
     }
