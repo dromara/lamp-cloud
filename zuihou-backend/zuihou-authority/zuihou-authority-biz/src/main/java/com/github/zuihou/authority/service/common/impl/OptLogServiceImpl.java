@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.common.OptLogMapper;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.service.common.OptLogService;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.entity.OptLogDTO;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,5 +23,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class OptLogServiceImpl extends ServiceImpl<OptLogMapper, OptLog> implements OptLogService {
+    @Autowired
+    DozerUtils dozer;
 
+    @Override
+    public boolean save(OptLogDTO entity) {
+        return super.save(dozer.map(entity, OptLog.class));
+    }
 }

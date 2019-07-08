@@ -19,6 +19,10 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-log</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-auth-client</artifactId>
         </dependency>
 

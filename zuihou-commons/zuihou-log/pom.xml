@@ -17,8 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-entity</artifactId>
-            <version>${project.version}</version>
+            <artifactId>zuihou-core</artifactId>
         </dependency>
 
         <dependency>
@@ -29,6 +28,10 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
         <dependency>

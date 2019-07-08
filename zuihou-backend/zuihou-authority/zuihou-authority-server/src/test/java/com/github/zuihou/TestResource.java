@@ -6,10 +6,13 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
+import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.entity.OptLogDTO;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -36,6 +39,20 @@ public class TestResource {
     private MenuMapper menuMapper;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private DozerUtils dozer;
+
+    @Test
+    public void dozerTest() {
+        OptLogDTO dot = new OptLogDTO();
+        dot.setHttpMethod("POST");
+        dot.setType("EX");
+
+        OptLog opt = dozer.map(dot, OptLog.class);
+        System.out.println(opt.getHttpMethod());
+        System.out.println(opt.getType());
+
+    }
 
 
     @Test

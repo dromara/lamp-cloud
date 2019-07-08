@@ -3,19 +3,21 @@ package com.github.zuihou.authority.controller.common;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.authority.entity.common.OptLog;
-import com.github.zuihou.authority.dto.common.OptLogSaveDTO;
 import com.github.zuihou.authority.dto.common.OptLogUpdateDTO;
+import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.service.common.OptLogService;
+import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.R;
+import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.log.entity.OptLogDTO;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +28,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -88,10 +89,9 @@ public class OptLogController extends BaseController {
     @ApiOperation(value = "保存系统日志", notes = "保存系统日志不为空的字段")
     @PostMapping
     @SysLog("保存系统日志")
-    public R<OptLog> save(@RequestBody @Valid OptLogSaveDTO data) {
-        OptLog optLog = dozer.map(data, OptLog.class);
-        optLogService.save(optLog);
-        return success(optLog);
+    public R<OptLogDTO> save(@RequestBody @Valid OptLogDTO data) {
+        optLogService.save(data);
+        return success(data);
     }
 
     /**
