@@ -1,6 +1,9 @@
 zuihou:
   ip:
     mysql: ${MYSQL_HOST:127.0.0.1}
+    nginx: ${NGINX_HOST:127.0.0.1}
+  port:
+    nginx: ${server.port}
   mysql:
     database: zuihou_jobs_dev
     port: 3306
@@ -21,6 +24,16 @@ xxl.job:
     password: 123456
   accessToken:
   i18n:
+  # 以下是client 端配置
+  admin:
+    addresses: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/${spring.application.name}
+  executor:
+    appname: ${spring.application.name}
+    ip: ${zuihou.ip.executor:}
+    port: ${zuihou.port.executor:11007}
+    logpath: /projects/logs/${spring.application.name}/
+    logretentiondays: -1
+
 
 logging:
   path: /projects/logs/${spring.application.name}

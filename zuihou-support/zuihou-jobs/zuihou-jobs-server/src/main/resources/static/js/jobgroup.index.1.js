@@ -131,17 +131,13 @@ $(function () {
     $("#addModal input[name=addressType], #updateModal input[name=addressType]").click(function () {
         var addressType = $(this).val();
         var $addressList = $(this).parents("form").find("textarea[name=addressList]");
-        if (addressType == 0) {// 自动注册
-            $addressList.css("background-color", "#eee");
+        if (addressType == 0) {
+            $addressList.css("background-color", "#eee");	// 自动注册
             $addressList.attr("readonly", "readonly");
             $addressList.val("");
-        } else if (addressType == 1) {// 手动注册
+        } else {
             $addressList.css("background-color", "white");
             $addressList.removeAttr("readonly");
-        } else { //本地执行
-            $addressList.css("background-color", "#eee");
-            $addressList.attr("readonly", "readonly");
-            $addressList.val("");
         }
     });
 

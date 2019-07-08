@@ -61,7 +61,7 @@ public class JobGroupController {
         if (xxlJobGroup.getTitle() == null || StringUtils.isBlank(xxlJobGroup.getTitle())) {
             return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
         }
-        if (xxlJobGroup.getAddressType() == 1) {
+        if (xxlJobGroup.getAddressType() != 0) {
             if (StringUtils.isBlank(xxlJobGroup.getAddressList())) {
                 return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
             }
@@ -99,7 +99,7 @@ public class JobGroupController {
                 addressListStr = StringUtils.join(registryList, ",");
             }
             xxlJobGroup.setAddressList(addressListStr);
-        } else if (xxlJobGroup.getAddressType() == 1) {
+        } else {
             // 1=手动录入
             if (StringUtils.isBlank(xxlJobGroup.getAddressList())) {
                 return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
@@ -110,8 +110,6 @@ public class JobGroupController {
                     return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_registryList_unvalid"));
                 }
             }
-        } else {
-            xxlJobGroup.setAddressList(null);
         }
 
         int ret = xxlJobGroupDao.update(xxlJobGroup);
