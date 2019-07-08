@@ -33,7 +33,7 @@
                         <span class="input-group-addon">${I18n.jobinfo_field_jobgroup}</span>
                         <select class="form-control" id="jobGroup"
                                 paramVal="<#if jobInfo?exists>${jobInfo.jobGroup}</#if>">
-                            <option value="0">${I18n.system_all}</option>
+                            <option value="">${I18n.system_all}</option>
                             <#list JobGroupList as group>
                                 <option value="${group.id}">${group.title}</option>
                             </#list>
@@ -44,7 +44,7 @@
                     <div class="input-group">
                         <span class="input-group-addon">${I18n.jobinfo_job}</span>
                         <select class="form-control" id="jobId" paramVal="<#if jobInfo?exists>${jobInfo.id}</#if>">
-                            <option value="0">${I18n.system_all}</option>
+                            <option value="">${I18n.system_all}</option>
                         </select>
                     </div>
                 </div>

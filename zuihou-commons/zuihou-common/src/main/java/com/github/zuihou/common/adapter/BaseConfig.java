@@ -31,8 +31,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.github.zuihou.base.id.CodeGenerate;
-import com.github.zuihou.base.id.IdGenerate;
-import com.github.zuihou.base.id.SnowflakeIdGenerate;
 import com.github.zuihou.common.converter.DateFormatRegister;
 import com.github.zuihou.common.converter.EnumDeserializer;
 import com.github.zuihou.common.converter.String2DateConverter;
@@ -284,16 +282,6 @@ public abstract class BaseConfig implements WebMvcConfigurer {
     }
 
 
-    /**
-     * id生成 机器码， 单机配置1即可。 集群部署，每个实例自增1即可。
-     *
-     * @param machineCode
-     * @return
-     */
-    @Bean("snowflakeIdGenerate")
-    public IdGenerate getIdGenerate(@Value("${id-generator.machine-code:1}") Long machineCode) {
-        return new SnowflakeIdGenerate(machineCode);
-    }
 
     /**
      * 长度都是8位的字符串

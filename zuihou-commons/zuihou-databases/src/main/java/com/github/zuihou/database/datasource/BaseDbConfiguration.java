@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.zuihou.base.id.IdGenerate;
+import com.github.zuihou.base.id.SnowflakeIdGenerate;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.LeftLikeTypeHandler;
@@ -278,6 +279,18 @@ public abstract class BaseDbConfiguration {
     public MetaObjectHandler getMyMetaObjectHandler(@Qualifier("snowflakeIdGenerate") IdGenerate<Long> idGenerate) {
         return new MyMetaObjectHandler(idGenerate);
     }
+
+    /**
+     * id生成 机器码， 单机配置1即可。 集群部署，每个实例自增1即可。
+     *
+     * @param machineCode
+     * @return
+     */
+    @Bean("snowflakeIdGenerate")
+    public IdGenerate getIdGenerate(@Value("${id-generator.machine-code:1}") Long machineCode) {
+        return new SnowflakeIdGenerate(machineCode);
+    }
+
 
     protected GlobalConfig defGlobalConfig() {
         GlobalConfig conf = new GlobalConfig();

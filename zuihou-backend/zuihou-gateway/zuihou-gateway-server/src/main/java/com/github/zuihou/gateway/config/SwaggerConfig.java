@@ -50,8 +50,8 @@ public class SwaggerConfig {
 
     private ApiInfo groupApiInfo() {
         return new ApiInfoBuilder()
-                .title("Fighter网关统一Swagger文档")
-                .description("<div style='font-size:14px;color:red;'>Fighter网关统一Swagger文档</div>")
+                .title("zuihou网关统一Swagger文档")
+                .description("<div style='font-size:14px;color:red;'>zuihou网关统一Swagger文档</div>")
                 .termsOfServiceUrl("http://www.zkhy.com/")
                 .contact("group@qq.com")
                 .version("1.0")

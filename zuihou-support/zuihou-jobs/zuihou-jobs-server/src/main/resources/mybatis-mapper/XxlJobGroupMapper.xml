@@ -25,7 +25,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM xxl_job_qrtz_trigger_group AS t
-        ORDER BY t.order ASC
+        ORDER BY t.`order` ASC
     </select>
 
     <select id="findByAddressType" parameterType="java.lang.Integer" resultMap="XxlJobGroup">
@@ -33,7 +33,7 @@
         <include refid="Base_Column_List"/>
         FROM xxl_job_qrtz_trigger_group AS t
         WHERE t.address_type = #{addressType}
-        ORDER BY t.order ASC
+        ORDER BY t.`order` ASC
     </select>
 
     <insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobGroup" useGeneratedKeys="true" keyProperty="id">

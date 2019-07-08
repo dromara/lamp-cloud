@@ -13,16 +13,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface XxlJobGroupDao {
 
-    public List<XxlJobGroup> findAll();
+    List<XxlJobGroup> findAll();
 
-    public List<XxlJobGroup> findByAddressType(@Param("addressType") Integer addressType);
+    List<XxlJobGroup> findByAddressType(@Param("addressType") Integer addressType);
 
-    public int save(XxlJobGroup xxlJobGroup);
+    int save(XxlJobGroup xxlJobGroup);
 
-    public int update(XxlJobGroup xxlJobGroup);
+    int update(XxlJobGroup xxlJobGroup);
 
-    public int remove(@Param("id") Integer id);
+    int remove(@Param("id") Integer id);
 
-    public XxlJobGroup load(@Param("id") Integer id);
+    XxlJobGroup load(@Param("id") Integer id);
 
 }
