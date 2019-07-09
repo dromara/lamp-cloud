@@ -18,6 +18,7 @@
         <module>zuihou-authority</module>
         <!--<module>zuihou-mail</module>-->
         <module>zuihou-file</module>
+        <module>zuihou-jobs</module>
         <module>zuihou-gateway</module>
         <module>zuihou-client</module>
     </modules>

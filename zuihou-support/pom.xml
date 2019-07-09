@@ -18,7 +18,7 @@
     <modules>
         <module>zuihou-eureka</module>
         <module>zuihou-monitor</module>
-        <module>zuihou-jobs</module>
+        <!--<module>zuihou-jobs</module>-->
         <!--<module>zuihou-zipkin</module>-->
     </modules>
 
