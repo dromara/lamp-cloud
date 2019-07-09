@@ -31,7 +31,7 @@ public class Demo2JobHandler extends IJobHandler {
 
     @Override
     public ReturnT<String> execute2(String param) throws Exception {
-        //记录日志的方法推荐使用这个:XxlJobLogger.log ，因为这个记录的日志，可以在hengyun-jobs-server管理后台查看
+        //记录日志的方法推荐使用这个:XxlJobLogger.log ，因为这个记录的日志，可以在zuihou-jobs-server管理后台查看
         XxlJobLogger.log("执行结果--->param={}, user={} ", param, "hello");
         log.info("执行结果--->hello:{}, user:[{}] ", "hello local", userMapper.selectById(1));
 

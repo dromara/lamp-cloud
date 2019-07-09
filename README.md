@@ -27,7 +27,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 [代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
 
-## 架构详解:
+## 模块详解:
  - 服务注册与调用：
 
 基于Eureka来实现的服务注册与调用，在Spring Cloud中使用Feign, 我们可以做到使用HTTP请求远程服务时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。
@@ -54,8 +54,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
  - 定时任务调度器：
 
-基于xxl-jobs进行了功能增强（指定时间发送任务、本地任务执行）
-
+基于xxl-jobs进行了功能增强（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
 
 ## 项目架构图
 ![frame.jpg](doc/image/项目相关/frame.jpg)
@@ -66,7 +65,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - 缓存：Redis 4.0.6
     - 消息队列：RibbitMQ
     - 数据库： MySQL 5.7.9 (驱动6.0.6)
-    - 定时器：Quartz Scheduler
+    - 定时器：采用xxl-jobs项目进行二次改造
     - Java模版：Thymeleaf  3.0.6.RELEASE
     - 前端：Bootstrap + Vue2.0
     - API网关：Zuul 
@@ -92,12 +91,20 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - zuihou-xxx-api 项目中提供feign客户端，dto
 - 区分po、dto，不要把po中的所有字段都返回给前端。 前端需要什么字段，就返回什么字段
 - 类名：首字母大写驼峰规则；方法名：首字母小写驼峰规则；常量：全大写；变量：首字母小写驼峰规则，尽量非缩写
-- 业务模块接口层命名为`项目`-`业务-api`，如`zuihou-admin-api`
-- 业务模块业务层命名为`项目`-`业务-biz`，如`zuihou-admin-biz`
-- 业务模块控制层命名为`项目`-`业务-controller`，如`zuihou-admin-controller`
-- 业务模块容器命名为`项目`-`业务-server`，如`zuihou-admin-server`
-- 监控模块命名为`项目`-`业务`，如`zuihou-admin`
+- 业务模块接口层命名为`项目`-`业务-api`，如`zuihou-authority-api`
+- 业务模块业务层命名为`项目`-`业务-biz`，如`zuihou-authority-biz`
+- 业务模块控制层命名为`项目`-`业务-controller`，如`zuihou-authority-controller`
+- 业务模块容器命名为`项目`-`业务-server`，如`zuihou-authority-server`
 - 数据表命名为：`子系统`_`表`，如`b_role`
+- 注释：
+```
+表注释： 第一行用简短的文字来描述表的名称，会体现在Swagger中； 换行后对表进行详细介绍
+字段注释： 第一行用简短的文字来描述字段的名称，会体现在Swagger的字段描述上； 换行后对字段进行详细的描述。
+        另外，若字段需要使用枚举类型，则字段需要设置成varchar类型， 并在字段注释上使用 #枚举类型{KEY:描述;key2:描述;} 格式来描述枚举类型格式， 代码生成器会自动生成枚举类
+        eg: #LogType{OPT:操作日志;EX:异常日志;}
+类注释： 用 /** 开头的文档型注释， 并添加 @author @date 等参数
+方法注释：  用 /** 开头的文档型注释， 并添加 @param @return 等参数
+```
 - 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
 
 
@@ -128,18 +135,24 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ├─zuihou-admin-cloud
 │  │  
 │  ├─zuihou-backend---------------------------后端服务
+│  |  ├─zuihou-client-------------------------业务客服端/常用API
 │  |  ├─zuihou-authority----------------------后端管理服务[正在开发]
 │  |  |  ├─zuihou-admin-biz-------------------后端管理业务/持久层
 │  |  |  ├─zuihou-admin-controller------------后端管理业务/持久层
 │  |  |  ├─zuihou-admin-server----------------后端管理服务
 │  |  ├─zuihou-file---------------------------文件模块服务[正在开发]
+│  |  ├─zuihou-msgs---------------------------消息模块服务[正在开发]
 │  |  ├─zuihou-gateway------------------------统一网关负载中心
 │  |  |  |─zuihou-gateway-ratelimit-----------网关限流插件[未开始]
 │  |  |  |─zuihou-gateway-server--------------项目网关服务[未开始]
+│  |  ├─zuihou-jobs---------------------------定时任务调度执行器
 │  │ 
-│  ├─zuihou-commons----------------------------公共模块（这里一直没想好怎么调整，有想法的朋友可以给我留言）
-│  |  ├─zuihou-common------------------------项目公共包
-│  |  ├─zuihou-core---------------------------项目核心包
+│  ├─zuihou-commons--------------------------公共模块（这里一直没想好怎么调整，有想法的朋友可以给我留言）
+│  |  ├─zuihou-common------------------------项目公共模块
+│  |  ├─zuihou-core--------------------------项目核心模块
+│  |  ├─zuihou-databases---------------------项目数据源配置模块
+│  |  ├─zuihou-log---------------------------项目日志模块
+│  |  ├─zuihou-swagger2-starter--------------项目SwaggerUI文档配置
 │  │ 
 │  ├─zuihou-frontend--------------------------项目前端
 │  |  ├─zuihou-manage-center------------------管理后台
