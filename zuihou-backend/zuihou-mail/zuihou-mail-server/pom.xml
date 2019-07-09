@@ -137,16 +137,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!-- 优雅的 bean 转换 -->
-        <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer-spring</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>

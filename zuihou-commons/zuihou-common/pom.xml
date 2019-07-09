@@ -21,22 +21,12 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-core</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.github.zuihou</groupId>-->
-        <!--<artifactId>zuihou-databases</artifactId>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.springframework</groupId>-->
-        <!--<artifactId>spring-webmvc</artifactId>-->
-        <!--<scope>compile</scope>-->
-        <!--<optional>true</optional>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -45,32 +35,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.dozermapper</groupId>
-            <artifactId>dozer-core</artifactId>
-            <scope>compile</scope>
+            <artifactId>dozer-spring-boot-starter</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>io.springfox</groupId>-->
-            <!--<artifactId>springfox-swagger2</artifactId>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.github.xiaoymin</groupId>-->
-            <!--<artifactId>swagger-bootstrap-ui</artifactId>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework</groupId>-->
-        <!--<artifactId>spring-tx</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.mybatis</groupId>-->
-        <!--<artifactId>mybatis-spring</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.mybatis</groupId>-->
-        <!--<artifactId>mybatis</artifactId>-->
-        <!--</dependency>-->
-
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -84,13 +50,6 @@
             </exclusions>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--<scope>compile</scope>-->
-        <!--<optional>true</optional>-->
-        <!--</dependency>-->
-
         <!-- jdk8 Time-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -102,20 +61,6 @@
             <artifactId>jackson-module-parameter-names</artifactId>
             <scope>compile</scope>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>com.baomidou</groupId>-->
-        <!--<artifactId>mybatis-plus-core</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>com.baomidou</groupId>-->
-        <!--<artifactId>mybatis-plus-boot-starter</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate.validator</groupId>-->
-        <!--<artifactId>hibernate-validator</artifactId>-->
-        <!--</dependency>-->
-
         <!-- XSS -->
         <dependency>
             <groupId>org.owasp.antisamy</groupId>

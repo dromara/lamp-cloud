@@ -19,6 +19,7 @@
         <module>zuihou-jobs-api</module>
         <module>zuihou-jobs-core</module>
         <module>zuihou-jobs-server</module>
+        <module>zuihou-executor</module>
     </modules>
 
     <dependencyManagement>

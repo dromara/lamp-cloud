@@ -3,6 +3,8 @@ package com.github.zuihou;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import com.github.zuihou.common.annotation.EnableDozer;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.github.zuihou",
 })
 @EnableTransactionManagement
+@EnableDozer
 @Slf4j
 public class FileServerApplication {
     public static void main(String[] args) throws UnknownHostException {

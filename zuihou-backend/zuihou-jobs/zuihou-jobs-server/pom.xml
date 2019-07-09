@@ -21,15 +21,9 @@
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-databases</artifactId>
+            <artifactId>zuihou-executor</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-biz</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,14 +50,6 @@
         </dependency>
 
         <!-- 持久层相关 -->
-        <!--<dependency>-->
-        <!--<groupId>org.mybatis.spring.boot</groupId>-->
-        <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
-        <!--<version>${springboot.mybatis.version}</version>-->
-        <!--</dependency>-->
-
-        <!-- 持久层相关 -->
-
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -76,18 +62,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!-- 连接池 -->
-        <!--<dependency>-->
-        <!--<groupId>com.alibaba</groupId>-->
-        <!--<artifactId>druid</artifactId>-->
-        <!--<version>${alibaba.druid.version}</version>-->
-        <!--</dependency>-->
-        <!---->
-        <!--<dependency>-->
-        <!--<groupId>com.alibaba</groupId>-->
-        <!--<artifactId>fastjson</artifactId>-->
-        <!--<version>${fastjson.version}</version>-->
-        <!--</dependency>-->
+
 
         <!-- commons-collections4 -->
         <dependency>
