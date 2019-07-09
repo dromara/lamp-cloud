@@ -20,7 +20,7 @@ public enum TriggerTypeEnum {
      */
     MANUAL(I18nUtil.getString("jobconf_trigger_type_manual")),
     /**
-     * 定时触发，by tangyh
+     * 定时触发，by zuihou
      */
     TIMING(I18nUtil.getString("jobconf_trigger_type_timing")),
     CRON(I18nUtil.getString("jobconf_trigger_type_cron")),

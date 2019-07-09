@@ -111,10 +111,13 @@
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
 
-    <logger name="com.hengyunsoft.commons.handler" additivity="true" level="WARN">
+    <logger name="com.github.zuihou.common.handler" additivity="true" level="WARN">
         <appender-ref ref="ROOT_APPENDER"/>
     </logger>
     <logger name="com.xxl.job.admin.controller" additivity="true" level="WARN">
+        <appender-ref ref="CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="com.github.zuihou.executor" additivity="true" level="WARN">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
     <logger name="com.xxl.job.admin.service" additivity="true" level="WARN">
