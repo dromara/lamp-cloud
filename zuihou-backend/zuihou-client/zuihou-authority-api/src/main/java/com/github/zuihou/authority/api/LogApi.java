@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.api;
 
-import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.api.hystrix.LogApiHystrix;
 import com.github.zuihou.base.R;
 import com.github.zuihou.log.entity.OptLogDTO;
@@ -25,6 +24,6 @@ public interface LogApi {
      * @return
      */
     @RequestMapping(value = "/log", method = RequestMethod.POST)
-    R<Token> save(@RequestBody OptLogDTO log);
+    R<OptLogDTO> save(@RequestBody OptLogDTO log);
 
 }
