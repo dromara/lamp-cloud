@@ -17,6 +17,7 @@ import com.github.zuihou.file.dto.AttachmentResultDTO;
 import com.github.zuihou.file.entity.Attachment;
 import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.service.AttachmentService;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BizAssert;
 
 import io.swagger.annotations.Api;
@@ -57,7 +58,7 @@ import static java.util.stream.Collectors.groupingBy;
 @RestController
 @RequestMapping("/attachment")
 @Slf4j
-@Api(value = "附件表", description = "附件表")
+@Api(value = "附件", description = "附件")
 public class AttachmentController extends BaseController {
 
     /**
@@ -84,6 +85,7 @@ public class AttachmentController extends BaseController {
             @ApiImplicitParam(name = "file", value = "附件", dataType = "MultipartFile", allowMultiple = true, required = true),
     })
     @PostMapping(value = "/upload")
+    @SysLog("上传附件")
     public R<AttachmentDTO> upload(
             @RequestParam(value = "file") MultipartFile file,
             @RequestParam(value = "appCode", required = false) String appCode,
@@ -107,6 +109,7 @@ public class AttachmentController extends BaseController {
             @ApiImplicitParam(name = "ids[]", value = "文件ids", dataType = "long", paramType = "query"),
     })
     @DeleteMapping(value = "")
+    @SysLog("删除附件")
     public R<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
         attachmentService.remove(ids);
         return success(true);
@@ -114,6 +117,7 @@ public class AttachmentController extends BaseController {
 
     @ApiOperation(value = "根据业务类型或业务id删除文件", notes = "根据业务类型或业务id删除文件")
     @DeleteMapping(value = "/biz")
+    @SysLog("根据业务类型删除附件")
     public R<Boolean> removeByBizIdAndBizType(@RequestBody AttachmentRemoveDTO dto) {
         attachmentService.removeByBizIdAndBizType(dto.getBizId(), dto.getBizType());
         return success(true);
@@ -124,6 +128,7 @@ public class AttachmentController extends BaseController {
             @ApiResponse(code = 60103, message = "文件id为空")
     )
     @GetMapping
+    @SysLog("根据业务类型查询附件")
     public R<List<AttachmentResultDTO>> findAttachment(@RequestParam(value = "bizTypes", required = false) String[] bizTypes,
                                                        @RequestParam(value = "bizIds", required = false) String[] bizIds) {
         //不能同时为空
@@ -134,6 +139,7 @@ public class AttachmentController extends BaseController {
 
     @ApiOperation(value = "根据业务类型或者业务id查询附件", notes = "根据业务类型或者业务id查询附件")
     @GetMapping(value = "/{type}")
+    @SysLog("根据业务类型分组查询附件")
     public R<Map<String, List<Attachment>>> findAttachmentByBiz(@PathVariable String type, @RequestParam("biz[]") String[] biz) {
         SFunction<Attachment, String> sf = Attachment::getBizType;
         if (TYPE_BIZ_ID.equalsIgnoreCase(type)) {
@@ -160,6 +166,7 @@ public class AttachmentController extends BaseController {
      */
     @ApiOperation(value = "下载一个文件或多个文件打包下载", notes = "根据附件id下载多个打包的附件")
     @GetMapping(value = "/download", produces = "application/octet-stream")
+    @SysLog("下载附件")
     public void download(
             @ApiParam(name = "ids[]", value = "文件id 数组")
             @RequestParam(value = "ids[]") Long[] ids,
@@ -183,6 +190,7 @@ public class AttachmentController extends BaseController {
     })
     @ApiOperation(value = "下载一个文件或多个文件打包下载", notes = "根据业务id下载一个文件或多个文件打包下载")
     @GetMapping(value = "/download/biz", produces = "application/octet-stream")
+    @SysLog("根据业务类型下载附件")
     public void downloadByBiz(
             @RequestParam(value = "bizIds[]", required = false) String[] bizIds,
             @RequestParam(value = "bizTypes[]", required = false) String[] bizTypes,
@@ -207,6 +215,7 @@ public class AttachmentController extends BaseController {
             @ApiImplicitParam(name = "filename", value = "文件名", dataType = "string", paramType = "query"),
     })
     @GetMapping(value = "/download/url", produces = "application/octet-stream")
+    @SysLog("根据文件连接下载文件")
     public void downloadUrl(@RequestParam(value = "url") String url, @RequestParam(value = "filename", required = false) String filename,
                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         BizAssert.assertTrue(BASE_VALID_PARAM.build("附件下载地址不能为空"), StringUtils.isNotEmpty(url));
@@ -218,8 +227,9 @@ public class AttachmentController extends BaseController {
             @ApiImplicitParam(name = "bizType", value = "业务类型", dataType = "string", paramType = "path"),
             @ApiImplicitParam(name = "bizId", value = "业务id", dataType = "string", paramType = "path"),
     })
-    @ApiOperation(value = "根据业务类型和业务id下载图片附件", notes = "根据业务类型和业务id在前端img标签中回显图片附件， 但存在多个附件时，默认显示第一个图片")
+    @ApiOperation(value = "获取图片", notes = "根据业务类型和业务id在前端img标签中回显图片附件， 但存在多个附件时，默认显示第一个图片")
     @GetMapping(value = "/download/{bizType}/{bizId}", produces = "image/png")
+    @SysLog("获取图片")
     public R<Boolean> findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
