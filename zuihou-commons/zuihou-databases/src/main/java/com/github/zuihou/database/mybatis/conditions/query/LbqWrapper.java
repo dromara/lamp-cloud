@@ -286,7 +286,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      */
     public static Object transVal(String value, String paramsType) {
         if (ColumnType.String.toString().equals(paramsType)) {
-            return new String(value);
+            return value;
         }
         if (ColumnType.Double.toString().equals(paramsType)) {
             return Double.parseDouble(value);

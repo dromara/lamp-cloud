@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 公共配置类, 一些公共工具配置
  *
- * @author zlt
+ * @author zuihou
  * @date 2018/8/25
  */
 public class LoginArgResolverConfig implements WebMvcConfigurer {
