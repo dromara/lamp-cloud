@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.api.hystrix;
 
-import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.api.LogApi;
 import com.github.zuihou.base.R;
 import com.github.zuihou.log.entity.OptLogDTO;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogApiHystrix implements LogApi {
     @Override
-    public R<Token> save(OptLogDTO log) {
+    public R<OptLogDTO> save(OptLogDTO log) {
         return R.timeout();
     }
 }

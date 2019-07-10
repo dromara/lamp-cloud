@@ -41,6 +41,7 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 /**
+ * swagger 包扫描配置
  * @author zuihou
  * @date 2018/11/18 9:22
  */
@@ -57,7 +58,7 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "zuihou.swagger.enabled", matchIfMissing = true)
+    @ConditionalOnProperty(name = "zuihou.swagger.enabled", havingValue = "true", matchIfMissing = true)
     public List<Docket> createRestApi() {
         ConfigurableBeanFactory configurableBeanFactory = (ConfigurableBeanFactory) beanFactory;
         List<Docket> docketList = new LinkedList<>();
