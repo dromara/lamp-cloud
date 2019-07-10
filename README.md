@@ -5,7 +5,7 @@
 具有统一授权、认证后台管理系统，其中包含具备用户管理、配置中心、存储系统、资源权限管理、
 网关API、OpenAPI管理、日志分析、任务和通知等多个模块，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。
-核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Redis、
+核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、
 RibbitMQ、FastDFS等主要框架和中间件。
 
 希望能努力打造一套从 `基础框架` - `分布式微服务架构` - `持续集成` - 
@@ -66,7 +66,6 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有：
     - JSON序列化:Jackson
-    - 缓存：Redis 4.0.6
     - 消息队列：RibbitMQ
     - 数据库： MySQL 5.7.9 (驱动6.0.6)
     - 定时器：采用xxl-jobs项目进行二次改造
@@ -129,7 +128,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 环境须知：
 
 - nginx (文件下载、预览时需要使用)
-- mysql 5.7.9+，redis 4+ ，rabbitmq 3.6+
+- mysql 5.7.9+，rabbitmq 3.6+
 - JDK8
 - IDE插件一个(Eclipse, IDEA都需要安装插件)，`lombok插件`
 
@@ -178,7 +177,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - doc/sql/zuihou_authority_dev.sql
     - doc/sql/zuihou_file_dev.sql
 
-- 2, 修改配置数据库/redis/rabbitMQ配置：
+- 2, 修改配置数据库/rabbitMQ 配置：
 
 - 3， 在IDE中启动：
 - 3.1， 在IDE中启动：编译代码，修改启动参数：

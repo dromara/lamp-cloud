@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * @author zlt
+ * @author zuihou
  * 用户实体
  */
 @Data

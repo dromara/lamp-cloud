@@ -23,7 +23,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 /**
  * Token转化SysUser
  *
- * @author zlt
+ * @author zuihou
  * @date 2018/12/21
  */
 @Slf4j
