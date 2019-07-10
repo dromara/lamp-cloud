@@ -1,8 +1,8 @@
 package com.github.zuihou.log.aspect;
 
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,8 +46,7 @@ public class SysLogAspect {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private OptLogDTO sysLog = new OptLogDTO();
-    private long beginTime = 0;
+    public static final ThreadLocal<OptLogDTO> threadLocal = new ThreadLocal<>();
 
     /***
      * 定义controller切入点拦截规则，拦截SysLog注解的方法
@@ -57,15 +56,23 @@ public class SysLogAspect {
 
     }
 
+    private OptLogDTO get() {
+        OptLogDTO sysLog = threadLocal.get();
+        if (sysLog == null) {
+            return new OptLogDTO();
+        }
+        return sysLog;
+    }
+
     @Before(value = "sysLogAspect()")
     public void recordLog(JoinPoint joinPoint) throws Throwable {
         log.info("当前线程id={}", Thread.currentThread().getId());
-        log.info("joinPoint={}", joinPoint);
 
         // 开始时间
-        beginTime = Instant.now().toEpochMilli();
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 //        BeanUtils.copyProperties(new OptLogDTO(), sysLog);
+
+        OptLogDTO sysLog = get();
 
         sysLog.setCreateUser(BaseContextHandler.getUserId());
         sysLog.setRequestIp(ServletUtil.getClientIP(request));
@@ -84,6 +91,14 @@ public class SysLogAspect {
 
         sysLog.setStartTime(LocalDateTime.now());
         sysLog.setUa(request.getHeader("user-agent"));
+        if (sysLog.getUa().contains("Chrome")) {
+            try {
+                Thread.sleep(5000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        threadLocal.set(sysLog);
     }
 
 
@@ -96,8 +111,8 @@ public class SysLogAspect {
     @AfterReturning(returning = "ret", pointcut = "sysLogAspect()")
     public void doAfterReturning(Object ret) {
         log.info("当前线程id={}", Thread.currentThread().getId());
-        log.info("ret={}", ret);
         R r = Convert.convert(R.class, ret);
+        OptLogDTO sysLog = get();
         if (r.getIsSuccess()) {
             sysLog.setType("OPT");
         } else {
@@ -108,15 +123,14 @@ public class SysLogAspect {
             sysLog.setResult(getText(r.toString()));
         }
 
-        publishEvent();
+        publishEvent(sysLog);
     }
 
-    private void publishEvent() {
+    private void publishEvent(OptLogDTO sysLog) {
         sysLog.setFinishTime(LocalDateTime.now());
-        long endTime = Instant.now().toEpochMilli();
-        sysLog.setConsumingTime(endTime - beginTime);
-
+        sysLog.setConsumingTime(sysLog.getStartTime().until(sysLog.getFinishTime(), ChronoUnit.MILLIS));
         applicationContext.publishEvent(new SysLogEvent(sysLog));
+        threadLocal.remove();
     }
 
     /**
@@ -127,8 +141,8 @@ public class SysLogAspect {
     @AfterThrowing(pointcut = "sysLogAspect()", throwing = "e")
     public void doAfterThrowable(Throwable e) {
         log.info("当前线程id={}", Thread.currentThread().getId());
-        log.info("e={}", e);
 
+        OptLogDTO sysLog = get();
         sysLog.setType("EX");
 
         // 异常对象
@@ -136,7 +150,7 @@ public class SysLogAspect {
         // 异常信息
         sysLog.setExDesc(e.getMessage());
 
-        publishEvent();
+        publishEvent(sysLog);
     }
 
     /**

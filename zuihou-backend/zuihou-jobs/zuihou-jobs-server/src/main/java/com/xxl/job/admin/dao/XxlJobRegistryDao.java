@@ -2,7 +2,6 @@ package com.xxl.job.admin.dao;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xxl.job.admin.core.model.XxlJobRegistry;
 
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * Created by xuxueli on 16/9/30.
  */
 @Repository
-public interface XxlJobRegistryDao extends BaseMapper<XxlJobRegistry> {
+public interface XxlJobRegistryDao {
 
 
     int removeDead(@Param("timeout") Integer timeout);
