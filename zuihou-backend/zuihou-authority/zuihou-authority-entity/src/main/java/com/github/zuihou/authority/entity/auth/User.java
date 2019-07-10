@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.authority.enumeration.auth.AccountType;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.Entity;
 
@@ -77,14 +76,6 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
     private Long stationId;
-
-    /**
-     * 账号类型  
-     * #AccountType{CUSTOMER:客户;BUILT_IN:内置}
-     */
-    @ApiModelProperty(value = "账号类型")
-    @TableField("account_type")
-    private AccountType accountType;
 
     /**
      * 手机
@@ -178,7 +169,7 @@ public class User extends Entity<Long> {
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String account, String name, Long orgId, Long stationId, AccountType accountType,
+                String account, String name, Long orgId, Long stationId,
                 String mobile, Sex sex, Boolean isCanLogin, Boolean isDelete, String photo, String workDescribe,
                 Integer loginCount, LocalDate continuationErrorDay, Integer continuationErrorCount, LocalDateTime passwordExpireTime, String password) {
         this.id = id;
@@ -190,7 +181,6 @@ public class User extends Entity<Long> {
         this.name = name;
         this.orgId = orgId;
         this.stationId = stationId;
-        this.accountType = accountType;
         this.mobile = mobile;
         this.sex = sex;
         this.isCanLogin = isCanLogin;

@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.entity.auth.Role;
@@ -20,5 +22,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
-
+    @Override
+    public List<Role> findRoleByUserId(Long userId) {
+        return baseMapper.findRoleByUserId(userId);
+    }
 }

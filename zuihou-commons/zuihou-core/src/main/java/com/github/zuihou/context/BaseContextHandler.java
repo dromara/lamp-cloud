@@ -78,33 +78,14 @@ public class BaseContextHandler {
         set(BaseContextConstants.JWT_KEY_ACCOUNT, name);
     }
 
-    /**
-     * 账号类型
-     *
-     * @return
-     */
-    public static String getAccountType() {
-        Object value = get(BaseContextConstants.JWT_KEY_ACCOUNT_TYPE);
-        return returnObjectValue(value);
-    }
-
-    /**
-     * 账号类型
-     *
-     * @param accountType
-     */
-    public static void setAccountType(String accountType) {
-        set(BaseContextConstants.JWT_KEY_ACCOUNT_TYPE, accountType);
-    }
-
 
     /**
      * 登录的账号
      *
      * @return
      */
-    public static String getNickName() {
-        Object value = get(BaseContextConstants.JWT_KEY_NICK_NAME);
+    public static String getName() {
+        Object value = get(BaseContextConstants.JWT_KEY_NAME);
         return returnObjectValue(value);
     }
 
@@ -113,8 +94,8 @@ public class BaseContextHandler {
      *
      * @param account
      */
-    public static void setNickName(String account) {
-        set(BaseContextConstants.JWT_KEY_NICK_NAME, account);
+    public static void setName(String account) {
+        set(BaseContextConstants.JWT_KEY_NAME, account);
     }
 
     /**
@@ -141,13 +122,13 @@ public class BaseContextHandler {
     }
 
 
-    public static String getDepartmentId() {
-        Object value = get(BaseContextConstants.JWT_KEY_DEPARTMENT_ID);
+    public static String getStationId() {
+        Object value = get(BaseContextConstants.JWT_KEY_STATION_ID);
         return StringHelper.getObjectValue(value);
     }
 
-    public static void setDepartmentId(String val) {
-        set(BaseContextConstants.JWT_KEY_DEPARTMENT_ID, val);
+    public static void setStationId(String val) {
+        set(BaseContextConstants.JWT_KEY_STATION_ID, val);
     }
 
 

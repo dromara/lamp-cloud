@@ -46,8 +46,7 @@ public class AuthManager {
     private Token getToken(User user) {
         JwtUserInfo userInfo = null;
 
-        userInfo = new JwtUserInfo
-                (user.getId(), user.getAccount(), user.getName(), "", "", "");
+        userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), user.getOrgId(), user.getStationId());
 
         Token token = jwtTokenServerUtils.generateUserToken(userInfo, null);
         log.info("token={}", token.getToken());

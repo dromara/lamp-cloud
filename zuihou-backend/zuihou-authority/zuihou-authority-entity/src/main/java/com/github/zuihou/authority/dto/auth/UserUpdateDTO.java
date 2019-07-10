@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.github.zuihou.authority.enumeration.auth.AccountType;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.SuperEntity;
 
@@ -73,12 +72,6 @@ public class UserUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "岗位ID")
     private Long stationId;
-    /**
-     * 账号类型
-     * #AccountType{CUSTOMER:客户;BUILT_IN:内置}
-     */
-    @ApiModelProperty(value = "账号类型")
-    private AccountType accountType;
     /**
      * 手机
      */
