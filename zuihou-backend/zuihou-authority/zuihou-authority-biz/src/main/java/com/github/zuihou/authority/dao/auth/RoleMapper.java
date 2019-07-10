@@ -1,8 +1,11 @@
 package com.github.zuihou.authority.dao.auth;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.entity.auth.Role;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +19,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RoleMapper extends BaseMapper<Role> {
-
+    /**
+     * 查询用户拥有的角色
+     *
+     * @param userId
+     * @return
+     */
+    List<Role> findRoleByUserId(@Param("userId") Long userId);
 }

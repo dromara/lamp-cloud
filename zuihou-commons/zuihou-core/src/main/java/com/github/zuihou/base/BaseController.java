@@ -134,8 +134,8 @@ public abstract class BaseController {
         return BaseContextHandler.getAccount();
     }
 
-    protected String getNickName() {
-        return BaseContextHandler.getNickName();
+    protected String getName() {
+        return BaseContextHandler.getName();
     }
 
     /**

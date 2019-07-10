@@ -97,7 +97,7 @@ public class TokenContextFilter extends BaseFilter {
         JwtUserInfo userInfo = null;
         try {
             if (isDev() && "test".equalsIgnoreCase(userToken)) {
-                userInfo = new JwtUserInfo(1L, "admin", "管理员", "1", "1", "A");
+                userInfo = new JwtUserInfo(1L, "admin", "管理员", 1L, 1L);
             } else {
                 if (!isIgnoreToken()) {
                     userInfo = jwtTokenClientUtils.getUserInfo(userToken);
@@ -121,12 +121,10 @@ public class TokenContextFilter extends BaseFilter {
         if (!isIgnoreToken()) {
             addHeader(ctx, BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount());
             addHeader(ctx, BaseContextConstants.JWT_KEY_USER_ID, userInfo.getUserId());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_NICK_NAME, userInfo.getNickName());
-
-            addHeader(ctx, BaseContextConstants.JWT_KEY_ACCOUNT_TYPE, userInfo.getAccountType());
+            addHeader(ctx, BaseContextConstants.JWT_KEY_NAME, userInfo.getName());
 
             addHeader(ctx, BaseContextConstants.JWT_KEY_ORG_ID, userInfo.getOrgId());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_DEPARTMENT_ID, userInfo.getDepartmentId());
+            addHeader(ctx, BaseContextConstants.JWT_KEY_STATION_ID, userInfo.getStationId());
         }
 
         log.info("access filter end");

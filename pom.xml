@@ -23,6 +23,7 @@
         <!--<module>zuihou-support</module>-->
         <!--<module>zuihou-backend</module>-->
         <!--<module>zuihou-frontend</module>-->
+        <!--<module>zuihou-dependencies</module>-->
     </modules>
     <packaging>pom</packaging>
     <developers>

@@ -1,11 +1,8 @@
 package com.github.zuihou.authority.config;
 
-import com.github.zuihou.auth.interceptor.AuthClientContextHandlerInterceptor;
 import com.github.zuihou.common.adapter.BaseConfig;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
  * @author zuihou
@@ -19,10 +16,10 @@ public class AuthorityConfiguration extends BaseConfig {
      *
      * @return
      */
-    @Bean
-    @Override
-    public HandlerInterceptor getHandlerInterceptor() {
-        return new AuthClientContextHandlerInterceptor();
-    }
+//    @Bean
+//    @Override
+//    public HandlerInterceptor getHandlerInterceptor() {
+//        return new AuthClientContextHandlerInterceptor();
+//    }
 
 }

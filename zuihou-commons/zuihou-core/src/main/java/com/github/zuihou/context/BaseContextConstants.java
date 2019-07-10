@@ -14,22 +14,23 @@ public class BaseContextConstants {
     /**
      *
      */
-    public static final String JWT_KEY_USER_ID = "userId";
+    public static final String JWT_KEY_USER_ID = "userid";
     /**
      *
      */
-    public static final String JWT_KEY_NICK_NAME = "nickName";
+    public static final String JWT_KEY_NAME = "name";
     /**
      *
      */
     public static final String JWT_KEY_ACCOUNT = "account";
 
-    public static final String JWT_KEY_ORG_ID = "orgId";
-    public static final String JWT_KEY_DEPARTMENT_ID = "departmentId";
-
     /**
-     * 实体类型
+     * 组织id
      */
-    public static final String JWT_KEY_ACCOUNT_TYPE = "accountType";
+    public static final String JWT_KEY_ORG_ID = "orgid";
+    /**
+     * 岗位id
+     */
+    public static final String JWT_KEY_STATION_ID = "stationid";
 
 }

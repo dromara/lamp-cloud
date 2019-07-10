@@ -4,11 +4,13 @@ import java.net.InetAddress;
 
 import com.github.zuihou.auth.server.EnableAuthServer;
 import com.github.zuihou.common.annotation.EnableDozer;
+import com.github.zuihou.common.annotation.EnableLoginArgResolver;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -23,8 +25,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAuthServer
 @Configuration
+@EnableFeignClients(value = {
+        "com.github.zuihou",
+})
 @Slf4j
 @EnableDozer
+@EnableLoginArgResolver
 public class AuthorityApplication {
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext application = SpringApplication.run(AuthorityApplication.class, args);

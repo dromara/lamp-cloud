@@ -69,7 +69,7 @@ public class SysLogAspect {
 
         sysLog.setCreateUser(BaseContextHandler.getUserId());
         sysLog.setRequestIp(ServletUtil.getClientIP(request));
-        sysLog.setUserName(BaseContextHandler.getNickName());
+        sysLog.setUserName(BaseContextHandler.getName());
         sysLog.setDescription(LogUtil.getControllerMethodDescription(joinPoint));
 
         // 类名

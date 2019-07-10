@@ -9,6 +9,7 @@ import com.github.zuihou.common.excode.ExceptionCode;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.utils.DateUtils;
+import com.github.zuihou.utils.NumberHelper;
 import com.github.zuihou.utils.StringHelper;
 
 import io.jsonwebtoken.Claims;
@@ -46,10 +47,9 @@ public class JwtHelper {
                 //设置主题
                 .setSubject(String.valueOf(jwtInfo.getUserId()))
                 .claim(BaseContextConstants.JWT_KEY_ACCOUNT, jwtInfo.getAccount())
-                .claim(BaseContextConstants.JWT_KEY_NICK_NAME, jwtInfo.getNickName())
+                .claim(BaseContextConstants.JWT_KEY_NAME, jwtInfo.getName())
                 .claim(BaseContextConstants.JWT_KEY_ORG_ID, jwtInfo.getOrgId())
-                .claim(BaseContextConstants.JWT_KEY_DEPARTMENT_ID, jwtInfo.getDepartmentId())
-                .claim(BaseContextConstants.JWT_KEY_ACCOUNT_TYPE, jwtInfo.getAccountType());
+                .claim(BaseContextConstants.JWT_KEY_STATION_ID, jwtInfo.getStationId());
         return generateToken(jwtBuilder, priKeyPath, expire);
     }
 
@@ -66,18 +66,14 @@ public class JwtHelper {
         Claims body = claimsJws.getBody();
         String strUserId = body.getSubject();
         String account = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ACCOUNT));
-        String nickName = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_NICK_NAME));
+        String name = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_NAME));
 
-        String orgId = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ORG_ID));
-        String departmentId = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_DEPARTMENT_ID));
-        String accountType = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ACCOUNT_TYPE));
-        Long userId = null;
-        try {
-            userId = Long.parseLong(strUserId);
-        } catch (Exception e) {
-            log.info("解析jwt中用户id出错", e);
-        }
-        return new JwtUserInfo(userId, account, nickName, orgId, departmentId, accountType);
+        String strOrgId = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ORG_ID));
+        String strDepartmentId = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_STATION_ID));
+        Long userId = NumberHelper.longValueOf0(strUserId);
+        Long orgId = NumberHelper.longValueOf0(strOrgId);
+        Long departmentId = NumberHelper.longValueOf0(strDepartmentId);
+        return new JwtUserInfo(userId, account, name, orgId, departmentId);
     }
 
 

@@ -23,9 +23,11 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 项目地址
 [github] https://github.com/zuihou/zuihou-admin-cloud
 
-[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud
+[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  (同步的github的代码，需要最新代码的同学请关注github项目)
 
 [代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
+
+[前端] https://github.com/zuihou/zuihou-admin-ui  (规划中)
 
 ## 模块详解:
  - 服务注册与调用：
@@ -54,7 +56,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
  - 定时任务调度器：
 
-基于xxl-jobs进行了功能增强（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
+基于xxl-jobs进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源） 
+
+
 
 ## 项目架构图
 ![frame.jpg](doc/image/项目相关/frame.jpg)
@@ -248,7 +252,10 @@ API 界面:
  - 3, zuihou-generator jar缺失？
     - 答： https://github.com/zuihou/zuihou-generator 。去我github下载这个项目，自行编译。
     
-    
+ - 4, 为啥要将调度器和执行器合并在一起？
+     - 答： 对于中小型项目，对高可用的需求并不是很大，若把调度器和执行器分开部署，会增加部署成本。    
+     
+     
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   
