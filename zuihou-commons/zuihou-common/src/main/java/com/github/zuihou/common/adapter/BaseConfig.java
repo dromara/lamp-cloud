@@ -277,10 +277,9 @@ public abstract class BaseConfig implements WebMvcConfigurer {
      * @return
      */
     @Bean
-    public DateFormatRegister dateFormatRegister() {
+    public DateFormatRegister dateFomatRegister() {
         return new DateFormatRegister();
     }
-
 
 
     /**
