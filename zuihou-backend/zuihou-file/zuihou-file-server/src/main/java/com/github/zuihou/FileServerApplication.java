@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import com.github.zuihou.common.annotation.EnableDozer;
+import com.github.zuihou.common.annotation.EnableLoginArgResolver;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 @EnableTransactionManagement
 @EnableDozer
+@EnableLoginArgResolver
 @Slf4j
 public class FileServerApplication {
     public static void main(String[] args) throws UnknownHostException {
