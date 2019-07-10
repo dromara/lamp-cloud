@@ -218,6 +218,9 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      * @see
      */
     public static Object replace(Object source) {
+        if (source == null) {
+            return null;
+        }
         Object target = source;
 
         Class<?> srcClass = source.getClass();
