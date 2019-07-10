@@ -66,7 +66,7 @@ public class FileController extends BaseController {
      */
     @ApiOperation(value = "查询文件", notes = "获取文件")
     @GetMapping
-    @SysLog("查询文件")
+    @SysLog("查询文件详情")
     public R<File> get(@RequestParam(value = "id") Long id) {
         File file = fileService.getById(id);
         if (file != null && file.getIsDelete()) {
@@ -81,8 +81,9 @@ public class FileController extends BaseController {
      * @author zuihou
      * @date 2019-05-06
      */
-    @ApiOperation(value = "获取文件分页", notes = "获取文件分页")
+    @ApiOperation(value = "分页查询文件", notes = "获取文件分页")
     @GetMapping(value = "/page")
+    @SysLog("分页查询文件")
     public R<IPage<File>> page(FilePageReqDTO data) {
         return success(fileRestManager.page(getPage(), data));
     }
@@ -104,6 +105,7 @@ public class FileController extends BaseController {
             @ApiImplicitParam(name = "file", value = "附件", dataType = "MultipartFile", allowMultiple = true, required = true),
     })
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @SysLog("上传文件")
     public R<File> upload(@RequestParam(value = "folderId") Long folderId,
                           @RequestParam(value = "file") MultipartFile simpleFile) {
         //1，先将文件存在本地,并且生成文件名
@@ -132,8 +134,9 @@ public class FileController extends BaseController {
             @ApiResponse(code = 60001, message = "文件夹名称为空"),
             @ApiResponse(code = 60002, message = "父文件夹为空"),
     })
-    @ApiOperation(value = "保存文件夹", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
+    @ApiOperation(value = "新增文件夹", notes = "新增文件夹")
     @RequestMapping(value = "", method = RequestMethod.POST)
+    @SysLog("新增文件夹")
     public R<FolderDTO> saveFolder(@Valid @RequestBody FolderSaveDTO folderSaveDto) {
         //2，获取身份
 
@@ -152,6 +155,7 @@ public class FileController extends BaseController {
             @ApiResponse(code = 60100, message = "文件为空"),
     })
     @RequestMapping(value = "", method = RequestMethod.PUT)
+    @SysLog("修改文件/文件夹名称")
     public R<Boolean> update(@Valid @RequestBody FileUpdateDTO fileUpdateDTO) {
         // 判断文件名是否有 后缀
         if (StringUtils.isNotEmpty(fileUpdateDTO.getSubmittedFileName())) {
@@ -174,6 +178,7 @@ public class FileController extends BaseController {
      */
     @ApiOperation(value = "根据Ids进行文件删除", notes = "根据Ids进行文件删除  ")
     @DeleteMapping(value = "/list")
+    @SysLog("删除文件/文件夹")
     public R<Boolean> removeList(@RequestParam(value = "ids[]") Long[] ids) {
         Long userId = getUserId();
         return success(fileService.removeList(userId, ids));
@@ -188,6 +193,7 @@ public class FileController extends BaseController {
      */
     @ApiOperation(value = "下载一个文件或多个文件打包下载", notes = "下载一个文件或多个文件打包下载")
     @GetMapping(value = "/download", produces = "application/octet-stream")
+    @SysLog("下载文件")
     public void download(
             @ApiParam(name = "ids[]", value = "文件id 数组")
             @RequestParam(value = "ids[]") Long[] ids,

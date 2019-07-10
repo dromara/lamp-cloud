@@ -17,6 +17,7 @@ import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.file.strategy.FileChunkStrategy;
 import com.github.zuihou.file.strategy.FileStrategy;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
+import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -150,6 +151,7 @@ public class FileChunkController extends BaseController {
     @ApiOperation(value = "分片合并", notes = "所有分片上传成功后，调用该接口对分片进行合并")
     @RequestMapping(value = "/chunksMerge", method = RequestMethod.POST)
     @ResponseBody
+    @SysLog("上传大文件")
     public R<File> saveChunksMerge(@RequestBody FileChunksMergeDTO info) {
         log.info("info={}", info);
 
