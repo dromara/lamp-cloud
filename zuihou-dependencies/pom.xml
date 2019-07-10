@@ -96,6 +96,7 @@
         <hutool.version>4.5.6</hutool.version>
         <antisamy.version>1.5.3</antisamy.version>
         <commons-lang.version>2.6</commons-lang.version>
+        <commons-io.version>2.5</commons-io.version>
     </properties>
 
     <dependencyManagement>
@@ -123,7 +124,11 @@
                 <scope>import</scope>
             </dependency>
 
-
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
             <!-- mybatis -->
             <dependency>
                 <groupId>org.mybatis</groupId>

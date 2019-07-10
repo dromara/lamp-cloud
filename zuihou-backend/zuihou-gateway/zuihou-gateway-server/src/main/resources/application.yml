@@ -96,9 +96,9 @@ eureka:
 
 
 zuul:
-  debug:
-    request: true
-  include-debug-header: true
+  #  debug:
+  #    request: true
+  #  include-debug-header: true
   retryable: false
   servlet-path: /         # 默认是/zuul , 上传文件需要加/zuul前缀才不会出现乱码，这个改成/ 即可不加前缀
   ignored-services: "*"   # 忽略eureka上的所有服务
