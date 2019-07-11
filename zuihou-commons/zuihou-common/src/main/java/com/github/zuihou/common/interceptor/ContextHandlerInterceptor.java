@@ -34,29 +34,34 @@ public class ContextHandlerInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof HandlerMethod)) {
-            log.info("not exec!!! url={}", request.getRequestURL());
-            return super.preHandle(request, response, handler);
+        try {
+            if (!(handler instanceof HandlerMethod)) {
+                log.info("not exec!!! url={}", request.getRequestURL());
+                return super.preHandle(request, response, handler);
+            }
+
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            ApiOperation apiOperation = handlerMethod.getMethod().getAnnotation(ApiOperation.class);
+
+            //设置api名称到报文头中
+            if (apiOperation != null) {
+                response.setHeader(CommonConstants.CALL_RECORD_API_NAME, URLEncoder.encode(apiOperation.value(), "utf-8"));
+            }
+
+            String userId = getHeader(request, BaseContextConstants.JWT_KEY_USER_ID);
+            String account = getHeader(request, BaseContextConstants.JWT_KEY_ACCOUNT);
+            String name = getHeader(request, BaseContextConstants.JWT_KEY_NAME);
+            String orgId = getHeader(request, BaseContextConstants.JWT_KEY_ORG_ID);
+            String stationId = getHeader(request, BaseContextConstants.JWT_KEY_STATION_ID);
+            BaseContextHandler.setUserId(userId);
+            BaseContextHandler.setAccount(account);
+            BaseContextHandler.setName(name);
+            BaseContextHandler.setOrgId(orgId);
+            BaseContextHandler.setStationId(stationId);
+        } catch (Exception e) {
+
+            log.warn("解析token信息时，发生异常. ", e);
         }
-
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        ApiOperation apiOperation = handlerMethod.getMethod().getAnnotation(ApiOperation.class);
-
-        //设置api名称到报文头中
-        if (apiOperation != null) {
-            response.setHeader(CommonConstants.CALL_RECORD_API_NAME, URLEncoder.encode(apiOperation.value(), "utf-8"));
-        }
-
-        String userId = getHeader(request, BaseContextConstants.JWT_KEY_USER_ID);
-        String account = getHeader(request, BaseContextConstants.JWT_KEY_ACCOUNT);
-        String name = getHeader(request, BaseContextConstants.JWT_KEY_NAME);
-        String orgId = getHeader(request, BaseContextConstants.JWT_KEY_ORG_ID);
-        String stationId = getHeader(request, BaseContextConstants.JWT_KEY_STATION_ID);
-        BaseContextHandler.setUserId(userId);
-        BaseContextHandler.setAccount(account);
-        BaseContextHandler.setName(name);
-        BaseContextHandler.setOrgId(orgId);
-        BaseContextHandler.setStationId(stationId);
         return super.preHandle(request, response, handler);
     }
 
