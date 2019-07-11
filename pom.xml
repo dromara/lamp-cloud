@@ -19,11 +19,11 @@
     </licenses>
 
     <modules>
-        <!--<module>zuihou-commons</module>-->
-        <!--<module>zuihou-support</module>-->
-        <!--<module>zuihou-backend</module>-->
-        <!--<module>zuihou-frontend</module>-->
-        <!--<module>zuihou-dependencies</module>-->
+        <module>zuihou-dependencies</module>
+        <module>zuihou-commons</module>
+        <module>zuihou-backend</module>
+        <module>zuihou-support</module>
+        <module>zuihou-frontend</module>
     </modules>
     <packaging>pom</packaging>
     <developers>
