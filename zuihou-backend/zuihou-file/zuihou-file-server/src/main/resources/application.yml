@@ -6,12 +6,12 @@ zuihou:
         title: 文件服务
         base-package: com.github.zuihou.file.controller
   port:
-    nginx: 80
-    eureka: 8761
+    nginx: ${NGINX_PORT:80}
+    eureka: ${EUREKA_PORT:8761}
   ip:
-    mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
-    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
-    eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
+    mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
   context-path:
     eureka: /zuihou-eureka
     gate: /api

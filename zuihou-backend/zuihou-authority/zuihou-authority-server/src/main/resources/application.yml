@@ -1,4 +1,23 @@
 zuihou:
+  port:
+    nginx: ${NGINX_PORT:80}
+    eureka: ${EUREKA_PORT:8761}
+  ip:
+    mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
+  mysql:
+    authority:
+      database: zuihou_authority_dev
+      host: ${zuihou.ip.mysql}
+      port: ${zuihou.mysql.port}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    port: 3306                  # 根据环境更改
+    username: root              # 数据库密码
+    password: root
+  context-path:
+    eureka: /zuihou-eureka
+    gate: /api
   swagger:
     enabled: true
     docket:
@@ -14,25 +33,6 @@ zuihou:
       test:
         title: 测试模块
         base-package: com.github.zuihou.authority.controller.test
-  port:
-    nginx: 80
-    eureka: 8761
-  ip:
-    mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
-    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
-    eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
-  mysql:
-    authority:
-      database: zuihou_authority_dev
-      host: ${zuihou.ip.mysql}
-      port: ${zuihou.mysql.port}
-    driverClassName: com.mysql.cj.jdbc.Driver
-    port: 3306                  # 根据环境更改
-    username: root              # 数据库密码
-    password: root
-  context-path:
-    eureka: /zuihou-eureka
-    gate: /api
 
 logging:
   file: ${logging.path}/root.log

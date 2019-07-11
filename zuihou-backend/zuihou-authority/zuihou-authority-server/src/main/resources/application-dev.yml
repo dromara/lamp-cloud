@@ -3,11 +3,11 @@ zuihou:
     enabled: true
   port:
     nginx: ${server.port}
-    eureka: 8761
+    eureka: ${EUREKA_PORT:8761}
   ip:
-    mysql: ${MYSQL_HOST:${spring.cloud.client.ip-address}}
-    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
-    eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
+    mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
   mysql:
     authority:
       database: zuihou_authority_dev

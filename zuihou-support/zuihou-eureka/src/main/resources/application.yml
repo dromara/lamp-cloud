@@ -3,7 +3,7 @@ zuihou:
     eureka: 127.0.0.1
 
 server:
-  port: 8761   # eureka 端口号
+  port: ${EUREKA_PORT:8761}   # eureka 端口号
   servlet:
     context-path: /${spring.application.name}
 
@@ -27,7 +27,7 @@ eureka:
   datacenter: linux
   client:
     serviceUrl:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:8761${server.servlet.context-path}/eureka/
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:${EUREKA_PORT:8761}${server.servlet.context-path}/eureka/
     registerWithEureka: false  # 单机模式 设置为false
     fetchRegistry: false       # 单机模式 设置为false
   instance:

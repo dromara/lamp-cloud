@@ -1,8 +1,8 @@
 zuihou:
   port:
     nginx: ${server.port}
-    eureka: 8761
+    eureka: ${EUREKA_PORT:8761}
   ip:
-    nginx: ${NGINX_HOST:${spring.cloud.client.ip-address}}
-    eureka: ${EUREKA_HOST:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
 

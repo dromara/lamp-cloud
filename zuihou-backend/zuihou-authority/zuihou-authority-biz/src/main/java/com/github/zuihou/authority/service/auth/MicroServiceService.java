@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.service.auth;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.MicroService;
 
@@ -13,5 +15,13 @@ import com.github.zuihou.authority.entity.auth.MicroService;
  * @date 2019-07-03
  */
 public interface MicroServiceService extends IService<MicroService> {
+
+
+    /**
+     * 解析指定服务的uri 接口
+     *
+     * @param list
+     */
+    void parseUri(List<MicroService> list);
 
 }

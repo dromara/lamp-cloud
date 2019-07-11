@@ -36,7 +36,7 @@ public interface AuthTokenApi {
      * @param password
      * @return
      */
-    @RequestMapping(value = "/anno/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/anno/login", method = RequestMethod.POST)
     R<LoginDTO> login(@RequestParam("account") String account, @RequestParam("password") String password);
 
 }

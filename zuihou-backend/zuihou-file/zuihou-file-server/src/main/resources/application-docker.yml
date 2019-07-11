@@ -1,0 +1,11 @@
+zuihou:
+  mysql:
+    file:
+      database: zuihou_file_dev       # 根据环境更改
+    port: 3306                  # 根据环境更改
+    username: root              # 根据环境更改
+    password: 6162659
+  file:
+    type: LOCAL # FASTDFS LOCAL
+
+
