@@ -52,7 +52,7 @@ public class AuthTokenController extends BaseController {
 
 
     @ApiOperation(value = "验证登录并刷新token", notes = "验证登录并刷新token")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public R<LoginDTO> login(@RequestParam(value = "account") String account,
                              @RequestParam(value = "password") String password) throws BizException {
         return success(authManager.login(account, password));
