@@ -7,8 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -51,8 +49,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -277,7 +273,7 @@ public abstract class BaseConfig implements WebMvcConfigurer {
      * @return
      */
     @Bean
-    public DateFormatRegister dateFomatRegister() {
+    public DateFormatRegister dateFormatRegister() {
         return new DateFormatRegister();
     }
 
@@ -396,58 +392,4 @@ public abstract class BaseConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-    /**
-     * 注册 拦截器
-     *
-     * @param registry
-     */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        if (getHandlerInterceptor() != null) {
-            ArrayList<String> commonPathPatterns = getExcludeCommonPathPatterns();
-            registry.addInterceptor(getHandlerInterceptor()).addPathPatterns("/**")
-                    .excludePathPatterns(commonPathPatterns.toArray(new String[]{}));
-        }
-        WebMvcConfigurer.super.addInterceptors(registry);
-
-    }
-
-    protected HandlerInterceptor getHandlerInterceptor() {
-        return null;
-    }
-
-    /**
-     * auth-client 中的拦截器需要排除拦截的地址
-     *
-     * @return
-     */
-    protected ArrayList<String> getExcludeCommonPathPatterns() {
-        ArrayList<String> list = new ArrayList<>();
-        String[] urls = {
-                "/error",
-                "/login",
-                "/v2/api-docs",
-                "/v2/api-docs-ext",
-                "/swagger-resources/**",
-                "/webjars/**",
-
-                "/",
-                "/csrf",
-
-                "/META-INF/resources/**",
-                "/resources/**",
-                "/static/**",
-                "/public/**",
-                "classpath:/META-INF/resources/**",
-                "classpath:/resources/**",
-                "classpath:/static/**",
-                "classpath:/public/**",
-
-                "/cache/**",
-                "/swagger-ui.html**",
-                "/doc.html**"
-        };
-        Collections.addAll(list, urls);
-        return list;
-    }
 }

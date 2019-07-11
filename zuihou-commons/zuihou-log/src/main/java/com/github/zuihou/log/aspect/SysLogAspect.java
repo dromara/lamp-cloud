@@ -69,13 +69,8 @@ public class SysLogAspect {
         log.info("当前线程id={}", Thread.currentThread().getId());
 
         // 开始时间
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-//        BeanUtils.copyProperties(new OptLogDTO(), sysLog);
-
         OptLogDTO sysLog = get();
-
         sysLog.setCreateUser(BaseContextHandler.getUserId());
-        sysLog.setRequestIp(ServletUtil.getClientIP(request));
         sysLog.setUserName(BaseContextHandler.getName());
         sysLog.setDescription(LogUtil.getControllerMethodDescription(joinPoint));
 
@@ -83,21 +78,19 @@ public class SysLogAspect {
         sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
         //获取执行的方法名
         sysLog.setActionMethod(joinPoint.getSignature().getName());
-        sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-        sysLog.setHttpMethod(request.getMethod());
+
         // 参数
         Object[] args = joinPoint.getArgs();
         sysLog.setParams(getText(JSONObject.toJSONString(args)));
-
-        sysLog.setStartTime(LocalDateTime.now());
-        sysLog.setUa(request.getHeader("user-agent"));
-        if (sysLog.getUa().contains("Chrome")) {
-            try {
-                Thread.sleep(5000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        if (request != null) {
+            sysLog.setRequestIp(ServletUtil.getClientIP(request));
+            sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
+            sysLog.setHttpMethod(request.getMethod());
+            sysLog.setUa(request.getHeader("user-agent"));
         }
+        sysLog.setStartTime(LocalDateTime.now());
+
         threadLocal.set(sysLog);
     }
 
@@ -113,14 +106,16 @@ public class SysLogAspect {
         log.info("当前线程id={}", Thread.currentThread().getId());
         R r = Convert.convert(R.class, ret);
         OptLogDTO sysLog = get();
-        if (r.getIsSuccess()) {
+        if (r == null || r.getIsSuccess()) {
             sysLog.setType("OPT");
         } else {
             sysLog.setType("EX");
             sysLog.setExDetail(r.getMsg());
         }
-        if (ret != null) {
+        if (r != null) {
             sysLog.setResult(getText(r.toString()));
+        } else {
+            sysLog.setResult(getText(JSONObject.toJSONString(ret)));
         }
 
         publishEvent(sysLog);

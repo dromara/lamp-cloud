@@ -11,6 +11,9 @@ zuihou:
       core:
         title: 核心模块
         base-package: com.github.zuihou.authority.controller.core
+      test:
+        title: 测试模块
+        base-package: com.github.zuihou.authority.controller.test
   port:
     nginx: 80
     eureka: 8761

@@ -1,10 +1,11 @@
-package com.github.zuihou.authority.controller.common;
+package com.github.zuihou.authority.controller.test;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import com.github.zuihou.authority.dto.auth.ApplicationUpdateDTO;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +63,22 @@ public class HibernateValidateController {
      * @return
      */
     @GetMapping("/obj/get3")
+    @SysLog("测试")
     public String objGet3(@Validated @Valid ApplicationUpdateDTO data) {
+        return "aa";
+    }
+
+
+    /**
+     * ok
+     * 普通对象验证， @Validated 注解需要写在参数上
+     *
+     * @param data
+     * @return
+     */
+    @GetMapping("/obj/get4")
+    @SysLog("测试")
+    public String objGet4(ApplicationUpdateDTO data) {
         return "aa";
     }
 
@@ -99,6 +115,7 @@ public class HibernateValidateController {
      */
     @GetMapping("/requestParam/get")
     @Validated
+    @SysLog("测试")
     public String paramGet(@Length(max = 3)
                            @NotEmpty(message = "不能为空")
                            @RequestParam(value = "code", required = false) String code) {

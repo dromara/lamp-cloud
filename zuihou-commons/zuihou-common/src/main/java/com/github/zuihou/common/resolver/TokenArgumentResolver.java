@@ -1,18 +1,13 @@
 package com.github.zuihou.common.resolver;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.annotation.LoginUser;
 import com.github.zuihou.common.feign.UserQuery;
 import com.github.zuihou.common.feign.UserResolveApi;
 import com.github.zuihou.common.model.SysUser;
-import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.utils.NumberHelper;
-import com.github.zuihou.utils.StringHelper;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -38,12 +33,12 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
     /**
      * 入参筛选
      *
-     * @param methodParameter 参数集合
+     * @param mp 参数集合
      * @return 格式化后的参数
      */
     @Override
-    public boolean supportsParameter(MethodParameter methodParameter) {
-        return true;
+    public boolean supportsParameter(MethodParameter mp) {
+        return mp.hasParameterAnnotation(LoginUser.class) && mp.getParameterType().equals(SysUser.class);
     }
 
     /**
@@ -58,29 +53,19 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
                                   ModelAndViewContainer modelAndViewContainer,
                                   NativeWebRequest nativeWebRequest,
                                   WebDataBinderFactory webDataBinderFactory) {
-        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-        String userId = getHeader(request, BaseContextConstants.JWT_KEY_USER_ID);
-        String account = getHeader(request, BaseContextConstants.JWT_KEY_ACCOUNT);
-        String name = getHeader(request, BaseContextConstants.JWT_KEY_NAME);
-        String orgId = getHeader(request, BaseContextConstants.JWT_KEY_ORG_ID);
-        String stationId = getHeader(request, BaseContextConstants.JWT_KEY_STATION_ID);
-        BaseContextHandler.setUserId(userId);
-        BaseContextHandler.setAccount(account);
-        BaseContextHandler.setName(name);
-        BaseContextHandler.setOrgId(orgId);
-        BaseContextHandler.setStationId(stationId);
+        Long userId = BaseContextHandler.getUserId();
+        String account = BaseContextHandler.getAccount();
+        String name = BaseContextHandler.getName();
+        Long orgId = BaseContextHandler.getOrgId();
+        Long stationId = BaseContextHandler.getStationId();
 
         //以下代码为 根据 @LoginUser 注解来注入 SysUser 对象
-        if (!(methodParameter.hasParameterAnnotation(LoginUser.class) && methodParameter.getParameterType().equals(SysUser.class))) {
-            return null;
-        }
-
         SysUser user = SysUser.builder()
-                .id(NumberHelper.longValueOf0(userId))
+                .id(userId)
                 .account(account)
                 .name(name)
-                .orgId(NumberHelper.longValueOf0(orgId))
-                .stationId(NumberHelper.longValueOf0(stationId))
+                .orgId(orgId)
+                .stationId(stationId)
                 .build();
 
         LoginUser loginUser = methodParameter.getParameterAnnotation(LoginUser.class);
@@ -100,13 +85,5 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
         }
 
         return user;
-    }
-
-    private String getHeader(HttpServletRequest request, String name) {
-        String value = request.getHeader(name);
-        if (StrUtil.isEmpty(value)) {
-            return null;
-        }
-        return StringHelper.decode(value);
     }
 }

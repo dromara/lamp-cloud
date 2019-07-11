@@ -1,4 +1,4 @@
-package com.github.zuihou.authority.controller.common;
+package com.github.zuihou.authority.controller.test;
 
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -48,6 +48,12 @@ public class TestController extends BaseController {
 
     @PostMapping("post2")
     public R<OptLogDTO> post2(@RequestBody OptLogDTO data, @ApiIgnore @LoginUser(isOrg = true, isStation = true) SysUser user) {
+        return success(data);
+    }
+
+
+    @GetMapping("get3")
+    public R<OptLogDTO> get3(OptLogDTO data, @ApiIgnore @LoginUser(isOrg = true, isStation = true) SysUser user) {
         return success(data);
     }
 }
