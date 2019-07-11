@@ -22,11 +22,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @date 2018/12/21
  */
 @Slf4j
-public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
+public class ContextArgumentResolver implements HandlerMethodArgumentResolver {
 
     private UserResolveApi userResolveApi;
 
-    public TokenArgumentResolver(UserResolveApi userResolveApi) {
+    public ContextArgumentResolver(UserResolveApi userResolveApi) {
         this.userResolveApi = userResolveApi;
     }
 
@@ -68,20 +68,24 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
                 .stationId(stationId)
                 .build();
 
-        LoginUser loginUser = methodParameter.getParameterAnnotation(LoginUser.class);
-        boolean isFull = loginUser.isFull();
+        try {
+            LoginUser loginUser = methodParameter.getParameterAnnotation(LoginUser.class);
+            boolean isFull = loginUser.isFull();
 
-        if (isFull || loginUser.isStation() || loginUser.isOrg() || loginUser.isRoles()) {
-            R<SysUser> result = userResolveApi.getById(NumberHelper.longValueOf0(userId),
-                    UserQuery.builder()
-                            .full(isFull)
-                            .org(loginUser.isOrg())
-                            .station(loginUser.isStation())
-                            .roles(loginUser.isRoles())
-                            .build());
-            if (result.getIsSuccess() && result.getData() != null) {
-                return result.getData();
+            if (isFull || loginUser.isStation() || loginUser.isOrg() || loginUser.isRoles()) {
+                R<SysUser> result = userResolveApi.getById(NumberHelper.longValueOf0(userId),
+                        UserQuery.builder()
+                                .full(isFull)
+                                .org(loginUser.isOrg())
+                                .station(loginUser.isStation())
+                                .roles(loginUser.isRoles())
+                                .build());
+                if (result.getIsSuccess() && result.getData() != null) {
+                    return result.getData();
+                }
             }
+        } catch (Exception e) {
+            log.warn("注入登录人信息时，发生异常. --> {}", user, e);
         }
 
         return user;

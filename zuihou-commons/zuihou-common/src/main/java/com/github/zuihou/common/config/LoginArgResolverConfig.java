@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.github.zuihou.common.feign.UserResolveApi;
 import com.github.zuihou.common.interceptor.ContextHandlerInterceptor;
-import com.github.zuihou.common.resolver.TokenArgumentResolver;
+import com.github.zuihou.common.resolver.ContextArgumentResolver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -31,7 +31,7 @@ public class LoginArgResolverConfig implements WebMvcConfigurer {
      */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new TokenArgumentResolver(userResolveApi));
+        argumentResolvers.add(new ContextArgumentResolver(userResolveApi));
     }
 
 
