@@ -153,7 +153,11 @@ public class UserController extends BaseController {
     @PostMapping(value = "/id/{id}")
     public R<SysUser> getById(@PathVariable Long id, @RequestBody UserQuery query) {
         User user = userService.getById(id);
+        if (user == null) {
+            return success(null);
+        }
         SysUser sysUser = dozer.map(user, SysUser.class);
+
 
         if (query.getFull() || query.getOrg()) {
             sysUser.setOrg(dozer.map(orgService.getById(user.getOrgId()), SysOrg.class));

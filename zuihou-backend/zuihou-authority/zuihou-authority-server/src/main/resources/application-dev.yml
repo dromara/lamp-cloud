@@ -1,4 +1,6 @@
 zuihou:
+  log:
+    enabled: true
   port:
     nginx: ${server.port}
     eureka: 8761

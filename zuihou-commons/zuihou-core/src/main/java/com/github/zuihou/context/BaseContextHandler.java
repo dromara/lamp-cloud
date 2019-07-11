@@ -17,9 +17,14 @@ import com.github.zuihou.utils.StringHelper;
 public class BaseContextHandler {
     public static final ThreadLocal<Map<String, String>> threadLocal = new ThreadLocal<>();
 
-    public static void set(String key, Object value) {
+    public static void set(String key, Long value) {
         Map<String, String> map = getLocalMap();
-        map.put(key, String.valueOf(value));
+        map.put(key, value == null ? "0" : String.valueOf(value));
+    }
+
+    public static void set(String key, String value) {
+        Map<String, String> map = getLocalMap();
+        map.put(key, value == null ? "" : value);
     }
 
     private static Map<String, String> getLocalMap() {
@@ -43,7 +48,7 @@ public class BaseContextHandler {
      */
     public static Long getUserId() {
         Object value = get(BaseContextConstants.JWT_KEY_USER_ID);
-        return NumberHelper.longValueOfNil(value);
+        return NumberHelper.longValueOf0(value);
     }
 
     /**
@@ -112,9 +117,9 @@ public class BaseContextHandler {
         set(BaseContextConstants.TOKEN_NAME, token);
     }
 
-    public static String getOrgId() {
+    public static Long getOrgId() {
         Object value = get(BaseContextConstants.JWT_KEY_ORG_ID);
-        return StringHelper.getObjectValue(value);
+        return NumberHelper.longValueOf0(value);
     }
 
     public static void setOrgId(String val) {
@@ -122,9 +127,9 @@ public class BaseContextHandler {
     }
 
 
-    public static String getStationId() {
+    public static Long getStationId() {
         Object value = get(BaseContextConstants.JWT_KEY_STATION_ID);
-        return StringHelper.getObjectValue(value);
+        return NumberHelper.longValueOf0(value);
     }
 
     public static void setStationId(String val) {
@@ -133,7 +138,7 @@ public class BaseContextHandler {
 
 
     private static String returnObjectValue(Object value) {
-        return value == null ? null : value.toString();
+        return value == null ? "" : value.toString();
     }
 
     public static void remove() {
