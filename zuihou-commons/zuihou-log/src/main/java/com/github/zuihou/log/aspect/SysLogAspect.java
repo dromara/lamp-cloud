@@ -3,7 +3,9 @@ package com.github.zuihou.log.aspect;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -68,32 +70,53 @@ public class SysLogAspect {
     public void recordLog(JoinPoint joinPoint) throws Throwable {
         log.info("当前线程id={}", Thread.currentThread().getId());
 
-        // 开始时间
-        OptLogDTO sysLog = get();
-        sysLog.setCreateUser(BaseContextHandler.getUserId());
-        sysLog.setUserName(BaseContextHandler.getName());
-        sysLog.setDescription(LogUtil.getControllerMethodDescription(joinPoint));
+        tryCatch((aaa) -> {
+            // 开始时间
+            OptLogDTO sysLog = get();
+            sysLog.setCreateUser(BaseContextHandler.getUserId());
+            sysLog.setUserName(BaseContextHandler.getName());
+            sysLog.setDescription(LogUtil.getControllerMethodDescription(joinPoint));
 
-        // 类名
-        sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
-        //获取执行的方法名
-        sysLog.setActionMethod(joinPoint.getSignature().getName());
+            // 类名
+            sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
+            //获取执行的方法名
+            sysLog.setActionMethod(joinPoint.getSignature().getName());
 
-        // 参数
-        Object[] args = joinPoint.getArgs();
-        sysLog.setParams(getText(JSONObject.toJSONString(args)));
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        if (request != null) {
-            sysLog.setRequestIp(ServletUtil.getClientIP(request));
-            sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-            sysLog.setHttpMethod(request.getMethod());
-            sysLog.setUa(request.getHeader("user-agent"));
-        }
-        sysLog.setStartTime(LocalDateTime.now());
+            // 参数
+            Object[] args = joinPoint.getArgs();
 
-        threadLocal.set(sysLog);
+            String strArgs = "";
+            try {
+                strArgs = JSONObject.toJSONString(args);
+            } catch (Exception e) {
+                try {
+                    strArgs = Arrays.toString(args);
+                } catch (Exception ex) {
+                    log.warn("解析参数异常", ex);
+                }
+            }
+            sysLog.setParams(getText(strArgs));
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+            if (request != null) {
+                sysLog.setRequestIp(ServletUtil.getClientIP(request));
+                sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
+                sysLog.setHttpMethod(request.getMethod());
+                sysLog.setUa(request.getHeader("user-agent"));
+            }
+            sysLog.setStartTime(LocalDateTime.now());
+
+            threadLocal.set(sysLog);
+        });
     }
 
+
+    private void tryCatch(Consumer<String> consumer) {
+        try {
+            consumer.accept("");
+        } catch (Exception e) {
+            log.warn("记录操作日志异常", e);
+        }
+    }
 
     /**
      * 返回通知
@@ -104,21 +127,25 @@ public class SysLogAspect {
     @AfterReturning(returning = "ret", pointcut = "sysLogAspect()")
     public void doAfterReturning(Object ret) {
         log.info("当前线程id={}", Thread.currentThread().getId());
-        R r = Convert.convert(R.class, ret);
-        OptLogDTO sysLog = get();
-        if (r == null || r.getIsSuccess()) {
-            sysLog.setType("OPT");
-        } else {
-            sysLog.setType("EX");
-            sysLog.setExDetail(r.getMsg());
-        }
-        if (r != null) {
-            sysLog.setResult(getText(r.toString()));
-        } else {
-            sysLog.setResult(getText(JSONObject.toJSONString(ret)));
-        }
 
-        publishEvent(sysLog);
+        tryCatch((aaa) -> {
+            R r = Convert.convert(R.class, ret);
+            OptLogDTO sysLog = get();
+            if (r == null || r.getIsSuccess()) {
+                sysLog.setType("OPT");
+            } else {
+                sysLog.setType("EX");
+                sysLog.setExDetail(r.getMsg());
+            }
+            if (r != null) {
+                sysLog.setResult(getText(r.toString()));
+            } else {
+                sysLog.setResult(getText(JSONObject.toJSONString(ret)));
+            }
+
+            publishEvent(sysLog);
+        });
+
     }
 
     private void publishEvent(OptLogDTO sysLog) {
@@ -136,16 +163,17 @@ public class SysLogAspect {
     @AfterThrowing(pointcut = "sysLogAspect()", throwing = "e")
     public void doAfterThrowable(Throwable e) {
         log.info("当前线程id={}", Thread.currentThread().getId());
+        tryCatch((aaa) -> {
+            OptLogDTO sysLog = get();
+            sysLog.setType("EX");
 
-        OptLogDTO sysLog = get();
-        sysLog.setType("EX");
+            // 异常对象
+            sysLog.setExDetail(LogUtil.getStackTrace(e));
+            // 异常信息
+            sysLog.setExDesc(e.getMessage());
 
-        // 异常对象
-        sysLog.setExDetail(LogUtil.getStackTrace(e));
-        // 异常信息
-        sysLog.setExDesc(e.getMessage());
-
-        publishEvent(sysLog);
+            publishEvent(sysLog);
+        });
     }
 
     /**
