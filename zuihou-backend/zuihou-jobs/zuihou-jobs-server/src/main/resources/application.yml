@@ -33,7 +33,7 @@ xxl.job:
   i18n:
   # 以下是client 执行器端配置（注意：若不想配置调度器也是执行器，请自行参考xxl）
   admin:
-    addresses: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/${spring.application.name}
+    addresses: http://127.0.0.1:${server.port}/${spring.application.name}
   executor:
     appname: ${spring.application.name}
     ip: ${zuihou.ip.executor:127.0.0.1}
