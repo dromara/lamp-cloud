@@ -16,9 +16,9 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/dists/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/dists/css/skins/_all-skins.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,7 +44,7 @@
     <!-- FastClick -->
     <script src="${request.contextPath}/static/adminlte/bower_components/fastclick/fastclick.js"></script>
     <!-- AdminLTE App -->
-    <script src="${request.contextPath}/static/adminlte/dist/js/adminlte.min.js"></script>
+    <script src="${request.contextPath}/static/adminlte/dists/js/adminlte.min.js"></script>
     <!-- jquery.slimscroll -->
     <script src="${request.contextPath}/static/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 
