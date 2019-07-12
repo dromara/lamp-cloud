@@ -31,7 +31,7 @@ import com.github.zuihou.base.BaseController;
 /**
  * <p>
  * 前端控制器
- * 
+ *
  * </p>
  *
  * @author zuihou
@@ -41,7 +41,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/station")
-@Api(value = "Station", description = "")
+@Api(value = "Station", tags = "")
 public class StationController extends BaseController {
 
     @Autowired

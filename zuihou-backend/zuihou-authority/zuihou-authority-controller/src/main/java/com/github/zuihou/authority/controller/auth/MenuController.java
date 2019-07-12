@@ -57,7 +57,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/menu")
-@Api(value = "Menu", description = "菜单")
+@Api(value = "Menu", tags = "菜单")
 public class MenuController extends BaseController {
 
     @Autowired

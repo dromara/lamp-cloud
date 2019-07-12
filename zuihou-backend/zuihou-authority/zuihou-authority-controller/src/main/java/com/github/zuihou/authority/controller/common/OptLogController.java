@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/optLog")
-@Api(value = "OptLog", description = "系统日志")
+@Api(value = "OptLog", tags = "系统日志")
 public class OptLogController extends BaseController {
 
     @Autowired

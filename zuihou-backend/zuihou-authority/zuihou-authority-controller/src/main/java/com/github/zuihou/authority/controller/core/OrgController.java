@@ -31,7 +31,7 @@ import com.github.zuihou.base.BaseController;
 /**
  * <p>
  * 前端控制器
- * 
+ *
  * </p>
  *
  * @author zuihou
@@ -41,7 +41,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/org")
-@Api(value = "Org", description = "")
+@Api(value = "Org", tags = "")
 public class OrgController extends BaseController {
 
     @Autowired

@@ -58,7 +58,7 @@ import static java.util.stream.Collectors.groupingBy;
 @RestController
 @RequestMapping("/attachment")
 @Slf4j
-@Api(value = "附件", description = "附件")
+@Api(value = "附件", tags = "附件")
 public class AttachmentController extends BaseController {
 
     /**

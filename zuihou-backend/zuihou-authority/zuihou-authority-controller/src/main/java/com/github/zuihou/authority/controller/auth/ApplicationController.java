@@ -41,7 +41,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/application")
-@Api(value = "Application", description = "应用")
+@Api(value = "Application", tags = "应用")
 public class ApplicationController extends BaseController {
 
     @Autowired

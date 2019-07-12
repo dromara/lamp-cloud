@@ -28,7 +28,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Validated
 @RestController
 @RequestMapping("/test")
-@Api(value = "Test", description = "测试类")
+@Api(value = "Test", tags = "测试类")
 public class TestController extends BaseController {
 
     @GetMapping("/{id}")
