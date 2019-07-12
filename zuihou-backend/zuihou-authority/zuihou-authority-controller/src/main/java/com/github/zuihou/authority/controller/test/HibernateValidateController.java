@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/valid")
-@Api(value = "Valid", description = "验证")
+@Api(value = "Valid", tags = "验证")
 public class HibernateValidateController {
 
     /**

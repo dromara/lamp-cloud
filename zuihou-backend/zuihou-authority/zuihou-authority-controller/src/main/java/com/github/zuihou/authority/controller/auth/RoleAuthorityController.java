@@ -41,7 +41,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/roleAuthority")
-@Api(value = "RoleAuthority", description = "角色的资源")
+@Api(value = "RoleAuthority", tags = "角色的资源")
 public class RoleAuthorityController extends BaseController {
 
     @Autowired

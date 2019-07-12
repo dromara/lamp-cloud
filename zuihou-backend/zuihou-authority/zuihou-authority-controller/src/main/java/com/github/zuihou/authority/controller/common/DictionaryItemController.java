@@ -41,7 +41,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/dictionaryItem")
-@Api(value = "DictionaryItem", description = "字典项")
+@Api(value = "DictionaryItem", tags = "字典项")
 public class DictionaryItemController extends BaseController {
 
     @Autowired

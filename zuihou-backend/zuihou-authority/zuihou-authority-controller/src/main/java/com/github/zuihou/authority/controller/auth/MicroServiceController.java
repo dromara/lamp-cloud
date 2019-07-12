@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/microService")
-@Api(value = "MicroService", description = "服务表")
+@Api(value = "MicroService", tags = "服务表")
 public class MicroServiceController extends BaseController {
 
     @Autowired

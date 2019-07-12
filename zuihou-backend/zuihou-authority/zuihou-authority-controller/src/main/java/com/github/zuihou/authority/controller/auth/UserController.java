@@ -53,7 +53,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/user")
-@Api(value = "User", description = "用户")
+@Api(value = "User", tags = "用户")
 public class UserController extends BaseController {
 
     @Autowired

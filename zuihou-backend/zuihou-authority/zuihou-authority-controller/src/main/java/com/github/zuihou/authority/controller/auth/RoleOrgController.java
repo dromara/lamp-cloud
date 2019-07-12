@@ -41,7 +41,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/roleOrg")
-@Api(value = "RoleOrg", description = "角色部门关系")
+@Api(value = "RoleOrg", tags = "角色部门关系")
 public class RoleOrgController extends BaseController {
 
     @Autowired

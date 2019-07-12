@@ -41,7 +41,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/area")
-@Api(value = "Area", description = "地区表")
+@Api(value = "Area", tags = "地区表")
 public class AreaController extends BaseController {
 
     @Autowired

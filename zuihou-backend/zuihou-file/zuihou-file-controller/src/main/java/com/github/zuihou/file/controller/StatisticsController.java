@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/statistics")
-@Api(value = "Statistics", description = "统计接口")
+@Api(value = "Statistics", tags = "统计接口")
 public class StatisticsController extends BaseController {
 
     @Autowired

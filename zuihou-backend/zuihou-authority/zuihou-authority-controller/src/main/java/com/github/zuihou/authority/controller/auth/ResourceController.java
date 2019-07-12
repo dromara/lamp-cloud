@@ -47,7 +47,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/resource")
-@Api(value = "Resource", description = "资源")
+@Api(value = "Resource", tags = "资源")
 public class ResourceController extends BaseController {
 
     @Autowired

@@ -42,7 +42,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/userRole")
-@Api(value = "UserRole", description = "角色分配账号角色绑定")
+@Api(value = "UserRole", tags = "角色分配账号角色绑定")
 public class UserRoleController extends BaseController {
 
     @Autowired

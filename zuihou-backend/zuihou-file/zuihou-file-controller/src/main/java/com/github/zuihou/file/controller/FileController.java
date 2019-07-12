@@ -49,7 +49,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/file")
 @Slf4j
-@Api(value = "文件表", description = "文件表")
+@Api(value = "文件表", tags = "文件表")
 public class FileController extends BaseController {
     @Autowired
     private FileService fileService;
