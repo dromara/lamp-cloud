@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.TimeZone;
@@ -32,7 +33,6 @@ import com.github.zuihou.common.converter.XssStringJsonSerializer;
 import com.github.zuihou.common.filter.XssFilter;
 import com.github.zuihou.common.handler.GlobalExceptionHandler;
 import com.github.zuihou.utils.SpringUtil;
-import com.google.common.collect.Maps;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -315,7 +315,7 @@ public abstract class BaseConfig {
         filterRegistration.addUrlPatterns("/*");
         filterRegistration.setOrder(1);
 
-        Map<String, String> initParameters = Maps.newHashMap();
+        Map<String, String> initParameters = new HashMap<>(2);
         String excludes = new StringJoiner(",")
                 .add("/favicon.ico")
                 .add("/doc.html")
