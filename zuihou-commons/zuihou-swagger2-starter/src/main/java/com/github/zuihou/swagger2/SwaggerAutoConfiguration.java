@@ -42,6 +42,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * swagger 包扫描配置
+ *
  * @author zuihou
  * @date 2018/11/18 9:22
  */
