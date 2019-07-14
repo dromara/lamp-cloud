@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import com.github.zuihou.auth.server.EnableAuthServer;
 import com.github.zuihou.common.annotation.EnableDozer;
 import com.github.zuihou.common.annotation.EnableLoginArgResolver;
+import com.github.zuihou.validator.config.EnableFormValidator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @EnableDozer
 @EnableLoginArgResolver
+@EnableFormValidator
 public class AuthorityApplication {
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext application = SpringApplication.run(AuthorityApplication.class, args);

@@ -15,16 +15,14 @@ import com.github.zuihou.validator.model.ValidConstraint;
 import com.github.zuihou.validator.wrapper.HttpServletRequestValidatorWrapper;
 
 import cn.hutool.core.util.StrUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import static com.github.zuihou.validator.ValidatorUtils.FORM_VALIDATOR_URL;
 
 /**
  * 统一获取校验规则入口。<br>
@@ -76,14 +74,19 @@ import static com.github.zuihou.validator.ValidatorUtils.FORM_VALIDATOR_URL;
  * <p>
  * @date 2019-07-12 14:30
  */
-@RestController
+@RequestMapping
 public class FormValidatorController {
 
+    private final static String FORM_VALIDATOR_URL = "/form/validator";
+    //    @Autowired
+    final private RequestMappingHandlerMapping requestMappingHandlerMapping;
+    //    @Autowired
+    final private IConstraintExtract constraintExtract;
 
-    @Autowired
-    private RequestMappingHandlerMapping requestMappingHandlerMapping;
-    @Autowired
-    private IConstraintExtract constraintExtract;
+    public FormValidatorController(IConstraintExtract constraintExtract, RequestMappingHandlerMapping requestMappingHandlerMapping) {
+        this.constraintExtract = constraintExtract;
+        this.requestMappingHandlerMapping = requestMappingHandlerMapping;
+    }
 
     /**
      * 支持第一种拉取方式
@@ -92,7 +95,9 @@ public class FormValidatorController {
      * @return
      * @throws Exception
      */
+
     @RequestMapping(FORM_VALIDATOR_URL + "/**")
+    @ResponseBody
     public Collection<FieldValidatorDesc> standardByPathVar(HttpServletRequest request) throws Exception {
         String requestUri = request.getRequestURI();
         String formPath = StrUtil.subAfter(requestUri, FORM_VALIDATOR_URL, false);
@@ -108,6 +113,7 @@ public class FormValidatorController {
      * @throws Exception
      */
     @RequestMapping(FORM_VALIDATOR_URL)
+    @ResponseBody
     public Collection<FieldValidatorDesc> standardByQueryParam(@RequestParam(value = "formPath", required = false) String formPath, HttpServletRequest request) throws Exception {
         return localFieldValidatorDescribe(request, formPath);
     }
