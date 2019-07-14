@@ -17,15 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-gateway-ratelimit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-auth-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-core</artifactId>
             <exclusions>
                 <exclusion>
@@ -33,6 +24,14 @@
                     <artifactId>spring-boot-starter-jdbc</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-auth-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-gateway-ratelimit</artifactId>
         </dependency>
 
         <dependency>
@@ -44,10 +43,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
