@@ -8,8 +8,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * 在启动类上添加该注解来----开启自动登录用户对象注入
- * Token转化SysUser
+ * 在启动类上添加该注解来启动表单验证功能
  *
  * @author zuihou
  */

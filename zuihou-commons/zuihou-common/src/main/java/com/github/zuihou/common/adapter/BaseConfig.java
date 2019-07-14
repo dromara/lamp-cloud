@@ -43,8 +43,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 基础配置类
@@ -52,7 +50,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author zuihou
  * @date 2019-06-22 22:53
  */
-public abstract class BaseConfig implements WebMvcConfigurer {
+public abstract class BaseConfig {
 
     /**
      * 默认日期时间格式
@@ -271,6 +269,7 @@ public abstract class BaseConfig implements WebMvcConfigurer {
         return new DateFormatRegister();
     }
 
+    //---------------------------------------序列化配置end----------------------------------------------
 
     /**
      * 长度都是8位的字符串
@@ -337,53 +336,7 @@ public abstract class BaseConfig implements WebMvcConfigurer {
         return filterRegistration;
     }
 
-//    /////////////////////////////////////////////以下验证器配置///////////////////////////////////////////////////////
-//
-//    @Bean
-//    public Validator validator() {
-//        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
-//                .configure()
-//                //快速失败返回模式
-//                .addProperty("hibernate.validator.fail_fast", "true")
-//                .buildValidatorFactory();
-//        return validatorFactory.getValidator();
-//    }
-//
-//    /**
-//     * Method:  开启快速返回
-//     * Description:
-//     * 如果参数校验有异常，直接抛异常，不会进入到 controller，使用全局异常拦截进行拦截
-//     * Author: liu kai
-//     * Date: 2018/7/12 17:33
-//     *
-//     * @param
-//     * @return org.springframework.validation.beanvalidation.MethodValidationPostProcessor
-//     */
-//    @Bean
-//    public MethodValidationPostProcessor methodValidationPostProcessor() {
-//        MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
-//        /**设置validator模式为快速失败返回*/
-//        postProcessor.setValidator(validator());
-//        return postProcessor;
-//    }
-
     /////////////////////////////////////////////以下是拦截器配置///////////////////////////////////////////////////////
 
-    /**
-     * 这个地方要重新注入一下资源文件，不然不会注入资源的，也没有注入requestHandlerMappping,相当于xml配置的
-     * <!--swagger资源配置-->
-     * <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
-     * <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
-     * 不知道为什么，这也是spring boot的一个缺点（菜鸟觉得的）
-     *
-     * @param registry
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars*")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
 
 }

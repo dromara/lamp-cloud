@@ -10,15 +10,5 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FileConfiguration extends BaseConfig {
-    /**
-     * 覆盖父类的拦截器
-     *
-     * @return
-     */
-//    @Bean
-//    @Override
-//    public HandlerInterceptor getHandlerInterceptor() {
-//        return new AuthClientContextHandlerInterceptor();
-//    }
 
 }

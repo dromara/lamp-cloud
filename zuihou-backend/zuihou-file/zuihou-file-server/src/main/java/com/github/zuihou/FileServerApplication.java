@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 
 import com.github.zuihou.common.annotation.EnableDozer;
 import com.github.zuihou.common.annotation.EnableLoginArgResolver;
+import com.github.zuihou.validator.config.EnableFormValidator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -26,9 +27,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.github.zuihou",
 })
 @EnableTransactionManagement
+@Slf4j
 @EnableDozer
 @EnableLoginArgResolver
-@Slf4j
+@EnableFormValidator
 public class FileServerApplication {
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext application = SpringApplication.run(FileServerApplication.class, args);
