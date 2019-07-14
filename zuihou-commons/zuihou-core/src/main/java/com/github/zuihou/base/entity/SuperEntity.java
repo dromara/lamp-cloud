@@ -60,25 +60,4 @@ public class SuperEntity<T> implements Serializable {
     public interface Update extends Default {
 
     }
-
-    /**
-     * 保存验证组
-     */
-    public interface OnlySave {
-
-    }
-
-    /**
-     * 更新验证组
-     */
-    public interface OnlyUpdate {
-
-    }
-
-    /**
-     * 查询验证组
-     */
-    public interface OnlyQuery {
-
-    }
 }

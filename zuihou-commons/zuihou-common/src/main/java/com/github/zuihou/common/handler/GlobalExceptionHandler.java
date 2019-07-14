@@ -14,6 +14,7 @@ import com.github.zuihou.common.excode.ExceptionCode;
 import com.github.zuihou.exception.BizException;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
@@ -70,6 +71,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     public R BindException(BindException eee) {
         log.error("BindException:", eee);
+        try {
+            String msgs = eee.getBindingResult().getFieldError().getDefaultMessage();
+            if (StringUtils.isNotEmpty(msgs)) {
+                return R.result(ExceptionCode.PARAM_EX.getCode(), null, msgs);
+            }
+        } catch (Exception ee) {
+
+        }
         StringBuilder msg = new StringBuilder();
         List<FieldError> fieldErrors = eee.getFieldErrors();
         fieldErrors.forEach((oe) ->
@@ -190,6 +199,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        log.error("MethodArgumentNotValidException:", ex);
         return R.result(ExceptionCode.BASE_VALID_PARAM.getCode(), "", ex.getBindingResult().getFieldError().getDefaultMessage());
     }
 

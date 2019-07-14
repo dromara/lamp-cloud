@@ -1,7 +1,10 @@
 package com.github.zuihou.authority.config;
 
 import com.github.zuihou.common.adapter.BaseConfig;
+import com.github.zuihou.validator.extract.DefaultConstraintExtractImpl;
+import com.github.zuihou.validator.extract.IConstraintExtract;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -21,5 +24,14 @@ public class AuthorityConfiguration extends BaseConfig {
 //    public HandlerInterceptor getHandlerInterceptor() {
 //        return new AuthClientContextHandlerInterceptor();
 //    }
+    @Bean
+    public IConstraintExtract constraintExtract() throws Exception {
+        return new DefaultConstraintExtractImpl(validator());
+    }
 
+
+//    @Bean
+//    public FormValidatorController getFormValidatorController() {
+//        return new FormValidatorController();
+//    }
 }
