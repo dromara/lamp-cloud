@@ -12,10 +12,6 @@ import java.util.Map;
 import java.util.StringJoiner;
 import java.util.TimeZone;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +34,6 @@ import com.github.zuihou.common.handler.GlobalExceptionHandler;
 import com.github.zuihou.utils.SpringUtil;
 import com.google.common.collect.Maps;
 
-import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -48,7 +43,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -343,35 +337,35 @@ public abstract class BaseConfig implements WebMvcConfigurer {
         return filterRegistration;
     }
 
-    /////////////////////////////////////////////以下验证器配置///////////////////////////////////////////////////////
-
-    @Bean
-    public Validator validator() {
-        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
-                .configure()
-                //快速失败返回模式
-                .addProperty("hibernate.validator.fail_fast", "true")
-                .buildValidatorFactory();
-        return validatorFactory.getValidator();
-    }
-
-    /**
-     * Method:  开启快速返回
-     * Description:
-     * 如果参数校验有异常，直接抛异常，不会进入到 controller，使用全局异常拦截进行拦截
-     * Author: liu kai
-     * Date: 2018/7/12 17:33
-     *
-     * @param
-     * @return org.springframework.validation.beanvalidation.MethodValidationPostProcessor
-     */
-    @Bean
-    public MethodValidationPostProcessor methodValidationPostProcessor() {
-        MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
-        /**设置validator模式为快速失败返回*/
-        postProcessor.setValidator(validator());
-        return postProcessor;
-    }
+//    /////////////////////////////////////////////以下验证器配置///////////////////////////////////////////////////////
+//
+//    @Bean
+//    public Validator validator() {
+//        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+//                .configure()
+//                //快速失败返回模式
+//                .addProperty("hibernate.validator.fail_fast", "true")
+//                .buildValidatorFactory();
+//        return validatorFactory.getValidator();
+//    }
+//
+//    /**
+//     * Method:  开启快速返回
+//     * Description:
+//     * 如果参数校验有异常，直接抛异常，不会进入到 controller，使用全局异常拦截进行拦截
+//     * Author: liu kai
+//     * Date: 2018/7/12 17:33
+//     *
+//     * @param
+//     * @return org.springframework.validation.beanvalidation.MethodValidationPostProcessor
+//     */
+//    @Bean
+//    public MethodValidationPostProcessor methodValidationPostProcessor() {
+//        MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
+//        /**设置validator模式为快速失败返回*/
+//        postProcessor.setValidator(validator());
+//        return postProcessor;
+//    }
 
     /////////////////////////////////////////////以下是拦截器配置///////////////////////////////////////////////////////
 

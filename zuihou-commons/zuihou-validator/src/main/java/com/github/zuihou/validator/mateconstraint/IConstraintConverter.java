@@ -6,7 +6,10 @@ import com.github.zuihou.validator.model.ConstraintInfo;
 
 
 /**
- * 子类请实现成线程安全的
+ * 约束转换器
+ *
+ * @author tangyh
+ * @date 2019-07-14 12:13
  */
 public interface IConstraintConverter {
 

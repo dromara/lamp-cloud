@@ -22,33 +22,44 @@ import com.github.zuihou.validator.model.ConstraintInfo;
 import com.github.zuihou.validator.model.FieldValidatorDesc;
 import com.github.zuihou.validator.model.ValidConstraint;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.internal.engine.ValidatorImpl;
 import org.hibernate.validator.internal.metadata.BeanMetaDataManager;
 import org.hibernate.validator.internal.metadata.aggregated.BeanMetaData;
 import org.hibernate.validator.internal.metadata.core.MetaConstraint;
 import org.hibernate.validator.internal.metadata.location.ConstraintLocation;
 
+/**
+ * 缺省的约束提取器
+ *
+ * @author tangyh
+ * @date 2019-07-14 12:12
+ */
+@Slf4j
 public class DefaultConstraintExtractImpl implements IConstraintExtract {
 
     private Validator validator;
     private BeanMetaDataManager beanMetaDataManager;
     private List<IConstraintConverter> constraintConverters;
 
-    public DefaultConstraintExtractImpl(Validator validator) throws Exception {
+    public DefaultConstraintExtractImpl(Validator validator) {
         this.validator = validator;
         init();
     }
 
-    public void init() throws Exception {
-
-        Field beanMetaDataManagerField = ValidatorImpl.class.getDeclaredField("beanMetaDataManager");
-        beanMetaDataManagerField.setAccessible(true);
-        beanMetaDataManager = (BeanMetaDataManager) beanMetaDataManagerField.get(validator);
-        constraintConverters = new ArrayList<>(4);
-        constraintConverters.add(new NotNullConstraintConverter());
-        constraintConverters.add(new RangeConstraintConverter());
-        constraintConverters.add(new RegExConstraintConverter());
-        constraintConverters.add(new OtherConstraintConverter());
+    public void init() {
+        try {
+            Field beanMetaDataManagerField = ValidatorImpl.class.getDeclaredField("beanMetaDataManager");
+            beanMetaDataManagerField.setAccessible(true);
+            beanMetaDataManager = (BeanMetaDataManager) beanMetaDataManagerField.get(validator);
+            constraintConverters = new ArrayList<>(4);
+            constraintConverters.add(new NotNullConstraintConverter());
+            constraintConverters.add(new RangeConstraintConverter());
+            constraintConverters.add(new RegExConstraintConverter());
+            constraintConverters.add(new OtherConstraintConverter());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            log.error("初始化验证器失败", e);
+        }
     }
 
     @Override
