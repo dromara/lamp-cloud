@@ -32,7 +32,6 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
 
-
         <!-- md5 工具类 -->
         <dependency>
             <groupId>commons-codec</groupId>
