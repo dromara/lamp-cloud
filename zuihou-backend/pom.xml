@@ -24,7 +24,6 @@
     </modules>
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-core</artifactId>
@@ -47,14 +46,20 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-auth-client</artifactId>
+                <artifactId>zuihou-log</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-log</artifactId>
+                <artifactId>zuihou-validator</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-auth-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.github.zuihou</groupId>

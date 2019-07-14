@@ -32,18 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HibernateValidateController {
 
     /**
-     * TODO 这里达不到只验证 OnlyQuery 组的效果
-     * 普通对象验证， @Validated 注解需要写在参数上
-     *
-     * @param data
-     * @return
-     */
-    @GetMapping("/obj/get")
-    public String objGet(@Validated(SuperEntity.OnlyQuery.class) @Valid ApplicationUpdateDTO data) {
-        return "aa";
-    }
-
-    /**
      * ok
      * 普通对象验证， @Validated 注解需要写在参数上
      *
@@ -52,7 +40,7 @@ public class HibernateValidateController {
      */
     @GetMapping("/obj/get2")
     public String objGet2(@Validated(SuperEntity.Update.class) @Valid ApplicationUpdateDTO data) {
-        return "aa";
+        return "验证Update组 成功";
     }
 
     /**
@@ -65,13 +53,12 @@ public class HibernateValidateController {
     @GetMapping("/obj/get3")
     @SysLog("测试")
     public String objGet3(@Validated @Valid ApplicationUpdateDTO data) {
-        return "aa";
+        return "验证默认组成功";
     }
 
 
     /**
-     * ok
-     * 普通对象验证， @Validated 注解需要写在参数上
+     * 就算类上面有 @Validated 注解
      *
      * @param data
      * @return
@@ -79,19 +66,28 @@ public class HibernateValidateController {
     @GetMapping("/obj/get4")
     @SysLog("测试")
     public String objGet4(ApplicationUpdateDTO data) {
-        return "aa";
+        return "无法验证";
     }
 
     /**
-     * 自定义分组，且不继承default时，只有@RequestBody 才能生效
-     *
+     * 可以验证
      * @param data
      * @return
      */
-    @PostMapping("/obj/post")
-    @Validated(SuperEntity.OnlyQuery.class)
-    public String bodyPost2(@Valid @RequestBody ApplicationUpdateDTO data) {
-        return "aa";
+    @GetMapping("/obj/get5")
+    public String objGet5(@Valid ApplicationUpdateDTO data) {
+        return "可以验证";
+    }
+
+    /**
+     * 可以验证
+     * @param data
+     * @return
+     */
+    @GetMapping("/obj/get6")
+    @Validated
+    public String objGet6(@Valid ApplicationUpdateDTO data) {
+        return "可以验证";
     }
 
     /**
@@ -102,9 +98,27 @@ public class HibernateValidateController {
      */
     @PostMapping("/requestBody/post")
     @Validated(SuperEntity.Update.class)
-    public String bodyPost(@Valid @RequestBody ApplicationUpdateDTO data) {
-        return "aa";
+    public String bodyPost(@Valid @RequestBody HiberDTO data) {
+        return "类上有 Validated，方法上有@Validated（Update）， 参数有 Valid";
     }
+
+
+    @PostMapping("/requestBody/post3")
+    public String bodyPost3(@Validated @Valid @RequestBody HiberDTO data) {
+        return "类上有 Validated，方法上有@Validated， 参数有 Valid";
+    }
+
+
+    @PostMapping("/requestBody/post5")
+    public String bodyPost5(@Valid @RequestBody HiberDTO data) {
+        return "类上有 Validated，参数有 Valid";
+    }
+
+    @PostMapping("/requestBody/post6")
+    public String bodyPost6(@RequestBody HiberDTO data) {
+        return "类上有 Validated，方法和参数没有";
+    }
+
 
     /**
      * ok
@@ -115,11 +129,10 @@ public class HibernateValidateController {
      */
     @GetMapping("/requestParam/get")
     @Validated
-    @SysLog("测试")
     public String paramGet(@Length(max = 3)
                            @NotEmpty(message = "不能为空")
                            @RequestParam(value = "code", required = false) String code) {
-        return "aa";
+        return "方法上的@Validated注解，一般用来指定 验证组";
     }
 
     /**
@@ -132,6 +145,6 @@ public class HibernateValidateController {
     @GetMapping("/requestParam/get2")
     public String paramGet2(@NotEmpty(message = "不能为空")
                             @RequestParam(value = "code", required = false) String code) {
-        return "aa";
+        return "方法上没有 @Validated 注解，就用类上的 @Validated 注解";
     }
 }

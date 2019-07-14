@@ -10,8 +10,8 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>zuihou-swagger2-starter</artifactId>
-    <description>swagger文档模块</description>
+    <artifactId>zuihou-validator</artifactId>
+    <description>表单验证</description>
     <name>${project.artifactId}</name>
 
     <dependencies>
@@ -19,15 +19,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 
 </project>
