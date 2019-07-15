@@ -31,7 +31,7 @@
 
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-starter-shiro</artifactId>
+                <artifactId>zuihou-autoconfigure-shiro</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

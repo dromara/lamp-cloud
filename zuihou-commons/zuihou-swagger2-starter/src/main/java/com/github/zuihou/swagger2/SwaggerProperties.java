@@ -12,12 +12,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * swagger2 属性配置
+ * 必须配置 prefix ，才能有提示
  *
  * @author zuihou
  * @date 2018/11/18 9:17
  */
 @Data
-@ConfigurationProperties("zuihou.swagger")
+@ConfigurationProperties(prefix = "zuihou.swagger")
 public class SwaggerProperties {
     /**
      * 是否开启swagger

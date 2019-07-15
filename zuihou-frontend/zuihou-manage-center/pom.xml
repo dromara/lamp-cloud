@@ -83,7 +83,7 @@
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-starter-shiro</artifactId>
+            <artifactId>zuihou-autoconfigure-shiro</artifactId>
         </dependency>
 
     </dependencies>
