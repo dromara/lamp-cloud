@@ -154,7 +154,7 @@ public class R<T> {
      * @return 是否成功
      */
     public Boolean getIsSuccess() {
-        return this.code == SUCCESS_CODE;
+        return this.code == SUCCESS_CODE || this.code == 200;
     }
 
     @Override

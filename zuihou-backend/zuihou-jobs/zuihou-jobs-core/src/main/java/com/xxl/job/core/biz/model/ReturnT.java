@@ -59,12 +59,28 @@ public class ReturnT<T> implements Serializable {
         this.content = content;
     }
 
-    public boolean isSuccess() {
-        if (this.code == SUCCESS_CODE) {
+
+    /**
+     * 为了 兼容 自己的框架
+     *
+     * @return
+     */
+    public Boolean getIsSuccess() {
+        if (this.code == 0 || this.code == 200) {
             return true;
         }
         return false;
     }
+
+    /**
+     * 为了 兼容 自己的框架
+     *
+     * @return
+     */
+    public T getData() {
+        return this.content;
+    }
+
 
     @Override
     public String toString() {

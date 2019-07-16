@@ -25,4 +25,6 @@ public interface XxlJobGroupDao {
 
     XxlJobGroup load(@Param("id") Integer id);
 
+    XxlJobGroup getByName(@Param("appName") String appName);
+
 }

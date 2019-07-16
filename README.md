@@ -20,6 +20,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - docker部署 
 - k8s部署
 
+## 交流群： 63202894
+
 ## 项目地址
 [github] https://github.com/zuihou/zuihou-admin-cloud
 
