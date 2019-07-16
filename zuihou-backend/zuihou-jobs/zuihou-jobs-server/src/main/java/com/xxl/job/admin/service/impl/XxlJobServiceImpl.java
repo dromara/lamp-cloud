@@ -89,8 +89,14 @@ public class XxlJobServiceImpl implements XxlJobService {
         // valid 执行器是否存在
         XxlJobGroup group = xxlJobGroupDao.load(jobInfo.getJobGroup());
         if (group == null) {
-            return new ReturnT<>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_choose") + I18nUtil.getString("jobinfo_field_jobgroup")));
+            group = xxlJobGroupDao.getByName(jobInfo.getJobGroupName());
+            if (group == null) {
+                return new ReturnT<>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_choose") + I18nUtil.getString("jobinfo_field_jobgroup")));
+            }
+            jobInfo.setJobGroup(group.getId());
         }
+
+
         if (JobTypeEnum.CRON.eq(jobInfo.getType())) {
             if (!CronExpression.isValidExpression(jobInfo.getJobCron())) {
                 return new ReturnT<>(ReturnT.FAIL_CODE, I18nUtil.getString("jobinfo_field_cron_unvalid"));
