@@ -34,7 +34,11 @@ public abstract class BaseConstraintConverter implements IConstraintConverter {
         Map<String, Object> attr = new HashMap<>(4);
         for (String method : getMethods()) {
             Object value = clazz.getMethod(method).invoke(ano);
-            attr.put(method, value);
+            if (value != null && value instanceof String && ((String) value).contains("{")) {
+                attr.put(method, "");
+            } else {
+                attr.put(method, value);
+            }
         }
         return new ConstraintInfo().setType(getType(ano.annotationType())).setAttrs(attr);
     }
