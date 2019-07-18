@@ -14,6 +14,7 @@ import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.utils.ZipUtils;
 import com.github.zuihou.utils.NumberHelper;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class FileBiz {
 
     @Autowired
     private FileServerProperties fileProperties;
+
+    private static String buildNewFileName(String filename, Integer order) {
+        return StrUtil.strBuilder(filename).insert(filename.lastIndexOf("."), "(" + order + ")").toString();
+    }
 
     public void down(List<FileDO> list, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //获取内网前缀地址
@@ -67,11 +72,11 @@ public class FileBiz {
                     String submittedFileName = file.getSubmittedFileName();
                     if (map.containsKey(submittedFileName)) {
                         if (duplicateFile.containsKey(submittedFileName)) {
-                            duplicateFile.put(submittedFileName, duplicateFile.get("duplicateFile") + 1);
+                            duplicateFile.put(submittedFileName, duplicateFile.get(submittedFileName) + 1);
                         } else {
                             duplicateFile.put(submittedFileName, 1);
                         }
-                        submittedFileName = String.format("%s(%s)", submittedFileName, duplicateFile.get(submittedFileName));
+                        submittedFileName = buildNewFileName(submittedFileName, duplicateFile.get(submittedFileName));
                     }
                     map.put(submittedFileName, file.getUrl());
                 });
