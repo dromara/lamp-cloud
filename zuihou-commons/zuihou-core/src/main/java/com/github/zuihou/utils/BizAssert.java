@@ -51,7 +51,7 @@ public class BizAssert {
      * @
      */
     public static void fail() {
-        fail(-9, null);
+        fail(-9, "参数验证异常");
     }
 
     /**

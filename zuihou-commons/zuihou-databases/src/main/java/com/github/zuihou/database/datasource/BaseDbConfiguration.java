@@ -291,6 +291,11 @@ public abstract class BaseDbConfiguration {
         return new SnowflakeIdGenerate(machineCode);
     }
 
+//    @Bean
+//    public ISqlInjector getLogicSqlInjector() {
+//        return new LogicSqlInjector();
+//    }
+
 
     protected GlobalConfig defGlobalConfig() {
         GlobalConfig conf = new GlobalConfig();
