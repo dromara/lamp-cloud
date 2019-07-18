@@ -2,8 +2,6 @@ package com.github.zuihou.authority.entity.auth;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotNull;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.MenuType;
@@ -67,7 +65,7 @@ public class Menu extends Entity<Long> {
     private String code;
 
     /**
-     * 菜单类型 
+     * 菜单类型
      * #MenuType{MENU:菜单;DIR:目录;}
      */
     @ApiModelProperty(value = "菜单类型")
@@ -79,7 +77,6 @@ public class Menu extends Entity<Long> {
      * 就是无需分配就可以访问的。所有人可见
      */
     @ApiModelProperty(value = "是否公开菜单")
-    @NotNull(message = "是否公开菜单不能为空")
     @TableField("is_public")
     private Boolean isPublic;
 
@@ -103,7 +100,6 @@ public class Menu extends Entity<Long> {
      * 是否启用
      */
     @ApiModelProperty(value = "是否启用")
-    @NotNull(message = "是否启用不能为空")
     @TableField("is_enable")
     private Boolean isEnable;
 

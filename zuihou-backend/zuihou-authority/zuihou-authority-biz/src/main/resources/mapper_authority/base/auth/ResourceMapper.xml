@@ -12,19 +12,20 @@
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="resource_type" jdbcType="VARCHAR" property="resourceType"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="micro_service_id" jdbcType="BIGINT" property="microServiceId"/>
         <result column="menu_id" jdbcType="BIGINT" property="menuId"/>
-        <result column="base_path" jdbcType="VARCHAR" property="basePath"/>
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+        <result column="tags" jdbcType="VARCHAR" property="tags"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="uri" jdbcType="VARCHAR" property="uri"/>
         <result column="http_method" jdbcType="VARCHAR" property="httpMethod"/>
         <result column="deprecated" jdbcType="BIT" property="deprecated"/>
-        <result column="is_certification" jdbcType="BIT" property="isCertification"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        code, resource_type, name, menu_id, base_path, describe_, uri, http_method, deprecated, is_certification
+        code, resource_type, name, micro_service_id, menu_id, menu_name, tags, describe_, uri, http_method, deprecated
     </sql>
 
 </mapper>

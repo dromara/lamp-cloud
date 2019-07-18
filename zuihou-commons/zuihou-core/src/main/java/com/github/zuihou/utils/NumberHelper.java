@@ -55,6 +55,21 @@ public class NumberHelper {
         return valueOfDef(value, (val) -> Integer.valueOf(val.toString()), 0);
     }
 
+    public static Integer getOrDef(Integer val, Integer def) {
+        BizAssert.assertNotNull(val);
+        return val == null ? def : val;
+    }
+
+    public static Long getOrDef(Long val, Long def) {
+        BizAssert.assertNotNull(val);
+        return val == null ? def : val;
+    }
+
+    public static Boolean getOrDef(Boolean val, Boolean def) {
+        BizAssert.assertNotNull(val);
+        return val == null ? def : val;
+    }
+
 }
 
 
