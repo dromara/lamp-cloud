@@ -41,7 +41,6 @@ public class CodeGenerate {
 
 
     public CodeGenerate(final int machineCode) {
-
         if (machineCode < 0 || machineCode > 15) {
             throw new IllegalArgumentException("请注意，1、机器码在多台机器或应用间是不允许重复的！2、机器码取值仅仅在[0,15]闭区间");
         }

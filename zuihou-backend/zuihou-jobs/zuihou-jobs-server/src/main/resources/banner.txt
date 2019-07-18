@@ -5,6 +5,6 @@ __________ __|__|  |__   ____  __ __          _____     __| _/_____ |__| ____   
  /    /|  |  /  |   Y  (  <_> )  |  / /_____/  / __ \_/ /_/ |  Y Y  \  |   |  \ /_____/ \  \___|  |_(  <_> )  |  / /_/ |
 /_____ \____/|__|___|  /\____/|____/          (____  /\____ |__|_|  /__|___|  /          \___  >____/\____/|____/\____ |
       \/             \/                            \/      \/     \/        \/               \/                       \/
-Application Version: ${application.title} - ${application.version}${application.formatted-version}
+Application Version: @project.description@ - @project.version@
 Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
 ${AnsiColor.DEFAULT}

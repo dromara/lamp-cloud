@@ -2,7 +2,7 @@ package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 import com.github.zuihou.authority.enumeration.auth.MenuType;
 import com.github.zuihou.authority.enumeration.auth.TargetType;
@@ -42,8 +42,9 @@ public class MenuSaveDTO implements Serializable {
     /**
      * 资源名称
      */
-    @ApiModelProperty(value = "资源名称")
-    @Length(max = 20, message = "资源名称长度不能超过20")
+    @ApiModelProperty(value = "菜单名称")
+    @NotEmpty(message = "菜单名称不能为空")
+    @Length(max = 20, message = "菜单名称长度不能超过20")
     private String name;
     /**
      * 功能描述
@@ -52,10 +53,10 @@ public class MenuSaveDTO implements Serializable {
     @Length(max = 200, message = "功能描述长度不能超过200")
     private String describe;
     /**
-     * 资源编码
+     * 菜单编码
      */
-    @ApiModelProperty(value = "资源编码")
-    @Length(max = 255, message = "资源编码长度不能超过255")
+    @ApiModelProperty(value = "菜单编码")
+    @Length(max = 255, message = "菜单编码长度不能超过255")
     private String code;
     /**
      * 菜单类型
@@ -68,13 +69,12 @@ public class MenuSaveDTO implements Serializable {
      * 就是无需分配就可以访问的。所有人可见
      */
     @ApiModelProperty(value = "是否公开菜单")
-    @NotNull(message = "是否公开菜单不能为空")
     private Boolean isPublic;
     /**
-     * 资源路径
+     * 菜单路径
      */
-    @ApiModelProperty(value = "资源路径")
-    @Length(max = 255, message = "资源路径长度不能超过255")
+    @ApiModelProperty(value = "菜单路径")
+    @Length(max = 255, message = "菜单路径长度不能超过255")
     private String href;
     /**
      * 打开方式
@@ -86,7 +86,6 @@ public class MenuSaveDTO implements Serializable {
      * 是否启用
      */
     @ApiModelProperty(value = "是否启用")
-    @NotNull(message = "是否启用不能为空")
     private Boolean isEnable;
     /**
      * 序号

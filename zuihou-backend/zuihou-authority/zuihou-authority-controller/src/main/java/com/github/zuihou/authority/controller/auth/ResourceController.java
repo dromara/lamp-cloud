@@ -2,8 +2,6 @@ package com.github.zuihou.authority.controller.auth;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.dto.auth.ResourceSaveDTO;
@@ -13,15 +11,16 @@ import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.StringHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +31,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -44,7 +42,6 @@ import com.github.zuihou.base.BaseController;
  * @date 2019-07-03
  */
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/resource")
 @Api(value = "Resource", tags = "资源")
@@ -52,6 +49,8 @@ public class ResourceController extends BaseController {
 
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private CodeGenerate codeGenerate;
     @Autowired
     private DozerUtils dozer;
 
@@ -87,6 +86,8 @@ public class ResourceController extends BaseController {
 
     /**
      * 保存资源
+     * <p>
+     * 是链接类型时， 通过ID修改数据
      *
      * @param data 保存对象
      * @return 保存结果
@@ -94,9 +95,15 @@ public class ResourceController extends BaseController {
     @ApiOperation(value = "保存资源", notes = "保存资源不为空的字段")
     @PostMapping
     @SysLog("保存资源")
-    public R<Resource> save(@RequestBody @Valid ResourceSaveDTO data) {
+    public R<Resource> save(@RequestBody @Validated ResourceSaveDTO data) {
         Resource resource = dozer.map(data, Resource.class);
-        resourceService.save(resource);
+        resource.setCode(StringHelper.getOrDef(resource.getCode(), codeGenerate.next()));
+
+        if (resource.getId() != null) {
+            resourceService.updateById(resource);
+        } else {
+            resourceService.save(resource);
+        }
         return success(resource);
     }
 
@@ -108,9 +115,8 @@ public class ResourceController extends BaseController {
      */
     @ApiOperation(value = "修改资源", notes = "修改资源不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改资源")
-    public R<Resource> update(@RequestBody @Valid ResourceUpdateDTO data) {
+    public R<Resource> update(@RequestBody @Validated(SuperEntity.Update.class) ResourceUpdateDTO data) {
         Resource resource = dozer.map(data, Resource.class);
         resourceService.updateById(resource);
         return success(resource);
@@ -118,6 +124,9 @@ public class ResourceController extends BaseController {
 
     /**
      * 删除资源
+     * <p>
+     * 链接类型的资源 只清空 menu_id
+     * 按钮和数据列 则物理删除
      *
      * @param id 主键id
      * @return 删除结果

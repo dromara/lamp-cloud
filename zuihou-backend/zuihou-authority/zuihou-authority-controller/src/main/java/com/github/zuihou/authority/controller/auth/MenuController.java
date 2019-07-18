@@ -2,35 +2,31 @@ package com.github.zuihou.authority.controller.auth;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.dto.auth.MenuSaveDTO;
 import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 import com.github.zuihou.authority.dto.auth.MenuUpdateDTO;
 import com.github.zuihou.authority.entity.auth.Menu;
+import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.service.auth.MenuService;
+import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.utils.TreeUtil;
 import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.NumberHelper;
+import com.github.zuihou.utils.StringHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +38,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
+
+import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
 
 /**
  * <p>
@@ -54,7 +51,6 @@ import com.github.zuihou.base.BaseController;
  * @date 2019-07-03
  */
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/menu")
 @Api(value = "Menu", tags = "菜单")
@@ -62,6 +58,10 @@ public class MenuController extends BaseController {
 
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private ResourceService resourceService;
+    @Autowired
+    private CodeGenerate codeGenerate;
     @Autowired
     private DozerUtils dozer;
 
@@ -104,8 +104,14 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "保存菜单", notes = "保存菜单不为空的字段")
     @PostMapping
     @SysLog("保存菜单")
-    public R<Menu> save(@RequestBody @Valid MenuSaveDTO data) {
+    public R<Menu> save(@RequestBody @Validated MenuSaveDTO data) {
         Menu menu = dozer.map(data, Menu.class);
+
+        menu.setCode(StringHelper.getOrDef(menu.getCode(), codeGenerate.next()));
+        menu.setIsEnable(NumberHelper.getOrDef(menu.getIsEnable(), true));
+        menu.setIsPublic(NumberHelper.getOrDef(menu.getIsPublic(), false));
+        menu.setParentId(NumberHelper.getOrDef(menu.getParentId(), PARENT_ID_DEF));
+
         menuService.save(menu);
         return success(menu);
     }
@@ -118,11 +124,18 @@ public class MenuController extends BaseController {
      */
     @ApiOperation(value = "修改菜单", notes = "修改菜单不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
+
     @SysLog("修改菜单")
-    public R<Menu> update(@RequestBody @Valid MenuUpdateDTO data) {
+    public R<Menu> update(@RequestBody @Validated(SuperEntity.Update.class) MenuUpdateDTO data) {
         Menu menu = dozer.map(data, Menu.class);
+
+        menu.setCode(null);
         menuService.updateById(menu);
+
+        // 修改冗余 菜单名称
+        resourceService.update(Wraps.<Resource>lbU()
+                .set(Resource::getMenuName, menu.getName())
+                .in(Resource::getMenuId, menu.getId()));
         return success(menu);
     }
 
@@ -166,9 +179,11 @@ public class MenuController extends BaseController {
     }
 
     @ApiOperation(value = "查询系统所有的菜单", notes = "查询系统所有的菜单")
-    @GetMapping("/all")
+    @GetMapping("/tree")
     @SysLog("查询系统所有的菜单")
-    public R<List<Menu>> all() {
-        return success(menuService.list());
+    public R<List<MenuTreeDTO>> allTree() {
+        List<Menu> list = menuService.list();
+        List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
+        return success(TreeUtil.builderTreeOrdered(treeList));
     }
 }

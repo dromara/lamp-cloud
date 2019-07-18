@@ -1,20 +1,28 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.MicroServiceMapper;
+import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.entity.auth.MicroService;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.MicroServiceService;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,8 +47,48 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, MicroService> implements MicroServiceService {
 
+
+    @Autowired
+    private DiscoveryClient discovery;
+    @Autowired
+    private ResourceMapper resourceMapper;
+
     @Override
-    public void parseUri(List<MicroService> list) {
+    public void sync() {
+        log.info("{}", discovery.getServices().size());
+
+        List<MicroService> list = discovery.getServices()
+                .stream()
+                .map((name) -> discovery.getInstances(name))
+                .filter((li) -> !li.isEmpty()).map((li) -> li.get(0))
+                .map((si) -> {
+                    MicroService ms = super.getOne(Wrappers.<MicroService>lambdaQuery().eq(MicroService::getEurekaCode, si.getServiceId()));
+                    Map<String, String> metadata = si.getMetadata();
+                    String swaggerUrl = "";
+                    String serviceName = "";
+                    if (!metadata.isEmpty()) {
+                        swaggerUrl = metadata.get("swagger");
+                        serviceName = metadata.get("service.name");
+                    }
+                    if (ms == null) {
+                        return MicroService.builder().eurekaCode(si.getServiceId())
+                                .name(serviceName).describe(serviceName).swaggerUrl(swaggerUrl)
+                                .build();
+                    }
+                    ms.setUpdateTime(LocalDateTime.now());
+                    return ms.setName(serviceName).setDescribe(serviceName).setSwaggerUrl(swaggerUrl);
+                })
+                .collect(Collectors.toList());
+
+        if (!list.isEmpty()) {
+            super.saveOrUpdateBatch(list);
+        }
+    }
+
+
+    @Override
+    public void parseUri() {
+        List<MicroService> list = super.list();
         if (list.isEmpty()) {
             return;
         }
@@ -57,7 +105,6 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
                 parseGroup(ms, urlPrefix + uri, name);
             });
 
-
         });
     }
 
@@ -72,8 +119,9 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
             return;
         }
         String basePath = swagger.getString("basePath");
+        log.info("basePath={}", basePath);
 
-        List<Resource> aaList = new ArrayList<>();
+        List<Resource> resourceList = new ArrayList<>();
         paths.forEach((path, methodsObj) -> {
             log.info("path={}", path);
             if (methodsObj instanceof JSONObject) {
@@ -86,34 +134,31 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
                         String summary = StringUtils.substring(val.getString("summary"), 0, 255);
                         String description = StringUtils.substring(val.getString("description"), 0, 255);
                         Boolean deprecated = val.getBoolean("deprecated");
-                        JSONObject resource = val.getJSONObject("x-resource");
-                        Boolean isAuth = false;
-                        if (resource != null) {
-                            isAuth = resource.getBoolean("auth");
-                        }
+                        JSONArray tagsArray = val.getJSONArray("tags");
+                        String tags = StrUtil.join(",", tagsArray);
 
-                        String code = (basePath + path).replace("/", "_");
-                        Resource aa = Resource.builder()
+                        String code = path.replace("/", "_");
+                        Resource resource = Resource.builder()
                                 .code(code)
                                 .resourceType(ResourceType.URI)
                                 .name(summary)
                                 .menuId(ms.getId())
-                                .basePath(basePath)
+                                .tags(tags)
                                 .describe(description)
                                 .uri(path)
                                 .httpMethod(com.github.zuihou.common.enums.HttpMethod.get(method))
                                 .deprecated(deprecated)
-                                .isCertification(isAuth)
                                 .build();
-                        aaList.add(aa);
+                        resourceList.add(resource);
                     }
                 });
             }
         });
-        if (!aaList.isEmpty()) {
-//            aaList.forEach((aa) -> baseMapper.saveOrUpdateUnique(aa));
+        if (!resourceList.isEmpty()) {
+            resourceList.forEach((aa) -> resourceMapper.saveOrUpdateUnique(aa));
         }
     }
+
 
     /**
      * 使用RestTemplate获取返回值

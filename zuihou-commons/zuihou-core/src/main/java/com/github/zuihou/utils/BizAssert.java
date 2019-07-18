@@ -51,7 +51,7 @@ public class BizAssert {
      * @
      */
     public static void fail() {
-        fail(-1, null);
+        fail(-9, null);
     }
 
     /**
@@ -65,6 +65,12 @@ public class BizAssert {
     public static void assertTrue(BaseExceptionCode exceptionCode, boolean condition) {
         if (!condition) {
             fail(exceptionCode);
+        }
+    }
+
+    public static void assertTrue(boolean condition) {
+        if (!condition) {
+            fail(null);
         }
     }
 
@@ -253,6 +259,10 @@ public class BizAssert {
         assertTrue(exceptionCode, object != null);
     }
 
+    public static void assertNotNull(Object object) {
+        assertTrue(object != null);
+    }
+
 
     /**
      * 断言检查这个对象是 Null。 如果不是null，用给定的错误码<code>exceptionCode</code>抛出异常
@@ -326,6 +336,12 @@ public class BizAssert {
     public static void assertNotEmpty(BaseExceptionCode exceptionCode, String value) {
         if (value == null || value.isEmpty()) {
             fail(exceptionCode);
+        }
+    }
+
+    public static void assertNotEmpty(String value) {
+        if (value == null || value.isEmpty()) {
+            fail(null);
         }
     }
 

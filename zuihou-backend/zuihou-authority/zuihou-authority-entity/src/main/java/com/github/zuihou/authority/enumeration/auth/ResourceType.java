@@ -14,7 +14,7 @@ import lombok.Getter;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-17
  */
 @Getter
 @AllArgsConstructor
@@ -30,6 +30,10 @@ public enum ResourceType {
      * URI="链接"
      */
     URI("链接"),
+    /**
+     * COLUMN="数据列"
+     */
+    COLUMN("数据列"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -60,7 +64,7 @@ public enum ResourceType {
         return eq(val.name());
     }
 
-    @ApiModelProperty(value = "编码", allowableValues = "BUTTON,URI", example = "BUTTON")
+    @ApiModelProperty(value = "编码", allowableValues = "BUTTON,URI,COLUMN", example = "BUTTON")
     public String getCode() {
         return this.name();
     }

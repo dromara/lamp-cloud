@@ -1,7 +1,5 @@
 package com.github.zuihou.authority.controller.auth;
 
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.MicroServiceUpdateDTO;
 import com.github.zuihou.authority.entity.auth.MicroService;
@@ -21,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,13 +84,29 @@ public class MicroServiceController extends BaseController {
      */
     @ApiOperation(value = "修改服务表", notes = "修改服务表不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
+
     @SysLog("修改服务表")
-    public R<MicroService> update(@RequestBody @Valid MicroServiceUpdateDTO data) {
+    public R<MicroService> update(@RequestBody @Validated(SuperEntity.Update.class) MicroServiceUpdateDTO data) {
         MicroService microService = dozer.map(data, MicroService.class);
         microServiceService.updateById(microService);
         return success(microService);
     }
 
+
+    @ApiOperation(value = "同步服务", notes = "从注册中心上拉取已注册的服务，进行存储")
+    @PostMapping("/sync")
+    @SysLog("从注册中心上拉取已注册的服务")
+    public R<Boolean> sync() {
+        microServiceService.sync();
+        return success();
+    }
+
+    @ApiOperation(value = "解析接口", notes = "解析已经启动的服务的全部接口")
+    @PostMapping("/parse")
+    @SysLog("解析已经启动的服务的全部接口")
+    public R<Boolean> parseUri() {
+        microServiceService.parseUri();
+        return success();
+    }
 
 }

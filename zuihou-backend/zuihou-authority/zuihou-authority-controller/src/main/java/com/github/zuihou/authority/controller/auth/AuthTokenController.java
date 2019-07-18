@@ -65,7 +65,7 @@ public class AuthTokenController extends BaseController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "验证token", notes = "Response Messages 中的HTTP Status Code 值的是errcode的值")
+    @ApiOperation(value = "验证token", notes = "验证token")
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
     public R<JwtUserInfo> verify(@RequestParam(value = "token") String token) throws BizException {
         return success(authManager.validateUserToken(token));

@@ -2,6 +2,9 @@ package com.github.zuihou.authority.entity.auth;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
@@ -26,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-17
  */
 @Data
 @NoArgsConstructor
@@ -42,6 +45,10 @@ public class Resource extends Entity<Long> {
 
     /**
      * 资源编码
+     * 规则：
+     * 链接：
+     * 数据列：
+     * 按钮：
      */
     @ApiModelProperty(value = "资源编码")
     @Length(max = 255, message = "资源编码长度不能超过255")
@@ -49,10 +56,11 @@ public class Resource extends Entity<Long> {
     private String code;
 
     /**
-     * 资源类型 
-     * #ResourceType{BUTTON:按钮;URI:链接;}
+     * 资源类型
+     * #ResourceType{BUTTON:按钮;URI:链接;COLUMN:数据列;}
      */
     @ApiModelProperty(value = "资源类型")
+    @NotNull(message = "资源类型不能为空")
     @TableField("resource_type")
     private ResourceType resourceType;
 
@@ -60,25 +68,42 @@ public class Resource extends Entity<Long> {
      * 接口名称
      */
     @ApiModelProperty(value = "接口名称")
+    @NotEmpty(message = "接口名称不能为空")
     @Length(max = 255, message = "接口名称长度不能超过255")
     @TableField("name")
     private String name;
 
     /**
-     * 菜单id
+     * 服务ID
+     * #c_auth_micro_service
+     */
+    @ApiModelProperty(value = "服务ID")
+    @TableField("micro_service_id")
+    private Long microServiceId;
+
+    /**
+     * 菜单ID
      * #c_auth_menu
      */
-    @ApiModelProperty(value = "菜单id")
+    @ApiModelProperty(value = "菜单ID")
     @TableField("menu_id")
     private Long menuId;
 
     /**
-     * 基础路径
+     * 菜单名称
      */
-    @ApiModelProperty(value = "基础路径")
-    @Length(max = 100, message = "基础路径长度不能超过100")
-    @TableField("base_path")
-    private String basePath;
+    @ApiModelProperty(value = "菜单名称")
+    @Length(max = 255, message = "菜单名称长度不能超过255")
+    @TableField("menu_name")
+    private String menuName;
+
+    /**
+     * 类标签
+     */
+    @ApiModelProperty(value = "类标签")
+    @Length(max = 255, message = "类标签长度不能超过255")
+    @TableField("tags")
+    private String tags;
 
     /**
      * 接口描述
@@ -99,7 +124,7 @@ public class Resource extends Entity<Long> {
     /**
      * 请求方式
      * #HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}
-     *          
+     *
      */
     @ApiModelProperty(value = "请求方式")
     @TableField("http_method")
@@ -112,18 +137,11 @@ public class Resource extends Entity<Long> {
     @TableField("deprecated")
     private Boolean deprecated;
 
-    /**
-     * 是否需要认证
-     */
-    @ApiModelProperty(value = "是否需要认证")
-    @TableField("is_certification")
-    private Boolean isCertification;
-
 
     @Builder
     public Resource(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                    String code, ResourceType resourceType, String name, Long menuId, String basePath,
-                    String describe, String uri, HttpMethod httpMethod, Boolean deprecated, Boolean isCertification) {
+                    String code, ResourceType resourceType, String name, Long microServiceId, Long menuId,
+                    String menuName, String tags, String describe, String uri, HttpMethod httpMethod, Boolean deprecated) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -132,13 +150,14 @@ public class Resource extends Entity<Long> {
         this.code = code;
         this.resourceType = resourceType;
         this.name = name;
+        this.microServiceId = microServiceId;
         this.menuId = menuId;
-        this.basePath = basePath;
+        this.menuName = menuName;
+        this.tags = tags;
         this.describe = describe;
         this.uri = uri;
         this.httpMethod = httpMethod;
         this.deprecated = deprecated;
-        this.isCertification = isCertification;
     }
 
 }
