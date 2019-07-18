@@ -76,9 +76,10 @@ public class XxlJobServiceImpl implements XxlJobService {
         return maps;
     }
 
+    @Override
     public ReturnT<String> addStart(XxlJobInfo jobInfo) {
         ReturnT<String> result = this.add(jobInfo);
-        if (result.isSuccess()) {
+        if (result.getIsSuccess()) {
             start(Integer.valueOf(result.getContent()));
         }
         return result;

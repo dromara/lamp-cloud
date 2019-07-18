@@ -5,10 +5,12 @@ import java.util.List;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
+import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
+import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
@@ -40,7 +42,21 @@ public class TestResource {
     @Autowired
     private ResourceService resourceService;
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
+    @Autowired
     private DozerUtils dozer;
+
+    @Test
+    public void testDelete() {
+//        boolean flag = userService.removeById(2221L);
+//        System.out.println(flag);
+//        boolean flag2 = resourceService.removeById(32L);
+//        System.out.println(flag2);
+        resourceService.update(Wraps.<Resource>lbU().set(Resource::getMenuId, null).eq(Resource::getId, 1L));
+//        resourceService.updateById(Resource.builder().menuId(null).describe("1").id(1L).build());
+    }
 
     @Test
     public void dozerTest() {

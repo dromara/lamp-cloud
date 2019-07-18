@@ -20,6 +20,7 @@
  */
 package com.github.zuihou.base;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,18 +31,17 @@ import com.github.zuihou.exception.code.BaseExceptionCode;
 import com.github.zuihou.utils.AntiSqlFilter;
 import com.github.zuihou.utils.NumberHelper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * SuperController
  *
  * @author Caratacus
  */
 public abstract class BaseController {
-    @Autowired
+    @Resource
     protected HttpServletRequest request;
-    @Autowired
+    @Resource
     protected HttpServletResponse response;
+
     /**
      * 页数
      */

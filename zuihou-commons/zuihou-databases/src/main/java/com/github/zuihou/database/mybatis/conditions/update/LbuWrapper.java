@@ -74,11 +74,6 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
     }
 
     @Override
-    public LbuWrapper<T> set(SFunction<T, ?> column, Object val) {
-        return set(checkCondition(val), column, val);
-    }
-
-    @Override
     public LbuWrapper<T> setSql(boolean condition, String sql) {
         if (condition && StringUtils.isNotEmpty(sql)) {
             sqlSet.add(sql);

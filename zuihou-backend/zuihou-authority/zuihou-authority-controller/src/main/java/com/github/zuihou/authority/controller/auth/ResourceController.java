@@ -7,6 +7,7 @@ import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.dto.auth.ResourceSaveDTO;
 import com.github.zuihou.authority.dto.auth.ResourceUpdateDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -16,6 +17,7 @@ import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.StringHelper;
 
 import io.swagger.annotations.Api;
@@ -96,8 +98,13 @@ public class ResourceController extends BaseController {
     @PostMapping
     @SysLog("保存资源")
     public R<Resource> save(@RequestBody @Validated ResourceSaveDTO data) {
+        if (ResourceType.URI.eq(data.getResourceType())) {
+            BizAssert.assertNotNull(data.getId());
+        }
+
         Resource resource = dozer.map(data, Resource.class);
         resource.setCode(StringHelper.getOrDef(resource.getCode(), codeGenerate.next()));
+
 
         if (resource.getId() != null) {
             resourceService.updateById(resource);
@@ -135,7 +142,13 @@ public class ResourceController extends BaseController {
     @DeleteMapping(value = "/{id}")
     @SysLog("删除资源")
     public R<Boolean> delete(@PathVariable Long id) {
-        resourceService.removeById(id);
+        Resource resource = resourceService.getById(id);
+        BizAssert.assertNotNull(resource);
+        if (ResourceType.URI.eq(resource.getResourceType())) {
+            resourceService.update(Wraps.<Resource>lbU().set(Resource::getMenuId, null).eq(Resource::getId, id));
+        } else {
+            resourceService.removeById(id);
+        }
         return success(true);
     }
 
