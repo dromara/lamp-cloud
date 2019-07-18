@@ -164,7 +164,7 @@ public class AttachmentController extends BaseController {
      * @param response
      * @throws Exception
      */
-    @ApiOperation(value = "下载一个文件或多个文件打包下载", notes = "根据附件id下载多个打包的附件")
+    @ApiOperation(value = "根据文件id打包下载", notes = "根据附件id下载多个打包的附件")
     @GetMapping(value = "/download", produces = "application/octet-stream")
     @SysLog("下载附件")
     public void download(
@@ -188,7 +188,7 @@ public class AttachmentController extends BaseController {
             @ApiImplicitParam(name = "bizIds[]", value = "业务id数组", dataType = "array", paramType = "query"),
             @ApiImplicitParam(name = "bizTypes[]", value = "业务类型数组", dataType = "array", paramType = "query"),
     })
-    @ApiOperation(value = "下载一个文件或多个文件打包下载", notes = "根据业务id下载一个文件或多个文件打包下载")
+    @ApiOperation(value = "根据业务类型/业务id打包下载", notes = "根据业务id下载一个文件或多个文件打包下载")
     @GetMapping(value = "/download/biz", produces = "application/octet-stream")
     @SysLog("根据业务类型下载附件")
     public void downloadByBiz(
@@ -209,7 +209,7 @@ public class AttachmentController extends BaseController {
      * @author zuihou
      * @date 2019-05-12 21:24
      */
-    @ApiOperation(value = "下载文件", notes = "根据文件的url下载文件")
+    @ApiOperation(value = "根据url下载文件(不推荐)", notes = "根据文件的url下载文件(不推荐使用，若要根据url下载，请执行通过nginx)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "url", value = "文件url", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "filename", value = "文件名", dataType = "string", paramType = "query"),
