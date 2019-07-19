@@ -232,7 +232,6 @@ public class AttachmentController extends BaseController {
     @SysLog("获取图片")
     public R<Boolean> findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery()
                 .eq(Attachment::getBizType, bizType).eq(Attachment::getBizId, bizId)
                 .orderByDesc(Attachment::getCreateTime)

@@ -9,6 +9,7 @@ import com.github.tobato.fastdfs.service.AppendFileStorageClient;
 import com.github.zuihou.base.R;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
+import com.github.zuihou.utils.StringHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -45,7 +46,7 @@ public class FastdfsFileAutoConfigure {
         }
 
         @Override
-        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException {
+        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException {
             StorePath storePath = null;
 
             long start = System.currentTimeMillis();
@@ -64,7 +65,9 @@ public class FastdfsFileAutoConfigure {
             long end = System.currentTimeMillis();
             log.info("上传耗时={}", (end - start));
             String url = new StringBuilder(fileProperties.getUriPrefix())
-                    .append(storePath.getFullPath()).toString();
+                    .append(storePath.getFullPath())
+                    .append("?attname=" + StringHelper.encode(submittedFileName))
+                    .toString();
             File filePo = File.builder()
                     .url(url)
                     .group(storePath.getGroup())

@@ -10,6 +10,7 @@ import com.github.zuihou.file.domain.FileDeleteDO;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
+import com.github.zuihou.utils.StringHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -45,7 +46,7 @@ public class LocalAutoConfigure {
             java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
             org.apache.commons.io.FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
 
-            file.setUrl(fileProperties.getUriPrefix() + secDir + "/" + fileName);
+            file.setUrl(fileProperties.getUriPrefix() + secDir + "/" + fileName + "?attname=" + StringHelper.encode(file.getSubmittedFileName()));
             file.setFilename(fileName);
             file.setRelativePath(secDir);
         }
