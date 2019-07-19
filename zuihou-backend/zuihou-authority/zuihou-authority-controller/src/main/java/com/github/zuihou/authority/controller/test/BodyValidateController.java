@@ -51,7 +51,7 @@ public class BodyValidateController {
     @PostMapping("/post5")
     @Valid
     public String bodyPost5(@RequestBody HiberDTO data) {
-        return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行";
+        return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行" + data.toString();
     }
 
     @PostMapping("/post6")
