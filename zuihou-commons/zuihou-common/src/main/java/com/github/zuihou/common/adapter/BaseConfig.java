@@ -29,7 +29,7 @@ import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.converter.DateFormatRegister;
 import com.github.zuihou.common.converter.EnumDeserializer;
 import com.github.zuihou.common.converter.String2DateConverter;
-import com.github.zuihou.common.converter.XssStringJsonSerializer;
+import com.github.zuihou.common.converter.XssStringDeserializer;
 import com.github.zuihou.common.filter.XssFilter;
 import com.github.zuihou.common.handler.GlobalExceptionHandler;
 import com.github.zuihou.utils.SpringUtil;
@@ -101,7 +101,8 @@ public abstract class BaseConfig {
         simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
         simpleModule.addDeserializer(Enum.class, EnumDeserializer.instance);
 
-        simpleModule.addSerializer(new XssStringJsonSerializer());
+//        simpleModule.addSerializer(new XssStringJsonSerializer());
+        simpleModule.addDeserializer(String.class, new XssStringDeserializer());
         objectMapper.registerModule(simpleModule);
 
 
