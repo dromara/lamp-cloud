@@ -14,6 +14,7 @@ import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
+import com.github.zuihou.utils.StringHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -75,7 +76,7 @@ public class LocalFileAutoConfigure {
 
 
         @Override
-        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException {
+        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException {
             //创建合并后的文件
             java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
             if (outputFile.exists()) {
@@ -114,7 +115,9 @@ public class LocalFileAutoConfigure {
             String url = new StringBuilder(fileProperties.getUriPrefix())
                     .append(relativePath)
                     .append(URI_SEPARATOR)
-                    .append(fileName).toString();
+                    .append(fileName)
+                    .append("?attname=" + StringHelper.encode(submittedFileName))
+                    .toString();
             File filePo = File.builder()
                     .relativePath(relativePath)
                     .url(StringUtils.replace(url, "\\\\", URI_SEPARATOR))

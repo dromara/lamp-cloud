@@ -9,6 +9,7 @@ import com.github.zuihou.file.dao.AttachmentMapper;
 import com.github.zuihou.file.domain.FileDeleteDO;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
+import com.github.zuihou.utils.StringHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -34,7 +35,7 @@ public class FastdfsAutoConfigure {
         @Override
         protected void uploadFile(File file, MultipartFile multipartFile) throws Exception {
             StorePath storePath = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), file.getExt(), null);
-            file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath());
+            file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath() + "?attname=" + StringHelper.encode(file.getSubmittedFileName()));
             file.setGroup(storePath.getGroup());
             file.setPath(storePath.getPath());
         }

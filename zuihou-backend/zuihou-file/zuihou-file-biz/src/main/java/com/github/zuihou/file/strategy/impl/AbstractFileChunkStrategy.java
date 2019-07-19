@@ -108,7 +108,8 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         String filename = new StringBuilder(info.getName())
                 .append(EXT_SEPARATOR)
                 .append(info.getExt()).toString();
-        R<File> result = chunksMerge(uploadFolder, info.getMd5(), info.getName(), filename, info.getExt(), info.getChunks());
+        R<File> result = chunksMerge(uploadFolder, info.getMd5(), info.getName(), filename, info.getSubmittedFileName(),
+                info.getExt(), info.getChunks());
 
         log.info("path={}", result);
         if (result.getIsSuccess() && result.getData() != null) {
@@ -146,15 +147,16 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
      * > 并发锁: 避免多线程同时触发合并操作
      * > 清理: 合并清理不再需要的分片文件、文件夹、tmp文件
      *
-     * @param path     合并后的文件所存储的位置
-     * @param md5      文件签名
-     * @param folder   分片文件所在的文件夹名称
-     * @param fileName 合并后的文件完整
-     * @param chunks   分片总数
-     * @param ext      文件后缀(不含.)
+     * @param path              合并后的文件所存储的位置
+     * @param md5               文件签名
+     * @param folder            分片文件所在的文件夹名称
+     * @param fileName          合并后的文件完整
+     * @param submittedFileName 原始文件名
+     * @param chunks            分片总数
+     * @param ext               文件后缀(不含.)
      * @return 返回合并后的文件存放绝对路径
      */
-    private R<File> chunksMerge(String path, String md5, String folder, String fileName, String ext, int chunks) {
+    private R<File> chunksMerge(String path, String md5, String folder, String fileName, String submittedFileName, String ext, int chunks) {
         //合并后的目标文件
         String target;
 
@@ -178,7 +180,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                         return 1;
                     });
 
-                    R<File> result = merge(files, path, md5, folder, fileName, ext);
+                    R<File> result = merge(files, path, md5, folder, fileName, submittedFileName, ext);
                     files = null;
 
                     //清理：文件夹，tmp文件
@@ -218,7 +220,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
      * @return
      * @throws Exception
      */
-    protected abstract R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String ext) throws IOException;
+    protected abstract R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException;
 
     /**
      * 将MD5签名和目标文件path的映射关系存入持久层
