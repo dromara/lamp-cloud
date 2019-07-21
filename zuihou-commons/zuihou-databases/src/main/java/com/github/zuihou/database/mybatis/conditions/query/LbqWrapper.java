@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
@@ -19,7 +20,10 @@ import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.typehandler.BaseLikeTypeHandler;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author luosh
@@ -31,14 +35,23 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
 
     private SharedString sqlSelect = new SharedString();
 
+    private boolean skipEmpty = true;
+
     public LbqWrapper() {
         this(null);
     }
 
     public LbqWrapper(T entity) {
-        super.setEntity(entity);
-        super.initNeed();
-        this.entity = (T) replace(entity);
+        if (entity instanceof SuperEntity) {
+            T cloneT = (T) ((SuperEntity) entity).clone();
+            super.setEntity(cloneT);
+            super.initNeed();
+            this.entity = (T) replace(cloneT);
+        } else {
+            super.setEntity(entity);
+            super.initNeed();
+            this.entity = (T) replace(entity);
+        }
     }
 
 
@@ -57,13 +70,36 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     }
 
     /**
-     * 空值校验
-     * 传入空字符串("")时， 视为： 字段名 = ""
+     * 比较用目标对象替换源对象的值
      *
-     * @param val 参数值
+     * @param source 源对象
+     * @return 最新源对象
+     * @see
      */
-    private static boolean checkCondition(Object val) {
-        return val != null;
+    public static Object replace(Object source) {
+        if (source == null) {
+            return null;
+        }
+        Object target = source;
+
+        Class<?> srcClass = source.getClass();
+        Field[] fields = srcClass.getDeclaredFields();
+        for (Field field : fields) {
+            String nameKey = field.getName();
+            //获取源对象中的属性值
+            Object classValue = getClassValue(source, nameKey);
+            if (classValue == null) {
+                continue;
+            }
+            String srcValue = classValue.toString();
+            //比较两个属性值，不相等的时候进行赋值
+            if (srcValue.contains("%") || srcValue.contains("_")) {
+                String tarValue = srcValue.replaceAll("\\%", "\\\\%");
+                tarValue = tarValue.replaceAll("\\_", "\\\\_");
+                setClassValue(target, nameKey, tarValue);
+            }
+        }
+        return target;
     }
 
     @SafeVarargs
@@ -100,26 +136,6 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     @Override
     public LbqWrapper<T> eq(SFunction<T, ?> column, Object val) {
         return super.eq(checkCondition(val), column, val);
-    }
-
-    /**
-     * 当val为字符串时，val != null && val != "" 时，才拼接该条件
-     * 当val为集合时，val != null && !val.isEmpty() 时，才拼接该条件
-     *
-     * @param column
-     * @param val
-     * @return
-     */
-    public LbqWrapper<T> eqNe(SFunction<T, ?> column, Object val) {
-        boolean flag = checkCondition(val);
-        if (flag && val instanceof String) {
-            flag = !"".equals((String) val);
-        }
-
-        if (flag && val instanceof Collection) {
-            flag = !((Collection) val).isEmpty();
-        }
-        return super.eq(flag, column, val);
     }
 
     @Override
@@ -209,34 +225,78 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
 
     //----------------以下为自定义方法---------
 
-
     /**
-     * 比较用目标对象替换源对象的值
+     * 根据字段名称取值
      *
-     * @param source 源对象
-     * @return 最新源对象
-     * @see
+     * @param obj       指定对象
+     * @param fieldName 字段名称
+     * @return 指定对象
      */
-    public static Object replace(Object source) {
-        if (source == null) {
+    public static Object getClassValue(Object obj, String fieldName) {
+        if (obj == null) {
             return null;
         }
-        Object target = source;
-
-        Class<?> srcClass = source.getClass();
-        Field[] fields = srcClass.getDeclaredFields();
-        for (Field field : fields) {
-            String nameKey = field.getName();
-            //获取源对象中的属性值
-            String srcValue = getClassValue(source, nameKey) == null ? "" : getClassValue(source, nameKey).toString();
-            //比较两个属性值，不相等的时候进行赋值
-            if (srcValue.contains("%") || srcValue.contains("_")) {
-                String tarValue = srcValue.replaceAll("\\%", "\\\\%");
-                tarValue = tarValue.replaceAll("\\_", "\\\\_");
-                setClassValue(target, nameKey, tarValue);
+        Class beanClass = obj.getClass();
+        Method[] ms = beanClass.getMethods();
+        for (int i = 0; i < ms.length; i++) {
+            // 非get方法不取
+            if (!ms[i].getName().startsWith("get")) {
+                continue;
+            }
+            if (!ms[i].getName().equalsIgnoreCase("get" + fieldName)) {
+                continue;
+            }
+            Object objValue = null;
+            try {
+                objValue = ms[i].invoke(obj, new Object[]{});
+            } catch (Exception e) {
+                continue;
+            }
+            if (objValue == null) {
+                continue;
+            }
+            if (ms[i].getName().toUpperCase().equals(fieldName.toUpperCase())
+                    || ms[i].getName().substring(3).toUpperCase().equals(fieldName.toUpperCase())) {
+                return objValue;
             }
         }
-        return target;
+        return null;
+    }
+
+    /**
+     * 忽略实体中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
+     * 再次可以进行忽略
+     *
+     * @param <A>       这个是传入的待忽略字段的set方法
+     * @param setColumn
+     * @return
+     */
+
+    /**
+     * 空值校验
+     * 传入空字符串("")时， 视为： 字段名 = ""
+     *
+     * @param val 参数值
+     */
+    private boolean checkCondition(Object val) {
+        if (val instanceof String && skipEmpty) {
+            return StringUtils.isNotEmpty((String) val);
+        }
+
+        if (val instanceof Collection && skipEmpty) {
+            return !((Collection) val).isEmpty();
+        }
+        return val != null;
+    }
+
+    /**
+     * 取消跳过空的字符串  不允许跳过空的字符串
+     *
+     * @return
+     */
+    public LbqWrapper<T> cancelSkipEmpty() {
+        this.skipEmpty = false;
+        return this;
     }
 
     /**
@@ -307,38 +367,16 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     }
 
     /**
-     * 根据字段名称取值
+     * 忽略实体中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
+     * 再次可以进行忽略
      *
-     * @param obj       指定对象
-     * @param fieldName 字段名称
-     * @return 指定对象
+     * @param <A>       这个是传入的待忽略字段的set方法
+     * @param setColumn
+     * @return
      */
-    public static Object getClassValue(Object obj, String fieldName) {
-        if (obj == null) {
-            return null;
-        }
-        Class beanClass = obj.getClass();
-        Method[] ms = beanClass.getMethods();
-        for (int i = 0; i < ms.length; i++) {
-            // 非get方法不取
-            if (!ms[i].getName().startsWith("get")) {
-                continue;
-            }
-            Object objValue = null;
-            try {
-                objValue = ms[i].invoke(obj, new Object[]{});
-            } catch (Exception e) {
-                continue;
-            }
-            if (objValue == null) {
-                continue;
-            }
-            if (ms[i].getName().toUpperCase().equals(fieldName.toUpperCase())
-                    || ms[i].getName().substring(3).toUpperCase().equals(fieldName.toUpperCase())) {
-                return objValue;
-            }
-        }
-        return null;
+    public <A extends Object> LbqWrapper<T> ignore(BiFunction<T, A, ?> setColumn) {
+        setColumn.apply(entity, null);
+        return this;
     }
 
     enum ColumnType {
