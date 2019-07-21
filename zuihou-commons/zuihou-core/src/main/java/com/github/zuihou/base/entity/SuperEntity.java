@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.github.zuihou.exception.BizException;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,16 @@ public class SuperEntity<T> implements Serializable {
     @ApiModelProperty(value = "创建人ID")
     @TableField(value = "create_user", fill = FieldFill.INSERT)
     protected T createUser;
+
+    @Override
+    public Object clone() {
+        //支持克隆  提高性能  仅仅是浅克隆
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            return new BizException("克隆失败");
+        }
+    }
 
     /**
      * 保存和缺省验证组
