@@ -166,7 +166,7 @@ public class ResourceController extends BaseController {
     @ApiOperation(value = "查询用户可用的所有资源", notes = "查询用户可用的所有资源")
     @GetMapping
     @SysLog("查询用户可用的所有资源")
-    public R<List<Resource>> all(ResourceQueryDTO resource) {
+    public R<List<Resource>> visible(ResourceQueryDTO resource) {
         if (resource == null) {
             resource = new ResourceQueryDTO();
         }

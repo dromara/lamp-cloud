@@ -11,10 +11,12 @@ import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.entity.OptLogDTO;
+import com.github.zuihou.utils.NumberHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -42,11 +44,22 @@ public class TestResource {
     @Autowired
     private ResourceService resourceService;
     @Autowired
+    private OrgService orgService;
+    @Autowired
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
     @Autowired
     private DozerUtils dozer;
+
+    @Test
+    public void testObjlist() {
+        for (int i = 0; i < 20; i++) {
+            List<Long> list = orgService.listObjs(NumberHelper::longValueOf0);
+            System.out.println(list.size());
+        }
+        System.out.println("endendendendend");
+    }
 
     @Test
     public void testDelete() {
