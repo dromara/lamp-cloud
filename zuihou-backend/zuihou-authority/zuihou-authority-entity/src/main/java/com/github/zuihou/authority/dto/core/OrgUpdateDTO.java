@@ -20,11 +20,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- *
+ * 组织
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.Length;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "OrgUpdateDTO", description = "")
+@ApiModel(value = "OrgUpdateDTO", description = "组织")
 public class OrgUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +54,17 @@ public class OrgUpdateDTO implements Serializable {
     @ApiModelProperty(value = "简称")
     @Length(max = 255, message = "简称长度不能超过255")
     private String abbreviation;
+    /**
+     * 父ID
+     */
+    @ApiModelProperty(value = "父ID")
+    private Long parentId;
+    /**
+     * 树结构
+     */
+    @ApiModelProperty(value = "树结构")
+    @Length(max = 255, message = "树结构长度不能超过255")
+    private String treePath;
     /**
      * 排序
      */

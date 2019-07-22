@@ -258,7 +258,6 @@ public abstract class BaseDbConfiguration {
         return performanceInterceptor;
     }
 
-
     /**
      * 数据权限插件
      *

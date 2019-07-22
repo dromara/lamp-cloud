@@ -25,11 +25,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- * 账号
+ * 用户
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -38,7 +38,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_auth_user")
-@ApiModel(value = "User", description = "账号")
+@ApiModel(value = "User", description = "用户")
 public class User extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -169,9 +169,9 @@ public class User extends Entity<Long> {
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String account, String name, Long orgId, Long stationId,
-                String mobile, Sex sex, Boolean isCanLogin, Boolean isDelete, String photo, String workDescribe,
-                Integer loginCount, LocalDate continuationErrorDay, Integer continuationErrorCount, LocalDateTime passwordExpireTime, String password) {
+                String account, String name, Long orgId, Long stationId, String mobile,
+                Sex sex, Boolean isCanLogin, Boolean isDelete, String photo, String workDescribe, Integer loginCount,
+                LocalDate continuationErrorDay, Integer continuationErrorCount, LocalDateTime passwordExpireTime, String password) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;

@@ -48,9 +48,10 @@ import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/menu")
 @Api(value = "Menu", tags = "菜单")
@@ -83,27 +84,27 @@ public class MenuController extends BaseController {
     }
 
     /**
-     * 单体查询菜单
+     * 查询菜单
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询菜单", notes = "单体查询菜单")
+    @ApiOperation(value = "查询菜单", notes = "查询菜单")
     @GetMapping("/{id}")
-    @SysLog("单体查询菜单")
+    @SysLog("查询菜单")
     public R<Menu> get(@PathVariable Long id) {
         return success(menuService.getById(id));
     }
 
     /**
-     * 保存菜单
+     * 新增菜单
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存菜单", notes = "保存菜单不为空的字段")
+    @ApiOperation(value = "新增菜单", notes = "新增菜单不为空的字段")
     @PostMapping
-    @SysLog("保存菜单")
+    @SysLog("新增菜单")
     public R<Menu> save(@RequestBody @Validated MenuSaveDTO data) {
         Menu menu = dozer.map(data, Menu.class);
 
@@ -124,7 +125,6 @@ public class MenuController extends BaseController {
      */
     @ApiOperation(value = "修改菜单", notes = "修改菜单不为空的字段")
     @PutMapping
-
     @SysLog("修改菜单")
     public R<Menu> update(@RequestBody @Validated(SuperEntity.Update.class) MenuUpdateDTO data) {
         Menu menu = dozer.map(data, Menu.class);

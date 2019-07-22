@@ -10,11 +10,11 @@ import lombok.Getter;
 /**
  * <p>
  * 实体注释中生成的类型枚举
- * 账号
+ * 用户
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Getter
 @AllArgsConstructor

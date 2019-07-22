@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-02
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -52,7 +52,7 @@ public class Dictionary extends Entity<Long> {
     private String code;
 
     /**
-     * 父级id  
+     * 父级id
      * 顶级的字典父级id是自己
      */
     @ApiModelProperty(value = "父级id")

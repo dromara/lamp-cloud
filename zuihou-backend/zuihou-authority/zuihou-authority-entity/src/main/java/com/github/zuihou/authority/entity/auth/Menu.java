@@ -2,6 +2,9 @@ package com.github.zuihou.authority.entity.auth;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.MenuType;
@@ -26,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -41,10 +44,11 @@ public class Menu extends Entity<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 资源名称
+     * 菜单名称
      */
-    @ApiModelProperty(value = "资源名称")
-    @Length(max = 20, message = "资源名称长度不能超过20")
+    @ApiModelProperty(value = "菜单名称")
+    @NotEmpty(message = "菜单名称不能为空")
+    @Length(max = 20, message = "菜单名称长度不能超过20")
     @TableField("name")
     private String name;
 
@@ -69,6 +73,7 @@ public class Menu extends Entity<Long> {
      * #MenuType{MENU:菜单;DIR:目录;}
      */
     @ApiModelProperty(value = "菜单类型")
+    @NotNull(message = "菜单类型不能为空")
     @TableField("menu_type")
     private MenuType menuType;
 

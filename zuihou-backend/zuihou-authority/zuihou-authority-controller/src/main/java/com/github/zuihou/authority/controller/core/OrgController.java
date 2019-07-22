@@ -1,7 +1,5 @@
 package com.github.zuihou.authority.controller.core;
 
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.core.OrgSaveDTO;
 import com.github.zuihou.authority.dto.core.OrgUpdateDTO;
@@ -37,14 +35,13 @@ import static com.github.zuihou.common.constant.CommonConstants.ROOT_PATH_DEF;
 /**
  * <p>
  * 前端控制器
- *
+ * 组织
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/org")
 @Api(value = "Org", tags = "组织")
@@ -56,14 +53,14 @@ public class OrgController extends BaseController {
     private DozerUtils dozer;
 
     /**
-     * 分页查询
+     * 分页查询组织
      *
      * @param data 分页查询对象
      * @return 查询结果
      */
-    @ApiOperation(value = "分页查询", notes = "分页查询")
+    @ApiOperation(value = "分页查询组织", notes = "分页查询组织")
     @GetMapping("/page")
-    @SysLog("分页查询")
+    @SysLog("分页查询组织")
     public R<IPage<Org>> page(Org data) {
         IPage<Org> page = getPage();
         // 构建值不为null的查询条件
@@ -73,28 +70,28 @@ public class OrgController extends BaseController {
     }
 
     /**
-     * 单体查询
+     * 查询组织
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询", notes = "单体查询")
+    @ApiOperation(value = "查询组织", notes = "查询组织")
     @GetMapping("/{id}")
-    @SysLog("单体查询")
+    @SysLog("查询组织")
     public R<Org> get(@PathVariable Long id) {
         return success(orgService.getById(id));
     }
 
     /**
-     * 保存
+     * 新增组织
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存", notes = "保存不为空的字段")
+    @ApiOperation(value = "新增组织", notes = "新增组织不为空的字段")
     @PostMapping
-    @SysLog("保存")
-    public R<Org> save(@RequestBody @Valid OrgSaveDTO data) {
+    @SysLog("新增组织")
+    public R<Org> save(@RequestBody @Validated OrgSaveDTO data) {
         Org org = dozer.map(data, Org.class);
         if (org.getParentId() == null) {
             org.setParentId(PARENT_ID_DEF);
@@ -110,40 +107,37 @@ public class OrgController extends BaseController {
     }
 
     /**
-     * 修改
+     * 修改组织
      *
      * @param data 修改对象
      * @return 修改结果
      */
-    @ApiOperation(value = "修改", notes = "修改不为空的字段")
+    @ApiOperation(value = "修改组织", notes = "修改组织不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
-    @SysLog("修改")
-    public R<Org> update(@RequestBody @Valid OrgUpdateDTO data) {
+    @SysLog("修改组织")
+    public R<Org> update(@RequestBody @Validated(SuperEntity.Update.class) OrgUpdateDTO data) {
         Org org = dozer.map(data, Org.class);
         orgService.updateById(org);
         return success(org);
     }
 
     @ApiOperation(value = "移动", notes = "修改不为空的字段")
-    @PutMapping
-    @Validated(SuperEntity.Update.class)
+    @PutMapping("/move")
     @SysLog("移动")
-    public R<Org> move(@RequestBody @Valid OrgUpdateDTO data) {
-        Org org = dozer.map(data, Org.class);
-        orgService.updateById(org);
-        return success(org);
+    public R<Boolean> move() {
+        return success();
     }
 
+
     /**
-     * 删除
+     * 删除组织
      *
      * @param id 主键id
      * @return 删除结果
      */
-    @ApiOperation(value = "删除", notes = "根据id物理删除")
+    @ApiOperation(value = "删除组织", notes = "根据id物理删除组织")
     @DeleteMapping(value = "/{id}")
-    @SysLog("删除")
+    @SysLog("删除组织")
     public R<Boolean> delete(@PathVariable Long id) {
         orgService.removeById(id);
         return success(true);

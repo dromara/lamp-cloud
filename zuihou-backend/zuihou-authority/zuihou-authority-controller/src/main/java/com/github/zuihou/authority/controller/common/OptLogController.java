@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.controller.common;
 
-import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.entity.common.OptLog;
@@ -32,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -62,14 +61,14 @@ public class OptLogController extends BaseController {
     }
 
     /**
-     * 单体查询系统日志
+     * 查询系统日志
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询系统日志", notes = "单体查询系统日志")
+    @ApiOperation(value = "查询系统日志", notes = "查询系统日志")
     @GetMapping("/{id}")
-    @SysLog("单体查询系统日志")
+    @SysLog("查询系统日志")
     public R<OptLog> get(@PathVariable Long id) {
         return success(optLogService.getById(id));
     }
@@ -82,7 +81,7 @@ public class OptLogController extends BaseController {
      */
     @ApiOperation(value = "保存系统日志", notes = "保存系统日志不为空的字段")
     @PostMapping
-    public R<OptLogDTO> save(@RequestBody @Valid OptLogDTO data) {
+    public R<OptLogDTO> save(@RequestBody OptLogDTO data) {
         optLogService.save(data);
         return success(data);
     }

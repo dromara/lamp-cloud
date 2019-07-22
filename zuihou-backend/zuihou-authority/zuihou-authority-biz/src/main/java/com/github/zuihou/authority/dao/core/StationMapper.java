@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 /**
  * <p>
  * Mapper 接口
- * 
+ * 岗位
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Repository
 public interface StationMapper extends BaseMapper<Station> {

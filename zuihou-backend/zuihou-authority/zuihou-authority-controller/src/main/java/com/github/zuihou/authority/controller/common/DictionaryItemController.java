@@ -1,21 +1,22 @@
 package com.github.zuihou.authority.controller.common;
 
-import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.authority.entity.common.DictionaryItem;
 import com.github.zuihou.authority.dto.common.DictionaryItemSaveDTO;
 import com.github.zuihou.authority.dto.common.DictionaryItemUpdateDTO;
+import com.github.zuihou.authority.entity.common.DictionaryItem;
 import com.github.zuihou.authority.service.common.DictionaryItemService;
+import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.R;
+import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.annotation.SysLog;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -35,7 +35,7 @@ import com.github.zuihou.base.BaseController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -67,28 +67,28 @@ public class DictionaryItemController extends BaseController {
     }
 
     /**
-     * 单体查询字典项
+     * 查询字典项
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询字典项", notes = "单体查询字典项")
+    @ApiOperation(value = "查询字典项", notes = "查询字典项")
     @GetMapping("/{id}")
-    @SysLog("单体查询字典项")
+    @SysLog("查询字典项")
     public R<DictionaryItem> get(@PathVariable Long id) {
         return success(dictionaryItemService.getById(id));
     }
 
     /**
-     * 保存字典项
+     * 新增字典项
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存字典项", notes = "保存字典项不为空的字段")
+    @ApiOperation(value = "新增字典项", notes = "新增字典项不为空的字段")
     @PostMapping
-    @SysLog("保存字典项")
-    public R<DictionaryItem> save(@RequestBody @Valid DictionaryItemSaveDTO data) {
+    @SysLog("新增字典项")
+    public R<DictionaryItem> save(@RequestBody @Validated DictionaryItemSaveDTO data) {
         DictionaryItem dictionaryItem = dozer.map(data, DictionaryItem.class);
         dictionaryItemService.save(dictionaryItem);
         return success(dictionaryItem);
@@ -102,9 +102,8 @@ public class DictionaryItemController extends BaseController {
      */
     @ApiOperation(value = "修改字典项", notes = "修改字典项不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改字典项")
-    public R<DictionaryItem> update(@RequestBody @Valid DictionaryItemUpdateDTO data) {
+    public R<DictionaryItem> update(@RequestBody @Validated(SuperEntity.Update.class) DictionaryItemUpdateDTO data) {
         DictionaryItem dictionaryItem = dozer.map(data, DictionaryItem.class);
         dictionaryItemService.updateById(dictionaryItem);
         return success(dictionaryItem);

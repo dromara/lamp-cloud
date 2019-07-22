@@ -1,21 +1,22 @@
 package com.github.zuihou.authority.controller.auth;
 
-import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.authority.entity.auth.Application;
 import com.github.zuihou.authority.dto.auth.ApplicationSaveDTO;
 import com.github.zuihou.authority.dto.auth.ApplicationUpdateDTO;
+import com.github.zuihou.authority.entity.auth.Application;
 import com.github.zuihou.authority.service.auth.ApplicationService;
+import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.R;
+import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.annotation.SysLog;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -35,7 +35,7 @@ import com.github.zuihou.base.BaseController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -67,28 +67,28 @@ public class ApplicationController extends BaseController {
     }
 
     /**
-     * 单体查询应用
+     * 查询应用
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询应用", notes = "单体查询应用")
+    @ApiOperation(value = "查询应用", notes = "查询应用")
     @GetMapping("/{id}")
-    @SysLog("单体查询应用")
+    @SysLog("查询应用")
     public R<Application> get(@PathVariable Long id) {
         return success(applicationService.getById(id));
     }
 
     /**
-     * 保存应用
+     * 新增应用
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存应用", notes = "保存应用不为空的字段")
+    @ApiOperation(value = "新增应用", notes = "新增应用不为空的字段")
     @PostMapping
-    @SysLog("保存应用")
-    public R<Application> save(@RequestBody @Valid ApplicationSaveDTO data) {
+    @SysLog("新增应用")
+    public R<Application> save(@RequestBody @Validated ApplicationSaveDTO data) {
         Application application = dozer.map(data, Application.class);
         applicationService.save(application);
         return success(application);
@@ -102,9 +102,8 @@ public class ApplicationController extends BaseController {
      */
     @ApiOperation(value = "修改应用", notes = "修改应用不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改应用")
-    public R<Application> update(@RequestBody @Valid ApplicationUpdateDTO data) {
+    public R<Application> update(@RequestBody @Validated(SuperEntity.Update.class) ApplicationUpdateDTO data) {
         Application application = dozer.map(data, Application.class);
         applicationService.updateById(application);
         return success(application);

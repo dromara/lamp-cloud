@@ -20,11 +20,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- * 
+ * 岗位
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_core_station")
-@ApiModel(value = "Station", description = "")
+@ApiModel(value = "Station", description = "岗位")
 public class Station extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
