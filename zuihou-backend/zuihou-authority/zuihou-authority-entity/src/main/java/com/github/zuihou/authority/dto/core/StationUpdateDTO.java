@@ -20,11 +20,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- *
+ * 岗位
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.Length;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "StationUpdateDTO", description = "")
+@ApiModel(value = "StationUpdateDTO", description = "岗位")
 public class StationUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

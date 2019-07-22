@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.controller.auth;
 
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.MicroServiceUpdateDTO;
 import com.github.zuihou.authority.entity.auth.MicroService;
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -64,14 +66,14 @@ public class MicroServiceController extends BaseController {
     }
 
     /**
-     * 单体查询服务表
+     * 查询服务表
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询服务表", notes = "单体查询服务表")
+    @ApiOperation(value = "查询服务表", notes = "查询服务表")
     @GetMapping("/{id}")
-    @SysLog("单体查询服务表")
+    @SysLog("查询服务表")
     public R<MicroService> get(@PathVariable Long id) {
         return success(microServiceService.getById(id));
     }
@@ -84,7 +86,6 @@ public class MicroServiceController extends BaseController {
      */
     @ApiOperation(value = "修改服务表", notes = "修改服务表不为空的字段")
     @PutMapping
-
     @SysLog("修改服务表")
     public R<MicroService> update(@RequestBody @Validated(SuperEntity.Update.class) MicroServiceUpdateDTO data) {
         MicroService microService = dozer.map(data, MicroService.class);
@@ -92,6 +93,19 @@ public class MicroServiceController extends BaseController {
         return success(microService);
     }
 
+    /**
+     * 删除服务表
+     *
+     * @param id 主键id
+     * @return 删除结果
+     */
+    @ApiOperation(value = "删除服务表", notes = "根据id物理删除服务表")
+    @DeleteMapping(value = "/{id}")
+    @SysLog("删除服务表")
+    public R<Boolean> delete(@PathVariable Long id) {
+        microServiceService.removeById(id);
+        return success(true);
+    }
 
     @ApiOperation(value = "同步服务", notes = "从注册中心上拉取已注册的服务，进行存储")
     @PostMapping("/sync")
@@ -108,5 +122,4 @@ public class MicroServiceController extends BaseController {
         microServiceService.parseUri();
         return success();
     }
-
 }

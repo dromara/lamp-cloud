@@ -22,14 +22,14 @@ public class AuthorityGenerator {
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou",
 //                        "c_common_",
-                        "c_core_",
-//                        "c_auth_",
+//                        "c_core_",
+                        "c_auth_",
 //                        Arrays.asList("c_core_.*"));
 //                        Arrays.asList("c_common_opt_log"));
 //                        Arrays.asList("c_common_.*"));
 //                        Arrays.asList("c_auth_.*"));
-                        Arrays.asList("c_core_org"));
-//                        Arrays.asList("c_auth_user_role", "c_auth_role_authority", "c_auth_role_org"));
+//                        Arrays.asList("c_core_org"));
+                        Arrays.asList("c_auth_user_role", "c_auth_role_authority", "c_auth_role_org"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_authority_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
@@ -43,15 +43,15 @@ public class AuthorityGenerator {
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
         fileCreateConfig.setGenerateService(GenerateType.IGNORE);
-        fileCreateConfig.setGenerateController(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateController(GenerateType.OVERRIDE);
 
         build.setFileCreateConfig(fileCreateConfig);
 
-//        build.setChildPackageName("auth");
-        build.setChildPackageName("core");
+        build.setChildPackageName("auth");
+//        build.setChildPackageName("core");
 //        build.setChildPackageName("common");
-        build.setSuperEntity(EntityType.ENTITY);
-//        build.setSuperEntity(EntityType.SUPER_ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.SUPER_ENTITY);
 
         //手动指定枚举类 生成的路径
         Set<EntityFiledType> filedTypes = new HashSet<>();

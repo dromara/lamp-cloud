@@ -90,11 +90,7 @@ public class UserUpdateDTO implements Serializable {
     @ApiModelProperty(value = "是否可登陆")
     @NotNull(message = "是否可登陆不能为空")
     private Boolean isCanLogin;
-    /**
-     * 删除标记
-     */
-    @ApiModelProperty(value = "删除标记")
-    private Boolean isDelete;
+
     /**
      * 照片
      */

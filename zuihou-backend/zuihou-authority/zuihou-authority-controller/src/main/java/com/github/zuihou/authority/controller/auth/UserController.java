@@ -2,8 +2,6 @@ package com.github.zuihou.authority.controller.auth;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.UserSaveDTO;
 import com.github.zuihou.authority.dto.auth.UserUpdateDTO;
@@ -47,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -85,28 +83,28 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 单体查询用户
+     * 查询用户
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询用户", notes = "单体查询用户")
+    @ApiOperation(value = "查询用户", notes = "查询用户")
     @GetMapping("/{id}")
-    @SysLog("单体查询用户")
+    @SysLog("查询用户")
     public R<User> get(@PathVariable Long id) {
         return success(userService.getById(id));
     }
 
     /**
-     * 保存用户
+     * 新增用户
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存用户", notes = "保存用户不为空的字段")
+    @ApiOperation(value = "新增用户", notes = "新增用户不为空的字段")
     @PostMapping
-    @SysLog("保存用户")
-    public R<User> save(@RequestBody @Valid UserSaveDTO data) {
+    @SysLog("新增用户")
+    public R<User> save(@RequestBody @Validated UserSaveDTO data) {
         User user = dozer.map(data, User.class);
         userService.save(user);
         return success(user);
@@ -120,9 +118,8 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "修改用户", notes = "修改用户不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改用户")
-    public R<User> update(@RequestBody @Valid UserUpdateDTO data) {
+    public R<User> update(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateDTO data) {
         User user = dozer.map(data, User.class);
         userService.updateById(user);
         return success(user);

@@ -1,21 +1,22 @@
 package com.github.zuihou.authority.controller.auth;
 
-import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.dto.auth.UserRoleUpdateDTO;
+import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.service.auth.UserRoleService;
+import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.R;
+import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.annotation.SysLog;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -36,7 +36,7 @@ import com.github.zuihou.base.BaseController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -68,28 +68,28 @@ public class UserRoleController extends BaseController {
     }
 
     /**
-     * 单体查询角色分配
+     * 查询角色分配
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询角色分配", notes = "单体查询角色分配")
+    @ApiOperation(value = "查询角色分配", notes = "查询角色分配")
     @GetMapping("/{id}")
-    @SysLog("单体查询角色分配")
+    @SysLog("查询角色分配")
     public R<UserRole> get(@PathVariable Long id) {
         return success(userRoleService.getById(id));
     }
 
     /**
-     * 保存角色分配
+     * 新增角色分配
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存角色分配", notes = "保存角色分配不为空的字段")
+    @ApiOperation(value = "新增角色分配", notes = "新增角色分配不为空的字段")
     @PostMapping
-    @SysLog("保存角色分配")
-    public R<UserRole> save(@RequestBody @Valid UserRoleSaveDTO data) {
+    @SysLog("新增角色分配")
+    public R<UserRole> save(@RequestBody @Validated UserRoleSaveDTO data) {
         UserRole userRole = dozer.map(data, UserRole.class);
         userRoleService.save(userRole);
         return success(userRole);
@@ -103,9 +103,8 @@ public class UserRoleController extends BaseController {
      */
     @ApiOperation(value = "修改角色分配", notes = "修改角色分配不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改角色分配")
-    public R<UserRole> update(@RequestBody @Valid UserRoleUpdateDTO data) {
+    public R<UserRole> update(@RequestBody @Validated(SuperEntity.Update.class) UserRoleUpdateDTO data) {
         UserRole userRole = dozer.map(data, UserRole.class);
         userRoleService.updateById(userRole);
         return success(userRole);

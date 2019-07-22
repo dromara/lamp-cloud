@@ -1,21 +1,22 @@
 package com.github.zuihou.authority.controller.common;
 
-import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.authority.entity.common.Area;
 import com.github.zuihou.authority.dto.common.AreaSaveDTO;
 import com.github.zuihou.authority.dto.common.AreaUpdateDTO;
+import com.github.zuihou.authority.entity.common.Area;
 import com.github.zuihou.authority.service.common.AreaService;
+import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.R;
+import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.annotation.SysLog;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
 
 /**
  * <p>
@@ -35,7 +35,7 @@ import com.github.zuihou.base.BaseController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -67,28 +67,28 @@ public class AreaController extends BaseController {
     }
 
     /**
-     * 单体查询地区表
+     * 查询地区表
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询地区表", notes = "单体查询地区表")
+    @ApiOperation(value = "查询地区表", notes = "查询地区表")
     @GetMapping("/{id}")
-    @SysLog("单体查询地区表")
+    @SysLog("查询地区表")
     public R<Area> get(@PathVariable Long id) {
         return success(areaService.getById(id));
     }
 
     /**
-     * 保存地区表
+     * 新增地区表
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存地区表", notes = "保存地区表不为空的字段")
+    @ApiOperation(value = "新增地区表", notes = "新增地区表不为空的字段")
     @PostMapping
-    @SysLog("保存地区表")
-    public R<Area> save(@RequestBody @Valid AreaSaveDTO data) {
+    @SysLog("新增地区表")
+    public R<Area> save(@RequestBody @Validated AreaSaveDTO data) {
         Area area = dozer.map(data, Area.class);
         areaService.save(area);
         return success(area);
@@ -102,9 +102,8 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "修改地区表", notes = "修改地区表不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改地区表")
-    public R<Area> update(@RequestBody @Valid AreaUpdateDTO data) {
+    public R<Area> update(@RequestBody @Validated(SuperEntity.Update.class) AreaUpdateDTO data) {
         Area area = dozer.map(data, Area.class);
         areaService.updateById(area);
         return success(area);

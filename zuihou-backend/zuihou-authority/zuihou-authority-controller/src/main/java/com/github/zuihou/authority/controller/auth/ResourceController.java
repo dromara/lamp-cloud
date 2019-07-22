@@ -41,9 +41,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/resource")
 @Api(value = "Resource", tags = "资源")
@@ -74,29 +75,27 @@ public class ResourceController extends BaseController {
     }
 
     /**
-     * 单体查询资源
+     * 查询资源
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询资源", notes = "单体查询资源")
+    @ApiOperation(value = "查询资源", notes = "查询资源")
     @GetMapping("/{id}")
-    @SysLog("单体查询资源")
+    @SysLog("查询资源")
     public R<Resource> get(@PathVariable Long id) {
         return success(resourceService.getById(id));
     }
 
     /**
-     * 保存资源
-     * <p>
-     * 是链接类型时， 通过ID修改数据
+     * 新增资源
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存资源", notes = "保存资源不为空的字段")
+    @ApiOperation(value = "新增资源", notes = "新增资源不为空的字段")
     @PostMapping
-    @SysLog("保存资源")
+    @SysLog("新增资源")
     public R<Resource> save(@RequestBody @Validated ResourceSaveDTO data) {
         if (ResourceType.URI.eq(data.getResourceType())) {
             BizAssert.assertNotNull(data.getId());

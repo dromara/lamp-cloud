@@ -8,11 +8,11 @@ import com.github.zuihou.authority.entity.core.Org;
 /**
  * <p>
  * 业务接口
- *
+ * 组织
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 public interface OrgService extends IService<Org> {
     /**

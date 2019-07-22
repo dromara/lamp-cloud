@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 /**
  * <p>
  * 业务实现类
- *
+ * 组织
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Service

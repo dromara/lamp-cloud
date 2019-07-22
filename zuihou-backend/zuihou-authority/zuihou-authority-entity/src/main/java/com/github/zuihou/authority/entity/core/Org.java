@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- *
+ * 组织
  * </p>
  *
  * @author zuihou
@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_core_org")
-@ApiModel(value = "Org", description = "")
+@ApiModel(value = "Org", description = "组织")
 public class Org extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;

@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-02
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -83,7 +83,7 @@ public class OptLog extends SuperEntity<Long> {
     /**
      * 请求方法
      *
-     * 
+     *
      */
     @ApiModelProperty(value = "请求方法")
     @Length(max = 50, message = "请求方法长度不能超过50")

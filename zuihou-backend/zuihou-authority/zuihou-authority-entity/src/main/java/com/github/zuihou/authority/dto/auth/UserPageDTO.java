@@ -1,9 +1,5 @@
 package com.github.zuihou.authority.dto.auth;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -12,7 +8,6 @@ import com.github.zuihou.authority.enumeration.auth.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,13 +16,10 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * <p>
- * 实体类
- * 账号
- * </p>
+ * This is a Description
  *
- * @author zuihou
- * @since 2019-07-03
+ * @author tangyh
+ * @date 2019/07/22
  */
 @Data
 @NoArgsConstructor
@@ -35,12 +27,8 @@ import org.hibernate.validator.constraints.Length;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-@Builder
-@ApiModel(value = "UserSaveDTO", description = "账号")
-public class UserSaveDTO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+@ApiModel(value = "UserPageDTO", description = "用户分页对象")
+public class UserPageDTO {
     /**
      * 账号
      */
@@ -85,7 +73,6 @@ public class UserSaveDTO implements Serializable {
     @ApiModelProperty(value = "是否可登陆")
     @NotNull(message = "是否可登陆不能为空")
     private Boolean isCanLogin;
-
     /**
      * 照片
      */
@@ -106,29 +93,5 @@ public class UserSaveDTO implements Serializable {
     @ApiModelProperty(value = "登录次数")
     @NotNull(message = "登录次数不能为空")
     private Integer loginCount;
-    /**
-     * 输入密码错误的日期
-     * 比如20190102  与error_count合力实现一天输入密码错误次数限制
-     */
-    @ApiModelProperty(value = "输入密码错误的日期")
-    private LocalDate continuationErrorDay;
-    /**
-     * 一天连续输错密码次数
-     */
-    @ApiModelProperty(value = "一天连续输错密码次数")
-    @NotNull(message = "一天连续输错密码次数不能为空")
-    private Integer continuationErrorCount;
-    /**
-     * 密码过期时间
-     */
-    @ApiModelProperty(value = "密码过期时间")
-    private LocalDateTime passwordExpireTime;
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value = "密码")
-    @NotEmpty(message = "密码不能为空")
-    @Length(max = 32, message = "密码长度不能超过32")
-    private String password;
 
 }

@@ -1,7 +1,5 @@
 package com.github.zuihou.authority.controller.auth;
 
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
 import com.github.zuihou.authority.dto.auth.RoleUpdateDTO;
@@ -36,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-03
+ * @date 2019-07-22
  */
 @Slf4j
 @Validated
@@ -68,28 +66,28 @@ public class RoleController extends BaseController {
     }
 
     /**
-     * 单体查询角色
+     * 查询角色
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询角色", notes = "单体查询角色")
+    @ApiOperation(value = "查询角色", notes = "查询角色")
     @GetMapping("/{id}")
-    @SysLog("单体查询角色")
+    @SysLog("查询角色")
     public R<Role> get(@PathVariable Long id) {
         return success(roleService.getById(id));
     }
 
     /**
-     * 保存角色
+     * 新增角色
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存角色", notes = "保存角色不为空的字段")
+    @ApiOperation(value = "新增角色", notes = "新增角色不为空的字段")
     @PostMapping
-    @SysLog("保存角色")
-    public R<RoleSaveDTO> save(@RequestBody @Valid RoleSaveDTO data) {
+    @SysLog("新增角色")
+    public R<RoleSaveDTO> save(@RequestBody @Validated RoleSaveDTO data) {
         roleService.saveRole(data, getUserId());
         return success(data);
     }
@@ -102,9 +100,8 @@ public class RoleController extends BaseController {
      */
     @ApiOperation(value = "修改角色", notes = "修改角色不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改角色")
-    public R<RoleUpdateDTO> update(@RequestBody @Valid RoleUpdateDTO data) {
+    public R<RoleUpdateDTO> update(@RequestBody @Validated(SuperEntity.Update.class) RoleUpdateDTO data) {
         roleService.updateRole(data, getUserId());
         return success(data);
     }
