@@ -22,13 +22,13 @@ public class AuthorityGenerator {
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou",
 //                        "c_common_",
-//                        "c_core_",
-                        "c_auth_",
+                        "c_core_",
+//                        "c_auth_",
 //                        Arrays.asList("c_core_.*"));
 //                        Arrays.asList("c_common_opt_log"));
 //                        Arrays.asList("c_common_.*"));
 //                        Arrays.asList("c_auth_.*"));
-                        Arrays.asList("c_auth_resource"));
+                        Arrays.asList("c_core_org"));
 //                        Arrays.asList("c_auth_user_role", "c_auth_role_authority", "c_auth_role_org"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_authority_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
@@ -47,8 +47,8 @@ public class AuthorityGenerator {
 
         build.setFileCreateConfig(fileCreateConfig);
 
-        build.setChildPackageName("auth");
-//        build.setChildPackageName("core");
+//        build.setChildPackageName("auth");
+        build.setChildPackageName("core");
 //        build.setChildPackageName("common");
         build.setSuperEntity(EntityType.ENTITY);
 //        build.setSuperEntity(EntityType.SUPER_ENTITY);
@@ -60,6 +60,8 @@ public class AuthorityGenerator {
                         .packagePath("com.github.zuihou.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
                 , EntityFiledType.builder().name("httpMethod").table("c_auth_resource")
                         .packagePath("com.github.zuihou.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
+                , EntityFiledType.builder().name("dsType").table("c_auth_role")
+                        .packagePath("com.github.zuihou.database.mybatis.auth.DataScopeType").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
         CodeGenerator.main(build);

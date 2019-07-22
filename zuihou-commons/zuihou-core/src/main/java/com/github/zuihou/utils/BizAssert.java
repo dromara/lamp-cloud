@@ -6,19 +6,14 @@ import java.util.Collection;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
 
+import static com.github.zuihou.exception.BaseException.BASE_VALID_PARAM;
+
 
 /**
- * A set of assertion methods useful for writing tests. Only failed assertions
- * are recorded. These methods can be used directly:
- * <code>Assert.assertEquals(...)</code>, however, they read better if they
- * are referenced through static import:
- * <p>
- * <pre>
- * import static org.junit.Assert.*;
- *    ...
- *    assertEquals(...);
- * </pre>
+ * 断言
  *
+ * @author tangyh
+ * @@date 2019-07-22 14:44
  * @see BizException
  * @since 4.0
  */
@@ -51,7 +46,15 @@ public class BizAssert {
      * @
      */
     public static void fail() {
-        fail(-9, "参数验证异常");
+        fail(BASE_VALID_PARAM, "参数验证异常");
+    }
+
+    public static void fail(String message) {
+        if (message == null || "".equals(message)) {
+            fail();
+        } else {
+            fail(BASE_VALID_PARAM, message);
+        }
     }
 
     /**
@@ -70,7 +73,13 @@ public class BizAssert {
 
     public static void assertTrue(boolean condition) {
         if (!condition) {
-            fail(null);
+            fail();
+        }
+    }
+
+    public static void assertTrue(boolean condition, String message) {
+        if (!condition) {
+            fail(message);
         }
     }
 
@@ -260,7 +269,11 @@ public class BizAssert {
     }
 
     public static void assertNotNull(Object object) {
-        assertTrue(object != null);
+        assertNotNull(object, null);
+    }
+
+    public static void assertNotNull(Object object, String message) {
+        assertTrue(object != null, message);
     }
 
 
@@ -341,7 +354,7 @@ public class BizAssert {
 
     public static void assertNotEmpty(String value) {
         if (value == null || value.isEmpty()) {
-            fail(null);
+            fail();
         }
     }
 

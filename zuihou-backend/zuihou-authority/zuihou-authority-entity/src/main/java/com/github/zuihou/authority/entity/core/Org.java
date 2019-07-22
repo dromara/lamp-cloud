@@ -20,11 +20,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- * 
+ *
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-22
  */
 @Data
 @NoArgsConstructor
@@ -62,6 +62,14 @@ public class Org extends Entity<Long> {
     private Long parentId;
 
     /**
+     * 树结构
+     */
+    @ApiModelProperty(value = "树结构")
+    @Length(max = 255, message = "树结构长度不能超过255")
+    @TableField("tree_path")
+    private String treePath;
+
+    /**
      * 排序
      */
     @ApiModelProperty(value = "排序")
@@ -86,7 +94,8 @@ public class Org extends Entity<Long> {
 
     @Builder
     public Org(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-               String name, String abbreviation, Long parentId, Integer sortvalue, Boolean status, String describe) {
+               String name, String abbreviation, Long parentId, String treePath, Integer sortvalue,
+               Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -95,6 +104,7 @@ public class Org extends Entity<Long> {
         this.name = name;
         this.abbreviation = abbreviation;
         this.parentId = parentId;
+        this.treePath = treePath;
         this.sortvalue = sortvalue;
         this.status = status;
         this.describe = describe;

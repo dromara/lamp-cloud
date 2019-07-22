@@ -122,8 +122,8 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
     public void removeByBizIdAndBizType(String bizId, String bizType) {
         List<Attachment> list = super.list(
                 Wraps.<Attachment>lbQ()
-                        .eqNe(Attachment::getBizId, bizId)
-                        .eqNe(Attachment::getBizType, bizType));
+                        .eq(Attachment::getBizId, bizId)
+                        .eq(Attachment::getBizType, bizType));
         if (list.isEmpty()) {
             return;
         }

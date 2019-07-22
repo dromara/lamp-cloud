@@ -12,6 +12,7 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="abbreviation" jdbcType="VARCHAR" property="abbreviation"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
         <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
         <result column="status" jdbcType="BIT" property="status"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
@@ -20,7 +21,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_time, create_user, update_time, update_user, 
-        name, abbreviation, parent_id, sortvalue, status, describe_
+        name, abbreviation, parent_id, tree_path, sortvalue, status, describe_
     </sql>
 
 </mapper>

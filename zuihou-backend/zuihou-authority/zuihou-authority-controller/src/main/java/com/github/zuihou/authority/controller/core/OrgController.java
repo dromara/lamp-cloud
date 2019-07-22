@@ -3,19 +3,23 @@ package com.github.zuihou.authority.controller.core;
 import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.dto.core.OrgSaveDTO;
 import com.github.zuihou.authority.dto.core.OrgUpdateDTO;
+import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.core.OrgService;
+import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.R;
+import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.BizAssert;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.github.zuihou.base.entity.SuperEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +30,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.zuihou.base.BaseController;
+
+import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
+import static com.github.zuihou.common.constant.CommonConstants.ROOT_PATH_DEF;
 
 /**
  * <p>
@@ -41,7 +47,7 @@ import com.github.zuihou.base.BaseController;
 @Validated
 @RestController
 @RequestMapping("/org")
-@Api(value = "Org", tags = "")
+@Api(value = "Org", tags = "组织")
 public class OrgController extends BaseController {
 
     @Autowired
@@ -90,6 +96,15 @@ public class OrgController extends BaseController {
     @SysLog("保存")
     public R<Org> save(@RequestBody @Valid OrgSaveDTO data) {
         Org org = dozer.map(data, Org.class);
+        if (org.getParentId() == null) {
+            org.setParentId(PARENT_ID_DEF);
+            org.setTreePath(ROOT_PATH_DEF);
+        } else {
+            Org parent = orgService.getById(org.getParentId());
+            BizAssert.assertNotNull(parent, "父组织不能为空");
+
+            org.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), ROOT_PATH_DEF));
+        }
         orgService.save(org);
         return success(org);
     }
@@ -105,6 +120,16 @@ public class OrgController extends BaseController {
     @Validated(SuperEntity.Update.class)
     @SysLog("修改")
     public R<Org> update(@RequestBody @Valid OrgUpdateDTO data) {
+        Org org = dozer.map(data, Org.class);
+        orgService.updateById(org);
+        return success(org);
+    }
+
+    @ApiOperation(value = "移动", notes = "修改不为空的字段")
+    @PutMapping
+    @Validated(SuperEntity.Update.class)
+    @SysLog("移动")
+    public R<Org> move(@RequestBody @Valid OrgUpdateDTO data) {
         Org org = dozer.map(data, Org.class);
         orgService.updateById(org);
         return success(org);
