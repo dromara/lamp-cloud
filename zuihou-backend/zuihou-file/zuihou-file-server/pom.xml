@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-validator</artifactId>
+            <artifactId>zuihou-validator-starter</artifactId>
         </dependency>
 
         <dependency>

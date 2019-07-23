@@ -56,7 +56,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-validator</artifactId>
+                <artifactId>zuihou-validator-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
