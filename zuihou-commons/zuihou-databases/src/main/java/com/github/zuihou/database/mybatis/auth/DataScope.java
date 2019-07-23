@@ -23,7 +23,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author lengleng
+ * @author zuihou
  * @date 2019/2/1
  * 数据权限查询参数
  */
