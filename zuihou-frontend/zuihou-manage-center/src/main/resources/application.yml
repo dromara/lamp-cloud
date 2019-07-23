@@ -12,9 +12,9 @@ zuihou:
 
 shiro:
   realm: com.github.zuihou.center.shiro.ShiroAuthorizingRealm
-  loginUrl: http://center.zuihou.com:${server.port}/login
-  successUrl: http://center.zuihou.com:${server.port}/index
-  unauthorizedUrl: http://center.zuihou.com:${server.port}/unauthorized
+  loginUrl: http://${zuihou.ip.nginx}:${server.port}/${server.servlet.context-path:}/login
+  successUrl: http://${zuihou.ip.nginx}:${server.port}/${server.servlet.context-path:}/index
+  unauthorizedUrl: http://${zuihou.ip.nginx}:${server.port}/${server.servlet.context-path:}/unauthorized
   filterChainDefinitions:
     anon:
       - /login
@@ -33,6 +33,8 @@ server:
     context-path: /zuihou-center
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   thymeleaf:
     cache: false
   mvc:

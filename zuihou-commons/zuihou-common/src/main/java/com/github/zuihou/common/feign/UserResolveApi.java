@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/10
  */
 @FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallbackFactory = UserResolveApiFallback.class)
