@@ -190,8 +190,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         List<File> list = super.list(query);
         List<Recycle> recycles = dozerUtils.mapList(list, Recycle.class);
 
-        recycleService.saveBatch(recycles);
-        return Boolean.TRUE;
+        return recycleService.saveBatch(recycles);
     }
 
     @Override

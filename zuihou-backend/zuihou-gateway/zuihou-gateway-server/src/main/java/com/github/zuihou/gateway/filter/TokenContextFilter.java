@@ -95,13 +95,14 @@ public class TokenContextFilter extends BaseFilter {
 
         //2, 解析token
         JwtUserInfo userInfo = null;
+
+        //添加测试环境的特殊token
+        if (isDev() && "test".equalsIgnoreCase(userToken)) {
+            userInfo = new JwtUserInfo(1L, "admin", "管理员", 1L, 1L);
+        }
         try {
-            if (isDev() && "test".equalsIgnoreCase(userToken)) {
-                userInfo = new JwtUserInfo(1L, "admin", "管理员", 1L, 1L);
-            } else {
-                if (!isIgnoreToken()) {
-                    userInfo = jwtTokenClientUtils.getUserInfo(userToken);
-                }
+            if (!isIgnoreToken()) {
+                userInfo = jwtTokenClientUtils.getUserInfo(userToken);
             }
         } catch (BizException e) {
             errorResponse(e.getMessage(), e.getCode(), 200);
@@ -111,14 +112,14 @@ public class TokenContextFilter extends BaseFilter {
             return null;
         }
 
-        if (userInfo != null && !authPass(ctx, userInfo)) {
+        if (!authPass(ctx, userInfo)) {
             return null;
         }
 
         log.info("userInfo={}", userInfo);
 
         //3, 将信息放入header
-        if (!isIgnoreToken()) {
+        if (userInfo != null) {
             addHeader(ctx, BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount());
             addHeader(ctx, BaseContextConstants.JWT_KEY_USER_ID, userInfo.getUserId());
             addHeader(ctx, BaseContextConstants.JWT_KEY_NAME, userInfo.getName());
@@ -132,7 +133,6 @@ public class TokenContextFilter extends BaseFilter {
     }
 
     private void addHeader(RequestContext ctx, String name, Object value) {
-
         if (StringUtils.isEmpty(value)) {
             return;
         }

@@ -19,7 +19,7 @@ public enum FileStorageType {
 
     public boolean eq(FileStorageType type) {
         for (FileStorageType t : FileStorageType.values()) {
-            return t.name().equals(type);
+            return t.equals(type);
         }
         return false;
     }

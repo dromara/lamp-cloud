@@ -64,7 +64,7 @@ public abstract class BaseDbConfiguration {
     /**
      * 测试环境
      */
-    protected static final String[] PROFILES = new String[]{"dev", "test"};
+    protected static final String[] DEV_PROFILES = new String[]{"dev", "test"};
     private static final List<Class<? extends Annotation>> AOP_POINTCUT_ANNOTATIONS = new ArrayList<>(2);
     private static final String TX_BASE_PACKAGE = "com.github.zuihou";
 
@@ -144,25 +144,6 @@ public abstract class BaseDbConfiguration {
     }
 
     private ClassFilter builderClassFilter() {
-//        return new ClassFilter() {
-//            Logger log = getLog();
-//
-//            @Override
-//            public boolean matches(Class<?> clazz) {
-//                if (!clazz.getName().startsWith(TX_BASE_PACKAGE)) {
-//                    return false;
-//                }
-//                for (Class<? extends Annotation> aop : AOP_POINTCUT_ANNOTATIONS) {
-//                    if (clazz.getAnnotation(aop) != null) {
-//                        if (log != null) {
-//                            log.debug("允许带事务的类为：{}", clazz);
-//                        }
-//                        return true;
-//                    }
-//                }
-//                return false;
-//            }
-//        };
         Logger log = getLog();
         return (clazz) -> {
             if (!clazz.getName().startsWith(TX_BASE_PACKAGE)) {
@@ -225,7 +206,7 @@ public abstract class BaseDbConfiguration {
             list.add(dataScopeInterceptor);
         }
 
-        if (ArrayUtils.contains(PROFILES, profiles)) {
+        if (ArrayUtils.contains(DEV_PROFILES, profiles)) {
             list.add(performanceInterceptor());
         }
         sqlSessionFactory.setPlugins(list.toArray(new Interceptor[list.size()]));
