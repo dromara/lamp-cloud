@@ -2,7 +2,12 @@ package com.github.zuihou.file.dao;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
 import com.github.zuihou.file.entity.Attachment;
 
@@ -38,4 +43,14 @@ public interface AttachmentMapper extends BaseMapper<Attachment> {
      * @return
      */
     Integer countByGroup(@Param("ids") List<Long> ids, @Param("group") String group, @Param("path") String path);
+
+    /**
+     * 按权限查询数据
+     *
+     * @param page
+     * @param wrapper
+     * @param dataScope
+     * @return
+     */
+    IPage<Attachment> page(Page<Attachment> page, @Param(Constants.WRAPPER) Wrapper<Attachment> wrapper, DataScope dataScope);
 }

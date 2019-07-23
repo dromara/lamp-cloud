@@ -25,6 +25,7 @@
         <result column="filename" jdbcType="VARCHAR" property="filename"/>
         <result column="ext" jdbcType="VARCHAR" property="ext"/>
         <result column="size" jdbcType="BIGINT" property="size"/>
+        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="create_month" jdbcType="VARCHAR" property="createMonth"/>
         <result column="create_week" jdbcType="VARCHAR" property="createWeek"/>
@@ -33,8 +34,9 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, create_user, update_time, update_user, 
-        biz_id, biz_type, data_type, submitted_file_name, app_code, group_, path, relative_path, url, characters, thumbnail, file_md5, context_type, filename, ext, size, icon, create_month, create_week, create_day
+        id, create_time, create_user, update_time, update_user,
+        biz_id, biz_type, data_type, submitted_file_name, app_code, group_, path, relative_path, url, characters, thumbnail,
+        file_md5, context_type, filename, ext, size, org_id, icon, create_month, create_week, create_day
     </sql>
 
 </mapper>

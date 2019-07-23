@@ -9,17 +9,23 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.file.biz.FileBiz;
 import com.github.zuihou.file.dao.AttachmentMapper;
 import com.github.zuihou.file.domain.FileDO;
 import com.github.zuihou.file.domain.FileDeleteDO;
 import com.github.zuihou.file.dto.AttachmentDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
+import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.entity.Attachment;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.enumeration.DataType;
@@ -50,13 +56,21 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
     @Autowired
     private IdGenerate<Long> idGenerate;
     @Autowired
-    private DozerUtils dozerUtils;
+    private DozerUtils dozer;
     @Resource
     private FileStrategy fileStrategy;
     @Autowired
     private FileServerProperties fileProperties;
     @Autowired
     private FileBiz fileBiz;
+
+    @Override
+    public IPage<Attachment> page(Page<Attachment> page, FilePageReqDTO data) {
+        Attachment attachment = dozer.map(data, Attachment.class);
+        LbqWrapper<Attachment> wrapper = Wraps.lbQ(attachment);
+        wrapper.orderByDesc(Attachment::getCreateTime);
+        return baseMapper.page(page, wrapper, new DataScope());
+    }
 
     @Override
     public AttachmentDTO upload(MultipartFile multipartFile, String appCode, Long id, String bizType, String bizId) {
@@ -66,8 +80,9 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
         }
         File file = fileStrategy.upload(multipartFile);
 
-        Attachment attachment = dozerUtils.map2(file, Attachment.class);
+        Attachment attachment = dozer.map2(file, Attachment.class);
 
+        attachment.setOrgId(BaseContextHandler.getOrgId());
         attachment.setBizId(bizId);
         attachment.setBizType(bizType);
         attachment.setAppCode(appCode);
@@ -81,7 +96,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
             super.save(attachment);
         }
 
-        AttachmentDTO dto = dozerUtils.map2(attachment, AttachmentDTO.class);
+        AttachmentDTO dto = dozer.map2(attachment, AttachmentDTO.class);
         dto.setDownloadUrlByBizId(fileProperties.getDownByBizId(bizId));
         dto.setDownloadUrlById(fileProperties.getDownById(file.getId()));
         dto.setDownloadUrlByUrl(fileProperties.getDownByUrl(file.getUrl(), file.getSubmittedFileName()));
@@ -175,5 +190,6 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
                 .collect(Collectors.toList());
         fileBiz.down(listDO, request, response);
     }
+
 
 }

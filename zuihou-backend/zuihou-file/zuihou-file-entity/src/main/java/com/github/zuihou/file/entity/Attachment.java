@@ -172,6 +172,12 @@ public class Attachment extends Entity<Long> {
     @ApiModelProperty(value = "大小")
     @TableField("size")
     private Long size;
+    /**
+     * 组织ID
+     */
+    @ApiModelProperty(value = "组织ID")
+    @TableField("org_id")
+    private Long orgId;
 
     /**
      * 图标
@@ -213,7 +219,7 @@ public class Attachment extends Entity<Long> {
     public Attachment(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
                       String bizId, String bizType, DataType dataType, String submittedFileName, String appCode,
                       String group, String path, String relativePath, String url, String characters, String thumbnail,
-                      String fileMd5, String contextType, String filename, String ext, Long size, String icon,
+                      String fileMd5, String contextType, String filename, String ext, Long size, Long orgId, String icon,
                       String createMonth, String createWeek, String createDay) {
         this.id = id;
         this.createTime = createTime;
@@ -236,6 +242,7 @@ public class Attachment extends Entity<Long> {
         this.filename = filename;
         this.ext = ext;
         this.size = size;
+        this.orgId = orgId;
         this.icon = icon;
         this.createMonth = createMonth;
         this.createWeek = createWeek;

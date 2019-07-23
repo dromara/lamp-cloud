@@ -5,9 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.file.dto.AttachmentDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
+import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.entity.Attachment;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -90,4 +93,12 @@ public interface AttachmentService extends IService<Attachment> {
      */
     void downloadByUrl(HttpServletRequest request, HttpServletResponse response, String url, String filename) throws Exception;
 
+    /**
+     * 查询附件分页数据，按权限
+     *
+     * @param page
+     * @param data
+     * @return
+     */
+    IPage<Attachment> page(Page<Attachment> page, FilePageReqDTO data);
 }
