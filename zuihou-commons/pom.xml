@@ -23,6 +23,7 @@
         <module>zuihou-validator-starter</module>
         <module>zuihou-shiro-starter</module>
         <module>zuihou-user-starter</module>
+        <module>zuihou-jwt-starter</module>
     </modules>
 
 
@@ -35,15 +36,15 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-databases</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-autoconfigure-shiro</artifactId>
-                <version>${project.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

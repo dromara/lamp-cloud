@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-auth-client</artifactId>
+            <artifactId>zuihou-jwt-starter</artifactId>
         </dependency>
 
         <!-- springboot 监控端点 -->

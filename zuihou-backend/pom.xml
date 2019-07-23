@@ -61,10 +61,9 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-auth-client</artifactId>
+                <artifactId>zuihou-jwt-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.github.zuihou</groupId>
