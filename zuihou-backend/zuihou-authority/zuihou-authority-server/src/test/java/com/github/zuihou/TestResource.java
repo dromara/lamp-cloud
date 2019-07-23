@@ -55,6 +55,13 @@ public class TestResource {
     private DozerUtils dozer;
 
     @Test
+    public void testWrapper() {
+        Resource build = Resource.builder().code("123%456").name("nide %z").build();
+        LbqWrapper<Resource> ignore = Wraps.lbQ(build).ignore(Resource::setCode).eq(Resource::getCode, build.getCode());
+        resourceService.list(ignore);
+    }
+
+    @Test
     public void testfindChildren() {
         List<Org> children = orgService.findChildren(Arrays.asList(101L));
         System.out.println(children.size());

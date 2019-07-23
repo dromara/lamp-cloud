@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -19,6 +20,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
+@ToString
 public class Entity<T> extends SuperEntity<T> {
 
     public static final String UPDATE_TIME = "updateTime";

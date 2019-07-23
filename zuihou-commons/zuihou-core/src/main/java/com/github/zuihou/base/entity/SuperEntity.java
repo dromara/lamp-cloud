@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -30,7 +31,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SuperEntity<T> implements Serializable {
+@ToString
+public class SuperEntity<T> implements Serializable, Cloneable {
     public static final String ID = "id";
     public static final String CREATE_TIME = "createTime";
     public static final String CREATE_USER = "createUser";
