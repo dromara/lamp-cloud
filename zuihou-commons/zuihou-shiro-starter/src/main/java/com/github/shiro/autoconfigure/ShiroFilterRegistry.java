@@ -7,6 +7,8 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 
 /**
  * Created by whf on 5/15/16.
+ * @date 2019-07-23 11:59
+ * @author zuihou
  */
 public class ShiroFilterRegistry {
     private Map<String, AccessControlFilter> filterMap = new HashMap<>();

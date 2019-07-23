@@ -32,7 +32,7 @@ import org.hibernate.validator.internal.metadata.location.ConstraintLocation;
 /**
  * 缺省的约束提取器
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-07-14 12:12
  */
 @Slf4j

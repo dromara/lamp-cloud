@@ -22,6 +22,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for Shiro.
+ * @date 2019-07-23 11:59
+ * @author zuihou
  */
 @ConfigurationProperties(prefix = "shiro")
 public class ShiroProperties {

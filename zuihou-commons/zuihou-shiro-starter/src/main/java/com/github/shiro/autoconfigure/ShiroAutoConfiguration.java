@@ -36,6 +36,12 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 
 
+/**
+ * 配置类
+ *
+ * @author tangyh
+ * @date 2019-07-23 12:00
+ */
 @Configuration
 @EnableConfigurationProperties(com.github.shiro.autoconfigure.ShiroProperties.class)
 @Import(com.github.shiro.autoconfigure.ShiroManager.class)

@@ -8,7 +8,7 @@ import com.github.zuihou.validator.model.ConstraintInfo;
 /**
  * 约束转换器
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-07-14 12:13
  */
 public interface IConstraintConverter {
