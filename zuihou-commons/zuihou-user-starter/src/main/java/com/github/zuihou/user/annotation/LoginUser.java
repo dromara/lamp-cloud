@@ -1,4 +1,4 @@
-package com.github.zuihou.common.annotation;
+package com.github.zuihou.user.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

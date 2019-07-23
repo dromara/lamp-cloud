@@ -2,9 +2,9 @@ package com.github.zuihou.authority.controller.test;
 
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.annotation.LoginUser;
-import com.github.zuihou.common.model.SysUser;
 import com.github.zuihou.log.entity.OptLogDTO;
+import com.github.zuihou.user.annotation.LoginUser;
+import com.github.zuihou.user.model.SysUser;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

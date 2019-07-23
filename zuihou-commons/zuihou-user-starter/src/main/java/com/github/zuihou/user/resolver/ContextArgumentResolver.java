@@ -1,11 +1,11 @@
-package com.github.zuihou.common.resolver;
+package com.github.zuihou.user.resolver;
 
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.annotation.LoginUser;
-import com.github.zuihou.common.feign.UserQuery;
-import com.github.zuihou.common.feign.UserResolveApi;
-import com.github.zuihou.common.model.SysUser;
 import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.user.annotation.LoginUser;
+import com.github.zuihou.user.feign.UserQuery;
+import com.github.zuihou.user.feign.UserResolveApi;
+import com.github.zuihou.user.model.SysUser;
 import com.github.zuihou.utils.NumberHelper;
 
 import lombok.extern.slf4j.Slf4j;

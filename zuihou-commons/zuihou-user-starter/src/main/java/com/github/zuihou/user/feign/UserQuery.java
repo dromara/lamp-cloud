@@ -1,4 +1,4 @@
-package com.github.zuihou.common.feign;
+package com.github.zuihou.user.feign;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

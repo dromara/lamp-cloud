@@ -1,10 +1,10 @@
-package com.github.zuihou.common.config;
+package com.github.zuihou.user.config;
 
 import java.util.List;
 
-import com.github.zuihou.common.feign.UserResolveApi;
-import com.github.zuihou.common.interceptor.ContextHandlerInterceptor;
-import com.github.zuihou.common.resolver.ContextArgumentResolver;
+import com.github.zuihou.user.feign.UserResolveApi;
+import com.github.zuihou.user.interceptor.ContextHandlerInterceptor;
+import com.github.zuihou.user.resolver.ContextArgumentResolver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

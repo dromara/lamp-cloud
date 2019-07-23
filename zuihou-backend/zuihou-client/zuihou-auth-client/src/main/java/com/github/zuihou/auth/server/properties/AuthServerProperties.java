@@ -12,9 +12,9 @@ import static com.github.zuihou.auth.server.properties.AuthServerProperties.PREF
  * @author zuihou
  * @date 2018/11/20
  */
-@ConfigurationProperties(prefix = PREFIX)
 @Data
 @NoArgsConstructor
+@ConfigurationProperties(prefix = PREFIX)
 public class AuthServerProperties {
     public static final String PREFIX = "authentication";
 

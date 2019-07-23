@@ -6,7 +6,6 @@ import com.github.zuihou.auth.server.utils.JwtTokenServerUtils;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 认证服务端配置
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
  * @author zuihou
  * @date 2018/11/20
  */
-@Configuration
 @EnableConfigurationProperties(value = {
         AuthServerProperties.class,
 })

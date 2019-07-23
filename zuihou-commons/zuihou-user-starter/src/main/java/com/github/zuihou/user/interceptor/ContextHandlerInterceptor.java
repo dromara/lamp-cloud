@@ -1,16 +1,12 @@
-package com.github.zuihou.common.interceptor;
-
-import java.net.URLEncoder;
+package com.github.zuihou.user.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.zuihou.common.constant.CommonConstants;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.utils.StringHelper;
 
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -41,12 +37,6 @@ public class ContextHandlerInterceptor extends HandlerInterceptorAdapter {
             }
 
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            ApiOperation apiOperation = handlerMethod.getMethod().getAnnotation(ApiOperation.class);
-
-            //设置api名称到报文头中
-            if (apiOperation != null) {
-                response.setHeader(CommonConstants.CALL_RECORD_API_NAME, URLEncoder.encode(apiOperation.value(), "utf-8"));
-            }
 
             String userId = getHeader(request, BaseContextConstants.JWT_KEY_USER_ID);
             String account = getHeader(request, BaseContextConstants.JWT_KEY_ACCOUNT);
