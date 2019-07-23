@@ -16,11 +16,11 @@
 
     <modules>
         <module>zuihou-authority</module>
-        <!--<module>zuihou-mail</module>-->
+        <!--<module>zuihou-msgs</module>-->
         <module>zuihou-file</module>
         <module>zuihou-jobs</module>
         <module>zuihou-gateway</module>
-        <module>zuihou-client</module>
+        <module>zuihou-api</module>
     </modules>
     <dependencyManagement>
         <dependencies>

@@ -140,7 +140,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ├─zuihou-admin-cloud
 │  │  
 │  ├─zuihou-backend---------------------------后端服务
-│  |  ├─zuihou-client-------------------------业务客服端/常用API
+│  |  ├─zuihou-api----------------------------常用API
 │  |  ├─zuihou-authority----------------------后端管理服务[正在开发]
 │  |  |  ├─zuihou-admin-biz-------------------后端管理业务/持久层
 │  |  |  ├─zuihou-admin-controller------------后端管理业务/持久层
