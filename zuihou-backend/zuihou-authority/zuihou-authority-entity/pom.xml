@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-log</artifactId>
+            <artifactId>zuihou-log-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
