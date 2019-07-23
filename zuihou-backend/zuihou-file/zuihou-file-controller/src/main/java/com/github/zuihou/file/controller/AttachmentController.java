@@ -7,13 +7,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.file.dto.AttachmentDTO;
 import com.github.zuihou.file.dto.AttachmentRemoveDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
+import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.entity.Attachment;
 import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.service.AttachmentService;
@@ -67,6 +70,22 @@ public class AttachmentController extends BaseController {
     private final static String TYPE_BIZ_ID = "bizId";
     @Autowired
     private AttachmentService attachmentService;
+
+    /**
+     * 分页查询附件
+     *
+     * @author zuihou
+     * @date 2019-05-06
+     */
+    @ApiOperation(value = "分页查询附件", notes = "分页查询附件")
+    @GetMapping(value = "/page")
+    @SysLog("分页查询附件")
+    public R<IPage<Attachment>> page(FilePageReqDTO data) {
+        Page<Attachment> page = getPage();
+        attachmentService.page(page, data);
+        return success(page);
+    }
+
 
     /**
      * 上传文件

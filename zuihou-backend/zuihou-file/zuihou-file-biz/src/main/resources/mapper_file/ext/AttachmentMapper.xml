@@ -46,4 +46,11 @@
         and path = #{path, jdbcType=VARCHAR}
     </select>
 
+
+    <select id="page" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM f_attachment
+        ${ew.customSqlSegment}
+    </select>
 </mapper>

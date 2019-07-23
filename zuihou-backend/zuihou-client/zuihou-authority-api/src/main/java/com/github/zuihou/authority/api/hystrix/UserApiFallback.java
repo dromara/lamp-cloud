@@ -19,7 +19,7 @@ public class UserApiFallback implements UserApi {
     @Override
     public Map<String, Object> getDataScopeById(Long id) {
         Map<String, Object> map = new HashMap<>(2);
-        map.put("dsType", 5L);
+        map.put("dsType", 5);
         map.put("orgIds", Collections.emptyList());
         return map;
     }

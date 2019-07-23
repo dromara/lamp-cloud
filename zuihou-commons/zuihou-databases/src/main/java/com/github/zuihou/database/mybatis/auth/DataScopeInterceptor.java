@@ -104,13 +104,14 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
             return invocation.proceed();
         }
 
-        String join = CollectionUtil.join(orgIds, ",");
         //查个人
         if (DataScopeType.SELF.eq(dsType)) {
             originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + selfScopeName + " = " + userId;
         }
         //查其他
-        else if (StrUtil.isNotBlank(scopeName)) {
+        else if (StrUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(orgIds)) {
+
+            String join = CollectionUtil.join(orgIds, ",");
             originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
         }
 

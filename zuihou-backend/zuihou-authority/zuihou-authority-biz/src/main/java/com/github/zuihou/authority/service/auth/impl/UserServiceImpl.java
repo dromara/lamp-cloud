@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Map<String, Object> getDataScopeById(Long userId) {
         Map<String, Object> map = new HashMap<>(2);
-        List<Long> orgIds = Collections.emptyList();
+        List<Long> orgIds = new ArrayList<>();
         DataScopeType dsType = DataScopeType.SELF;
 
         List<Role> list = roleService.findRoleByUserId(userId);
