@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -103,8 +102,7 @@ public abstract class BaseDbConfiguration {
     }
 
     protected TransactionInterceptor txAdvice(PlatformTransactionManager transactionManager) {
-        TransactionInterceptor txAdvice = new TransactionInterceptor(transactionManager, transactionAttributeSource());
-        return txAdvice;
+        return new TransactionInterceptor(transactionManager, transactionAttributeSource());
     }
 
     private TransactionAttributeSource transactionAttributeSource() {
@@ -221,6 +219,12 @@ public abstract class BaseDbConfiguration {
         sqlSessionFactory.setConfiguration(configuration);
         List<Interceptor> list = new ArrayList<>();
         list.add(paginationInterceptor());
+
+        DataScopeInterceptor dataScopeInterceptor = dataScopeInterceptor();
+        if (dataScopeInterceptor != null) {
+            list.add(dataScopeInterceptor);
+        }
+
         if (ArrayUtils.contains(PROFILES, profiles)) {
             list.add(performanceInterceptor());
         }
@@ -241,7 +245,7 @@ public abstract class BaseDbConfiguration {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         List<ISqlParser> sqlParserList = new ArrayList<>();
         // 攻击 SQL 阻断解析器、加入解析链
-        sqlParserList.add(new BlockAttackSqlParser());
+//        sqlParserList.add(new BlockAttackSqlParser());
         paginationInterceptor.setSqlParserList(sqlParserList);
         return paginationInterceptor;
     }
@@ -265,7 +269,16 @@ public abstract class BaseDbConfiguration {
      */
     @Bean
     public DataScopeInterceptor dataScopeInterceptor() {
-        return new DataScopeInterceptor();
+        return getDataScopeInterceptor();
+    }
+
+    /**
+     * 待子类实现
+     *
+     * @return
+     */
+    public DataScopeInterceptor getDataScopeInterceptor() {
+        return null;
     }
 
     /**

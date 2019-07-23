@@ -1,9 +1,10 @@
 package com.github.zuihou.authority.dao.auth;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.zuihou.authority.dto.auth.UserPageDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 
@@ -25,11 +26,11 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 分页查询用户信息（含角色）
      *
-     * @param page      分页
-     * @param userDTO   查询参数
+     * @param page         分页
+     * @param queryWrapper 查询参数
      * @param dataScope
      * @return list
      */
-    IPage<User> findUserPage(Page page, @Param("query") UserPageDTO userDTO, DataScope dataScope);
+    IPage<User> findUserPage(Page page, @Param(Constants.WRAPPER) Wrapper<User> queryWrapper, DataScope dataScope);
 
 }

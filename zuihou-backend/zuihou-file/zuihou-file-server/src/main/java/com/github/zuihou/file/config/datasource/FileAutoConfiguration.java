@@ -8,7 +8,10 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.github.zuihou.authority.api.UserApi;
 import com.github.zuihou.database.datasource.BaseDbConfiguration;
+import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
+import com.github.zuihou.utils.SpringUtil;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
@@ -82,4 +85,14 @@ public class FileAutoConfiguration extends BaseDbConfiguration {
         return defGlobalConfig();
     }
 
+
+    /**
+     * 数据权限插件
+     *
+     * @return DataScopeInterceptor
+     */
+    @Override
+    public DataScopeInterceptor getDataScopeInterceptor() {
+        return new DataScopeInterceptor((userId) -> SpringUtil.getBean(UserApi.class).getDataScopeById(userId));
+    }
 }

@@ -20,12 +20,15 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.function.Function;
 
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
+import com.github.zuihou.context.BaseContextHandler;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -48,8 +51,11 @@ import org.apache.ibatis.reflection.SystemMetaObject;
  * mybatis 数据权限拦截器
  */
 @Slf4j
+@AllArgsConstructor
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class DataScopeInterceptor extends AbstractSqlParserHandler implements Interceptor {
+
+    final private Function<Long, Map<String, Object>> function;
 
     @Override
     @SneakyThrows
@@ -72,16 +78,45 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
 
         if (dataScope == null) {
             return invocation.proceed();
-        } else {
-            String scopeName = dataScope.getScopeName();
-            List<Long> orgIds = dataScope.getOrgIds();
-            if (StrUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(orgIds)) {
-                String join = CollectionUtil.join(orgIds, ",");
-                originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
-                metaObject.setValue("delegate.boundSql.sql", originalSql);
+        }
+        String scopeName = dataScope.getScopeName();
+        String selfScopeName = dataScope.getSelfScopeName();
+        Long userId = dataScope.getUserId() == null ? BaseContextHandler.getUserId() : dataScope.getUserId();
+        List<Long> orgIds = dataScope.getOrgIds();
+        DataScopeType dsType = DataScopeType.SELF;
+        if (CollectionUtil.isEmpty(orgIds)) {
+            //查询当前用户的 角色 最小权限
+            //userId
+
+            //dsType orgIds
+            Map<String, Object> result = function.apply(userId);
+            if (result == null) {
+                return invocation.proceed();
             }
+
+            Integer type = (Integer) result.get("dsType");
+            dsType = DataScopeType.get(type);
+            orgIds = (List<Long>) result.get("orgIds");
+        }
+
+        //查全部
+        if (DataScopeType.ALL.eq(dsType)) {
             return invocation.proceed();
         }
+
+        String join = CollectionUtil.join(orgIds, ",");
+        //查个人
+        if (DataScopeType.SELF.eq(dsType)) {
+            originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + selfScopeName + " = " + userId;
+        }
+        //查其他
+        else if (StrUtil.isNotBlank(scopeName)) {
+            originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
+        }
+
+        metaObject.setValue("delegate.boundSql.sql", originalSql);
+        return invocation.proceed();
+
     }
 
     /**

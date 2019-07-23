@@ -1,12 +1,17 @@
 package com.github.zuihou.authority.controller.auth;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.auth.UserPageDTO;
 import com.github.zuihou.authority.dto.auth.UserSaveDTO;
 import com.github.zuihou.authority.dto.auth.UserUpdateDTO;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
@@ -36,6 +41,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -68,17 +74,25 @@ public class UserController extends BaseController {
     /**
      * 分页查询用户
      *
-     * @param data 分页查询对象
+     * @param userPage 分页查询对象
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询用户", notes = "分页查询用户")
     @GetMapping("/page")
     @SysLog("分页查询用户")
-    public R<IPage<User>> page(User data) {
+    public R<IPage<User>> page(UserPageDTO userPage) {
         IPage<User> page = getPage();
-        // 构建值不为null的查询条件
-        LbqWrapper<User> query = Wraps.lbQ(data);
-        userService.page(page, query);
+
+        User user = dozer.map2(userPage, User.class);
+        if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
+            user.setOrgId(null);
+        }
+        LbqWrapper<User> wrapper = Wraps.lbQ(user);
+        if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
+            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrgId()));
+            wrapper.in(User::getOrgId, children.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList()));
+        }
+        userService.page(page, wrapper);
         return success(page);
     }
 
@@ -146,8 +160,8 @@ public class UserController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询用户", notes = "单体查询用户")
-    @PostMapping(value = "/id/{id}")
+    @ApiOperation(value = "查询用户详细", notes = "查询用户详细")
+    @PostMapping(value = "/anno/id/{id}")
     public R<SysUser> getById(@PathVariable Long id, @RequestBody UserQuery query) {
         User user = userService.getById(id);
         if (user == null) {
@@ -171,5 +185,14 @@ public class UserController extends BaseController {
         return success(sysUser);
     }
 
-
+    /**
+     * 刷新token
+     *
+     * @param id 用户id
+     * @return
+     */
+    @RequestMapping(value = "/ds/{id}", method = RequestMethod.GET)
+    public Map<String, Object> getDataScopeById(@PathVariable("id") Long id) {
+        return userService.getDataScopeById(id);
+    }
 }

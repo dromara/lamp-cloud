@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.core.OrgMapper;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.core.OrgService;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
 
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +32,10 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         if (CollectionUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
-        String applySql = String.format("MATCH(tree_path) AGAINST('%s' IN BOOLEAN MODE)", StringUtils.join(ids, " "));
-        return super.list(super.lambdaQuery().apply(applySql));
+        String applySql = String.format(" MATCH(tree_path) AGAINST('%s' IN BOOLEAN MODE) ", StringUtils.join(ids, " "));
+
+
+        return super.list(Wraps.<Org>lbQ().in(Org::getId, ids).or(query -> query.apply(applySql)));
     }
 
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = LogApiHystrix.class)
 public interface LogApi {
     /**
-     * 刷新token
+     * 保存日志
      *
      * @param log 日志
      * @return

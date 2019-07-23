@@ -8,7 +8,10 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.database.datasource.BaseDbConfiguration;
+import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
+import com.github.zuihou.utils.SpringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -73,10 +76,12 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
      */
     @Bean("authoritySqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("authorityGlobalConfig") GlobalConfig globalConfig,
-                                               @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler) throws Exception {
+                                               @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler
+    ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(db1());
-        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory, new String[]{"classpath:mapper_authority/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
+        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
+                new String[]{"classpath:mapper_authority/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
     }
 
     /**
@@ -122,4 +127,16 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
     protected Logger getLog() {
         return log;
     }
+
+
+    /**
+     * 数据权限插件
+     *
+     * @return DataScopeInterceptor
+     */
+    @Override
+    public DataScopeInterceptor getDataScopeInterceptor() {
+        return new DataScopeInterceptor((userId) -> SpringUtil.getBean(UserService.class).getDataScopeById(userId));
+    }
+
 }
