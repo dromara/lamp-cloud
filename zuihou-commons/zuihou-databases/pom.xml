@@ -41,18 +41,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.mybatis</groupId>-->
-        <!--<artifactId>mybatis-spring</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.mybatis</groupId>-->
-        <!--<artifactId>mybatis</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate.validator</groupId>-->
-        <!--<artifactId>hibernate-validator</artifactId>-->
-        <!--</dependency>-->
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>

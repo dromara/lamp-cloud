@@ -17,10 +17,10 @@
     <modules>
         <module>zuihou-core</module>
         <module>zuihou-common</module>
-        <module>zuihou-log-starter</module>
         <module>zuihou-databases</module>
+        <module>zuihou-log-starter</module>
         <module>zuihou-swagger2-starter</module>
-        <module>zuihou-validator</module>
+        <module>zuihou-validator-starter</module>
         <module>zuihou-shiro-starter</module>
         <module>zuihou-user-starter</module>
     </modules>

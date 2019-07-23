@@ -10,7 +10,7 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>zuihou-validator</artifactId>
+    <artifactId>zuihou-validator-starter</artifactId>
     <description>表单验证</description>
     <name>${project.artifactId}</name>
 
