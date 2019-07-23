@@ -1,5 +1,6 @@
 package com.github.zuihou;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -8,6 +9,7 @@ import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.common.OptLog;
+import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
@@ -51,6 +53,12 @@ public class TestResource {
     private UserService userService;
     @Autowired
     private DozerUtils dozer;
+
+    @Test
+    public void testfindChildren() {
+        List<Org> children = orgService.findChildren(Arrays.asList(101L));
+        System.out.println(children.size());
+    }
 
     @Test
     public void testObjlist() {

@@ -18,6 +18,7 @@ public class IgnoreTokenConfig {
             "/gate/**",
             "/static/**",
             "/anno/**",
+            "/**/anno/**",
             "/**/swagger-ui.html",
             "/**/doc.html",
             "/**/webjars/**",

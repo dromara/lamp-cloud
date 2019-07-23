@@ -25,6 +25,6 @@ public interface UserResolveApi {
      * @param userQuery
      * @return
      */
-    @PostMapping(value = "/user/id/{id}")
+    @PostMapping(value = "/user/anno/id/{id}")
     R<SysUser> getById(@PathVariable("id") Long id, @RequestBody UserQuery userQuery);
 }

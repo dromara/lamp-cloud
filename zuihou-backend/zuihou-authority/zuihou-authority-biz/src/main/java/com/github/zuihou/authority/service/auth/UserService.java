@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.service.auth;
 
+import java.util.Map;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.User;
 
@@ -14,4 +16,5 @@ import com.github.zuihou.authority.entity.auth.User;
  */
 public interface UserService extends IService<User> {
 
+    Map<String, Object> getDataScopeById(Long userId);
 }

@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.controller.core;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.authority.dto.core.StationSaveDTO;
 import com.github.zuihou.authority.dto.core.StationUpdateDTO;
 import com.github.zuihou.authority.entity.core.Station;
@@ -9,8 +10,6 @@ import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.common.utils.context.DozerUtils;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
@@ -57,10 +56,8 @@ public class StationController extends BaseController {
     @GetMapping("/page")
     @SysLog("分页查询岗位")
     public R<IPage<Station>> page(Station data) {
-        IPage<Station> page = getPage();
-        // 构建值不为null的查询条件
-        LbqWrapper<Station> query = Wraps.lbQ(data);
-        stationService.page(page, query);
+        Page<Station> page = getPage();
+        stationService.findStationPage(page, data);
         return success(page);
     }
 
