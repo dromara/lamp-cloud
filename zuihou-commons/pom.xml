@@ -17,7 +17,7 @@
     <modules>
         <module>zuihou-core</module>
         <module>zuihou-common</module>
-        <module>zuihou-log</module>
+        <module>zuihou-log-starter</module>
         <module>zuihou-databases</module>
         <module>zuihou-swagger2-starter</module>
         <module>zuihou-validator</module>

@@ -10,7 +10,7 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>zuihou-log</artifactId>
+    <artifactId>zuihou-log-starter</artifactId>
     <description>日志模块</description>
     <name>${project.artifactId}</name>
 
