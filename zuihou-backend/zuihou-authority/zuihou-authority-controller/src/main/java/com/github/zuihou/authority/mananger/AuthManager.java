@@ -31,7 +31,7 @@ public class AuthManager {
     public LoginDTO login(String account, String password) {
         User user = getUser(account, password);
         Token token = getToken(user);
-        log.info("account={}, password={}", account, password);
+        log.info("account={}", account);
         return LoginDTO.builder().user(user).token(token).build();
     }
 

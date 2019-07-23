@@ -36,6 +36,14 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.idGenerator = idGenerator;
     }
 
+    /**
+     * 所有的继承了Entity、SuperEntity的实体，在insert时，
+     * id： 会通过IdGenerate生成唯一ID
+     * createUser, updateUser: 自动赋予 当前线程上的登录人id
+     * createTime, updateTime: 自动赋予 服务器的当前时间
+     *
+     * @param metaObject
+     */
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("start insert fill ....");
@@ -92,6 +100,13 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         update(metaObject, entity, "");
     }
 
+    /**
+     * 所有的继承了Entity、SuperEntity的实体，在update时，
+     * updateUser: 自动赋予 当前线程上的登录人id
+     * updateTime: 自动赋予 服务器的当前时间
+     *
+     * @param metaObject
+     */
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ....");

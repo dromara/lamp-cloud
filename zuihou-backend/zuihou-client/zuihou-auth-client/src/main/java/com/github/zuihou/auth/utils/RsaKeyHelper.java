@@ -1,21 +1,15 @@
 package com.github.zuihou.auth.utils;
 
 import java.io.DataInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Rsa key 帮助类
@@ -25,25 +19,7 @@ import java.util.Map;
  * @date 2019-06-21 13:52
  */
 public class RsaKeyHelper {
-    /**
-     * 生存rsa公钥和密钥
-     *
-     * @param password
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     */
-    public static Map<String, byte[]> generateKey(String password) throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        SecureRandom secureRandom = new SecureRandom(password.getBytes());
-        keyPairGenerator.initialize(1024, secureRandom);
-        KeyPair keyPair = keyPairGenerator.genKeyPair();
-        byte[] publicKeyBytes = keyPair.getPublic().getEncoded();
-        byte[] privateKeyBytes = keyPair.getPrivate().getEncoded();
-        Map<String, byte[]> map = new HashMap<>();
-        map.put("pub", publicKeyBytes);
-        map.put("pri", privateKeyBytes);
-        return map;
-    }
+
 
     /**
      * 获取公钥,用于解析token
@@ -54,13 +30,13 @@ public class RsaKeyHelper {
      */
     public PublicKey getPublicKey(String filename) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(filename);
-        DataInputStream dis = new DataInputStream(resourceAsStream);
-        byte[] keyBytes = new byte[resourceAsStream.available()];
-        dis.readFully(keyBytes);
-        dis.close();
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        return kf.generatePublic(spec);
+        try (DataInputStream dis = new DataInputStream(resourceAsStream)) {
+            byte[] keyBytes = new byte[resourceAsStream.available()];
+            dis.readFully(keyBytes);
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            return kf.generatePublic(spec);
+        }
     }
 
     /**
@@ -72,37 +48,14 @@ public class RsaKeyHelper {
      */
     public PrivateKey getPrivateKey(String filename) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(filename);
-        DataInputStream dis = new DataInputStream(resourceAsStream);
-        byte[] keyBytes = new byte[resourceAsStream.available()];
-        dis.readFully(keyBytes);
-        dis.close();
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        return kf.generatePrivate(spec);
-    }
+        try (DataInputStream dis = new DataInputStream(resourceAsStream)) {
+            byte[] keyBytes = new byte[resourceAsStream.available()];
+            dis.readFully(keyBytes);
 
-    /**
-     * 生存rsa公钥和密钥
-     *
-     * @param publicKeyFilename
-     * @param privateKeyFilename
-     * @param password
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     */
-    public void generateKey(String publicKeyFilename, String privateKeyFilename, String password) throws IOException, NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        SecureRandom secureRandom = new SecureRandom(password.getBytes());
-        keyPairGenerator.initialize(1024, secureRandom);
-        KeyPair keyPair = keyPairGenerator.genKeyPair();
-        byte[] publicKeyBytes = keyPair.getPublic().getEncoded();
-        FileOutputStream fos = new FileOutputStream(publicKeyFilename);
-        fos.write(publicKeyBytes);
-        fos.close();
-        byte[] privateKeyBytes = keyPair.getPrivate().getEncoded();
-        fos = new FileOutputStream(privateKeyFilename);
-        fos.write(privateKeyBytes);
-        fos.close();
+            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            return kf.generatePrivate(spec);
+        }
     }
 
 }
