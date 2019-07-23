@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>zuihou-client</artifactId>
+        <artifactId>zuihou-api</artifactId>
         <groupId>com.github.zuihou</groupId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
@@ -19,25 +19,18 @@
             <artifactId>zuihou-authority-entity</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        </dependency>
         <!--<dependency>-->
-        <!--<groupId>io.springfox</groupId>-->
-        <!--<artifactId>springfox-swagger2</artifactId>-->
-        <!--<scope>compile</scope>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-openfeign</artifactId>-->
         <!--</dependency>-->
-
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>javax.servlet</groupId>-->
+        <!--<artifactId>javax.servlet-api</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>
