@@ -1,9 +1,9 @@
-package com.github.zuihou.common.feign.fallback;
+package com.github.zuihou.user.feign.fallback;
 
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.feign.UserQuery;
-import com.github.zuihou.common.feign.UserResolveApi;
-import com.github.zuihou.common.model.SysUser;
+import com.github.zuihou.user.feign.UserQuery;
+import com.github.zuihou.user.feign.UserResolveApi;
+import com.github.zuihou.user.model.SysUser;
 
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;

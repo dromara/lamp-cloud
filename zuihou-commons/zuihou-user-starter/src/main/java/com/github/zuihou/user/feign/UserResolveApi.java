@@ -1,8 +1,8 @@
-package com.github.zuihou.common.feign;
+package com.github.zuihou.user.feign;
 
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.feign.fallback.UserResolveApiFallback;
-import com.github.zuihou.common.model.SysUser;
+import com.github.zuihou.user.feign.fallback.UserResolveApiFallback;
+import com.github.zuihou.user.model.SysUser;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;

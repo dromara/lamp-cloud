@@ -1,4 +1,4 @@
-package com.github.zuihou.common.model;
+package com.github.zuihou.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

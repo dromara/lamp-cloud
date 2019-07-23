@@ -19,6 +19,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-biz</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-user-starter</artifactId>
+        </dependency>
     </dependencies>
 
 

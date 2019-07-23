@@ -12,7 +12,7 @@
 
     <artifactId>zuihou-authority-server</artifactId>
     <name>${project.artifactId}</name>
-    <description>后台管理业务系统服务</description>
+    <description>权限认证服务</description>
 
     <dependencies>
 
