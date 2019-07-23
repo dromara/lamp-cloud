@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-auth-client</artifactId>
+            <artifactId>zuihou-jwt-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
