@@ -130,16 +130,16 @@
                 <version>${commons-io.version}</version>
             </dependency>
             <!-- mybatis -->
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>${mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis.spring.version}</version>
-            </dependency>
+            <!--<dependency>-->
+            <!--<groupId>org.mybatis</groupId>-->
+            <!--<artifactId>mybatis</artifactId>-->
+            <!--<version>${mybatis.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>org.mybatis</groupId>-->
+            <!--<artifactId>mybatis-spring</artifactId>-->
+            <!--<version>${mybatis.spring.version}</version>-->
+            <!--</dependency>-->
             <!--<dependency>-->
             <!--<groupId>org.mybatis.spring.boot</groupId>-->
             <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
@@ -155,23 +155,11 @@
                 <artifactId>mybatis-plus</artifactId>
                 <version>${mybatisplus.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-core</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-generator</artifactId>
-                <scope>test</scope>
-                <version>${project.version}</version>
-            </dependency>
+            <!--<dependency>-->
+            <!--<groupId>com.baomidou</groupId>-->
+            <!--<artifactId>mybatis-plus-core</artifactId>-->
+            <!--<version>${mybatisplus.version}</version>-->
+            <!--</dependency>-->
 
 
             <dependency>
@@ -207,11 +195,11 @@
                 <artifactId>dozer-spring-boot-starter</artifactId>
                 <version>${dozer.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.dozermapper</groupId>
-                <artifactId>dozer-core</artifactId>
-                <version>${dozer.version}</version>
-            </dependency>
+            <!--<dependency>-->
+            <!--<groupId>com.github.dozermapper</groupId>-->
+            <!--<artifactId>dozer-core</artifactId>-->
+            <!--<version>${dozer.version}</version>-->
+            <!--</dependency>-->
 
             <!-- swagger2 -->
             <dependency>
