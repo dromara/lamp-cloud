@@ -1,6 +1,7 @@
 package com.github.zuihou.file.storage;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
@@ -88,22 +89,23 @@ public class LocalFileAutoConfigure {
             if (!newFile) {
                 return R.fail("创建文件失败");
             }
-            FileChannel outChannel = new FileOutputStream(outputFile).getChannel();
-
-            //同步nio 方式对分片进行合并, 有效的避免文件过大导致内存溢出
-            FileChannel inChannel;
-            for (java.io.File file : files) {
-                inChannel = new FileInputStream(file).getChannel();
-                inChannel.transferTo(0, inChannel.size(), outChannel);
-                inChannel.close();
-
-                //删除分片
-                if (!file.delete()) {
-                    log.error("分片[" + folder + "=>" + file.getName() + "]删除失败");
+            try (FileChannel outChannel = new FileOutputStream(outputFile).getChannel()) {
+                //同步nio 方式对分片进行合并, 有效的避免文件过大导致内存溢出
+                for (java.io.File file : files) {
+                    try (FileChannel inChannel = new FileInputStream(file).getChannel()) {
+                        inChannel.transferTo(0, inChannel.size(), outChannel);
+                    } catch (FileNotFoundException ex) {
+                        log.error("文件转换失败", ex);
+                        return R.fail("文件转换失败");
+                    }
+                    //删除分片
+                    if (!file.delete()) {
+                        log.error("分片[" + folder + "=>" + file.getName() + "]删除失败");
+                    }
                 }
-            }
-            if (outChannel != null) {
-                outChannel.close();
+            } catch (FileNotFoundException e) {
+                log.error("文件输出失败", e);
+                return R.fail("文件输出失败");
             }
 
             //将MD5签名和合并后的文件path存入持久层

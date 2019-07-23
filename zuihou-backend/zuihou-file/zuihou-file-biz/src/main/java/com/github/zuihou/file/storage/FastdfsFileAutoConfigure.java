@@ -62,6 +62,10 @@ public class FastdfsFileAutoConfigure {
                             in, file.length());
                 }
             }
+            if (storePath == null) {
+                return R.fail("上传失败");
+            }
+
             long end = System.currentTimeMillis();
             log.info("上传耗时={}", (end - start));
             String url = new StringBuilder(fileProperties.getUriPrefix())

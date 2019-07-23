@@ -33,7 +33,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @ToString
 public class SuperEntity<T> implements Serializable, Cloneable {
-    public static final String ID = "id";
+    public static final String FIELD_ID = "id";
     public static final String CREATE_TIME = "createTime";
     public static final String CREATE_USER = "createUser";
 

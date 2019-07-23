@@ -62,10 +62,10 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
         if (flag) {
             Long id = idGenerator.generate();
-            if (ID_TYPE.equals(metaObject.getGetterType(SuperEntity.ID).getName())) {
-                this.setFieldValByName(SuperEntity.ID, String.valueOf(id), metaObject);
+            if (ID_TYPE.equals(metaObject.getGetterType(SuperEntity.FIELD_ID).getName())) {
+                this.setFieldValByName(SuperEntity.FIELD_ID, String.valueOf(id), metaObject);
             } else {
-                this.setFieldValByName(SuperEntity.ID, id, metaObject);
+                this.setFieldValByName(SuperEntity.FIELD_ID, id, metaObject);
             }
         }
 
