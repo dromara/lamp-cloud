@@ -3,7 +3,6 @@ package com.github.zuihou;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import com.github.zuihou.common.annotation.EnableDozer;
 import com.github.zuihou.user.annotation.EnableLoginArgResolver;
 import com.github.zuihou.validator.config.EnableFormValidator;
 
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 @EnableTransactionManagement
 @Slf4j
-@EnableDozer
 @EnableLoginArgResolver
 @EnableFormValidator
 public class FileServerApplication {

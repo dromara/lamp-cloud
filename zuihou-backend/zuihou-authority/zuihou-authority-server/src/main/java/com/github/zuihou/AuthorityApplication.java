@@ -3,7 +3,6 @@ package com.github.zuihou;
 import java.net.InetAddress;
 
 import com.github.zuihou.auth.server.EnableAuthServer;
-import com.github.zuihou.common.annotation.EnableDozer;
 import com.github.zuihou.user.annotation.EnableLoginArgResolver;
 import com.github.zuihou.validator.config.EnableFormValidator;
 
@@ -30,7 +29,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.github.zuihou",
 })
 @Slf4j
-@EnableDozer
 @EnableLoginArgResolver
 @EnableFormValidator
 public class AuthorityApplication {

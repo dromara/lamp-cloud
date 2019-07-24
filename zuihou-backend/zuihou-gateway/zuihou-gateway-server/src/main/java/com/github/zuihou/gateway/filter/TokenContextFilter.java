@@ -101,7 +101,7 @@ public class TokenContextFilter extends BaseFilter {
             userInfo = new JwtUserInfo(1L, "admin", "管理员", 1L, 1L);
         }
         try {
-            if (!isIgnoreToken()) {
+            if (!isIgnoreToken() && userInfo == null) {
                 userInfo = jwtTokenClientUtils.getUserInfo(userToken);
             }
         } catch (BizException e) {

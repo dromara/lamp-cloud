@@ -14,9 +14,9 @@ import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
-import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.utils.NumberHelper;
 

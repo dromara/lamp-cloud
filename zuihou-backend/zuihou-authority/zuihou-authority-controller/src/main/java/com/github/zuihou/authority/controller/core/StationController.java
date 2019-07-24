@@ -9,7 +9,7 @@ import com.github.zuihou.authority.service.core.StationService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;

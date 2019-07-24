@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zuihou-commons</artifactId>
+        <groupId>com.github.zuihou</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zuihou-dozer-starter</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- 必须有这个jar 才能提示 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

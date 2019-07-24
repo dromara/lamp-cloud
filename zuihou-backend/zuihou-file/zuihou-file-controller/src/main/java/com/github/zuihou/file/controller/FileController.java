@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.dto.FileUpdateDTO;
 import com.github.zuihou.file.dto.FolderDTO;

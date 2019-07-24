@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
@@ -78,10 +78,10 @@ public class XssUtils {
     }
 
     private static boolean isIgnoreParamValue(String paramValue, List<String> ignoreParamValueList) {
-        if (StringUtils.isBlank(paramValue)) {
+        if (StrUtil.isBlank(paramValue)) {
             return true;
         }
-        if (CollectionUtils.isEmpty(ignoreParamValueList)) {
+        if (CollectionUtil.isEmpty(ignoreParamValueList)) {
             return false;
         } else {
             for (String ignoreParamValue : ignoreParamValueList) {

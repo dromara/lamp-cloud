@@ -7,8 +7,9 @@ import com.github.zuihou.common.adapter.IgnoreTokenConfig;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.filters.Route;
@@ -53,8 +54,8 @@ public abstract class BaseFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         String uri = request.getRequestURI();
-        uri = StringUtils.substring(uri, zuulPrefix.length());
-        uri = StringUtils.substring(uri, uri.indexOf("/", 1));
+        uri = StrUtil.subSuf(uri, zuulPrefix.length());
+        uri = StrUtil.subSuf(uri, uri.indexOf("/", 1));
         return uri;
     }
 

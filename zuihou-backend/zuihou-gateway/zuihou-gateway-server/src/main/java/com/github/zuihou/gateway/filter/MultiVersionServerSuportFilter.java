@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.netflix.zuul.context.RequestContext;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -46,12 +46,12 @@ public class MultiVersionServerSuportFilter extends BaseFilter {
         final String requestURI = this.URL_PATH_HELPER.getPathWithinApplication(ctx.getRequest());
         String version = ctx.getRequest().getHeader("serviceSuffix");
 
-        if (StringUtils.isEmpty(version)) {
+        if (StrUtil.isEmpty(version)) {
             version = ctx.getRequest().getParameter("serviceSuffix");
         }
 
         StringBuilder serviceId = new StringBuilder(route.getLocation());
-        if (StringUtils.isNotEmpty(version)) {
+        if (StrUtil.isNotEmpty(version)) {
             serviceId.append("-");
             serviceId.append(version);
         }
