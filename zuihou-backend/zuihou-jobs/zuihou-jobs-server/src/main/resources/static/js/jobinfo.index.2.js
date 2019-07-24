@@ -93,7 +93,6 @@ $(function () {
                 "width": '10%',
                 "visible": true,
                 "render": function (data, type, row) {
-
                     // status
                     if (data && data != 'NONE') {
                         if ('NORMAL' == data) {
@@ -105,7 +104,6 @@ $(function () {
                         return '<small class="label label-default" ><i class="fa fa-clock-o"></i>STOP</small>';
                     }
 
-                    return data;
                 }
             },
             {

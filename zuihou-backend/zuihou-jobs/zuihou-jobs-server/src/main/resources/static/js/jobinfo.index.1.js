@@ -99,8 +99,6 @@ $(function () {
                     } else {
                         return '<small class="label label-default" ><i class="fa fa-clock-o"></i>STOP</small>';
                     }
-
-                    return data;
                 }
             },
             {
