@@ -101,10 +101,8 @@ public abstract class BaseConfig {
         simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
         simpleModule.addDeserializer(Enum.class, EnumDeserializer.instance);
 
-//        simpleModule.addSerializer(new XssStringJsonSerializer());
         simpleModule.addDeserializer(String.class, new XssStringDeserializer());
         objectMapper.registerModule(simpleModule);
-
 
         return objectMapper;
     }

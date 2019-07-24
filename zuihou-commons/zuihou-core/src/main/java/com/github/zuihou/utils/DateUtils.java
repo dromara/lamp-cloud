@@ -34,10 +34,11 @@ public class DateUtils {
     public final static String DEFAULT_WEEK_FORMAT_EN = "yyyy年ww周";
     public final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public final static String DEFAULT_DATE_FORMAT_EN = "yyyy年MM月dd日";
-    public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private final static String DAY = "DAY";
-    private final static String MONTH = "MONTH";
-    private final static String WEEK = "WEEK";
+    public final static String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public final static String DEFAULT_TIME_FORMAT = "HH:mm:ss";
+    public final static String DAY = "DAY";
+    public final static String MONTH = "MONTH";
+    public final static String WEEK = "WEEK";
 
     private DateUtils() {
     }
@@ -73,7 +74,7 @@ public class DateUtils {
             date = new Date();
         }
         if (format == null) {
-            format = DATE_TIME_FORMAT;
+            format = DEFAULT_DATE_TIME_FORMAT;
         }
         SimpleDateFormat df = new SimpleDateFormat(format);
         return df.format(date);
@@ -145,7 +146,7 @@ public class DateUtils {
      * @return
      */
     public static String formatAsTime(Date date) {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat(DEFAULT_TIME_FORMAT);
         return df.format(date);
     }
 
@@ -167,7 +168,7 @@ public class DateUtils {
      * @return
      */
     public static String formatAsDateTime(Date date) {
-        SimpleDateFormat df = new SimpleDateFormat(DATE_TIME_FORMAT);
+        SimpleDateFormat df = new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT);
         return df.format(date);
     }
 
@@ -228,7 +229,7 @@ public class DateUtils {
      * @return
      */
     public static Date parseAsDateTime(String dateTime) {
-        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpledateformat = new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT);
         try {
             return simpledateformat.parse(dateTime);
         } catch (ParseException e) {

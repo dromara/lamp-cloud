@@ -11,6 +11,7 @@ import org.springframework.util.AntPathMatcher;
  * @author zuihou
  * @date 2019/01/03
  */
+@Deprecated
 public class IgnoreTokenConfig {
     public static final List<String> LIST = Arrays.asList(
             "/error",

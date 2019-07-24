@@ -28,10 +28,7 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-file-controller</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-api</artifactId>
-        </dependency>
+
 
         <!-- Spring Cloud -->
         <dependency>

@@ -38,7 +38,8 @@ public class String2DateConverter implements Converter<String, Date> {
         Date date = null;
         try {
             DateFormat dateFormat = new SimpleDateFormat(format);
-            dateFormat.setLenient(false); //严格模式
+            //严格模式
+            dateFormat.setLenient(false);
             date = dateFormat.parse(dateStr);
         } catch (Exception e) {
 
