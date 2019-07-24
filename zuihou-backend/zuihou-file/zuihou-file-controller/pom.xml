@@ -24,6 +24,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-file-biz</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-authority-api</artifactId>
+        </dependency>
 
     </dependencies>
 

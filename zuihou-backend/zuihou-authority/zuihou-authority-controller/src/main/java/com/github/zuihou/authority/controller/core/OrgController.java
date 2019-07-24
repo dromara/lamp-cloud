@@ -93,7 +93,7 @@ public class OrgController extends BaseController {
     @SysLog("新增组织")
     public R<Org> save(@RequestBody @Validated OrgSaveDTO data) {
         Org org = dozer.map(data, Org.class);
-        if (org.getParentId() == null) {
+        if (org.getParentId() == null || org.getParentId() <= 0) {
             org.setParentId(PARENT_ID_DEF);
             org.setTreePath(ROOT_PATH_DEF);
         } else {

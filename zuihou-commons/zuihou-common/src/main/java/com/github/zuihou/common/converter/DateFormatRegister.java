@@ -1,7 +1,9 @@
 package com.github.zuihou.common.converter;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -9,7 +11,9 @@ import org.springframework.cloud.openfeign.FeignFormatterRegistrar;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 
+import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_FORMAT;
 import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_TIME_FORMAT;
+import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_TIME_FORMAT;
 
 /**
  * 在feign调用方配置， 解决入参和出参是 date 类型.
@@ -26,13 +30,14 @@ public class DateFormatRegister implements FeignFormatterRegistrar {
     public void registerFormatters(FormatterRegistry registry) {
         registry.addConverter(Date.class, String.class, new Date2StringConverter());
         registry.addConverter(LocalDateTime.class, String.class, new LocalDateTime2StringConverter());
+        registry.addConverter(LocalDate.class, String.class, new LocalDate2StringConverter());
+        registry.addConverter(LocalTime.class, String.class, new LocalTime2StringConverter());
     }
 
     private class Date2StringConverter implements Converter<Date, String> {
         @Override
         public String convert(Date source) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            return sdf.format(source);
+            return new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT).format(source);
         }
     }
 
@@ -42,8 +47,27 @@ public class DateFormatRegister implements FeignFormatterRegistrar {
             if (source == null) {
                 return null;
             }
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
-            return source.format(dateTimeFormatter);
+            return source.format(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
+        }
+    }
+
+    private class LocalDate2StringConverter implements Converter<LocalDate, String> {
+        @Override
+        public String convert(LocalDate source) {
+            if (source == null) {
+                return null;
+            }
+            return source.format(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT));
+        }
+    }
+
+    private class LocalTime2StringConverter implements Converter<LocalTime, String> {
+        @Override
+        public String convert(LocalTime source) {
+            if (source == null) {
+                return null;
+            }
+            return source.format(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
         }
     }
 }
