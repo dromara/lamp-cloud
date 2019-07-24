@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.github.zuihou.common.wrapper.XssRequestWrapper;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 跨站工具 过滤器
@@ -57,11 +57,11 @@ public class XssFilter implements Filter {
         log.debug("XSS fiter [XSSFilter] init start ...");
         String ignorePaths = filterConfig.getInitParameter(IGNORE_PATH);
         String ignoreParamValues = filterConfig.getInitParameter(IGNORE_PARAM_VALUE);
-        if (!StringUtils.isBlank(ignorePaths)) {
+        if (!StrUtil.isBlank(ignorePaths)) {
             String[] ignorePathArr = ignorePaths.split(",");
             ignorePathList = Arrays.asList(ignorePathArr);
         }
-        if (!StringUtils.isBlank(ignoreParamValues)) {
+        if (!StrUtil.isBlank(ignoreParamValues)) {
             String[] ignoreParamValueArr = ignoreParamValues.split(",");
             ignoreParamValueList = Arrays.asList(ignoreParamValueArr);
             //默认放行单点登录的登出响应(响应中包含samlp:LogoutRequest标签，直接放行)
@@ -101,14 +101,14 @@ public class XssFilter implements Filter {
     }
 
     private boolean isIgnorePath(String servletPath) {
-        if (StringUtils.isBlank(servletPath)) {
+        if (StrUtil.isBlank(servletPath)) {
             return true;
         }
-        if (CollectionUtils.isEmpty(ignorePathList)) {
+        if (CollectionUtil.isEmpty(ignorePathList)) {
             return false;
         } else {
             for (String ignorePath : ignorePathList) {
-                if (!StringUtils.isBlank(ignorePath) && servletPath.contains(ignorePath.trim())) {
+                if (!StrUtil.isBlank(ignorePath) && servletPath.contains(ignorePath.trim())) {
                     return true;
                 }
             }

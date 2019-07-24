@@ -2,7 +2,7 @@ package com.github.zuihou.gateway.controller;
 
 import java.net.URLEncoder;
 
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +34,7 @@ public class CustomSwaggerController {
         }
         String newGroup = group;
         if (group.contains("-")) {
-            newGroup = StringUtils.substring(group, group.indexOf("-") + 1);
+            newGroup = StrUtil.subSuf(group, group.indexOf("-") + 1);
         }
         return "redirect:/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8");
     }

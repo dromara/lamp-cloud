@@ -12,8 +12,8 @@ import com.github.zuihou.authority.entity.auth.RoleOrg;
 import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.strategy.DataScopeContext;
-import com.github.zuihou.common.utils.context.DozerUtils;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.dozer.DozerUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

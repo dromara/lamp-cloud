@@ -13,8 +13,8 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.common.excode.ExceptionCode;
 import com.github.zuihou.exception.BizException;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
         log.error("BindException:", eee);
         try {
             String msgs = eee.getBindingResult().getFieldError().getDefaultMessage();
-            if (StringUtils.isNotEmpty(msgs)) {
+            if (StrUtil.isNotEmpty(msgs)) {
                 return R.result(ExceptionCode.PARAM_EX.getCode(), null, msgs);
             }
         } catch (Exception ee) {

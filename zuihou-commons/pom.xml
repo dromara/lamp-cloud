@@ -24,6 +24,7 @@
         <module>zuihou-shiro-starter</module>
         <module>zuihou-user-starter</module>
         <module>zuihou-jwt-starter</module>
+        <module>zuihou-dozer-starter</module>
     </modules>
 
 

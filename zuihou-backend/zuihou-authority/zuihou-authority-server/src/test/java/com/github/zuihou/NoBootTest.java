@@ -12,6 +12,9 @@ import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.controller.test.HiberDTO;
 
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
 import org.junit.Test;
 
@@ -21,7 +24,27 @@ import org.junit.Test;
  * @author zuihou
  * @date 2019/07/05
  */
+@Slf4j
 public class NoBootTest {
+    @Test
+    public void testLog() {
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            Log log = LogFactory.get();
+            log.error("我是错误消息", e);
+        }
+    }
+
+    @Test
+    public void testSlfLog() {
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            log.error("我是slf错误消息", e);
+        }
+    }
+
 
     public Validator getValidator() {
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
