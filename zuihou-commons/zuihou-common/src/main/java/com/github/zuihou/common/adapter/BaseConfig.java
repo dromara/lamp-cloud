@@ -100,8 +100,8 @@ public abstract class BaseConfig {
         //在进出前后台的时候，设置BigDecimal和字符串之间转换
         simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
         simpleModule.addDeserializer(Enum.class, EnumDeserializer.instance);
-
         simpleModule.addDeserializer(String.class, new XssStringDeserializer());
+
         objectMapper.registerModule(simpleModule);
 
         return objectMapper;

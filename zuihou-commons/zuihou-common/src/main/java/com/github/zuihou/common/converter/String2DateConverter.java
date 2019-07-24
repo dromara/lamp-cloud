@@ -9,6 +9,11 @@ import java.util.Set;
 
 import org.springframework.core.convert.converter.Converter;
 
+import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_FORMAT;
+import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_TIME_FORMAT;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_MONTH_FORMAT;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_YEAR_FORMAT;
+
 /**
  * 解决入参为 Date类型
  *
@@ -20,12 +25,12 @@ public class String2DateConverter implements Converter<String, Date> {
     protected static final Map<String, String> FORMAT = new LinkedHashMap(11);
 
     static {
-        FORMAT.put("yyyy", "^\\d{4}");
-        FORMAT.put("yyyy-MM", "^\\d{4}-\\d{1,2}$");
-        FORMAT.put("yyyy-MM-dd", "^\\d{4}-\\d{1,2}-\\d{1,2}$");
+        FORMAT.put(DEFAULT_YEAR_FORMAT, "^\\d{4}");
+        FORMAT.put(DEFAULT_MONTH_FORMAT, "^\\d{4}-\\d{1,2}$");
+        FORMAT.put(DEFAULT_DATE_FORMAT, "^\\d{4}-\\d{1,2}-\\d{1,2}$");
         FORMAT.put("yyyy-MM-dd HH", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}");
         FORMAT.put("yyyy-MM-dd HH:mm", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$");
-        FORMAT.put("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
+        FORMAT.put(DEFAULT_DATE_TIME_FORMAT, "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
         FORMAT.put("yyyy/MM", "^\\d{4}/\\d{1,2}$");
         FORMAT.put("yyyy/MM/dd", "^\\d{4}/\\d{1,2}/\\d{1,2}$");
         FORMAT.put("yyyy/MM/dd HH", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}");
