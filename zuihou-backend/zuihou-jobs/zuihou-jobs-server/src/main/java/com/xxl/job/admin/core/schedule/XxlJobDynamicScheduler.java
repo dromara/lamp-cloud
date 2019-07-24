@@ -122,10 +122,6 @@ public final class XxlJobDynamicScheduler {
                 jobInfo.setJobStatus(triggerState.name());
             }
 
-            //JobKey jobKey = new JobKey(jobInfo.getJobName(), String.valueOf(jobInfo.getJobGroup()));
-            //JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-            //String jobClass = jobDetail.getJobClass().getName();
-
         } catch (SchedulerException e) {
             logger.error(e.getMessage(), e);
         }
@@ -147,7 +143,7 @@ public final class XxlJobDynamicScheduler {
 
         // 2、valid
         if (scheduler.checkExists(triggerKey)) {
-            return true;    // PASS
+            return true;
         }
 
         // 3、corn trigger
@@ -162,14 +158,9 @@ public final class XxlJobDynamicScheduler {
         CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(triggerKey).withSchedule(cronScheduleBuilder).build();
 
         // 4、job detail
-        Class<? extends Job> jobClass_ = RemoteHttpJobBean.class;   // Class.forName(jobInfo.getJobClass());
+        Class<? extends Job> jobClass_ = RemoteHttpJobBean.class;
         JobDetail jobDetail = JobBuilder.newJob(jobClass_).withIdentity(jobKey).build();
 
-        /*if (jobInfo.getJobData()!=null) {
-        	JobDataMap jobDataMap = jobDetail.getJobDataMap();
-        	jobDataMap.putAll(JacksonUtil.readValue(jobInfo.getJobData(), Map.class));
-        	// JobExecutionContext context.getMergedJobDataMap().get("mailGuid");
-		}*/
 
         // 5、schedule job
         Date date = scheduler.scheduleJob(jobDetail, cronTrigger);
@@ -185,7 +176,7 @@ public final class XxlJobDynamicScheduler {
 
         // 2、valid
         if (scheduler.checkExists(triggerKey)) {
-            return true;    // PASS
+            return true;
         }
 
         /*
@@ -251,42 +242,32 @@ public final class XxlJobDynamicScheduler {
 
 
         SimpleScheduleBuilder timingScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(intervalSeconds)  // 间隔时间 0
-                .withRepeatCount(execCount);// 重复次数 实际上执行了3次 0
+                // 间隔时间 0
+                .withIntervalInSeconds(intervalSeconds)
+                // 重复次数 实际上执行了3次 0
+                .withRepeatCount(execCount);
 
 
         SimpleTrigger singleTrigger = null;
         if (endExecuteTime != null) {
             singleTrigger = TriggerBuilder.newTrigger().withIdentity(triggerKey)
-                    .startAt(startExecuteTime) // 开始执行时间
-                    .endAt(endExecuteTime)// 结束执行时间
+                    // 开始执行时间
+                    .startAt(startExecuteTime)
+                    // 结束执行时间
+                    .endAt(endExecuteTime)
                     .withSchedule(timingScheduleBuilder)
                     .build();
         } else {
             singleTrigger = TriggerBuilder.newTrigger().withIdentity(triggerKey)
-                    .startAt(startExecuteTime) // 开始执行时间
+                    // 开始执行时间
+                    .startAt(startExecuteTime)
                     .withSchedule(timingScheduleBuilder)
                     .build();
         }
 
-        Class<? extends Job> jobClass_ = RemoteHttpJobBean.class;   // Class.forName(jobInfo.getJobClass());
+        Class<? extends Job> jobClass_ = RemoteHttpJobBean.class;
         JobDetail jobDetail = JobBuilder.newJob(jobClass_).withIdentity(jobKey).build();
 
-
-        // 3、corn trigger
-// withMisfireHandlingInstructionDoNothing 忽略掉调度终止过程中忽略的调度
-//        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression).withMisfireHandlingInstructionDoNothing();
-//        CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(triggerKey).withSchedule(cronScheduleBuilder).build();
-//
-//        // 4、job detail
-//		Class<? extends Job> jobClass_ = RemoteHttpJobBean.class;   // Class.forName(jobInfo.getJobClass());
-//		JobDetail jobDetail = JobBuilder.newJob(jobClass_).withIdentity(jobKey).build();
-
-        /*if (jobInfo.getJobData()!=null) {
-        	JobDataMap jobDataMap = jobDetail.getJobDataMap();
-        	jobDataMap.putAll(JacksonUtil.readValue(jobInfo.getJobData(), Map.class));
-        	// JobExecutionContext context.getMergedJobDataMap().get("mailGuid");
-		}*/
 
         // 5、schedule job
         Date date = scheduler.scheduleJob(jobDetail, singleTrigger);
@@ -308,7 +289,7 @@ public final class XxlJobDynamicScheduler {
         TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
 
         if (scheduler.checkExists(triggerKey)) {
-            scheduler.unscheduleJob(triggerKey);    // trigger + job
+            scheduler.unscheduleJob(triggerKey);
         }
 
         logger.info(">>>>>>>>>>> removeJob success, triggerKey:{}", triggerKey);
@@ -334,7 +315,7 @@ public final class XxlJobDynamicScheduler {
 
         // 2、valid
         if (!scheduler.checkExists(triggerKey)) {
-            return true;    // PASS
+            return true;
         }
 
         CronTrigger oldTrigger = (CronTrigger) scheduler.getTrigger(triggerKey);
@@ -342,7 +323,7 @@ public final class XxlJobDynamicScheduler {
         // 3、avoid repeat cron
         String oldCron = oldTrigger.getCronExpression();
         if (oldCron.equals(cronExpression)) {
-            return true;    // PASS
+            return true;
         }
 
         // 4、new cron trigger
@@ -351,18 +332,6 @@ public final class XxlJobDynamicScheduler {
 
         // 5、rescheduleJob
         scheduler.rescheduleJob(triggerKey, oldTrigger);
-
-        /*
-        JobKey jobKey = new JobKey(jobName, jobGroup);
-
-        // old job detail
-        JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-
-        // new trigger
-        HashSet<Trigger> triggerSet = new HashSet<Trigger>();
-        triggerSet.add(cronTrigger);
-        // cover trigger of job detail
-        scheduler.scheduleJob(jobDetail, triggerSet, true);*/
 
         logger.info(">>>>>>>>>>> resumeJob success, JobGroup:{}, JobName:{}", jobGroup, jobName);
         return true;
@@ -466,7 +435,7 @@ public final class XxlJobDynamicScheduler {
     /*public static boolean resumeJob(String jobName, String jobGroup) throws SchedulerException {
 
         TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
-        
+
         boolean result = false;
         if (scheduler.checkExists(triggerKey)) {
             scheduler.resumeTrigger(triggerKey);
