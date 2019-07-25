@@ -2,15 +2,13 @@ package com.github.zuihou.gateway.controller;
 
 import java.net.URLEncoder;
 
-import com.github.zuihou.utils.StrPool;
-
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
- * 解决swagger-ui的一个bug
+ * 解决swagger-bootstrap-ui的一个bug
  * <p>
  * 有个前提： nginx的端口要和访问端口一致，否则重定向出错
  *
@@ -37,8 +35,8 @@ public class CustomSwaggerController {
             group = "default";
         }
         String newGroup = group;
-        if (group.contains(StrPool.DASH)) {
-            newGroup = StrUtil.subSuf(group, group.indexOf(StrPool.DASH) + 1);
+        if (group.contains(StrUtil.DASHED)) {
+            newGroup = StrUtil.subSuf(group, group.indexOf(StrUtil.DASHED) + 1);
         }
         return "redirect:/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8");
     }

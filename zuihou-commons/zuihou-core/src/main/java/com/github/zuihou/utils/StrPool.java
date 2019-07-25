@@ -52,6 +52,7 @@ public interface StrPool {
     String HASH_LEFT_BRACE = "#{";
 
 
+    String NULL = "null";
     String TEST = "test";
     String PROD = "prod";
 }
