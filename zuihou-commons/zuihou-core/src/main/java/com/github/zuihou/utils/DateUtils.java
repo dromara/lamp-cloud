@@ -21,12 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 描述：日期工具类
- * @author tangyh
+ * @author zuihou
  * 修改时间：2018/4/24
  */
 @Slf4j
 public class DateUtils {
-    public static final int NEXT_DAY = 5;
     public final static String DEFAULT_YEAR_FORMAT = "yyyy";
     public final static String DEFAULT_MONTH_FORMAT = "yyyy-MM";
     public final static String DEFAULT_MONTH_FORMAT_EN = "yyyy年MM月";

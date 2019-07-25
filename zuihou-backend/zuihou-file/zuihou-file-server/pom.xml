@@ -29,6 +29,15 @@
             <artifactId>zuihou-file-controller</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-xss-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-openfeign-starter</artifactId>
+        </dependency>
+
 
         <!-- Spring Cloud -->
         <dependency>

@@ -25,6 +25,8 @@
         <module>zuihou-user-starter</module>
         <module>zuihou-jwt-starter</module>
         <module>zuihou-dozer-starter</module>
+        <module>zuihou-xss-starter</module>
+        <module>zuihou-openfeign-starter</module>
     </modules>
 
 

@@ -21,8 +21,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_TIME_FORMAT;
-
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 /**
  * @author zuihou
  * @createTime 2017-12-15 14:42

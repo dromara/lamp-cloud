@@ -8,7 +8,7 @@ import com.github.zuihou.base.R;
 import org.springframework.stereotype.Component;
 
 /**
- * This is a Description
+ * 认证Token 熔断
  *
  * @author zuihou
  * @date 2019/07/02

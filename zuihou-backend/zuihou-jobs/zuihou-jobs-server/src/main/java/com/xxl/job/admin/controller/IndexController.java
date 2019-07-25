@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_TIME_FORMAT;
-
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 /**
  * index controller
  *

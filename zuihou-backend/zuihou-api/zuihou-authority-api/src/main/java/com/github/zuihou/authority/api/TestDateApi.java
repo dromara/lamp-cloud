@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * This is a Description
+ * 测试日期类型API接口
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/24
  */
 @FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", path = "/date")

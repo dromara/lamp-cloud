@@ -39,7 +39,7 @@ import org.springframework.context.annotation.Import;
 /**
  * 配置类
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-07-23 12:00
  */
 @Configuration

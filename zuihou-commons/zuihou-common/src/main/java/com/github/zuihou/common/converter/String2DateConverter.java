@@ -1,16 +1,20 @@
 package com.github.zuihou.common.converter;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
+import com.github.zuihou.exception.BizException;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 
-import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_FORMAT;
-import static com.github.zuihou.common.adapter.BaseConfig.DEFAULT_DATE_TIME_FORMAT;
+import static com.github.zuihou.exception.BaseException.BASE_VALID_PARAM;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_FORMAT;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 import static com.github.zuihou.utils.DateUtils.DEFAULT_MONTH_FORMAT;
 import static com.github.zuihou.utils.DateUtils.DEFAULT_YEAR_FORMAT;
 
@@ -20,7 +24,8 @@ import static com.github.zuihou.utils.DateUtils.DEFAULT_YEAR_FORMAT;
  * @author zuihou
  * @date 2019-04-30
  */
-public class String2DateConverter implements Converter<String, Date> {
+@Slf4j
+public class String2DateConverter extends BaseDateConverter<Date> implements Converter<String, Date> {
 
     protected static final Map<String, String> FORMAT = new LinkedHashMap(11);
 
@@ -52,26 +57,21 @@ public class String2DateConverter implements Converter<String, Date> {
             //严格模式
             dateFormat.setLenient(false);
             date = dateFormat.parse(dateStr);
-        } catch (Exception e) {
-
+        } catch (ParseException e) {
+            log.info("转换日期失败, date={}, format={}", dateStr, format, e);
+            throw new BizException(BASE_VALID_PARAM, e.getMessage());
         }
         return date;
     }
 
     @Override
-    public Date convert(String source) {
-        if (source == null || source.isEmpty()) {
-            return null;
-        }
-        source = source.trim();
-        Set<Map.Entry<String, String>> entries = FORMAT.entrySet();
-        for (Map.Entry<String, String> entry : entries) {
-            if (source.matches(entry.getValue())) {
-                return parseDate(source, entry.getKey());
-            }
-        }
-        throw new IllegalArgumentException("无效的日期参数格式:'" + source + "'");
+    protected Map<String, String> getFormat() {
+        return FORMAT;
     }
 
+    @Override
+    public Date convert(String source) {
+        return super.convert(source, (key) -> parseDate(source, key));
+    }
 
 }
