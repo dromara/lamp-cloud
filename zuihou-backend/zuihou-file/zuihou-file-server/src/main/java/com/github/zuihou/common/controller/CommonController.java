@@ -1,9 +1,11 @@
 package com.github.zuihou.common.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.github.zuihou.base.R;
+import com.github.zuihou.file.enumeration.DataType;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +26,13 @@ public class CommonController {
     @GetMapping("/enums")
     public R<Map<String, Object>> enums() {
         Map<String, Object> map = new HashMap<>();
-
-//        map.put();
+        map.put(DataType.class.getSimpleName(), DataType.values());
         return R.success(map);
     }
 
     @GetMapping("/dictionaries")
     public R<Map<String, Object>> dictionaries() {
-        Map<String, Object> map = new HashMap<>();
-
-//        map.put();
-        return R.success(map);
+        return R.success(Collections.emptyMap());
     }
 
 }
