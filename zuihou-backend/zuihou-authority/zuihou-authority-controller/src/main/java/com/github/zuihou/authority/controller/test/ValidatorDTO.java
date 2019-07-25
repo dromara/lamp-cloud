@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 /**
- * This is a Description
+ * 表单验证 测试实体
  *
  * @author zuihou
  * @date 2019/07/12
@@ -48,7 +48,7 @@ import org.hibernate.validator.constraints.URL;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @ApiModel(value = "HiberDTO", description = "测试验证对象")
-public class HiberDTO extends Entity<Long> {
+public class ValidatorDTO extends Entity<Long> {
 
     /**
      * 应用编码

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This is a Description
+ * 抽象 ID 生成器
  *
  * @author zuihou
  * @date 2019/06/12

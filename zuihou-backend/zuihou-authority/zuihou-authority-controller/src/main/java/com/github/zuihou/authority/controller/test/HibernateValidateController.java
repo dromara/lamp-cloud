@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This is a Description
+ * 表单验证测试类
  *
  * @author zuihou
  * @date 2019/07/03
@@ -98,24 +98,24 @@ public class HibernateValidateController {
      */
     @PostMapping("/requestBody/post")
     @Validated(SuperEntity.Update.class)
-    public String bodyPost(@Valid @RequestBody HiberDTO data) {
+    public String bodyPost(@Valid @RequestBody ValidatorDTO data) {
         return "类上有 Validated，方法上有@Validated（Update）， 参数有 Valid";
     }
 
 
     @PostMapping("/requestBody/post3")
-    public String bodyPost3(@Validated @Valid @RequestBody HiberDTO data) {
+    public String bodyPost3(@Validated @Valid @RequestBody ValidatorDTO data) {
         return "类上有 Validated，方法上有@Validated， 参数有 Valid";
     }
 
 
     @PostMapping("/requestBody/post5")
-    public String bodyPost5(@Valid @RequestBody HiberDTO data) {
+    public String bodyPost5(@Valid @RequestBody ValidatorDTO data) {
         return "类上有 Validated，参数有 Valid";
     }
 
     @PostMapping("/requestBody/post6")
-    public String bodyPost6(@RequestBody HiberDTO data) {
+    public String bodyPost6(@RequestBody ValidatorDTO data) {
         return "类上有 Validated，方法和参数没有";
     }
 

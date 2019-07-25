@@ -34,8 +34,7 @@ import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 /**
- * This is a Description
- *
+ * 表单验证测试类
  * @author zuihou
  * @date 2019/07/12
  */

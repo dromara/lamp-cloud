@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * This is a Description
+ * 用户API熔断
  *
  * @author zuihou
  * @date 2019/07/10

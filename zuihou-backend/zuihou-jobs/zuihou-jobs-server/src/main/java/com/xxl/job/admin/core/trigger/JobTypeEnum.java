@@ -1,7 +1,6 @@
 package com.xxl.job.admin.core.trigger;
 
 /**
- * This is a Description
  * 任务类型
  *
  * @author zuihou

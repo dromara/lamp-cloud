@@ -21,7 +21,7 @@ import static com.github.zuihou.common.excode.ExceptionCode.BASE_VALID_PARAM;
 
 
 /**
- * This is a Description
+ * 文件抽象策略 处理类
  *
  * @author zuihou
  * @date 2019/06/17

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 表单验证测试类
  * 测试后，总结出自己的规则：
  * 必须在参数上获取注解 @Validated
  *
@@ -66,7 +67,7 @@ public class ObjValidateController {
     }
 
     @GetMapping("/obj/get32")
-    public String objGet32(@Validated HiberDTO data) {
+    public String objGet32(@Validated ValidatorDTO data) {
         return "可以验证";
     }
 

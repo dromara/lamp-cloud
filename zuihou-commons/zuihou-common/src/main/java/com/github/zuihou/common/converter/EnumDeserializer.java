@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  */
 public class EnumDeserializer extends StdDeserializer<Enum<?>> {
     public final static EnumDeserializer instance = new EnumDeserializer();
-    private final static String ALL_ENUM_STRING_CONVERCAT_METHOD = "get";
+    private final static String ALL_ENUM_STRING_CONVERT_METHOD = "get";
     private final static String ALL_ENUM_KEY_FIELD = "code";
 
     public EnumDeserializer() {
@@ -65,7 +65,7 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
         }
         try {
 
-            Method method = fieldType.getMethod(ALL_ENUM_STRING_CONVERCAT_METHOD, String.class);
+            Method method = fieldType.getMethod(ALL_ENUM_STRING_CONVERT_METHOD, String.class);
             try {
                 return (Enum<?>) method.invoke(null, value);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

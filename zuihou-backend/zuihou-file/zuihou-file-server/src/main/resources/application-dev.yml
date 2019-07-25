@@ -13,6 +13,6 @@ zuihou:
     username: root              # 根据环境更改
     password: root
   file:
-    type: LOCAL # FASTDFS LOCAL
+    type: LOCAL # FAST_DFS LOCAL
 
 

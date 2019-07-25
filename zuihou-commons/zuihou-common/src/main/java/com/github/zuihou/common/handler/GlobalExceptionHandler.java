@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    public R BindException(BindException eee) {
+    public R bindException(BindException eee) {
         log.error("BindException:", eee);
         try {
             String msgs = eee.getBindingResult().getFieldError().getDefaultMessage();
@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public R MethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+    public R methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         log.error("MethodArgumentTypeMismatchException:", ex);
         MethodArgumentTypeMismatchException eee = (MethodArgumentTypeMismatchException) ex;
         StringBuilder msg = new StringBuilder("参数[").append(eee.getName()).append("]的值[")
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public R IllegalStateException(IllegalStateException ex) {
+    public R illegalStateException(IllegalStateException ex) {
         log.error("IllegalStateException:", ex);
         return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
     }

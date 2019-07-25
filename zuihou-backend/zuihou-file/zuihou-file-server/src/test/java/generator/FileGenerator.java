@@ -12,7 +12,7 @@ import com.github.zuihoou.generator.type.EntityType;
 import com.github.zuihoou.generator.type.GenerateType;
 
 /**
- * This is a Description
+ * 文件代码生成类
  *
  * @author zuihou
  * @date 2019/05/25

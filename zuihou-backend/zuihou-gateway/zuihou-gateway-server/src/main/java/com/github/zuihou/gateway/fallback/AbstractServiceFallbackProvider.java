@@ -15,9 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 
 /**
- * This is a Description
+ * 基础网关层面服务熔断 处理类
  *
- * @auth zuihou
+ * @author zuihou
  * @date 2018/07/09
  */
 public abstract class AbstractServiceFallbackProvider implements FallbackProvider {

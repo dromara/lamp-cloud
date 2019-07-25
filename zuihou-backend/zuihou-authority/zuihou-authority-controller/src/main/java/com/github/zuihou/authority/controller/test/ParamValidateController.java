@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 表单验证测试类
  * 必须在类上加 @Validated
  *
  * @author zuihou

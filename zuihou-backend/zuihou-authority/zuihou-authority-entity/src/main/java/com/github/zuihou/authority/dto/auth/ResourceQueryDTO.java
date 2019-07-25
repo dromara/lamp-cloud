@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This is a Description
+ * 资源 查询DTO
  *
  * @author zuihou
  * @date 2019/06/05

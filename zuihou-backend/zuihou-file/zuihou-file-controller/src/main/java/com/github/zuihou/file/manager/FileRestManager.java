@@ -20,7 +20,7 @@ import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
 
 
 /**
- * This is a Description
+ * 文件 公共代码 管理类
  *
  * @author zuihou
  * @date 2019/05/21

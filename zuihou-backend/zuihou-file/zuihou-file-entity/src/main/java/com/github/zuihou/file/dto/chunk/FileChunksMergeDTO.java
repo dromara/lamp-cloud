@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- * This is a Description
+ * 封建分片合并DTO
+ *
  *
  * @author zuihou
  * @date 2018/08/28

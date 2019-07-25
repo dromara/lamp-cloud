@@ -1,7 +1,7 @@
 package com.github.zuihou.file.enumeration;
 
 /**
- * This is a Description
+ * 文件 存储类型 枚举
  *
  * @author zuihou
  * @date 2019/05/06
@@ -14,7 +14,7 @@ public enum FileStorageType {
     /**
      * FastDFS
      */
-    FASTDFS,
+    FAST_DFS,
     ;
 
     public boolean eq(FileStorageType type) {

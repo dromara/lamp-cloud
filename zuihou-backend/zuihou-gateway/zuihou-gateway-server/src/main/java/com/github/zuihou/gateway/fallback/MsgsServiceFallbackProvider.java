@@ -3,7 +3,7 @@ package com.github.zuihou.gateway.fallback;
 import org.springframework.stereotype.Component;
 
 /**
- * 路由失败 处理
+ * 消息服务 网关层面服务熔断 处理类
  *
  * @author zuihou
  * @date 2018/07/05

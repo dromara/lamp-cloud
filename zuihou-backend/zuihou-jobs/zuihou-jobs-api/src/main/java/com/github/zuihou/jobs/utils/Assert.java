@@ -1,7 +1,7 @@
 package com.github.zuihou.jobs.utils;
 
 /**
- * This is a Description
+ * 断言
  *
  * @author zuihou
  * @date 2019/07/05

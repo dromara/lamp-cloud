@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * This is a Description
+ * 分享保存DTO
  *
  * @author zuihou
  * @date 2019/05/08

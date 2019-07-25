@@ -1,7 +1,7 @@
 package com.github.zuihou.context;
 
 /**
- * This is a Description
+ * 常量工具类
  *
  * @author zuihou
  * @date 2018/12/21

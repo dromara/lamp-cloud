@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * This is a Description
+ * 注入登录用户信息 测试类
  *
  * @author zuihou
  * @date 2019/07/10
