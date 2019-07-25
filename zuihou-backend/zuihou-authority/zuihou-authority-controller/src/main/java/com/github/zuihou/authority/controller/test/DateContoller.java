@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 import com.github.zuihou.authority.dto.test.DateDTO;
+import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.base.R;
 
 import io.swagger.annotations.Api;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/24
  */
 @Slf4j
@@ -32,6 +33,12 @@ public class DateContoller {
     @PostMapping("/post1")
     public R<DateDTO> bodyPos1(@RequestBody DateDTO data) {
         log.info("post1={}", data);
+        return R.success(data);
+    }
+
+    @PostMapping("/post2")
+    public R<Menu> bodyPos2(@RequestBody Menu data) {
+        log.info("post2={}", data);
         return R.success(data);
     }
 

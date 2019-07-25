@@ -8,9 +8,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringJoiner;
 import java.util.TimeZone;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -26,23 +23,26 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.github.zuihou.base.id.CodeGenerate;
-import com.github.zuihou.common.converter.DateFormatRegister;
 import com.github.zuihou.common.converter.EnumDeserializer;
 import com.github.zuihou.common.converter.String2DateConverter;
-import com.github.zuihou.common.converter.XssStringDeserializer;
-import com.github.zuihou.common.filter.XssFilter;
+import com.github.zuihou.common.converter.String2LocalDateConverter;
+import com.github.zuihou.common.converter.String2LocalDateTimeConverter;
+import com.github.zuihou.common.converter.String2LocalTimeConverter;
 import com.github.zuihou.common.handler.GlobalExceptionHandler;
 import com.github.zuihou.utils.SpringUtil;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_FORMAT;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_TIME_FORMAT;
 
 /**
  * 基础配置类
@@ -53,22 +53,15 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 public abstract class BaseConfig {
 
     /**
-     * 默认日期时间格式
-     */
-    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    /**
-     * 默认日期格式
-     */
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-    /**
-     * 默认时间格式
-     */
-    public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
-
-    /**
-     * 接口返回的 json 类型参数 序列化问题
+     * 解决序列化和反序列化时，参数转换问题
+     * addSerializer：序列化 （Controller 返回 给前端的json）
      * Long -> string
+     * BigInteger -> string
+     * BigDecimal -> string
      * date -> string
+     * <p>
+     * addDeserializer: 反序列化 （前端调用接口时，传递到后台的json）
+     * 枚举类型: {"code": "xxx"} -> Enum
      *
      * @param builder
      * @return
@@ -81,116 +74,39 @@ public abstract class BaseConfig {
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .timeZone(TimeZone.getTimeZone("Asia/Shanghai"))
                 .build();
-        //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);//排除空字段  : 不能排除，否则前端不能显示null字段，不友好
+
         //忽略未知字段
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        // 忽略不能转移的字符
-        objectMapper.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
-        //日期格式
-        SimpleDateFormat outputFormat = new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT);
-        objectMapper.setDateFormat(outputFormat);
-        SimpleModule simpleModule = new SimpleModule();
-        /**
-         *  将Long,BigInteger序列化的时候,转化为String
-         */
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-        simpleModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                // 忽略不能转移的字符
+                .configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)
+                //日期格式
+                .setDateFormat(new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT));
 
-        //在进出前后台的时候，设置BigDecimal和字符串之间转换
-        simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
-        simpleModule.addDeserializer(Enum.class, EnumDeserializer.instance);
-        simpleModule.addDeserializer(String.class, new XssStringDeserializer());
+        SimpleModule simpleModule = new SimpleModule()
+                .addSerializer(Long.class, ToStringSerializer.instance)
+                .addSerializer(Long.TYPE, ToStringSerializer.instance)
+                .addSerializer(BigInteger.class, ToStringSerializer.instance)
+                .addSerializer(BigDecimal.class, ToStringSerializer.instance)
+                .addDeserializer(Enum.class, EnumDeserializer.instance);
 
-        objectMapper.registerModule(simpleModule);
-
-        return objectMapper;
-    }
-
-
-    /**
-     * 解决json中返回的 LocalDateTime 格式问题
-     *
-     * @return
-     */
-    @Bean
-    public LocalDateTimeSerializer localDateTimeSerializer() {
-        return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
+        return objectMapper.registerModule(simpleModule);
     }
 
     /**
-     * 解决json中返回的 LocalDate 格式问题
-     *
-     * @return
-     */
-    @Bean
-    public LocalDateSerializer localDateSerializer() {
-        return new LocalDateSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT));
-    }
-
-    /**
-     * 解决json中返回的 LocalTime 格式问题
-     *
-     * @return
-     */
-    @Bean
-    public LocalTimeSerializer localTimeSerializer() {
-        return new LocalTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
-    }
-
-    /**
-     * 解决json中返回的 LocalDateTime 格式问题
+     * serializerByType 解决json中返回的 LocalDateTime 格式问题
+     * deserializerByType 解决string类型入参转为 LocalDateTime 格式问题
      *
      * @return
      */
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return builder -> builder.serializerByType(LocalDateTime.class, localDateTimeSerializer())
-                .serializerByType(LocalDate.class, localDateSerializer())
-                .serializerByType(LocalTime.class, localTimeSerializer());
-    }
-
-
-    /**
-     * 解决json入参中 LocalDateTime 格式问题
-     *
-     * @return
-     */
-    @Bean
-    public LocalDateTimeDeserializer localDateTimeDeserializer() {
-        return new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
-    }
-
-    /**
-     * 解决json入参中 LocalDate 格式问题
-     *
-     * @return
-     */
-    @Bean
-    public LocalDateDeserializer localDateDeserializer() {
-        return new LocalDateDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT));
-    }
-
-    /**
-     * 解决json入参中 LocalTime 格式问题
-     *
-     * @return
-     */
-    @Bean
-    public LocalTimeDeserializer localTimeDeserializer() {
-        return new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
-    }
-
-    /**
-     * 解决json入参中 LocalDateTime 格式问题
-     *
-     * @return
-     */
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jack2son2ObjectMapperBuilderCustomizer() {
-        return builder -> builder.deserializerByType(LocalDateTime.class, localDateTimeDeserializer())
-                .deserializerByType(LocalDate.class, localDateDeserializer())
-                .deserializerByType(LocalTime.class, localTimeDeserializer());
+        return builder -> builder
+                .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
+                .serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)))
+                .serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)))
+                .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
+                .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)))
+                .deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)));
     }
 
     /**
@@ -210,15 +126,7 @@ public abstract class BaseConfig {
      */
     @Bean
     public Converter<String, LocalDate> localDateConverter() {
-        return new Converter<String, LocalDate>() {
-            @Override
-            public LocalDate convert(String source) {
-                if (source == null || source.isEmpty()) {
-                    return null;
-                }
-                return LocalDate.parse(source, DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT));
-            }
-        };
+        return new String2LocalDateConverter();
     }
 
     /**
@@ -228,17 +136,8 @@ public abstract class BaseConfig {
      */
     @Bean
     public Converter<String, LocalTime> localTimeConverter() {
-        return new Converter<String, LocalTime>() {
-            @Override
-            public LocalTime convert(String source) {
-                if (source == null || source.isEmpty()) {
-                    return null;
-                }
-                return LocalTime.parse(source, DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
-            }
-        };
+        return new String2LocalTimeConverter();
     }
-
 
     /**
      * 解决 @RequestParam(value = "time") LocalDateTime time
@@ -247,25 +146,7 @@ public abstract class BaseConfig {
      */
     @Bean
     public Converter<String, LocalDateTime> localDateTimeConverter() {
-        return new Converter<String, LocalDateTime>() {
-            @Override
-            public LocalDateTime convert(String source) {
-                if (source == null || source.isEmpty()) {
-                    return null;
-                }
-                return LocalDateTime.parse(source, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
-            }
-        };
-    }
-
-    /**
-     * 在feign调用方配置， 解决入参和出参是 date 类型
-     *
-     * @return
-     */
-    @Bean
-    public DateFormatRegister dateFormatRegister() {
-        return new DateFormatRegister();
+        return new String2LocalDateTimeConverter();
     }
 
     //---------------------------------------序列化配置end----------------------------------------------
@@ -301,38 +182,6 @@ public abstract class BaseConfig {
     @Bean
     public GlobalExceptionHandler getGlobalExceptionHandler() {
         return new GlobalExceptionHandler();
-    }
-
-    /**
-     * 配置跨站攻击过滤器
-     *
-     * @return
-     */
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistration = new FilterRegistrationBean(new XssFilter());
-        filterRegistration.addUrlPatterns("/*");
-        filterRegistration.setOrder(1);
-
-        Map<String, String> initParameters = new HashMap<>(2);
-        String excludes = new StringJoiner(",")
-                .add("/favicon.ico")
-                .add("/doc.html")
-                .add("/swagger-ui.html")
-                .add("/csrf")
-                .add("/webjars/*")
-                .add("/v2/*")
-                .add("/swagger-resources/*")
-                .add("/resources/*")
-                .add("/static/*")
-                .add("/public/*")
-                .add("/classpath:*")
-                .add("/actuator/*")
-                .toString();
-        initParameters.put("excludes", excludes);
-        initParameters.put("isIncludeRichText", "true");
-        filterRegistration.setInitParameters(initParameters);
-        return filterRegistration;
     }
 
     /////////////////////////////////////////////以下是拦截器配置///////////////////////////////////////////////////////

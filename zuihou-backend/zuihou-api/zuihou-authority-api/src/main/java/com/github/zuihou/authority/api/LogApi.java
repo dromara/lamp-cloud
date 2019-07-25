@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * This is a Description
+ * 操作日志保存 API
  *
  * @author zuihou
  * @date 2019/07/02

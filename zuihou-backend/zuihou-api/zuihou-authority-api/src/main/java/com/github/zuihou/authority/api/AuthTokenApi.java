@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * This is a Description
+ * 认证Token API 接口
  *
  * @author zuihou
  * @date 2019/06/25

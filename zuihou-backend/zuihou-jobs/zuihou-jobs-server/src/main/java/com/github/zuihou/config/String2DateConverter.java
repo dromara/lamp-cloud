@@ -11,7 +11,7 @@
 //
 ///**
 // * 字符串转Date 类型转换器
-// * @author tangyh
+// * @author zuihou
 // * @date 2019-07-24 17:23
 // */
 //public class String2DateConverter implements Converter<String, Date> {

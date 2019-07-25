@@ -44,7 +44,7 @@ import org.springframework.context.annotation.Bean;
  * ConditionalOnMissingBean：该注解表示，如果存在它修饰的类的bean，则不需要再创建这个bean；可以给该注解传入参数 例如@ConditionOnMissingBean(name = "example")，这个表示如果name为“example”的bean存在，这该注解修饰的代码块不执行。
  * <p>
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019-07-23 11:58
  */
 public class ShiroManager {

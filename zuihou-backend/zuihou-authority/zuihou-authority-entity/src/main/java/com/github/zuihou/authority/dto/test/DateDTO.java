@@ -3,7 +3,7 @@ package com.github.zuihou.authority.dto.test;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/24
  */
 
