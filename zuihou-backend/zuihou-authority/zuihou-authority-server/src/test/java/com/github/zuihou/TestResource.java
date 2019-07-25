@@ -1,6 +1,8 @@
 package com.github.zuihou;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -95,6 +97,16 @@ public class TestResource {
         OptLog opt = dozer.map(dot, OptLog.class);
         System.out.println(opt.getHttpMethod());
         System.out.println(opt.getType());
+
+    }
+
+    @Test
+    public void dozer2Test() {
+        D d = new D();
+        d.setD2(new Date());
+        d.setDate(LocalDateTime.now());
+        D2 opt = dozer.map(d, D2.class);
+        System.out.println(opt);
 
     }
 
