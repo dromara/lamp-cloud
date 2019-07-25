@@ -33,6 +33,9 @@ zuihou:
       test:
         title: 测试模块
         base-package: com.github.zuihou.authority.controller.test
+      general:
+        title: 通用模块
+        base-package: com.github.zuihou.general.controller
 
 logging:
   file: ${logging.path}/root.log
