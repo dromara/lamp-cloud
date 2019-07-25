@@ -1,6 +1,5 @@
 package com.github.zuihou.xss.wrapper;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,18 +29,16 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public Map<String, String[]> getParameterMap() {
-        Map<String, String[]> request_map = super.getParameterMap();
-        Iterator iterator = request_map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry me = (Map.Entry) iterator.next();
+        Map<String, String[]> requestMap = super.getParameterMap();
+        for (Map.Entry<String, String[]> me : requestMap.entrySet()) {
             log.info(me.getKey() + ":");
-            String[] values = (String[]) me.getValue();
+            String[] values = me.getValue();
             for (int i = 0; i < values.length; i++) {
                 log.info(values[i]);
                 values[i] = xssClean(values[i], ignoreParamValueList);
             }
         }
-        return request_map;
+        return requestMap;
     }
 
     @Override

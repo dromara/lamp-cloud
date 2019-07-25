@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * This is a Description
+ * 日期类型
  *
  * @author zuihou
  * @date 2018/12/29

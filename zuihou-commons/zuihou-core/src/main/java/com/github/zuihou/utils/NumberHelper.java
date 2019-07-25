@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 
 /**
- * This is a Description
+ * 数字类型 帮助类
  *
  * @author zuihou
  * @date 2018/11/20

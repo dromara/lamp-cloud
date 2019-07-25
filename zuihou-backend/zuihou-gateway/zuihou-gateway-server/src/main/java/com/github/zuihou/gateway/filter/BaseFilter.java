@@ -17,7 +17,7 @@ import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * This is a Description
+ * 基础 网关过滤器
  *
  * @author zuihou
  * @date 2018/11/23

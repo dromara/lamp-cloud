@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * This is a Description
+ * 文件 按时间线统计数量和大小的 DTO
  *
  * @author zuihou
  * @date 2019/05/08

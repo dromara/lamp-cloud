@@ -3,7 +3,7 @@ package com.github.zuihou.openfeign;
 import org.springframework.context.annotation.Bean;
 
 /**
- * This is a Description
+ * OpenFeign 配置
  *
  * @author zuihou
  * @date 2019/07/25

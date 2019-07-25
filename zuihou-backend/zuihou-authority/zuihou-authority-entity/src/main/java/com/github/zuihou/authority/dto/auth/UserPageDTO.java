@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * This is a Description
+ * 用户分页DTO
  *
  * @author zuihou
  * @date 2019/07/22

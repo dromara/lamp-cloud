@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * This is a Description
+ * 用户操作API
  *
  * @author zuihou
  * @date 2019/07/10

@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * This is a Description
+ * 文件统计 概览DTO
+ *
  *
  * @author zuihou
  * @date 2019/05/08

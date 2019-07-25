@@ -14,7 +14,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /**
- * This is a Description
+ * 验证器配置
  *
  * @author zuihou
  * @date 2019/07/14

@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This is a Description
+ * 分享 分页DTO
  *
  * @author zuihou
  * @date 2019/05/08

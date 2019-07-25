@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This is a Description
+ * 日期参数 测试
  *
  * @author zuihou
  * @date 2019/07/24
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/date")
 @Api(value = "Date", tags = "时间类型验证器")
-public class DateContoller {
+public class DateController {
 
     @PostMapping("/post1")
     public R<DateDTO> bodyPos1(@RequestBody DateDTO data) {

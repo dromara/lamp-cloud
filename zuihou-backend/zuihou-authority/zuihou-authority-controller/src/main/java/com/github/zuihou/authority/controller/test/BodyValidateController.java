@@ -26,36 +26,36 @@ import org.springframework.web.bind.annotation.RestController;
 public class BodyValidateController {
 
     @PostMapping("/post1")
-    public String bodyPos1(@Validated @Valid @RequestBody HiberDTO data) {
+    public String bodyPos1(@Validated @Valid @RequestBody ValidatorDTO data) {
         return "类上没有 Validated，参数上有@Validated， 参数有 Valid  ok ";
     }
 
     @PostMapping("/post2")
     @Validated
-    public String bodyPost2(@Valid @RequestBody HiberDTO data) {
+    public String bodyPost2(@Valid @RequestBody ValidatorDTO data) {
         return "类上没有 Validated，参数上有@Validated， 参数有 Valid   ok ";
     }
 
     @PostMapping("/post3")
     @Valid
-    public String bodyPost3(@Validated @RequestBody HiberDTO data) {
+    public String bodyPost3(@Validated @RequestBody ValidatorDTO data) {
         return "类上和方法没有 Validated，参数上有@Validated， 参数没有 Valid ok";
     }
 
     @PostMapping("/post4")
     @Validated
-    public String bodyPost4(@RequestBody HiberDTO data) {
+    public String bodyPost4(@RequestBody ValidatorDTO data) {
         return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行";
     }
 
     @PostMapping("/post5")
     @Valid
-    public String bodyPost5(@RequestBody HiberDTO data) {
+    public String bodyPost5(@RequestBody ValidatorDTO data) {
         return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行" + data.toString();
     }
 
     @PostMapping("/post6")
-    public String bodyPost6(@Validated @RequestBody HiberDTO data) {
+    public String bodyPost6(@Validated @RequestBody ValidatorDTO data) {
         return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行";
     }
 
@@ -65,12 +65,12 @@ public class BodyValidateController {
     }
 
     @PostMapping("/post61")
-    public String bodyPost61(@Validated(SuperEntity.Update.class) @RequestBody HiberDTO data) {
+    public String bodyPost61(@Validated(SuperEntity.Update.class) @RequestBody ValidatorDTO data) {
         return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行";
     }
 
     @PostMapping("/post7")
-    public String bodyPost7(@Valid @RequestBody HiberDTO data) {
+    public String bodyPost7(@Valid @RequestBody ValidatorDTO data) {
         return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行";
     }
 

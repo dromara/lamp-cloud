@@ -8,7 +8,7 @@ import com.github.zuihou.file.entity.File;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * This is a Description
+ * 文件策略接口
  *
  * @author zuihou
  * @date 2019/06/17

@@ -6,7 +6,7 @@ import com.github.zuihou.file.entity.File;
 import lombok.Data;
 
 /**
- * This is a Description
+ * 文件查询 DO
  *
  * @author zuihou
  * @date 2019/05/07

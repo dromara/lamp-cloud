@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * This is a Description
+ * 日志自动配置
  *
  * @author zuihou
  * @date 2019/07/02

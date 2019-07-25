@@ -31,10 +31,10 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Configuration
 @Slf4j
-@ConditionalOnProperty(name = "zuihou.file.type", havingValue = "FASTDFS")
-public class FastdfsAutoConfigure {
+@ConditionalOnProperty(name = "zuihou.file.type", havingValue = "FAST_DFS")
+public class FastDfsAutoConfigure {
     @Service
-    public class FastdfsServiceImpl extends AbstractFileStrategy {
+    public class FastDfsServiceImpl extends AbstractFileStrategy {
         @Autowired
         private FastFileStorageClient storageClient;
         @Autowired
@@ -63,7 +63,7 @@ public class FastdfsAutoConfigure {
     }
 
     @Service
-    public class FastdfsChunkServiceImpl extends AbstractFileChunkStrategy {
+    public class FastDfsChunkServiceImpl extends AbstractFileChunkStrategy {
         @Autowired
         protected AppendFileStorageClient storageClient;
 

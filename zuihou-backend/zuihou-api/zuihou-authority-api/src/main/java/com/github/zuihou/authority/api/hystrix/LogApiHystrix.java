@@ -7,7 +7,7 @@ import com.github.zuihou.log.entity.OptLogDTO;
 import org.springframework.stereotype.Component;
 
 /**
- * This is a Description
+ * 日志操作 熔断
  *
  * @author zuihou
  * @date 2019/07/02

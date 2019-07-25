@@ -7,7 +7,7 @@ import com.github.zuihou.jobs.dto.XxlJobInfo;
 import org.springframework.stereotype.Component;
 
 /**
- * This is a Description
+ * 定时API 熔断
  *
  * @author zuihou
  * @date 2019/07/16

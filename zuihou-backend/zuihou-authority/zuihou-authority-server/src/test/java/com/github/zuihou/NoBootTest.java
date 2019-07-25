@@ -10,7 +10,7 @@ import javax.validation.ValidatorFactory;
 import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
-import com.github.zuihou.authority.controller.test.HiberDTO;
+import com.github.zuihou.authority.controller.test.ValidatorDTO;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
@@ -19,7 +19,7 @@ import org.hibernate.validator.HibernateValidator;
 import org.junit.Test;
 
 /**
- * This is a Description
+ * 没有Spring 环境的测试工具类
  *
  * @author zuihou
  * @date 2019/07/05
@@ -58,10 +58,10 @@ public class NoBootTest {
     @Test
     public void test() {
 
-        HiberDTO dto = new HiberDTO();
+        ValidatorDTO dto = new ValidatorDTO();
         dto.setAge(1L).setCode("1").setNotnull(1L).setEmail("q@q").setUrl("http:");
-        Set<ConstraintViolation<HiberDTO>> validate = getValidator().validate(dto);
-        for (ConstraintViolation<HiberDTO> c : validate) {
+        Set<ConstraintViolation<ValidatorDTO>> validate = getValidator().validate(dto);
+        for (ConstraintViolation<ValidatorDTO> c : validate) {
             System.out.println(c.getMessage());
         }
     }
