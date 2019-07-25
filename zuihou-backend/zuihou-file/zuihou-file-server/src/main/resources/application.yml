@@ -217,7 +217,7 @@ hystrix:
 #          packages: com.github.zuihou.file.controller
 #  contact-name: 中科恒运
 #  contact-url: https://github.com/zuihou/zuihou-admin-cloud.git
-#  contact-email: 306479353@qq.com
+#  contact-email: 244387066@qq.com
 
 id-generator:
   machine-code: 1  # id生成器机器掩码

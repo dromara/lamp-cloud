@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 描述：日期工具类
+ *
  * @author zuihou
  * 修改时间：2018/4/24
  */
@@ -38,6 +39,20 @@ public class DateUtils {
     public final static String DAY = "DAY";
     public final static String MONTH = "MONTH";
     public final static String WEEK = "WEEK";
+
+    /**
+     * 一个月平均天数
+     */
+    public final static long MAX_MONTH_DAY = 30;
+    /**
+     * 3个月平均天数
+     */
+    public final static long MAX_3_MONTH_DAY = 90;
+    /**
+     * 一年平均天数
+     */
+    public final static long MAX_YEAR_DAY = 365;
+
 
     private DateUtils() {
     }
@@ -266,8 +281,8 @@ public class DateUtils {
      * @return
      */
     public static Date getDate0000(LocalDate value) {
-        LocalDateTime today_start = LocalDateTime.of(value, LocalTime.MIN);
-        return DateUtils.localDateTime2Date(today_start);
+        LocalDateTime todayStart = LocalDateTime.of(value, LocalTime.MIN);
+        return DateUtils.localDateTime2Date(todayStart);
     }
 
     /**
@@ -301,8 +316,8 @@ public class DateUtils {
      * @return
      */
     public static Date getDate2359(LocalDate value) {
-        LocalDateTime date_end = LocalDateTime.of(value, LocalTime.MAX);
-        return DateUtils.localDateTime2Date(date_end);
+        LocalDateTime dateEnd = LocalDateTime.of(value, LocalTime.MAX);
+        return DateUtils.localDateTime2Date(dateEnd);
     }
 
     /**
@@ -585,13 +600,13 @@ public class DateUtils {
         long day = until(startDate, endDate);
 
         String dateType = MONTH;
-        if (day >= 0 && day <= 30) {
+        if (day >= 0 && day <= MAX_MONTH_DAY) {
             dateType = DAY;
             dateList.addAll(DateUtils.getBetweenDay(startDate, endDate, DEFAULT_DATE_FORMAT));
-        } else if (day > 30 && day <= 90) {
+        } else if (day > MAX_MONTH_DAY && day <= MAX_3_MONTH_DAY) {
             dateType = WEEK;
             dateList.addAll(DateUtils.getBetweenWeek(startDate, endDate, DEFAULT_WEEK_FORMAT));
-        } else if (day > 90 && day <= 365) {
+        } else if (day > MAX_3_MONTH_DAY && day <= MAX_YEAR_DAY) {
             dateType = MONTH;
             dateList.addAll(DateUtils.getBetweenMonth(startDate, endDate, DEFAULT_MONTH_FORMAT));
         } else {
@@ -613,13 +628,13 @@ public class DateUtils {
         long day = until(startDate, endDate);
 
         String dateType = MONTH;
-        if (day >= 0 && day <= 30) {
+        if (day >= 0 && day <= MAX_MONTH_DAY) {
             dateType = DAY;
             dateList.addAll(DateUtils.getBetweenDay(startDate, endDate, DEFAULT_DATE_FORMAT_EN));
-        } else if (day > 30 && day <= 90) {
+        } else if (day > MAX_MONTH_DAY && day <= MAX_3_MONTH_DAY) {
             dateType = WEEK;
             dateList.addAll(DateUtils.getBetweenWeek(startDate, endDate, DEFAULT_WEEK_FORMAT_EN));
-        } else if (day > 90 && day <= 365) {
+        } else if (day > MAX_3_MONTH_DAY && day <= MAX_YEAR_DAY) {
             dateType = MONTH;
             dateList.addAll(DateUtils.getBetweenMonth(startDate, endDate, DEFAULT_MONTH_FORMAT_EN));
         } else {

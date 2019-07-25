@@ -78,9 +78,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class FormValidatorController {
 
     private final static String FORM_VALIDATOR_URL = "/form/validator";
-    //    @Autowired
     final private RequestMappingHandlerMapping requestMappingHandlerMapping;
-    //    @Autowired
     final private IConstraintExtract constraintExtract;
 
     public FormValidatorController(IConstraintExtract constraintExtract, RequestMappingHandlerMapping requestMappingHandlerMapping) {

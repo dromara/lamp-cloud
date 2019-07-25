@@ -55,9 +55,9 @@ public class XssUtils {
                 final CleanResults cr = antiSamy.scan(paramValue, policy);
                 cr.getErrorMessages().forEach(log::info);
                 String str = cr.getCleanHTML();
-//                String str = StringEscapeUtils.escapeHtml(cr.getCleanHTML());
-//                str = str.replaceAll((antiSamy.scan("&nbsp;", policy)).getCleanHTML(), "");
-//                str = StringEscapeUtils.unescapeHtml(str);
+                /*String str = StringEscapeUtils.escapeHtml(cr.getCleanHTML());
+                str = str.replaceAll((antiSamy.scan("&nbsp;", policy)).getCleanHTML(), "");
+                str = StringEscapeUtils.unescapeHtml(str);*/
                 str = str.replaceAll("&quot;", "\"");
                 str = str.replaceAll("&amp;", "&");
                 str = str.replaceAll("'", "'");

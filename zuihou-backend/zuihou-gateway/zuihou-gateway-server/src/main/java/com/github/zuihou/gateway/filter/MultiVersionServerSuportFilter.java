@@ -2,6 +2,7 @@ package com.github.zuihou.gateway.filter;
 
 import java.util.List;
 
+import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.context.RequestContext;
 
 import cn.hutool.core.util.StrUtil;
@@ -43,7 +44,7 @@ public class MultiVersionServerSuportFilter extends BaseFilter {
         Route route = route();
 
         RequestContext ctx = RequestContext.getCurrentContext();
-        final String requestURI = this.URL_PATH_HELPER.getPathWithinApplication(ctx.getRequest());
+        final String requestURI = URL_PATH_HELPER.getPathWithinApplication(ctx.getRequest());
         String version = ctx.getRequest().getHeader("serviceSuffix");
 
         if (StrUtil.isEmpty(version)) {
@@ -75,9 +76,8 @@ public class MultiVersionServerSuportFilter extends BaseFilter {
         boolean flag =
                 !ctx.containsKey(FilterConstants.FORWARD_TO_KEY) &&
                         !ctx.containsKey(SERVICE_ID_KEY) &&
-                        !"prod".equalsIgnoreCase(active);
-//        log.debug("flag={}, fk={}, sk={}", flag, ctx.containsKey(FORWARD_TO_KEY), ctx.containsKey(SERVICE_ID_KEY));
-        return flag;  //只有在非正式的环境下面才启用多版本支持模式
+                        !StrPool.PROD.equalsIgnoreCase(active);
+        return flag;
     }
 
     @Override

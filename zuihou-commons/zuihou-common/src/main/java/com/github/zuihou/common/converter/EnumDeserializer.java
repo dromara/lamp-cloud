@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  * @author 潘定遥
  */
 public class EnumDeserializer extends StdDeserializer<Enum<?>> {
-    public final static EnumDeserializer instance = new EnumDeserializer();
+    public final static EnumDeserializer INSTANCE = new EnumDeserializer();
     private final static String ALL_ENUM_STRING_CONVERT_METHOD = "get";
     private final static String ALL_ENUM_KEY_FIELD = "code";
 

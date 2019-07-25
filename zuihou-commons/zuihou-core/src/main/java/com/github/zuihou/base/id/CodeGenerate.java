@@ -16,12 +16,12 @@ public class CodeGenerate {
     /**
      * 字符仅仅取值大写的，因为数据库一般期望不区分大小写
      */
-
-    public final static char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    public final static char[] CHARS = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
     /**
      * 固定为26个字符
      */
-    public final static int charsNum = chars.length;
+    public final static int CHARS_NUM = CHARS.length;
+    private final static int MAX_MACHINE_CODE = 15;
     /**
      * Fri Feb 01 01:01:01 CST 2019
      * 1548954061000L
@@ -41,7 +41,7 @@ public class CodeGenerate {
 
 
     public CodeGenerate(final int machineCode) {
-        if (machineCode < 0 || machineCode > 15) {
+        if (machineCode < 0 || machineCode > MAX_MACHINE_CODE) {
             throw new IllegalArgumentException("请注意，1、机器码在多台机器或应用间是不允许重复的！2、机器码取值仅仅在[0,15]闭区间");
         }
         this.MACHINE_CODE = machineCode;
@@ -58,13 +58,13 @@ public class CodeGenerate {
         char[] result = new char[8];
         //2021年前产生的编码长度不足8位，仅仅只有7位，故将首位固定为chars中
         //的最后一位. 而且只能是最后一位  因为首位下一次出现此字符的时间将会是最远的
-        result[0] = chars[chars.length - 1];
+        result[0] = CHARS[CHARS.length - 1];
         //转换成为26个字母
-        int unit = charsNum;
+        int unit = CHARS_NUM;
         //最大长度为8
         int index = result.length - 1;
         do {
-            result[index] = (chars[(int) (id % unit)]);
+            result[index] = (CHARS[(int) (id % unit)]);
             index--;
             id = id / unit;
         } while (id != 0);

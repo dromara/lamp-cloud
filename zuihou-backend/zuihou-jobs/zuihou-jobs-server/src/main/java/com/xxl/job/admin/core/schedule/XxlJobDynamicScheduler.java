@@ -158,8 +158,8 @@ public final class XxlJobDynamicScheduler {
         CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(triggerKey).withSchedule(cronScheduleBuilder).build();
 
         // 4、job detail
-        Class<? extends Job> jobClass_ = RemoteHttpJobBean.class;
-        JobDetail jobDetail = JobBuilder.newJob(jobClass_).withIdentity(jobKey).build();
+        Class<? extends Job> jobclass = RemoteHttpJobBean.class;
+        JobDetail jobDetail = JobBuilder.newJob(jobclass).withIdentity(jobKey).build();
 
 
         // 5、schedule job
@@ -265,8 +265,8 @@ public final class XxlJobDynamicScheduler {
                     .build();
         }
 
-        Class<? extends Job> jobClass_ = RemoteHttpJobBean.class;
-        JobDetail jobDetail = JobBuilder.newJob(jobClass_).withIdentity(jobKey).build();
+        Class<? extends Job> jobclass = RemoteHttpJobBean.class;
+        JobDetail jobDetail = JobBuilder.newJob(jobclass).withIdentity(jobKey).build();
 
 
         // 5、schedule job

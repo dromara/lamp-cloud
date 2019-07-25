@@ -20,7 +20,7 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.NumberHelper;
-import com.github.zuihou.utils.StringHelper;
+import com.github.zuihou.utils.StrHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -108,7 +108,7 @@ public class MenuController extends BaseController {
     public R<Menu> save(@RequestBody @Validated MenuSaveDTO data) {
         Menu menu = dozer.map(data, Menu.class);
 
-        menu.setCode(StringHelper.getOrDef(menu.getCode(), codeGenerate.next()));
+        menu.setCode(StrHelper.getOrDef(menu.getCode(), codeGenerate.next()));
         menu.setIsEnable(NumberHelper.getOrDef(menu.getIsEnable(), true));
         menu.setIsPublic(NumberHelper.getOrDef(menu.getIsPublic(), false));
         menu.setParentId(NumberHelper.getOrDef(menu.getParentId(), PARENT_ID_DEF));

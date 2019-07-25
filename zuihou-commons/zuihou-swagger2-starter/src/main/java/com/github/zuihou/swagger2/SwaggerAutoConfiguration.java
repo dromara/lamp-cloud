@@ -245,16 +245,15 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
         List<Parameter> parameters = Lists.newArrayList();
 
         if (Objects.isNull(globalOperationParameters)) {
-            //TODO 测试ApiKey
-//            parameters.add(new ParameterBuilder()
-//                    .name(AUTH_KEY)
-//                    .description("token令牌")
-//                    .modelRef(new ModelRef("string"))
-//                    .parameterType("header")
-//                    .defaultValue("test")
-//                    .required(false)
-//                    .order(1)
-//                    .build());
+            /*parameters.add(new ParameterBuilder()
+                    .name(AUTH_KEY)
+                    .description("token令牌")
+                    .modelRef(new ModelRef("string"))
+                    .parameterType("header")
+                    .defaultValue("test")
+                    .required(false)
+                    .order(1)
+                    .build());*/
             return parameters;
         }
         for (SwaggerProperties.GlobalOperationParameter globalOperationParameter : globalOperationParameters) {

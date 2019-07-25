@@ -27,10 +27,6 @@ public class AuthClientProperties {
          * 请求头名称
          */
         private String headerName;
-        /** 过期时间  */
-//        private Long expire = 7200L;
-//        /** 加密 admin服务使用  */
-//        private String priKey;
         /**
          * 解密 网关使用
          */

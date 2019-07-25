@@ -44,7 +44,6 @@ public class FileBiz {
         log.info("内网前缀地址 innerUriPrefix={}", innerUriPrefix);
         int fileSize = list.stream().filter((file) -> file != null && !DataType.DIR.eq(file.getDataType()) && StringUtils.isNotEmpty(file.getUrl()))
                 .mapToInt((file) -> NumberHelper.intValueOf0(file.getSize())).sum();
-        //String extName = list.size() > 1 ? StringUtils.substring(list.get(0).getSubmittedFileName(), 0, StringUtils.lastIndexOf(list.get(0).getSubmittedFileName(), ".")) + "等" + ".zip" : list.get(0).getSubmittedFileName();
         String extName = list.get(0).getSubmittedFileName();
         if (list.size() > 1) {
             extName = StringUtils.substring(extName, 0, StringUtils.lastIndexOf(extName, ".")) + "等.zip";

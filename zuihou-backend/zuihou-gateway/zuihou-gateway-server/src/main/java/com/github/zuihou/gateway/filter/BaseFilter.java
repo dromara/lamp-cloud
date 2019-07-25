@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.adapter.IgnoreTokenConfig;
+import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
@@ -31,12 +32,12 @@ public abstract class BaseFilter extends ZuulFilter {
     protected String zuulPrefix;
     @Value("${spring.profiles.active:dev}")
     protected String profiles;
-    protected UrlPathHelper URL_PATH_HELPER = new UrlPathHelper();
+    protected static UrlPathHelper URL_PATH_HELPER = new UrlPathHelper();
     @Autowired
     protected RouteLocator routeLocator;
 
     protected boolean isDev() {
-        return !"prod".equalsIgnoreCase(profiles);
+        return !StrPool.PROD.equalsIgnoreCase(profiles);
     }
 
     /**

@@ -18,7 +18,7 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BizAssert;
-import com.github.zuihou.utils.StringHelper;
+import com.github.zuihou.utils.StrHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -102,7 +102,7 @@ public class ResourceController extends BaseController {
         }
 
         Resource resource = dozer.map(data, Resource.class);
-        resource.setCode(StringHelper.getOrDef(resource.getCode(), codeGenerate.next()));
+        resource.setCode(StrHelper.getOrDef(resource.getCode(), codeGenerate.next()));
 
 
         if (resource.getId() != null) {

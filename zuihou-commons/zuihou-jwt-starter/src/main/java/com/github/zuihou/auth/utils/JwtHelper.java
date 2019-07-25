@@ -10,7 +10,7 @@ import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.utils.DateUtils;
 import com.github.zuihou.utils.NumberHelper;
-import com.github.zuihou.utils.StringHelper;
+import com.github.zuihou.utils.StrHelper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtHelper {
 
-    private static final RsaKeyHelper rsaKeyHelper = new RsaKeyHelper();
+    private static final RsaKeyHelper RSA_KEY_HELPER = new RsaKeyHelper();
 
 
     /**
@@ -65,11 +65,11 @@ public class JwtHelper {
         Jws<Claims> claimsJws = parserToken(token, pubKeyPath);
         Claims body = claimsJws.getBody();
         String strUserId = body.getSubject();
-        String account = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ACCOUNT));
-        String name = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_NAME));
+        String account = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ACCOUNT));
+        String name = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_NAME));
 
-        String strOrgId = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ORG_ID));
-        String strDepartmentId = StringHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_STATION_ID));
+        String strOrgId = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ORG_ID));
+        String strDepartmentId = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_STATION_ID));
         Long userId = NumberHelper.longValueOf0(strUserId);
         Long orgId = NumberHelper.longValueOf0(strOrgId);
         Long departmentId = NumberHelper.longValueOf0(strDepartmentId);
@@ -91,7 +91,7 @@ public class JwtHelper {
             //返回的字符串便是我们的jwt串了
             String compactJws = builder.setExpiration(DateUtils.localDateTime2Date(LocalDateTime.now().plusSeconds(expire)))
                     //设置算法（必须）
-                    .signWith(SignatureAlgorithm.RS256, rsaKeyHelper.getPrivateKey(priKeyPath))
+                    .signWith(SignatureAlgorithm.RS256, RSA_KEY_HELPER.getPrivateKey(priKeyPath))
                     //这个是全部设置完成后拼成jwt串的方法
                     .compact();
             return new Token(compactJws, expire);
@@ -112,7 +112,7 @@ public class JwtHelper {
      */
     private static Jws<Claims> parserToken(String token, String pubKeyPath) throws BizException {
         try {
-            return Jwts.parser().setSigningKey(rsaKeyHelper.getPublicKey(pubKeyPath)).parseClaimsJws(token);
+            return Jwts.parser().setSigningKey(RSA_KEY_HELPER.getPublicKey(pubKeyPath)).parseClaimsJws(token);
         } catch (ExpiredJwtException ex) {
             //过期
             throw new BizException(ExceptionCode.JWT_TOKEN_EXPIRED.getCode(), ExceptionCode.JWT_TOKEN_EXPIRED.getMsg());

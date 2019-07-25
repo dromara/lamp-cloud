@@ -16,7 +16,7 @@ import com.github.zuihou.utils.BizAssert;
  * @author zuihou
  * @date 2018/12/11
  */
-public abstract class AttachmentType {
+public class AttachmentType {
 
     /**
      * 后端代码不需要使用该 业务类型时， 无需使用常量，直接在ALL_TYPES数组中写字符串即可。

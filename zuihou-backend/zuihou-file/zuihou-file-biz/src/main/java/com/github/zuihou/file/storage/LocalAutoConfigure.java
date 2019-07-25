@@ -19,7 +19,7 @@ import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
 import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
-import com.github.zuihou.utils.StringHelper;
+import com.github.zuihou.utils.StrHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +58,7 @@ public class LocalAutoConfigure {
             java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
             org.apache.commons.io.FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
 
-            file.setUrl(fileProperties.getUriPrefix() + secDir + "/" + fileName + "?attname=" + StringHelper.encode(file.getSubmittedFileName()));
+            file.setUrl(fileProperties.getUriPrefix() + secDir + "/" + fileName + "?attname=" + StrHelper.encode(file.getSubmittedFileName()));
             file.setFilename(fileName);
             file.setRelativePath(secDir);
         }
@@ -147,7 +147,7 @@ public class LocalAutoConfigure {
                     .append(relativePath)
                     .append(URI_SEPARATOR)
                     .append(fileName)
-                    .append("?attname=" + StringHelper.encode(submittedFileName))
+                    .append("?attname=" + StrHelper.encode(submittedFileName))
                     .toString();
             File filePo = File.builder()
                     .relativePath(relativePath)

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JobFailMonitorHelper {
     // email alarm template
-    private static final String mailBodyTemplate = "<h5>" + I18nUtil.getString("jobconf_monitor_detail") + "：</span>" +
+    private static final String MAIL_BODY_TEMPLATE = "<h5>" + I18nUtil.getString("jobconf_monitor_detail") + "：</span>" +
             "<table border=\"1\" cellpadding=\"3\" style=\"border-collapse:collapse; width:80%;\" >\n" +
             "   <thead style=\"font-weight: bold;color: #ffffff;background-color: #ff8c00;\" >" +
             "      <tr>\n" +
@@ -197,7 +197,7 @@ public class JobFailMonitorHelper {
                 XxlJobGroup group = XxlJobAdminConfig.getAdminConfig().getXxlJobGroupDao().load(Integer.valueOf(info.getJobGroup()));
 
                 String title = I18nUtil.getString("jobconf_monitor");
-                String content = MessageFormat.format(mailBodyTemplate,
+                String content = MessageFormat.format(MAIL_BODY_TEMPLATE,
                         group != null ? group.getTitle() : "null",
                         info.getId(),
                         info.getJobDesc(),

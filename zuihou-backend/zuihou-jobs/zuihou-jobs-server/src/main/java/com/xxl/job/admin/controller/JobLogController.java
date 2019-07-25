@@ -91,12 +91,12 @@ public class JobLogController {
 
         // page query
         List<XxlJobLog> list = xxlJobLogDao.pageList(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd, logStatus);
-        int list_count = xxlJobLogDao.pageListCount(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd, logStatus);
+        int listCount = xxlJobLogDao.pageListCount(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd, logStatus);
 
         // package result
         Map<String, Object> maps = new HashMap<String, Object>();
-        maps.put("recordsTotal", list_count);        // 总记录数
-        maps.put("recordsFiltered", list_count);    // 过滤后的总记录数
+        maps.put("recordsTotal", listCount);        // 总记录数
+        maps.put("recordsFiltered", listCount);    // 过滤后的总记录数
         maps.put("data", list);                    // 分页列表
         return maps;
     }

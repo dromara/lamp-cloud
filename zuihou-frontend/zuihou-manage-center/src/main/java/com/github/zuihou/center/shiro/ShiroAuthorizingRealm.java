@@ -24,10 +24,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShiroAuthorizingRealm extends AuthorizingRealm {
 
-    //public void setUserConService(UserConService userConService) {
-    //    this.userConService = userConService;
-    //}
-
     @Autowired
     private AuthTokenApi authTokenApi;
 

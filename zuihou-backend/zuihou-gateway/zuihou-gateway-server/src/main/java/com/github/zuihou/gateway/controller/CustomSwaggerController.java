@@ -2,6 +2,8 @@ package com.github.zuihou.gateway.controller;
 
 import java.net.URLEncoder;
 
+import com.github.zuihou.utils.StrPool;
+
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class CustomSwaggerController {
 
+    private static final String x = "-";
+
     /**
      * 解决基于 网关实现 swagger-bootstrap-ui 的一个bug
      *
@@ -33,8 +37,8 @@ public class CustomSwaggerController {
             group = "default";
         }
         String newGroup = group;
-        if (group.contains("-")) {
-            newGroup = StrUtil.subSuf(group, group.indexOf("-") + 1);
+        if (group.contains(StrPool.DASH)) {
+            newGroup = StrUtil.subSuf(group, group.indexOf(StrPool.DASH) + 1);
         }
         return "redirect:/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8");
     }

@@ -225,8 +225,7 @@ public abstract class BaseDbConfiguration {
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         List<ISqlParser> sqlParserList = new ArrayList<>();
-        // 攻击 SQL 阻断解析器、加入解析链
-//        sqlParserList.add(new BlockAttackSqlParser());
+        // sqlParserList.add(new BlockAttackSqlParser()); 攻击 SQL 阻断解析器、加入解析链
         paginationInterceptor.setSqlParserList(sqlParserList);
         return paginationInterceptor;
     }
@@ -283,12 +282,6 @@ public abstract class BaseDbConfiguration {
     public IdGenerate getIdGenerate(@Value("${id-generator.machine-code:1}") Long machineCode) {
         return new SnowflakeIdGenerate(machineCode);
     }
-
-//    @Bean
-//    public ISqlInjector getLogicSqlInjector() {
-//        return new LogicSqlInjector();
-//    }
-
 
     protected GlobalConfig defGlobalConfig() {
         GlobalConfig conf = new GlobalConfig();

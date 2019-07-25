@@ -1,13 +1,21 @@
 package com.github.zuihou.center.context;
 
+import javax.servlet.ServletContext;
+
 import com.github.zuihou.center.configuration.GlobalVariableProperties;
+import com.github.zuihou.utils.StrPool;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 
-import javax.servlet.ServletContext;
-
+/**
+ * 全局常量
+ *
+ * @author zuihou
+ * @date 2019-07-25 14:42
+ */
 @Component
 @Lazy(false)
 public class GlobalVariableContext implements ServletContextAware {
@@ -19,8 +27,8 @@ public class GlobalVariableContext implements ServletContextAware {
     @Override
     public void setServletContext(ServletContext servletContext) {
         String projectName = servletContext.getContextPath();
-        if (!"/".equals(projectName)) {
-            projectName += "/";
+        if (!StrPool.SLASH.equals(projectName)) {
+            projectName += StrPool.SLASH;
         }
         String staticsPath = projectName + "static";
         String projectNameNotSuffix = projectName.substring(0, projectName.length() - 1);

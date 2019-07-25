@@ -26,5 +26,10 @@ public abstract class BaseDateConverter<T> {
         throw new IllegalArgumentException("无效的日期参数格式:'" + source + "'");
     }
 
+    /**
+     * 获取子类 具体的格式化表达式
+     *
+     * @return
+     */
     protected abstract Map<String, String> getFormat();
 }

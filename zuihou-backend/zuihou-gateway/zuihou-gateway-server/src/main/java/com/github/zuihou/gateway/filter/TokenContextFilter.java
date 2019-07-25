@@ -8,7 +8,8 @@ import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
-import com.github.zuihou.utils.StringHelper;
+import com.github.zuihou.utils.StrHelper;
+import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.context.RequestContext;
 
 import lombok.extern.slf4j.Slf4j;
@@ -97,7 +98,7 @@ public class TokenContextFilter extends BaseFilter {
         JwtUserInfo userInfo = null;
 
         //添加测试环境的特殊token
-        if (isDev() && "test".equalsIgnoreCase(userToken)) {
+        if (isDev() && StrPool.TEST.equalsIgnoreCase(userToken)) {
             userInfo = new JwtUserInfo(1L, "admin", "管理员", 1L, 1L);
         }
         try {
@@ -137,7 +138,7 @@ public class TokenContextFilter extends BaseFilter {
             return;
         }
         String valueStr = value.toString();
-        String valueEncode = StringHelper.encode(valueStr);
+        String valueEncode = StrHelper.encode(valueStr);
         ctx.addZuulRequestHeader(name, valueEncode);
     }
 

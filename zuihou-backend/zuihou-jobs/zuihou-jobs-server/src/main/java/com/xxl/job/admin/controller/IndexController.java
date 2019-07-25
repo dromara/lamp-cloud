@@ -45,47 +45,47 @@ public class IndexController {
         return chartInfo;
     }
 
-//	@RequestMapping("/toLogin")
-//	@PermessionLimit(limit=false)
-//	public String toLogin(Model model, HttpServletRequest request) {
-//		if (PermissionInterceptor.ifLogin(request)) {
-//			return "redirect:/";
-//		}
-//		return "login";
-//	}
-//
-//	@RequestMapping(value="login", method=RequestMethod.POST)
-//	@ResponseBody
-//	@PermessionLimit(limit=false)
-//	public ReturnT<String> loginDo(HttpServletRequest request, HttpServletResponse response, String userName, String password, String ifRemember){
-//		// valid
-//		if (PermissionInterceptor.ifLogin(request)) {
-//			return ReturnT.SUCCESS;
-//		}
-//
-//		// param
-//		if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)){
-//			return new ReturnT<String>(500, I18nUtil.getString("login_param_empty"));
-//		}
-//		boolean ifRem = (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember))?true:false;
-//
-//		// do login
-//		boolean loginRet = PermissionInterceptor.login(response, userName, password, ifRem);
-//		if (!loginRet) {
-//			return new ReturnT<String>(500, I18nUtil.getString("login_param_unvalid"));
-//		}
-//		return ReturnT.SUCCESS;
-//	}
-//
-//	@RequestMapping(value="logout", method=RequestMethod.POST)
-//	@ResponseBody
-//	@PermessionLimit(limit=false)
-//	public ReturnT<String> logout(HttpServletRequest request, HttpServletResponse response){
-//		if (PermissionInterceptor.ifLogin(request)) {
-//			PermissionInterceptor.logout(request, response);
-//		}
-//		return ReturnT.SUCCESS;
-//	}
+	/*@RequestMapping("/toLogin")
+	@PermessionLimit(limit=false)
+	public String toLogin(Model model, HttpServletRequest request) {
+		if (PermissionInterceptor.ifLogin(request)) {
+			return "redirect:/";
+		}
+		return "login";
+	}
+
+	@RequestMapping(value="login", method= RequestMethod.POST)
+	@ResponseBody
+	@PermessionLimit(limit=false)
+	public ReturnT<String> loginDo(HttpServletRequest request, HttpServletResponse response, String userName, String password, String ifRemember){
+		// valid
+		if (PermissionInterceptor.ifLogin(request)) {
+			return ReturnT.SUCCESS;
+		}
+
+		// param
+		if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)){
+			return new ReturnT<String>(500, I18nUtil.getString("login_param_empty"));
+		}
+		boolean ifRem = (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember))?true:false;
+
+		// do login
+		boolean loginRet = PermissionInterceptor.login(response, userName, password, ifRem);
+		if (!loginRet) {
+			return new ReturnT<String>(500, I18nUtil.getString("login_param_unvalid"));
+		}
+		return ReturnT.SUCCESS;
+	}
+
+	@RequestMapping(value="logout", method=RequestMethod.POST)
+	@ResponseBody
+	@PermessionLimit(limit=false)
+	public ReturnT<String> logout(HttpServletRequest request, HttpServletResponse response){
+		if (PermissionInterceptor.ifLogin(request)) {
+			PermissionInterceptor.logout(request, response);
+		}
+		return ReturnT.SUCCESS;
+	}*/
 
     @RequestMapping("/help")
     public String help() {

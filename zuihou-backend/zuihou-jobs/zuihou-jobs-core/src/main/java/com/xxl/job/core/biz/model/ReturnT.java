@@ -66,7 +66,7 @@ public class ReturnT<T> implements Serializable {
      * @return
      */
     public Boolean getIsSuccess() {
-        if (this.code == 0 || this.code == 200) {
+        if (this.code == 0 || this.code == SUCCESS_CODE) {
             return true;
         }
         return false;

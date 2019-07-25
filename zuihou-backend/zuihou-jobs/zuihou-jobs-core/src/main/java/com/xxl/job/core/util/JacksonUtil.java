@@ -1,8 +1,6 @@
 package com.xxl.job.core.util;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -22,11 +20,11 @@ import org.slf4j.LoggerFactory;
  * @author xuxueli 2015-9-25 18:02:56
  */
 public class JacksonUtil {
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
 
     public static ObjectMapper getInstance() {
-        return objectMapper;
+        return OBJECT_MAPPER;
     }
 
     /**
@@ -106,16 +104,4 @@ public class JacksonUtil {
     	return null;
     }*/
 
-    public static void main(String[] args) {
-        try {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("aaa", "111");
-            map.put("bbb", "222");
-            String json = writeValueAsString(map);
-            System.out.println(json);
-            System.out.println(readValue(json, Map.class));
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
 }

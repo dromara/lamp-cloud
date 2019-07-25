@@ -62,27 +62,27 @@ public class JobCodeController {
         if (glueRemark.length() < 4 || glueRemark.length() > 100) {
             return new ReturnT<String>(500, I18nUtil.getString("jobinfo_glue_remark_limit"));
         }
-        XxlJobInfo exists_jobInfo = xxlJobInfoDao.loadById(id);
-        if (exists_jobInfo == null) {
+        XxlJobInfo existsJobinfo = xxlJobInfoDao.loadById(id);
+        if (existsJobinfo == null) {
             return new ReturnT<String>(500, I18nUtil.getString("jobinfo_glue_jobid_unvalid"));
         }
 
         // update new code
-        exists_jobInfo.setGlueSource(glueSource);
-        exists_jobInfo.setGlueRemark(glueRemark);
-        exists_jobInfo.setGlueUpdatetime(new Date());
-        xxlJobInfoDao.update(exists_jobInfo);
+        existsJobinfo.setGlueSource(glueSource);
+        existsJobinfo.setGlueRemark(glueRemark);
+        existsJobinfo.setGlueUpdatetime(new Date());
+        xxlJobInfoDao.update(existsJobinfo);
 
         // log old code
         XxlJobLogGlue xxlJobLogGlue = new XxlJobLogGlue();
-        xxlJobLogGlue.setJobId(exists_jobInfo.getId());
-        xxlJobLogGlue.setGlueType(exists_jobInfo.getGlueType());
+        xxlJobLogGlue.setJobId(existsJobinfo.getId());
+        xxlJobLogGlue.setGlueType(existsJobinfo.getGlueType());
         xxlJobLogGlue.setGlueSource(glueSource);
         xxlJobLogGlue.setGlueRemark(glueRemark);
         xxlJobLogGlueDao.save(xxlJobLogGlue);
 
         // remove code backup more than 30
-        xxlJobLogGlueDao.removeOld(exists_jobInfo.getId(), 30);
+        xxlJobLogGlueDao.removeOld(existsJobinfo.getId(), 30);
 
         return ReturnT.SUCCESS;
     }

@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.core.toolkit.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.typehandler.BaseLikeTypeHandler;
+import com.github.zuihou.utils.StrPool;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -311,7 +312,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         if (obj == null) {
             return null;
         }
-        if ("null".equals(value)) {
+        if (StrPool.NULL.equals(value)) {
             value = null;
         }
         Class beanClass = obj.getClass();
@@ -378,8 +379,30 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return this;
     }
 
+    /**
+     * 字段类型
+     */
     enum ColumnType {
-        String, Double, Integer, Long, BigDecimal;
+        /**
+         * 类型
+         */
+        String,
+        /**
+         * 类型
+         */
+        Double,
+        /**
+         * 类型
+         */
+        Integer,
+        /**
+         * 类型
+         */
+        Long,
+        /**
+         * 类型
+         */
+        BigDecimal;
     }
 
 

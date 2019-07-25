@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.URL;
 /**
  * 正则校验规则
  *
- * @author wz
+ * @author zuihou
  */
 public class RegExConstraintConverter extends BaseConstraintConverter implements IConstraintConverter {
     @Override

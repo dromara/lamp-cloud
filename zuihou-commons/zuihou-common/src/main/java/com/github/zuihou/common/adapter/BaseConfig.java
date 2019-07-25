@@ -87,7 +87,7 @@ public abstract class BaseConfig {
                 .addSerializer(Long.TYPE, ToStringSerializer.instance)
                 .addSerializer(BigInteger.class, ToStringSerializer.instance)
                 .addSerializer(BigDecimal.class, ToStringSerializer.instance)
-                .addDeserializer(Enum.class, EnumDeserializer.instance);
+                .addDeserializer(Enum.class, EnumDeserializer.INSTANCE);
 
         return objectMapper.registerModule(simpleModule);
     }

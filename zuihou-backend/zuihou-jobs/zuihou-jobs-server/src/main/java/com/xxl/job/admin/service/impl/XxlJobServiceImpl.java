@@ -59,7 +59,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 
         // page list
         List<XxlJobInfo> list = xxlJobInfoDao.pageList(start, length, jobGroup, jobDesc, executorHandler, type);
-        int list_count = xxlJobInfoDao.pageListCount(start, length, jobGroup, jobDesc, executorHandler, type);
+        int listCount = xxlJobInfoDao.pageListCount(start, length, jobGroup, jobDesc, executorHandler, type);
 
         // fill job info
         if (list != null && list.size() > 0) {
@@ -70,8 +70,8 @@ public class XxlJobServiceImpl implements XxlJobService {
 
         // package result
         Map<String, Object> maps = new HashMap<String, Object>();
-        maps.put("recordsTotal", list_count);        // 总记录数
-        maps.put("recordsFiltered", list_count);    // 过滤后的总记录数
+        maps.put("recordsTotal", listCount);        // 总记录数
+        maps.put("recordsFiltered", listCount);    // 过滤后的总记录数
         maps.put("data", list);                    // 分页列表
         return maps;
     }
@@ -247,38 +247,38 @@ public class XxlJobServiceImpl implements XxlJobService {
         }
 
         // stage job info
-        XxlJobInfo exists_jobInfo = xxlJobInfoDao.loadById(jobInfo.getId());
-        if (exists_jobInfo == null) {
+        XxlJobInfo existsJobInfo = xxlJobInfoDao.loadById(jobInfo.getId());
+        if (existsJobInfo == null) {
             return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("jobinfo_field_id") + I18nUtil.getString("system_not_found")));
         }
         //String old_cron = exists_jobInfo.getJobCron();
 
-        exists_jobInfo.setJobCron(jobInfo.getJobCron());
-        exists_jobInfo.setJobDesc(jobInfo.getJobDesc());
-        exists_jobInfo.setAuthor(jobInfo.getAuthor());
-        exists_jobInfo.setAlarmEmail(jobInfo.getAlarmEmail());
-        exists_jobInfo.setExecutorRouteStrategy(jobInfo.getExecutorRouteStrategy());
-        exists_jobInfo.setExecutorHandler(jobInfo.getExecutorHandler());
-        exists_jobInfo.setExecutorParam(jobInfo.getExecutorParam());
-        exists_jobInfo.setExecutorBlockStrategy(jobInfo.getExecutorBlockStrategy());
-        exists_jobInfo.setExecutorTimeout(jobInfo.getExecutorTimeout());
-        exists_jobInfo.setExecutorFailRetryCount(jobInfo.getExecutorFailRetryCount());
-        exists_jobInfo.setChildJobId(jobInfo.getChildJobId());
-        exists_jobInfo.setRepeatCount(jobInfo.getRepeatCount());
-        exists_jobInfo.setStartExecuteTime(jobInfo.getStartExecuteTime());
-        exists_jobInfo.setEndExecuteTime(jobInfo.getEndExecuteTime());
-        exists_jobInfo.setIntervalSeconds(jobInfo.getIntervalSeconds());
-        xxlJobInfoDao.update(exists_jobInfo);
+        existsJobInfo.setJobCron(jobInfo.getJobCron());
+        existsJobInfo.setJobDesc(jobInfo.getJobDesc());
+        existsJobInfo.setAuthor(jobInfo.getAuthor());
+        existsJobInfo.setAlarmEmail(jobInfo.getAlarmEmail());
+        existsJobInfo.setExecutorRouteStrategy(jobInfo.getExecutorRouteStrategy());
+        existsJobInfo.setExecutorHandler(jobInfo.getExecutorHandler());
+        existsJobInfo.setExecutorParam(jobInfo.getExecutorParam());
+        existsJobInfo.setExecutorBlockStrategy(jobInfo.getExecutorBlockStrategy());
+        existsJobInfo.setExecutorTimeout(jobInfo.getExecutorTimeout());
+        existsJobInfo.setExecutorFailRetryCount(jobInfo.getExecutorFailRetryCount());
+        existsJobInfo.setChildJobId(jobInfo.getChildJobId());
+        existsJobInfo.setRepeatCount(jobInfo.getRepeatCount());
+        existsJobInfo.setStartExecuteTime(jobInfo.getStartExecuteTime());
+        existsJobInfo.setEndExecuteTime(jobInfo.getEndExecuteTime());
+        existsJobInfo.setIntervalSeconds(jobInfo.getIntervalSeconds());
+        xxlJobInfoDao.update(existsJobInfo);
 
         if (JobTypeEnum.TIMES.eq(jobInfo.getType())) {
             return ReturnT.SUCCESS;
         }
 
         // update quartz-cron if started
-        String qz_group = String.valueOf(exists_jobInfo.getJobGroup());
-        String qz_name = String.valueOf(exists_jobInfo.getId());
+        String qzGroup = String.valueOf(existsJobInfo.getJobGroup());
+        String qzName = String.valueOf(existsJobInfo.getId());
         try {
-            XxlJobDynamicScheduler.updateJobCron(qz_group, qz_name, exists_jobInfo.getJobCron());
+            XxlJobDynamicScheduler.updateJobCron(qzGroup, qzName, existsJobInfo.getJobCron());
         } catch (SchedulerException e) {
             logger.error(e.getMessage(), e);
             return ReturnT.FAIL;
