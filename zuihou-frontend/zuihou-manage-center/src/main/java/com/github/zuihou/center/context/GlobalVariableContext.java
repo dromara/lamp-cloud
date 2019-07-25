@@ -3,8 +3,8 @@ package com.github.zuihou.center.context;
 import javax.servlet.ServletContext;
 
 import com.github.zuihou.center.configuration.GlobalVariableProperties;
+import com.github.zuihou.utils.StrPool;
 
-import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -27,8 +27,8 @@ public class GlobalVariableContext implements ServletContextAware {
     @Override
     public void setServletContext(ServletContext servletContext) {
         String projectName = servletContext.getContextPath();
-        if (!StrUtil.SLASH.equals(projectName)) {
-            projectName += StrUtil.SLASH;
+        if (!StrPool.SLASH.equals(projectName)) {
+            projectName += StrPool.SLASH;
         }
         String staticsPath = projectName + "static";
         String projectNameNotSuffix = projectName.substring(0, projectName.length() - 1);
