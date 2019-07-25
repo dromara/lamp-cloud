@@ -78,7 +78,7 @@ public class MenuController extends BaseController {
     public R<IPage<Menu>> page(Menu data) {
         IPage<Menu> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<Menu> query = Wraps.lbQ(data);
+        LbqWrapper<Menu> query = Wraps.lbQ(data).orderByDesc(Menu::getUpdateTime);
         menuService.page(page, query);
         return success(page);
     }
@@ -182,7 +182,7 @@ public class MenuController extends BaseController {
     @GetMapping("/tree")
     @SysLog("查询系统所有的菜单")
     public R<List<MenuTreeDTO>> allTree() {
-        List<Menu> list = menuService.list();
+        List<Menu> list = menuService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortvalue));
         List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
         return success(TreeUtil.builderTreeOrdered(treeList));
     }
