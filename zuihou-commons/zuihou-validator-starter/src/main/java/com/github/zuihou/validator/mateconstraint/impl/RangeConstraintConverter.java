@@ -12,7 +12,12 @@ import com.github.zuihou.validator.mateconstraint.IConstraintConverter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
-
+/**
+ * 长度 转换器
+ *
+ * @author zuihou
+ * @date 2019-07-25 15:15
+ */
 public class RangeConstraintConverter extends BaseConstraintConverter implements IConstraintConverter {
 
     @Override

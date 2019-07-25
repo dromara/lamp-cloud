@@ -70,9 +70,9 @@ public class CookieUtil {
      * @param key
      */
     private static Cookie get(HttpServletRequest request, String key) {
-        Cookie[] arr_cookie = request.getCookies();
-        if (arr_cookie != null && arr_cookie.length > 0) {
-            for (Cookie cookie : arr_cookie) {
+        Cookie[] arrCookie = request.getCookies();
+        if (arrCookie != null && arrCookie.length > 0) {
+            for (Cookie cookie : arrCookie) {
                 if (cookie.getName().equals(key)) {
                     return cookie;
                 }

@@ -67,15 +67,15 @@ public class DefaultConstraintExtractImpl implements IConstraintExtract {
         if (constraints == null || constraints.size() == 0) {
             return Collections.EMPTY_LIST;
         }
-        Map<String, FieldValidatorDesc> fieldValidatorDescs = new HashMap();
+        Map<String, FieldValidatorDesc> fieldValidatorDesc = new HashMap();
         for (ValidConstraint constraint : constraints) {
-            doExtract(constraint, fieldValidatorDescs);
+            doExtract(constraint, fieldValidatorDesc);
         }
 
-        return fieldValidatorDescs.values();
+        return fieldValidatorDesc.values();
     }
 
-    private void doExtract(ValidConstraint constraint, Map<String, FieldValidatorDesc> fieldValidatorDescs) throws Exception {
+    private void doExtract(ValidConstraint constraint, Map<String, FieldValidatorDesc> fieldValidatorDesc) throws Exception {
 
         Class<?> targetClazz = constraint.getTarget();
         Class<?>[] groups = constraint.getGroups();
@@ -86,7 +86,7 @@ public class DefaultConstraintExtractImpl implements IConstraintExtract {
         BeanMetaData<?> res = beanMetaDataManager.getBeanMetaData(targetClazz);
         Set<MetaConstraint<?>> r = res.getMetaConstraints();
         for (MetaConstraint<?> metaConstraint : r) {
-            builderFieldValidatorDesc(metaConstraint, groups, fieldValidatorDescs);
+            builderFieldValidatorDesc(metaConstraint, groups, fieldValidatorDesc);
         }
     }
 

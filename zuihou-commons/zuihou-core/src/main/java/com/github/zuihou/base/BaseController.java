@@ -45,23 +45,19 @@ public abstract class BaseController {
     /**
      * 页数
      */
-    String PAGE_NO = "pageNo";
+    protected static final String PAGE_NO = "pageNo";
     /**
      * 分页大小
      */
-    String PAGE_SIZE = "pageSize";
+    protected static final String PAGE_SIZE = "pageSize";
     /**
      * 排序字段 ASC
      */
-    String PAGE_ASCS = "ascs";
+    protected static final String PAGE_ASCS = "ascs";
     /**
      * 排序字段 DESC
      */
-    String PAGE_DESCS = "descs";
-    /**
-     * 查询总数
-     */
-    String SEARCH_COUNT = "searchCount";
+    protected static final String PAGE_DESCS = "descs";
     /**
      * 默认每页条目20,最大条目数100
      */

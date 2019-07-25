@@ -16,5 +16,11 @@ import com.github.zuihou.authority.entity.auth.User;
  */
 public interface UserService extends IService<User> {
 
+    /**
+     * 根据用户id 查询数据范围
+     *
+     * @param userId
+     * @return
+     */
     Map<String, Object> getDataScopeById(Long userId);
 }

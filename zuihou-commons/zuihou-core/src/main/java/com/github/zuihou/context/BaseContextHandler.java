@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.github.zuihou.utils.NumberHelper;
-import com.github.zuihou.utils.StringHelper;
+import com.github.zuihou.utils.StrHelper;
 
 
 /**
@@ -15,7 +15,7 @@ import com.github.zuihou.utils.StringHelper;
  * @createTime 2017-12-13 16:52
  */
 public class BaseContextHandler {
-    public static final ThreadLocal<Map<String, String>> threadLocal = new ThreadLocal<>();
+    public static final ThreadLocal<Map<String, String>> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void set(String key, Long value) {
         Map<String, String> map = getLocalMap();
@@ -28,10 +28,10 @@ public class BaseContextHandler {
     }
 
     private static Map<String, String> getLocalMap() {
-        Map<String, String> map = threadLocal.get();
+        Map<String, String> map = THREAD_LOCAL.get();
         if (map == null) {
-            map = new HashMap<>();
-            threadLocal.set(map);
+            map = new HashMap<>(10);
+            THREAD_LOCAL.set(map);
         }
         return map;
     }
@@ -110,7 +110,7 @@ public class BaseContextHandler {
      */
     public static String getToken() {
         Object value = get(BaseContextConstants.TOKEN_NAME);
-        return StringHelper.getObjectValue(value);
+        return StrHelper.getObjectValue(value);
     }
 
     public static void setToken(String token) {
@@ -142,8 +142,8 @@ public class BaseContextHandler {
     }
 
     public static void remove() {
-        if (threadLocal != null) {
-            threadLocal.remove();
+        if (THREAD_LOCAL != null) {
+            THREAD_LOCAL.remove();
         }
     }
 

@@ -24,7 +24,7 @@ public class XssAuthConfiguration {
      * @return
      */
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer Jackson2ObjectMapperBuilderCustomizer2() {
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer2() {
         return builder -> builder
                 .deserializerByType(String.class, new XssStringJsonDeserializer());
     }

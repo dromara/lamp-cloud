@@ -17,6 +17,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -24,7 +25,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /***
  *
  * @since:swagger-bootstrap-ui 1.0
- * @author <a href="mailto:xiaoymin@foxmail.com">xiaoymin@foxmail.com</a> 
+ * @author <a href="mailto:xiaoymin@foxmail.com">xiaoymin@foxmail.com</a>
  * 2019/05/04 12:44
  */
 @EnableSwagger2
@@ -52,8 +53,8 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("zuihou网关统一Swagger文档")
                 .description("<div style='font-size:14px;color:red;'>zuihou网关统一Swagger文档</div>")
-                .termsOfServiceUrl("http://www.zkhy.com/")
-                .contact("group@qq.com")
+                .termsOfServiceUrl("http://wzroom.cn/api/gate/doc.html")
+                .contact(new Contact("zuihou", "http://wzroom.cn/api/gate/doc.html", "244387066@qq.com"))
                 .version("1.0")
                 .build();
     }

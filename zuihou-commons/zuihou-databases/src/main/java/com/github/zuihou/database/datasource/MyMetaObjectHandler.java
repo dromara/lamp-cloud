@@ -3,6 +3,7 @@ package com.github.zuihou.database.datasource;
 import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.github.zuihou.base.entity.Entity;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.id.IdGenerate;
@@ -28,7 +29,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     /**
      * 实体类型判断符
      */
-    private final static String ET = "et";
     private final IdGenerate<Long> idGenerator;
 
     public MyMetaObjectHandler(IdGenerate<Long> idGenerator) {
@@ -115,10 +115,10 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             update(metaObject, entity);
         } else {
             //updateById updateBatchById update(T entity, Wrapper<T> updateWrapper);
-            Object et = metaObject.getValue(ET);
+            Object et = metaObject.getValue(Constants.ENTITY);
             if (et != null && et instanceof Entity) {
                 Entity entity = (Entity) et;
-                update(metaObject, entity, ET + ".");
+                update(metaObject, entity, Constants.ENTITY + ".");
             }
         }
     }

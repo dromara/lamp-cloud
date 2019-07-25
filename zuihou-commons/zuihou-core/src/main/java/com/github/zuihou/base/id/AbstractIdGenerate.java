@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public abstract class AbstractIdGenerate<T extends Serializable> implements IdGenerate<T> {
 
+    private final static int MAX_MACHINE_CODE = 31;
     /**
      * 最大17bit的序列号是131071
      */
@@ -36,7 +37,7 @@ public abstract class AbstractIdGenerate<T extends Serializable> implements IdGe
     private AtomicInteger orderNo;
 
     public AbstractIdGenerate(final long machineCode) {
-        if (machineCode < 0 || machineCode > 31) {
+        if (machineCode < 0 || machineCode > MAX_MACHINE_CODE) {
             throw new IllegalArgumentException("请注意，1、机器码在多台机器或应用间是不允许重复的！2、机器码取值仅仅在0~31之间");
         }
         this.MACHINE_CODE = machineCode;

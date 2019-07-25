@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
-import com.github.zuihou.utils.StringHelper;
+import com.github.zuihou.utils.StrHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -60,7 +60,7 @@ public class ContextHandlerInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
-        return StringHelper.decode(value);
+        return StrHelper.decode(value);
     }
 
     @Override

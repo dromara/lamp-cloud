@@ -9,6 +9,7 @@ import com.github.zuihou.exception.code.BaseExceptionCode;
  * @author zuihou
  * @createTime 2017-12-13 10:55
  */
+@SuppressWarnings({"AlibabaClassNamingShouldBeCamel"})
 public class R<T> {
     public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";
     public static final String HYSTRIX_ERROR_MESSAGE = "请求超时，请稍候再试";

@@ -27,5 +27,11 @@ public interface ResourceMapper extends BaseMapper<Resource> {
      */
     List<Resource> findVisibleResource(ResourceQueryDTO resource);
 
+    /**
+     * 根据唯一索引 保存或修改资源
+     *
+     * @param resource
+     * @return
+     */
     int saveOrUpdateUnique(Resource resource);
 }

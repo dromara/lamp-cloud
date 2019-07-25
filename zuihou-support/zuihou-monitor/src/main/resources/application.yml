@@ -74,7 +74,7 @@ spring:
   #      context-path: ${management.context-path}
   #      notify:
   #        mail:
-  #          to: 306479353@qq.com
+  #          to: 244387066@qq.com
   #          from: adadminfocus@163.com
   #          ignore-changes: UNKNOWN:UP
   security:

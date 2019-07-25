@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 import com.github.zuihou.validator.mateconstraint.IConstraintConverter;
 
 
+/**
+ * 非空 转换器
+ *
+ * @author zuihou
+ * @date 2019-07-25 15:14
+ */
 public class NotNullConstraintConverter extends BaseConstraintConverter implements IConstraintConverter {
 
 

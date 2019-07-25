@@ -1,5 +1,7 @@
 package com.xxl.job.core.util;
 
+import lombok.ToString;
+
 /**
  * sharding vo
  *
@@ -17,10 +19,17 @@ public class ShardingUtil {
         contextHolder.set(shardingVo);
     }
 
+    /**
+     * 分片
+     *
+     * @author tangyh
+     * @date 2019-07-25 14:26
+     */
+    @ToString
     public static class ShardingVO {
 
-        private int index;  // sharding index
-        private int total;  // sharding total
+        private int index;
+        private int total;
 
         public ShardingVO(int index, int total) {
             this.index = index;

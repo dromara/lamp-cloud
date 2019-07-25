@@ -7,7 +7,12 @@ import java.util.List;
 
 import com.github.zuihou.validator.mateconstraint.IConstraintConverter;
 
-
+/**
+ * 其他 转换器
+ *
+ * @author zuihou
+ * @date 2019-07-25 15:15
+ */
 public class OtherConstraintConverter extends BaseConstraintConverter implements IConstraintConverter {
 
 

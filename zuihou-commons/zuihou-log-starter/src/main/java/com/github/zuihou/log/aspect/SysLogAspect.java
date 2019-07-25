@@ -48,7 +48,7 @@ public class SysLogAspect {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public static final ThreadLocal<OptLogDTO> threadLocal = new ThreadLocal<>();
+    public static final ThreadLocal<OptLogDTO> THREAD_LOCAL = new ThreadLocal<>();
 
     /***
      * 定义controller切入点拦截规则，拦截SysLog注解的方法
@@ -59,7 +59,7 @@ public class SysLogAspect {
     }
 
     private OptLogDTO get() {
-        OptLogDTO sysLog = threadLocal.get();
+        OptLogDTO sysLog = THREAD_LOCAL.get();
         if (sysLog == null) {
             return new OptLogDTO();
         }
@@ -105,7 +105,7 @@ public class SysLogAspect {
             }
             sysLog.setStartTime(LocalDateTime.now());
 
-            threadLocal.set(sysLog);
+            THREAD_LOCAL.set(sysLog);
         });
     }
 
@@ -152,7 +152,7 @@ public class SysLogAspect {
         sysLog.setFinishTime(LocalDateTime.now());
         sysLog.setConsumingTime(sysLog.getStartTime().until(sysLog.getFinishTime(), ChronoUnit.MILLIS));
         applicationContext.publishEvent(new SysLogEvent(sysLog));
-        threadLocal.remove();
+        THREAD_LOCAL.remove();
     }
 
     /**

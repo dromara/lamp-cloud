@@ -21,7 +21,6 @@
 package com.github.zuihou.utils;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
@@ -53,15 +52,13 @@ import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
  */
 public class AntiSqlFilter {
 
-    private static final String[] keyWords = {";", "\"", "\'", "/*", "*/", "--", "exec",
+    private static final String[] KEY_WORDS = {";", "\"", "\'", "/*", "*/", "--", "exec",
             "select", "update", "delete", "insert",
             "alter", "drop", "create", "shutdown"};
 
     public static Map<String, String[]> getSafeParameterMap(Map<String, String[]> parameterMap) {
-        Map<String, String[]> map = new HashMap<>();
-        Iterator<String> iter = parameterMap.keySet().iterator();
-        while (iter.hasNext()) {
-            String key = iter.next();
+        Map<String, String[]> map = new HashMap<>(parameterMap.size());
+        for (String key : parameterMap.keySet()) {
             String[] oldValues = parameterMap.get(key);
             map.put(key, getSafeValues(oldValues));
         }
@@ -82,7 +79,7 @@ public class AntiSqlFilter {
     public static String getSafeValue(String oldValue) {
         StringBuilder sb = new StringBuilder(oldValue);
         String lowerCase = oldValue.toLowerCase();
-        for (String keyWord : keyWords) {
+        for (String keyWord : KEY_WORDS) {
             int x;
             while ((x = lowerCase.indexOf(keyWord)) >= 0) {
                 if (keyWord.length() == 1) {

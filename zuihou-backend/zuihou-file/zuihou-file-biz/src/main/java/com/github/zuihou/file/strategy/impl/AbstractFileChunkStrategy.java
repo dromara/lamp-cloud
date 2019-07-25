@@ -211,14 +211,15 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
     /**
      * 子类实现具体的合并操作
      *
-     * @param files
-     * @param path
-     * @param folder
-     * @param fileName
-     * @param md5
-     * @param ext
+     * @param files             文件
+     * @param path              路径
+     * @param folder            文件夹
+     * @param fileName          唯一名
+     * @param md5               文件md5
+     * @param submittedFileName 原始文件名
+     * @param ext               后缀
      * @return
-     * @throws Exception
+     * @throws IOException
      */
     protected abstract R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException;
 
