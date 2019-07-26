@@ -17,7 +17,7 @@
 
     <modules>
         <module>zuihou-gateway-server</module>
-        <!--        <module>zuihou-gateway-ratelimit</module>-->
+        <module>zuihou-gateway-ratelimit</module>
     </modules>
     <dependencyManagement>
         <dependencies>
