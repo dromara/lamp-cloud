@@ -24,7 +24,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 /**
  * 使得网关支持同一服务的多版本化。
  *
- * @author 潘定遥
+ * @author zuihou
  */
 @Component
 @Slf4j

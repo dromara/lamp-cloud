@@ -2,18 +2,16 @@
 
 ## 简介：
 基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的微服务 脚手架，
-具有统一授权、认证后台管理系统，其中包含具备用户管理、配置中心、存储系统、资源权限管理、
-网关API、OpenAPI管理、日志分析、任务和通知等多个模块，
+具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。
 核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、
 RibbitMQ、FastDFS等主要框架和中间件。
 
-希望能努力打造一套从 `基础框架` - `分布式微服务架构` - `持续集成` - 
-`自动化部署` - `系统监测` 的解决方案。
+希望能努力打造一套从 `基础框架` - `分布式微服务架构` - `持续集成` - `自动化部署` - `系统监测` 的解决方案。
 
 该项目为本人在学习过程中通过一些`其他的开源项目`，`资料`，`文章`进行整合的一个提供基础功能的项目。`本项目旨在实现基础能力，不设计具体业务。`
-目前国内的一些资料讲解和使用的SpringCloud版本都比较低，自己在基于现有的开源项目和资料学习的同时，
-一边以自己的一些想法改造搭建一个相对较新版本的项目。
+目前国内的一些资料讲解和使用的SpringCloud版本都比较低，而一些开源项目，则大多不适用于生产，
+自己在基于现有的开源项目和资料学习的同时，将一些想法和最佳实践落地为本项目。
 
 部署方面, 可以采用以下3种方式，并会陆续公布jenkins集合以下3种部署方式的脚本和配置文件：
 - jar部署
@@ -31,7 +29,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 [前端] https://github.com/zuihou/zuihou-admin-ui  (规划中)
 
-## 模块详解:
+## 功能点介绍:
  - 服务注册与调用：
 
 基于Eureka来实现的服务注册与调用，在Spring Cloud中使用Feign, 我们可以做到使用HTTP请求远程服务时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。
@@ -54,11 +52,31 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
  - 数据权限：
 
-实现了简单的数据权限
+利用基于Mybatis的DataScopeInterceptor拦截器实现了简单的数据权限
 
- - 定时任务调度器：
+- 优雅的Bean转换：
 
-基于xxl-jobs进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源） 
+采用Dozer组件来对 DTO、DO、PO等对象的优化转换
+
+- 前后端统一表单验证
+
+严禁的表单通常需要 前端+后端同时验证， 但传统的项目，均只能前后端各做一次检验， 后期规则变更，又得前后端同时修改。
+故在`hibernate-validator`的基础上封装了`zuihou-validator-starter`起步依赖，提供一个通用接口，可以获取需要校验表单的规则，然后前端使用后端返回的规则，
+以后若规则改变，只需要后端修改即可。
+
+- 防跨站脚本攻击（XSS）
+- 当前用户信息注入器
+- 在线API
+
+由于原生swagger-ui某些功能支持不够友好，故采用了国内开源的`swagger-bootstrap-ui`，并制作了stater，方便springboot用户使用。
+
+- 代码生成器
+
+基于Mybatis-plus-generator自定义了一套代码生成器， 通过配置数据库字段的注释，自动生成枚举类、数据字典注解、SaveDTO、UpdateDTO、表单验证规则注解、Swagger注解等。
+
+- 定时任务调度器：
+
+基于xxl-jobs进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
 
 
 
@@ -72,35 +90,43 @@ RibbitMQ、FastDFS等主要框架和中间件。
     - 数据库： MySQL 5.7.9 (驱动6.0.6)
     - 定时器：采用xxl-jobs项目进行二次改造
     - Java模版：Thymeleaf  3.0.6.RELEASE
-    - 前端：Bootstrap + Vue2.0
+    - 前端：vue 
+    - 持久层框架： Mybatis-plus 
+    - 代码生成器：基于Mybatis-plus-generator自定义  [https://github.com/zuihou/zuihou-generator.git]
     - API网关：Zuul 
     - 服务注册与发现：Eureka 
-    - 代码生成器：Mybatis-plus  https://github.com/zuihou/zuihou-generator.git
     - 服务消费：OpenFeign
     - 负载均衡：Ribbon
     - 配置中心：Nacos
     - 服务熔断：Hystrix
     - 项目构建：Maven 3.3
-    - 文件服务器：FastDFS 5.0.5
+    - 文件服务器：FastDFS 5.0.5/阿里云OSS/七牛/本地存储
     - Nginx
 - 部署方面：
     - 服务器：CentOS
     - Jenkins
-    - Docker
-    - Kubernetes
+    - Docker 18.09
+    - Kubernetes 1.12
 
 本代码采用 Intellij IDEA(2018.1 EAP) 来编写，但源码与具体的 IDE 无关。
 
+## 感谢：
+- swagger-bootstrap-ui
+- mybatis-plus
+- xxl-jobs
+- hutool
+- 
+
 ## 约定：
 
-- zuihou-xxx-api 项目中提供feign客户端，dto
+- zuihou-xxx-api 模块中提供feign客户端
 - 区分po、dto，不要把po中的所有字段都返回给前端。 前端需要什么字段，就返回什么字段
 - 类名：首字母大写驼峰规则；方法名：首字母小写驼峰规则；常量：全大写；变量：首字母小写驼峰规则，尽量非缩写
-- 业务模块接口层命名为`项目`-`业务-api`，如`zuihou-authority-api`
-- 业务模块业务层命名为`项目`-`业务-biz`，如`zuihou-authority-biz`
-- 业务模块控制层命名为`项目`-`业务-controller`，如`zuihou-authority-controller`
-- 业务模块容器命名为`项目`-`业务-server`，如`zuihou-authority-server`
-- 数据表命名为：`子系统`_`表`，如`b_role`
+- 业务模块接口层命名为`项目-业务-api`，如`zuihou-authority-api`
+- 业务模块业务层命名为`项目-业务-biz`，如`zuihou-authority-biz`
+- 业务模块控制层命名为`项目-业务-controller`，如`zuihou-authority-controller`
+- 业务模块容器命名为`项目-业务-server`，如`zuihou-authority-server`
+- 数据表命名为：`前缀_[模块_]表名`， 模块可有可无， 如`c_auth_role`、 `f_file`
 - 注释：
 ```
 表注释： 第一行用简短的文字来描述表的名称，会体现在Swagger中； 换行后对表进行详细介绍
@@ -111,7 +137,6 @@ RibbitMQ、FastDFS等主要框架和中间件。
 方法注释：  用 /** 开头的文档型注释， 并添加 @param @return 等参数
 ```
 - 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
-
 
 ## 小技巧
 - 多线程编译： clean install -T8 

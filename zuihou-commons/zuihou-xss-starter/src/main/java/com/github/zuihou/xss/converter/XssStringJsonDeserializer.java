@@ -12,9 +12,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.github.zuihou.xss.utils.XssUtils;
 
 /**
- * 所有的恒运enum反序列化工具
+ * 所有的enum反序列化工具
  *
- * @author 潘定遥
+ * @author zuihou
  */
 public class XssStringJsonDeserializer extends JsonDeserializer<String> {
     @Override

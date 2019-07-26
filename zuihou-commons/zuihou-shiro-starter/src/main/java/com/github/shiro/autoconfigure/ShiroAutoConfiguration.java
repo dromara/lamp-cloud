@@ -75,7 +75,6 @@ public class ShiroAutoConfiguration implements ApplicationContextAware {
         System.out.println("--------ShiroFilterFactoryBean-----------");
         securityManager.setRealm(realm);
 
-        //Map<String, String> filterDef = swapKeyValue(properties.getFilterChainDefinitions());
         log.info("过虑器配置: {}", properties.getFilterChainDefinitions());
         log.info("自定义过虑器: {}", registry.getFilterMap());
 

@@ -11,9 +11,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 /**
- * 所有的恒运enum反序列化工具
+ * enum反序列化工具
  *
- * @author 潘定遥
+ * @author zuihou
+ * @date 2019-07-25 22:15
  */
 public class EnumDeserializer extends StdDeserializer<Enum<?>> {
     public final static EnumDeserializer INSTANCE = new EnumDeserializer();

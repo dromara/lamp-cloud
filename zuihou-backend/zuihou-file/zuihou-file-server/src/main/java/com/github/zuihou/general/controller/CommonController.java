@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This is a Description
+ * 通用 控制器
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/25
  */
 @Slf4j
