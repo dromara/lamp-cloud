@@ -23,9 +23,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /***
+ * 配置
  *
- * @since:swagger-bootstrap-ui 1.0
- * @author <a href="mailto:xiaoymin@foxmail.com">xiaoymin@foxmail.com</a>
+ * @since: swagger-bootstrap-ui 1.0
+ * @author zuihou
+ * @date 2019-07-25 22:13
  * 2019/05/04 12:44
  */
 @EnableSwagger2

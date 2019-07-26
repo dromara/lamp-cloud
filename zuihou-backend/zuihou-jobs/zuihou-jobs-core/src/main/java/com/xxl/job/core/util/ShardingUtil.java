@@ -22,7 +22,7 @@ public class ShardingUtil {
     /**
      * 分片
      *
-     * @author tangyh
+     * @author zuihou
      * @date 2019-07-25 14:26
      */
     @ToString

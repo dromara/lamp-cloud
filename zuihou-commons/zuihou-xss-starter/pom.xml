@@ -43,7 +43,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <!-- 必须有这个jar 才能提示 -->

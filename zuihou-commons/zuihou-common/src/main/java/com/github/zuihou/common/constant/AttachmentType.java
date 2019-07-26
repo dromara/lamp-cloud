@@ -40,7 +40,7 @@ public class AttachmentType {
     /**
      * 权限管理系统中有关的的附件类型定义
      *
-     * @author 潘定遥
+     * @author zuihou
      */
     interface Authority {
         /**

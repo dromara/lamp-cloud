@@ -43,5 +43,4 @@ public class CustomSwaggerController {
         return "redirect:/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8");
     }
 
-
 }

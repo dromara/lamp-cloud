@@ -6,16 +6,14 @@ import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 
 /**
  * Created by whf on 3/20/16.
- * @date 2019-07-23 11:59
+ *
  * @author zuihou
+ * @date 2019-07-23 11:59
  */
 public class StatelessSubjectFactory extends DefaultWebSubjectFactory {
     @Override
     public Subject createSubject(SubjectContext context) {
-        System.out.println("-------createSubject-----");
-        // 不创建session
-        //context.setSessionCreationEnabled(false);
-
+        //context.setSessionCreationEnabled(false);// 不创建session
         return super.createSubject(context);
     }
 }

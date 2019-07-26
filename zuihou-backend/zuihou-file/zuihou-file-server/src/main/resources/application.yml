@@ -208,20 +208,6 @@ hystrix:
           thread:
             timeoutInMilliseconds: 120000  # 熔断超时 ribbon和hystrix是同时生效的，哪个值小哪个生效
 
-#swagger:
-#  #  markdowns: classpath:markdown/*
-#  docket-info:
-#    file:
-#      title: 文件服务
-#      description: 文件服务接口
-#      modules:
-#        priFile:
-#          group-name: ${swagger.docket-info.file.description}
-#          packages: com.github.zuihou.file.controller
-#  contact-name: 中科恒运
-#  contact-url: https://github.com/zuihou/zuihou-admin-cloud.git
-#  contact-email: 244387066@qq.com
-
 id-generator:
   machine-code: 1  # id生成器机器掩码
 

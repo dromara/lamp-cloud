@@ -13,7 +13,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
-    <description>中科恒运Spring Boot 2.0项目依赖管理</description>
+    <description>Spring Boot 2.0项目依赖管理</description>
     <url>https://gitee.com/zuihou111/zuihou-admin-cloud</url>
     <licenses>
         <license>
@@ -129,22 +129,6 @@
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
-            <!-- mybatis -->
-            <!--<dependency>-->
-            <!--<groupId>org.mybatis</groupId>-->
-            <!--<artifactId>mybatis</artifactId>-->
-            <!--<version>${mybatis.version}</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>org.mybatis</groupId>-->
-            <!--<artifactId>mybatis-spring</artifactId>-->
-            <!--<version>${mybatis.spring.version}</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>org.mybatis.spring.boot</groupId>-->
-            <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
-            <!--<version>${springboot.mybatis.version}</version>-->
-            <!--</dependency>-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -155,12 +139,6 @@
                 <artifactId>mybatis-plus</artifactId>
                 <version>${mybatisplus.version}</version>
             </dependency>
-            <!--<dependency>-->
-            <!--<groupId>com.baomidou</groupId>-->
-            <!--<artifactId>mybatis-plus-core</artifactId>-->
-            <!--<version>${mybatisplus.version}</version>-->
-            <!--</dependency>-->
-
 
             <dependency>
                 <groupId>mysql</groupId>

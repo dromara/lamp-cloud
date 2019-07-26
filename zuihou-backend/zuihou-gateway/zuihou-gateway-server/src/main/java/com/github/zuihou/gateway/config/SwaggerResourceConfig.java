@@ -26,10 +26,10 @@ import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
 /***
- *
+ * 资源配置
  * @since:swagger-bootstrap-ui 1.0
- * @author <a href="mailto:xiaoymin@foxmail.com">xiaoymin@foxmail.com</a> 
- * 2019/05/04 12:38
+ * @author zuihou
+ * @date 2019-07-25 22:13
  */
 @Component
 @Primary

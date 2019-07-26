@@ -5,7 +5,7 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.update.LbuWrapper;
 
 /**
- * 恒运Wrappers 工具类， 该方法的主要目的是为了 缩短代码长度
+ * Wrappers 工具类， 该方法的主要目的是为了 缩短代码长度
  *
  * @author zuihou
  * @date 2019/06/14

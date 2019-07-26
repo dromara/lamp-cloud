@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * * 文件服务（gxqpt-file 项目）相关的异常代码
+ * * 文件服务 file 项目相关的异常代码
  * * 60000~64999, 每个子模块加500， 每个异常代码+1
  *
  * @author zuihou

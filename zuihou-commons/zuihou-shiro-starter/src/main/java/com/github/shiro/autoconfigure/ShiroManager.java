@@ -54,7 +54,6 @@ public class ShiroManager {
     @Bean(name = "lifecycleBeanPostProcessor")
     @ConditionalOnMissingBean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        System.out.println("---------------1----------------");
         return new LifecycleBeanPostProcessor();
     }
 
@@ -65,22 +64,18 @@ public class ShiroManager {
     @Bean(name = "shiroCacheManager")
     @ConditionalOnMissingBean
     public CacheManager cacheManager() {
-        System.out.println("---------------2----------------");
         return new MemoryConstrainedCacheManager();
     }
 
     @Bean(name = "securityManager")
     @ConditionalOnMissingBean
     public DefaultSecurityManager securityManager(CacheManager shiroCacheManager) {
-        System.out.println("---------------DefaultSecurityManager----------------");
         DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();
-        //dwsm.setRealm();
         dwsm.setSessionManager(defaultSessionManager());
 
-        // 关闭session存储
-        //((DefaultSessionStorageEvaluator) ((DefaultSubjectDAO) dwsm.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false);
-
-//      <!-- 用户授权/认证信息Cache, 采用内存 缓存 -->
+        /*// 关闭session存储
+        //((DefaultSessionStorageEvaluator) ((DefaultSubjectDAO) dwsm.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false); //
+        // 用户授权/认证信息Cache, 采用内存 缓存 */
         dwsm.setCacheManager(shiroCacheManager);
 
         SecurityUtils.setSecurityManager(dwsm);
@@ -90,17 +85,16 @@ public class ShiroManager {
     @Bean
     @ConditionalOnMissingBean
     public DefaultSessionManager defaultSessionManager() {
-        System.out.println("-------------DefaultSessionManager-------------");
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         //设置session过期时间为2小时(单位：毫秒)，默认为30分钟
         sessionManager.setGlobalSessionTimeout(2 * 60 * 60 * 1000);
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
 
-        //如果开启redis缓存且 shiro.redis=true，则shiro session存到redis里
+        /*//如果开启redis缓存且 shiro.redis=true，则shiro session存到redis里
         //if(redisOpen && shiroRedis){
-        //    sessionManager.setSessionDAO(redisShiroSessionDAO);
-        //}
+        //    sessionManager.setSessionDAO(redisShiroSessionDAO);  //
+        //}*/
         return sessionManager;
     }
 
@@ -113,7 +107,6 @@ public class ShiroManager {
     @Bean
     @ConditionalOnMissingBean
     public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(DefaultSecurityManager securityManager) {
-        System.out.println("---------------3----------------");
         AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
         aasa.setSecurityManager(securityManager);
         return new AuthorizationAttributeSourceAdvisor();

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 2、尤其需要考虑在短时间内大量调用生成器，也保证不要出现重复
  * 3、实现类必须是线程安全的，因为会应用在多线程环境中去
  *
- * @author 潘定遥
+ * @author zuihou
  * @since
  */
 @FunctionalInterface
