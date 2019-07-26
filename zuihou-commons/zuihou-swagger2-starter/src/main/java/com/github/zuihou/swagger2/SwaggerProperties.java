@@ -28,6 +28,7 @@ public class SwaggerProperties {
      * 标题
      **/
     private String title = "在线文档";
+    private String group = "";
     /**
      * 描述
      **/
@@ -173,6 +174,13 @@ public class SwaggerProperties {
             }
             return group;
         }
+    }
+
+    public String getGroup() {
+        if (group == null || "".equals(group)) {
+            return title;
+        }
+        return group;
     }
 
     @Data

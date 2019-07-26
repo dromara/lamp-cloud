@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.enumeration.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "Sex", description = "性别-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Sex {
+public enum Sex implements BaseEnum {
 
     /**
      * W="女"
@@ -60,6 +61,7 @@ public enum Sex {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "W,M", example = "W")
     public String getCode() {
         return this.name();

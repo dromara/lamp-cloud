@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.enumeration.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "ResourceType", description = "资源类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ResourceType {
+public enum ResourceType implements BaseEnum {
 
     /**
      * BUTTON="按钮"
@@ -64,6 +65,7 @@ public enum ResourceType {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "BUTTON,URI,COLUMN", example = "BUTTON")
     public String getCode() {
         return this.name();

@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.enumeration.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "AuthorizeType", description = "权限类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum AuthorizeType {
+public enum AuthorizeType implements BaseEnum {
 
     /**
      * MENU="菜单"
@@ -60,6 +61,7 @@ public enum AuthorizeType {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "MENU,RESOURCE", example = "MENU")
     public String getCode() {
         return this.name();

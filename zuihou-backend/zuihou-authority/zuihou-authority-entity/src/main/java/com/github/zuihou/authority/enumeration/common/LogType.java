@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.enumeration.common;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "LogType", description = "日志类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum LogType {
+public enum LogType implements BaseEnum {
 
     /**
      * OPT="操作类型"
@@ -60,6 +61,7 @@ public enum LogType {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "OPT,EX", example = "OPT")
     public String getCode() {
         return this.name();

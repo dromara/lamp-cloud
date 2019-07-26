@@ -1,6 +1,7 @@
 package com.github.zuihou.database.mybatis.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "DataScopeType", description = "数据权限类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum DataScopeType {
+public enum DataScopeType implements BaseEnum {
 
     /**
      * ALL=1全部
@@ -90,6 +91,7 @@ public enum DataScopeType {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "ALL,THIS_LEVEL,THIS_LEVEL_CHILDREN,CUSTOMIZE,SELF", example = "ALL")
     public String getCode() {
         return this.name();

@@ -13,12 +13,15 @@ import java.util.List;
 import java.util.Set;
 
 import com.alibaba.fastjson.JSONArray;
+import com.github.zuihou.swagger2.SwaggerProperties;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -35,7 +38,14 @@ import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 @Primary
 @Slf4j
 public class SwaggerResourceConfig implements SwaggerResourcesProvider {
+    @Autowired
+    private SwaggerProperties swaggerProperties;
 
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
     @Autowired
     RouteLocator routeLocator;
@@ -48,7 +58,6 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
     @Override
     public List<SwaggerResource> get() {
         String url = "/swagger-resources";
-
         //获取所有router
         List<SwaggerResource> resources = new ArrayList<>();
         List<Route> routes = routeLocator.getRoutes();
@@ -71,6 +80,11 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                 log.info(route.getLocation() + "服务尚未启动,无法获取swagger信息");
             }
         }
+
+        if (swaggerProperties != null) {
+            resources.add(swaggerResource("gate-" + swaggerProperties.getTitle(), "/v2/api-docs?group=" + swaggerProperties.getTitle()));
+        }
+
         return resources;
     }
 
