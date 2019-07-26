@@ -67,7 +67,7 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
         // 没有分组
         if (swaggerProperties.getDocket().isEmpty()) {
             final Docket docket = createDocket(swaggerProperties);
-            configurableBeanFactory.registerSingleton("defaultDocket", docket);
+            configurableBeanFactory.registerSingleton(swaggerProperties.getTitle(), docket);
             docketList.add(docket);
             return docketList;
         }
@@ -176,10 +176,12 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
         return new Docket(DocumentationType.SWAGGER_2)
                 .host(swaggerProperties.getHost())
                 .apiInfo(apiInfo)
+                .groupName(swaggerProperties.getGroup())
                 .globalOperationParameters(
                         buildGlobalOperationParametersFromSwaggerProperties(
                                 swaggerProperties.getGlobalOperationParameters()))
                 .select()
+
                 .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
                 .paths(
                         Predicates.and(

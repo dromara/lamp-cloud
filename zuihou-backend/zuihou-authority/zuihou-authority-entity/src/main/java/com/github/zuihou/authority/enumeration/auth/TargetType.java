@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.enumeration.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "TargetType", description = "打开方式-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum TargetType {
+public enum TargetType implements BaseEnum {
 
     /**
      * SELF="_self""相同框架"
@@ -70,6 +71,7 @@ public enum TargetType {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "SELF,TOP,BLANK,PAREN", example = "SELF")
     public String getCode() {
         return this.name();

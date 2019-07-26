@@ -1,11 +1,13 @@
 package com.github.zuihou.file.enumeration;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 
 /**
  * <p>
@@ -20,8 +22,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "DataType", description = "数据类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum DataType {
-
+public enum DataType implements BaseEnum {
+    
     /**
      * DIR="目录"
      */
@@ -51,7 +53,6 @@ public enum DataType {
     @ApiModelProperty(value = "描述")
     private String desc;
 
-
     public static DataType match(String val, DataType def) {
         for (DataType enm : DataType.values()) {
             if (enm.name().equalsIgnoreCase(val)) {
@@ -77,6 +78,7 @@ public enum DataType {
     }
 
     @ApiModelProperty(value = "编码", allowableValues = "DIR,IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "DIR")
+    @Override
     public String getCode() {
         return this.name();
     }

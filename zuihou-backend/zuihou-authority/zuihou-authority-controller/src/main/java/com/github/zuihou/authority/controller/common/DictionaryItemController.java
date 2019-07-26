@@ -1,6 +1,10 @@
 package com.github.zuihou.authority.controller.common;
 
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.common.DictionaryItemSaveDTO;
 import com.github.zuihou.authority.dto.common.DictionaryItemUpdateDTO;
@@ -13,6 +17,8 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +32,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 /**
  * <p>
@@ -48,6 +58,68 @@ public class DictionaryItemController extends BaseController {
     private DictionaryItemService dictionaryItemService;
     @Autowired
     private DozerUtils dozer;
+
+    /**
+     * 根据字典编码查询字典条目的map集合
+     * <p>
+     * 将 List 转成 Map<String, Map<String, String>>
+     * key 是字典编码  value 是字典编码下的所有 字典条目。  字典条目的 key是条目编码， value是条目名称
+     * <p>
+     * eg:
+     * <p>
+     * list:
+     * <pre>
+     * dictionaryCode   dictionaryItemCode  name
+     * DIC_ZGXL         COLLEGE             本科
+     * DIC_ZGXL         BOSHI               博士
+     * ONLING_STATUS    WORKING             在职
+     * ONLING_STATUS    LEAVE               离职
+     * </pre>
+     * <p>
+     * 转成map：
+     * {
+     * "DIC_ZGXL": {
+     * "COLLEGE", "本科",
+     * "BOSHI", "博士",
+     * }
+     * "ONLING_STATUS": {
+     * "WORKING", "在职",
+     * "LEAVE", "离职",
+     * }
+     * }
+     *
+     * </p>
+     *
+     * @param codes 字典类型
+     * @return 查询结果
+     */
+    @ApiOperation(value = "根据字典编码查询字典条目的map集合", notes = "根据字典编码查询字典条目的map集合")
+    @GetMapping("/codes")
+    public R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes) {
+        LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
+                .in(DictionaryItem::getDictionaryCode, codes)
+                .eq(DictionaryItem::getIsDelete, false)
+                .eq(DictionaryItem::getIsEnable, true)
+                .orderByAsc(DictionaryItem::getSortvalue);
+        List<DictionaryItem> list = dictionaryItemService.list(query);
+
+        //TODO 求优化
+        //key 是字典编码
+        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
+
+        //需要返回的map
+        Map<String, Map<String, String>> typeCodeNameMap = new LinkedHashMap<>(typeMap.size());
+
+        typeMap.forEach((key, items) -> {
+            //将list 转成 map， key 是 条目编码， value 是 条目类型      // 但前端需需要名称， 所以还要转一次
+            ImmutableMap<String, DictionaryItem> itemCodeMap = Maps.uniqueIndex(items, DictionaryItem::getDictionaryItemCode);
+            // key 是条目编码 value 是条目名称
+            Map<String, String> codeNameMap = new LinkedHashMap(itemCodeMap.size());
+            itemCodeMap.forEach((code, item) -> codeNameMap.put(code, item.getName()));
+            typeCodeNameMap.put(key, codeNameMap);
+        });
+        return success(typeCodeNameMap);
+    }
 
     /**
      * 分页查询字典项
@@ -122,5 +194,6 @@ public class DictionaryItemController extends BaseController {
         dictionaryItemService.removeById(id);
         return success(true);
     }
+
 
 }

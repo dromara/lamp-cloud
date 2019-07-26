@@ -1,6 +1,7 @@
 package com.github.zuihou.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +17,7 @@ import lombok.Getter;
 @ApiModel(value = "HttpMethod", description = "HTTP方法-枚举")
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum HttpMethod {
+public enum HttpMethod implements BaseEnum {
     /**
      * GET:GET请求
      */
@@ -77,6 +78,7 @@ public enum HttpMethod {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "GET,POST,PUT,DELETE,PATCH,TRACE,HEAD,OPTIONS", example = "GET")
     public String getCode() {
         return this.name();

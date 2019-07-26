@@ -1,4 +1,4 @@
-package com.github.zuihou.gateway;
+package com.github.zuihou;
 
 import com.github.zuihou.auth.client.EnableAuthClient;
 
@@ -14,7 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients({"com.github.zuihou.gateway.feign"})
+@EnableFeignClients({"com.github.zuihou"})
 @EnableZuulProxy
 @EnableAuthClient
 public class GatewayServerApplication {

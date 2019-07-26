@@ -7,6 +7,10 @@ zuihou:
     eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
   context-path:
     eureka: /zuihou-eureka
+  swagger:
+    enabled: true
+    title: 网关模块
+    base-package: com.github.zuihou.gateway.controller
 
 logging:
   file: ${logging.path}/root.log
@@ -31,19 +35,6 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     default-property-inclusion: NON_NULL
-  sleuth:
-    sampler:
-      percentage: 0.01            # 采集比率 0-100  表示一百个请求     会记录多少请求调用跟踪链
-    integration:
-      enabled: false             # 集成
-    scheduled:
-      skip-pattern: "^org.*HystrixStreamTask$"
-  zipkin:
-    locator:
-      discovery:
-        enabled: true
-    service:
-      name: appid-gate   #zikpin中的endpoint-service-name   请设置为appid
   security:
     user:
       name: admin
