@@ -80,6 +80,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 
 
+
 ## 项目架构图
 ![frame.jpg](doc/image/项目相关/frame.jpg)
 

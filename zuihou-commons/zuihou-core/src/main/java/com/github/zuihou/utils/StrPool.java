@@ -76,4 +76,13 @@ public interface StrPool {
 
     String TEST = "test";
     String PROD = "prod";
+
+    /**
+     * 默认的根节点path
+     */
+    String DEF_ROOT_PATH = ",";
+    /**
+     * 默认的父id
+     */
+    Long DEF_PARENT_ID = 0L;
 }

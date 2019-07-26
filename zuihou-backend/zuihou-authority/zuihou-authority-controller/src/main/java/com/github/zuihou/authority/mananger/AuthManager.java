@@ -7,8 +7,8 @@ import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.service.auth.UserService;
-import com.github.zuihou.common.excode.ExceptionCode;
 import com.github.zuihou.exception.BizException;
+import com.github.zuihou.exception.code.ExceptionCode;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;

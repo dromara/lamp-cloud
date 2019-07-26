@@ -3,7 +3,7 @@ package com.github.zuihou.authority.dto.auth;
 import java.util.List;
 
 import com.github.zuihou.authority.entity.auth.Menu;
-import com.github.zuihou.common.utils.ITreeNode;
+import com.github.zuihou.model.ITreeNode;
 
 import io.swagger.annotations.ApiModel;
 import lombok.ToString;

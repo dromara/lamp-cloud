@@ -1,9 +1,11 @@
-package com.github.zuihou.common.utils;
+package com.github.zuihou.utils;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.github.zuihou.model.ITreeNode;
 
 import org.springframework.util.CollectionUtils;
 

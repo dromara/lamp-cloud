@@ -1,4 +1,4 @@
-package com.github.zuihou.common.utils;
+package com.github.zuihou.model;
 
 import java.io.Serializable;
 import java.util.List;

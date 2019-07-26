@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.excode.ExceptionCode;
+import com.github.zuihou.exception.code.ExceptionCode;
 
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.HttpHeaders;

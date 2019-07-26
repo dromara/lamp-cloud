@@ -50,13 +50,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
-import static com.github.zuihou.common.constant.CommonConstants.ROOT_PATH_DEF;
-import static com.github.zuihou.common.excode.ExceptionCode.BASE_VALID_PARAM;
+import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
 import static com.github.zuihou.utils.BizAssert.assertEquals;
 import static com.github.zuihou.utils.BizAssert.assertFalse;
 import static com.github.zuihou.utils.BizAssert.assertNotNull;
 import static com.github.zuihou.utils.BizAssert.assertTrue;
+import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
+import static com.github.zuihou.utils.StrPool.DEF_ROOT_PATH;
 import static java.util.stream.Collectors.groupingBy;
 
 /**
@@ -103,17 +103,17 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     @Override
     public FileAttrDO getFileAttrDo(Long folderId) {
-        String treePath = ROOT_PATH_DEF;
+        String treePath = DEF_ROOT_PATH;
         String folderName = "";
         Integer grade = 1;
         if (folderId == null || folderId <= 0) {
-            return new FileAttrDO(treePath, grade, folderName, PARENT_ID_DEF);
+            return new FileAttrDO(treePath, grade, folderName, DEF_PARENT_ID);
         }
         File folder = this.getById(folderId);
 
         if (folder != null && !folder.getIsDelete() && DataType.DIR.eq(folder.getDataType())) {
             folderName = folder.getSubmittedFileName();
-            treePath = StringUtils.join(folder.getTreePath(), folder.getId(), ROOT_PATH_DEF);
+            treePath = StringUtils.join(folder.getTreePath(), folder.getId(), DEF_ROOT_PATH);
             grade = folder.getGrade() + 1;
         }
         assertTrue(BASE_VALID_PARAM.build("文件夹层级不能超过10层"), grade <= 10);
@@ -125,8 +125,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     public FolderDTO saveFolder(FolderSaveDTO folderSaveDto) {
         File folder = dozerUtils.map2(folderSaveDto, File.class);
         if (folderSaveDto.getParentId() == null || folderSaveDto.getParentId() <= 0) {
-            folder.setFolderId(PARENT_ID_DEF);
-            folder.setTreePath(ROOT_PATH_DEF);
+            folder.setFolderId(DEF_PARENT_ID);
+            folder.setTreePath(DEF_ROOT_PATH);
             folder.setGrade(1);
         } else {
             File parent = super.getById(folderSaveDto.getParentId());
@@ -135,7 +135,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
             assertEquals(BASE_VALID_PARAM.build("父文件夹不存在"), DataType.DIR.name(), parent.getDataType().name());
             assertTrue(BASE_VALID_PARAM.build("文件夹层级不能超过10层"), parent.getGrade() < 10);
             folder.setFolderName(parent.getSubmittedFileName());
-            folder.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), ROOT_PATH_DEF));
+            folder.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), DEF_ROOT_PATH));
             folder.setGrade(parent.getGrade() + 1);
         }
         if (folderSaveDto.getOrderNum() == null) {

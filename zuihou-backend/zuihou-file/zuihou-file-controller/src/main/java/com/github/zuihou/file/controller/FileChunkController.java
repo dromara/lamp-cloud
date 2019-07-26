@@ -65,7 +65,7 @@ public class FileChunkController extends BaseController {
     @RequestMapping(value = "/md5Check", method = RequestMethod.POST)
     @ResponseBody
     public R<Boolean> saveMd5Check(@RequestParam(name = "md5") String md5,
-                                   @RequestParam(name = "folderId", defaultValue = "-1") Long folderId) {
+                                   @RequestParam(name = "folderId", defaultValue = "0") Long folderId) {
         Long accountId = getUserId();
         File file = fileChunkStrategy.md5Check(md5, folderId, accountId);
         return success(file != null ? true : false);
