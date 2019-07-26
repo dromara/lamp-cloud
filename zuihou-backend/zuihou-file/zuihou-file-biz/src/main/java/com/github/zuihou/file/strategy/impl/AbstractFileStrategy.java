@@ -17,7 +17,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.github.zuihou.common.excode.ExceptionCode.BASE_VALID_PARAM;
+import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
 
 
 /**

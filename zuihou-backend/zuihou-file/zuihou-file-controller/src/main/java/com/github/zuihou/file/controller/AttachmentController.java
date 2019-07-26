@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.github.zuihou.common.excode.ExceptionCode.BASE_VALID_PARAM;
+import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
 import static com.github.zuihou.utils.BizAssert.assertNotEmpty;
 import static com.github.zuihou.utils.BizAssert.assertNotNull;
 import static java.util.stream.Collectors.groupingBy;

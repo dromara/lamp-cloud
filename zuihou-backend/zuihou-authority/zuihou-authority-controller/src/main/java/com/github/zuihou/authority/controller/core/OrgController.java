@@ -29,8 +29,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
-import static com.github.zuihou.common.constant.CommonConstants.ROOT_PATH_DEF;
+import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
+import static com.github.zuihou.utils.StrPool.DEF_ROOT_PATH;
+
 
 /**
  * <p>
@@ -94,13 +95,13 @@ public class OrgController extends BaseController {
     public R<Org> save(@RequestBody @Validated OrgSaveDTO data) {
         Org org = dozer.map(data, Org.class);
         if (org.getParentId() == null || org.getParentId() <= 0) {
-            org.setParentId(PARENT_ID_DEF);
-            org.setTreePath(ROOT_PATH_DEF);
+            org.setParentId(DEF_PARENT_ID);
+            org.setTreePath(DEF_ROOT_PATH);
         } else {
             Org parent = orgService.getById(org.getParentId());
             BizAssert.assertNotNull(parent, "父组织不能为空");
 
-            org.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), ROOT_PATH_DEF));
+            org.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), DEF_ROOT_PATH));
         }
         orgService.save(org);
         return success(org);

@@ -10,8 +10,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.excode.ExceptionCode;
 import com.github.zuihou.exception.BizException;
+import com.github.zuihou.exception.code.ExceptionCode;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +34,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-import static com.github.zuihou.common.excode.ExceptionCode.METHOD_NOT_ALLOWED;
-import static com.github.zuihou.common.excode.ExceptionCode.REQUIRED_FILE_PARAM_EX;
+import static com.github.zuihou.exception.code.ExceptionCode.METHOD_NOT_ALLOWED;
+import static com.github.zuihou.exception.code.ExceptionCode.REQUIRED_FILE_PARAM_EX;
 
 
 /**

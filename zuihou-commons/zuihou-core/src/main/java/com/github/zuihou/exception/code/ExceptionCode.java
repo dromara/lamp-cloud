@@ -1,7 +1,5 @@
-package com.github.zuihou.common.excode;
+package com.github.zuihou.exception.code;
 
-
-import com.github.zuihou.exception.code.BaseExceptionCode;
 
 /**
  * 全局错误码 10000-15000

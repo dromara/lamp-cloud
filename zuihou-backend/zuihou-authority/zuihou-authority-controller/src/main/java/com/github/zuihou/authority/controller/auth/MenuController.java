@@ -14,13 +14,13 @@ import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.id.CodeGenerate;
-import com.github.zuihou.common.utils.TreeUtil;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.NumberHelper;
 import com.github.zuihou.utils.StrHelper;
+import com.github.zuihou.utils.TreeUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,7 +39,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
+import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
+
 
 /**
  * <p>
@@ -111,7 +112,7 @@ public class MenuController extends BaseController {
         menu.setCode(StrHelper.getOrDef(menu.getCode(), codeGenerate.next()));
         menu.setIsEnable(NumberHelper.getOrDef(menu.getIsEnable(), true));
         menu.setIsPublic(NumberHelper.getOrDef(menu.getIsPublic(), false));
-        menu.setParentId(NumberHelper.getOrDef(menu.getParentId(), PARENT_ID_DEF));
+        menu.setParentId(NumberHelper.getOrDef(menu.getParentId(), DEF_PARENT_ID));
 
         menuService.save(menu);
         return success(menu);

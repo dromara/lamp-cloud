@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.github.zuihou.common.constant.CommonConstants.PARENT_ID_DEF;
+import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
 
 
 /**
@@ -36,7 +36,7 @@ public class FileRestManager {
 
         //类型和文件夹id同时为null时， 表示查询 全部文件
         if (filePageReq.getFolderId() == null && filePageReq.getDataType() == null) {
-            filePageReq.setFolderId(PARENT_ID_DEF);
+            filePageReq.setFolderId(DEF_PARENT_ID);
         }
 
         QueryWrapper<File> query = new QueryWrapper<>();
