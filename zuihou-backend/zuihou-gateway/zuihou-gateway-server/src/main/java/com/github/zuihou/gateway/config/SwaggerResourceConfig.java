@@ -82,7 +82,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
         }
 
         if (swaggerProperties != null) {
-            resources.add(swaggerResource("gate-" + swaggerProperties.getTitle(), "/v2/api-docs?group=" + swaggerProperties.getTitle()));
+            resources.add(swaggerResource(swaggerProperties.getTitle(), "/v2/api-docs?group=" + swaggerProperties.getTitle()));
         }
 
         return resources;
