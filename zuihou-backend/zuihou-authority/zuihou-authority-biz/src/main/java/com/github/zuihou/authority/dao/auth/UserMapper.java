@@ -1,12 +1,9 @@
 package com.github.zuihou.authority.dao.auth;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.database.mybatis.auth.DataScope;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -24,13 +21,11 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper extends BaseMapper<User> {
 
     /**
-     * 分页查询用户信息（含角色）
+     * 根据角色id，查询已关联用户
      *
-     * @param page         分页
-     * @param queryWrapper 查询参数
-     * @param dataScope
-     * @return list
+     * @param roleId
+     * @param keyword
+     * @return
      */
-    IPage<User> findUserPage(Page page, @Param(Constants.WRAPPER) Wrapper<User> queryWrapper, DataScope dataScope);
-
+    List<User> findUserByRoleId(@Param("roleId") Long roleId, @Param("keyword") String keyword);
 }

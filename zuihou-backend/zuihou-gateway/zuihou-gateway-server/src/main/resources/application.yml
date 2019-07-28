@@ -70,7 +70,7 @@ server:
 
 eureka:
   instance:
-    status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}${spring.mvc.servlet.path}/doc.html
+    status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}${spring.mvc.servlet.path}/doc.html?showMenuApi=1&showDes=1&plus=1&cache=1&cacheApi=1&lang=zh
     status-page-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}/info
     health-check-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}/health
     home-page-url-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}

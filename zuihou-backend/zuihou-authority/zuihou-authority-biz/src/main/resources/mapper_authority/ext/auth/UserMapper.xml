@@ -2,5 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.zuihou.authority.dao.auth.UserMapper">
 
+    <select id="findUserByRoleId" resultMap="BaseResultMap" parameterType="map">
+        SELECT id, account, name, mobile, sex
+        FROM c_auth_user u
+        INNER JOIN c_auth_user_role ur on u.id = ur.user_id
+        where ur.role_id = #{roleId, jdbcType=BIGINT}
+        <if test="keyword != null and keyword != ''">
+            and (u.account like #{keyword, typeHandler=fullLike} or u.`name` like #{keyword, typeHandler=fullLike})
+        </if>
+    </select>
 
 </mapper>

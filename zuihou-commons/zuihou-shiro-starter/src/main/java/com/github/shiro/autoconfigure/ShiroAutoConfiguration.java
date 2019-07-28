@@ -54,7 +54,6 @@ public class ShiroAutoConfiguration implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
-        System.out.println("---------------4----------------");
         this.applicationContext = applicationContext;
     }
 
@@ -62,7 +61,7 @@ public class ShiroAutoConfiguration implements ApplicationContextAware {
     @DependsOn("lifecycleBeanPostProcessor")
     @ConditionalOnMissingBean
     public Realm realm() {
-        System.out.println("---------------4----------------");
+        log.info("---------------4----------------");
         Class<?> relmClass = properties.getRealm();
         return (Realm) applicationContext.getBean(relmClass);
     }
@@ -72,7 +71,7 @@ public class ShiroAutoConfiguration implements ApplicationContextAware {
     @ConditionalOnMissingBean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultSecurityManager securityManager, Realm realm,
                                                             com.github.shiro.autoconfigure.ShiroFilterRegistry registry) {
-        System.out.println("--------ShiroFilterFactoryBean-----------");
+        log.info("--------ShiroFilterFactoryBean-----------");
         securityManager.setRealm(realm);
 
         log.info("过虑器配置: {}", properties.getFilterChainDefinitions());

@@ -45,16 +45,6 @@ public class ResourceUpdateDTO implements Serializable {
     private Long id;
 
     /**
-     * 资源编码
-     * 规则：
-     * 链接：
-     * 数据列：
-     * 按钮：
-     */
-    @ApiModelProperty(value = "资源编码")
-    @Length(max = 255, message = "资源编码长度不能超过255")
-    private String code;
-    /**
      * 资源类型
      * #ResourceType{BUTTON:按钮;URI:链接;COLUMN:字段;}
      */

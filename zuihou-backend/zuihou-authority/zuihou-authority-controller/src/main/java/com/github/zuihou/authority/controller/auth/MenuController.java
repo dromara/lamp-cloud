@@ -110,6 +110,10 @@ public class MenuController extends BaseController {
         Menu menu = dozer.map(data, Menu.class);
 
         menu.setCode(StrHelper.getOrDef(menu.getCode(), codeGenerate.next()));
+        if (menuService.count(Wraps.<Menu>lbQ().eq(Menu::getCode, menu.getCode())) > 0) {
+            return validFail("编码[%s]重复", menu.getCode());
+        }
+
         menu.setIsEnable(NumberHelper.getOrDef(menu.getIsEnable(), true));
         menu.setIsPublic(NumberHelper.getOrDef(menu.getIsPublic(), false));
         menu.setParentId(NumberHelper.getOrDef(menu.getParentId(), DEF_PARENT_ID));
@@ -117,6 +121,7 @@ public class MenuController extends BaseController {
         menuService.save(menu);
         return success(menu);
     }
+
 
     /**
      * 修改菜单
@@ -130,7 +135,6 @@ public class MenuController extends BaseController {
     public R<Menu> update(@RequestBody @Validated(SuperEntity.Update.class) MenuUpdateDTO data) {
         Menu menu = dozer.map(data, Menu.class);
 
-        menu.setCode(null);
         menuService.updateById(menu);
 
         // 修改冗余 菜单名称

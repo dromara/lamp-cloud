@@ -1,10 +1,21 @@
 package com.github.zuihou.authority.controller.auth;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
 import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
 import com.github.zuihou.authority.dto.auth.RoleUpdateDTO;
+import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.entity.auth.Role;
+import com.github.zuihou.authority.entity.auth.RoleAuthority;
+import com.github.zuihou.authority.entity.auth.UserRole;
+import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
+import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.authority.service.auth.RoleService;
+import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -45,6 +56,10 @@ public class RoleController extends BaseController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
+    private RoleAuthorityService roleAuthorityService;
     @Autowired
     private DozerUtils dozer;
 
@@ -120,4 +135,64 @@ public class RoleController extends BaseController {
         return success(true);
     }
 
+    /**
+     * 给角色分配用户
+     *
+     * @param userRole 用户角色授权对象
+     * @return 新增结果
+     */
+    @ApiOperation(value = "给角色分配用户", notes = "给角色分配用户")
+    @PostMapping("/user")
+    @SysLog("给角色分配用户")
+    public R<Boolean> saveUserRole(@RequestBody UserRoleSaveDTO userRole) {
+        roleAuthorityService.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, userRole.getRoleId()));
+        List<UserRole> list = userRole.getUserIdList()
+                .stream()
+                .map((userId) -> UserRole.builder()
+                        .userId(userId)
+                        .roleId(userRole.getRoleId())
+                        .build())
+                .collect(Collectors.toList());
+        return success(userRoleService.saveBatch(list));
+    }
+
+    /**
+     * 给角色配置权限
+     *
+     * @param roleAuthoritySaveDTO 角色权限授权对象
+     * @return 新增结果
+     */
+    @ApiOperation(value = "给角色配置权限", notes = "给角色配置权限")
+    @PostMapping("/menu")
+    @SysLog("给角色配置权限")
+    public R<Boolean> save(@RequestBody RoleAuthoritySaveDTO roleAuthoritySaveDTO) {
+        List<RoleAuthority> list = new ArrayList<>();
+
+        roleAuthorityService.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleAuthoritySaveDTO.getRoleId()));
+
+        if (roleAuthoritySaveDTO.getMenuIdList().isEmpty()) {
+            List<RoleAuthority> menuList = roleAuthoritySaveDTO.getMenuIdList()
+                    .stream()
+                    .map((menuId) -> RoleAuthority.builder()
+                            .authorityType(AuthorizeType.MENU)
+                            .authorityId(menuId)
+                            .roleId(roleAuthoritySaveDTO.getRoleId())
+                            .build())
+                    .collect(Collectors.toList());
+            list.addAll(menuList);
+        }
+        if (roleAuthoritySaveDTO.getResourceIdList().isEmpty()) {
+            List<RoleAuthority> resourceList = roleAuthoritySaveDTO.getResourceIdList()
+                    .stream()
+                    .map((resourceId) -> RoleAuthority.builder()
+                            .authorityType(AuthorizeType.RESOURCE)
+                            .authorityId(resourceId)
+                            .roleId(roleAuthoritySaveDTO.getRoleId())
+                            .build())
+                    .collect(Collectors.toList());
+            list.addAll(resourceList);
+        }
+        roleAuthorityService.saveBatch(list);
+        return success();
+    }
 }

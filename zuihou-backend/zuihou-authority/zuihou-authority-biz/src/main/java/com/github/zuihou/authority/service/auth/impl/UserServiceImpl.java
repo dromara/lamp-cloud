@@ -48,6 +48,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private OrgService orgService;
 
     @Override
+    public List<User> findUserByRoleId(Long roleId, String keyword) {
+        return baseMapper.findUserByRoleId(roleId, keyword);
+    }
+
+    @Override
     public Map<String, Object> getDataScopeById(Long userId) {
         Map<String, Object> map = new HashMap<>(2);
         List<Long> orgIds = new ArrayList<>();

@@ -1,10 +1,9 @@
 package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
-
-import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -38,20 +37,18 @@ public class RoleAuthoritySaveDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 资源id
-     * #c_auth_resource
+     * 菜单ID
      * #c_auth_menu
      */
-    @ApiModelProperty(value = "资源id")
-    @NotNull(message = "资源id不能为空")
-    private Long authorityId;
+    @ApiModelProperty(value = "资源ID")
+    private List<Long> menuIdList;
+
     /**
-     * 权限类型
-     * #AuthorizeType{MENU:菜单;RESOURCE:资源;}
+     * 资源id
+     * #c_auth_resource
      */
-    @ApiModelProperty(value = "权限类型")
-    @NotNull(message = "权限类型不能为空")
-    private AuthorizeType authorityType;
+    private List<Long> resourceIdList;
+
     /**
      * 角色id
      * #c_auth_role

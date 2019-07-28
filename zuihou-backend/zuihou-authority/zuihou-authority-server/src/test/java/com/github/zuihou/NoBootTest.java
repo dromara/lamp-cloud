@@ -62,7 +62,7 @@ public class NoBootTest {
         dto.setAge(1L).setCode("1").setNotnull(1L).setEmail("q@q").setUrl("http:");
         Set<ConstraintViolation<ValidatorDTO>> validate = getValidator().validate(dto);
         for (ConstraintViolation<ValidatorDTO> c : validate) {
-            System.out.println(c.getMessage());
+            log.info(c.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class NoBootTest {
         jwtInfo.setStationId(1L);
         jwtInfo.setUserId(1L);
         Token token = JwtHelper.generateUserToken(jwtInfo, "client/pub.key", 2700);
-        System.out.println(token);
+        log.info("{}", token);
     }
 }
 

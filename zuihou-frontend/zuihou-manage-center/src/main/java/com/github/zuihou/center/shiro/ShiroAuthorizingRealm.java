@@ -32,7 +32,7 @@ public class ShiroAuthorizingRealm extends AuthorizingRealm {
      */
     public ShiroAuthorizingRealm() {
         super();
-        System.out.println("--------------5---ShiroAuthorizingRealm-------------");
+        log.info("--------------5---ShiroAuthorizingRealm-------------");
         setAuthenticationTokenClass(UsernamePasswordToken.class);
     }
 
