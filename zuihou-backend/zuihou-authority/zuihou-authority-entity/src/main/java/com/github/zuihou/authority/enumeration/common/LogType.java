@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -19,6 +20,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(value = "LogType", description = "日志类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum LogType implements BaseEnum {

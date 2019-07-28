@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 日期类型
@@ -14,6 +15,7 @@ import lombok.Getter;
  * @date 2018/12/29
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @ApiModel(value = "DateType", description = "日期类型-枚举")

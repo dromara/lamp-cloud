@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -21,6 +22,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "Sex", description = "性别-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@NoArgsConstructor
 public enum Sex implements BaseEnum {
 
     /**
