@@ -38,7 +38,7 @@ public class SysStation {
     /**
      * 排序
      */
-    private Integer sortvalue;
+    private Integer sortValue;
 
     /**
      * 状态

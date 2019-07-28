@@ -42,7 +42,7 @@ public class SysOrg {
     /**
      * 排序
      */
-    private Integer sortvalue;
+    private Integer sortValue;
 
     /**
      * 状态

@@ -19,7 +19,7 @@
         and ra.authority_type = 'MENU'
         )
         )
-        ORDER BY sortvalue asc
+        ORDER BY sort_value asc
     </select>
 
 
