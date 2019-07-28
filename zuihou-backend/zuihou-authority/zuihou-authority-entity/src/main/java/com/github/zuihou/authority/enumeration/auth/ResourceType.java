@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -18,6 +19,7 @@ import lombok.Getter;
  * @date 2019-07-28
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "ResourceType", description = "资源类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)

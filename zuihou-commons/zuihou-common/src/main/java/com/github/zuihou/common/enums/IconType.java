@@ -2,6 +2,7 @@ package com.github.zuihou.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 图标 常量
@@ -10,6 +11,7 @@ import lombok.Getter;
  * @date 2019-06-12
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public enum IconType {
     /**

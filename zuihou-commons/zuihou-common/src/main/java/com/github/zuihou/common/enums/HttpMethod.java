@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * HTTP方法枚举
@@ -16,6 +17,7 @@ import lombok.Getter;
 @Getter
 @ApiModel(value = "HttpMethod", description = "HTTP方法-枚举")
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum HttpMethod implements BaseEnum {
     /**
