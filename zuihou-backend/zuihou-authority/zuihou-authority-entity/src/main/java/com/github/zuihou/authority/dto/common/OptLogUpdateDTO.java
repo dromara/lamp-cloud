@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-02
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -67,7 +67,7 @@ public class OptLogUpdateDTO implements Serializable {
      * 操作描述
      */
     @ApiModelProperty(value = "操作描述")
-    @Length(max = 50, message = "操作描述长度不能超过50")
+    @Length(max = 255, message = "操作描述长度不能超过255")
     private String description;
     /**
      * 类路径

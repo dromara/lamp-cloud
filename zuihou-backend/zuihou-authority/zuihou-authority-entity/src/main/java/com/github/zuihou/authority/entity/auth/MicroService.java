@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -75,13 +75,13 @@ public class MicroService extends Entity<Long> {
      * 排序
      */
     @ApiModelProperty(value = "排序")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @TableField("sort_value")
+    private Integer sortValue;
 
 
     @Builder
     public MicroService(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                        String name, String describe, String eurekaCode, String swaggerUrl, Integer sortvalue) {
+                        String name, String describe, String eurekaCode, String swaggerUrl, Integer sortValue) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -91,7 +91,7 @@ public class MicroService extends Entity<Long> {
         this.describe = describe;
         this.eurekaCode = eurekaCode;
         this.swaggerUrl = swaggerUrl;
-        this.sortvalue = sortvalue;
+        this.sortValue = sortValue;
     }
 
 }

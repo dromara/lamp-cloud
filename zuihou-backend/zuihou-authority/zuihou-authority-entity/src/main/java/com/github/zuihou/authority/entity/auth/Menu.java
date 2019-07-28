@@ -3,11 +3,9 @@ package com.github.zuihou.authority.entity.auth;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.authority.enumeration.auth.MenuType;
 import com.github.zuihou.authority.enumeration.auth.TargetType;
 import com.github.zuihou.base.entity.Entity;
 
@@ -29,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -69,15 +67,6 @@ public class Menu extends Entity<Long> {
     private String code;
 
     /**
-     * 菜单类型
-     * #MenuType{MENU:菜单;DIR:目录;}
-     */
-    @ApiModelProperty(value = "菜单类型")
-    @NotNull(message = "菜单类型不能为空")
-    @TableField("menu_type")
-    private MenuType menuType;
-
-    /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见
      */
@@ -109,11 +98,11 @@ public class Menu extends Entity<Long> {
     private Boolean isEnable;
 
     /**
-     * 序号
+     * 排序
      */
-    @ApiModelProperty(value = "序号")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @ApiModelProperty(value = "排序")
+    @TableField("sort_value")
+    private Integer sortValue;
 
     /**
      * 菜单图标
@@ -141,8 +130,8 @@ public class Menu extends Entity<Long> {
 
     @Builder
     public Menu(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String describe, String code, MenuType menuType, Boolean isPublic,
-                String href, TargetType target, Boolean isEnable, Integer sortvalue, String icon, String group, Long parentId) {
+                String name, String describe, String code, Boolean isPublic, String href,
+                TargetType target, Boolean isEnable, Integer sortValue, String icon, String group, Long parentId) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -151,12 +140,11 @@ public class Menu extends Entity<Long> {
         this.name = name;
         this.describe = describe;
         this.code = code;
-        this.menuType = menuType;
         this.isPublic = isPublic;
         this.href = href;
         this.target = target;
         this.isEnable = isEnable;
-        this.sortvalue = sortvalue;
+        this.sortValue = sortValue;
         this.icon = icon;
         this.group = group;
         this.parentId = parentId;

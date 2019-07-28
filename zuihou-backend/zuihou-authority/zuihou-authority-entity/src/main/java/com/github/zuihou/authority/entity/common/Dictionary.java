@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -81,7 +81,6 @@ public class Dictionary extends Entity<Long> {
      * 是否启用
      */
     @ApiModelProperty(value = "是否启用")
-    @NotNull(message = "是否启用不能为空")
     @TableField("is_enable")
     private Boolean isEnable;
 
@@ -89,7 +88,6 @@ public class Dictionary extends Entity<Long> {
      * 是否删除
      */
     @ApiModelProperty(value = "是否删除")
-    @NotNull(message = "是否删除不能为空")
     @TableField("is_delete")
     private Boolean isDelete;
 

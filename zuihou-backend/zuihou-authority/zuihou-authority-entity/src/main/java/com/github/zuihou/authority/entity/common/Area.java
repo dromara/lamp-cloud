@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -71,8 +71,8 @@ public class Area extends Entity<Long> {
      * 排序
      */
     @ApiModelProperty(value = "排序")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @TableField("sort_value")
+    private Integer sortValue;
 
     /**
      * 经度
@@ -102,7 +102,6 @@ public class Area extends Entity<Long> {
      * 上级行政区码
      */
     @ApiModelProperty(value = "上级行政区码")
-    @NotEmpty(message = "上级行政区码不能为空")
     @Length(max = 64, message = "上级行政区码长度不能超过64")
     @TableField("parent_code")
     private String parentCode;
@@ -110,7 +109,7 @@ public class Area extends Entity<Long> {
 
     @Builder
     public Area(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                String name, String code, String fullName, Integer sortvalue, String longitude,
+                String name, String code, String fullName, Integer sortValue, String longitude,
                 String latitude, Integer level, String parentCode) {
         this.id = id;
         this.createTime = createTime;
@@ -120,7 +119,7 @@ public class Area extends Entity<Long> {
         this.name = name;
         this.code = code;
         this.fullName = fullName;
-        this.sortvalue = sortvalue;
+        this.sortValue = sortValue;
         this.longitude = longitude;
         this.latitude = latitude;
         this.level = level;

@@ -3,8 +3,6 @@ package com.github.zuihou.authority.dto.auth;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.validation.constraints.NotEmpty;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -23,7 +21,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-27
  */
 @Data
 @NoArgsConstructor
@@ -41,7 +39,6 @@ public class RoleSaveDTO implements Serializable {
      * 角色名称
      */
     @ApiModelProperty(value = "角色名称")
-    @NotEmpty(message = "角色名称不能为空")
     @Length(max = 30, message = "角色名称长度不能超过30")
     private String name;
     /**

@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -47,14 +47,6 @@ public class Application extends Entity<Long> {
     @Length(max = 100, message = "首页访问地址长度不能超过100")
     @TableField("index_url")
     private String indexUrl;
-
-    /**
-     * 应用程序的完整根路径
-     */
-    @ApiModelProperty(value = "应用程序的完整根路径")
-    @Length(max = 80, message = "应用程序的完整根路径长度不能超过80")
-    @TableField("full_root_path")
-    private String fullRootPath;
 
     /**
      * 应用名称
@@ -94,8 +86,8 @@ public class Application extends Entity<Long> {
      * 序号
      */
     @ApiModelProperty(value = "序号")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @TableField("sort_value")
+    private Integer sortValue;
 
     /**
      * 是否启用
@@ -139,20 +131,19 @@ public class Application extends Entity<Long> {
 
     @Builder
     public Application(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                       String indexUrl, String fullRootPath, String name, String logoUrl, String describe,
-                       String code, Integer sortvalue, Boolean isEnable, String icpCode, String titleIcon, String supportUnit, String commonRecord) {
+                       String indexUrl, String name, String logoUrl, String describe, String code,
+                       Integer sortValue, Boolean isEnable, String icpCode, String titleIcon, String supportUnit, String commonRecord) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
         this.indexUrl = indexUrl;
-        this.fullRootPath = fullRootPath;
         this.name = name;
         this.logoUrl = logoUrl;
         this.describe = describe;
         this.code = code;
-        this.sortvalue = sortvalue;
+        this.sortValue = sortValue;
         this.isEnable = isEnable;
         this.icpCode = icpCode;
         this.titleIcon = titleIcon;

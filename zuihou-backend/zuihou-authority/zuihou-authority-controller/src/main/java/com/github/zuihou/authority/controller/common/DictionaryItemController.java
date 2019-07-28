@@ -100,7 +100,7 @@ public class DictionaryItemController extends BaseController {
                 .in(DictionaryItem::getDictionaryCode, codes)
                 .eq(DictionaryItem::getIsDelete, false)
                 .eq(DictionaryItem::getIsEnable, true)
-                .orderByAsc(DictionaryItem::getSortvalue);
+                .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = dictionaryItemService.list(query);
 
         //TODO 求优化
@@ -112,7 +112,7 @@ public class DictionaryItemController extends BaseController {
 
         typeMap.forEach((key, items) -> {
             //将list 转成 map， key 是 条目编码， value 是 条目类型      // 但前端需需要名称， 所以还要转一次
-            ImmutableMap<String, DictionaryItem> itemCodeMap = Maps.uniqueIndex(items, DictionaryItem::getDictionaryItemCode);
+            ImmutableMap<String, DictionaryItem> itemCodeMap = Maps.uniqueIndex(items, DictionaryItem::getCode);
             // key 是条目编码 value 是条目名称
             Map<String, String> codeNameMap = new LinkedHashMap(itemCodeMap.size());
             itemCodeMap.forEach((code, item) -> codeNameMap.put(code, item.getName()));

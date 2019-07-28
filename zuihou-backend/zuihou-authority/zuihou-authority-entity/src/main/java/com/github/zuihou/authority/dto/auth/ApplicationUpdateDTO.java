@@ -25,7 +25,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-27
  */
 @Data
 @NoArgsConstructor
@@ -49,12 +49,6 @@ public class ApplicationUpdateDTO implements Serializable {
     @ApiModelProperty(value = "首页访问地址")
     @Length(max = 100, message = "首页访问地址长度不能超过100")
     private String indexUrl;
-    /**
-     * 应用程序的完整根路径
-     */
-    @ApiModelProperty(value = "应用程序的完整根路径")
-    @Length(max = 80, message = "应用程序的完整根路径长度不能超过80")
-    private String fullRootPath;
     /**
      * 应用名称
      */
@@ -85,7 +79,7 @@ public class ApplicationUpdateDTO implements Serializable {
      * 序号
      */
     @ApiModelProperty(value = "序号")
-    private Integer sortvalue;
+    private Integer sortValue;
     /**
      * 是否启用
      */
