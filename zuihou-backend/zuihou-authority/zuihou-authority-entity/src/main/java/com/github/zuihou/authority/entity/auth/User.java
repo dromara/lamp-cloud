@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -162,7 +162,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "密码")
     @NotEmpty(message = "密码不能为空")
-    @Length(max = 32, message = "密码长度不能超过32")
+    @Length(max = 64, message = "密码长度不能超过64")
     @TableField("password")
     private String password;
 

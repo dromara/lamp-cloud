@@ -116,6 +116,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - mybatis-plus
 - xxl-jobs
 - hutool
+- guava
 - 
 
 ## 约定：
@@ -179,11 +180,20 @@ RibbitMQ、FastDFS等主要框架和中间件。
 │  |  ├─zuihou-jobs---------------------------定时任务调度执行器
 │  │ 
 │  ├─zuihou-commons--------------------------公共模块（这里一直没想好怎么调整，有想法的朋友可以给我留言）
-│  |  ├─zuihou-common------------------------项目公共模块
-│  |  ├─zuihou-core--------------------------项目核心模块
+│  |  ├─zuihou-common------------------------项目业务模块 （业务模块主要用于存放可能跟业务相关的公共代码）
+│  |  ├─zuihou-core--------------------------项目核心模块 （核心模块存放无业务逻辑的公共代码）
 │  |  ├─zuihou-databases---------------------项目数据源配置模块
-│  |  ├─zuihou-log---------------------------项目日志模块
-│  |  ├─zuihou-swagger2-starter--------------项目SwaggerUI文档配置
+│  |  ├─zuihou-dozer-starter-----------------优雅的bean转换起步依赖
+│  |  ├─zuihou-jwt-starter-------------------JWT起步依赖
+│  |  ├─zuihou-log-starter-------------------操作日志起步依赖
+│  |  ├─zuihou-openfeign-starter-------------OpenFeign常用配置起步依赖
+│  |  ├─zuihou-shiro-starter-----------------shiro起步依赖
+│  |  ├─zuihou-swagger2-starter--------------SwaggerUI文档配置
+│  |  ├─zuihou-user-starter------------------用户信息自动注入起步依赖
+│  |  ├─zuihou-validator-starter-------------增强表单前后端统一验证起步依赖
+│  |  ├─zuihou-xss-starter-------------------防XSS起步依赖
+│  │ 
+│  ├─zuihou-dependencies----------------------项目顶级pom
 │  │ 
 │  ├─zuihou-frontend--------------------------项目前端
 │  |  ├─zuihou-manage-center------------------管理后台

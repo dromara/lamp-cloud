@@ -26,7 +26,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -41,20 +41,20 @@ public class UserRole extends SuperEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色id
+     * 角色ID
      * #c_auth_role
      */
-    @ApiModelProperty(value = "角色id")
-    @NotNull(message = "角色id不能为空")
+    @ApiModelProperty(value = "角色ID")
+    @NotNull(message = "角色ID不能为空")
     @TableField("role_id")
     private Long roleId;
 
     /**
-     * 用户id
-     * #c_core_account
+     * 用户ID
+     * #c_core_accou
      */
-    @ApiModelProperty(value = "用户id")
-    @NotNull(message = "用户id不能为空")
+    @ApiModelProperty(value = "用户ID")
+    @NotNull(message = "用户ID不能为空")
     @TableField("user_id")
     private Long userId;
 

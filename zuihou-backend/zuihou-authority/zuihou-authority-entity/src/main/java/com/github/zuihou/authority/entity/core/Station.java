@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -58,8 +58,8 @@ public class Station extends Entity<Long> {
      * 排序
      */
     @ApiModelProperty(value = "排序")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @TableField("sort_value")
+    private Integer sortValue;
 
     /**
      * 状态
@@ -79,7 +79,7 @@ public class Station extends Entity<Long> {
 
     @Builder
     public Station(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                   String name, Long orgId, Integer sortvalue, Boolean status, String describe) {
+                   String name, Long orgId, Integer sortValue, Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -87,7 +87,7 @@ public class Station extends Entity<Long> {
         this.updateUser = updateUser;
         this.name = name;
         this.orgId = orgId;
-        this.sortvalue = sortvalue;
+        this.sortValue = sortValue;
         this.status = status;
         this.describe = describe;
     }

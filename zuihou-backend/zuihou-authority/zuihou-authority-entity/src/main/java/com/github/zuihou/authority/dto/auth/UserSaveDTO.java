@@ -23,11 +23,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- * 账号
+ * 用户
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-27
  */
 @Data
 @NoArgsConstructor
@@ -36,7 +36,7 @@ import org.hibernate.validator.constraints.Length;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "UserSaveDTO", description = "账号")
+@ApiModel(value = "UserSaveDTO", description = "用户")
 public class UserSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -128,7 +128,7 @@ public class UserSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "密码")
     @NotEmpty(message = "密码不能为空")
-    @Length(max = 32, message = "密码长度不能超过32")
+    @Length(max = 64, message = "密码长度不能超过64")
     private String password;
 
 }

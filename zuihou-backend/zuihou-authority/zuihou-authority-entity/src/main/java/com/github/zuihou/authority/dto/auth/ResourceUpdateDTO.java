@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-27
  */
 @Data
 @NoArgsConstructor
@@ -46,13 +46,17 @@ public class ResourceUpdateDTO implements Serializable {
 
     /**
      * 资源编码
+     * 规则：
+     * 链接：
+     * 数据列：
+     * 按钮：
      */
     @ApiModelProperty(value = "资源编码")
     @Length(max = 255, message = "资源编码长度不能超过255")
     private String code;
     /**
      * 资源类型
-     * #ResourceType{BUTTON:按钮;URI:链接;}
+     * #ResourceType{BUTTON:按钮;URI:链接;COLUMN:字段;}
      */
     @ApiModelProperty(value = "资源类型")
     @NotNull(message = "资源类型不能为空")
@@ -61,11 +65,9 @@ public class ResourceUpdateDTO implements Serializable {
      * 接口名称
      */
     @ApiModelProperty(value = "接口名称")
-    @Length(max = 255, message = "接口名称长度不能超过255")
     @NotEmpty(message = "接口名称不能为空")
+    @Length(max = 255, message = "接口名称长度不能超过255")
     private String name;
-
-
     /**
      * 服务ID
      * #c_auth_micro_service
@@ -73,15 +75,23 @@ public class ResourceUpdateDTO implements Serializable {
     @ApiModelProperty(value = "服务ID")
     private Long microServiceId;
     /**
-     * 菜单id
+     * 菜单ID
      * #c_auth_menu
      */
-    @NotNull(message = "菜单不能为空")
     @ApiModelProperty(value = "菜单ID")
     private Long menuId;
-
-    @NotEmpty(message = "菜单不能为空")
+    /**
+     * 菜单名称
+     */
     @ApiModelProperty(value = "菜单名称")
+    @Length(max = 255, message = "菜单名称长度不能超过255")
     private String menuName;
+
+    /**
+     * 接口描述
+     */
+    @ApiModelProperty(value = "接口描述")
+    @Length(max = 255, message = "接口描述长度不能超过255")
+    private String describe;
 
 }

@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -64,8 +64,8 @@ public class DictionaryItem extends Entity<Long> {
     @ApiModelProperty(value = "字典项编码")
     @NotEmpty(message = "字典项编码不能为空")
     @Length(max = 64, message = "字典项编码长度不能超过64")
-    @TableField("dictionary_item_code")
-    private String dictionaryItemCode;
+    @TableField("code")
+    private String code;
 
     /**
      * 名称
@@ -80,7 +80,6 @@ public class DictionaryItem extends Entity<Long> {
      * 是否启用
      */
     @ApiModelProperty(value = "是否启用")
-    @NotNull(message = "是否启用不能为空")
     @TableField("is_enable")
     private Boolean isEnable;
 
@@ -88,7 +87,6 @@ public class DictionaryItem extends Entity<Long> {
      * 是否删除
      */
     @ApiModelProperty(value = "是否删除")
-    @NotNull(message = "是否删除不能为空")
     @TableField("is_delete")
     private Boolean isDelete;
 
@@ -104,14 +102,14 @@ public class DictionaryItem extends Entity<Long> {
      * 排序
      */
     @ApiModelProperty(value = "排序")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @TableField("sort_value")
+    private Integer sortValue;
 
 
     @Builder
     public DictionaryItem(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                          Long dictionaryId, String dictionaryCode, String dictionaryItemCode, String name, Boolean isEnable,
-                          Boolean isDelete, String describe, Integer sortvalue) {
+                          Long dictionaryId, String dictionaryCode, String code, String name, Boolean isEnable,
+                          Boolean isDelete, String describe, Integer sortValue) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -119,12 +117,12 @@ public class DictionaryItem extends Entity<Long> {
         this.updateTime = updateTime;
         this.dictionaryId = dictionaryId;
         this.dictionaryCode = dictionaryCode;
-        this.dictionaryItemCode = dictionaryItemCode;
+        this.code = code;
         this.name = name;
         this.isEnable = isEnable;
         this.isDelete = isDelete;
         this.describe = describe;
-        this.sortvalue = sortvalue;
+        this.sortValue = sortValue;
     }
 
 }

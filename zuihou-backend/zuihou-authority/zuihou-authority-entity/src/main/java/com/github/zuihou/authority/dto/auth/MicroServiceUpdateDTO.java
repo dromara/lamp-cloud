@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-27
  */
 @Data
 @NoArgsConstructor
@@ -71,6 +71,6 @@ public class MicroServiceUpdateDTO implements Serializable {
      * 排序
      */
     @ApiModelProperty(value = "排序")
-    private Integer sortvalue;
+    private Integer sortValue;
 
 }

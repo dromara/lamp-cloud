@@ -13,13 +13,13 @@
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="eureka_code" jdbcType="VARCHAR" property="eurekaCode"/>
         <result column="swagger_url" jdbcType="VARCHAR" property="swaggerUrl"/>
-        <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        name, describe_, eureka_code, swagger_url, sortvalue
+        name, describe_, eureka_code, swagger_url, sort_value
     </sql>
 
 </mapper>

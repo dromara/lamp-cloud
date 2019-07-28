@@ -3,7 +3,6 @@ package com.github.zuihou.general.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.zuihou.authority.enumeration.auth.MenuType;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.enumeration.auth.TargetType;
@@ -42,7 +41,6 @@ public class GeneralController {
         map.put(HttpMethod.class.getSimpleName(), BaseEnum.getMap(HttpMethod.values()));
         map.put(DataScopeType.class.getSimpleName(), BaseEnum.getMap(DataScopeType.values()));
         map.put(LogType.class.getSimpleName(), BaseEnum.getMap(LogType.values()));
-        map.put(MenuType.class.getSimpleName(), BaseEnum.getMap(MenuType.values()));
         map.put(ResourceType.class.getSimpleName(), BaseEnum.getMap(ResourceType.values()));
         map.put(Sex.class.getSimpleName(), BaseEnum.getMap(Sex.values()));
         map.put(TargetType.class.getSimpleName(), BaseEnum.getMap(TargetType.values()));

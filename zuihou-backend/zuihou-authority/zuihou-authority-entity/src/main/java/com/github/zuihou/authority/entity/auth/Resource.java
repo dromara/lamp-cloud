@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -57,7 +57,7 @@ public class Resource extends Entity<Long> {
 
     /**
      * 资源类型
-     * #ResourceType{BUTTON:按钮;URI:链接;COLUMN:数据列;}
+     * #ResourceType{BUTTON:按钮;URI:链接;COLUMN:字段;}
      */
     @ApiModelProperty(value = "资源类型")
     @NotNull(message = "资源类型不能为空")

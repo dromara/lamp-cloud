@@ -183,7 +183,7 @@ public class MenuController extends BaseController {
     @GetMapping("/tree")
     @SysLog("查询系统所有的菜单")
     public R<List<MenuTreeDTO>> allTree() {
-        List<Menu> list = menuService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortvalue));
+        List<Menu> list = menuService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortValue));
         List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
         return success(TreeUtil.builderTreeOrdered(treeList));
     }

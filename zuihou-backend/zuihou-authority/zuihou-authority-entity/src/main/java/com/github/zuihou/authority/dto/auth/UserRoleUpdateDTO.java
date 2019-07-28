@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-03
+ * @since 2019-07-27
  */
 @Data
 @NoArgsConstructor
@@ -43,18 +43,18 @@ public class UserRoleUpdateDTO implements Serializable {
     private Long id;
 
     /**
-     * 角色id
+     * 角色ID
      * #c_auth_role
      */
-    @ApiModelProperty(value = "角色id")
-    @NotNull(message = "角色id不能为空")
+    @ApiModelProperty(value = "角色ID")
+    @NotNull(message = "角色ID不能为空")
     private Long roleId;
     /**
-     * 用户id
-     * #c_core_account
+     * 用户ID
+     * #c_core_accou
      */
-    @ApiModelProperty(value = "用户id")
-    @NotNull(message = "用户id不能为空")
+    @ApiModelProperty(value = "用户ID")
+    @NotNull(message = "用户ID不能为空")
     private Long userId;
 
 }

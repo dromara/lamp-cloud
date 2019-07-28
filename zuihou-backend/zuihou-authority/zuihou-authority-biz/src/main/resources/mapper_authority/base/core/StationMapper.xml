@@ -11,7 +11,7 @@
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="org_id" jdbcType="BIGINT" property="orgId"/>
-        <result column="sortvalue" jdbcType="INTEGER" property="sortvalue"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
         <result column="status" jdbcType="BIT" property="status"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
     </resultMap>
@@ -19,7 +19,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_time, create_user, update_time, update_user, 
-        name, org_id, sortvalue, status, describe_
+        name, org_id, sort_value, status, describe_
     </sql>
 
 </mapper>

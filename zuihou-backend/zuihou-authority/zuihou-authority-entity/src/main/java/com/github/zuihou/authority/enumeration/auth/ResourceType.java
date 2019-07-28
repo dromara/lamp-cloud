@@ -15,7 +15,7 @@ import lombok.Getter;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-22
+ * @date 2019-07-28
  */
 @Getter
 @AllArgsConstructor
@@ -32,9 +32,9 @@ public enum ResourceType implements BaseEnum {
      */
     URI("链接"),
     /**
-     * COLUMN="数据列"
+     * COLUMN="字段"
      */
-    COLUMN("数据列"),
+    COLUMN("字段"),
     ;
 
     @ApiModelProperty(value = "描述")

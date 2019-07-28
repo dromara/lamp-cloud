@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-22
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -73,8 +73,8 @@ public class Org extends Entity<Long> {
      * 排序
      */
     @ApiModelProperty(value = "排序")
-    @TableField("sortvalue")
-    private Integer sortvalue;
+    @TableField("sort_value")
+    private Integer sortValue;
 
     /**
      * 状态
@@ -94,7 +94,7 @@ public class Org extends Entity<Long> {
 
     @Builder
     public Org(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-               String name, String abbreviation, Long parentId, String treePath, Integer sortvalue,
+               String name, String abbreviation, Long parentId, String treePath, Integer sortValue,
                Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
@@ -105,7 +105,7 @@ public class Org extends Entity<Long> {
         this.abbreviation = abbreviation;
         this.parentId = parentId;
         this.treePath = treePath;
-        this.sortvalue = sortvalue;
+        this.sortValue = sortValue;
         this.status = status;
         this.describe = describe;
     }

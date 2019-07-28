@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-02
+ * @since 2019-07-28
  */
 @Data
 @NoArgsConstructor
@@ -42,6 +42,7 @@ public class DictionaryItemSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "字典id")
     @NotNull(message = "字典id不能为空")
+
     private Long dictionaryId;
     /**
      * 字典编码
@@ -49,6 +50,7 @@ public class DictionaryItemSaveDTO implements Serializable {
     @ApiModelProperty(value = "字典编码")
     @NotEmpty(message = "字典编码不能为空")
     @Length(max = 64, message = "字典编码长度不能超过64")
+
     private String dictionaryCode;
     /**
      * 字典项编码
@@ -56,36 +58,40 @@ public class DictionaryItemSaveDTO implements Serializable {
     @ApiModelProperty(value = "字典项编码")
     @NotEmpty(message = "字典项编码不能为空")
     @Length(max = 64, message = "字典项编码长度不能超过64")
-    private String dictionaryItemCode;
+
+    private String code;
     /**
      * 名称
      */
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过64")
+
     private String name;
     /**
      * 是否启用
      */
     @ApiModelProperty(value = "是否启用")
-    @NotNull(message = "是否启用不能为空")
+
     private Boolean isEnable;
     /**
      * 是否删除
      */
     @ApiModelProperty(value = "是否删除")
-    @NotNull(message = "是否删除不能为空")
+
     private Boolean isDelete;
     /**
      * 描述
      */
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
+
     private String describe;
     /**
      * 排序
      */
     @ApiModelProperty(value = "排序")
-    private Integer sortvalue;
+
+    private Integer sortValue;
 
 }
