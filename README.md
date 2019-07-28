@@ -27,7 +27,17 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 [代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
 
-[前端] https://github.com/zuihou/zuihou-admin-ui  (规划中)
+[前端] https://github.com/zuihou/zuihou-admin-ui  「开发中」
+
+[原型] http://zuihou111.gitee.io/zuihou-admin-rp/
+
+[demo] http://wzroom.cn/zuihou-ui  (admin/123456) 「开发中」
+
+[注册中心] http://wzroom.cn/zuihou-eureka/  (admin/admin) 
+
+[在线文档] http://wzroom.cn/api/gate/doc.html  (admin/admin) 
+
+
 
 ## 功能点介绍:
  - 服务注册与调用：
@@ -117,7 +127,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - xxl-jobs
 - hutool
 - guava
-- 
+- 等等
 
 ## 约定：
 
@@ -141,8 +151,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
 
 ## 小技巧
-- 多线程编译： clean install -T8 
-- mapper类上增加注解@Repository, 防止 IDEA 提示注入报错。
+- 多线程编译： `clean install -T8`
+- mapper类上增加注解`@Repository`, 防止`IDEA`提示注入报错。
+- IDEA提示`@Autowired`注入失败时，可以用`@Resource` 防止`IDEA`提示注入报错。
 - IDEA提交代码时，勾选Reformat code、Rearrange code、Optimize imports, 让代码更整洁
 
 
@@ -151,13 +162,12 @@ RibbitMQ、FastDFS等主要框架和中间件。
     2，后端哥哥
     3，土豪哥哥(求赞助服务器)
     4，小姐姐
-
-## 启动指南
+    5，有想要合作或者赞助服务器的朋友加群（63202894）联系群主
 
 ## 环境须知：
 
 - nginx (文件下载、预览时需要使用)
-- mysql 5.7.9+，rabbitmq 3.6+
+- mysql 5.7.9+
 - JDK8
 - IDE插件一个(Eclipse, IDEA都需要安装插件)，`lombok插件`
 
@@ -172,14 +182,14 @@ RibbitMQ、FastDFS等主要框架和中间件。
 │  |  |  ├─zuihou-admin-biz-------------------后端管理业务/持久层
 │  |  |  ├─zuihou-admin-controller------------后端管理业务/持久层
 │  |  |  ├─zuihou-admin-server----------------后端管理服务
-│  |  ├─zuihou-file---------------------------文件模块服务[正在开发]
+│  |  ├─zuihou-file---------------------------文件模块服务[基本完善]
 │  |  ├─zuihou-msgs---------------------------消息模块服务[正在开发]
 │  |  ├─zuihou-gateway------------------------统一网关负载中心
 │  |  |  |─zuihou-gateway-ratelimit-----------网关限流插件[未开始]
 │  |  |  |─zuihou-gateway-server--------------项目网关服务[未开始]
-│  |  ├─zuihou-jobs---------------------------定时任务调度执行器
+│  |  ├─zuihou-jobs---------------------------定时任务调度执行器[完成]
 │  │ 
-│  ├─zuihou-commons--------------------------公共模块（这里一直没想好怎么调整，有想法的朋友可以给我留言）
+│  ├─zuihou-commons--------------------------公共模块   
 │  |  ├─zuihou-common------------------------项目业务模块 （业务模块主要用于存放可能跟业务相关的公共代码）
 │  |  ├─zuihou-core--------------------------项目核心模块 （核心模块存放无业务逻辑的公共代码）
 │  |  ├─zuihou-databases---------------------项目数据源配置模块
@@ -195,7 +205,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 │  │ 
 │  ├─zuihou-dependencies----------------------项目顶级pom
 │  │ 
-│  ├─zuihou-frontend--------------------------项目前端
+│  ├─zuihou-frontend--------------------------项目前端【考虑废弃】
 │  |  ├─zuihou-manage-center------------------管理后台
 │  │
 │  ├─zuihou-support---------------------------服务模块
@@ -207,48 +217,39 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ```
 
 ## 运行步骤: 
- 接下来分别介绍开发环境(dev)和正式环境(prod1,prod2)的运行步骤. 
- 生产环境所有服务单例运行，生产环境所有服务运行2个实例（除了zuihou-monitor,zuihou-zipkin.这2个监控服务）
 
-### 开发环境
-- 1, 依次运行数据库脚本：
+- 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
     - doc/sql/zuihou_authority_dev.sql
     - doc/sql/zuihou_file_dev.sql
 
-- 2, 修改配置数据库/rabbitMQ 配置：
-
-- 3， 在IDE中启动：
-- 3.1， 在IDE中启动：编译代码，修改启动参数：
-    - 以IDEA为例， Eclipse 请自行意淫 (图片看不清，请看doc/image/**)
-    - ![eureka.png](doc/image/启动配置/eureka(dev)启动配置.png)
-    - ![authority.png](doc/image/启动配置/admin(dev)启动配置.png)
-    - 这里只演示其中几个服务， 剩余的服务，按照相同的方法配置
-    - 最终运行实例: ![启动.png](doc/image/启动配置/开发环境运行实例.png)
-- 3.2，按`顺序`运行main类：
-    - EurekaApplication（zuihou-eureka）  # 第一步
-    - GatewayServerApplication（zuihou-gateway-server）#下面的顺序无所谓
-    - AuthorityServerApplication（zuihou-authority-server）  
-    - FileServerApplication（zuihou-file-server）  
-    - MonitorApplication（zuihou-monitor）
-    - ZipkinApplication（zuihou-zipkin）
+- 2, 在application-dev.yml文件修改配置数据库/redis/rabbitMQ等配置：
+    
+- 3， 在IDE中启动，编译通过后按如下顺序启动：
+    - EurekaApplication
+    - GatewayServerApplication
+    - AuthorityApplication
+    - FileServerApplication (可选)
+    - JobsServerApplication (可选)
+    - MonitorApplication    (可选)
+    - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-admin-ui?_blank)
 
 - 4， 命令行启动:
     - 先cd 到各个服务的target目录，依次启动即可：
     - java -jar -Dspring.profiles.active=dev zuihou-eureka.jar 
     - java -jar -Dspring.profiles.active=dev zuihou-***.jar  
 
-## 端口号介绍（dev）:
+## 端口号介绍 :
 
 | 服务 | 端口号 |
 |:----:|:----:|
-| zuihou-eureka | 8500 |  ​
-| zuihou-zipkin | 8510 |  ​ 
-| zuihou-monitor | 8515,8516 |  ​
+| zuihou-eureka | 8761 |  ​
+| zuihou-zipkin | 8767 |  ​ 
+| zuihou-monitor | 8762,8763 |  ​
 | - | - |​- | ​
-| zuihou-gateway-server | 9770 |  ​
-| zuihou-authority-server | 9765 |  ​
-| zuihou-file-server | 9755 |  ​
-| zuihou-msgs-server | 9745 |  ​
+| zuihou-gateway-server | 8760 |  ​
+| zuihou-authority-server | 8764 |  ​
+| zuihou-file-server | 8765 |  ​
+| zuihou-msgs-server | 8766 |  ​
 
 
 ## 项目截图：
