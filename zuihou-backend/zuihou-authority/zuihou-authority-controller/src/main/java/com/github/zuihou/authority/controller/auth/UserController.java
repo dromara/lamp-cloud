@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.UserPageDTO;
+import com.github.zuihou.authority.dto.auth.UserRoleDTO;
 import com.github.zuihou.authority.dto.auth.UserSaveDTO;
 import com.github.zuihou.authority.dto.auth.UserUpdateDTO;
 import com.github.zuihou.authority.entity.auth.Role;
@@ -41,7 +42,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -186,13 +187,32 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 刷新token
+     * 根据用户id，查询用户权限范围
      *
      * @param id 用户id
      * @return
      */
-    @RequestMapping(value = "/ds/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "查询用户权限范围", notes = "根据用户id，查询用户权限范围")
+    @GetMapping(value = "/ds/{id}")
     public Map<String, Object> getDataScopeById(@PathVariable("id") Long id) {
         return userService.getDataScopeById(id);
     }
+
+    /**
+     * 查询角色的已关联用户
+     *
+     * @param roleId  角色id
+     * @param keyword 账号或名称
+     * @return
+     */
+    @ApiOperation(value = "查询角色的已关联用户", notes = "查询角色的已关联用户")
+    @GetMapping(value = "/role/{roleId}")
+    public R<UserRoleDTO> find(@PathVariable("roleId") Long roleId, @RequestParam(value = "keyword", required = false) String keyword) {
+        List<User> list = userService.findUserByRoleId(roleId, keyword);
+        List<Long> idList = list.stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
+        return success(UserRoleDTO.builder().idList(idList).userList(list).build());
+    }
+
+
+
 }

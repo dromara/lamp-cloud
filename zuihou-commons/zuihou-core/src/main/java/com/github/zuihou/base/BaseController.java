@@ -88,6 +88,10 @@ public abstract class BaseController {
         return R.fail(msg);
     }
 
+    public <T> R<T> fail(String msg, Object... args) {
+        return R.fail(msg, args);
+    }
+
     /**
      * 失败返回
      *
@@ -113,6 +117,10 @@ public abstract class BaseController {
 
     public <T> R<T> validFail(String msg) {
         return R.validFail(msg);
+    }
+
+    public <T> R<T> validFail(String msg, Object... args) {
+        return R.validFail(msg, args);
     }
 
     public <T> R<T> validFail(BaseExceptionCode exceptionCode) {

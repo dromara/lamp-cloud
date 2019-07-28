@@ -10,6 +10,7 @@ import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
@@ -57,6 +58,12 @@ public class TestResource {
     private DozerUtils dozer;
 
     @Test
+    public void testFindUserByRoleId() {
+        List<User> list = userMapper.findUserByRoleId(100L, "ad%min");
+        log.info("list.size= " + list.size());
+    }
+
+    @Test
     public void testWrapper() {
         Resource build = Resource.builder().code("123%456").name("nide %z").build();
         LbqWrapper<Resource> ignore = Wraps.lbQ(build).ignore(Resource::setCode).eq(Resource::getCode, build.getCode());
@@ -66,24 +73,24 @@ public class TestResource {
     @Test
     public void testfindChildren() {
         List<Org> children = orgService.findChildren(Arrays.asList(101L));
-        System.out.println(children.size());
+        log.info("size={}", children.size());
     }
 
     @Test
     public void testObjlist() {
         for (int i = 0; i < 20; i++) {
             List<Long> list = orgService.listObjs(NumberHelper::longValueOf0);
-            System.out.println(list.size());
+            log.info("listsize={}", list.size());
         }
-        System.out.println("endendendendend");
+        log.info("endendendendend");
     }
 
     @Test
     public void testDelete() {
 //        boolean flag = userService.removeById(2221L);
-//        System.out.println(flag);
+//        log.info(flag);
 //        boolean flag2 = resourceService.removeById(32L);
-//        System.out.println(flag2);
+//        log.info(flag2);
         resourceService.update(Wraps.<Resource>lbU().set(Resource::getMenuId, null).eq(Resource::getId, 1L));
 //        resourceService.updateById(Resource.builder().menuId(null).describe("1").id(1L).build());
     }
@@ -95,8 +102,8 @@ public class TestResource {
         dot.setType("EX");
 
         OptLog opt = dozer.map(dot, OptLog.class);
-        System.out.println(opt.getHttpMethod());
-        System.out.println(opt.getType());
+        log.info("method={}", opt.getHttpMethod());
+        log.info("type={}", opt.getType());
 
     }
 
@@ -106,7 +113,7 @@ public class TestResource {
         d.setD2(new Date());
         d.setDate(LocalDateTime.now());
         D2 opt = dozer.map(d, D2.class);
-        System.out.println(opt);
+        log.info("{}", opt);
 
     }
 
@@ -117,12 +124,12 @@ public class TestResource {
 
         LbqWrapper<Resource> query2 = Wraps.lbQ(Resource.builder().name("新增").build());
         List<Resource> resources2 = resourceMapper.selectList(query2);
-        System.out.println(resources2.size());
+        log.info("{}", resources2.size());
 
 
         LbqWrapper<Resource> query = Wraps.lbQ(Resource.builder().name("%").resourceType(ResourceType.BUTTON).build());
         List<Resource> resources = resourceMapper.selectList(query);
-        System.out.println(resources.size());
+        log.info("{}", resources.size());
 
 
     }
@@ -141,6 +148,6 @@ public class TestResource {
 //                        .name("vvv")
 //                        .build()));
 
-        System.out.println(list.size());
+        log.info("{}", list.size());
     }
 }

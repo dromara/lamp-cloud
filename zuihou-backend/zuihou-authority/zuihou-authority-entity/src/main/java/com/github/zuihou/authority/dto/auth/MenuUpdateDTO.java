@@ -57,12 +57,7 @@ public class MenuUpdateDTO implements Serializable {
     @ApiModelProperty(value = "功能描述")
     @Length(max = 200, message = "功能描述长度不能超过200")
     private String describe;
-    /**
-     * 资源编码
-     */
-    @ApiModelProperty(value = "资源编码")
-    @Length(max = 255, message = "资源编码长度不能超过255")
-    private String code;
+
     /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见

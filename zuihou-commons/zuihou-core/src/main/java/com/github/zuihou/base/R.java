@@ -90,6 +90,10 @@ public class R<T> {
         return fail(OPERATION_EX_CODE, msg);
     }
 
+    public static <E> R<E> fail(String msg, Object... args) {
+        String message = (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg;
+        return new R<>(OPERATION_EX_CODE, null, String.format(message, args));
+    }
 
     public static <E> R<E> fail(BaseExceptionCode exceptionCode) {
         return validFail(exceptionCode);
@@ -114,6 +118,11 @@ public class R<T> {
 
     public static <E> R<E> validFail(String msg) {
         return new R<>(VALID_EX_CODE, null, (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg);
+    }
+
+    public static <E> R<E> validFail(String msg, Object... args) {
+        String message = (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg;
+        return new R<>(VALID_EX_CODE, null, String.format(message, args));
     }
 
     public static <E> R<E> validFail(BaseExceptionCode exceptionCode) {

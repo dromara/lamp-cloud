@@ -103,7 +103,9 @@ public class ResourceController extends BaseController {
 
         Resource resource = dozer.map(data, Resource.class);
         resource.setCode(StrHelper.getOrDef(resource.getCode(), codeGenerate.next()));
-
+        if (resourceService.count(Wraps.<Resource>lbQ().eq(Resource::getCode, resource.getCode())) > 0) {
+            return validFail("编码[%s]重复", resource.getCode());
+        }
 
         if (resource.getId() != null) {
             resourceService.updateById(resource);

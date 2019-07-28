@@ -1,16 +1,13 @@
 package com.github.zuihou.authority.controller.auth;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
-import com.github.zuihou.authority.dto.auth.RoleAuthorityUpdateDTO;
+import java.util.List;
+
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 
@@ -19,12 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,77 +43,17 @@ public class RoleAuthorityController extends BaseController {
     private DozerUtils dozer;
 
     /**
-     * 分页查询角色的资源
+     * 查询指定角色关联的菜单和资源
      *
-     * @param data 分页查询对象
+     * @param roleId 角色id
      * @return 查询结果
      */
-    @ApiOperation(value = "分页查询角色的资源", notes = "分页查询角色的资源")
-    @GetMapping("/page")
-    @SysLog("分页查询角色的资源")
-    public R<IPage<RoleAuthority>> page(RoleAuthority data) {
-        IPage<RoleAuthority> page = getPage();
-        // 构建值不为null的查询条件
-        LbqWrapper<RoleAuthority> query = Wraps.lbQ(data);
-        roleAuthorityService.page(page, query);
-        return success(page);
+    @ApiOperation(value = "查询指定角色关联的菜单和资源", notes = "查询指定角色关联的菜单和资源")
+    @GetMapping("/{roleId}")
+    @SysLog("查询指定角色关联的菜单和资源")
+    public R<List<RoleAuthority>> page(@PathVariable Long roleId) {
+        return success(roleAuthorityService.list(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleId)));
     }
 
-    /**
-     * 查询角色的资源
-     *
-     * @param id 主键id
-     * @return 查询结果
-     */
-    @ApiOperation(value = "查询角色的资源", notes = "查询角色的资源")
-    @GetMapping("/{id}")
-    @SysLog("查询角色的资源")
-    public R<RoleAuthority> get(@PathVariable Long id) {
-        return success(roleAuthorityService.getById(id));
-    }
-
-    /**
-     * 新增角色的资源
-     *
-     * @param data 新增对象
-     * @return 新增结果
-     */
-    @ApiOperation(value = "新增角色的资源", notes = "新增角色的资源不为空的字段")
-    @PostMapping
-    @SysLog("新增角色的资源")
-    public R<RoleAuthority> save(@RequestBody @Validated RoleAuthoritySaveDTO data) {
-        RoleAuthority roleAuthority = dozer.map(data, RoleAuthority.class);
-        roleAuthorityService.save(roleAuthority);
-        return success(roleAuthority);
-    }
-
-    /**
-     * 修改角色的资源
-     *
-     * @param data 修改对象
-     * @return 修改结果
-     */
-    @ApiOperation(value = "修改角色的资源", notes = "修改角色的资源不为空的字段")
-    @PutMapping
-    @SysLog("修改角色的资源")
-    public R<RoleAuthority> update(@RequestBody @Validated(SuperEntity.Update.class) RoleAuthorityUpdateDTO data) {
-        RoleAuthority roleAuthority = dozer.map(data, RoleAuthority.class);
-        roleAuthorityService.updateById(roleAuthority);
-        return success(roleAuthority);
-    }
-
-    /**
-     * 删除角色的资源
-     *
-     * @param id 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除角色的资源", notes = "根据id物理删除角色的资源")
-    @DeleteMapping(value = "/{id}")
-    @SysLog("删除角色的资源")
-    public R<Boolean> delete(@PathVariable Long id) {
-        roleAuthorityService.removeById(id);
-        return success(true);
-    }
 
 }

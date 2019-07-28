@@ -1,8 +1,10 @@
 package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -48,7 +50,7 @@ public class UserRoleSaveDTO implements Serializable {
      * #c_core_accou
      */
     @ApiModelProperty(value = "用户ID")
-    @NotNull(message = "用户ID不能为空")
-    private Long userId;
+    @Size(min = 1, message = "用户不能为空")
+    private List<Long> userIdList;
 
 }
