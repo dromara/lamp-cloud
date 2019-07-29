@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 /**
  * <p>
  * 实体类
- * 角色部门关系
+ * 角色组织关系
  * </p>
  *
  * @author zuihou
@@ -28,7 +28,7 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "RoleOrgSaveDTO", description = "角色部门关系")
+@ApiModel(value = "RoleOrgSaveDTO", description = "角色组织关系")
 public class RoleOrgSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,10 +40,10 @@ public class RoleOrgSaveDTO implements Serializable {
     @ApiModelProperty(value = "角色ID")
     private Long roleId;
     /**
-     * 部门ID
+     * 组织ID
      * #c_core_org
      */
-    @ApiModelProperty(value = "部门ID")
+    @ApiModelProperty(value = "组织ID")
     private Long orgId;
 
 }

@@ -23,18 +23,19 @@
 
     <insert id="saveOrUpdateUnique" parameterType="com.github.zuihou.authority.entity.auth.Resource">
     insert into c_auth_resource ( id, create_user, create_time, update_user, update_time,
-        code, resource_type, name, micro_service_id, menu_id, base_path,
+        code, resource_type, name, micro_service_id, menu_id, tags,
         describe_, uri, http_method, deprecated)
     values (#{id,jdbcType=BIGINT}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},#{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},
       #{code,jdbcType=VARCHAR}, #{resourceType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{microServiceId,jdbcType=BIGINT},#{menuId,jdbcType=BIGINT}, #{basePath,jdbcType=VARCHAR},
-      #{describe,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR},#{httpMethod,jdbcType=VARCHAR},
+      #{microServiceId,jdbcType=BIGINT}, #{menuId,jdbcType=BIGINT}, #{tags,jdbcType=VARCHAR},
+      #{describe,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR}, #{httpMethod,jdbcType=VARCHAR},
       #{deprecated,jdbcType=BIT}
       )
     ON DUPLICATE KEY UPDATE
       name = #{name,jdbcType=VARCHAR},
       describe_ = #{describe,jdbcType=VARCHAR},
       deprecated = #{deprecated,jdbcType=BIT},
+      tags = #{tags,jdbcType=VARCHAR},
       update_user = #{updateUser,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     </insert>

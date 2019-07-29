@@ -1,7 +1,10 @@
 package com.github.zuihou.authority.controller.core;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.core.OrgSaveDTO;
+import com.github.zuihou.authority.dto.core.OrgTreeDTO;
 import com.github.zuihou.authority.dto.core.OrgUpdateDTO;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.core.OrgService;
@@ -13,6 +16,7 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BizAssert;
+import com.github.zuihou.utils.TreeUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
@@ -129,7 +134,6 @@ public class OrgController extends BaseController {
         return success();
     }
 
-
     /**
      * 删除组织
      *
@@ -144,4 +148,22 @@ public class OrgController extends BaseController {
         return success(true);
     }
 
+    /**
+     * 查询系统所有的组织树
+     *
+     * @param status 状态
+     * @return
+     * @author tangyh
+     * @date 2019-07-29 11:59
+     */
+    @ApiOperation(value = "查询系统所有的组织树", notes = "查询系统所有的组织树")
+    @GetMapping("/tree")
+    @SysLog("查询系统所有的组织树")
+    public R<List<OrgTreeDTO>> tree(@RequestParam(value = "name", required = false) String name,
+                                    @RequestParam(value = "status", required = false) Boolean status) {
+        List<Org> list = orgService.list(Wraps.<Org>lbQ().like(Org::getName, name)
+                .eq(Org::getStatus, status).orderByAsc(Org::getSortValue));
+        List<OrgTreeDTO> treeList = dozer.mapList(list, OrgTreeDTO.class);
+        return success(TreeUtil.builderTreeOrdered(treeList));
+    }
 }

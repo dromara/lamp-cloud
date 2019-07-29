@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -116,10 +117,10 @@ public class MicroServiceController extends BaseController {
     }
 
     @ApiOperation(value = "解析接口", notes = "解析已经启动的服务的全部接口")
-    @PostMapping("/parse")
+    @GetMapping("/parse")
     @SysLog("解析已经启动的服务的全部接口")
-    public R<Boolean> parseUri() {
-        microServiceService.parseUri();
+    public R<Boolean> parseUri(@RequestParam(value = "ids[]", required = false) Long[] ids) {
+        microServiceService.parseUri(ids);
         return success();
     }
 }

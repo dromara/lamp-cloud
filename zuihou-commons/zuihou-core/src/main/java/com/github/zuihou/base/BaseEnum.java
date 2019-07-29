@@ -1,11 +1,9 @@
 package com.github.zuihou.base;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import com.github.zuihou.utils.MapHelper;
 
 /**
  * This is a Description
@@ -23,11 +21,12 @@ public interface BaseEnum {
      * @return
      */
     static Map<String, String> getMap(BaseEnum[] list) {
-        ImmutableMap<String, BaseEnum> nameMap = Maps.uniqueIndex(Arrays.asList(list), BaseEnum::getCode);
+        /*ImmutableMap<String, BaseEnum> nameMap = Maps.uniqueIndex(Arrays.asList(list), BaseEnum::getCode);
         Map<String, String> nameDescMap = new HashMap<>(nameMap.size());
-        nameMap.forEach((name, desc) -> nameDescMap.put(name, desc.getDesc()));
-        return nameDescMap;
+        nameMap.forEach((name, desc) -> nameDescMap.put(name, desc.getDesc()));*/
+        return MapHelper.uniqueIndex(Arrays.asList(list), BaseEnum::getCode, BaseEnum::getDesc);
     }
+
 
     /**
      * 编码重写

@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 /**
  * <p>
  * 实体类
- * 角色部门关系
+ * 角色组织关系
  * </p>
  *
  * @author zuihou
@@ -32,7 +32,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_auth_role_org")
-@ApiModel(value = "RoleOrg", description = "角色部门关系")
+@ApiModel(value = "RoleOrg", description = "角色组织关系")
 public class RoleOrg extends SuperEntity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -46,10 +46,10 @@ public class RoleOrg extends SuperEntity<Long> {
     private Long roleId;
 
     /**
-     * 部门ID
+     * 组织ID
      * #c_core_org
      */
-    @ApiModelProperty(value = "部门ID")
+    @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
     private Long orgId;
 

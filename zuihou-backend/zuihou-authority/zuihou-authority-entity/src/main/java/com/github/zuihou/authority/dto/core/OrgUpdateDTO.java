@@ -59,12 +59,7 @@ public class OrgUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "父ID")
     private Long parentId;
-    /**
-     * 树结构
-     */
-    @ApiModelProperty(value = "树结构")
-    @Length(max = 255, message = "树结构长度不能超过255")
-    private String treePath;
+
     /**
      * 排序
      */

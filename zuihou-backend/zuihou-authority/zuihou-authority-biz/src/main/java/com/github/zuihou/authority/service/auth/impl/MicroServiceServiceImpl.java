@@ -17,6 +17,7 @@ import com.github.zuihou.authority.entity.auth.MicroService;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.MicroServiceService;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -87,8 +88,8 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
 
 
     @Override
-    public void parseUri() {
-        List<MicroService> list = super.list();
+    public void parseUri(Long[] ids) {
+        List<MicroService> list = super.list(Wraps.<MicroService>lbQ().in(MicroService::getId, ids));
         if (list.isEmpty()) {
             return;
         }
@@ -109,7 +110,7 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
     }
 
     private void parseGroup(MicroService ms, String url, String group) {
-        //http://127.0.0.1:11006/v2/api-docs?group=priAuth
+        log.info("url={}, group={}", url, group);
         JSONObject swagger = parseSwaggerUrl(url);
         if (swagger == null) {
             return;
@@ -118,9 +119,6 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
         if (paths == null) {
             return;
         }
-        String basePath = swagger.getString("basePath");
-        log.info("basePath={}", basePath);
-
         List<Resource> resourceList = new ArrayList<>();
         paths.forEach((path, methodsObj) -> {
             log.info("path={}", path);
@@ -142,7 +140,7 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
                                 .code(code)
                                 .resourceType(ResourceType.URI)
                                 .name(summary)
-                                .menuId(ms.getId())
+                                .microServiceId(ms.getId())
                                 .tags(tags)
                                 .describe(description)
                                 .uri(path)
