@@ -56,7 +56,7 @@ public enum ExceptionCode implements BaseExceptionCode {
      * @see <a href="http://tools.ietf.org/html/rfc7231#section-6.5.4">HTTP/1.1: Semantics and Content, section 6.5.4</a>
      */
     NOT_FOUND(404, "没有找到资源"),
-    METHOD_NOT_ALLOWED(405, "不支持当前请求方法"),
+    METHOD_NOT_ALLOWED(405, "不支持当前请求类型"),
 
     TOO_MANY_REQUESTS(429, "请求超过次数限制"),
     INTERNAL_SERVER_ERROR(500, "内部服务错误"),

@@ -81,26 +81,26 @@ public class OptLog extends SuperEntity<Long> {
     private String classPath;
 
     /**
-     * 请求方法
+     * 请求类型
      */
-    @ApiModelProperty(value = "请求方法")
-    @Length(max = 50, message = "请求方法长度不能超过50")
+    @ApiModelProperty(value = "请求类型")
+    @Length(max = 50, message = "请求类型长度不能超过50")
     @TableField("action_method")
     private String actionMethod;
 
     /**
-     * 请求uri
+     * 请求地址
      */
-    @ApiModelProperty(value = "请求uri")
-    @Length(max = 50, message = "请求uri长度不能超过50")
+    @ApiModelProperty(value = "请求地址")
+    @Length(max = 50, message = "请求地址长度不能超过50")
     @TableField("request_uri")
     private String requestUri;
 
     /**
-     * 请求方法
+     * 请求类型
      * #HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}
      */
-    @ApiModelProperty(value = "请求方法")
+    @ApiModelProperty(value = "请求类型")
     @TableField("http_method")
     private HttpMethod httpMethod;
 

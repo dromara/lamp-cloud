@@ -32,7 +32,7 @@ public class ZuulCorsConfiguration {
         // 允许提交请求的方法，*表示全部允许
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
-        // 允许Get的请求方法
+        // 允许Get的请求类型
         config.addAllowedMethod("GET");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
