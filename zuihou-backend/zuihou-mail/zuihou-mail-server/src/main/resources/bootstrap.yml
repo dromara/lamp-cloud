@@ -29,8 +29,8 @@ spring:
         enabled: true
         service-id: zuihou-config
       fail-fast: true
-      username: admin
-      password: ${CONFIG_SERVER_PASSWORD:admin}
+      username: zuihou
+      password: ${CONFIG_SERVER_PASSWORD:zuihou}
       retry:
         initial-interval: 2000
         max-interval: 10000

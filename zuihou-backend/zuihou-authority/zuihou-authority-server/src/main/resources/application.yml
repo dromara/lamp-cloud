@@ -68,8 +68,8 @@ spring:
       max-request-size: 512MB   # Max request size，默认10M
   security:
     user:
-      name: admin
-      password: admin
+      name: zuihou
+      password: zuihou
       roles: USER
   datasource:
     druid:

@@ -5,8 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -24,6 +26,22 @@ public class SwaggerProperties {
      * 是否开启swagger
      **/
     private Boolean enabled = true;
+
+    /**
+     * 是否生产环境
+     */
+    private Boolean production = false;
+    /**
+     * 离线文档路径
+     */
+    private Markdown markdown = new Markdown();
+
+
+    /**
+     * 访问账号密码
+     */
+    private Basic basic = new Basic();
+
     /**
      * 标题
      **/
@@ -197,5 +215,22 @@ public class SwaggerProperties {
          * 联系人email
          **/
         private String email = "244387066@qq.com";
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Basic {
+        private Boolean enable = false;
+        private String username = "zuihou";
+        private String password = "zuihou";
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Markdown {
+        private Boolean enable = false;
+        private String basePath = "classpath:markdown/*";
     }
 }
