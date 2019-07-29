@@ -207,12 +207,10 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "查询角色的已关联用户", notes = "查询角色的已关联用户")
     @GetMapping(value = "/role/{roleId}")
-    public R<UserRoleDTO> find(@PathVariable("roleId") Long roleId, @RequestParam(value = "keyword", required = false) String keyword) {
+    public R<UserRoleDTO> findUserByRoleId(@PathVariable("roleId") Long roleId, @RequestParam(value = "keyword", required = false) String keyword) {
         List<User> list = userService.findUserByRoleId(roleId, keyword);
         List<Long> idList = list.stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
         return success(UserRoleDTO.builder().idList(idList).userList(list).build());
     }
-
-
 
 }

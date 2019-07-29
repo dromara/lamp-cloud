@@ -45,7 +45,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     /**
      * 1，保存角色
-     * 2，保存 与部门的关系
+     * 2，保存 与组织的关系
      *
      * @param data
      * @param userId 用户id

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * <p>
  * Mapper 接口
- * 角色部门关系
+ * 角色组织关系
  * </p>
  *
  * @author zuihou

@@ -14,14 +14,17 @@ import com.github.zuihou.authority.entity.auth.MicroService;
  */
 public interface MicroServiceService extends IService<MicroService> {
     /**
-     * 同步
+     * 同步 服务
+     * @return
      */
     void sync();
 
     /**
      * 解析指定服务的uri 接口
      *
+     * @param ids id
+     * @return
      */
-    void parseUri();
+    void parseUri(Long[] ids);
 
 }

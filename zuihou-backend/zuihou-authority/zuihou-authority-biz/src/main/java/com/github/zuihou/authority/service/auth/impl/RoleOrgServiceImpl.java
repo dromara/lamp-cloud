@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * <p>
  * 业务实现类
- * 角色部门关系
+ * 角色组织关系
  * </p>
  *
  * @author zuihou

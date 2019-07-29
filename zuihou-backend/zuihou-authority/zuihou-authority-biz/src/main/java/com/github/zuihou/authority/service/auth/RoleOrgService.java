@@ -6,7 +6,7 @@ import com.github.zuihou.authority.entity.auth.RoleOrg;
 /**
  * <p>
  * 业务接口
- * 角色部门关系
+ * 角色组织关系
  * </p>
  *
  * @author zuihou

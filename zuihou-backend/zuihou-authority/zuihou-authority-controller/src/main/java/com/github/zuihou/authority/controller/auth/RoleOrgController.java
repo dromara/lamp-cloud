@@ -31,7 +31,7 @@
 ///**
 // * <p>
 // * 前端控制器
-// * 角色部门关系
+// * 角色组织关系
 // * </p>
 // *
 // * @author zuihou
@@ -41,7 +41,7 @@
 //@Validated
 //@RestController
 //@RequestMapping("/roleOrg")
-//@Api(value = "RoleOrg", tags = "角色部门关系")
+//@Api(value = "RoleOrg", tags = "角色组织关系")
 //public class RoleOrgController extends BaseController {
 //
 //    @Autowired
@@ -50,14 +50,14 @@
 //    private DozerUtils dozer;
 //
 //    /**
-//     * 分页查询角色部门关系
+//     * 分页查询角色组织关系
 //     *
 //     * @param data 分页查询对象
 //     * @return 查询结果
 //     */
-//    @ApiOperation(value = "分页查询角色部门关系", notes = "分页查询角色部门关系")
+//    @ApiOperation(value = "分页查询角色组织关系", notes = "分页查询角色组织关系")
 //    @GetMapping("/page")
-//    @SysLog("分页查询角色部门关系")
+//    @SysLog("分页查询角色组织关系")
 //    public R<IPage<RoleOrg>> page(RoleOrg data) {
 //        IPage<RoleOrg> page = getPage();
 //        // 构建值不为null的查询条件
@@ -67,27 +67,27 @@
 //    }
 //
 //    /**
-//     * 查询角色部门关系
+//     * 查询角色组织关系
 //     *
 //     * @param id 主键id
 //     * @return 查询结果
 //     */
-//    @ApiOperation(value = "查询角色部门关系", notes = "查询角色部门关系")
+//    @ApiOperation(value = "查询角色组织关系", notes = "查询角色组织关系")
 //    @GetMapping("/{id}")
-//    @SysLog("查询角色部门关系")
+//    @SysLog("查询角色组织关系")
 //    public R<RoleOrg> get(@PathVariable Long id) {
 //        return success(roleOrgService.getById(id));
 //    }
 //
 //    /**
-//     * 新增角色部门关系
+//     * 新增角色组织关系
 //     *
 //     * @param data 新增对象
 //     * @return 新增结果
 //     */
-//    @ApiOperation(value = "新增角色部门关系", notes = "新增角色部门关系不为空的字段")
+//    @ApiOperation(value = "新增角色组织关系", notes = "新增角色组织关系不为空的字段")
 //    @PostMapping
-//    @SysLog("新增角色部门关系")
+//    @SysLog("新增角色组织关系")
 //    public R<RoleOrg> save(@RequestBody @Validated RoleOrgSaveDTO data) {
 //        RoleOrg roleOrg = dozer.map(data, RoleOrg.class);
 //        roleOrgService.save(roleOrg);
@@ -95,14 +95,14 @@
 //    }
 //
 //    /**
-//     * 修改角色部门关系
+//     * 修改角色组织关系
 //     *
 //     * @param data 修改对象
 //     * @return 修改结果
 //     */
-//    @ApiOperation(value = "修改角色部门关系", notes = "修改角色部门关系不为空的字段")
+//    @ApiOperation(value = "修改角色组织关系", notes = "修改角色组织关系不为空的字段")
 //    @PutMapping
-//    @SysLog("修改角色部门关系")
+//    @SysLog("修改角色组织关系")
 //    public R<RoleOrg> update(@RequestBody @Validated(SuperEntity.Update.class) RoleOrgUpdateDTO data) {
 //        RoleOrg roleOrg = dozer.map(data, RoleOrg.class);
 //        roleOrgService.updateById(roleOrg);
@@ -110,14 +110,14 @@
 //    }
 //
 //    /**
-//     * 删除角色部门关系
+//     * 删除角色组织关系
 //     *
 //     * @param id 主键id
 //     * @return 删除结果
 //     */
-//    @ApiOperation(value = "删除角色部门关系", notes = "根据id物理删除角色部门关系")
+//    @ApiOperation(value = "删除角色组织关系", notes = "根据id物理删除角色组织关系")
 //    @DeleteMapping(value = "/{id}")
-//    @SysLog("删除角色部门关系")
+//    @SysLog("删除角色组织关系")
 //    public R<Boolean> delete(@PathVariable Long id) {
 //        roleOrgService.removeById(id);
 //        return success(true);
