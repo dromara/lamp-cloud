@@ -55,17 +55,17 @@ public class OptLogDTO {
     private String classPath;
 
     /**
-     * 请求方法
+     * 请求类型
      */
     private String actionMethod;
 
     /**
-     * 请求uri
+     * 请求地址
      */
     private String requestUri;
 
     /**
-     * 请求方法
+     * 请求类型
      * #HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}
      */
     private String httpMethod;
