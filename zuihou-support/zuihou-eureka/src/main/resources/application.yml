@@ -18,8 +18,8 @@ spring:
     name: zuihou-eureka
   security:
     user:
-      name: admin
-      password: admin
+      name: zuihou
+      password: zuihou
       roles: USER
 
 eureka:

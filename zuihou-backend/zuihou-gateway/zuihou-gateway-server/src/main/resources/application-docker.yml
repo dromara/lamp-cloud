@@ -5,3 +5,6 @@ zuihou:
   ip:
     nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
     eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
+  swagger:
+    basic:
+      enable: true

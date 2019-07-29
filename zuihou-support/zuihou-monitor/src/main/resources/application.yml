@@ -79,8 +79,8 @@ spring:
   #          ignore-changes: UNKNOWN:UP
   security:
     user:
-      name: admin
-      password: admin
+      name: zuihou
+      password: zuihou
       roles: USER
 
 management:

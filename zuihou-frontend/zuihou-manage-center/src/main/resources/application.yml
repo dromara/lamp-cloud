@@ -43,8 +43,8 @@ spring:
       suffix: .html
   security:
     user:
-      name: admin
-      password: admin
+      name: zuihou
+      password: zuihou
 eureka:
   instance:
     status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}${spring.mvc.servlet.path:}

@@ -12,6 +12,7 @@ zuihou:
     title: 网关模块
     base-package: com.github.zuihou.gateway.controller
 
+
 logging:
   file: ${logging.path}/root.log
   path: /projects/logs/${spring.application.name}
@@ -37,8 +38,8 @@ spring:
     default-property-inclusion: NON_NULL
   security:
     user:
-      name: admin
-      password: admin
+      name: zuihou
+      password: zuihou
       roles: USER
   boot:
     admin:
@@ -109,7 +110,7 @@ zuul:
         - APP
         - URL
   routes:  # 路由配置方式
-    authority:  # 其中 admin 是路由名称，可以随便定义，但是path和service-id需要一一对应
+    authority:  # 其中 authority 是路由名称，可以随便定义，但是path和service-id需要一一对应
       path: /authority/**
       serviceId: zuihou-authority-server
     file:
