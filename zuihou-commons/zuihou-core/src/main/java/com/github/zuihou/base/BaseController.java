@@ -43,11 +43,11 @@ public abstract class BaseController {
     protected HttpServletResponse response;
 
     /**
-     * 页数
+     * 页码
      */
     protected static final String PAGE_NO = "pageNo";
     /**
-     * 分页大小
+     * 分页条数
      */
     protected static final String PAGE_SIZE = "pageSize";
     /**

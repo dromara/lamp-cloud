@@ -74,6 +74,10 @@ public class MenuController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询菜单", notes = "分页查询菜单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+    })
     @GetMapping("/page")
     @SysLog("分页查询菜单")
     public R<IPage<Menu>> page(Menu data) {

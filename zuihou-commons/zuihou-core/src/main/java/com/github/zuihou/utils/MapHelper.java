@@ -40,6 +40,7 @@ public class MapHelper {
     public static <K, V, M> ImmutableMap<K, M> uniqueIndex(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
         Iterator<V> iterator = values.iterator();
         checkNotNull(keyFunction);
+        checkNotNull(valueFunction);
         ImmutableMap.Builder<K, M> builder = ImmutableMap.builder();
         while (iterator.hasNext()) {
             V value = iterator.next();
@@ -53,5 +54,6 @@ public class MapHelper {
                             + ".若要在键下索引多个值，请使用: Multimaps.index.");
         }
     }
+
 
 }
