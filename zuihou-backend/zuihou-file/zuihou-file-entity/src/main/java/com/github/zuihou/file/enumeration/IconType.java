@@ -1,4 +1,4 @@
-package com.github.zuihou.common.enums;
+package com.github.zuihou.file.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

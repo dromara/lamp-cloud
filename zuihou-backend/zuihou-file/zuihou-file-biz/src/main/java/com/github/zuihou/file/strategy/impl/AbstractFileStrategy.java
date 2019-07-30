@@ -3,10 +3,10 @@ package com.github.zuihou.file.strategy.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.github.zuihou.common.enums.IconType;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.file.domain.FileDeleteDO;
 import com.github.zuihou.file.entity.File;
+import com.github.zuihou.file.enumeration.IconType;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.FileStrategy;
 import com.github.zuihou.file.utils.FileDataTypeUtil;

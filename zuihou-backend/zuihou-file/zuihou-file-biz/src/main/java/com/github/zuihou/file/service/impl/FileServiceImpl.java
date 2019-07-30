@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.zuihou.common.enums.IconType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.update.LbuWrapper;
@@ -35,6 +34,7 @@ import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.entity.Recycle;
 import com.github.zuihou.file.entity.Share;
 import com.github.zuihou.file.enumeration.DataType;
+import com.github.zuihou.file.enumeration.IconType;
 import com.github.zuihou.file.service.DownWaterService;
 import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.file.service.RecycleService;
