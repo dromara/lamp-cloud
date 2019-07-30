@@ -19,4 +19,8 @@ public class EnumDTO implements Serializable {
     private Long id;
     private String name;
     private HttpMethod httpMethod;
+
+    public void testEx() throws Exception {
+        throw new Exception("eeeeee");
+    }
 }

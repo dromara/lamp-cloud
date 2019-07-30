@@ -134,7 +134,7 @@ public class DictionaryItemController extends BaseController {
     public R<IPage<DictionaryItem>> page(DictionaryItem data) {
         IPage<DictionaryItem> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<DictionaryItem> query = Wraps.lbQ(data);
+        LbqWrapper<DictionaryItem> query = Wraps.lbQ(data).eq(DictionaryItem::getIsDelete, false);
         dictionaryItemService.page(page, query);
         return success(page);
     }
