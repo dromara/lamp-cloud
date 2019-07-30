@@ -10,10 +10,10 @@ import java.util.concurrent.locks.Lock;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.enums.IconType;
 import com.github.zuihou.file.domain.FileAttrDO;
 import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
 import com.github.zuihou.file.entity.File;
+import com.github.zuihou.file.enumeration.IconType;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.file.strategy.FileChunkStrategy;
