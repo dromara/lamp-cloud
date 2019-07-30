@@ -62,4 +62,16 @@ public class TestController extends BaseController {
         return success(data);
     }
 
+    @PostMapping("post4")
+    public R<EnumDTO> post4(@RequestBody EnumDTO data) {
+        int a = 1 / 0;
+        return success(data);
+    }
+
+    @PostMapping("post5")
+    public R<EnumDTO> post5(@RequestBody EnumDTO data) throws Exception {
+        new EnumDTO().testEx();
+        return success(data);
+    }
+
 }

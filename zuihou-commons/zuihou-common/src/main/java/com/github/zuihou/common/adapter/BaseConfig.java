@@ -28,7 +28,6 @@ import com.github.zuihou.common.converter.String2DateConverter;
 import com.github.zuihou.common.converter.String2LocalDateConverter;
 import com.github.zuihou.common.converter.String2LocalDateTimeConverter;
 import com.github.zuihou.common.converter.String2LocalTimeConverter;
-import com.github.zuihou.common.handler.GlobalExceptionHandler;
 import com.github.zuihou.utils.SpringUtil;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -172,16 +171,6 @@ public abstract class BaseConfig {
     public SpringUtil springUtil(ApplicationContext applicationContext) {
         SpringUtil.setApplicationContext(applicationContext);
         return new SpringUtil();
-    }
-
-    /**
-     * 全局异常处理
-     *
-     * @return
-     */
-    @Bean
-    public GlobalExceptionHandler getGlobalExceptionHandler() {
-        return new GlobalExceptionHandler();
     }
 
     /////////////////////////////////////////////以下是拦截器配置///////////////////////////////////////////////////////

@@ -1,6 +1,5 @@
 package com.github.zuihou.common.handler;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,8 +14,6 @@ import com.github.zuihou.exception.code.ExceptionCode;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.exceptions.PersistenceException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
@@ -46,7 +43,6 @@ import static com.github.zuihou.exception.code.ExceptionCode.REQUIRED_FILE_PARAM
 @ResponseBody
 @Slf4j
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(BizException.class)
     public R<String> baseExceptionHandler(BizException ex) {
         log.info("BizException:", ex);
@@ -123,24 +119,6 @@ public class GlobalExceptionHandler {
     public R illegalArgumentException(IllegalArgumentException ex) {
         log.error("IllegalArgumentException:", ex);
         return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
-    }
-
-    @ExceptionHandler(SQLException.class)
-    public R sqlException(SQLException ex) {
-        log.error("SQLException:", ex);
-        return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public R dataIntegrityViolationException(DataIntegrityViolationException ex) {
-        log.error("DataIntegrityViolationException:", ex);
-        return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
-    }
-
-    @ExceptionHandler(PersistenceException.class)
-    public R<String> persistenceException(PersistenceException ex) {
-        log.error("PersistenceException:", ex);
-        return R.result(ExceptionCode.SQL_EX.getCode(), "", ExceptionCode.SQL_EX.getMsg());
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
