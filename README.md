@@ -1,4 +1,4 @@
-# zuihou-admin-cloud
+frame# zuihou-admin-cloud
 
 ## 简介：
 基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的微服务 脚手架，
@@ -89,11 +89,10 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 基于xxl-jobs进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
 
-
-
+- 汉化 Eureka 注册中心页面
 
 ## 项目架构图
-![frame.jpg](doc/image/项目相关/frame.jpg)
+![架构图.png](doc/image/项目相关/架构图.png)
 
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有：
@@ -255,23 +254,15 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 ## 项目截图：
 spring-boot-admin监控界面:
-![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面1.png)
+![SBA监控.png](doc/image/监控界面/sba-1.png)
 spring-boot-admin监控界面:
-![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面2.png)
-spring-boot-admin监控界面:
-![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面3.png)
-spring-boot-admin监控界面:
-![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面4.png)
-spring-boot-admin监控界面:
-![SBA监控.png](doc/image/监控界面/zuihou-monitor监控界面5.png)
-zipkin监控界面:
-![zipkin监控.png](doc/image/监控界面/zuihou-zipkin监控界面1.png)
-zipkin监控界面:
-![zipkin监控.png](doc/image/监控界面/zuihou-zipkin监控界面2.png)
+![SBA监控.png](doc/image/监控界面/sba-2.png)
 API 界面:
 ![admin-api.png](doc/image/项目相关/admin-api.png)
 注册中心界面:
-![eureka注册中心界面.png](doc/image/项目相关/eureka注册中心界面.png)
+![eureka注册中心界面.png](doc/image/项目相关/eureka.png)
+定时任务调度界面:
+![eureka注册中心界面.png](doc/image/项目相关/zuihou-jobs-server.png)
 
 ## 常见报错：
  - 1, 很多依赖死活都下载不下来？

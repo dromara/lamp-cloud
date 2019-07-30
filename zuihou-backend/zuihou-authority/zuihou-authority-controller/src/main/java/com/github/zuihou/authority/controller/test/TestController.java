@@ -56,4 +56,10 @@ public class TestController extends BaseController {
     public R<OptLogDTO> get3(OptLogDTO data, @ApiIgnore @LoginUser(isOrg = true, isStation = true) SysUser user) {
         return success(data);
     }
+
+    @PostMapping("post3")
+    public R<EnumDTO> post3(@RequestBody EnumDTO data) {
+        return success(data);
+    }
+
 }
