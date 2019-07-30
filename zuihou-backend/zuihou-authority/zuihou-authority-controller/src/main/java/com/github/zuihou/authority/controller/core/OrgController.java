@@ -19,6 +19,8 @@ import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.TreeUtil;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +67,10 @@ public class OrgController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询组织", notes = "分页查询组织")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+    })
     @GetMapping("/page")
     @SysLog("分页查询组织")
     public R<IPage<Org>> page(Org data) {

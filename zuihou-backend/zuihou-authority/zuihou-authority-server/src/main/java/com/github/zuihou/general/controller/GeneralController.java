@@ -65,7 +65,7 @@ public class GeneralController {
      * @return 查询结果
      */
     @ApiOperation(value = "查询所有组织", notes = "查询所有组织")
-    @GetMapping
+    @GetMapping("/orgs")
     public R<Map<String, Map<Long, String>>> find() {
         Map<String, Map<Long, String>> map = new HashMap<>(2);
         List<Station> stationList = stationService.list();

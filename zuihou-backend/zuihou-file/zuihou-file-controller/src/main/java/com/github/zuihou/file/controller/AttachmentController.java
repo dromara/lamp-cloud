@@ -78,6 +78,10 @@ public class AttachmentController extends BaseController {
      * @date 2019-05-06
      */
     @ApiOperation(value = "分页查询附件", notes = "分页查询附件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+    })
     @GetMapping(value = "/page")
     @SysLog("分页查询附件")
     public R<IPage<Attachment>> page(FilePageReqDTO data) {

@@ -12,6 +12,8 @@ import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,10 @@ public class RoleAuthorityController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "查询指定角色关联的菜单和资源", notes = "查询指定角色关联的菜单和资源")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+    })
     @GetMapping("/{roleId}")
     @SysLog("查询指定角色关联的菜单和资源")
     public R<List<RoleAuthority>> page(@PathVariable Long roleId) {

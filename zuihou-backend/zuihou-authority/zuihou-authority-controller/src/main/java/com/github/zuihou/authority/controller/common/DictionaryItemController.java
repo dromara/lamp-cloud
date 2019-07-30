@@ -17,10 +17,12 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +105,6 @@ public class DictionaryItemController extends BaseController {
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = dictionaryItemService.list(query);
 
-        //TODO 求优化
         //key 是字典编码
         Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
 
@@ -111,12 +112,8 @@ public class DictionaryItemController extends BaseController {
         Map<String, Map<String, String>> typeCodeNameMap = new LinkedHashMap<>(typeMap.size());
 
         typeMap.forEach((key, items) -> {
-            //将list 转成 map， key 是 条目编码， value 是 条目类型      // 但前端需需要名称， 所以还要转一次
-            ImmutableMap<String, DictionaryItem> itemCodeMap = Maps.uniqueIndex(items, DictionaryItem::getCode);
-            // key 是条目编码 value 是条目名称
-            Map<String, String> codeNameMap = new LinkedHashMap(itemCodeMap.size());
-            itemCodeMap.forEach((code, item) -> codeNameMap.put(code, item.getName()));
-            typeCodeNameMap.put(key, codeNameMap);
+            ImmutableMap<String, String> itemCodeMap = MapHelper.uniqueIndex(items, DictionaryItem::getCode, DictionaryItem::getName);
+            typeCodeNameMap.put(key, itemCodeMap);
         });
         return success(typeCodeNameMap);
     }
@@ -128,6 +125,10 @@ public class DictionaryItemController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询字典项", notes = "分页查询字典项")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+    })
     @GetMapping("/page")
     @SysLog("分页查询字典项")
     public R<IPage<DictionaryItem>> page(DictionaryItem data) {

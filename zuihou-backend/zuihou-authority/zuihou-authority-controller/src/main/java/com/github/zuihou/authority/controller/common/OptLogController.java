@@ -12,6 +12,8 @@ import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.log.entity.OptLogDTO;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,10 @@ public class OptLogController extends BaseController {
      * @param data 分页查询对象
      * @return 查询结果
      */
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+    })
     @ApiOperation(value = "分页查询系统日志", notes = "分页查询系统日志")
     @GetMapping("/page")
     @SysLog("分页查询系统日志")
