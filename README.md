@@ -32,11 +32,11 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 [原型] http://zuihou111.gitee.io/zuihou-admin-rp/
 
-[demo] http://wzroom.cn/zuihou-ui  (admin/123456) 「开发中」
+[demo] http://wzroom.cn/zuihou-ui  (zuihou/zuihou) 「开发中」
 
-[注册中心] http://wzroom.cn/zuihou-eureka/  (admin/admin) 
+[注册中心] http://wzroom.cn/zuihou-eureka/  (zuihou/zuihou) 
 
-[在线文档] http://wzroom.cn/api/gate/doc.html  (admin/admin) 
+[在线文档] http://wzroom.cn/api/gate/doc.html  (zuihou/zuihou) 
 
 
 

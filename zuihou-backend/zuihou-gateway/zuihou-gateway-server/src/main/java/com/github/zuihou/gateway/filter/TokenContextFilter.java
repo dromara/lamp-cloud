@@ -21,7 +21,7 @@ import org.springframework.util.StringUtils;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
- * admin 权限 过滤器
+ * 权限 过滤器
  *
  * @author zuihou
  * @createTime 2017-12-13 15:22
@@ -99,7 +99,7 @@ public class TokenContextFilter extends BaseFilter {
 
         //添加测试环境的特殊token
         if (isDev() && StrPool.TEST.equalsIgnoreCase(userToken)) {
-            userInfo = new JwtUserInfo(1L, "admin", "管理员", 1L, 1L);
+            userInfo = new JwtUserInfo(1L, "zuihou", "最后", 1L, 1L);
         }
         try {
             if (!isIgnoreToken() && userInfo == null) {
