@@ -46,6 +46,7 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
         Object obj = p.getCurrentValue();
         Class<?> fieldType;
         try {
+            //TODO 求优化
             fieldType = obj.getClass().getDeclaredField(p.getCurrentName()).getType();
         } catch (NoSuchFieldException | SecurityException e) {
             try {
@@ -58,7 +59,6 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
                         fieldType = obj.getClass().getField(p.getCurrentName()).getType();
                     } catch (NoSuchFieldException | SecurityException e1) {
                         e1.printStackTrace();
-
                         return null;
                     }
                 }
