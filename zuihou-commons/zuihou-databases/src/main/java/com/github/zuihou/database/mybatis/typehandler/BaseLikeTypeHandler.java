@@ -12,7 +12,7 @@ import org.apache.ibatis.type.JdbcType;
 /**
  * 仅仅用于like查询
  *
- * @author Administrator
+ * @author zuihou
  */
 public class BaseLikeTypeHandler extends BaseTypeHandler<CharSequence> {
 

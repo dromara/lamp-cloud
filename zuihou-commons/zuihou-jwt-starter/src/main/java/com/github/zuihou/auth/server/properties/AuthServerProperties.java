@@ -27,11 +27,11 @@ public class AuthServerProperties {
          */
         private Integer expire = 7200;
         /**
-         * 加密 admin服务使用
+         * 加密 服务使用
          */
         private String priKey;
         /**
-         * 解密  admin 服务也需要解密
+         * 解密
          */
         private String pubKey;
     }
