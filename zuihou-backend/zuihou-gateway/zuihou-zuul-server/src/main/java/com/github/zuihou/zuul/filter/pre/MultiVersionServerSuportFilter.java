@@ -1,8 +1,9 @@
-package com.github.zuihou.gateway.filter;
+package com.github.zuihou.zuul.filter.pre;
 
 import java.util.List;
 
 import com.github.zuihou.utils.StrPool;
+import com.github.zuihou.zuul.filter.BaseFilter;
 import com.netflix.zuul.context.RequestContext;
 
 import cn.hutool.core.util.StrUtil;

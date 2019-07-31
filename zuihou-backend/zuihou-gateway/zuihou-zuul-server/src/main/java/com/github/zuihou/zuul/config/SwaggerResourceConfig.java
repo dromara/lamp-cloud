@@ -1,4 +1,4 @@
-package com.github.zuihou.gateway.config;
+package com.github.zuihou.zuul.config;
 
 import java.util.ArrayList;
 import java.util.HashSet;

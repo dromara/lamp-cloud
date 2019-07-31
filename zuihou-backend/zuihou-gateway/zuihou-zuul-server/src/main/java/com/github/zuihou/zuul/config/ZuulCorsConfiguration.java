@@ -1,4 +1,4 @@
-package com.github.zuihou.gateway.config;
+package com.github.zuihou.zuul.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

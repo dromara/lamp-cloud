@@ -1,4 +1,4 @@
-package com.github.zuihou.gateway.filter;
+package com.github.zuihou.zuul.filter.pre;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +10,7 @@ import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.StrPool;
+import com.github.zuihou.zuul.filter.BaseFilter;
 import com.netflix.zuul.context.RequestContext;
 
 import lombok.extern.slf4j.Slf4j;

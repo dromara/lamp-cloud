@@ -10,9 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.zuihou</groupId>
-    <artifactId>zuihou-gateway-ratelimit</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>zuihou-zuul-ratelimit</artifactId>
 
     <name>${project.artifactId}</name>
     <description>网关限流插件</description>
