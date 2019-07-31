@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
  * 要么就做差异化配置，还有种方法，通过WebFilter的方式做一层ContextPath的转发，不过有一定风险，不推荐使用。
  *
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/31
  */
 @Component
