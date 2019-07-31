@@ -32,7 +32,6 @@ public class JwtHelper {
 
     private static final RsaKeyHelper RSA_KEY_HELPER = new RsaKeyHelper();
 
-
     /**
      * 生成用户token
      *
