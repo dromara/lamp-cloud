@@ -3,6 +3,6 @@ MAINTAINER zuihou 244387066@qq.com
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone
 
-COPY target/zuihou-gateway-server.jar /app.jar
+COPY target/zuihou-zuul-server.jar /app.jar
 
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar", "--spring.profiles.active=docker"]

@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zuihou-gateway-server</artifactId>
+    <artifactId>zuihou-zuul-server</artifactId>
     <name>${project.artifactId}</name>
     <description>统一网关系统服务</description>
 

@@ -1,5 +1,9 @@
 frame# zuihou-admin-cloud
 
+[![star](https://gitee.com/zuihou111/zuihou-admin-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/zuihou-admin-cloud/stargazers)
+[![Fork me on Gitee](https://gitee.com/zuihou111/zuihou-admin-cloud/widgets/widget_5.svg)](https://gitee.com/zuihou111/zuihou-admin-cloud)
+[![fork](https://gitee.com/zuihou111/zuihou-admin-cloud/badge/fork.svg?theme=white)](https://gitee.com/zuihou111/zuihou-admin-cloud/members)
+
 ## 简介：
 基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的微服务 脚手架，
 具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式定时任务等多个模块，支持多业务系统并行开发，
@@ -20,6 +24,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - k8s部署
 
 ## 交流群： 63202894
+`一键加群`
+<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+![qq群.png](doc/image/qq群.png)
 
 ## 项目地址
 [github] https://github.com/zuihou/zuihou-admin-cloud
