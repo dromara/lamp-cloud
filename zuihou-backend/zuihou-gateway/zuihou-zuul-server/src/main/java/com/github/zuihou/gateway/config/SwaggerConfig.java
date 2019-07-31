@@ -1,20 +1,11 @@
-///*
-// * Copyright (C) 2018 Zhejiang xiaominfo Technology CO.,LTD.
-// * All rights reserved.
-// * Official Web Site: http://www.xiaominfo.com.
-// * Developer Web Site: http://open.xiaominfo.com.
-// */
-//
 //package com.github.zuihou.gateway.config;
 //
 //import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 //
 //import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.core.annotation.Order;
-//import org.springframework.web.client.RestTemplate;
 //import springfox.documentation.builders.ApiInfoBuilder;
 //import springfox.documentation.service.ApiInfo;
 //import springfox.documentation.service.Contact;

@@ -1,4 +1,4 @@
-frame# zuihou-admin-cloud
+# zuihou-admin-cloud
 
 [![star](https://gitee.com/zuihou111/zuihou-admin-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/zuihou-admin-cloud/stargazers)
 [![Fork me on Gitee](https://gitee.com/zuihou111/zuihou-admin-cloud/widgets/widget_5.svg)](https://gitee.com/zuihou111/zuihou-admin-cloud)
@@ -24,8 +24,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - k8s部署
 
 ## 交流群： 63202894
-`一键加群`
-<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+`一键加群` <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+
 ![qq群.png](doc/image/qq群.png)
 
 ## 项目地址
@@ -78,7 +78,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 - 前后端统一表单验证
 
-严禁的表单通常需要 前端+后端同时验证， 但传统的项目，均只能前后端各做一次检验， 后期规则变更，又得前后端同时修改。
+严谨的表单验证通常需要 前端+后端同时验证， 但传统的项目，均只能前后端各做一次检验， 后期规则变更，又得前后端同时修改。
 故在`hibernate-validator`的基础上封装了`zuihou-validator-starter`起步依赖，提供一个通用接口，可以获取需要校验表单的规则，然后前端使用后端返回的规则，
 以后若规则改变，只需要后端修改即可。
 
@@ -300,3 +300,6 @@ du -ah --max-depth=1
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   
+
+
+## 
