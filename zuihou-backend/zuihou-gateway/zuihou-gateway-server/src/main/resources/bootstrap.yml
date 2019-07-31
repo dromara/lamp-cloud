@@ -1,6 +1,6 @@
 spring:
   application:
-    name: zuihou-zuul-server
+    name: zuihou-gateway-server
   cloud:
     nacos:
       config:
