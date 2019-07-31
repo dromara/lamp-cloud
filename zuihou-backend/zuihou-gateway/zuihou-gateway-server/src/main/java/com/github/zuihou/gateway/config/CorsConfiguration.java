@@ -14,9 +14,7 @@ import org.springframework.http.codec.support.DefaultServerCodecConfigurer;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.cors.reactive.CorsUtils;
-import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 /**
@@ -26,7 +24,7 @@ import reactor.core.publisher.Mono;
  * @date 2017-12-29 14:16
  */
 @Configuration
-public class ZuulCorsConfiguration {
+public class CorsConfiguration {
     private static final String ALL = "*";
     private static final String MAX_AGE = "18000L";
 
@@ -42,7 +40,7 @@ public class ZuulCorsConfiguration {
      */
     @Bean
     public WebFilter corsFilter() {
-        return (ServerWebExchange ctx, WebFilterChain chain) -> {
+        return (ctx, chain) -> {
             ServerHttpRequest request = ctx.getRequest();
             if (!CorsUtils.isCorsRequest(request)) {
                 return chain.filter(ctx);

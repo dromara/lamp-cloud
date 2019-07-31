@@ -15,20 +15,20 @@
     <description>统一网关系统服务</description>
 
     <dependencies>
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.zuihou</groupId>-->
-        <!--            <artifactId>zuihou-core</artifactId>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>org.springframework.boot</groupId>-->
-        <!--                    <artifactId>spring-boot-starter-jdbc</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.zuihou</groupId>-->
-        <!--            <artifactId>zuihou-jwt-starter</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--                <dependency>-->
+        <!--                    <groupId>com.github.zuihou</groupId>-->
+        <!--                    <artifactId>zuihou-jwt-starter</artifactId>-->
+        <!--                </dependency>-->
         <!--        <dependency>-->
         <!--            <groupId>com.github.zuihou</groupId>-->
         <!--            <artifactId>zuihou-authority-api</artifactId>-->
@@ -89,10 +89,10 @@
         <!--            <artifactId>spring-boot-starter-undertow</artifactId>-->
         <!--        </dependency>-->
 
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.zuihou</groupId>-->
-        <!--            <artifactId>zuihou-swagger2-starter</artifactId>-->
-        <!--        </dependency>-->
+        <!--                <dependency>-->
+        <!--                    <groupId>com.github.zuihou</groupId>-->
+        <!--                    <artifactId>zuihou-swagger2-starter</artifactId>-->
+        <!--                </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
