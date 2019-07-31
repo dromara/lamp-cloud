@@ -1,4 +1,4 @@
-package com.github.zuihou.gateway.fallback;
+package com.github.zuihou.zuul.fallback;
 
 import org.springframework.stereotype.Component;
 

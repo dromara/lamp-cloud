@@ -1,4 +1,4 @@
-package com.github.zuihou.gateway.filter;
+package com.github.zuihou.zuul.filter;
 
 import javax.servlet.http.HttpServletRequest;
 

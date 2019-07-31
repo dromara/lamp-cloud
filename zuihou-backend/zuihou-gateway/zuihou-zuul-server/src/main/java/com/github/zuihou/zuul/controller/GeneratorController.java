@@ -1,4 +1,4 @@
-package com.github.zuihou.gateway.controller;
+package com.github.zuihou.zuul.controller;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public class GeneratorController {
     @GetMapping("/dictionary/enums")
     @ResponseBody
     public R<Map<String, Map<String, String>>> dictionaryAndEnum() {
-        Map<String, Map<String, String>> map = new HashMap<>();
+        Map<String, Map<String, String>> map = new HashMap<>(3);
 
         //权限服务的枚举
         R<Map<String, Map<String, String>>> authorityResult = authorityGeneralApi.enums();
@@ -85,4 +85,5 @@ public class GeneratorController {
         }
         return R.success(map);
     }
+
 }

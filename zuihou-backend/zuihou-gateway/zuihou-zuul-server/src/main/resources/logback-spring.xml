@@ -99,7 +99,7 @@
     <logger name="com.github.zuihou.common.handler" additivity="true" level="ERROR">
         <appender-ref ref="EXCEPTION_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.gateway.filter" additivity="true" level="${log.level.filter}">
+    <logger name="com.github.zuihou.zuul.filter" additivity="true" level="${log.level.filter}">
         <appender-ref ref="FILTER_APPENDER"/>
     </logger>
 </configuration>
