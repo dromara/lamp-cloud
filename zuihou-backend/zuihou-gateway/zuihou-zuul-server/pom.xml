@@ -29,10 +29,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-jwt-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-gateway-ratelimit</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.zuihou</groupId>-->
+        <!--            <artifactId>zuihou-gateway-ratelimit</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-api</artifactId>
