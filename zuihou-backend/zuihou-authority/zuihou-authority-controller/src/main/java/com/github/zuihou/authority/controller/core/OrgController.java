@@ -159,7 +159,7 @@ public class OrgController extends BaseController {
      *
      * @param status 状态
      * @return
-     * @author tangyh
+     * @author zuihou
      * @date 2019-07-29 11:59
      */
     @ApiOperation(value = "查询系统所有的组织树", notes = "查询系统所有的组织树")
