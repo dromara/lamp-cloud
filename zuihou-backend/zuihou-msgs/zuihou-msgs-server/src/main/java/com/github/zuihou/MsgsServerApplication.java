@@ -3,7 +3,6 @@ package com.github.zuihou;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import com.github.zuihou.auth.server.EnableAuthServer;
 import com.github.zuihou.user.annotation.EnableLoginArgResolver;
 import com.github.zuihou.validator.config.EnableFormValidator;
 
@@ -13,28 +12,26 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author zuihou
- * @createTime 2018-01-13 1:34
+ * @createTime 2018-01-22 22:52
  */
+
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableTransactionManagement
-@EnableAuthServer
-@Configuration
 @EnableFeignClients(value = {
         "com.github.zuihou",
 })
 @Slf4j
 @EnableLoginArgResolver
 @EnableFormValidator
-public class AuthorityApplication {
+public class MsgsServerApplication {
     public static void main(String[] args) throws UnknownHostException {
-        ConfigurableApplicationContext application = SpringApplication.run(AuthorityApplication.class, args);
+        ConfigurableApplicationContext application = SpringApplication.run(MsgsServerApplication.class, args);
         Environment env = application.getEnvironment();
         log.info("\n----------------------------------------------------------\n\t" +
                         "应用 '{}' 运行成功! 访问连接:\n\t" +

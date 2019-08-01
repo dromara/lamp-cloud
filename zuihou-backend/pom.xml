@@ -16,7 +16,7 @@
 
     <modules>
         <module>zuihou-authority</module>
-        <!--<module>zuihou-msgs</module>-->
+        <module>zuihou-msgs</module>
         <module>zuihou-file</module>
         <module>zuihou-jobs</module>
         <module>zuihou-gateway</module>

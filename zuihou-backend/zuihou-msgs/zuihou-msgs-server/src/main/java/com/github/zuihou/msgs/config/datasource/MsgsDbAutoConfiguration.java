@@ -1,10 +1,9 @@
-package com.github.zuihou.file.config.datasource;
+package com.github.zuihou.msgs.config.datasource;
 
 
 import javax.sql.DataSource;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -34,44 +33,46 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
  */
 @Configuration
 @MapperScan(
-        basePackages = {"com.github.zuihou.file.dao"},
+        basePackages = {"com.github.zuihou"},
         annotationClass = Repository.class,
-        sqlSessionFactoryRef = "fileSqlSessionFactory")
-public class FileAutoConfiguration extends BaseDbConfiguration {
+        sqlSessionFactoryRef = "msgsSqlSessionFactory")
+public class MsgsDbAutoConfiguration extends BaseDbConfiguration {
 
-    @Bean(name = "fileDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.file")
+    @Bean(name = "msgsDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.msgs")
     public DataSource db1() {
         return DruidDataSourceBuilder.create().build();
     }
 
-    @Bean(name = "txFile")
+    @Bean(name = "txMsgs")
     @Primary
-    public DataSourceTransactionManager fileTransactionManager() {
+    public DataSourceTransactionManager msgsTransactionManager() {
         return new DataSourceTransactionManager(db1());
     }
 
-    @Bean("fileSqlSessionFactory")
+    @Bean("msgsSqlSessionFactory")
     @Primary
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("fileGlobalConfig") GlobalConfig globalConfig,
-                                               MybatisPlusProperties properties,
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("msgsGlobalConfig") GlobalConfig globalConfig,
                                                @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(db1());
-        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory, properties.getMapperLocations(), globalConfig, myMetaObjectHandler);
+        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory, new String[]{
+                "classpath:mapper_msgs/**/*Mapper.xml",
+                "classpath:mapper_sms/**/*Mapper.xml"
+        }, globalConfig, myMetaObjectHandler);
     }
 
-    @Bean("fileTxAdvice")
+    @Bean("msgsTxAdvice")
     @Primary
     @Override
-    public TransactionInterceptor txAdvice(@Qualifier("txFile") PlatformTransactionManager transactionManager) {
+    public TransactionInterceptor txAdvice(@Qualifier("txMsgs") PlatformTransactionManager transactionManager) {
         return super.txAdvice(transactionManager);
     }
 
-    @Bean("fileTxAdviceAdvisor")
+    @Bean("msgsTxAdviceAdvisor")
     @Primary
     @Override
-    public Advisor txAdviceAdvisor(@Qualifier("txFile") PlatformTransactionManager transactionManager) {
+    public Advisor txAdviceAdvisor(@Qualifier("txMsgs") PlatformTransactionManager transactionManager) {
         return super.txAdviceAdvisor(transactionManager);
     }
 
@@ -80,7 +81,7 @@ public class FileAutoConfiguration extends BaseDbConfiguration {
      *
      * @return
      */
-    @Bean("fileGlobalConfig")
+    @Bean("msgsGlobalConfig")
     public GlobalConfig globalConfig() {
         return defGlobalConfig();
     }
