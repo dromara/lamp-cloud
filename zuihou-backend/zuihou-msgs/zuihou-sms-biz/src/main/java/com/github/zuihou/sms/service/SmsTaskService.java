@@ -15,5 +15,18 @@ import com.github.zuihou.sms.entity.SmsTask;
  * @date 2019-08-01
  */
 public interface SmsTaskService extends IService<SmsTask> {
+    /**
+     * 保存任务
+     *
+     * @param smsTask
+     * @return
+     */
+    SmsTask saveTask(SmsTask smsTask);
 
+    /**
+     * 修改短信任务
+     *
+     * @param smsTask
+     */
+    void update(SmsTask smsTask);
 }

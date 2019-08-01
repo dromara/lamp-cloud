@@ -26,17 +26,17 @@ import lombok.NoArgsConstructor;
 public enum ProviderType implements BaseEnum {
 
     /**
-     * ALI="OK""阿里云短信"
+     * TENCENT="0","腾讯云短信",
      */
-    ALI("OK", "阿里云短信"),
+    ALI("OK", "阿里云短信", "\\$\\{([^\\}]+)\\}"),
     /**
-     * TENCENT="0""腾讯云短信"
+     * 腾讯
      */
-    TENCENT("0", "腾讯云短信"),
+    TENCENT("0", "腾讯云短信", "\\{([^\\}]+)\\}"),
     /**
-     * BAIDU="1000""百度云短信"
+     * 百度
      */
-    BAIDU("1000", "百度云短信"),
+    BAIDU("1000", "百度云短信", "\\$\\{([^\\}]+)\\}"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -44,6 +44,7 @@ public enum ProviderType implements BaseEnum {
 
     private String desc;
 
+    private String regex;
 
     public static ProviderType match(String val, ProviderType def) {
         for (ProviderType enm : ProviderType.values()) {
@@ -75,4 +76,11 @@ public enum ProviderType implements BaseEnum {
         return this.name();
     }
 
+    public SendStatus getTaskStatus(String code) {
+        if (this.val.equalsIgnoreCase(code)) {
+            return SendStatus.SUCCESS;
+        } else {
+            return SendStatus.FAIL;
+        }
+    }
 }

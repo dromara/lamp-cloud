@@ -67,7 +67,7 @@ public class SmsProviderController extends BaseController {
     public R<IPage<SmsProvider>> page(SmsProvider data) {
         IPage<SmsProvider> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<SmsProvider> query = Wraps.lbQ(data);
+        LbqWrapper<SmsProvider> query = Wraps.lbQ(data).orderByDesc(SmsProvider::getCreateTime);
         smsProviderService.page(page, query);
         return success(page);
     }

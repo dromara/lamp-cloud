@@ -19,10 +19,9 @@
        %l
        输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
-    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs/zuihou-mail"/>
-    <springProperty scope="context" name="spring.application.name" source="spring.application.name"
-                    defaultValue="zuihou-mail"/>
-    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
+    <springProperty scope="context" name="log.path" source="logging.path"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
+    <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active"/>
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern"
                     defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
@@ -33,7 +32,6 @@
     <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <!--<include resource="org/springframework/boot/logging/logback/base.xml"/>-->
     <jmxConfigurator/>
 
 
@@ -62,7 +60,7 @@
     </appender>
 
     <appender name="SERVICE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/service.log</file>
+        <file>${log.path}/biz.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
             <fileNamePattern>${log.path}/%d{yyyy-MM}/service-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
@@ -76,7 +74,7 @@
         </encoder>
     </appender>
     <appender name="REST_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/impl.log</file>
+        <file>${log.path}/controller.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
             <fileNamePattern>${log.path}/%d{yyyy-MM}/impl-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
@@ -122,12 +120,35 @@
         <appender-ref ref="CONSOLE_APPENDER"/>
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
-    <logger name="com.github.zuihou.admin.controller" additivity="true" level="${log.level.rest}">
+    <logger name="com.github.zuihou.msgs.controller" additivity="true" level="${log.level.rest}">
         <appender-ref ref="REST_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.admin.ser" additivity="true" level="${log.level.service}">
+    <logger name="com.github.zuihou.sms.controller" additivity="true" level="${log.level.rest}">
+        <appender-ref ref="REST_APPENDER"/>
+    </logger>
+    <logger name="com.github.zuihou.mail.controller" additivity="true" level="${log.level.rest}">
+        <appender-ref ref="REST_APPENDER"/>
+    </logger>
+    <logger name="com.github.zuihou.msgs.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
-
+    <logger name="com.github.zuihou.sms.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="SERVICE_APPENDER"/>
+    </logger>
+    <logger name="com.github.zuihou.mail.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="SERVICE_APPENDER"/>
+    </logger>
+    <logger name="com.github.zuihou.mail.dao" additivity="false" level="${log.level.sql}">
+        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
+        <appender-ref ref="SQL_APPENDER"/>
+    </logger>
+    <logger name="com.github.zuihou.msgs.dao" additivity="false" level="${log.level.sql}">
+        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
+        <appender-ref ref="SQL_APPENDER"/>
+    </logger>
+    <logger name="com.github.zuihou.sms.dao" additivity="false" level="${log.level.sql}">
+        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
+        <appender-ref ref="SQL_APPENDER"/>
+    </logger>
 
 </configuration>
