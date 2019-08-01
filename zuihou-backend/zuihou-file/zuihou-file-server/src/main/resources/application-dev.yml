@@ -1,6 +1,6 @@
 zuihou:
   port:
-    nginx: ${server.port}
+    nginx: 10086
     eureka: ${EUREKA_PORT:8761}
   ip:
     mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}

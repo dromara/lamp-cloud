@@ -3,6 +3,7 @@ package com.github.zuihou.authority.controller.test;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import com.github.zuihou.authority.controller.test.model.ValidatorDTO;
 import com.github.zuihou.authority.dto.auth.ApplicationUpdateDTO;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.log.annotation.SysLog;

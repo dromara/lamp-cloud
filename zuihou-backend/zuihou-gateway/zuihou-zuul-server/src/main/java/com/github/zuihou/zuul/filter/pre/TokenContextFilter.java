@@ -8,9 +8,9 @@ import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
+import com.github.zuihou.filter.BaseFilter;
 import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.StrPool;
-import com.github.zuihou.zuul.filter.BaseFilter;
 import com.netflix.zuul.context.RequestContext;
 
 import lombok.extern.slf4j.Slf4j;
@@ -114,10 +114,6 @@ public class TokenContextFilter extends BaseFilter {
             return null;
         }
 
-        if (!authPass(ctx, userInfo)) {
-            return null;
-        }
-
         log.info("userInfo={}", userInfo);
 
         //3, 将信息放入header
@@ -141,11 +137,6 @@ public class TokenContextFilter extends BaseFilter {
         String valueStr = value.toString();
         String valueEncode = StrHelper.encode(valueStr);
         ctx.addZuulRequestHeader(name, valueEncode);
-    }
-
-
-    private boolean authPass(RequestContext ctx, JwtUserInfo userInfo) {
-        return true;
     }
 
 }

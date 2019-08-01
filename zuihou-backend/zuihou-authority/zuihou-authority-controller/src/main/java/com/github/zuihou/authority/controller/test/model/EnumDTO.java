@@ -1,6 +1,7 @@
-package com.github.zuihou.authority.controller.test;
+package com.github.zuihou.authority.controller.test.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.github.zuihou.common.enums.HttpMethod;
 
@@ -20,6 +21,7 @@ public class EnumDTO implements Serializable {
     private String name;
     private HttpMethod httpMethod;
 
+    private List<Producttt> list;
     public void testEx() throws Exception {
         throw new Exception("eeeeee");
     }

@@ -7,7 +7,7 @@ import cn.hutool.core.io.FileUtil;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/31
  */
 public class RsaKeyHelperTest {
@@ -30,7 +30,7 @@ public class RsaKeyHelperTest {
         byte[] publicKeyBytes = keyPair.getPublic().getEncoded();
         byte[] privateKeyBytes = keyPair.getPrivate().getEncoded();
 
-        FileUtil.writeBytes(publicKeyBytes, "/Users/tangyh/githubspace/zuihou-admin-cloud/zuihou-commons/zuihou-jwt-starter/src/main/resources/pub.key");
-        FileUtil.writeBytes(privateKeyBytes, "/Users/tangyh/githubspace/zuihou-admin-cloud/zuihou-commons/zuihou-jwt-starter/src/main/resources/pri.key");
+        FileUtil.writeBytes(publicKeyBytes, "/Users/zuihou/githubspace/zuihou-admin-cloud/zuihou-commons/zuihou-jwt-starter/src/main/resources/pub.key");
+        FileUtil.writeBytes(privateKeyBytes, "/Users/zuihou/githubspace/zuihou-admin-cloud/zuihou-commons/zuihou-jwt-starter/src/main/resources/pri.key");
     }
 }

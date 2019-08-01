@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.controller.test;
 
+import com.github.zuihou.authority.controller.test.model.EnumDTO;
+import com.github.zuihou.authority.controller.test.model.Orddder;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.log.entity.OptLogDTO;
@@ -7,6 +9,7 @@ import com.github.zuihou.user.annotation.LoginUser;
 import com.github.zuihou.user.model.SysUser;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperationSupport;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,5 +76,21 @@ public class TestController extends BaseController {
         new EnumDTO().testEx();
         return success(data);
     }
+
+    @ApiOperationSupport(ignoreParameters = {"id", "list.id"})
+    @PostMapping("post6")
+    public R<EnumDTO> post6(@RequestBody EnumDTO data) throws Exception {
+
+        return success(data);
+    }
+
+
+    @ApiOperationSupport(ignoreParameters = {"id", "producttt.id"})
+    @PostMapping("post7")
+    public R<Orddder> post7(@RequestBody Orddder data) throws Exception {
+
+        return success(data);
+    }
+
 
 }
