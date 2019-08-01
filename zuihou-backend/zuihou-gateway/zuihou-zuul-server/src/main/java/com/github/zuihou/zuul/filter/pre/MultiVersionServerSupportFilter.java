@@ -2,14 +2,13 @@ package com.github.zuihou.zuul.filter.pre;
 
 import java.util.List;
 
+import com.github.zuihou.filter.BaseFilter;
 import com.github.zuihou.utils.StrPool;
-import com.github.zuihou.zuul.filter.BaseFilter;
 import com.netflix.zuul.context.RequestContext;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.zuul.filters.Route;
@@ -29,14 +28,12 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  */
 @Component
 @Slf4j
-public class MultiVersionServerSuportFilter extends BaseFilter {
+public class MultiVersionServerSupportFilter extends BaseFilter {
 
     @Autowired
     private DiscoveryClient discoveryClient;
-    @Value("${spring.profiles.active}")
-    private String active;
 
-    public MultiVersionServerSuportFilter() {
+    public MultiVersionServerSupportFilter() {
 
     }
 
@@ -77,7 +74,7 @@ public class MultiVersionServerSuportFilter extends BaseFilter {
         boolean flag =
                 !ctx.containsKey(FilterConstants.FORWARD_TO_KEY) &&
                         !ctx.containsKey(SERVICE_ID_KEY) &&
-                        !StrPool.PROD.equalsIgnoreCase(active);
+                        !StrPool.PROD.equalsIgnoreCase(profiles);
         return flag;
     }
 
@@ -88,7 +85,7 @@ public class MultiVersionServerSuportFilter extends BaseFilter {
 
     @Override
     public int filterOrder() {
-        return PRE_DECORATION_FILTER_ORDER + 1;
+        return PRE_DECORATION_FILTER_ORDER + 2;
     }
 
 }

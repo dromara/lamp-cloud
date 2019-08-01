@@ -10,16 +10,29 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zuihou-zuul-authentication</artifactId>
+    <artifactId>zuihou-zuul-base</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>网关权限控制插件</description>
+    <description>网关公共部分</description>
 
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-zuul-base</artifactId>
+            <artifactId>zuihou-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 </project>

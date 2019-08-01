@@ -5,7 +5,7 @@ import com.github.zuihou.auth.utils.Token;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/07/31
  */
 public class JwtHelperTest {

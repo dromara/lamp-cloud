@@ -17,14 +17,9 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-jdbc</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>zuihou-zuul-base</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-jwt-starter</artifactId>

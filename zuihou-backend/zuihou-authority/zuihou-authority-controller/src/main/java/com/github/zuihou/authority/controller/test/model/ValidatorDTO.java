@@ -1,4 +1,4 @@
-package com.github.zuihou.authority.controller.test;
+package com.github.zuihou.authority.controller.test.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +19,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.github.zuihou.authority.controller.test.InnerDTO;
 import com.github.zuihou.base.entity.Entity;
 
 import io.swagger.annotations.ApiModel;

@@ -17,12 +17,18 @@
 
     <modules>
         <!--        <module>zuihou-gateway-server</module>-->
+        <module>zuihou-zuul-base</module>
         <module>zuihou-zuul-server</module>
         <module>zuihou-zuul-ratelimit</module>
         <module>zuihou-zuul-authentication</module>
     </modules>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-zuul-base</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-zuul-ratelimit</artifactId>

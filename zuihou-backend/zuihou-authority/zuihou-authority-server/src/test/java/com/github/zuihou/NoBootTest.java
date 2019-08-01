@@ -10,7 +10,7 @@ import javax.validation.ValidatorFactory;
 import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
-import com.github.zuihou.authority.controller.test.ValidatorDTO;
+import com.github.zuihou.authority.controller.test.model.ValidatorDTO;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;

@@ -63,9 +63,6 @@ public class FileServerProperties {
     }
 
     public String getInnerUriPrefix() {
-        if (!innerUriPrefix.endsWith(URI_SEPARATOR)) {
-            innerUriPrefix += URI_SEPARATOR;
-        }
         return innerUriPrefix;
     }
 

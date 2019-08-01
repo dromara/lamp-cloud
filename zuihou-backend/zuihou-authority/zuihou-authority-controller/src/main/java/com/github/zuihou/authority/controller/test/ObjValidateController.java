@@ -2,6 +2,7 @@ package com.github.zuihou.authority.controller.test;
 
 import javax.validation.Valid;
 
+import com.github.zuihou.authority.controller.test.model.ValidatorDTO;
 import com.github.zuihou.authority.dto.auth.ApplicationUpdateDTO;
 import com.github.zuihou.base.entity.SuperEntity;
 
