@@ -1,13 +1,4 @@
 zuihou:
-  swagger:
-    enabled: true
-    docket:
-      file:
-        title: 文件服务
-        base-package: com.github.zuihou.file.controller
-      general:
-        title: 通用模块
-        base-package: com.github.zuihou.general.controller
   port:
     nginx: ${NGINX_PORT:80}
     eureka: ${EUREKA_PORT:8761}
@@ -15,62 +6,50 @@ zuihou:
     mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}
     nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
     eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
-  context-path:
-    eureka: /zuihou-eureka
-    gate: /api
   mysql:
-    file:
-      database: zuihou_file_dev       # 根据环境更改
+    msgs:
+      database: zuihou_msgs_dev
       host: ${zuihou.ip.mysql}
       port: ${zuihou.mysql.port}
     driverClassName: com.mysql.cj.jdbc.Driver
     port: 3306                  # 根据环境更改
-    username: root              # 根据环境更改
+    username: root              # 数据库密码
     password: root
-  file:
-    type: LOCAL # FAST_DFS LOCAL
-    storage-path: /projects/uploadfile/file
-    uriPrefix: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/file/ # 本地
-    inner-uri-prefix: null  # 内网通道
-    shareFileUrl: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/zuihou/file#/shareFileList/%s
-    down-by-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download?ids[]=%s
-    down-by-biz-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download/biz?bizIds[]=%s
-    down-by-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download/url?url=%s&filename=%s
-
-
-#FAST_DFS配置
-fdfs:
-  soTimeout: 1500
-  connectTimeout: 600
-  thumb-image:
-    width: 150
-    height: 150
-  tracker-list:
-    - 192.168.1.2:22122
-  pool:
-    #从池中借出的对象的最大数目
-    max-total: 153
-    max-wait-millis: 102
-    jmx-name-base: 1
-    jmx-name-prefix: 1
+  context-path:
+    eureka: /zuihou-eureka
+    gate: /api
+  swagger:
+    enabled: true
+    docket:
+      sms:
+        title: 短信模块
+        base-package: com.github.zuihou.sms.controller
+      msgs:
+        title: 消息模块
+        base-package: com.github.zuihou.msgs.controller
+      mail:
+        title: 邮件模块
+        base-package: com.github.zuihou.mail.controller
+      general:
+        title: 通用模块
+        base-package: com.github.zuihou.general.controller
 
 logging:
   file: ${logging.path}/root.log
   path: /projects/logs/${spring.application.name}
-
 dozer:
   mappingFiles:
     - classpath:dozer/global.dozer.xml
+
 server:
   servlet:
     context-path:
-  port: 8765
-  undertow:
+  port: 8764
+  undertow: # jetty  undertow
     io-threads: 8 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
-    worker-threads: 300  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    worker-threads: 120  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
     buffer-size: 2048  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
     direct-buffers: true  # 是否分配的直接内存
-
 
 spring:
   main:
@@ -89,59 +68,16 @@ spring:
       name: zuihou
       password: zuihou
       roles: USER
-  boot:
-    admin:
-      client:
-        instance:
-          metadata:
-            user.name: ${spring.security.user.name}
-            user.password: ${spring.security.user.password}
-            user.roles: ${spring.security.user.roles}
-          prefer-ip: true
   datasource:
     druid:
-      file:
+      msgs:
         username: ${zuihou.mysql.username}
         password: ${zuihou.mysql.password}
         driver-class-name: ${zuihou.mysql.driverClassName}
-        url: jdbc:mysql://${zuihou.mysql.file.host}:${zuihou.mysql.file.port}/${zuihou.mysql.file.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
+        url: jdbc:mysql://${zuihou.mysql.msgs.host}:${zuihou.mysql.msgs.port}/${zuihou.mysql.msgs.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
         initialSize: 10
-        minIdle: 40
+        minIdle: 50
         maxActive: 200
-
-mybatis-plus:
-  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
-  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
-  mapper-locations:
-    - classpath:mapper_file/**/*Mapper.xml
-  #    - classpath*:mapper_attachment/**/*Mapper.xml
-  #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.github.zuihou.file.entity
-  global-config:
-    db-config:
-      #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
-      id-type: INPUT
-      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-      field-strategy: NOT_EMPTY
-      #驼峰下划线转换
-      #      db-column-underline: true
-      #mp2.3+ 全局表前缀 mp_
-      #table-prefix: mp_
-      #刷新mapper 调试神器
-      #      refresh-mapper: true
-      #数据库大写下划线转换
-      #capital-mode: true
-      #逻辑删除配置（下面3个配置）
-      logic-delete-value: 4
-      logic-not-delete-value: 0
-  configuration:
-    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
-    map-underscore-to-camel-case: true
-    cache-enabled: false
-    #配置JdbcTypeForNull, oracle数据库必须配置
-    jdbc-type-for-null: 'null'
-
-
 
 management:
   endpoints:
@@ -153,7 +89,6 @@ management:
     health:
       show-details: ALWAYS
       enabled: true
-
 eureka:
   instance:
     status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/doc.html
@@ -162,12 +97,13 @@ eureka:
     preferIpAddress: true
     ip-address: ${spring.cloud.client.ip-address}
     instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.context-path:}
+    ip: ${spring.application.name}
+    appname: ${spring.application.name}
     metadata-map:
       user.name: ${spring.security.user.name}
       user.password: ${spring.security.user.password}
-      user.roles: ${spring.security.user.roles}
       swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
-      service.name: 文件服务
+      service.name: 消息服务
   client:
     service-url:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:${zuihou.port.eureka}${zuihou.context-path.eureka}/eureka/
@@ -213,10 +149,9 @@ hystrix:
 id-generator:
   machine-code: 1  # id生成器机器掩码
 
-
 info:
-  name: "@project.name@"
-  description: "@project.description@"
-  version: "@project.version@"
-  spring-boot-version: "@spring.boot.version@"
-  spring-cloud-version: "@spring.cloud.version@"
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

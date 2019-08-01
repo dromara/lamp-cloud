@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.sms.dao.SmsSendStatusMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.sms.entity.SmsSendStatus">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="task_id" jdbcType="BIGINT" property="taskId"/>
+        <result column="send_status" jdbcType="VARCHAR" property="sendStatus"/>
+        <result column="receiver" jdbcType="VARCHAR" property="receiver"/>
+        <result column="biz_id" jdbcType="VARCHAR" property="bizId"/>
+        <result column="ext" jdbcType="VARCHAR" property="ext"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="fee" jdbcType="INTEGER" property="fee"/>
+        <result column="create_month" jdbcType="VARCHAR" property="createMonth"/>
+        <result column="create_week" jdbcType="VARCHAR" property="createWeek"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_user, create_time, update_user, update_time, 
+        task_id, send_status, receiver, biz_id, ext, code, message, fee, create_month, create_week, create_date
+    </sql>
+
+</mapper>
