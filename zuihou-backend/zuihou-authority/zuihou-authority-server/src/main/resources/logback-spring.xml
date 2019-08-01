@@ -59,7 +59,7 @@
     </appender>
 
     <appender name="SERVICE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/service.log</file>
+        <file>${log.path}/biz.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
             <fileNamePattern>${log.path}/%d{yyyy-MM}/service-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
@@ -130,20 +130,15 @@
     <logger name="com.github.zuihou.commons.handler" additivity="true" level="ERROR">
         <appender-ref ref="EXCEPTION_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.authority.repository" additivity="true" level="${log.level.service}">
+    <logger name="com.github.zuihou.authority.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.authority.impl" additivity="true" level="${log.level.impl}">
+    <logger name="com.github.zuihou.authority.controller" additivity="true" level="${log.level.impl}">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.authority.repository.account.dao" additivity="false" level="${log.level.sql}">
+    <logger name="com.github.zuihou.authority.dao" additivity="false" level="${log.level.sql}">
         <appender-ref ref="CONSOLE_SQL_APPENDER"/>
         <appender-ref ref="SQL_APPENDER"/>
     </logger>
-    <logger name="com.github.zuihou.authority.repository.authority.dao" additivity="false" level="${log.level.sql}">
-        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
-        <appender-ref ref="SQL_APPENDER"/>
-    </logger>
-
 
 </configuration>

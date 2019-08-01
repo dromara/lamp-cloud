@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.sms.enumeration.ProviderType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,13 +42,6 @@ public class SmsProviderUpdateDTO implements Serializable {
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
     private Long id;
 
-    /**
-     * 供应商类型
-     * #ProviderType{ALI:OK,阿里云短信;TENCENT:0,腾讯云短信;BAIDU:1000,百度云短信}
-     */
-    @ApiModelProperty(value = "供应商类型")
-    @NotNull(message = "供应商类型不能为空")
-    private ProviderType providerType;
     /**
      * 应用编码
      */

@@ -13,5 +13,20 @@ import com.github.zuihou.sms.entity.SmsTemplate;
  * @date 2019-08-01
  */
 public interface SmsTemplateService extends IService<SmsTemplate> {
+    /**
+     * 保存模板，并且将模板内容解析成json格式
+     *
+     * @param smsTemplate
+     * @return
+     * @author zuihou
+     * @date 2019-05-16 21:13
+     */
+    void saveTemplate(SmsTemplate smsTemplate);
 
+    /**
+     * 修改
+     *
+     * @param smsTemplate
+     */
+    void updateTemplate(SmsTemplate smsTemplate);
 }

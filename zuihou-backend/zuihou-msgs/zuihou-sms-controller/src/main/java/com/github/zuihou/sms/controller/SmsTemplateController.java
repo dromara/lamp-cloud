@@ -67,7 +67,8 @@ public class SmsTemplateController extends BaseController {
     public R<IPage<SmsTemplate>> page(SmsTemplate data) {
         IPage<SmsTemplate> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<SmsTemplate> query = Wraps.lbQ(data);
+        LbqWrapper<SmsTemplate> query = Wraps.lbQ(data)
+                .orderByDesc(SmsTemplate::getUpdateTime);
         smsTemplateService.page(page, query);
         return success(page);
     }
@@ -96,7 +97,7 @@ public class SmsTemplateController extends BaseController {
     @SysLog("新增短信模板")
     public R<SmsTemplate> save(@RequestBody @Validated SmsTemplateSaveDTO data) {
         SmsTemplate smsTemplate = dozer.map(data, SmsTemplate.class);
-        smsTemplateService.save(smsTemplate);
+        smsTemplateService.saveTemplate(smsTemplate);
         return success(smsTemplate);
     }
 
@@ -111,7 +112,7 @@ public class SmsTemplateController extends BaseController {
     @SysLog("修改短信模板")
     public R<SmsTemplate> update(@RequestBody @Validated(SuperEntity.Update.class) SmsTemplateUpdateDTO data) {
         SmsTemplate smsTemplate = dozer.map(data, SmsTemplate.class);
-        smsTemplateService.updateById(smsTemplate);
+        smsTemplateService.updateTemplate(smsTemplate);
         return success(smsTemplate);
     }
 

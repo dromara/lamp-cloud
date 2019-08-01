@@ -2,6 +2,7 @@ package com.github.zuihou.sms.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -9,16 +10,23 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.sms.dto.SmsSendTaskDTO;
 import com.github.zuihou.sms.dto.SmsTaskSaveDTO;
 import com.github.zuihou.sms.dto.SmsTaskUpdateDTO;
 import com.github.zuihou.sms.entity.SmsTask;
+import com.github.zuihou.sms.entity.SmsTemplate;
+import com.github.zuihou.sms.enumeration.SourceType;
+import com.github.zuihou.sms.manager.SmsManager;
 import com.github.zuihou.sms.service.SmsTaskService;
+import com.github.zuihou.sms.service.SmsTemplateService;
+import com.github.zuihou.utils.BizAssert;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +36,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
 
 /**
  * <p>
@@ -49,9 +60,33 @@ import org.springframework.web.bind.annotation.RestController;
 public class SmsTaskController extends BaseController {
 
     @Autowired
+    private SmsManager smsManager;
+    @Autowired
     private SmsTaskService smsTaskService;
     @Autowired
+    private SmsTemplateService smsTemplateService;
+    @Autowired
     private DozerUtils dozer;
+
+    @ApiOperation(value = "发送短信", notes = "对外+对平台内任何服务短信发送服务，需要先在短信系统，或者短信数据库中进行配置供应商和模板")
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
+    public R<SmsTask> save(@RequestBody SmsSendTaskDTO smsTaskDTO) {
+        SmsTemplate template = smsTemplateService.getOne(Wrappers.<SmsTemplate>lambdaQuery()
+                .eq(SmsTemplate::getCustomCode, smsTaskDTO.getCustomCode()));
+        BizAssert.assertNotNull(BASE_VALID_PARAM.build("短信参数不能为空"), template);
+
+        SmsTask smsTask = dozer.map2(smsTaskDTO, SmsTask.class);
+        smsTask.setProviderId(template.getProviderId());
+        smsTask.setTemplateId(template.getId());
+        smsTask.setSourceType(SourceType.SERVICE);
+        smsTask.setTemplateParams(smsTaskDTO.getTemplateParam().toString());
+
+        if (StringUtils.isEmpty(smsTask.getTopic())) {
+            smsTask.setTopic(template.getSignName());
+        }
+        smsManager.saveTask(smsTask);
+        return success(smsTask);
+    }
 
     /**
      * 分页查询发送任务
@@ -69,7 +104,7 @@ public class SmsTaskController extends BaseController {
     public R<IPage<SmsTask>> page(SmsTask data) {
         IPage<SmsTask> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<SmsTask> query = Wraps.lbQ(data);
+        LbqWrapper<SmsTask> query = Wraps.lbQ(data).orderByDesc(SmsTask::getCreateTime);
         smsTaskService.page(page, query);
         return success(page);
     }
@@ -98,7 +133,8 @@ public class SmsTaskController extends BaseController {
     @SysLog("新增发送任务")
     public R<SmsTask> save(@RequestBody @Validated SmsTaskSaveDTO data) {
         SmsTask smsTask = dozer.map(data, SmsTask.class);
-        smsTaskService.save(smsTask);
+        smsTask.setSourceType(SourceType.APP);
+        smsManager.saveTask(smsTask);
         return success(smsTask);
     }
 

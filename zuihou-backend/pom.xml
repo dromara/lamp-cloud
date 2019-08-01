@@ -101,6 +101,11 @@
                 <artifactId>zuihou-file-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-jobs-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>
