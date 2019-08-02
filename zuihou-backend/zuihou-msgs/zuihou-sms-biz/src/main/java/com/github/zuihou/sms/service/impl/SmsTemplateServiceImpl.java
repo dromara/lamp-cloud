@@ -13,6 +13,7 @@ import com.github.zuihou.sms.entity.SmsTemplate;
 import com.github.zuihou.sms.service.SmsProviderService;
 import com.github.zuihou.sms.service.SmsTemplateService;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,8 +56,10 @@ public class SmsTemplateServiceImpl extends ServiceImpl<SmsTemplateMapper, SmsTe
         SmsProvider smsProvider = smsProviderService.getById(smsTemplate.getProviderId());
         assertNotNull(smsProvider, "短信供应商不存在");
         String content = smsTemplate.getContent();
-        String param = getParamByContent(content, smsProvider.getProviderType().getRegex());
-        smsTemplate.setTemplateParams(param);
+        if (StrUtil.isNotEmpty(content)) {
+            String param = getParamByContent(content, smsProvider.getProviderType().getRegex());
+            smsTemplate.setTemplateParams(param);
+        }
     }
 
     @Override
@@ -73,6 +76,7 @@ public class SmsTemplateServiceImpl extends ServiceImpl<SmsTemplateMapper, SmsTe
 
     @Override
     public void updateTemplate(SmsTemplate smsTemplate) {
-
+        buildParams(smsTemplate);
+        super.updateById(smsTemplate);
     }
 }

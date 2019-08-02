@@ -63,7 +63,7 @@
         <file>${log.path}/biz.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/service-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/biz-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>128MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -77,7 +77,7 @@
         <file>${log.path}/controller.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/impl-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/controller-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>128MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -115,6 +115,14 @@
             <pattern>${common-pattern}</pattern>
         </encoder>
     </appender>
+    <appender name="CONSOLE_SQL_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${log.level.sql}</level>
+        </filter>
+        <encoder>
+            <pattern>${common-pattern}</pattern>
+        </encoder>
+    </appender>
 
     <root level="${log.level.console}">
         <appender-ref ref="CONSOLE_APPENDER"/>
@@ -138,6 +146,7 @@
     <logger name="com.github.zuihou.mail.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
+
     <logger name="com.github.zuihou.mail.dao" additivity="false" level="${log.level.sql}">
         <appender-ref ref="CONSOLE_SQL_APPENDER"/>
         <appender-ref ref="SQL_APPENDER"/>
@@ -150,5 +159,4 @@
         <appender-ref ref="CONSOLE_SQL_APPENDER"/>
         <appender-ref ref="SQL_APPENDER"/>
     </logger>
-
 </configuration>
