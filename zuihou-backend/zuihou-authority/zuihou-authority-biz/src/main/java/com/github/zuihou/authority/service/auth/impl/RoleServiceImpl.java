@@ -79,4 +79,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             roleOrgService.saveBatch(list);
         }
     }
+
+    @Override
+    public List<Long> findUserIdByCode(String[] codes) {
+        return baseMapper.findUserIdByCode(codes);
+    }
 }

@@ -42,4 +42,12 @@ public interface RoleService extends IService<Role> {
      * @param userId
      */
     void updateRole(RoleUpdateDTO role, Long userId);
+
+    /**
+     * 根据角色编码查询用户ID
+     *
+     * @param codes 角色编码
+     * @return
+     */
+    List<Long> findUserIdByCode(String[] codes);
 }

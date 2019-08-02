@@ -3,6 +3,7 @@ package com.github.zuihou.utils;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,7 +35,6 @@ public class StrHelper {
     }
 
     public static String getOrDef(String val, String def) {
-        BizAssert.assertNotEmpty(val);
-        return val == null ? def : val;
+        return StrUtil.isEmpty(val) ? def : val;
     }
 }

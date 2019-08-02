@@ -26,6 +26,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-user-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-authority-api</artifactId>
+        </dependency>
 
     </dependencies>
 </project>

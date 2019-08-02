@@ -8,6 +8,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
+import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
@@ -47,15 +48,25 @@ public class TestResource {
     @Autowired
     private MenuMapper menuMapper;
     @Autowired
-    private ResourceService resourceService;
+    ResourceService resourceService;
     @Autowired
+
     private OrgService orgService;
+    @Autowired
+    private RoleMapper roleMapper;
     @Autowired
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
     @Autowired
     private DozerUtils dozer;
+
+    @Test
+    public void test() {
+
+        List<Long> userIdByCode = roleMapper.findUserIdByCode(new String[]{"SUPER_ADMIN"});
+        System.out.println(userIdByCode.size());
+    }
 
     @Test
     public void testFindUserByRoleId() {

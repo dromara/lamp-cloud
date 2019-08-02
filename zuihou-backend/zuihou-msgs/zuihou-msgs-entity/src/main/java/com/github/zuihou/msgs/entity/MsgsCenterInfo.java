@@ -2,12 +2,12 @@ package com.github.zuihou.msgs.entity;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
+import com.github.zuihou.msgs.enumeration.MsgsBizType;
 import com.github.zuihou.msgs.enumeration.MsgsCenterType;
 
 import io.swagger.annotations.ApiModel;
@@ -24,11 +24,11 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- * 消息中心全量表
+ * 消息中心
  * </p>
  *
  * @author zuihou
- * @since 2019-08-01
+ * @since 2019-08-02
  */
 @Data
 @NoArgsConstructor
@@ -37,7 +37,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("msgs_center_info")
-@ApiModel(value = "MsgsCenterInfo", description = "消息中心全量表")
+@ApiModel(value = "MsgsCenterInfo", description = "消息中心")
 public class MsgsCenterInfo extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -53,13 +53,12 @@ public class MsgsCenterInfo extends Entity<Long> {
 
     /**
      * 业务类型
-     * #MsgsBizType.code
+     * #MsgsBizType{USER_LOCK:账号锁定;}
      */
     @ApiModelProperty(value = "业务类型")
-    @NotEmpty(message = "业务类型不能为空")
-    @Length(max = 64, message = "业务类型长度不能超过64")
+    @NotNull(message = "业务类型不能为空")
     @TableField("biz_type")
-    private String bizType;
+    private MsgsBizType bizType;
 
     /**
      * 消息类型
@@ -146,7 +145,7 @@ public class MsgsCenterInfo extends Entity<Long> {
 
     @Builder
     public MsgsCenterInfo(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                          String bizId, String bizType, MsgsCenterType msgsCenterType, String title, String content,
+                          String bizId, MsgsBizType bizType, MsgsCenterType msgsCenterType, String title, String content,
                           String author, String handlerUrl, String handlerParams, Boolean isSingleHandle, Boolean isDelete, String appCode, String appName) {
         this.id = id;
         this.createTime = createTime;

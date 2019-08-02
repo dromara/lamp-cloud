@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * <p>
  * 实体类
- * 消息中心全量表
+ * 消息中心
  * </p>
  *
  * @author zuihou
@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.Length;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "MsgsCenterInfoUpdateDTO", description = "消息中心全量表")
+@ApiModel(value = "MsgsCenterInfoUpdateDTO", description = "消息中心")
 public class MsgsCenterInfoUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

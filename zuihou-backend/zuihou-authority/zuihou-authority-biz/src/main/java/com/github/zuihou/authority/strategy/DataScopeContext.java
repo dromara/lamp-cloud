@@ -19,14 +19,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataScopeContext {
 
-    @Autowired
     private final Map<String, AbstractDataScopeHandler> strategyMap = new ConcurrentHashMap<>();
 
     /**
-     * Component里边的1是指定其名字，这个会作为key放到strategyMap里
+     * strategyMap 里边的key是指定其名字，这个会作为key放到strategyMap里
      *
      * @param strategyMap
      */
+    @Autowired
     public DataScopeContext(Map<String, AbstractDataScopeHandler> strategyMap) {
         strategyMap.forEach(this.strategyMap::put);
     }

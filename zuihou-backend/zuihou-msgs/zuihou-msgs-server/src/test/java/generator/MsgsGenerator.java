@@ -28,11 +28,11 @@ public class MsgsGenerator {
 //        build.setPassword("root");
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-msgs");
 
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
+//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
+        fileCreateConfig.setGenerateDto(GenerateType.IGNORE);
         fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
