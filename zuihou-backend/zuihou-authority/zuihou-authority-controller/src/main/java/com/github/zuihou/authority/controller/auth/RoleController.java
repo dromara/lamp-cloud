@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -201,4 +202,19 @@ public class RoleController extends BaseController {
         roleAuthorityService.saveBatch(list);
         return success();
     }
+
+
+    /**
+     * 根据角色编码查询用户ID
+     *
+     * @param codes 编码集合
+     * @return 查询结果
+     */
+    @ApiOperation(value = "根据角色编码查询用户ID", notes = "根据角色编码查询用户ID")
+    @GetMapping("/codes")
+    @SysLog("根据角色编码查询用户ID")
+    public R<List<Long>> findUserIdByCode(@RequestParam(value = "codes") String[] codes) {
+        return success(roleService.findUserIdByCode(codes));
+    }
+
 }

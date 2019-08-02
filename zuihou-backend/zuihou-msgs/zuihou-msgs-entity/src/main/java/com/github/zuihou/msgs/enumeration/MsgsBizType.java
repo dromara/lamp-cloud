@@ -21,34 +21,22 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "MsgsCenterType", description = "消息类型-枚举")
+@ApiModel(value = "MsgsBizType", description = "业务类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum MsgsCenterType implements BaseEnum {
+public enum MsgsBizType implements BaseEnum {
 
     /**
-     * WAIT="待办"
+     * USER_LOCK="账号锁定"
      */
-    WAIT("待办"),
-    /**
-     * NOTIFY="通知"
-     */
-    NOTIFY("通知"),
-    /**
-     * PUBLICITY="公示公告"
-     */
-    PUBLICITY("公示公告"),
-    /**
-     * WARN="预警"
-     */
-    WARN("预警"),
+    USER_LOCK("账号锁定"),
     ;
 
     @ApiModelProperty(value = "描述")
     private String desc;
 
 
-    public static MsgsCenterType match(String val, MsgsCenterType def) {
-        for (MsgsCenterType enm : MsgsCenterType.values()) {
+    public static MsgsBizType match(String val, MsgsBizType def) {
+        for (MsgsBizType enm : MsgsBizType.values()) {
             if (enm.name().equalsIgnoreCase(val)) {
                 return enm;
             }
@@ -56,7 +44,7 @@ public enum MsgsCenterType implements BaseEnum {
         return def;
     }
 
-    public static MsgsCenterType get(String val) {
+    public static MsgsBizType get(String val) {
         return match(val, null);
     }
 
@@ -64,7 +52,7 @@ public enum MsgsCenterType implements BaseEnum {
         return this.name().equalsIgnoreCase(val);
     }
 
-    public boolean eq(MsgsCenterType val) {
+    public boolean eq(MsgsBizType val) {
         if (val == null) {
             return false;
         }
@@ -72,7 +60,7 @@ public enum MsgsCenterType implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "WAIT,NOTIFY,PUBLICITY,WARN", example = "WAIT")
+    @ApiModelProperty(value = "编码", allowableValues = "USER_LOCK", example = "USER_LOCK")
     public String getCode() {
         return this.name();
     }
