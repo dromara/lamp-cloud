@@ -243,7 +243,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - 4， 命令行启动:
     - 先cd 到各个服务的target目录，依次启动即可：
     - java -jar -Dspring.profiles.active=dev zuihou-eureka.jar 
-    - java -jar -Dspring.profiles.active=dev zuihou-***.jar  
+    - java -jar -Dspring.profiles.active=prod -Dserver.port=8080  zuihou-jobs-server.jar  > /dev/null 2>&1 &  
 
 ## 端口号介绍 :
 

@@ -24,7 +24,7 @@ import com.github.zuihou.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.LeftLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.RightLikeTypeHandler;
 
-import org.apache.commons.lang3.ArrayUtils;
+import cn.hutool.core.util.ArrayUtil;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -189,7 +189,7 @@ public abstract class BaseDbConfiguration {
         Resource[] all = new Resource[]{};
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         for (String locationPattern : resourceLocationPatterns) {
-            all = ArrayUtils.addAll(all, resolver.getResources(locationPattern));
+            all = ArrayUtil.addAll(all, resolver.getResources(locationPattern));
         }
         sqlSessionFactory.setMapperLocations(all);
 
@@ -206,7 +206,7 @@ public abstract class BaseDbConfiguration {
             list.add(dataScopeInterceptor);
         }
 
-        if (ArrayUtils.contains(DEV_PROFILES, profiles)) {
+        if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
             list.add(performanceInterceptor());
         }
         sqlSessionFactory.setPlugins(list.toArray(new Interceptor[list.size()]));

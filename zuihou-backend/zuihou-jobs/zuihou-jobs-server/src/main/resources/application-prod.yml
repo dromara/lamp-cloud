@@ -1,0 +1,19 @@
+zuihou:
+  ip:
+    mysql: ${MYSQL_IP:123.56.221.77}
+    nginx: ${NGINX_IP:123.56.221.77}
+  mysql:
+    authority:
+      database: zuihou_authority_dev
+      host: ${zuihou.ip.mysql}
+      port: ${zuihou.mysql.port}
+    jobs:
+      database: zuihou_jobs_dev
+      host: ${zuihou.ip.mysql}
+      port: ${zuihou.mysql.port}
+    port: 3306
+    username: root
+    password: 6162659
+
+server:
+  prot: 8080

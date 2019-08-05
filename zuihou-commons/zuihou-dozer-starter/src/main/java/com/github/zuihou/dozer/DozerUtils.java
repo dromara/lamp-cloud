@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.dozermapper.core.Mapper;
 
 
@@ -109,19 +107,6 @@ public class DozerUtils {
         return mapPage(sourceList, destinationClass);
     }
 
-    public <T, E> IPage<T> mapPage(IPage<E> page, Class<T> destinationClass) {
-        List<E> list = page.getRecords();
-
-        List<T> destinationList = list.stream().map((sourceObject) -> mapper.map(sourceObject, destinationClass))
-                .collect(Collectors.toList());
-        IPage<T> map = new Page<>(page.getCurrent(), page.getSize());
-
-        map.setPages(page.getPages());
-        map.setTotal(page.getTotal());
-
-        map.setRecords(destinationList);
-        return map;
-    }
 
     public <T, E> List<T> mapPage(Collection<E> sourceList, Class<T> destinationClass) {
         if (sourceList == null || sourceList.isEmpty() || destinationClass == null) {

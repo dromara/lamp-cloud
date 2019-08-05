@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -29,7 +29,7 @@ public class BaseLikeTypeHandler extends BaseTypeHandler<CharSequence> {
      * mybatis plus like查询转换
      */
     public static String likeConvert(String value) {
-        if (StringUtils.isNotBlank(value)) {
+        if (StrUtil.isNotBlank(value)) {
             value = value.replaceAll("%", "\\\\%");
             value = value.replaceAll("_", "\\\\_");
             return value;
@@ -39,7 +39,7 @@ public class BaseLikeTypeHandler extends BaseTypeHandler<CharSequence> {
     }
 
     public static String likeConvertProcess(String value) {
-        if (StringUtils.isNotBlank(value)) {
+        if (StrUtil.isNotBlank(value)) {
             value = value.replaceAll("%", "\\\\%");
             value = value.replaceAll("_", "\\\\_");
             return "%" + value + "%";

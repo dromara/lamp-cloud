@@ -17,10 +17,10 @@ import com.github.zuihou.log.event.SysLogEvent;
 import com.github.zuihou.log.util.LogUtil;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -183,7 +183,7 @@ public class SysLogAspect {
      * @return
      */
     private String getText(String val) {
-        return StringUtils.substring(val, 0, 65535);
+        return StrUtil.sub(val, 0, 65535);
     }
 
 //    @Around("@annotation(sLog)")
