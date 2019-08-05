@@ -18,13 +18,13 @@ import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.typehandler.BaseLikeTypeHandler;
 import com.github.zuihou.utils.StrPool;
 
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author luosh

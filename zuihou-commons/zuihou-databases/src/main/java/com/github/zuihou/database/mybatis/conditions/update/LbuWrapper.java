@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.zuihou.database.mybatis.typehandler.BaseLikeTypeHandler;
 
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * @author luosh
@@ -75,7 +75,7 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
 
     @Override
     public LbuWrapper<T> setSql(boolean condition, String sql) {
-        if (condition && StringUtils.isNotEmpty(sql)) {
+        if (condition && StrUtil.isNotEmpty(sql)) {
             sqlSet.add(sql);
         }
         return typedThis;

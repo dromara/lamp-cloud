@@ -2,8 +2,6 @@ zuihou:
   ip:
     mysql: ${MYSQL_IP:127.0.0.1}
     nginx: ${NGINX_IP:127.0.0.1}
-  port:
-    nginx: ${server.port}
   mysql:
     authority:
       database: zuihou_authority_dev

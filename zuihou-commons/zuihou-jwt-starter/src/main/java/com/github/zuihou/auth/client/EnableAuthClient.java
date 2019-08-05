@@ -12,7 +12,7 @@ import com.github.zuihou.auth.client.configuration.AuthClientConfiguration;
 import org.springframework.context.annotation.Import;
 
 /**
- * 启用高新区授权client
+ * 启用授权client
  *
  * @author zuihou
  * @createTime 2017-12-13 15:26

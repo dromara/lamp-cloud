@@ -21,9 +21,6 @@ public interface BaseEnum {
      * @return
      */
     static Map<String, String> getMap(BaseEnum[] list) {
-        /*ImmutableMap<String, BaseEnum> nameMap = Maps.uniqueIndex(Arrays.asList(list), BaseEnum::getCode);
-        Map<String, String> nameDescMap = new HashMap<>(nameMap.size());
-        nameMap.forEach((name, desc) -> nameDescMap.put(name, desc.getDesc()));*/
         return MapHelper.uniqueIndex(Arrays.asList(list), BaseEnum::getCode, BaseEnum::getDesc);
     }
 

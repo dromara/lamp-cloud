@@ -24,11 +24,5 @@
             <optional>true</optional>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <scope>compile</scope>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
 </project>
