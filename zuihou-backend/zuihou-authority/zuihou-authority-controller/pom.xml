@@ -17,6 +17,10 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-msgs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-biz</artifactId>
         </dependency>
         <dependency>
@@ -32,6 +36,7 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
         </dependency>
+
 
     </dependencies>
 

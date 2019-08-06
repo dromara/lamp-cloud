@@ -18,6 +18,7 @@
     <modules>
         <module>zuihou-authority-api</module>
         <module>zuihou-file-api</module>
+        <module>zuihou-msgs-api</module>
     </modules>
 
     <dependencies>

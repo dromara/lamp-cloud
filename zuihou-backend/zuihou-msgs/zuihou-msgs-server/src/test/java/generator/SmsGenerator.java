@@ -22,22 +22,22 @@ public class SmsGenerator {
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("msgs", "sms", "zuihou",
                         "",
-                        Arrays.asList("sms_.*"));
-//                        Arrays.asList("c_auth_user_role", "c_auth_role_authority", "c_auth_role_org"));
+//                        Arrays.asList("sms_.*"));
+                        Arrays.asList("sms_task"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_msgs_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-msgs");
 
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
+//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
+        fileCreateConfig.setGenerateEntity(GenerateType.ADD);
+        fileCreateConfig.setGenerateEnum(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateDto(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateXml(GenerateType.IGNORE);
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
         fileCreateConfig.setGenerateService(GenerateType.IGNORE);
-        fileCreateConfig.setGenerateController(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateController(GenerateType.ADD);
 
         build.setFileCreateConfig(fileCreateConfig);
 

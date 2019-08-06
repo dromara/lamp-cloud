@@ -167,6 +167,15 @@ public class R<T> {
         return this.code == SUCCESS_CODE || this.code == 200;
     }
 
+    /**
+     * 逻辑处理是否失败
+     *
+     * @return
+     */
+    public Boolean getIsError() {
+        return !getIsSuccess();
+    }
+
     @Override
     public String toString() {
         return JSONObject.toJSONString(this);

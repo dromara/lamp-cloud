@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.UserPageDTO;
+import com.github.zuihou.authority.dto.auth.UserRegisterDTO;
 import com.github.zuihou.authority.dto.auth.UserRoleDTO;
 import com.github.zuihou.authority.dto.auth.UserSaveDTO;
 import com.github.zuihou.authority.dto.auth.UserUpdateDTO;
@@ -24,6 +25,9 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.msgs.api.SmsApi;
+import com.github.zuihou.sms.dto.VerificationCodeDTO;
+import com.github.zuihou.sms.enumeration.VerificationCodeType;
 import com.github.zuihou.user.feign.UserQuery;
 import com.github.zuihou.user.model.SysOrg;
 import com.github.zuihou.user.model.SysRole;
@@ -35,6 +39,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +51,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.github.zuihou.common.constant.BizConstant.DEMO_ORG_ID;
+import static com.github.zuihou.common.constant.BizConstant.DEMO_STATION_ID;
 
 /**
  * <p>
@@ -73,6 +81,8 @@ public class UserController extends BaseController {
     private StationService stationService;
     @Autowired
     private DozerUtils dozer;
+    @Autowired
+    private SmsApi smsApi;
 
     /**
      * 分页查询用户
@@ -219,4 +229,33 @@ public class UserController extends BaseController {
         return success(UserRoleDTO.builder().idList(idList).userList(list).build());
     }
 
+
+    /**
+     * 注册用户
+     *
+     * @param data 新增对象
+     * @return 新增结果
+     */
+    @ApiOperation(value = "注册用户", notes = "注册用户")
+    @PostMapping("/anno/register")
+    @SysLog("注册用户")
+    public R<Boolean> register(@RequestBody @Validated UserRegisterDTO data) {
+        R<Boolean> result = smsApi.verification(VerificationCodeDTO.builder()
+                .code(data.getVerificationCode())
+                .mobile(data.getMobile()).type(VerificationCodeType.REGISTER_USER)
+                .build());
+
+        //调用失败或者发送失败
+        if (result.getIsError() || !result.getData()) {
+            return result;
+        }
+
+        User user = User.builder()
+                .account(data.getMobile())
+                .name(data.getMobile()).orgId(DEMO_ORG_ID).stationId(DEMO_STATION_ID)
+                .mobile(data.getMobile()).workDescribe("演示账号")
+                .password(DigestUtils.md5Hex(data.getPassword()))
+                .build();
+        return success(userService.save(user));
+    }
 }

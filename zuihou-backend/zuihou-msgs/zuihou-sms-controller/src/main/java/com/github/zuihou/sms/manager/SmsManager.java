@@ -5,10 +5,15 @@ import java.util.Set;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.sms.entity.SmsTask;
+import com.github.zuihou.sms.entity.SmsTemplate;
+import com.github.zuihou.sms.enumeration.TemplateCodeType;
 import com.github.zuihou.sms.service.SmsTaskService;
+import com.github.zuihou.sms.service.SmsTemplateService;
 import com.github.zuihou.sms.util.PhoneUtils;
+import com.github.zuihou.utils.BizAssert;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +36,29 @@ import static com.github.zuihou.utils.BizAssert.assertTrue;
 public class SmsManager {
     @Autowired
     private SmsTaskService smsTaskService;
+    @Autowired
+    private SmsTemplateService smsTemplateService;
 
     /**
      * 保存短信任务
      *
      * @param smsTask
      */
-    public void saveTask(SmsTask smsTask) {
+    public void saveTask(SmsTask smsTask, TemplateCodeType type) {
+
+        if (type != null) {
+            SmsTemplate template = smsTemplateService.getOne(Wrappers.<SmsTemplate>lambdaQuery()
+                    .eq(SmsTemplate::getCustomCode, type.name()));
+            BizAssert.assertNotNull(BASE_VALID_PARAM.build("短信参数不能为空"), template);
+
+            smsTask.setProviderId(template.getProviderId());
+            smsTask.setTemplateId(template.getId());
+
+            if (StringUtils.isEmpty(smsTask.getTopic())) {
+                smsTask.setTopic(template.getSignName());
+            }
+        }
+
         //1，验证必要参数
         Set<String> phoneList = PhoneUtils.getPhone(smsTask.getReceiver());
         assertFalse(BASE_VALID_PARAM.build("接收人不能为空"), phoneList == null || phoneList.isEmpty());

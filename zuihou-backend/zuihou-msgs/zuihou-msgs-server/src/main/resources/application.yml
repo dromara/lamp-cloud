@@ -33,6 +33,15 @@ zuihou:
       general:
         title: 通用模块
         base-package: com.github.zuihou.general.controller
+  cache:
+    redis:
+      key-prefix: ${spring.profiles.active}
+    configs:
+      zuihou:
+        timeToLive: 1h
+        keyPrefix: aaa
+      test:
+        timeToLive: 2h
 
 logging:
   file: ${logging.path}/root.log
@@ -78,6 +87,14 @@ spring:
         initialSize: 10
         minIdle: 50
         maxActive: 200
+  cache:
+    type: REDIS
+    redis:
+      key-prefix: zuihou
+  redis:
+    host: 127.0.0.1
+    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
+    port: 16379
 
 management:
   endpoints:

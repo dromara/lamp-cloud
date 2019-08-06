@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * @author zuihou
  * @date 2018/12/20
  */
-@Component
+@Component("BAIDU")
 @Slf4j
 public class SmsBaiduStrategy extends AbstractSmsStrategy {
     @Override
