@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
  * @author zuihou
  * @date 2018/12/20
  */
-@Component
+@Component("TENCENT")
 @Slf4j
 public class SmsTencentStrategy extends AbstractSmsStrategy {
 

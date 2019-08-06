@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.zuihou.sms.enumeration.TemplateCodeType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -35,7 +36,7 @@ public class SmsSendTaskDTO {
      */
     @ApiModelProperty(value = "短信模板Code #sms_template")
     @NotEmpty(message = "自定义供应商编号不能为空")
-    private String customCode;
+    private TemplateCodeType customCode;
 
     /**
      * 接收者手机号 群发用英文逗号分割.
@@ -93,5 +94,21 @@ public class SmsSendTaskDTO {
     @ApiModelProperty(value = "发送内容")
     @Length(max = 500, message = "发送内容不能超过450")
     private String context;
+
+    /**
+     * 最少传递的参数
+     *
+     * @param customCode
+     * @param receiver
+     * @param templateParam
+     * @return
+     */
+    public SmsSendTaskDTO build(TemplateCodeType customCode, String receiver, JSONObject templateParam) {
+        return SmsSendTaskDTO.builder()
+                .customCode(customCode)
+                .receiver(receiver)
+                .templateParam(templateParam)
+                .build();
+    }
 
 }

@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@ToString
+@ToString(callSuper = true)
 public class Entity<T> extends SuperEntity<T> {
 
     public static final String UPDATE_TIME = "updateTime";

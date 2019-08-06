@@ -6,12 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.github.zuihou.base.R;
 import com.github.zuihou.sms.dao.SmsProviderMapper;
 import com.github.zuihou.sms.dao.SmsTaskMapper;
+import com.github.zuihou.sms.dao.SmsTemplateMapper;
 import com.github.zuihou.sms.entity.SmsProvider;
 import com.github.zuihou.sms.entity.SmsTask;
-import com.github.zuihou.sms.enumeration.ProviderType;
+import com.github.zuihou.sms.entity.SmsTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
@@ -25,22 +25,28 @@ import static com.github.zuihou.utils.BizAssert.assertNotNull;
  */
 @Component
 public class SmsContext {
-    private static Map<String, SmsStrategy> smsContextStrategyMap = new ConcurrentHashMap<>();
+    private final Map<String, SmsStrategy> smsContextStrategyMap = new ConcurrentHashMap<>();
 
     private final SmsTaskMapper smsTaskMapper;
     private final SmsProviderMapper smsProviderMapper;
+    private final SmsTemplateMapper smsTemplateMapper;
 
     @Autowired
-    public SmsContext(@Qualifier("smsAliStrategy") SmsStrategy smsAliStrategy,
-                      @Qualifier("smsTencentStrategy") SmsStrategy smsTencentStrategy,
-                      @Qualifier("smsBaiduStrategy") SmsStrategy smsBaiduStrategy,
-                      SmsTaskMapper smsTaskMapper,
-                      SmsProviderMapper smsProviderMapper) {
+    public SmsContext(
+            Map<String, SmsStrategy> strategyMap,
+//            @Qualifier("smsAliStrategy") SmsStrategy smsAliStrategy,
+//                      @Qualifier("smsTencentStrategy") SmsStrategy smsTencentStrategy,
+//                      @Qualifier("smsBaiduStrategy") SmsStrategy smsBaiduStrategy,
+            SmsTaskMapper smsTaskMapper,
+            SmsProviderMapper smsProviderMapper,
+            SmsTemplateMapper smsTemplateMapper) {
+        strategyMap.forEach(this.smsContextStrategyMap::put);
         this.smsTaskMapper = smsTaskMapper;
         this.smsProviderMapper = smsProviderMapper;
-        smsContextStrategyMap.put(ProviderType.ALI.toString(), smsAliStrategy);
-        smsContextStrategyMap.put(ProviderType.TENCENT.toString(), smsTencentStrategy);
-        smsContextStrategyMap.put(ProviderType.BAIDU.toString(), smsBaiduStrategy);
+        this.smsTemplateMapper = smsTemplateMapper;
+//        smsContextStrategyMap.put(ProviderType.ALI.toString(), smsAliStrategy);
+//        smsContextStrategyMap.put(ProviderType.TENCENT.toString(), smsTencentStrategy);
+//        smsContextStrategyMap.put(ProviderType.BAIDU.toString(), smsBaiduStrategy);
     }
 
     /**
@@ -60,10 +66,12 @@ public class SmsContext {
         assertNotNull(BASE_VALID_PARAM.build("短信供应商不存在"), smsTask);
 
         // 根据短信任务选择的服务商，动态选择短信服务商策略类来具体发送短信
-        SmsStrategy smsStrategy = smsContextStrategyMap.get(smsProvider.getProviderType().toString());
+        SmsStrategy smsStrategy = smsContextStrategyMap.get(smsProvider.getProviderType().name());
         assertNotNull(BASE_VALID_PARAM.build("短信供应商不存在"), smsStrategy);
 
-        R<String> result = smsStrategy.sendSms(taskId);
+        SmsTemplate template = smsTemplateMapper.selectById(smsTask.getTemplateId());
+
+        R<String> result = smsStrategy.sendSms(smsTask, smsProvider, template);
         if (result.getIsSuccess()) {
             return result.getData();
         }

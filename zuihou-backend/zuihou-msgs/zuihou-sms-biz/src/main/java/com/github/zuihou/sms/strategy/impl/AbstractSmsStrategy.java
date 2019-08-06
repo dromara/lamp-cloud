@@ -16,9 +16,7 @@ import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.entity.SmsTemplate;
 import com.github.zuihou.sms.enumeration.ProviderType;
 import com.github.zuihou.sms.enumeration.TaskStatus;
-import com.github.zuihou.sms.service.SmsProviderService;
 import com.github.zuihou.sms.service.SmsSendStatusService;
-import com.github.zuihou.sms.service.SmsTemplateService;
 import com.github.zuihou.sms.strategy.SmsStrategy;
 import com.github.zuihou.sms.strategy.domain.SmsDO;
 import com.github.zuihou.sms.strategy.domain.SmsResult;
@@ -40,10 +38,10 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
 
     @Autowired
     private SmsTaskMapper smsTaskMapper;
-    @Autowired
-    private SmsProviderService smsProviderService;
-    @Autowired
-    private SmsTemplateService smsTemplateService;
+    //    @Autowired
+//    private SmsProviderService smsProviderService;
+//    @Autowired
+//    private SmsTemplateService smsTemplateService;
     @Autowired
     private SmsSendStatusService smsSendStatusService;
 
@@ -79,10 +77,10 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
     }
 
     @Override
-    public R<String> sendSms(Long taskId) {
-        SmsTask task = smsTaskMapper.selectById(taskId);
-        SmsProvider provider = smsProviderService.getById(task.getProviderId());
-        SmsTemplate template = smsTemplateService.getById(task.getTemplateId());
+    public R<String> sendSms(SmsTask task, SmsProvider provider, SmsTemplate template) {
+//        SmsTask task = smsTaskMapper.selectById(taskId);
+//        SmsProvider provider = smsProviderService.getById(task.getProviderId());
+//        SmsTemplate template = smsTemplateService.getById(task.getTemplateId());
 
         String appId = provider.getAppId();
         String appSecret = provider.getAppSecret();
@@ -105,13 +103,13 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
             List<SmsSendStatus> list = phoneList.stream().map((phone) -> {
                 //发送
                 SmsResult result = send(SmsDO.builder()
-                        .taskId(taskId).phone(phone).appId(appId).appSecret(appSecret)
+                        .taskId(task.getId()).phone(phone).appId(appId).appSecret(appSecret)
                         .signName(signName).templateCode(templateCode).endPoint(endPoint).templateParams(templateParam)
                         .build());
 
                 log.info("phone={}, result={}", phone, result);
                 return SmsSendStatus.builder()
-                        .taskId(taskId).receiver(phone).sendStatus(result.getSendStatus())
+                        .taskId(task.getId()).receiver(phone).sendStatus(result.getSendStatus())
                         .bizId(result.getBizId()).ext(result.getExt())
                         .code(result.getCode()).message(result.getMessage()).fee(result.getFee()).build();
             }).collect(Collectors.toList());
@@ -120,19 +118,18 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
                 smsSendStatusService.saveBatch(list);
             }
 
-
             if (StringUtils.isEmpty(task.getContext())) {
                 content = content(provider.getProviderType(), template.getContent(), task.getTemplateParams());
             }
 
         } catch (Exception e) {
             log.warn("短信发送任务发送失败", e);
-            updateStatus(taskId, TaskStatus.FAIL, content);
-            return R.success(String.valueOf(taskId));
+            updateStatus(task.getId(), TaskStatus.FAIL, content);
+            return R.success(String.valueOf(task.getId()));
         }
 
-        updateStatus(taskId, TaskStatus.SUCCESS, content);
-        return R.success(String.valueOf(taskId));
+        updateStatus(task.getId(), TaskStatus.SUCCESS, content);
+        return R.success(String.valueOf(task.getId()));
     }
 
     public void updateStatus(Long taskId, TaskStatus success, String content) {

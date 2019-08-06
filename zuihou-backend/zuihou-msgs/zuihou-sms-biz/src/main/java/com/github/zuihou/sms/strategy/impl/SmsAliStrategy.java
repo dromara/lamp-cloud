@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * @author zuihou
  * @date 2018/12/20
  */
-@Component
+@Component("ALI")
 @Slf4j
 public class SmsAliStrategy extends AbstractSmsStrategy {
 

@@ -62,6 +62,11 @@ public class TestResource {
     private DozerUtils dozer;
 
     @Test
+    public void testSaveUser() {
+    }
+
+
+    @Test
     public void test() {
 
         List<Long> userIdByCode = roleMapper.findUserIdByCode(new String[]{"SUPER_ADMIN"});
