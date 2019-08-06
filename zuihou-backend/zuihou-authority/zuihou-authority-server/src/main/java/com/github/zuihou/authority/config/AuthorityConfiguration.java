@@ -1,6 +1,6 @@
 package com.github.zuihou.authority.config;
 
-import com.github.zuihou.common.adapter.BaseConfig;
+import com.github.zuihou.common.config.BaseConfig;
 
 import org.springframework.context.annotation.Configuration;
 

@@ -10,12 +10,15 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * enum反序列化工具
  *
  * @author zuihou
  * @date 2019-07-25 22:15
  */
+@Slf4j
 public class EnumDeserializer extends StdDeserializer<Enum<?>> {
     public final static EnumDeserializer INSTANCE = new EnumDeserializer();
     private final static String ALL_ENUM_STRING_CONVERT_METHOD = "get";
@@ -58,26 +61,17 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
                     try {
                         fieldType = obj.getClass().getField(p.getCurrentName()).getType();
                     } catch (NoSuchFieldException | SecurityException e1) {
-                        e1.printStackTrace();
+                        log.warn("解析枚举失败", e1);
                         return null;
                     }
                 }
             }
         }
         try {
-
             Method method = fieldType.getMethod(ALL_ENUM_STRING_CONVERT_METHOD, String.class);
-            try {
-                return (Enum<?>) method.invoke(null, value);
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-
-                return null;
-                //不可能出现此种异常
-//                throw new RuntimeException(e);
-            }
-        } catch (NoSuchMethodException | SecurityException e) {
-            //不可能出现此种异常
-//            throw new RuntimeException(e);
+            return (Enum<?>) method.invoke(null, value);
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+            log.warn("解析枚举失败", e);
             return null;
         }
     }
