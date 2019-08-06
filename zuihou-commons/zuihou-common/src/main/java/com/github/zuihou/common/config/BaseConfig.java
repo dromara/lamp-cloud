@@ -1,4 +1,4 @@
-package com.github.zuihou.common.adapter;
+package com.github.zuihou.common.config;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -109,12 +109,13 @@ public abstract class BaseConfig {
     }
 
     /**
+     * 解决 @RequestParam(value = "date") Date date
      * date 类型参数 格式问题
      *
      * @return
      */
     @Bean
-    public Converter<String, Date> addNewConvert() {
+    public Converter<String, Date> dateConvert() {
         return new String2DateConverter();
     }
 

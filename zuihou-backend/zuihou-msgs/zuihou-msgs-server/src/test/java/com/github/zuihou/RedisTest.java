@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.enumeration.auth.Sex;
+import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.redis.template.RedisRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @Component
 class CacheTest {
-    @Cacheable(value = "menu", key = "#name")
+    @Cacheable(value = CacheKey.REGISTER_USER, key = "#name")
     public User getMenu(String name) {
         return User.builder()
                 .account(name).name("张三李四!@#$%^&*()_123")

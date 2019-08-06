@@ -4,9 +4,11 @@ import com.github.zuihou.utils.StrPool;
 import com.google.common.base.Joiner;
 
 /**
- * This is a Description
+ * 用于同一管理和生成缓存的key， 避免多个项目使用的key重复
  *
- * @author tangyh
+ * 使用@Cacheable时， 其value值一定要在此处指定
+ *
+ * @author zuihou
  * @date 2019/08/06
  */
 public interface CacheKey {
