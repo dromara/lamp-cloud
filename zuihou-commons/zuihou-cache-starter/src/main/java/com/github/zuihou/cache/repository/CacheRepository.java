@@ -5,7 +5,7 @@ import java.util.function.Function;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/08/07
  */
 public interface CacheRepository {
