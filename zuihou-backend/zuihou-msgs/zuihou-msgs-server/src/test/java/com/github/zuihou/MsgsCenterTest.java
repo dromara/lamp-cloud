@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * This is a Description
+ * 消息测试类
  *
  * @author zuihou
  * @date 2019/08/02

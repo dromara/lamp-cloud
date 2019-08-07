@@ -6,7 +6,7 @@ import java.util.Map;
 import com.github.zuihou.utils.MapHelper;
 
 /**
- * This is a Description
+ * 枚举类型基类
  *
  * @author zuihou
  * @date 2019/07/26

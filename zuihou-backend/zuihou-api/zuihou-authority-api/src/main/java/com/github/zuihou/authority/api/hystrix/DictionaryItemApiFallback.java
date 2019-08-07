@@ -8,7 +8,7 @@ import com.github.zuihou.base.R;
 import org.springframework.stereotype.Component;
 
 /**
- * This is a Description
+ * 数据字典项 查询
  *
  * @author zuihou
  * @date 2019/07/26

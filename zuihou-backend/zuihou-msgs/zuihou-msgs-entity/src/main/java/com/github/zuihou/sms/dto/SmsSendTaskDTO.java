@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * This is a Description
+ * 短信发送任务
  *
  * @author zuihou
  * @date 2018/12/24

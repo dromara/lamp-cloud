@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 import cn.hutool.core.io.FileUtil;
 
 /**
- * This is a Description
+ * 公钥私钥生成 工具类
  *
  * @author zuihou
  * @date 2019/07/31
@@ -14,7 +14,7 @@ public class RsaKeyHelperTest {
 
 
     /***
-     * 自己 秘钥/公钥 对
+     * 生成自己的 秘钥/公钥 对
      * @param args
      * @throws Exception
      */

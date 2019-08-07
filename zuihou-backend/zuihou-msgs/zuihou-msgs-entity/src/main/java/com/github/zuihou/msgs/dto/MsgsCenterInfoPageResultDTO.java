@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- * This is a Description
+ * 消息分页返回
  *
  * @author zuihou
  * @date 2019/08/02

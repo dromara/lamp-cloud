@@ -8,7 +8,7 @@ import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
- * This is a Description
+ * 权限验证过滤器
  *
  * @author zuihou
  * @date 2019/07/31

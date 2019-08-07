@@ -41,6 +41,14 @@ public class VerificationCodeController extends BaseController {
     @Autowired
     private SmsManager smsManager;
 
+    /**
+     * 通用的发送验证码功能
+     * <p>
+     * 一个系统可能有很多地方需要发送验证码（注册、找回密码等），每增加一个场景，VerificationCodeType 就需要增加一个枚举值
+     *
+     * @param data
+     * @return
+     */
     @ApiOperation(value = "发送验证码", notes = "发送验证码")
     @PostMapping(value = "/send")
     public R<Boolean> send(@Validated @RequestBody VerificationCodeDTO data) {
@@ -59,6 +67,12 @@ public class VerificationCodeController extends BaseController {
         return success();
     }
 
+    /**
+     * 对某种类型的验证码进行校验
+     *
+     * @param data
+     * @return
+     */
     @ApiOperation(value = "验证验证码", notes = "验证验证码")
     @PostMapping
     public R<Boolean> verification(@Validated(SuperEntity.Update.class) @RequestBody VerificationCodeDTO data) {

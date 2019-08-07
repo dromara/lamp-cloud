@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.dto.auth;
 
 /**
- * This is a Description
+ * 用户角色DTO
  *
  * @author zuihou
  * @date 2019/07/28

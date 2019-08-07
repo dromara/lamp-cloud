@@ -20,7 +20,7 @@
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //
 ///**
-// * This is a Description
+// * redis测试类
 // *
 // * @author zuihou
 // * @date 2019/08/06

@@ -9,12 +9,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 /**
- * This is a Description
+ * 缓存配置
  *
  * @author zuihou
  * @date 2019/08/07
  */
-
 @Slf4j
 @EnableCaching
 @Import({

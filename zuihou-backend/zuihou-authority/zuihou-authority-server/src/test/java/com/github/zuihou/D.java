@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @ToString
 /**
- * This is a Description
+ * 测试DTO
  *
  * @author zuihou
  * @date 2019/07/25
