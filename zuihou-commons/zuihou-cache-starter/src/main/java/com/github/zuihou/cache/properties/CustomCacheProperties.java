@@ -30,7 +30,8 @@ public class CustomCacheProperties {
 
     /**
      * 针对某几个具体的key特殊配置
-     * 最对redis有效
+     *
+     * 改属性只对 redis 有效！！！
      * configs的key需要配置成@Cacheable注解的value
      */
     private Map<String, Cache> configs;
@@ -54,6 +55,8 @@ public class CustomCacheProperties {
         /**
          * key 的前缀
          * 最后的key格式： keyPrefix + @Cacheable.value + @Cacheable.key
+         *
+         * 使用场景： 开发/测试环境 或者 演示/生产 环境，为了节省资源，往往会共用一个redis，即可以根据key前缀来区分(当然，也能用切换 database 来实现)
          */
         private String keyPrefix;
 
@@ -61,6 +64,7 @@ public class CustomCacheProperties {
          * 写入redis时，是否使用key前缀
          */
         private boolean useKeyPrefix = true;
+
         /**
          * Caffeine 的最大缓存个数
          */
