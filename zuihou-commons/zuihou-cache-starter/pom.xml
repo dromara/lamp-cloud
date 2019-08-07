@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zuihou-redis-starter</artifactId>
+    <artifactId>zuihou-cache-starter</artifactId>
 
     <dependencies>
         <dependency>
@@ -22,6 +22,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+
+        <!-- 默认使用redis 作为缓存， 若演示项目时，不想部署redis，则将业务代码pom 中的 redis 排除 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

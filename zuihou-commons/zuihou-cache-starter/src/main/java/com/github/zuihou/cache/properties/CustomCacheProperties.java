@@ -1,9 +1,10 @@
-package com.github.zuihou.redis.properties;
+package com.github.zuihou.cache.properties;
 
 import java.time.Duration;
 import java.util.Map;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.cache.CacheType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -15,19 +16,27 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "zuihou.cache")
 public class CustomCacheProperties {
+
+    /**
+     * 目前只支持 redis 和 CAFFEINE ！
+     * CAFFEINE 只用于项目的开发环境或者演示环境使用， 生产环境请用redis！！！
+     */
+    private CacheType type = CacheType.REDIS;
+
     /**
      * 全局配置
      */
-    private Redis redis = new Redis();
+    private Cache def = new Cache();
 
     /**
      * 针对某几个具体的key特殊配置
+     * 最对redis有效
      * configs的key需要配置成@Cacheable注解的value
      */
-    private Map<String, Redis> configs;
+    private Map<String, Cache> configs;
 
     @Data
-    public static class Redis {
+    public static class Cache {
 
         /**
          * key 的过期时间

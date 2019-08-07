@@ -28,6 +28,7 @@
         <module>zuihou-xss-starter</module>
         <module>zuihou-openfeign-starter</module>
         <module>zuihou-redis-starter</module>
+        <module>zuihou-cache-starter</module>
     </modules>
 
 
