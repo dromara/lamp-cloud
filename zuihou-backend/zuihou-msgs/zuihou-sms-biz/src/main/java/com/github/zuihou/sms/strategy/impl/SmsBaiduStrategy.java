@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * This is a Description
+ * 百度发送短信 实现类
  *
  * @author zuihou
  * @date 2018/12/20

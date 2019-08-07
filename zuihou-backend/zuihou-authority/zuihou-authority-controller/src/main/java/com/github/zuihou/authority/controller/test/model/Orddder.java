@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- * This is a Description
+ * 订单测试DTO
  *
  * @author zuihou
  * @date 2019/08/01

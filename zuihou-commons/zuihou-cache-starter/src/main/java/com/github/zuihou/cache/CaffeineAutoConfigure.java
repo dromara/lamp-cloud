@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
 /**
- * This is a Description
+ * 内存缓存配置
  *
  * @author zuihou
  * @date 2019/08/07
@@ -52,7 +52,6 @@ public class CaffeineAutoConfigure {
     public CacheRepository redisRepository() {
         return new CaffeineRepositoryImpl();
     }
-
 
     @Bean
     @Primary

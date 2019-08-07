@@ -15,7 +15,7 @@
 //import springfox.documentation.swagger.web.UiConfigurationBuilder;
 //
 ///**
-// * This is a Description
+// * Swagger配置
 // *
 // * @author zuihou
 // * @date 2019/07/31

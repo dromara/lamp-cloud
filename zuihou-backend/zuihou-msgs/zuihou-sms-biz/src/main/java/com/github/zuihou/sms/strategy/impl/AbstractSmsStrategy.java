@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * This is a Description
+ * 抽象短信策略
  *
  * @author zuihou
  * @date 2018/12/20
@@ -38,10 +38,6 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
 
     @Autowired
     private SmsTaskMapper smsTaskMapper;
-    //    @Autowired
-//    private SmsProviderService smsProviderService;
-//    @Autowired
-//    private SmsTemplateService smsTemplateService;
     @Autowired
     private SmsSendStatusService smsSendStatusService;
 
@@ -78,10 +74,6 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
 
     @Override
     public R<String> sendSms(SmsTask task, SmsProvider provider, SmsTemplate template) {
-//        SmsTask task = smsTaskMapper.selectById(taskId);
-//        SmsProvider provider = smsProviderService.getById(task.getProviderId());
-//        SmsTemplate template = smsTemplateService.getById(task.getTemplateId());
-
         String appId = provider.getAppId();
         String appSecret = provider.getAppSecret();
         String endPoint = provider.getUrl();
@@ -139,7 +131,6 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
         updateTask.setContext(content);
         smsTaskMapper.updateById(updateTask);
     }
-
 
     /**
      * 子类执行具体的发送任务

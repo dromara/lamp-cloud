@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.ToString;
 
 /**
- * This is a Description
+ * 数据字典树
  *
  * @author zuihou
  * @date 2019/07/30

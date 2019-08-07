@@ -6,7 +6,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import org.junit.Test;
 
 /**
- * This is a Description
+ * 简单工具测试类
  *
  * @author zuihou
  * @date 2019/08/06

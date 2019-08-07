@@ -8,7 +8,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 
 
 /**
- * This is a Description
+ * 基于 Caffeine 实现的内存缓存， 主要用于开发、测试、演示环境
+ * 生产环境慎用！
  *
  * @author zuihou
  * @date 2019/08/07

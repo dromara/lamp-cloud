@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * This is a Description
+ * 消息中心DTO
  *
  * @author zuihou
  * @date 2019/08/02
@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @Data
 @Accessors(chain = true)
-@ApiModel(value = "MsgsCenterInfoDTO", description = "消息中心保存实体")
+@ApiModel(value = "MsgsCenterInfoDTO", description = "消息中心")
 public class MsgsCenterInfoDTO implements Serializable {
 
     /**

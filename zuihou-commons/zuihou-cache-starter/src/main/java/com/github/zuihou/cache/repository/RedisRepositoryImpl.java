@@ -31,14 +31,6 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  */
 @Slf4j
 public class RedisRepositoryImpl implements CacheRepository {
-//    /**
-//     * 5分钟
-//     */
-//    public static final long DEF_TIMEOUT_5M = 5 * 60L;
-//    /**
-//     * 2小时
-//     */
-//    public static final long DEF_TIMEOUT_2H = 2 * 60 * 60L;
     /**
      * 默认编码
      */

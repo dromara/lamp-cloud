@@ -3,7 +3,7 @@ import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
 
 /**
- * This is a Description
+ * jwt 生成和解析 测试类
  *
  * @author zuihou
  * @date 2019/07/31
