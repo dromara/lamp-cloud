@@ -2,10 +2,12 @@ zuihou:
   port:
     nginx: ${NGINX_PORT:80}
     eureka: ${EUREKA_PORT:8761}
+    redis: ${REDIS_PORT:16379}
   ip:
     mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}
     nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
     eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
+    redis: ${REDIS_IP:${spring.cloud.client.ip-address}}
   mysql:
     msgs:
       database: zuihou_msgs_dev
@@ -34,8 +36,10 @@ zuihou:
         title: 通用模块
         base-package: com.github.zuihou.general.controller
   cache:
-    redis:
-      key-prefix: ${spring.profiles.active}
+    type: REDIS
+    #    type: CAFFEINE
+    def:
+      keyPrefix: ${spring.profiles.active}
     configs:
       zuihou:
         timeToLive: 1h
@@ -87,14 +91,10 @@ spring:
         initialSize: 10
         minIdle: 50
         maxActive: 200
-  cache:
-    type: REDIS
-    redis:
-      key-prefix: zuihou
   redis:
-    host: 127.0.0.1
+    host: ${zuihou.ip.redis}
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
-    port: 16379
+    port: ${zuihou.port.redis}
 
 management:
   endpoints:

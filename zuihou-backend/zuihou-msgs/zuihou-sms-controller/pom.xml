@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-redis-starter</artifactId>
+            <artifactId>zuihou-cache-starter</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -1,25 +1,25 @@
-package com.github.zuihou.redis;
+package com.github.zuihou.cache;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.github.zuihou.cache.lock.RedisDistributedLock;
+import com.github.zuihou.cache.properties.CustomCacheProperties;
+import com.github.zuihou.cache.repository.CacheRepository;
+import com.github.zuihou.cache.repository.RedisRepositoryImpl;
+import com.github.zuihou.cache.utils.RedisObjectSerializer;
 import com.github.zuihou.lock.DistributedLock;
-import com.github.zuihou.redis.lock.RedisDistributedLock;
-import com.github.zuihou.redis.properties.CustomCacheProperties;
-import com.github.zuihou.redis.template.RedisRepository;
-import com.github.zuihou.redis.utils.RedisObjectSerializer;
 import com.github.zuihou.utils.StrPool;
 import com.google.common.collect.Maps;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -30,15 +30,16 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+
 /**
  * redis 配置类
  *
  * @author zuihou
  * @date 2019-08-06 10:42
  */
-@Slf4j
+@ConditionalOnClass(RedisConnectionFactory.class)
+@ConditionalOnProperty(name = "zuihou.cache.type", havingValue = "REDIS", matchIfMissing = true)
 @EnableConfigurationProperties({RedisProperties.class, CustomCacheProperties.class})
-@EnableCaching
 public class RedisAutoConfigure {
     @Autowired
     private CustomCacheProperties cacheProperties;
@@ -54,7 +55,6 @@ public class RedisAutoConfigure {
     public DistributedLock RedisDistributedLock(RedisTemplate<String, Object> redisTemplate) {
         return new RedisDistributedLock(redisTemplate);
     }
-
 
     /**
      * RedisTemplate配置
@@ -84,17 +84,23 @@ public class RedisAutoConfigure {
      */
     @Bean
     @ConditionalOnMissingBean
-    public RedisRepository redisRepository(RedisTemplate<String, Object> redisTemplate) {
-        return new RedisRepository(redisTemplate);
+    public CacheRepository redisRepository(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisRepositoryImpl(redisTemplate);
     }
 
+    /**
+     * 用于 @Cacheable 相关注解
+     *
+     * @param redisConnectionFactory
+     * @return
+     */
     @Bean(name = "cacheManager")
     @Primary
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration defConfig = getDefConf();
-        defConfig.entryTtl(cacheProperties.getRedis().getTimeToLive());
+        defConfig.entryTtl(cacheProperties.getDef().getTimeToLive());
 
-        Map<String, CustomCacheProperties.Redis> configs = cacheProperties.getConfigs();
+        Map<String, CustomCacheProperties.Cache> configs = cacheProperties.getConfigs();
         Map<String, RedisCacheConfiguration> map = Maps.newHashMap();
         //自定义的缓存过期时间配置
         Optional.ofNullable(configs).ifPresent((config) -> {
@@ -110,37 +116,15 @@ public class RedisAutoConfigure {
                 .build();
     }
 
-    /**
-     * key 的生成
-     *
-     * @return
-     */
-    @Bean
-    public KeyGenerator keyGenerator() {
-        return (target, method, objects) -> {
-            StringBuilder sb = new StringBuilder();
-            sb.append(target.getClass().getName());
-            sb.append(StrPool.COLON);
-            sb.append(method.getName());
-            for (Object obj : objects) {
-                if (obj != null) {
-                    sb.append(StrPool.COLON);
-                    sb.append(obj.toString());
-                }
-            }
-            return sb.toString();
-        };
-    }
-
     private RedisCacheConfiguration getDefConf() {
         RedisCacheConfiguration def = RedisCacheConfiguration.defaultCacheConfig()
                 .disableCachingNullValues()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new RedisObjectSerializer()));
-        return handleRedisCacheConfiguration(cacheProperties.getRedis(), def);
+        return handleRedisCacheConfiguration(cacheProperties.getDef(), def);
     }
 
-    private RedisCacheConfiguration handleRedisCacheConfiguration(CustomCacheProperties.Redis redisProperties, RedisCacheConfiguration config) {
+    private RedisCacheConfiguration handleRedisCacheConfiguration(CustomCacheProperties.Cache redisProperties, RedisCacheConfiguration config) {
         if (Objects.isNull(redisProperties)) {
             return config;
         }
@@ -162,3 +146,4 @@ public class RedisAutoConfigure {
         return config;
     }
 }
+

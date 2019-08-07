@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.cache.repository.CacheRepository;
 import com.github.zuihou.common.constant.CacheKey;
-import com.github.zuihou.redis.template.RedisRepository;
 import com.github.zuihou.sms.dto.VerificationCodeDTO;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.enumeration.SourceType;
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class VerificationCodeController extends BaseController {
 
     @Autowired
-    private RedisRepository redisRepository;
+    private CacheRepository redisRepository;
     @Autowired
     private SmsManager smsManager;
 
@@ -55,7 +55,7 @@ public class VerificationCodeController extends BaseController {
         smsManager.saveTask(smsTask, TemplateCodeType.ZUIHOU_COMMON);
 
         String key = CacheKey.build(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
-        redisRepository.setExpire(key, code, RedisRepository.DEF_TIMEOUT_5M);
+        redisRepository.setExpire(key, code, CacheRepository.DEF_TIMEOUT_5M);
         return success();
     }
 
