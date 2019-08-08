@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 02/08/2019 10:48:37
+ Date: 08/08/2019 17:55:03
 */
 
 SET NAMES utf8mb4;
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS `msgs_center_info`;
 CREATE TABLE `msgs_center_info` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `biz_id` varchar(64) DEFAULT NULL COMMENT '业务ID\n业务表的唯一id',
-  `biz_type` varchar(64) NOT NULL COMMENT '业务类型\n#MsgsBizType.code',
+  `biz_type` varchar(64) NOT NULL COMMENT '业务类型\n#MsgsBizType{USER_LOCK:账号锁定;}',
   `msgs_center_type` varchar(20) NOT NULL DEFAULT 'NOTIFY' COMMENT '消息类型\n#MsgsCenterType{WAIT:待办;NOTIFY:通知;PUBLICITY:公示公告;WARN:预警;}',
   `title` varchar(100) DEFAULT '' COMMENT '标题',
   `content` varchar(500) DEFAULT '' COMMENT '内容',
@@ -102,18 +102,7 @@ CREATE TABLE `msgs_center_info` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心';
-
--- ----------------------------
--- Records of msgs_center_info
--- ----------------------------
-BEGIN;
-INSERT INTO `msgs_center_info` VALUES (588744392009842721, '1', 'DEVELOPER_MODULE_AUDIT', 'WAIT', '您有一条权限系统的代办事项', '您有一条权限系统的代办事项', '汤云汉', 'http://www.baidu.com', '', b'1', b'0', '', '', '2019-06-13 15:00:02', 1, '2019-06-13 15:00:02', 1);
-INSERT INTO `msgs_center_info` VALUES (588745183332401249, '1', 'DEVELOPER_MODULE_AUDIT', 'WAIT', '您有一条权限系统的代办事项', '您有一条权限系统的代办事项', '汤云汉', 'http://www.baidu.com', '', b'1', b'0', '', '', '2019-06-13 15:03:10', 1, '2019-06-13 15:03:10', 1);
-INSERT INTO `msgs_center_info` VALUES (588745603350003937, '1', 'DEVELOPER_MODULE_AUDIT', 'NOTIFY', '您有一封新邮件', '您有一封新邮件', '汤云汉', 'http://www.baidu.com', '', b'1', b'0', '', '', '2019-06-13 15:04:50', 1, '2019-06-13 15:04:50', 1);
-INSERT INTO `msgs_center_info` VALUES (588745891741958433, '1', 'DEVELOPER_MODULE_AUDIT', 'NOTIFY', '您有一封新邮件', '您有一封新邮件', '汤云汉', 'http://www.baidu.com', '', b'1', b'0', '', '', '2019-06-13 15:05:59', 1, '2019-06-13 15:05:59', 1);
-INSERT INTO `msgs_center_info` VALUES (588746158852014433, '1', 'DEVELOPER_MODULE_AUDIT', 'PUBLICITY', '停机维护通知', '尊敬的用户，您好，本系统将于2019年6月20日22点停机升级，请见谅', '汤云汉', 'http://www.baidu.com', '', b'1', b'0', '', '', '2019-06-13 15:07:03', 1, '2019-06-13 15:07:03', 1);
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心表';
 
 -- ----------------------------
 -- Table structure for msgs_center_info_receive
@@ -129,18 +118,7 @@ CREATE TABLE `msgs_center_info_receive` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心 接收表\n全量数据';
-
--- ----------------------------
--- Records of msgs_center_info_receive
--- ----------------------------
-BEGIN;
-INSERT INTO `msgs_center_info_receive` VALUES (588744392093728833, 588744392009842721, 1, b'0', '2019-06-13 15:00:02', 1, 1, '2019-06-13 15:00:02');
-INSERT INTO `msgs_center_info_receive` VALUES (588745183407898753, 588745183332401249, 1, b'0', '2019-06-13 15:03:10', 1, 1, '2019-06-13 15:03:10');
-INSERT INTO `msgs_center_info_receive` VALUES (588745603517776129, 588745603350003937, 1, b'0', '2019-06-13 15:04:50', 1, 1, '2019-06-13 15:04:50');
-INSERT INTO `msgs_center_info_receive` VALUES (588745891813261633, 588745891741958433, 1, b'0', '2019-06-13 15:05:59', 1, 1, '2019-06-13 15:05:59');
-INSERT INTO `msgs_center_info_receive` VALUES (588746159023980929, 588746158852014433, 1, b'0', '2019-06-13 15:07:03', 1, 1, '2019-06-13 15:07:03');
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心接收表';
 
 -- ----------------------------
 -- Table structure for sms_provider
@@ -164,13 +142,6 @@ CREATE TABLE `sms_provider` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信供应商';
-
--- ----------------------------
--- Records of sms_provider
--- ----------------------------
-BEGIN;
-INSERT INTO `sms_provider` VALUES (606765328403267617, 'ALI', 'LTAI2HEU0Bv8J1fK', 'NxaPZz460Uje1ilscMyzN6Z2DPEXIc', '', '闪购网', '307479353@qq.com', '你想多了吧？', '闪购网测试短信', 0, 0, 0, '2019-08-02 08:28:48', 0, '2019-08-02 08:28:48');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sms_send_status
@@ -197,13 +168,6 @@ CREATE TABLE `sms_send_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信发送状态';
 
 -- ----------------------------
--- Records of sms_send_status
--- ----------------------------
-BEGIN;
-INSERT INTO `sms_send_status` VALUES (606767993707298913, 606767990788063297, 'FAIL', '15218869970', '', 'EB2CD01A-9602-4DD7-A6AE-BAEACD90057A', 'isv.AMOUNT_NOT_ENOUGH', '账户余额不足', 0, '', '', '', 0, '2019-08-02 08:39:23', 0, '2019-08-02 08:39:23');
-COMMIT;
-
--- ----------------------------
 -- Table structure for sms_task
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_task`;
@@ -226,13 +190,6 @@ CREATE TABLE `sms_task` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='发送任务\n所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息，\n具体的发送状态查看发送状态（#sms_send_status）表';
 
 -- ----------------------------
--- Records of sms_task
--- ----------------------------
-BEGIN;
-INSERT INTO `sms_task` VALUES (606767990788063297, 606765328403267617, 606767517569908769, 'SUCCESS', 'SERVICE', '15218869970', '闪购网', '{\"code\":\"123456\"}', NULL, '尊敬的用户，欢迎注册闪购网，您的注册验证码：123456,有效期5分钟。请勿将短信验证码告知他人！', 0, '2019-08-02 08:39:22', 0, '2019-08-02 08:39:23');
-COMMIT;
-
--- ----------------------------
 -- Table structure for sms_template
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_template`;
@@ -253,12 +210,5 @@ CREATE TABLE `sms_template` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UN_CODE` (`custom_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信模板';
-
--- ----------------------------
--- Records of sms_template
--- ----------------------------
-BEGIN;
-INSERT INTO `sms_template` VALUES (606767517569908769, 606765328403267617, 'SGW_REG', '闪购网', '尊敬的用户，欢迎注册闪购网，您的注册验证码：${code},有效期5分钟。请勿将短信验证码告知他人！', '{\"code\":\"\"}', 'SMS_99185070', '闪购网', '注册验证码', 0, '2019-08-02 08:37:30', 0, '2019-08-02 08:37:30');
-COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 28/07/2019 23:39:47
+ Date: 08/08/2019 17:54:39
 */
 
 SET NAMES utf8mb4;
@@ -52,15 +52,6 @@ CREATE TABLE `f_attachment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件';
 
 -- ----------------------------
--- Records of f_attachment
--- ----------------------------
-BEGIN;
-INSERT INTO `f_attachment` VALUES (592768934055247937, '592768933551931425', 'a', 'IMAGE', '2.jpg', '', '', '', '2019/06', 'http://192.168.1.34:8765/file/2019/06/7220cf32-6823-474d-9cd4-ad82c65b1181.jpg', NULL, '', NULL, 'image/jpeg', '7220cf32-6823-474d-9cd4-ad82c65b1181.jpg', 'jpg', 7973, NULL, 'fa-file-photo-o', '2019年06月', '2019年26周', '2019年06月24日', '2019-06-24 17:32:07', 1, '2019-06-24 17:32:07', 1);
-INSERT INTO `f_attachment` VALUES (599192059835842625, '599192059416412193', 'a', 'IMAGE', '2.jpg', NULL, '', '', '2019/07', 'http://192.168.1.34:8765/file/2019/07/d3d99fc0-4c77-49d0-86bb-8bd0517564d5.jpg', NULL, '', NULL, 'image/jpeg', 'd3d99fc0-4c77-49d0-86bb-8bd0517564d5.jpg', 'jpg', 7973, NULL, 'fa-file-photo-o', '2019年07月', '2019年28周', '2019年07月12日', '2019-07-12 10:55:20', 2, '2019-07-12 10:55:20', 2);
-INSERT INTO `f_attachment` VALUES (604011771941879841, '123', '123', 'IMAGE', '2.jpg', NULL, '', '', '2019/07', 'http://192.168.1.34:8765/file/2019/07/de9a0750-dff0-4f9c-bcc0-58513fe6bfd3.jpg?attname=2.jpg', NULL, '', NULL, 'image/jpeg', 'de9a0750-dff0-4f9c-bcc0-58513fe6bfd3.jpg', 'jpg', 7973, 0, 'fa-file-photo-o', '2019年07月', '2019年30周', '2019年07月25日', '2019-07-25 18:07:09', 0, '2019-07-25 18:07:09', 0);
-COMMIT;
-
--- ----------------------------
 -- Table structure for f_down_water
 -- ----------------------------
 DROP TABLE IF EXISTS `f_down_water`;
@@ -90,7 +81,7 @@ CREATE TABLE `f_file` (
   `grade` int(11) DEFAULT '1' COMMENT '层级等级\n从1开始计算',
   `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除\n#BooleanStatus{TRUE:1,已删除;FALSE:0,未删除}',
   `folder_id` bigint(20) DEFAULT '0' COMMENT '父文件夹ID',
-  `url` varchar(255) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
+  `url` varchar(1000) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
   `size` bigint(20) DEFAULT '0' COMMENT '文件大小\n单位字节',
   `folder_name` varchar(255) DEFAULT '' COMMENT '父文件夹名称',
   `group_` varchar(255) DEFAULT '' COMMENT 'FastDFS组\n用于FastDFS',
@@ -111,13 +102,6 @@ CREATE TABLE `f_file` (
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT KEY `FU_TREE_PATH` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件表';
-
--- ----------------------------
--- Records of f_file
--- ----------------------------
-BEGIN;
-INSERT INTO `f_file` VALUES (595642561331200033, 'DIR', '你好\"123', ',', 1, b'0', -1, '', 0, '', '', '', '', '', '', '', '', 'fa-folder-o', '2019年07月', '2019年27周', '2019年07月02日', '2019-07-02 15:50:53', 0, '2019-07-02 15:50:53', 0);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for f_recycle

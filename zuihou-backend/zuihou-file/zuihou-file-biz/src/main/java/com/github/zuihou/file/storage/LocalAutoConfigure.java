@@ -109,37 +109,36 @@ public class LocalAutoConfigure {
         protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException {
             //创建合并后的文件
             java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
-            if (outputFile.exists()) {
-                log.error("文件[" + folder + "]随机命名冲突");
-
-                return R.fail("文件随机命名冲突");
-            }
-            boolean newFile = outputFile.createNewFile();
-            if (!newFile) {
-                return R.fail("创建文件失败");
-            }
-            try (FileChannel outChannel = new FileOutputStream(outputFile).getChannel()) {
-                //同步nio 方式对分片进行合并, 有效的避免文件过大导致内存溢出
-                for (java.io.File file : files) {
-                    try (FileChannel inChannel = new FileInputStream(file).getChannel()) {
-                        inChannel.transferTo(0, inChannel.size(), outChannel);
-                    } catch (FileNotFoundException ex) {
-                        log.error("文件转换失败", ex);
-                        return R.fail("文件转换失败");
-                    }
-                    //删除分片
-                    if (!file.delete()) {
-                        log.error("分片[" + folder + "=>" + file.getName() + "]删除失败");
-                    }
+            if (!outputFile.exists()) {
+                boolean newFile = outputFile.createNewFile();
+                if (!newFile) {
+                    return R.fail("创建文件失败");
                 }
-            } catch (FileNotFoundException e) {
-                log.error("文件输出失败", e);
-                return R.fail("文件输出失败");
-            }
+                try (FileChannel outChannel = new FileOutputStream(outputFile).getChannel()) {
+                    //同步nio 方式对分片进行合并, 有效的避免文件过大导致内存溢出
+                    for (java.io.File file : files) {
+                        try (FileChannel inChannel = new FileInputStream(file).getChannel()) {
+                            inChannel.transferTo(0, inChannel.size(), outChannel);
+                        } catch (FileNotFoundException ex) {
+                            log.error("文件转换失败", ex);
+                            return R.fail("文件转换失败");
+                        }
+                        //删除分片
+                        if (!file.delete()) {
+                            log.error("分片[" + folder + "=>" + file.getName() + "]删除失败");
+                        }
+                    }
+                } catch (FileNotFoundException e) {
+                    log.error("文件输出失败", e);
+                    return R.fail("文件输出失败");
+                }
 
-            //将MD5签名和合并后的文件path存入持久层
-            if (this.saveMd52FileMap(md5, outputFile.getName())) {
-                log.info("文件[" + md5 + "=>" + outputFile.getName() + "]保存关系到持久成失败，但并不影响文件上传，只会导致日后该文件可能被重复上传而已");
+                //将MD5签名和合并后的文件path存入持久层
+                if (this.saveMd52FileMap(md5, outputFile.getName())) {
+                    log.info("文件[" + md5 + "=>" + outputFile.getName() + "]保存关系到持久成失败，但并不影响文件上传，只会导致日后该文件可能被重复上传而已");
+                }
+            } else {
+                log.warn("文件[{}], fileName={}已经存在", folder, fileName);
             }
 
             String relativePath = FileDataTypeUtil.getRelativePath(fileProperties.getStoragePath(), outputFile.getAbsolutePath());
