@@ -1,5 +1,6 @@
 package com.github.zuihou;
 
+import java.lang.reflect.Field;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -11,7 +12,9 @@ import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.controller.test.model.ValidatorDTO;
+import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,35 @@ import org.junit.Test;
  */
 @Slf4j
 public class NoBootTest {
+
+    private static Field getField(Class<?> clazz, String fieldName) {
+        if (clazz == null) {
+            return null;
+        }
+        try {
+            Field declaredField = clazz.getDeclaredField(fieldName);
+            if (declaredField != null) {
+                return declaredField;
+            }
+
+        } catch (NoSuchFieldException e) {
+            Class<?> superclass = clazz.getSuperclass();
+            if (superclass != null) {
+                return getField(superclass, fieldName);
+            }
+        }
+
+        return null;
+    }
+
+    public static void main(String[] args) {
+        String field = "name";
+        System.out.println(getField(MenuTreeDTO.class, field));
+
+        System.out.println(ReflectUtil.getField(MenuTreeDTO.class, field));
+
+    }
+
     @Test
     public void testLog() {
         try {

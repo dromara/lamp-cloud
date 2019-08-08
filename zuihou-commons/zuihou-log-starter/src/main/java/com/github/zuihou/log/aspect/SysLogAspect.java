@@ -70,7 +70,7 @@ public class SysLogAspect {
     public void recordLog(JoinPoint joinPoint) throws Throwable {
         log.info("当前线程id={}", Thread.currentThread().getId());
 
-        tryCatch((aaa) -> {
+        tryCatch((val) -> {
             // 开始时间
             OptLogDTO sysLog = get();
             sysLog.setCreateUser(BaseContextHandler.getUserId());
