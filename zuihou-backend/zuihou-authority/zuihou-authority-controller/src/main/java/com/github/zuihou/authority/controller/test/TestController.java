@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.controller.test;
 
 import com.github.zuihou.authority.controller.test.model.EnumDTO;
-import com.github.zuihou.authority.controller.test.model.Orddder;
+import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.log.entity.OptLogDTO;
@@ -87,7 +87,7 @@ public class TestController extends BaseController {
 
     @ApiOperationSupport(ignoreParameters = {"id", "producttt.id"})
     @PostMapping("post7")
-    public R<Orddder> post7(@RequestBody Orddder data) throws Exception {
+    public R<User> post7(@RequestBody(required = false) User data) throws Exception {
 
         return success(data);
     }
