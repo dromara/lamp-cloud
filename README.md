@@ -93,16 +93,22 @@ RibbitMQ、FastDFS等主要框架和中间件。
 
 由于原生swagger-ui某些功能支持不够友好，故采用了国内开源的`swagger-bootstrap-ui`，并制作了stater，方便springboot用户使用。
 
-- 代码生成器
+- **代码生成器**
 
 基于Mybatis-plus-generator自定义了一套代码生成器， 通过配置数据库字段的注释，自动生成枚举类、数据字典注解、SaveDTO、UpdateDTO、表单验证规则注解、Swagger注解等。
 
-- 定时任务调度器：
+- **定时任务调度器**：
 
 基于xxl-jobs进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
 
-- 汉化 Eureka 注册中心页面
+- **汉化 Eureka 注册中心页面**
 
+- **大文件断点分片续传**
+
+前端采用webupload.js、后端采用NIO实现了大文件断点分片续传，启动Eureka、Zuul、File服务后，直接打开doc/chunkUploadDemo/demo.html即可进行测试。
+经测试，本地限制堆栈最大内存128M启动File服务,5分钟内能成功上传4.6G+的大文件，正式服耗时则会受到用户带宽和服务器带宽的影响，时间比较长。
+   
+   
 ## 项目架构图
 ![架构图.png](doc/image/项目相关/架构图.png)
 
