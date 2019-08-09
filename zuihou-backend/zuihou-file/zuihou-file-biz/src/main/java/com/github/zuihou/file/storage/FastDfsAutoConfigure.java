@@ -11,7 +11,9 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.github.zuihou.base.R;
 import com.github.zuihou.file.dao.AttachmentMapper;
 import com.github.zuihou.file.domain.FileDeleteDO;
+import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
 import com.github.zuihou.file.entity.File;
+import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
 import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
 import com.github.zuihou.utils.StrHelper;
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author zuihou
  */
+@EnableConfigurationProperties(FileServerProperties.class)
 @Configuration
 @Slf4j
 @ConditionalOnProperty(name = "zuihou.file.type", havingValue = "FAST_DFS")
@@ -43,7 +47,7 @@ public class FastDfsAutoConfigure {
         @Override
         protected void uploadFile(File file, MultipartFile multipartFile) throws Exception {
             StorePath storePath = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), file.getExt(), null);
-            file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath() + "?attname=" + StrHelper.encode(file.getSubmittedFileName()));
+            file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath() + "?fileName=" + StrHelper.encode(file.getSubmittedFileName()));
             file.setGroup(storePath.getGroup());
             file.setPath(storePath.getPath());
         }
@@ -80,7 +84,7 @@ public class FastDfsAutoConfigure {
         }
 
         @Override
-        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException {
+        protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
             StorePath storePath = null;
 
             long start = System.currentTimeMillis();
@@ -90,7 +94,7 @@ public class FastDfsAutoConfigure {
                 FileInputStream in = FileUtils.openInputStream(file);
                 if (i == 0) {
                     storePath = storageClient.uploadAppenderFile(null, in,
-                            file.length(), ext);
+                            file.length(), info.getExt());
                 } else {
                     storageClient.appendFile(storePath.getGroup(), storePath.getPath(),
                             in, file.length());
@@ -104,7 +108,7 @@ public class FastDfsAutoConfigure {
             log.info("上传耗时={}", (end - start));
             String url = new StringBuilder(fileProperties.getUriPrefix())
                     .append(storePath.getFullPath())
-                    .append("?attname=" + StrHelper.encode(submittedFileName))
+                    .append("?fileName=" + StrHelper.encode(info.getSubmittedFileName()))
                     .toString();
             File filePo = File.builder()
                     .url(url)

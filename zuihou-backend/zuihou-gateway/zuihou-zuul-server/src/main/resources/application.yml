@@ -46,7 +46,7 @@ spring:
       client:
         enabled: true
         instance:
-          health-url: ${server.servlet.context-path}${spring.mvc.servlet.path}${management.endpoints.web.base-path}/health2
+          health-url: ${server.servlet.context-path}${spring.mvc.servlet.path}${management.endpoints.web.base-path}/health
 management:
   endpoints:
     web:

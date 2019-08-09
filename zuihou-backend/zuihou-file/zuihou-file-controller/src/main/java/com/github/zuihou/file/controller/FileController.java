@@ -181,7 +181,7 @@ public class FileController extends BaseController {
      * @return
      */
     @ApiOperation(value = "根据Ids进行文件删除", notes = "根据Ids进行文件删除  ")
-    @DeleteMapping(value = "/list")
+    @DeleteMapping(value = "/ids")
     @SysLog("删除文件/文件夹")
     public R<Boolean> removeList(@RequestParam(value = "ids[]") Long[] ids) {
         Long userId = getUserId();

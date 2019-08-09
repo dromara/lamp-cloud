@@ -21,12 +21,11 @@ import com.github.zuihou.file.strategy.FileLock;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
 import com.github.zuihou.utils.DateUtils;
 import com.github.zuihou.utils.NumberHelper;
+import com.github.zuihou.utils.StrPool;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import static com.github.zuihou.file.utils.FileDataTypeUtil.EXT_SEPARATOR;
 
 
 /**
@@ -106,10 +105,11 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
 
         String filename = new StringBuilder(info.getName())
-                .append(EXT_SEPARATOR)
+                .append(StrPool.DOT)
                 .append(info.getExt()).toString();
-        R<File> result = chunksMerge(uploadFolder, info.getMd5(), info.getName(), filename, info.getSubmittedFileName(),
-                info.getExt(), info.getChunks());
+//        R<File> result = chunksMerge(uploadFolder, info.getMd5(), info.getName(), filename, info.getSubmittedFileName(),
+//                info.getExt(), info.getChunks());
+        R<File> result = chunksMerge(uploadFolder, info, filename);
 
         log.info("path={}", result);
         if (result.getIsSuccess() && result.getData() != null) {
@@ -139,26 +139,10 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         return result;
     }
 
-
-    /**
-     * 分片合并操作
-     * 要点:
-     * > 合并: NIO
-     * > 并发锁: 避免多线程同时触发合并操作
-     * > 清理: 合并清理不再需要的分片文件、文件夹、tmp文件
-     *
-     * @param path              合并后的文件所存储的位置
-     * @param md5               文件签名
-     * @param folder            分片文件所在的文件夹名称
-     * @param fileName          合并后的文件完整
-     * @param submittedFileName 原始文件名
-     * @param chunks            分片总数
-     * @param ext               文件后缀(不含.)
-     * @return 返回合并后的文件存放绝对路径
-     */
-    private R<File> chunksMerge(String path, String md5, String folder, String fileName, String submittedFileName, String ext, int chunks) {
-        //合并后的目标文件
-        String target;
+    private R<File> chunksMerge(String path, FileChunksMergeDTO info, String fileName) {
+        int chunks = info.getChunks();
+        String folder = info.getName();
+        String md5 = info.getMd5();
 
         //检查是否满足合并条件：分片数量是否足够
         if (chunks == this.getChunksNum(Paths.get(path, folder).toString())) {
@@ -180,7 +164,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                         return 1;
                     });
 
-                    R<File> result = merge(files, path, md5, folder, fileName, submittedFileName, ext);
+                    R<File> result = merge(files, path, fileName, info);
                     files = null;
 
                     //清理：文件夹，tmp文件
@@ -208,20 +192,19 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         return R.success(file);
     }
 
+
     /**
      * 子类实现具体的合并操作
      *
-     * @param files             文件
-     * @param path              路径
-     * @param folder            文件夹
-     * @param fileName          唯一名
-     * @param md5               文件md5
-     * @param submittedFileName 原始文件名
-     * @param ext               后缀
+     * @param files    文件
+     * @param path     路径
+     * @param fileName 唯一名 含后缀
+     * @param info     文件信息
      * @return
      * @throws IOException
      */
-    protected abstract R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException;
+    protected abstract R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException;
+
 
     /**
      * 将MD5签名和目标文件path的映射关系存入持久层
@@ -248,9 +231,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         if (!FileUtils.deleteQuietly(garbage)) {
             return false;
         }
-
         //删除tmp文件
-
         garbage = new java.io.File(Paths.get(path, folder + ".tmp").toString());
         if (!FileUtils.deleteQuietly(garbage)) {
             return false;
