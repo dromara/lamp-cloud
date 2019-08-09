@@ -14,12 +14,14 @@ import java.util.UUID;
 import com.github.zuihou.base.R;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.file.domain.FileDeleteDO;
+import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
 import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
 import com.github.zuihou.utils.StrHelper;
+import com.github.zuihou.utils.StrPool;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +31,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.github.zuihou.file.utils.FileDataTypeUtil.URI_SEPARATOR;
 
 /**
  * 本地上传配置
@@ -58,7 +59,13 @@ public class LocalAutoConfigure {
             java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
             org.apache.commons.io.FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
 
-            file.setUrl(fileProperties.getUriPrefix() + secDir + "/" + fileName + "?attname=" + StrHelper.encode(file.getSubmittedFileName()));
+            String url = new StringBuilder(fileProperties.getUriPrefix())
+                    .append(secDir)
+                    .append(StrPool.SLASH)
+                    .append(fileName)
+                    .append("?fileName=" + StrHelper.encode(file.getSubmittedFileName()))
+                    .toString();
+            file.setUrl(StringUtils.replace(url, "\\\\", StrPool.SLASH));
             file.setFilename(fileName);
             file.setRelativePath(secDir);
         }
@@ -100,13 +107,13 @@ public class LocalAutoConfigure {
 
             file.setFilename(filename);
             String url = file.getUrl();
-            String newUrl = StringUtils.substring(url, 0, StringUtils.lastIndexOf(url, URI_SEPARATOR) + 1);
+            String newUrl = StringUtils.substring(url, 0, StringUtils.lastIndexOf(url, StrPool.SLASH) + 1);
             file.setUrl(newUrl + filename);
         }
 
 
         @Override
-        protected R<File> merge(List<java.io.File> files, String path, String md5, String folder, String fileName, String submittedFileName, String ext) throws IOException {
+        protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
             //创建合并后的文件
             java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
             if (!outputFile.exists()) {
@@ -125,7 +132,7 @@ public class LocalAutoConfigure {
                         }
                         //删除分片
                         if (!file.delete()) {
-                            log.error("分片[" + folder + "=>" + file.getName() + "]删除失败");
+                            log.error("分片[" + info.getName() + "=>" + file.getName() + "]删除失败");
                         }
                     }
                 } catch (FileNotFoundException e) {
@@ -134,23 +141,23 @@ public class LocalAutoConfigure {
                 }
 
                 //将MD5签名和合并后的文件path存入持久层
-                if (this.saveMd52FileMap(md5, outputFile.getName())) {
-                    log.info("文件[" + md5 + "=>" + outputFile.getName() + "]保存关系到持久成失败，但并不影响文件上传，只会导致日后该文件可能被重复上传而已");
+                if (this.saveMd52FileMap(info.getMd5(), outputFile.getName())) {
+                    log.info("文件[" + info.getMd5() + "=>" + outputFile.getName() + "]保存关系到持久成失败，但并不影响文件上传，只会导致日后该文件可能被重复上传而已");
                 }
             } else {
-                log.warn("文件[{}], fileName={}已经存在", folder, fileName);
+                log.warn("文件[{}], fileName={}已经存在", info.getName(), fileName);
             }
 
             String relativePath = FileDataTypeUtil.getRelativePath(fileProperties.getStoragePath(), outputFile.getAbsolutePath());
             String url = new StringBuilder(fileProperties.getUriPrefix())
                     .append(relativePath)
-                    .append(URI_SEPARATOR)
+                    .append(StrPool.SLASH)
                     .append(fileName)
-                    .append("?attname=" + StrHelper.encode(submittedFileName))
+                    .append("?fileName=" + StrHelper.encode(info.getSubmittedFileName()))
                     .toString();
             File filePo = File.builder()
                     .relativePath(relativePath)
-                    .url(StringUtils.replace(url, "\\\\", URI_SEPARATOR))
+                    .url(StringUtils.replace(url, "\\\\", StrPool.SLASH))
                     .build();
             return R.success(filePo);
         }

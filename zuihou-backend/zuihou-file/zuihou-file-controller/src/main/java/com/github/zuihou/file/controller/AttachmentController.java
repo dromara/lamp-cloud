@@ -128,9 +128,9 @@ public class AttachmentController extends BaseController {
     }
 
     @ApiOperation(value = "删除文件", notes = "删除文件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ids[]", value = "文件ids", dataType = "long", paramType = "query"),
-    })
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "ids[]", value = "文件ids", dataType = "long", paramType = "query"),
+//    })
     @DeleteMapping(value = "")
     @SysLog("删除附件")
     public R<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
@@ -158,7 +158,6 @@ public class AttachmentController extends BaseController {
         BizAssert.assertTrue(BASE_VALID_PARAM.build("业务类型不能为空"), !(ArrayUtils.isEmpty(bizTypes) && ArrayUtils.isEmpty(bizIds)));
         return success(attachmentService.find(bizTypes, bizIds));
     }
-
 
     @ApiOperation(value = "根据业务类型或者业务id查询附件", notes = "根据业务类型或者业务id查询附件")
     @GetMapping(value = "/{type}")

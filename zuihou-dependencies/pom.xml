@@ -75,6 +75,7 @@
         <lombok.version>1.18.8</lombok.version>
         <guava.version>20.0</guava.version>
         <tobato-fastdfs-client.version>1.26.6</tobato-fastdfs-client.version>
+        <qiniu-java-sdk>7.2.18</qiniu-java-sdk>
 
         <hibernate.validator.version>6.0.14.Final</hibernate.validator.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
@@ -166,7 +167,12 @@
                 <artifactId>fastdfs-client</artifactId>
                 <version>${tobato-fastdfs-client.version}</version>
             </dependency>
-
+            <!-- 七牛依赖 -->
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu-java-sdk}</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>

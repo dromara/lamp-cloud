@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.controller.test;
 
 import com.github.zuihou.authority.controller.test.model.EnumDTO;
+import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -88,6 +89,13 @@ public class TestController extends BaseController {
     @ApiOperationSupport(ignoreParameters = {"id", "producttt.id"})
     @PostMapping("post7")
     public R<User> post7(@RequestBody(required = false) User data) throws Exception {
+
+        return success(data);
+    }
+
+    @ApiOperationSupport(ignoreParameters = {"id", "producttt.id"})
+    @PostMapping("post8")
+    public R<Resource> post8(@RequestBody(required = false) Resource data) throws Exception {
 
         return success(data);
     }

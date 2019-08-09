@@ -2,13 +2,14 @@ package com.github.zuihou.file.properties;
 
 
 import com.github.zuihou.file.enumeration.FileStorageType;
+import com.github.zuihou.utils.StrPool;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
-import static com.github.zuihou.file.utils.FileDataTypeUtil.URI_SEPARATOR;
 
 
 /**
@@ -46,6 +47,8 @@ public class FileServerProperties {
     private String downByBizId = "";
     private String downById = "";
 
+    private Ali ali;
+
     public String getDownByUrl(Object... param) {
         return String.format(downByUrl, param);
     }
@@ -67,16 +70,25 @@ public class FileServerProperties {
     }
 
     public String getUriPrefix() {
-        if (!uriPrefix.endsWith(URI_SEPARATOR)) {
-            uriPrefix += URI_SEPARATOR;
+        if (!uriPrefix.endsWith(StrPool.SLASH)) {
+            uriPrefix += StrPool.SLASH;
         }
         return uriPrefix;
     }
 
     public String getStoragePath() {
-        if (!storagePath.endsWith(URI_SEPARATOR)) {
-            storagePath += URI_SEPARATOR;
+        if (!storagePath.endsWith(StrPool.SLASH)) {
+            storagePath += StrPool.SLASH;
         }
         return storagePath;
+    }
+
+    @Data
+    public static class Ali {
+        private String uriPrefix;
+        private String endpoint;
+        private String accessKeyId;
+        private String accessKeySecret;
+        private String bucketName;
     }
 }

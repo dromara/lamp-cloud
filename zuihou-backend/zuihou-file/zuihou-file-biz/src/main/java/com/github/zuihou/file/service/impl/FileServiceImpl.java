@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.update.LbuWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.file.biz.FileBiz;
 import com.github.zuihou.file.dao.FileMapper;
 import com.github.zuihou.file.domain.FileAttrDO;
 import com.github.zuihou.file.domain.FileDO;
+import com.github.zuihou.file.domain.FileDeleteDO;
 import com.github.zuihou.file.domain.FileStatisticsDO;
 import com.github.zuihou.file.dto.FileOverviewDTO;
 import com.github.zuihou.file.dto.FileStatisticsAllDTO;
@@ -182,15 +182,31 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         if (ArrayUtils.isEmpty(ids)) {
             return Boolean.TRUE;
         }
-        removeFile(ids, userId);
-        LbqWrapper<File> query = Wraps.<File>lbQ()
-                .eq(File::getCreateUser, userId)
-                .in(File::getId, ids);
+        List<File> list = super.list(Wrappers.<File>lambdaQuery().in(File::getId, ids));
+        if (list.isEmpty()) {
+            return true;
+        }
+        super.removeByIds(Arrays.asList(ids));
 
-        List<File> list = super.list(query);
-        List<Recycle> recycles = dozerUtils.mapList(list, Recycle.class);
+        fileStrategy.delete(list.stream().map((fi) -> FileDeleteDO.builder()
+                .relativePath(fi.getRelativePath())
+                .fileName(fi.getFilename())
+                .group(fi.getGroup())
+                .path(fi.getPath())
+                .file(false)
+                .build())
+                .collect(Collectors.toList()));
+        return true;
 
-        return recycleService.saveBatch(recycles);
+//        removeFile(ids, userId);
+//        LbqWrapper<File> query = Wraps.<File>lbQ()
+//                .eq(File::getCreateUser, userId)
+//                .in(File::getId, ids);
+//
+//        List<File> list = super.list(query);
+//        List<Recycle> recycles = dozerUtils.mapList(list, Recycle.class);
+//
+//        return recycleService.saveBatch(recycles);
     }
 
     @Override

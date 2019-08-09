@@ -19,11 +19,11 @@ public class FileDataTypeUtil {
     /**
      * url 分割符
      */
-    public static final String URI_SEPARATOR = "/";
+//    public static final String URI_SEPARATOR = "/";
     /**
      * 文件后缀风格符
      */
-    public static final String EXT_SEPARATOR = ".";
+//    public static final String EXT_SEPARATOR = ".";
     final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy/MM");
     private final static String IMAGE = "image";
     private final static String VIDEO = "video";
