@@ -14,9 +14,4 @@ zuihou:
     password: root
   file:
     type: LOCAL # FAST_DFS LOCAL ALI QINIU
-    ali:
-      uriPrefix: https://wzroom.oss-cn-shenzhen.aliyuncs.com/ # 本地
-      bucket-name: wzroom
-      endpoint: http://oss-cn-shenzhen.aliyuncs.com
-      access-key-id: LTAIceuhEooYZblM
-      access-key-secret: EWGOYiEKLyK7Bz7BGlGkufM6RxDDEV
+
