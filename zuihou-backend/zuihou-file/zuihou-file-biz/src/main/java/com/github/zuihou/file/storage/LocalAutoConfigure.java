@@ -23,6 +23,9 @@ import com.github.zuihou.file.utils.FileDataTypeUtil;
 import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.StrPool;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -50,24 +53,25 @@ public class LocalAutoConfigure {
         @Override
         protected void uploadFile(File file, MultipartFile multipartFile) throws Exception {
             //生成文件名
-            String fileName = UUID.randomUUID().toString() + "." + file.getExt();
+            String fileName = UUID.randomUUID().toString() + StrPool.DOT + file.getExt();
             //日期文件夹
-            String secDir = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
+            String relativePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
             // web服务器存放的绝对路径
-            String absolutePath = Paths.get(fileProperties.getStoragePath(), secDir).toString();
+            String absolutePath = Paths.get(fileProperties.getStoragePath(), relativePath).toString();
 
             java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
             org.apache.commons.io.FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
 
             String url = new StringBuilder(fileProperties.getUriPrefix())
-                    .append(secDir)
+                    .append(relativePath)
                     .append(StrPool.SLASH)
                     .append(fileName)
                     .append("?fileName=" + StrHelper.encode(file.getSubmittedFileName()))
                     .toString();
-            file.setUrl(StringUtils.replace(url, "\\\\", StrPool.SLASH));
+            //替换掉windows环境的\路径
+            file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
             file.setFilename(fileName);
-            file.setRelativePath(secDir);
+            file.setRelativePath(relativePath);
         }
 
         @Override
@@ -86,8 +90,8 @@ public class LocalAutoConfigure {
          * @return
          */
         private String randomFileName(String originalName) {
-            String[] ext = originalName.split("\\.");
-            return UUID.randomUUID().toString() + "." + ext[ext.length - 1];
+            String[] ext = StrUtil.split(originalName, "\\.");
+            return UUID.randomUUID().toString() + StrPool.DOT + ext[ext.length - 1];
         }
 
         @Override
@@ -99,15 +103,15 @@ public class LocalAutoConfigure {
             String outputFile = Paths.get(fileProperties.getStoragePath(), file.getRelativePath(), filename).toString();
 
             try {
-                org.apache.commons.io.FileUtils.copyFile(new java.io.File(inputFile), new java.io.File(outputFile));
-            } catch (Exception e) {
+                FileUtil.copy(inputFile, outputFile, true);
+            } catch (IORuntimeException e) {
                 log.error("复制文件异常", e);
                 throw new BizException("复制文件异常");
             }
 
             file.setFilename(filename);
             String url = file.getUrl();
-            String newUrl = StringUtils.substring(url, 0, StringUtils.lastIndexOf(url, StrPool.SLASH) + 1);
+            String newUrl = StrUtil.subPre(url, StrUtil.lastIndexOfIgnoreCase(url, StrPool.SLASH) + 1);
             file.setUrl(newUrl + filename);
         }
 
@@ -140,10 +144,6 @@ public class LocalAutoConfigure {
                     return R.fail("文件输出失败");
                 }
 
-                //将MD5签名和合并后的文件path存入持久层
-                if (this.saveMd52FileMap(info.getMd5(), outputFile.getName())) {
-                    log.info("文件[" + info.getMd5() + "=>" + outputFile.getName() + "]保存关系到持久成失败，但并不影响文件上传，只会导致日后该文件可能被重复上传而已");
-                }
             } else {
                 log.warn("文件[{}], fileName={}已经存在", info.getName(), fileName);
             }
