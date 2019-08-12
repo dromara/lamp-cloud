@@ -43,6 +43,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.github.zuihou.utils.DateUtils.DEFAULT_MONTH_FORMAT_SLASH;
+
 /**
  * 阿里OSS
  *
@@ -67,17 +69,11 @@ public class AliOssAutoConfigure {
                 ossClient.createBucket(bucketName);
             }
 
-            String storagePath = fileProperties.getStoragePath();
-            if (storagePath.startsWith(StrPool.SLASH)) {
-                storagePath = StrUtil.subSuf(storagePath, 1);
-            }
-
             //生成文件名
-            String fileName = UUID.randomUUID().toString() + "." + file.getExt();
+            String fileName = StrUtil.join(StrPool.EMPTY, UUID.randomUUID().toString(), StrPool.DOT, file.getExt());
             //日期文件夹
-            String secDir = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
+            String relativePath = LocalDate.now().format(DateTimeFormatter.ofPattern(DEFAULT_MONTH_FORMAT_SLASH));
             // web服务器存放的绝对路径
-            String relativePath = storagePath + secDir;
             String relativeFileName = relativePath + StrPool.SLASH + fileName;
 
             ObjectMetadata metadata = new ObjectMetadata();
@@ -88,7 +84,8 @@ public class AliOssAutoConfigure {
 
             log.info("result={}", JSONObject.toJSONString(result));
 
-            file.setUrl(ali.getUriPrefix() + relativeFileName);
+            String url = ali.getUriPrefix() + relativeFileName;
+            file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
             file.setFilename(fileName);
             file.setRelativePath(relativePath);
 
@@ -109,6 +106,7 @@ public class AliOssAutoConfigure {
         }
     }
 
+
     @Service
     public class AliChunkServiceImpl extends AbstractFileChunkStrategy {
         @Override
@@ -120,7 +118,7 @@ public class AliOssAutoConfigure {
                     ali.getAccessKeySecret());
 
             String sourceObjectName = file.getRelativePath() + StrPool.SLASH + file.getFilename();
-            String fileName = UUID.randomUUID().toString() + "." + file.getExt();
+            String fileName = UUID.randomUUID().toString() + StrPool.DOT + file.getExt();
             String destinationObjectName = file.getRelativePath() + StrPool.SLASH + fileName;
             ObjectMetadata objectMetadata = ossClient.getObjectMetadata(sourceBucketName, sourceObjectName);
             // 获取被拷贝文件的大小。
@@ -191,14 +189,8 @@ public class AliOssAutoConfigure {
                     ali.getAccessKeySecret());
 
             //日期文件夹
-            String storagePath = fileProperties.getStoragePath();
-            if (storagePath.startsWith(StrPool.SLASH)) {
-                storagePath = StrUtil.subSuf(storagePath, 1);
-            }
-
-            String secDir = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
+            String relativePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
             // web服务器存放的绝对路径
-            String relativePath = storagePath + secDir;
             String relativeFileName = relativePath + StrPool.SLASH + fileName;
 
             ObjectMetadata metadata = new ObjectMetadata();

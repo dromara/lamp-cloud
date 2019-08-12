@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DateUtils {
     public final static String DEFAULT_YEAR_FORMAT = "yyyy";
     public final static String DEFAULT_MONTH_FORMAT = "yyyy-MM";
+    public final static String DEFAULT_MONTH_FORMAT_SLASH = "yyyy/MM";
     public final static String DEFAULT_MONTH_FORMAT_EN = "yyyy年MM月";
     public final static String DEFAULT_WEEK_FORMAT = "yyyy-ww";
     public final static String DEFAULT_WEEK_FORMAT_EN = "yyyy年ww周";

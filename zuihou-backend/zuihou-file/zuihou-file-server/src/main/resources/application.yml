@@ -30,13 +30,14 @@ zuihou:
   file:
     type: LOCAL # FAST_DFS LOCAL
     storage-path: /projects/uploadfile/file
-    uriPrefix: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/file/ # 本地
-    inner-uri-prefix: null  # 内网通道
+    uriPrefix: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/file/ # url 访问前缀
+    inner-uri-prefix: null  #  内网的url前缀
     shareFileUrl: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/zuihou/file#/shareFileList/%s
     down-by-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download?ids[]=%s
     down-by-biz-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download/biz?bizIds[]=%s
     down-by-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download/url?url=%s&filename=%s
     ali:
+      uriPrefix: http://wzroom.oss-cn-shenzhen.aliyuncs.com
       bucket-name: wzroom
       endpoint: http://oss-cn-shenzhen.aliyuncs.com
       access-key-id: LTAIceuhEooYZblM

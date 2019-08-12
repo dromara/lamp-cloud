@@ -102,14 +102,11 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
     @Override
     public R<File> chunksMerge(FileChunksMergeDTO info) {
 
-        String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
 
         String filename = new StringBuilder(info.getName())
                 .append(StrPool.DOT)
                 .append(info.getExt()).toString();
-//        R<File> result = chunksMerge(uploadFolder, info.getMd5(), info.getName(), filename, info.getSubmittedFileName(),
-//                info.getExt(), info.getChunks());
-        R<File> result = chunksMerge(uploadFolder, info, filename);
+        R<File> result = chunksMerge(info, filename);
 
         log.info("path={}", result);
         if (result.getIsSuccess() && result.getData() != null) {
@@ -139,37 +136,31 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         return result;
     }
 
-    private R<File> chunksMerge(String path, FileChunksMergeDTO info, String fileName) {
+    private R<File> chunksMerge(FileChunksMergeDTO info, String fileName) {
+        String path = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
         int chunks = info.getChunks();
         String folder = info.getName();
         String md5 = info.getMd5();
 
         //检查是否满足合并条件：分片数量是否足够
         if (chunks == this.getChunksNum(Paths.get(path, folder).toString())) {
-
             //同步指定合并的对象
             Lock lock = FileLock.getLock(folder);
-            lock.lock();
             try {
+                lock.lock();
                 //检查是否满足合并条件：分片数量是否足够
                 List<java.io.File> files = new ArrayList<>(Arrays.asList(this.getChunks(Paths.get(path, folder).toString())));
                 if (chunks == files.size()) {
                     //按照名称排序文件，这里分片都是按照数字命名的
 
-                    files.sort((o1, o2) -> {
-                        //这里存放的文件名一定是数字
-                        if (NumberHelper.intValueOf0(o1.getName()) < NumberHelper.intValueOf0(o2.getName())) {
-                            return -1;
-                        }
-                        return 1;
-                    });
+                    //这里存放的文件名一定是数字
+                    files.sort((f1, f2) -> NumberHelper.intValueOf0(f1.getName()) - NumberHelper.intValueOf0(f2.getName()));
 
                     R<File> result = merge(files, path, fileName, info);
                     files = null;
 
                     //清理：文件夹，tmp文件
                     this.cleanSpace(folder, path);
-
                     return result;
                 }
             } catch (Exception ex) {
@@ -182,7 +173,6 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                 FileLock.removeLock(folder);
             }
         }
-
         //去持久层查找对应md5签名，直接返回对应path
         File file = this.md5Check(md5);
         if (file == null) {
@@ -207,17 +197,6 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
 
 
     /**
-     * 将MD5签名和目标文件path的映射关系存入持久层
-     *
-     * @param key  md5签名
-     * @param file 文件路径
-     * @return
-     */
-    protected boolean saveMd52FileMap(String key, String file) {
-        return true;
-    }
-
-    /**
      * 清理分片上传的相关数据
      * 文件夹，tmp文件
      *
@@ -236,7 +215,6 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         if (!FileUtils.deleteQuietly(garbage)) {
             return false;
         }
-
         return true;
     }
 
