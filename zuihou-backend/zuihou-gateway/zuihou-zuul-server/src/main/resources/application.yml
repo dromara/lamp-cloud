@@ -10,7 +10,7 @@ zuihou:
   swagger:
     enabled: true
     title: 网关模块
-    base-package: com.github.zuihou.gateway.controller
+    base-package: com.github.zuihou.zuul.controller
 
 
 logging:
