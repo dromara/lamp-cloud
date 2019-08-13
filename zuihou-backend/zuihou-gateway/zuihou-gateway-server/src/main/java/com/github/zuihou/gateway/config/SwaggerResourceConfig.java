@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONArray;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -36,6 +37,9 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
     @Autowired
     private GatewayProperties gatewayProperties;
 
+    @Value("${server.servlet.context-path:/api}")
+    private String contextPath;
+
     @LoadBalanced
     @Bean
     public RestTemplate restTemplate() {
@@ -61,7 +65,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                                             if (!list.isEmpty()) {
                                                 for (int i = 0; i < list.size(); i++) {
                                                     SwaggerResource sr = list.getObject(i, SwaggerResource.class);
-                                                    resources.add(swaggerResource(route.getId() + "-" + sr.getName(), "/" + route.getId() + sr.getUrl()));
+                                                    resources.add(swaggerResource(route.getId() + "-" + sr.getName(), contextPath + "/" + route.getId() + sr.getUrl()));
                                                 }
                                             }
                                         } catch (Exception e) {

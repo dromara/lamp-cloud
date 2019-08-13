@@ -23,6 +23,14 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 
 /**
  * 使得网关支持同一服务的多版本化。
+ * 诞生背景：
+ * 本地开发环境，每次开发测试都需要启动整个项目，对于开发环境的电脑配置有很大的要求,
+ * 如果能想要调试那个服务，就只启动那个服务，跟测试环境共用一套eureka，并且能将每个请求准确路由到自己的服务就完美了。
+ *
+ * 使用场景:
+ * 用户zuihou，在启动 zuihou-authority-server 时， 将改成 spring.application.name: zuihou-authority-server-zuihou ，
+ * 通过在请求每个请求头中增加 serviceSuffix=zuihou , 请求就能通过网关路由到 zuihou 的机器上
+ *
  *
  * @author zuihou
  */
@@ -32,10 +40,6 @@ public class MultiVersionServerSupportFilter extends BaseFilter {
 
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    public MultiVersionServerSupportFilter() {
-
-    }
 
     @Override
     public Object run() {
