@@ -44,6 +44,8 @@ spring:
       roles: USER
   cloud:
     gateway:
+      x-forwarded:
+        prefixEnabled: false
       discovery:
         locator:
           enabled: true

@@ -37,6 +37,8 @@ zuihou:
         title: 通用模块
         base-package: com.github.zuihou.general.controller
 
+
+
 logging:
   file: ${logging.path}/root.log
   path: /projects/logs/${spring.application.name}
