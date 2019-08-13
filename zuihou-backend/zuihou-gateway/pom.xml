@@ -17,7 +17,7 @@
 
     <modules>
         <!-- gateway还没调试正确，存在系列的问题-->
-        <!--        <module>zuihou-gateway-server</module>-->
+        <module>zuihou-gateway-server</module>
         <module>zuihou-zuul-base</module>
         <module>zuihou-zuul-server</module>
         <module>zuihou-zuul-ratelimit</module>
