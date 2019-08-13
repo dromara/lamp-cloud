@@ -25,7 +25,7 @@
     <script charset="utf-8" src="webuploader2/md5.js" type="text/javascript"></script>
     <script charset="utf-8" src="webuploader2/webuploader.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-        // var _GATE_URL = "http://127.0.0.1:8765/";  //todo 改成自己文件服务的访问前缀 （debug时不走网关，防止超时）
+        // var _GATE_URL = "http://127.0.0.1:8765/";  //todo 改成自己文件服务的访问前缀 （debug时不走网关，防止由于debug引起的超时）
         var _GATE_URL = "http://127.0.0.1:8760/api/file/";  //todo 改成自己网关的访问前缀 (正式使用时，走网关，统一前缀)
     </script>
 
@@ -49,7 +49,7 @@
     上传一个几百M的文件， 上传到一半时，关闭浏览器， 然后重新上传同样的文件 <br/>
     7, 如何验证秒传？ <br/>
     同一个文件上传多次，第二次开始秒传 <br/>
-    8，webuploader2.js 3171行代码被我修改我，不修改无法传参
+    8，webuploader2.js 3171行代码被我修改过，不修改无法传参
 
 </div>
 <script charset="utf-8" src="webuploader2/chunk.js" type="text/javascript"></script>
