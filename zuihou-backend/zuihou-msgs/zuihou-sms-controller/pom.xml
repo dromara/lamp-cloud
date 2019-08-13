@@ -30,5 +30,9 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-cache-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-authority-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

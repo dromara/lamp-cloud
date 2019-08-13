@@ -21,6 +21,9 @@
         <module>zuihou-jobs</module>
         <module>zuihou-gateway</module>
         <module>zuihou-api</module>
+        <!-- 以下两个模块为测试模块 -->
+        <module>zuihou-demo</module>
+        <module>zuihou-order</module>
     </modules>
     <dependencyManagement>
         <dependencies>

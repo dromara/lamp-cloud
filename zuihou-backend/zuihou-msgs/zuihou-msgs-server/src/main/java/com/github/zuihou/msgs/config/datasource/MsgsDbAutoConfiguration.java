@@ -46,21 +46,23 @@ public class MsgsDbAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "txMsgs")
     @Primary
-    public DataSourceTransactionManager msgsTransactionManager() {
-        return new DataSourceTransactionManager(db1());
+    public DataSourceTransactionManager msgsTransactionManager(@Qualifier("msgsDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean("msgsSqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("msgsGlobalConfig") GlobalConfig globalConfig,
-                                               @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler) throws Exception {
+                                               @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler,
+                                               @Qualifier("msgsDataSource") DataSource dataSource) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(db1());
+        sqlSessionFactory.setDataSource(dataSource);
         return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory, new String[]{
                 "classpath:mapper_msgs/**/*Mapper.xml",
                 "classpath:mapper_sms/**/*Mapper.xml"
         }, globalConfig, myMetaObjectHandler);
     }
+
 
     @Bean("msgsTxAdvice")
     @Primary

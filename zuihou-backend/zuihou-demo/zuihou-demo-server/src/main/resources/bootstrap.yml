@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: zuihou-demo-server
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        namespace: zuihou
+        enabled: false
+  profiles:
+    active: dev
