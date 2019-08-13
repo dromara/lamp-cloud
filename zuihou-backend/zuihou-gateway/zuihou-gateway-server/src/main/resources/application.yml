@@ -21,9 +21,9 @@ logging:
 spring:
   main:
     allow-bean-definition-overriding: true
-  mvc:
-    servlet:
-      path: /gate
+  #  mvc:
+  #    servlet:
+  #      path: /gate
   freemarker:
     template-loader-path: classpath:/templates
     cache: false
@@ -51,7 +51,7 @@ spring:
       routes:
         # 路由到本机的9000端口上
         - id: file
-          uri: http://localhost:8765
+          uri: lb://zuihou-file-server
           predicates:
             - Path=/file/**
           filters:
@@ -63,11 +63,10 @@ spring:
             - Path=/authority/**
           filters:
             - StripPrefix=1
-          # 路由到百度页面
-        - id: baidu
-          uri: http://www.baidu.com
+        - id: msgs
+          uri: lb://zuihou-msgs-server
           predicates:
-            - Path=/baidu/**
+            - Path=/msgs/**
           filters:
             - StripPrefix=1
 
