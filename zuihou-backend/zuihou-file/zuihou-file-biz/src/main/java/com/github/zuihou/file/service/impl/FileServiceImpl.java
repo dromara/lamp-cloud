@@ -29,16 +29,10 @@ import com.github.zuihou.file.dto.FileOverviewDTO;
 import com.github.zuihou.file.dto.FileStatisticsAllDTO;
 import com.github.zuihou.file.dto.FolderDTO;
 import com.github.zuihou.file.dto.FolderSaveDTO;
-import com.github.zuihou.file.entity.DownWater;
 import com.github.zuihou.file.entity.File;
-import com.github.zuihou.file.entity.Recycle;
-import com.github.zuihou.file.entity.Share;
 import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.enumeration.IconType;
-import com.github.zuihou.file.service.DownWaterService;
 import com.github.zuihou.file.service.FileService;
-import com.github.zuihou.file.service.RecycleService;
-import com.github.zuihou.file.service.ShareService;
 import com.github.zuihou.file.strategy.FileStrategy;
 import com.github.zuihou.utils.DateUtils;
 
@@ -74,16 +68,11 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     @Autowired
     private DozerUtils dozerUtils;
-    @Autowired
-    private RecycleService recycleService;
-    @Autowired
-    private ShareService shareService;
+
     @Autowired
     private FileBiz fileBiz;
     @Resource
     private FileStrategy fileStrategy;
-    @Autowired
-    private DownWaterService downWaterService;
 
     @Override
     public File upload(MultipartFile simpleFile, Long folderId) {
@@ -167,17 +156,6 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     }
 
     @Override
-    public void remove(Long id, Long userId) {
-        File folder = super.getById(id);
-        assertNotNull(BASE_VALID_PARAM.build("文件不存在，请确认是否已被删除"), folder);
-
-        removeFile(new Long[]{id}, userId);
-        File file = super.getById(id);
-        Recycle recycle = dozerUtils.map(file, Recycle.class);
-        recycleService.save(recycle);
-    }
-
-    @Override
     public Boolean removeList(Long userId, Long[] ids) {
         if (ArrayUtils.isEmpty(ids)) {
             return Boolean.TRUE;
@@ -197,16 +175,6 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 .build())
                 .collect(Collectors.toList()));
         return true;
-
-//        removeFile(ids, userId);
-//        LbqWrapper<File> query = Wraps.<File>lbQ()
-//                .eq(File::getCreateUser, userId)
-//                .in(File::getId, ids);
-//
-//        List<File> list = super.list(query);
-//        List<Recycle> recycles = dozerUtils.mapList(list, Recycle.class);
-//
-//        return recycleService.saveBatch(recycles);
     }
 
     @Override
@@ -228,38 +196,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                         .build())
                 .collect(Collectors.toList());
         fileBiz.down(listDo, request, response);
-        recordWater(ids, userId);
     }
 
-    /**
-     * 记录流水
-     *
-     * @param ids    文件id
-     * @param userId
-     */
-    public void recordWater(Long[] ids, Long userId) {
-        if (userId == null || userId <= 0) {
-            return;
-        }
-        try {
-            LocalDateTime now = LocalDateTime.now();
-            List<DownWater> list = Arrays.asList(ids).stream().map((id) -> {
-                DownWater dw = DownWater.builder().appCode("").fileId(id)
-                        .createMonth(DateUtils.formatAsYearMonthEn(now))
-                        .createWeek(DateUtils.formatAsYearWeekEn(now))
-                        .createDay(DateUtils.formatAsDateEn(now))
-                        .build();
-                dw.setCreateUser(userId);
-                return dw;
-            }).collect(Collectors.toList());
-
-            if (!list.isEmpty()) {
-                downWaterService.saveBatch(list);
-            }
-        } catch (Exception e) {
-            log.error("记录流水报错={}", e);
-        }
-    }
 
     @Override
     public FileOverviewDTO findOverview(Long userId, LocalDateTime startTime, LocalDateTime endTime) {
@@ -299,8 +237,6 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
             }
         }
         builder.allFileNum(allNum).allFileSize(allSize);
-        int shareNum = shareService.count(Wrappers.<Share>lambdaQuery().eq(Share::getCreateUser, userId));
-        builder.shareNum(shareNum);
         return builder.build();
     }
 

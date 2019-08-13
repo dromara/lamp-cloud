@@ -62,8 +62,8 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
      * @return
      */
     @Bean(name = "txAuthority")
-    public DataSourceTransactionManager rdsTransactionManager() {
-        return new DataSourceTransactionManager(db1());
+    public DataSourceTransactionManager rdsTransactionManager(@Qualifier("authorityDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     /**
@@ -76,13 +76,15 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
      */
     @Bean("authoritySqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("authorityGlobalConfig") GlobalConfig globalConfig,
-                                               @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler
+                                               @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler,
+                                               @Qualifier("authorityDataSource") DataSource dataSource
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(db1());
+        sqlSessionFactory.setDataSource(dataSource);
         return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
                 new String[]{"classpath:mapper_authority/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
     }
+
 
     /**
      * 事务拦截器

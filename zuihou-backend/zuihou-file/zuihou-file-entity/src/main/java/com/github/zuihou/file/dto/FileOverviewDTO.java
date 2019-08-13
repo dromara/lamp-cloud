@@ -41,12 +41,9 @@ public class FileOverviewDTO {
     @ApiModelProperty(value = "其他文件数量")
     private Integer otherNum;
 
-    @ApiModelProperty(value = "个人分享次数")
-    private Integer shareNum;
-
     public static FileOverviewDTOBuilder myBuilder() {
         FileOverviewDTOBuilder builder = FileOverviewDTO.builder();
         return builder.allFileSize(0L).allFileNum(0).dirNum(0).imgNum(0).docNum(0).videoNum(0).
-                audioNum(0).otherNum(0).shareNum(0);
+                audioNum(0).otherNum(0);
     }
 }

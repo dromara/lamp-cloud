@@ -63,7 +63,6 @@ server:
     worker-threads: 120  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
     buffer-size: 2048  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
     direct-buffers: true  # 是否分配的直接内存
-
 spring:
   main:
     allow-bean-definition-overriding: true

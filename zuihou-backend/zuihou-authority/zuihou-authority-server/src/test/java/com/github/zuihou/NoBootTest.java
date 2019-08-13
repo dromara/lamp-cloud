@@ -1,9 +1,7 @@
 package com.github.zuihou;
 
 import java.lang.reflect.Field;
-import java.util.Set;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -11,7 +9,6 @@ import javax.validation.ValidatorFactory;
 import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
-import com.github.zuihou.authority.controller.test.model.ValidatorDTO;
 import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 
 import cn.hutool.core.util.ReflectUtil;
@@ -85,17 +82,6 @@ public class NoBootTest {
                 .addProperty("hibernate.validator.fail_fast", "false")
                 .buildValidatorFactory();
         return validatorFactory.getValidator();
-    }
-
-    @Test
-    public void test() {
-
-        ValidatorDTO dto = new ValidatorDTO();
-        dto.setAge(1L).setCode("1").setNotnull(1L).setEmail("q@q").setUrl("http:");
-        Set<ConstraintViolation<ValidatorDTO>> validate = getValidator().validate(dto);
-        for (ConstraintViolation<ValidatorDTO> c : validate) {
-            log.info(c.getMessage());
-        }
     }
 
     @Test

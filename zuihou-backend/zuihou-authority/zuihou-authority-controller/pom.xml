@@ -28,15 +28,6 @@
             <artifactId>zuihou-user-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-file-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
-        </dependency>
-
 
     </dependencies>
 

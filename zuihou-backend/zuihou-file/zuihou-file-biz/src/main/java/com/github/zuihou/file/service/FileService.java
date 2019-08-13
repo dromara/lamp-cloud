@@ -36,14 +36,6 @@ public interface FileService extends IService<File> {
     FolderDTO saveFolder(FolderSaveDTO folderSaveDto);
 
     /**
-     * 根据文件id和用户id 删除文件或者文件夹
-     *
-     * @param id     文件id
-     * @param userId 用户id
-     */
-    void remove(Long id, Long userId);
-
-    /**
      * 根据文件id下载文件，并统计下载次数
      *
      * @param request  请求
