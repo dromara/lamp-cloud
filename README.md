@@ -260,6 +260,7 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     - ZuulServerApplication   
     - AuthorityApplication
     - FileServerApplication (可选)
+    - MsgsServerApplication (可选)
     - JobsServerApplication (可选)
     - MonitorApplication    (可选)
     - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-admin-ui?_blank)

@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
- * 权限 过滤器
+ * 解析token中的用户信息 过滤器
  *
  * @author zuihou
  * @createTime 2017-12-13 15:22

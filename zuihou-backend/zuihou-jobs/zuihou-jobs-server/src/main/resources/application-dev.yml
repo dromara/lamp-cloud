@@ -6,6 +6,10 @@ zuihou:
       database: zuihou_authority_dev
       host: ${zuihou.ip.mysql}
       port: ${zuihou.mysql.port}
+    msgs:
+      database: zuihou_msgs_dev
+      host: ${zuihou.ip.mysql}
+      port: ${zuihou.mysql.port}
     jobs:
       database: zuihou_jobs_dev
       host: ${zuihou.ip.mysql}

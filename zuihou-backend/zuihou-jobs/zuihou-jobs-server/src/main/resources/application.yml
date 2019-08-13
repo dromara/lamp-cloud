@@ -7,6 +7,10 @@ zuihou:
       database: zuihou_authority_dev
       host: ${zuihou.ip.mysql}
       port: ${zuihou.mysql.port}
+    msgs:
+      database: zuihou_msgs_dev
+      host: ${zuihou.ip.mysql}
+      port: ${zuihou.mysql.port}
     jobs:
       database: zuihou_jobs_dev
       host: ${zuihou.ip.mysql}
@@ -73,6 +77,14 @@ spring:
         password: ${zuihou.mysql.password}
         driver-class-name: ${zuihou.mysql.driverClassName}
         url: jdbc:mysql://${zuihou.mysql.authority.host}:${zuihou.mysql.authority.port}/${zuihou.mysql.authority.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
+        initialSize: 10
+        minIdle: 50
+        maxActive: 200
+      msgs:
+        username: ${zuihou.mysql.username}
+        password: ${zuihou.mysql.password}
+        driver-class-name: ${zuihou.mysql.driverClassName}
+        url: jdbc:mysql://${zuihou.mysql.msgs.host}:${zuihou.mysql.msgs.port}/${zuihou.mysql.msgs.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
         initialSize: 10
         minIdle: 50
         maxActive: 200
