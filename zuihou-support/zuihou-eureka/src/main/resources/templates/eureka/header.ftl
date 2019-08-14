@@ -2,7 +2,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="<@spring.url dashboardPath/>"><span></span></a>
+            <a class="navbar-brand" href="<@spring.url dashboardPath/>"></a>
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
