@@ -1,7 +1,10 @@
 # 第三方组件启动说明
+## 大文件上传JS
+详情： http://fex.baidu.com/webuploader/
+采用百度的Webupload.js + FileChunkController 实现的大文件/分片/续传功能
 
 ## Nacos
-https://nacos.io/zh-cn/docs/what-is-nacos.html
+详情： https://nacos.io/zh-cn/docs/what-is-nacos.html
 
 ### 创建数据库，导入数据
 - 创建nacos_test数据库
