@@ -7560,13 +7560,14 @@ strong {
 }
 
 .navbar a.navbar-brand {
-    background: url("../images/spring-logo-eureka.png") -1px -1px no-repeat;
-    margin: 12px 0 6px;
-    width: 300px;
-    height: 46px;
+    background: url("../images/spring-logo-eureka.png") -1px -28px no-repeat;
+    margin: 6px 0 6px;
+    width: 380px;
+    height: 82px;
     display: inline-block;
     text-decoration: none;
     padding: 0;
+    background-size: cover;
 }
 
 .navbar a.navbar-brand span {
