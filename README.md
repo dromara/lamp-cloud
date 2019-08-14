@@ -28,6 +28,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - docker部署 
 - k8s部署
 
+## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！
+## 如果您从这个项目学到了一些技巧，请帮忙发送项目地址给您的好基友，谢谢~😁
+
 ## 交流群： 63202894
 `一键加群` <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
 
@@ -180,14 +183,18 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 - IDEA提示`@Autowired`注入失败时，可以用`@Resource` 防止`IDEA`提示注入报错。
 - IDEA提交代码时，勾选Reformat code、Rearrange code、Optimize imports, 让代码更整洁
 
-
 ## 期待您的加入：
-    1，前端哥哥
-    2，后端哥哥
+    1，前端
+    2，后端
     3，土豪哥哥(求赞助服务器)
-    4，小姐姐
-    5，有想要合作或者赞助服务器的朋友加群（63202894）联系群主
+    4，有想要合作或者赞助服务器的朋友加群（63202894）联系群主
 
+## 如果贡献代码    
+    1，Fork
+    2，修改代码后提交pr
+    3，等待合并
+    4，合并超过5次的朋友，直接拉为项目开发者
+    
 ## 环境须知：
 
 - nginx (文件下载、预览时需要使用)
@@ -262,6 +269,8 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     - FileServerApplication (可选)
     - MsgsServerApplication (可选)
     - JobsServerApplication (可选)
+    - OrderServerApplication (可选)
+    - DemoServerApplication (可选)
     - MonitorApplication    (可选)
     - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-admin-ui?_blank)
 
