@@ -44,7 +44,7 @@ public class SeataTxController extends BaseController {
      */
     @PostMapping("/save")
     @GlobalTransactional
-    public R<Org> save(@RequestBody Org data) {
+    public R<Org> saveCommitSuccess(@RequestBody Org data) {
         log.info("data={}", data);
         seataTestApi.save(data);
         Order entity = Order.builder()
@@ -60,8 +60,8 @@ public class SeataTxController extends BaseController {
      * @param data
      * @return
      */
-    @PostMapping("/save2")
-    public R<Org> save2(@RequestBody Org data) {
+    @PostMapping("/save/rollback/fail")
+    public R<Org> saveRollbackFail(@RequestBody Org data) {
         log.info("data={}", data);
         seataTestApi.save(data);
         int i = 1 / 0;
@@ -78,9 +78,9 @@ public class SeataTxController extends BaseController {
      * @param data
      * @return
      */
-    @PostMapping("/saveEx")
+    @PostMapping("/save/rollback")
     @GlobalTransactional
-    public R<Org> saveEx(@RequestBody Org data) {
+    public R<Org> saveRollbackSuccess(@RequestBody Org data) {
         log.info("data={}", data);
         seataTestApi.save(data);
 
@@ -99,9 +99,9 @@ public class SeataTxController extends BaseController {
      * @param data
      * @return
      */
-    @PostMapping("/saveEx2")
+    @PostMapping("/save/rollback2")
     @GlobalTransactional
-    public R<Org> saveEx2(@RequestBody Org data) {
+    public R<Org> saveRollbackSuccess2(@RequestBody Org data) {
         log.info("data={}", data);
         seataTestApi.saveEx(data);
 
