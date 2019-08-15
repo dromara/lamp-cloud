@@ -17,6 +17,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,12 +36,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/verification")
 @Api(value = "VerificationCode", tags = "验证码")
+@RefreshScope
 public class VerificationCodeController extends BaseController {
 
     @Autowired
     private CacheRepository redisRepository;
     @Autowired
     private SmsManager smsManager;
+
+    @Value("${zuihou.common:local}")
+    private String common;
+    @Value("${zuihou.server:local}")
+    private String server;
+    @Value("${zuihou.dev:local}")
+    private String dev;
+    @Value("${zuihou.docker:local}")
+    private String docker;
+
+    @ApiOperation(value = "测试", notes = "测试")
+    @PostMapping(value = "/anno/zuihou")
+    public R<String> test() {
+        return success("common=" + common + ",server=" + server + ",dev=" + dev + ",docker=" + docker);
+    }
+
 
     /**
      * 通用的发送验证码功能

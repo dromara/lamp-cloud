@@ -1,0 +1,40 @@
+zuihou:
+  swagger:
+    enabled: true
+    docket:
+      file:
+        title: 文件服务
+        base-package: com.github.zuihou.file.controller
+      general:
+        title: 通用模块
+        base-package: com.github.zuihou.general.controller
+  file:
+    type: LOCAL # FAST_DFS LOCAL
+    storage-path: /projects/uploadfile/file
+    uriPrefix: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/file/ # url 访问前缀
+    inner-uri-prefix: null  #  内网的url前缀
+    down-by-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download?ids[]=%s
+    down-by-biz-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download/biz?bizIds[]=%s
+    down-by-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download/url?url=%s&filename=%s
+    ali:
+      uriPrefix: http://wzroom.oss-cn-shenzhen.aliyuncs.com
+      bucket-name: wzroom
+      endpoint: http://oss-cn-shenzhen.aliyuncs.com
+      access-key-id: LTAIceuhEooYZblM
+      access-key-secret: EWGOYiEKLyK7Bz7BGlGkufM6RxDDEV
+
+#FAST_DFS配置
+fdfs:
+  soTimeout: 1500
+  connectTimeout: 600
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list:
+    - 192.168.1.2:22122
+  pool:
+    #从池中借出的对象的最大数目
+    max-total: 153
+    max-wait-millis: 102
+    jmx-name-base: 1
+    jmx-name-prefix: 1

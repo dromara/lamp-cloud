@@ -1,0 +1,48 @@
+spring:
+  cloud:
+    gateway:
+      x-forwarded:
+        prefixEnabled: false
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        # 路由到本机的9000端口上
+        - id: file
+          uri: lb://zuihou-file-server
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=1
+          # 集成eureka注册中心的配置示例
+        - id: authority
+          uri: lb://zuihou-authority-server
+          predicates:
+            - Path=/authority/**
+          filters:
+            - StripPrefix=1
+        - id: msgs
+          uri: lb://zuihou-msgs-server
+          predicates:
+            - Path=/msgs/**
+          filters:
+            - StripPrefix=1
+        - id: demo
+          uri: lb://zuihou-demo-server
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
+        - id: order
+          uri: lb://zuihou-order-server
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix=1
+
+
+authentication:
+  user:
+    header-name: token
+    pub-key: client/pub.key    # 解密

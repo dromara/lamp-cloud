@@ -24,9 +24,15 @@
         <!-- 以下两个模块为测试模块 -->
         <module>zuihou-demo</module>
         <module>zuihou-order</module>
+        <module>zuihou-config</module>
     </modules>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-config</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-core</artifactId>

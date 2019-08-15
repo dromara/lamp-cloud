@@ -31,6 +31,8 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！
 ## 如果您从这个项目学到了一些技巧，请帮忙发送项目地址给您的好基友，谢谢~😁
 
+master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的代码，移步到 https://gitee.com/zuihou111/zuihou-admin-cloud ，选择 `Greenwich-Eureka` 分支（不在提供升级和维护）。
+
 ## 交流群： 63202894
 `一键加群` <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
 
@@ -247,8 +249,8 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 │  │-...
 ```
 
-## 运行步骤: 
 
+## 运行步骤: 
 - 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
     - doc/sql/zuihou_authority_dev.sql
     - doc/sql/zuihou_authority_dev_data.sql (数据）

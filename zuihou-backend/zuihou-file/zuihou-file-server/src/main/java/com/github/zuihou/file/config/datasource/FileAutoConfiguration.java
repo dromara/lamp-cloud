@@ -4,7 +4,6 @@ package com.github.zuihou.file.config.datasource;
 import javax.sql.DataSource;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -40,25 +39,27 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 public class FileAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "fileDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.file")
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource db1() {
         return DruidDataSourceBuilder.create().build();
     }
 
     @Bean(name = "txFile")
     @Primary
-    public DataSourceTransactionManager fileTransactionManager() {
-        return new DataSourceTransactionManager(db1());
+    public DataSourceTransactionManager fileTransactionManager(@Qualifier("fileDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean("fileSqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("fileGlobalConfig") GlobalConfig globalConfig,
-                                               MybatisPlusProperties properties,
+                                               @Qualifier("fileDataSource") DataSource dataSource,
                                                @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(db1());
-        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory, properties.getMapperLocations(), globalConfig, myMetaObjectHandler);
+        sqlSessionFactory.setDataSource(dataSource);
+        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
+                new String[]{"classpath:mapper_file/**/*Mapper.xml"}
+                , globalConfig, myMetaObjectHandler);
     }
 
     @Bean("fileTxAdvice")
