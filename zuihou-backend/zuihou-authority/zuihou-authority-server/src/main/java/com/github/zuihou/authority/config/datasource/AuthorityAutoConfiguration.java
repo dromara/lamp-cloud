@@ -51,7 +51,7 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
      * @return
      */
     @Bean(name = "authorityDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.authority")
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource db1() {
         return DruidDataSourceBuilder.create().build();
     }

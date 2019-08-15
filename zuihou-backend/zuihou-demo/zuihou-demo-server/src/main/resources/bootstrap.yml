@@ -1,12 +1,30 @@
+zuihou:
+  port:
+    nacos: ${NACOS_PORT:8848}
+  ip:
+    nacos: ${NACOS_IP:${spring.cloud.client.ip-address}}
+
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: zuihou-demo-server
+  profiles:
+    active: dev
   cloud:
     nacos:
       config:
-        server-addr: 127.0.0.1:8848
-        file-extension: yaml
-        namespace: zuihou
-        enabled: false
-  profiles:
-    active: dev
+        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
+        file-extension: yml
+        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        shared-dataids: common.yml
+        refreshable-dataids: common.yml
+        enabled: true
+      discovery:
+        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
+        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        metadata:
+          user.name: ${spring.security.user.name}
+          user.password: ${spring.security.user.password}
+          swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
+          service.name: 演示服务

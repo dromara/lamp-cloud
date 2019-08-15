@@ -1,0 +1,9 @@
+zuihou:
+  ip:
+    mysql: ${MYSQL_IP:172.17.229.167}
+  mysql:
+    database: zuihou_file_dev
+    username: root              # 数据库密码
+    password: 6162659
+  file:
+    type: ALI

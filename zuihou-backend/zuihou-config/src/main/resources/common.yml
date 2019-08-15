@@ -1,0 +1,138 @@
+zuihou:
+  port:
+    nginx: ${NGINX_PORT:80}
+    redis: ${REDIS_PORT:16379}
+  ip:
+    mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    redis: ${REDIS_IP:${spring.cloud.client.ip-address}}
+  mysql:
+    host: ${zuihou.ip.mysql}
+    port: 3306                  # 根据环境更改
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root              # 数据库密码
+    password: root
+
+server:
+  undertow: # jetty  undertow
+    io-threads: 8 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    worker-threads: 120  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    buffer-size: 2048  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
+    direct-buffers: true  # 是否分配的直接内存
+
+spring:
+  cloud:
+    alibaba:
+      seata:
+        tx-service-group: zuihou_admin_seata_tx_group
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 512MB      # Max file size，默认1M
+      max-request-size: 512MB   # Max request size，默认10M
+  security:
+    user:
+      name: zuihou
+      password: zuihou
+      roles: USER
+  redis:
+    host: ${zuihou.ip.redis}
+    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
+    port: ${zuihou.port.redis}
+  datasource:
+    druid:
+      username: ${zuihou.mysql.username}
+      password: ${zuihou.mysql.password}
+      driver-class-name: ${zuihou.mysql.driverClassName}
+      url: jdbc:mysql://${zuihou.mysql.host}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull
+      initialSize: 10
+      minIdle: 10
+      maxActive: 500
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 'x'
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
+      filters: stat,wall
+      web-stat-filter:  # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js , *.gif ,*.jpg ,*.png ,*.css ,*.ico , /druid/*"
+        session-stat-max-count: 1000
+        profile-enable: true
+        session-stat-enable: false
+      stat-view-servlet:  #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
+        enabled: true
+        url-pattern: /druid/*   #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：http://127.0.0.1:9000/druid/index.html
+        reset-enable: true #允许清空统计数据
+        login-username: zuihou
+        login-password: zuihou
+
+logging:
+  file: ${logging.path}/root.log
+  path: /projects/logs/${spring.application.name}
+dozer:
+  mappingFiles:
+    - classpath:dozer/global.dozer.xml
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+
+feign:
+  #  okhttp:
+  #    enabled: true
+  hystrix:
+    enabled: true   # feign 熔断机制是否开启
+    #支持压缩的mime types
+  compression:  # 请求压缩
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:  # 响应压缩
+      enabled: true
+
+ribbon:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  eureka:
+    enabled: true
+  ReadTimeout: 30000     #
+  ConnectTimeout: 30000  # [ribbon超时时间]大于[熔断超时],那么会先走熔断，相当于你配的ribbon超时就不生效了  ribbon和hystrix是同时生效的，哪个值小哪个生效
+  MaxAutoRetries: 0             # 最大自动重试
+  MaxAutoRetriesNextServer: 1   # 最大自动像下一个服务重试
+  OkToRetryOnAllOperations: false  #无论是请求超时或者socket read timeout都进行重试，
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000 # #并发执行的最大线程数，默认10
+      maxQueueSize: 1000 # #BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 500 # #即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 120000  # 熔断超时 ribbon和hystrix是同时生效的，哪个值小哪个生效
+
+id-generator:
+  machine-code: 1  # id生成器机器掩码

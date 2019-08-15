@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author zuihou
  * @date 2019/08/02
  */
-@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = RoleApiFallback.class)
+@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", path = "/role", fallback = RoleApiFallback.class)
 public interface RoleApi {
     /**
      * 根据角色编码，查找用户id

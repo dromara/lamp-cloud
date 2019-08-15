@@ -1,0 +1,5 @@
+zuihou:
+  port:
+    nginx: 180
+  mysql:
+    database: zuihou_file_dev
