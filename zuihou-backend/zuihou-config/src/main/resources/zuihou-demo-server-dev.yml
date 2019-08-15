@@ -1,0 +1,10 @@
+zuihou:
+  mysql:
+    database: zuihou_demo_dev       # 根据环境更改
+    port: 3306                  # 根据环境更改
+    username: root              # 根据环境更改
+    password: root
+
+logging:
+  io.seata: debug
+  org.springframework.cloud.alibaba.seata.web: debug

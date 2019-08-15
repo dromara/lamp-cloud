@@ -39,10 +39,6 @@ public class FileServerProperties {
      * 内网通道前缀 主要用于解决某些服务器的无法访问外网ip的问题
      */
     private String innerUriPrefix = "";
-    /**
-     * 分享文件后的访问地址
-     */
-    private String shareFileUrl = "";
     private String downByUrl = "";
     private String downByBizId = "";
     private String downById = "";
@@ -59,10 +55,6 @@ public class FileServerProperties {
 
     public String getDownById(Object... param) {
         return String.format(downById, param);
-    }
-
-    public String getShareFileUrl(Object... param) {
-        return String.format(shareFileUrl, param);
     }
 
     public String getInnerUriPrefix() {

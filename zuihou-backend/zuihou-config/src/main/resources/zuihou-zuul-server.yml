@@ -1,0 +1,50 @@
+zuihou:
+  swagger:
+    enabled: true
+    title: 网关模块
+    base-package: com.github.zuihou.zuul.controller
+
+zuul:
+  #  debug:
+  #    request: true
+  #  include-debug-header: true
+  retryable: false
+  servlet-path: /         # 默认是/zuul , 上传文件需要加/zuul前缀才不会出现乱码，这个改成/ 即可不加前缀
+  ignored-services: "*"   # 忽略eureka上的所有服务
+  sensitive-headers:  # 一些比较敏感的请求头，不想通过zuul传递过去， 可以通过该属性进行设置
+  #  prefix: /api #为zuul设置一个公共的前缀
+  #  strip-prefix: false     #对于代理前缀默认会被移除   故加入false  表示不要移除
+  ratelimit: # 网关限流
+    key-prefix: gate_rate
+    enabled: true
+    repository: REDIS #REDIS, JPA, IN_MEMORY
+    behind-proxy: true   # ip 是否代理
+    default-policy: #optional - will apply unless specific policy exists
+      cycle-type: 1
+      limit: 10     # 接口限制次数
+      refresh-interval: 60  # 阀值限制时间 (in seconds)
+      type: #optional
+        - APP
+        - URL
+  routes:  # 路由配置方式
+    authority:  # 其中 authority 是路由名称，可以随便定义，但是path和service-id需要一一对应
+      path: /authority/**
+      serviceId: zuihou-authority-server
+    file:
+      path: /file/**
+      serviceId: zuihou-file-server
+    msgs:
+      path: /msgs/**
+      serviceId: zuihou-msgs-server
+    order:
+      path: /order/**
+      serviceId: zuihou-order-server
+    demo:
+      path: /demo/**
+      serviceId: zuihou-demo-server
+
+
+authentication:
+  user:
+    header-name: token
+    pub-key: client/pub.key    # 解密

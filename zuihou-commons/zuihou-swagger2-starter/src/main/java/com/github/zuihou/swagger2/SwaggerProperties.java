@@ -20,6 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2018/11/18 9:17
  */
 @Data
+//@RefreshScope
 @ConfigurationProperties(prefix = "zuihou.swagger")
 public class SwaggerProperties {
     /**

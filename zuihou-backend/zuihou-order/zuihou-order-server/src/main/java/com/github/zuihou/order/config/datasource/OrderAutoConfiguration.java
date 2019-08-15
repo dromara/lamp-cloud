@@ -40,7 +40,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 public class OrderAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "orderDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.order")
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource db1() {
         return DruidDataSourceBuilder.create().build();
     }
