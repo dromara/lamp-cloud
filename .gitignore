@@ -1,0 +1,37 @@
+.git
+logs
+#*.gitignore
+rebel.xml
+target/
+!.mvn/wrapper/maven-wrapper.jar
+log.path_IS_UNDEFINED
+.DS_Store
+doc/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+generatorConfig.xml
+
+### nacos ###
+third-party/nacos/derby.log
+third-party/nacos/data/
+third-party/nacos/work/
