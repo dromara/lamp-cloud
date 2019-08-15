@@ -1,0 +1,6 @@
+zuihou:
+  swagger:
+    docket:
+      demo:
+        title: 演示服务
+        base-package: com.github.zuihou.demo.controller

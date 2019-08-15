@@ -40,7 +40,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 public class DemoAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "demoDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.demo")
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource db1() {
         return DruidDataSourceBuilder.create().build();
     }
