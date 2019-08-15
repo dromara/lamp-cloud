@@ -1,0 +1,51 @@
+zuihou:
+  ip:
+    rabbitmq: ${RABBIT_IP:${spring.cloud.client.ip-address}}
+    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
+    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    local: ${spring.cloud.client.ip-address:127.0.0.1}
+    nacos: ${NACOS_IP:${spring.cloud.client.ip-address}}
+  port:
+    nacos: ${NACOS_PORT:8848}
+    nginx: ${NGINX_PORT:80}
+    eureka: ${EUREKA_PORT:8761}
+
+server:
+  servlet:
+    context-path:
+  port: 8762
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: zuihou-monitor
+  cloud:
+    nacos:
+      config:
+        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
+        file-extension: yml
+        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        shared-dataids: common.yml
+        refreshable-dataids: common.yml
+        enabled: true
+      discovery:
+        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
+        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        metadata:
+          user.name: ${spring.security.user.name}
+          user.password: ${spring.security.user.password}
+          management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
+          swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
+          service.name: 监控服务
+  datasource:
+    druid:
+      msgs:
+        username: ${zuihou.mysql.username}
+        password: ${zuihou.mysql.password}
+        driver-class-name: ${zuihou.mysql.driverClassName}
+        url: jdbc:mysql://${zuihou.mysql.msgs.host}:${zuihou.mysql.msgs.port}/${zuihou.mysql.msgs.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
+        initialSize: 10
+        minIdle: 50
+        maxActive: 200
+

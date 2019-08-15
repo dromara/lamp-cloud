@@ -36,6 +36,12 @@ public class SeataTxController extends BaseController {
     private DemoTestApi seataTestApi;
 
 
+    /**
+     * 正常的提交事务
+     *
+     * @param data
+     * @return
+     */
     @PostMapping("/save")
     @GlobalTransactional
     public R<Org> save(@RequestBody Org data) {
@@ -49,6 +55,11 @@ public class SeataTxController extends BaseController {
         return success(data);
     }
 
+    /**
+     * 失败的回滚！  因为没有 @GlobalTransactional 注解
+     * @param data
+     * @return
+     */
     @PostMapping("/save2")
     public R<Org> save2(@RequestBody Org data) {
         log.info("data={}", data);
@@ -62,6 +73,11 @@ public class SeataTxController extends BaseController {
         return success(data);
     }
 
+    /**
+     * 正常回滚, 是分布式事务回滚的效果
+     * @param data
+     * @return
+     */
     @PostMapping("/saveEx")
     @GlobalTransactional
     public R<Org> saveEx(@RequestBody Org data) {
@@ -78,6 +94,11 @@ public class SeataTxController extends BaseController {
         return success(data);
     }
 
+    /**
+     * 正常回滚， 是demo服务的本地事务回滚的效果
+     * @param data
+     * @return
+     */
     @PostMapping("/saveEx2")
     @GlobalTransactional
     public R<Org> saveEx2(@RequestBody Org data) {

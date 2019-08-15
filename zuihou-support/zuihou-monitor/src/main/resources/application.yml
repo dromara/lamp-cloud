@@ -1,15 +1,3 @@
-zuihou:
-  ip:
-    rabbitmq: ${RABBIT_IP:${spring.cloud.client.ip-address}}
-    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
-    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
-    local: ${spring.cloud.client.ip-address:127.0.0.1}
-  context-path:
-    eureka: /zuihou-eureka # eureka的项目名
-  port:
-    nginx: ${NGINX_PORT:80}
-    eureka: ${EUREKA_PORT:8761}
-
 server:
   port: 8762
   servlet:
@@ -25,30 +13,26 @@ logging:
   #    org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error
   path: /projects/logs/${spring.application.name}
 
-eureka:
-  instance:
-    status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}
-    status-page-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/info
-    health-check-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/health
-    home-page-url-path: ${server.servlet.context-path:}
-    preferIpAddress: true
-    ip-address: ${spring.cloud.client.ip-address}
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.context-path:}
-    metadata-map:
-      user.name: ${spring.security.user.name}
-      user.password: ${spring.security.user.password}
-      management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
-  client:
-    service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:${zuihou.port.eureka}${zuihou.context-path.eureka}/eureka/
+#eureka:
+#  instance:
+#    status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}
+#    status-page-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/info
+#    health-check-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/health
+#    home-page-url-path: ${server.servlet.context-path:}
+#    preferIpAddress: true
+#    ip-address: ${spring.cloud.client.ip-address}
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.context-path:}
+#    metadata-map:
+#      user.name: ${spring.security.user.name}
+#      user.password: ${spring.security.user.password}
+#      management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
+#  client:
+#    service-url:
+#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:${zuihou.port.eureka}${zuihou.context-path.eureka}/eureka/
 
 
 
 spring:
-  application:
-    name: zuihou-monitor
-  profiles:
-    active: dev
   #  mail:
   #    host: smtp.163.com
   #    username: adadminfocus@163.com
@@ -59,11 +43,6 @@ spring:
   #        starttls:
   #          enable: true
   #          required: true
-  rabbitmq:
-    port: 5672
-    username: guest
-    password: guest
-    host: ${zuihou.ip.rabbitmq}
   boot:
     admin:
       routes:

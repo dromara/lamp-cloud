@@ -1,0 +1,9 @@
+zuihou:
+  port:
+    nginx: ${server.port}
+  mysql:
+    database: zuihou_msgs_dev
+  #  feign:
+  #    authority-server: zuihou-authority-server-zuihou   # 需要注册到其他人的eureka 进行调试时，可以在这里加一个后缀
+  #    msgs-server: zuihou-msgs-server-zuihou             # 需要注册到其他人的eureka 进行调试时，可以在这里加一个后缀
+  #    file-server: zuihou-file-server-zuihou             # 需要注册到其他人的eureka 进行调试时，可以在这里加一个后缀

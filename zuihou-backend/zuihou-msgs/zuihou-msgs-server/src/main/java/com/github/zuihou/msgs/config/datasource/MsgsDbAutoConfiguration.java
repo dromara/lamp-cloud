@@ -39,7 +39,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 public class MsgsDbAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "msgsDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.msgs")
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource db1() {
         return DruidDataSourceBuilder.create().build();
     }

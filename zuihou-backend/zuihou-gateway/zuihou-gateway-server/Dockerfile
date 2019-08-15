@@ -5,4 +5,5 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 
 COPY target/zuihou-gateway-server.jar /app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar", "--spring.profiles.active=docker"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+CMD ["--spring.profiles.active=docker"]
