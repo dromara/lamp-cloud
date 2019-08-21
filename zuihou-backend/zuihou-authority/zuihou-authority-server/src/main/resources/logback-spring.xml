@@ -23,7 +23,7 @@
     <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
     <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active"/>
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern"
-                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
+                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%logger{1}.%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.rest" source="logging.level.rest" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.service" source="logging.level.service" defaultValue="INFO"/>
@@ -42,6 +42,15 @@
             <pattern>${common-pattern}</pattern>
         </encoder>
     </appender>
+    <!-- 异步输出 -->
+    <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="CONSOLE_APPENDER"/>
+    </appender>
 
     <appender name="ROOT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/root.log</file>
@@ -56,6 +65,15 @@
         <encoder>
             <pattern>${common-pattern}</pattern>
         </encoder>
+    </appender>
+    <!-- 异步输出 -->
+    <appender name="ASYNC_ROOT" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="ROOT_APPENDER"/>
     </appender>
 
     <appender name="SERVICE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -72,6 +90,15 @@
             <pattern>${common-pattern}</pattern>
         </encoder>
     </appender>
+    <appender name="ASYNC_SERVICE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="SERVICE_APPENDER"/>
+    </appender>
+
     <appender name="CONTROLLER_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/controller.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -86,6 +113,15 @@
             <pattern>${common-pattern}</pattern>
         </encoder>
     </appender>
+    <appender name="ASYNC_CONTROLLER_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="CONTROLLER_APPENDER"/>
+    </appender>
+
     <appender name="EXCEPTION_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/exception.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -99,6 +135,14 @@
         <encoder>
             <pattern>${common-pattern}</pattern>
         </encoder>
+    </appender>
+    <appender name="ASYNC_EXCEPTION_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="EXCEPTION_APPENDER"/>
     </appender>
     <appender name="SQL_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/sql.log</file>
@@ -114,6 +158,14 @@
             <pattern>${common-pattern}</pattern>
         </encoder>
     </appender>
+    <appender name="ASYNC_SQL" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="SQL_APPENDER"/>
+    </appender>
     <appender name="CONSOLE_SQL_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>${log.level.sql}</level>
@@ -123,22 +175,42 @@
         </encoder>
     </appender>
 
-    <root level="${log.level.console}">
-        <appender-ref ref="CONSOLE_APPENDER"/>
-        <appender-ref ref="ROOT_APPENDER"/>
-    </root>
-    <logger name="com.github.zuihou.commons.handler" additivity="true" level="ERROR">
-        <appender-ref ref="EXCEPTION_APPENDER"/>
-    </logger>
-    <logger name="com.github.zuihou.authority.service" additivity="true" level="${log.level.service}">
-        <appender-ref ref="SERVICE_APPENDER"/>
-    </logger>
-    <logger name="com.github.zuihou.authority.controller" additivity="true" level="${log.level.impl}">
-        <appender-ref ref="CONTROLLER_APPENDER"/>
-    </logger>
-    <logger name="com.github.zuihou.authority.dao" additivity="false" level="${log.level.sql}">
-        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
-        <appender-ref ref="SQL_APPENDER"/>
-    </logger>
 
+    <springProfile name="docker">
+        <root level="${log.level.console}">
+            <appender-ref ref="ASYNC_CONSOLE"/>
+            <appender-ref ref="ASYNC_ROOT"/>
+        </root>
+        <logger name="com.github.zuihou.commons.handler" additivity="true" level="ERROR">
+            <appender-ref ref="ASYNC_EXCEPTION_APPENDER"/>
+        </logger>
+        <logger name="com.github.zuihou.authority.controller" additivity="true" level="${log.level.impl}">
+            <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+        </logger>
+        <logger name="com.github.zuihou.authority.service" additivity="true" level="${log.level.service}">
+            <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+        </logger>
+        <logger name="com.github.zuihou.authority.dao" additivity="false" level="${log.level.sql}">
+            <appender-ref ref="ASYNC_SQL"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="dev">
+        <root level="${log.level.console}">
+            <appender-ref ref="CONSOLE_APPENDER"/>
+            <appender-ref ref="ROOT_APPENDER"/>
+        </root>
+        <logger name="com.github.zuihou.commons.handler" additivity="true" level="ERROR">
+            <appender-ref ref="EXCEPTION_APPENDER"/>
+        </logger>
+        <logger name="com.github.zuihou.authority.controller" additivity="true" level="${log.level.impl}">
+            <appender-ref ref="CONTROLLER_APPENDER"/>
+        </logger>
+        <logger name="com.github.zuihou.authority.service" additivity="true" level="${log.level.service}">
+            <appender-ref ref="SERVICE_APPENDER"/>
+        </logger>
+        <logger name="com.github.zuihou.authority.dao" additivity="false" level="${log.level.sql}">
+            <appender-ref ref="CONSOLE_SQL_APPENDER"/>
+        </logger>
+    </springProfile>
 </configuration>
