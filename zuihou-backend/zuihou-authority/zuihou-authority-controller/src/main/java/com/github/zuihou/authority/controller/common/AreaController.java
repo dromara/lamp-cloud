@@ -1,6 +1,8 @@
 package com.github.zuihou.authority.controller.common;
 
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.common.AreaSaveDTO;
 import com.github.zuihou.authority.dto.common.AreaUpdateDTO;
@@ -129,4 +131,17 @@ public class AreaController extends BaseController {
         return success(true);
     }
 
+    /**
+     * 级联查询地区
+     *
+     * @param data 级联查询地区
+     * @return 查询结果
+     */
+    @ApiOperation(value = "级联查询地区", notes = "级联查询地区")
+    @GetMapping
+    @SysLog("级联查询地区")
+    public R<List<Area>> list(Area data) {
+        LbqWrapper<Area> query = Wraps.lbQ(data).orderByAsc(Area::getSortValue);
+        return success(areaService.list(query));
+    }
 }
