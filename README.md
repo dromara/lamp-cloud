@@ -263,8 +263,7 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 - 2, 在application-dev.yml文件修改配置数据库/redis/rabbitMQ等配置：
     
 - 3， 在IDE中启动，编译通过后按如下顺序启动：
-    - EurekaApplication
-    - Nacos                  (可选,目前用来做配置中心，后期会将eureka替换掉，替换后，eureka就无需启动)
+    - Nacos                 
     - 启动seata              (详情参考third-party/README.md)(可选，若要测试分布式事务则一定要在eureka启动后，在启动seata-server)
     - ZuulServerApplication   
     - AuthorityApplication

@@ -32,6 +32,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         if (CollectionUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
+        // MySQL 全文索引
         String applySql = String.format(" MATCH(tree_path) AGAINST('%s' IN BOOLEAN MODE) ", StringUtils.join(ids, " "));
 
 
