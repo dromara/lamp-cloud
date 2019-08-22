@@ -134,7 +134,11 @@ public class DictionaryItemController extends BaseController {
     public R<IPage<DictionaryItem>> page(DictionaryItem data) {
         IPage<DictionaryItem> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<DictionaryItem> query = Wraps.lbQ(data).eq(DictionaryItem::getIsDelete, false);
+        LbqWrapper<DictionaryItem> query = Wraps.lbQ(data)
+                //忽略lbQ 默认的like拼接， 然后将DictionaryCode改成 = 查询
+                .ignore(DictionaryItem::setDictionaryCode)
+                .eq(DictionaryItem::getDictionaryCode, data.getDictionaryCode())
+                .eq(DictionaryItem::getIsDelete, false);
         dictionaryItemService.page(page, query);
         return success(page);
     }
