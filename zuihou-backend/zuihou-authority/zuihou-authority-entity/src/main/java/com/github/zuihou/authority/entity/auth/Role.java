@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
+import com.github.zuihou.database.mybatis.auth.DataScopeType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -82,12 +83,12 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "数据权限类型")
     @TableField("ds_type")
-    private Integer dsType;
+    private DataScopeType dsType;
 
 
     @Builder
     public Role(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String code, String describe, Boolean isEnable, Boolean isReadonly, Integer dsType) {
+                String name, String code, String describe, Boolean isEnable, Boolean isReadonly, DataScopeType dsType) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;

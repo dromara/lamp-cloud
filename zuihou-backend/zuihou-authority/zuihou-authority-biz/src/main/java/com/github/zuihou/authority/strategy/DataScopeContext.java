@@ -1,8 +1,8 @@
 package com.github.zuihou.authority.strategy;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
@@ -38,9 +38,11 @@ public class DataScopeContext {
      * @param dsType
      * @return
      */
-    public List<Long> getOrgIdsForDataScope(List<Long> orgList, Integer dsType, Long userId) {
-        DataScopeType dataScopeType = DataScopeType.get(dsType);
-        return Objects.requireNonNull(strategyMap.get(dataScopeType.name()), String.format("找不到数据权限处理器，请确保数据权限类型[dsType=%s]正确", dsType))
-                .getOrgIds(orgList, userId);
+    public List<Long> getOrgIdsForDataScope(List<Long> orgList, DataScopeType dsType, Long userId) {
+        AbstractDataScopeHandler handler = strategyMap.get(dsType.name());
+        if (handler == null) {
+            return Collections.emptyList();
+        }
+        return handler.getOrgIds(orgList, userId);
     }
 }

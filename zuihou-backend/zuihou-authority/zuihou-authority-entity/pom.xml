@@ -35,6 +35,13 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-databases</artifactId>
+            <optional>true</optional>
+            <scope>compile</scope>
+        </dependency>
+
 
     </dependencies>
 
