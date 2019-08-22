@@ -59,11 +59,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         DataScopeType dsType = DataScopeType.SELF;
 
         List<Role> list = roleService.findRoleByUserId(userId);
-        Optional<Role> min = list.stream().min(Comparator.comparingInt(Role::getDsType));
+        Optional<Role> min = list.stream().min(Comparator.comparingInt((item) -> item.getDsType().getVal()));
 
         if (min.isPresent()) {
             Role role = min.get();
-            dsType = DataScopeType.get(role.getDsType());
+            dsType = role.getDsType();
 
             if (DataScopeType.CUSTOMIZE.eq(dsType)) {
                 LbqWrapper<RoleOrg> wrapper = Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId).eq(RoleOrg::getRoleId, role.getId());

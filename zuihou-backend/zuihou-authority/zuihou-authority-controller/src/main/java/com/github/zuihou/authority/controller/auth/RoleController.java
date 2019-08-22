@@ -21,7 +21,6 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
@@ -63,8 +62,6 @@ public class RoleController extends BaseController {
     private UserRoleService userRoleService;
     @Autowired
     private RoleAuthorityService roleAuthorityService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询角色
