@@ -3,7 +3,6 @@ package com.github.zuihou.authority.dto.common;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -46,14 +45,6 @@ public class DictionarySaveDTO implements Serializable {
     @Length(max = 64, message = "编码长度不能超过64")
 
     private String code;
-    /**
-     * 父级id
-     * 顶级的字典父级id是自己
-     */
-    @ApiModelProperty(value = "父级id")
-    @NotNull(message = "父级id不能为空")
-
-    private Long parentId;
     /**
      * 字典名称
      */
