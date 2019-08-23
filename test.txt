@@ -4,7 +4,7 @@ zuihou 的第一次修改
 try again
 
 我先commit，然后等你commit后，我在commit + push 测试
-你push后，我没更新提交测试。
+
 33333333
 
 zuihou 的第2次修改
