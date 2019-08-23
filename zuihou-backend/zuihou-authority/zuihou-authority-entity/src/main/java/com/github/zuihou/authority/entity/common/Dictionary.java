@@ -3,7 +3,6 @@ package com.github.zuihou.authority.entity.common;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -52,15 +51,6 @@ public class Dictionary extends Entity<Long> {
     private String code;
 
     /**
-     * 父级id
-     * 顶级的字典父级id是自己
-     */
-    @ApiModelProperty(value = "父级id")
-    @NotNull(message = "父级id不能为空")
-    @TableField("parent_id")
-    private Long parentId;
-
-    /**
      * 字典名称
      */
     @ApiModelProperty(value = "字典名称")
@@ -101,7 +91,6 @@ public class Dictionary extends Entity<Long> {
         this.updateUser = updateUser;
         this.updateTime = updateTime;
         this.code = code;
-        this.parentId = parentId;
         this.name = name;
         this.describe = describe;
         this.isEnable = isEnable;
