@@ -1,11 +1,8 @@
 package com.github.zuihou.authority.controller.common;
 
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.common.DictionarySaveDTO;
-import com.github.zuihou.authority.dto.common.DictionaryTreeDTO;
 import com.github.zuihou.authority.dto.common.DictionaryUpdateDTO;
 import com.github.zuihou.authority.entity.common.Dictionary;
 import com.github.zuihou.authority.service.common.DictionaryService;
@@ -16,7 +13,6 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.utils.TreeUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,7 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -135,25 +130,4 @@ public class DictionaryController extends BaseController {
     }
 
 
-    /**
-     * 查询数据字典树
-     *
-     * @param code 编码
-     * @param name 名称
-     * @return
-     */
-    @ApiOperation(value = "查询数据字典树", notes = "查询数据字典树")
-    @GetMapping("/tree")
-    @SysLog("查询数据字典树")
-    public R<List<DictionaryTreeDTO>> tree(@RequestParam(value = "name", required = false) String name,
-                                           @RequestParam(value = "code", required = false) String code) {
-        List<Dictionary> list = dictionaryService.list(
-                Wraps.<Dictionary>lbQ()
-                        .like(Dictionary::getName, name)
-                        .like(Dictionary::getCode, code)
-                        .eq(Dictionary::getIsDelete, false)
-                        .orderByAsc(Dictionary::getCreateTime));
-        List<DictionaryTreeDTO> treeList = dozer.mapList(list, DictionaryTreeDTO.class);
-        return success(TreeUtil.builderTreeOrdered(treeList));
-    }
 }
