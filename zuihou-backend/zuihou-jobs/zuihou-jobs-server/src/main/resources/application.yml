@@ -2,6 +2,7 @@ zuihou:
   ip:
     mysql: ${MYSQL_IP:127.0.0.1}
     nginx: ${NGINX_IP:127.0.0.1}
+    executor: ${EXECUTOR_IP:127.0.0.1}
   mysql:
     authority:
       database: zuihou_authority_dev
@@ -38,8 +39,8 @@ xxl.job:
     addresses: http://127.0.0.1:${server.port}/${spring.application.name}
   executor:
     appname: ${spring.application.name}
-    ip: ${zuihou.ip.executor:127.0.0.1}
-    port: ${zuihou.port.executor:8768}
+    ip: ${zuihou.ip.executor}
+    port: ${zuihou.port.executor:8771}
     logpath: /projects/logs/${spring.application.name}/
     logretentiondays: -1
 

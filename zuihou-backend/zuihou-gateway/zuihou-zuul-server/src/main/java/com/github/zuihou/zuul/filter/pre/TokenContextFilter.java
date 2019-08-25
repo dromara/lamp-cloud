@@ -13,6 +13,7 @@ import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.context.RequestContext;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
@@ -85,6 +86,9 @@ public class TokenContextFilter extends BaseFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
+
+        String clientIP = ServletUtil.getClientIP(request);
+        log.info("clientIP={}", clientIP);
 
         // 不进行拦截的地址
         if (isIgnoreToken()) {
