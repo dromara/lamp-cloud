@@ -1,0 +1,16 @@
+zuihou:
+  port:
+    nacos: ${NACOS_PORT:8848}
+    nginx: ${NGINX_IP:42.202.130.216}
+  ip:
+    nacos: ${NACOS_IP:${spring.cloud.client.ip-address}}
+
+spring:
+  profiles:
+    active: prod
+  cloud:
+    nacos:
+      config:
+        namespace: c2c8d8e2-0f26-489c-bf27-28543d7b79b6
+      discovery:
+        namespace: c2c8d8e2-0f26-489c-bf27-28543d7b79b6

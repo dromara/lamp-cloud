@@ -1,14 +1,12 @@
 zuihou:
   ip:
     rabbitmq: ${RABBIT_IP:${spring.cloud.client.ip-address}}
-    eureka: ${EUREKA_IP:${spring.cloud.client.ip-address}}
     nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
     local: ${spring.cloud.client.ip-address:127.0.0.1}
     nacos: ${NACOS_IP:${spring.cloud.client.ip-address}}
   port:
     nacos: ${NACOS_PORT:8848}
     nginx: ${NGINX_PORT:80}
-    eureka: ${EUREKA_PORT:8761}
 
 server:
   servlet:
