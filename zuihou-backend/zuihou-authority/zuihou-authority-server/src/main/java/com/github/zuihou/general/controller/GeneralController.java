@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
@@ -20,6 +22,7 @@ import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +67,7 @@ public class GeneralController {
      *
      * @return 查询结果
      */
+
     @ApiOperation(value = "查询所有组织", notes = "查询所有组织")
     @GetMapping("/orgs")
     public R<Map<String, Map<Long, String>>> find() {
@@ -77,5 +81,12 @@ public class GeneralController {
         return R.success(map);
     }
 
+    @GetMapping("/test")
+    public R<Object> test(HttpServletRequest request) {
 
+        String clientIP = ServletUtil.getClientIP(request);
+        log.info("clientIP={}", clientIP);
+
+        return R.success(clientIP);
+    }
 }

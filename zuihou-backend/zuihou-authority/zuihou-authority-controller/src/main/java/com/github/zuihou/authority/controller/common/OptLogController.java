@@ -57,11 +57,10 @@ public class OptLogController extends BaseController {
     })
     @ApiOperation(value = "分页查询系统日志", notes = "分页查询系统日志")
     @GetMapping("/page")
-    @SysLog("分页查询系统日志")
     public R<IPage<OptLog>> page(OptLog data) {
         IPage<OptLog> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<OptLog> query = Wraps.lbQ(data);
+        LbqWrapper<OptLog> query = Wraps.lbQ(data).orderByDesc(OptLog::getCreateTime);
         optLogService.page(page, query);
         return success(page);
     }
@@ -74,7 +73,6 @@ public class OptLogController extends BaseController {
      */
     @ApiOperation(value = "查询系统日志", notes = "查询系统日志")
     @GetMapping("/{id}")
-    @SysLog("查询系统日志")
     public R<OptLog> get(@PathVariable Long id) {
         return success(optLogService.getById(id));
     }

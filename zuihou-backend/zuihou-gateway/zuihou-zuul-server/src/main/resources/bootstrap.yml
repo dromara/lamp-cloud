@@ -26,5 +26,7 @@ spring:
         metadata:
           user.name: ${spring.security.user.name}
           user.password: ${spring.security.user.password}
+          management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
           swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
           service.name: 网关服务
+

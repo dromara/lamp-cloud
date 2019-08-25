@@ -13,25 +13,6 @@ logging:
   #    org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error
   path: /projects/logs/${spring.application.name}
 
-#eureka:
-#  instance:
-#    status-page-url: http://${zuihou.ip.nginx}:${zuihou.port.nginx}${server.servlet.context-path}
-#    status-page-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/info
-#    health-check-url-path: ${server.servlet.context-path:}${management.endpoints.web.base-path:}/health
-#    home-page-url-path: ${server.servlet.context-path:}
-#    preferIpAddress: true
-#    ip-address: ${spring.cloud.client.ip-address}
-#    instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.context-path:}
-#    metadata-map:
-#      user.name: ${spring.security.user.name}
-#      user.password: ${spring.security.user.password}
-#      management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
-#  client:
-#    service-url:
-#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${zuihou.ip.eureka}:${zuihou.port.eureka}${zuihou.context-path.eureka}/eureka/
-
-
-
 spring:
   #  mail:
   #    host: smtp.163.com
