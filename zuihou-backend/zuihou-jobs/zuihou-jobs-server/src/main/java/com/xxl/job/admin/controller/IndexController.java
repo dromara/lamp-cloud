@@ -5,16 +5,23 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.xxl.job.admin.controller.annotation.PermessionLimit;
+import com.xxl.job.admin.controller.interceptor.PermissionInterceptor;
+import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.service.XxlJobService;
 import com.xxl.job.core.biz.model.ReturnT;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
@@ -45,7 +52,7 @@ public class IndexController {
         return chartInfo;
     }
 
-	/*@RequestMapping("/toLogin")
+    @RequestMapping("/toLogin")
 	@PermessionLimit(limit=false)
 	public String toLogin(Model model, HttpServletRequest request) {
 		if (PermissionInterceptor.ifLogin(request)) {
@@ -64,10 +71,10 @@ public class IndexController {
 		}
 
 		// param
-		if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)){
+        if (StrUtil.isBlank(userName) || StrUtil.isBlank(password)) {
 			return new ReturnT<String>(500, I18nUtil.getString("login_param_empty"));
 		}
-		boolean ifRem = (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember))?true:false;
+        boolean ifRem = (StrUtil.isNotBlank(ifRemember) && "on".equals(ifRemember)) ? true : false;
 
 		// do login
 		boolean loginRet = PermissionInterceptor.login(response, userName, password, ifRem);
@@ -85,7 +92,7 @@ public class IndexController {
 			PermissionInterceptor.logout(request, response);
 		}
 		return ReturnT.SUCCESS;
-	}*/
+    }
 
     @RequestMapping("/help")
     public String help() {

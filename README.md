@@ -38,23 +38,30 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 
 ![qq群.png](doc/image/qq群.png)
 
-## 项目地址
-[github] https://github.com/zuihou/zuihou-admin-cloud
+## 项目代码地址
+[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  
 
-[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  (同步的github的代码，需要最新代码的同学请关注github项目)
+[github] https://github.com/zuihou/zuihou-admin-cloud  (由于某种特殊原因，下载代码有时非常慢)
+
+[前端] https://github.com/zuihou/zuihou-admin-ui   
+
+[前端] https://gitee.com/zuihou111/zuihou-admin-ui 
 
 [代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
 
-[前端] https://github.com/zuihou/zuihou-admin-ui  「开发中」
-
 [原型] http://zuihou111.gitee.io/zuihou-admin-rp/
 
-[demo] http://wzroom.cn/zuihou-ui  (zuihou/zuihou) 「开发中」
 
-[注册中心] http://wzroom.cn/zuihou-eureka/  (zuihou/zuihou) 
+## 演示地址 (账号密码均为： zuihou/zuihou)       （演示环境部署不易，请勿胡乱删除、修改数据）
+[演示环境] http://42.202.130.216:10000/zuihou-ui                （http://wzroom.cn/zuihou-ui 即将到期）      
 
-[在线文档] http://wzroom.cn/api/gate/doc.html  (zuihou/zuihou) 
+[注册中心] http://42.202.130.216:10000/nacos/      
 
+[在线文档] http://42.202.130.216:10000/api/gate/doc.html       （http://wzroom.cn/api/gate/doc.html 即将到期）    
+
+[定时任务] http://42.202.130.216:10000/zuihou-jobs-server
+
+[监控中心] http://42.202.130.216:10000/zuihou-monitor/
 
 
 ## 功能点介绍:
@@ -329,6 +336,17 @@ API 界面:
     
  - 4, 为啥要将调度器和执行器合并在一起？
      - 答： 对于中小型项目，对高可用的需求并不是很大，若把调度器和执行器分开部署，会增加部署成本。    
+ 
+ - 5, 将配置文件导入到nacos后，启动解析文件报错？
+    - 答： 将配置文件中的所有注释，以及中文删除改成英文
+    
+ - 6， 启动zuihou-jobs-server报找不到表的错， 但数据库中确实有表，只是表名全是小写？    
+    - 答： 1） SHOW VARIABLES LIKE '%case%'; 查看 lower_case_table_names 是否=2  
+            2） 修改my.cnf(my.ini) 文件增加  ：
+       ```
+      [mysqld]
+      lower_case_table_names=2
+      ```     
      
 ## 查看磁盘空间占用
 df -h

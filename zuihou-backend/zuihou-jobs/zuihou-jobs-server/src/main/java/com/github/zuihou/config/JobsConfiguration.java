@@ -12,8 +12,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.converter.String2DateConverter;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -74,4 +76,14 @@ public class JobsConfiguration {
         return new String2DateConverter();
     }
 
+    /**
+     * 长度都是8位的字符串
+     *
+     * @param machineCode
+     * @return
+     */
+    @Bean("codeGenerate")
+    public CodeGenerate codeGenerate(@Value("${id-generator.machine-code:1}") Long machineCode) {
+        return new CodeGenerate(machineCode.intValue());
+    }
 }
