@@ -5,7 +5,7 @@
 [![](https://img.shields.io/badge/version-1.0-brightgreen.svg)](https://github.com/zuihou/zuihou-admin-cloud)
 [![GitHub stars](https://img.shields.io/github/stars/zuihou/zuihou-admin-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/zuihou-admin-cloud/stargazers)
 [![star](https://gitee.com/zuihou111/zuihou-admin-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/zuihou-admin-cloud/stargazers)
-[![GitHub forks](https://img.shields.io/github/stars/zuihou/zuihou-admin-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/zuihou-admin-cloud/network/members)
+[![GitHub forks](https://img.shields.io/github/forks/zuihou/zuihou-admin-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/zuihou-admin-cloud/network/members)
 [![fork](https://gitee.com/zuihou111/zuihou-admin-cloud/badge/fork.svg?theme=white)](https://gitee.com/zuihou111/zuihou-admin-cloud/members)
 
 
@@ -51,6 +51,7 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 
 [原型] http://zuihou111.gitee.io/zuihou-admin-rp/
 
+[介绍文档] https://zuihou.github.io/zuihou-admin-cloud/
 
 ## 演示地址 (账号密码均为： zuihou/zuihou)       （演示环境部署不易，请勿胡乱删除、修改数据）
 [演示环境] http://42.202.130.216:10000/zuihou-ui                （http://wzroom.cn/zuihou-ui 即将到期）      
