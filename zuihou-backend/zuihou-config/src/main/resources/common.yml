@@ -72,7 +72,7 @@ spring:
       stat-view-servlet:  #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
         enabled: true
         url-pattern: /druid/*   #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：http://127.0.0.1:9000/druid/index.html
-        reset-enable: true #允许清空统计数据
+        reset-enable: true    #允许清空统计数据
         login-username: zuihou
         login-password: zuihou
 
