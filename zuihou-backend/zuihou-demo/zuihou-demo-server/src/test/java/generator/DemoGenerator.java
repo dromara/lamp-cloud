@@ -22,7 +22,7 @@ public class DemoGenerator {
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("demo", "", "zuihou",
                         "m_",
-                        Arrays.asList("m_product"));
+                        Arrays.asList("c_common_area"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_demo_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-demo");
