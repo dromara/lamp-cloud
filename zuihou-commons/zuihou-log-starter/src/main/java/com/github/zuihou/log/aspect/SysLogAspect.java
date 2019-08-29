@@ -86,8 +86,11 @@ public class SysLogAspect {
             Object[] args = joinPoint.getArgs();
 
             String strArgs = "";
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             try {
-                strArgs = JSONObject.toJSONString(args);
+                if (!request.getContentType().contains("multipart/form-data")) {
+                    strArgs = JSONObject.toJSONString(args);
+                }
             } catch (Exception e) {
                 try {
                     strArgs = Arrays.toString(args);
@@ -96,7 +99,7 @@ public class SysLogAspect {
                 }
             }
             sysLog.setParams(getText(strArgs));
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+
             if (request != null) {
                 sysLog.setRequestIp(ServletUtil.getClientIP(request));
                 sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
