@@ -13,7 +13,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -60,7 +59,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 public abstract class BaseDbConfiguration {
 
-    protected static final int TX_METHOD_TIMEOUT = 60;
+    /**
+     * 事务超时时间 单位秒
+     */
+    protected static final int TX_METHOD_TIMEOUT = 60 * 60;
     /**
      * 测试环境
      */
@@ -224,9 +226,63 @@ public abstract class BaseDbConfiguration {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-        List<ISqlParser> sqlParserList = new ArrayList<>();
+//        List<ISqlParser> sqlParserList = new ArrayList<>();
         // sqlParserList.add(new BlockAttackSqlParser()); 攻击 SQL 阻断解析器、加入解析链
-        paginationInterceptor.setSqlParserList(sqlParserList);
+
+        //多租户
+//        TenantSqlParser tenantSqlParser = new TenantSqlParser();
+//        tenantSqlParser.setTenantHandler(new TenantHandler() {
+//            @Override
+//            public Expression getTenantId() {
+//                return new StringValue(BaseContextHandler.getName());
+//            }
+//
+//            @Override
+//            public String getTenantIdColumn() {
+//                return "tenant_id";
+//            }
+//
+//            @Override
+//            public boolean doTableFilter(String tableName) {
+//                // 这里可以判断是否过滤表
+//            /*
+//            if ("user".equals(tableName)) {
+//                return true;
+//            }*/
+//                return false;
+//            }
+//        });
+//        sqlParserList.add(tenantSqlParser);
+
+
+//        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
+//        sqlParserList.add(dynamicTableNameParser);
+//        paginationInterceptor.setSqlParserList(sqlParserList);
+
+
+//        paginationInterceptor.setSqlParserFilter(new ISqlParserFilter() {
+//            @Override
+//            public boolean doFilter(MetaObject metaObject) {
+//                MappedStatement ms = SqlParserHelper.getMappedStatement(metaObject);
+//                // 过滤自定义查询此时无租户信息约束【 麻花藤 】出现
+//                if (ms.getId().contains("NoTenantId")) {
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+
+//        paginationInterceptor.setSqlParserFilter(new ISqlParserFilter() {
+//            @Override
+//            public boolean doFilter(MetaObject metaObject) {
+//                MappedStatement ms = SqlParserHelper.getMappedStatement(metaObject);
+//                // 过滤自定义查询此时无租户信息约束【 麻花藤 】出现
+//                if (ms.getId().contains("NoTenantId")) {
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         return paginationInterceptor;
     }
 
@@ -290,6 +346,7 @@ public abstract class BaseDbConfiguration {
         config.setFieldStrategy(FieldStrategy.NOT_EMPTY);
         config.setColumnLike(true);
         conf.setDbConfig(config);
+        conf.setSqlParserCache(true);
         return conf;
     }
 }
