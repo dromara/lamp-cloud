@@ -36,7 +36,7 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 ## 交流群： 63202894
 `一键加群` <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
 
-![qq群.png](doc/image/qq群.png)
+![qq群.png](docs/image/qq群.png)
 
 ## 项目代码地址
 [gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  
@@ -118,14 +118,14 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 
 - **大文件/断点/分片续传**
 
-前端采用webupload.js、后端采用NIO实现了大文件断点分片续传，启动Eureka、Zuul、File服务后，直接打开doc/chunkUploadDemo/demo.html即可进行测试。
+前端采用webupload.js、后端采用NIO实现了大文件断点分片续传，启动Eureka、Zuul、File服务后，直接打开docs/chunkUploadDemo/demo.html即可进行测试。
 经测试，本地限制堆栈最大内存128M启动File服务,5分钟内能成功上传4.6G+的大文件，正式服耗时则会受到用户带宽和服务器带宽的影响，时间比较长。
 
 - **分布式事务**   
 集成了阿里的分布式事务中间件：seata，以 **高效** 并且对业务 **0侵入** 的方式，解决 微服务 场景下面临的分布式事务问题。
    
 ## 项目架构图:  架构图.xml -> https://www.draw.io/
-![架构图.png](doc/image/项目相关/架构图.png)
+![架构图.png](docs/image/项目相关/架构图.png)
 
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有：
@@ -260,13 +260,13 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 
 ## 运行步骤: 
 - 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
-    - doc/sql/zuihou_authority_dev.sql
-    - doc/sql/zuihou_authority_dev_data.sql (数据）
-    - doc/sql/zuihou_file_dev.sql
-    - doc/sql/zuihou_jobs_dev.sql
-    - doc/sql/zuihou_msgs_dev.sql
-    - doc/sql/.sql
-    - doc/sql/.sql
+    - docs/sql/zuihou_authority_dev.sql
+    - docs/sql/zuihou_authority_dev_data.sql (数据）
+    - docs/sql/zuihou_file_dev.sql
+    - docs/sql/zuihou_jobs_dev.sql
+    - docs/sql/zuihou_msgs_dev.sql
+    - docs/sql/.sql
+    - docs/sql/.sql
 
 - 2, 在application-dev.yml文件修改配置数据库/redis/rabbitMQ等配置：
     
@@ -307,15 +307,15 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 
 ## 项目截图：
 spring-boot-admin监控界面:
-![SBA监控.png](doc/image/监控界面/sba-1.png)
+![SBA监控.png](docs/image/监控界面/sba-1.png)
 spring-boot-admin监控界面:
-![SBA监控.png](doc/image/监控界面/sba-2.png)
+![SBA监控.png](docs/image/监控界面/sba-2.png)
 API 界面:
-![admin-api.png](doc/image/项目相关/admin-api.png)
+![admin-api.png](docs/image/项目相关/admin-api.png)
 注册中心界面:
-![eureka注册中心界面.png](doc/image/项目相关/eureka.png)
+![eureka注册中心界面.png](docs/image/项目相关/eureka.png)
 定时任务调度界面:
-![eureka注册中心界面.png](doc/image/项目相关/zuihou-jobs-server.png)
+![eureka注册中心界面.png](docs/image/项目相关/zuihou-jobs-server.png)
 
 ## 常见报错：
  - 1, 很多依赖死活都下载不下来？
