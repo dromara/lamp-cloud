@@ -118,14 +118,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!--            <dependency>-->
-            <!--                <groupId>org.springframework.cloud</groupId>-->
-            <!--                <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
-            <!--                <version>0.9.0.RELEASE</version>-->
-            <!--                <type>pom</type>-->
-            <!--                <scope>import</scope>-->
-            <!--            </dependency>-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
