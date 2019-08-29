@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.demo.dao.CCommonAreaMapper">
+
+    <select id="getXxx" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM c_common_area
+        where 1=1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+    </select>
+
+
+    <select id="getJoin" resultMap="BaseResultMap">
+        SELECT
+        a.id , m_product.name, a.code, a.full_name
+        FROM c_common_area a LEFT JOIN m_product on a.id = m_product.id
+        where 1=1
+        <if test="id != null">
+            and a.id = #{id}
+        </if>
+    </select>
+    <select id="getJoinNo" resultMap="BaseResultMap">
+        SELECT
+        a.id , m_product.name, a.code, a.full_name
+        FROM c_common_area a LEFT JOIN m_product on a.id = m_product.id
+        where 1=1
+        <if test="id != null">
+            and a.id = #{id}
+        </if>
+    </select>
+
+
+    <update id="updateTest2" parameterType="java.lang.Long">
+        update c_common_area a set a.code = '123'
+        where id =  #{id}
+    </update>
+    <update id="updateTest3" parameterType="java.lang.Long">
+        update c_common_area a set a.code = '123'
+        where id =  #{id}
+    </update>
+    <insert id="save" parameterType="map">
+        insert into c_common_area (id , name, code)
+        values (#{area.id}, #{area.name} , #{area.code})
+    </insert>
+</mapper>
