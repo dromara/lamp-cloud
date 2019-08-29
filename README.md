@@ -34,7 +34,7 @@ RibbitMQ、FastDFS等主要框架和中间件。
 master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的代码，移步到 https://gitee.com/zuihou111/zuihou-admin-cloud ，选择 `Greenwich-Eureka` 分支（不在提供升级和维护）。
 
 ## 交流群： 63202894
-`一键加群` <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+`一键加群` <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
 
 ![qq群.png](docs/image/qq群.png)
 
