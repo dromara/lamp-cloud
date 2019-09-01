@@ -36,7 +36,7 @@ public enum MsgsCenterType implements BaseEnum {
     /**
      * PUBLICITY="公示公告"
      */
-    PUBLICITY("公示公告"),
+    PUBLICITY("公告"),
     /**
      * WARN="预警"
      */
