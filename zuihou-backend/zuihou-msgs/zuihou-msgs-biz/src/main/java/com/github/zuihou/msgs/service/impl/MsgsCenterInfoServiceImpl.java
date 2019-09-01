@@ -59,7 +59,7 @@ public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper,
 
         //公式公告，不会指定接收人
         Set<Long> userIdList = data.getUserIdList();
-        if (CollectionUtil.isNotEmpty(userIdList)) {
+        if (CollectionUtil.isNotEmpty(userIdList) && !MsgsCenterType.PUBLICITY.eq(info.getMsgsCenterType())) {
             List<MsgsCenterInfoReceive> receiveList = userIdList.stream().map((userId) -> MsgsCenterInfoReceive.builder()
                     .isRead(false)
                     .userId(userId)
@@ -102,27 +102,45 @@ public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper,
      */
     @Override
     public boolean mark(List<Long> msgCenterIds, Long userId) {
+        if (CollectionUtil.isEmpty(msgCenterIds) || userId == null) {
+            return true;
+        }
         List<MsgsCenterInfo> list = (List<MsgsCenterInfo>) super.listByIds(msgCenterIds);
         List<MsgsCenterInfo> publicityList = list.stream().filter((info) -> MsgsCenterType.PUBLICITY.eq(info.getMsgsCenterType())).collect(Collectors.toList());
         List<MsgsCenterInfo> otherList = list.stream().filter((info) -> !MsgsCenterType.PUBLICITY.eq(info.getMsgsCenterType())).collect(Collectors.toList());
 
+        List<MsgsCenterInfoReceive> receiveList = msgsCenterInfoReceiveService.list(Wraps.<MsgsCenterInfoReceive>lbQ()
+                .eq(MsgsCenterInfoReceive::getUserId, userId)
+                .in(MsgsCenterInfoReceive::getMsgsCenterId, msgCenterIds)
+        );
         List<MsgsCenterInfoReceive> publicityReceiveList = publicityList.stream()
+                .filter((info) -> filter(info, userId, receiveList))
                 .map((info) -> MsgsCenterInfoReceive.builder()
                         .msgsCenterId(info.getId()).userId(userId).isRead(true)
                         .build()).collect(Collectors.toList());
-
-        //公告类型的新增状态
+        //公告类型的新增状态  判断是否已经插入过
         msgsCenterInfoReceiveService.saveBatch(publicityReceiveList);
 
         //其他类型的修改状态
-        List<Long> otherCenterIdList = otherList.stream().mapToLong(MsgsCenterInfo::getId).boxed().collect(Collectors.toList());
-        msgsCenterInfoReceiveService.update(Wraps.<MsgsCenterInfoReceive>lbU()
-                .eq(MsgsCenterInfoReceive::getUserId, userId)
-                .in(MsgsCenterInfoReceive::getMsgsCenterId, otherCenterIdList)
-                .set(MsgsCenterInfoReceive::getIsRead, true)
-                .set(MsgsCenterInfoReceive::getUpdateTime, LocalDateTime.now())
-                .set(MsgsCenterInfoReceive::getUpdateUser, userId)
-        );
+        if (!otherList.isEmpty()) {
+            List<Long> otherCenterIdList = otherList.stream().mapToLong(MsgsCenterInfo::getId).boxed().collect(Collectors.toList());
+            msgsCenterInfoReceiveService.update(Wraps.<MsgsCenterInfoReceive>lbU()
+                    .eq(MsgsCenterInfoReceive::getUserId, userId)
+                    .in(MsgsCenterInfoReceive::getMsgsCenterId, otherCenterIdList)
+                    .set(MsgsCenterInfoReceive::getIsRead, true)
+                    .set(MsgsCenterInfoReceive::getUpdateTime, LocalDateTime.now())
+                    .set(MsgsCenterInfoReceive::getUpdateUser, userId)
+            );
+        }
         return true;
+    }
+
+    private boolean filter(MsgsCenterInfo info, Long userId, List<MsgsCenterInfoReceive> receiveList) {
+        if (receiveList.isEmpty()) {
+            return true;
+        }
+        return receiveList.stream().anyMatch((receive) ->
+                !(receive.getMsgsCenterId().equals(info.getId()) && receive.getUserId().equals(userId))
+        );
     }
 }

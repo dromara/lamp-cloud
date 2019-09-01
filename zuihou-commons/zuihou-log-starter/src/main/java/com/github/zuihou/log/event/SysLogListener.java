@@ -28,8 +28,6 @@ public class SysLogListener {
     @Order
     @EventListener(SysLogEvent.class)
     public void saveSysLog(SysLogEvent event) {
-        log.info("[{}], [{}]", event.getSource(), event.getTimestamp());
-
         OptLogDTO sysLog = (OptLogDTO) event.getSource();
         consumer.accept(sysLog);
     }
