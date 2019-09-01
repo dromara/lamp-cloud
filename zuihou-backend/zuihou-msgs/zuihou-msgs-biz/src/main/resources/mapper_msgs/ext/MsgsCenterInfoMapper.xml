@@ -18,7 +18,9 @@
      代办、预警、通知： 保存是，既要存主表，也要存receive表
      -->
     <select id="page" parameterType="java.util.Map" resultMap="PageResultMap">
-        select rece.id receive_id,rece.is_read, rece.update_time read_time,
+        select rece.id receive_id,
+        CASE WHEN (rece.is_read is null ) then 0 else rece.is_read end as is_read,
+        rece.update_time read_time,
         info.id, info.create_time, info.create_user, info.update_time, info.update_user,
         info.biz_id, info.biz_type, info.msgs_center_type, info.title, info.content, info.author,
         info.handler_url, info.handler_params, info.is_single_handle, info.is_delete, info.app_code, info.app_name
@@ -43,8 +45,21 @@
         <if test="data.msgsCenterType != null">
             and info.msgs_center_type = #{data.msgsCenterType, jdbcType=VARCHAR}
         </if>
+        <if test="data.title != null and data.title != ''">
+            and info.title like #{data.title, typeHandler=fullLike}
+        </if>
+        <if test="data.content != null and data.content != ''">
+            and info.content like #{data.content, typeHandler=fullLike}
+        </if>
+        <if test="data.startCreateTime != null">
+            and info.create_time >= #{data.startCreateTime, jdbcType=VARCHAR}
+        </if>
+        <if test="data.endCreateTime != null">
+            and info.create_time <![CDATA[ <= ]]>  #{data.endCreateTime, jdbcType=VARCHAR}
+        </if>
+
         and info.is_delete = false
-        ORDER BY info.create_time desc
+        ORDER BY is_read asc , info.create_time desc
     </select>
 
 </mapper>
