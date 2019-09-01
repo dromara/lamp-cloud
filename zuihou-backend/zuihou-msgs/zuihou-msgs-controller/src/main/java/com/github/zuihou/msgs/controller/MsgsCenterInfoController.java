@@ -1,6 +1,8 @@
 package com.github.zuihou.msgs.controller;
 
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 
@@ -11,7 +13,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.authority.api.RoleApi;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoPageResultDTO;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoQueryDTO;
@@ -54,14 +55,21 @@ public class MsgsCenterInfoController extends BaseController {
 
     @Autowired
     private MsgsCenterInfoService msgsCenterInfoService;
-    @Autowired
-    private DozerUtils dozer;
     @Resource
     private RoleApi roleApi;
 
 
     /**
-     * 分页查询消息中心
+     * 根据用户权限查询 消息
+     * WAIT:待办
+     * NOTIFY:通知;
+     * WARN:预警;
+     * 已读： msgs_center_info_receive表有数据且是否已读字段为已读
+     * 未读： msgs_center_info_receive表无数据且是否已读字段为未读
+     * <p>
+     * PUBLICITY:公示公告;  默认发给所有人
+     * 已读：msgs_center_info_receive表有数据且是否已读字段为已读
+     * 未读：msgs_center_info_receive表无数据
      *
      * @param data 分页查询对象
      * @return 查询结果
@@ -75,6 +83,14 @@ public class MsgsCenterInfoController extends BaseController {
     @SysLog("分页查询消息中心")
     public R<IPage<MsgsCenterInfoPageResultDTO>> page(MsgsCenterInfoQueryDTO data) {
         Page<MsgsCenterInfoPageResultDTO> page = getPage();
+
+        if (data.getStartCreateTime() != null) {
+            data.setStartCreateTime(LocalDateTime.of(data.getStartCreateTime().toLocalDate(), LocalTime.MIN));
+        }
+        if (data.getEndCreateTime() != null) {
+            data.setEndCreateTime(LocalDateTime.of(data.getEndCreateTime().toLocalDate(), LocalTime.MAX));
+        }
+        data.setUserId(getUserId());
         msgsCenterInfoService.page(page, data);
         return success(page);
     }
@@ -87,7 +103,7 @@ public class MsgsCenterInfoController extends BaseController {
      */
     @ApiOperation(value = "标记消息为已读", notes = "标记消息为已读")
     @GetMapping(value = "/mark")
-    public R<Boolean> mark(@RequestParam(value = "msgCenterIds") List<Long> msgCenterIds) {
+    public R<Boolean> mark(@RequestParam(value = "msgCenterIds[]") List<Long> msgCenterIds) {
         return success(msgsCenterInfoService.mark(msgCenterIds, getUserId()));
     }
 
