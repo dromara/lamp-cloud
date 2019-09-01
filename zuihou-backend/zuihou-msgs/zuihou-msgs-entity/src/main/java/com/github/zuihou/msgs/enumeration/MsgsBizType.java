@@ -29,6 +29,8 @@ public enum MsgsBizType implements BaseEnum {
      * USER_LOCK="账号锁定"
      */
     USER_LOCK("账号锁定"),
+    USER_REG("账号申请"),
+    WORK_APPROVAL("考勤审批"),
     ;
 
     @ApiModelProperty(value = "描述")

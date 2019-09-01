@@ -11,6 +11,7 @@ import com.github.zuihou.authority.api.DictionaryItemApi;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.constant.DictionaryCode;
 import com.github.zuihou.file.api.FileGeneralApi;
+import com.github.zuihou.msgs.api.MsgsGeneralApi;
 import com.github.zuihou.utils.StrPool;
 
 import cn.hutool.core.util.StrUtil;
@@ -33,6 +34,8 @@ public class GeneratorController {
     private AuthorityGeneralApi authorityGeneralApi;
     @Resource
     private FileGeneralApi fileGeneralApi;
+    @Resource
+    private MsgsGeneralApi msgsGeneralApi;
     @Resource
     private DictionaryItemApi dictionaryItemApi;
 
@@ -60,6 +63,11 @@ public class GeneratorController {
         return "redirect:/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8");
     }
 
+    /**
+     * 获取当前系统所有数据字典和枚举
+     *
+     * @return
+     */
     @ApiOperation(value = "获取当前系统所有数据字典和枚举", notes = "获取当前系统所有数据字典和枚举")
     @GetMapping("/dictionary/enums")
     @ResponseBody
@@ -76,6 +84,11 @@ public class GeneratorController {
         R<Map<String, Map<String, String>>> fileResult = fileGeneralApi.enums();
         if (fileResult.getIsSuccess()) {
             map.putAll(fileResult.getData());
+        }
+
+        R<Map<String, Map<String, String>>> msgsResult = msgsGeneralApi.enums();
+        if (msgsResult.getIsSuccess()) {
+            map.putAll(msgsResult.getData());
         }
 
         //整个系统的数据字典

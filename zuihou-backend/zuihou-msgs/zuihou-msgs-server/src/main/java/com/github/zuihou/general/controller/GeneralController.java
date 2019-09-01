@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.github.zuihou.base.BaseEnum;
 import com.github.zuihou.base.R;
+import com.github.zuihou.msgs.enumeration.MsgsBizType;
 import com.github.zuihou.msgs.enumeration.MsgsCenterType;
 import com.github.zuihou.sms.enumeration.ProviderType;
 import com.github.zuihou.sms.enumeration.SendStatus;
@@ -33,6 +34,7 @@ public class GeneralController {
     public R<Map<String, Map<String, String>>> enums() {
         Map<String, Map<String, String>> map = new HashMap<>(1);
         map.put(MsgsCenterType.class.getSimpleName(), BaseEnum.getMap(MsgsCenterType.values()));
+        map.put(MsgsBizType.class.getSimpleName(), BaseEnum.getMap(MsgsBizType.values()));
         map.put(ProviderType.class.getSimpleName(), BaseEnum.getMap(ProviderType.values()));
         map.put(SourceType.class.getSimpleName(), BaseEnum.getMap(SourceType.values()));
         map.put(SendStatus.class.getSimpleName(), BaseEnum.getMap(SendStatus.values()));
