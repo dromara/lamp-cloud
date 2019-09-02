@@ -59,7 +59,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             if (entity.getCreateTime() == null) {
                 this.setFieldValByName(Entity.CREATE_TIME, LocalDateTime.now(), metaObject);
             }
-            if (entity.getCreateUser() == null) {
+            if (entity.getCreateUser() == null || entity.getCreateUser().equals(0)) {
                 if (ID_TYPE.equals(metaObject.getGetterType(SuperEntity.CREATE_USER).getName())) {
                     this.setFieldValByName(Entity.CREATE_USER, String.valueOf(BaseContextHandler.getUserId()), metaObject);
                 } else {
@@ -84,7 +84,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     }
 
     private void update(MetaObject metaObject, Entity entity, String et) {
-        if (entity.getUpdateUser() == null) {
+        if (entity.getUpdateUser() == null || entity.getUpdateUser().equals(0)) {
             if (ID_TYPE.equals(metaObject.getGetterType(et + Entity.UPDATE_USER).getName())) {
                 this.setFieldValByName(Entity.UPDATE_USER, String.valueOf(BaseContextHandler.getUserId()), metaObject);
             } else {
