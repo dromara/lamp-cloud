@@ -190,6 +190,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R<String> otherExceptionHandler(Exception ex) {
         log.error("Exception:", ex);
+        if (ex.getCause() instanceof BizException) {
+            BizException cause = (BizException) ex.getCause();
+            return R.result(cause.getCode(), "", cause.getMessage());
+        }
         return R.result(ExceptionCode.SYSTEM_BUSY.getCode(), "", ExceptionCode.SYSTEM_BUSY.getMsg());
     }
 
