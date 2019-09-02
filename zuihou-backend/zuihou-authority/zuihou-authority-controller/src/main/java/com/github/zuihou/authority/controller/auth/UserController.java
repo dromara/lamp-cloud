@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.UserPageDTO;
 import com.github.zuihou.authority.dto.auth.UserRegisterDTO;
@@ -81,7 +83,7 @@ public class UserController extends BaseController {
     private StationService stationService;
     @Autowired
     private DozerUtils dozer;
-    @Autowired
+    @Resource
     private SmsApi smsApi;
 
     /**
