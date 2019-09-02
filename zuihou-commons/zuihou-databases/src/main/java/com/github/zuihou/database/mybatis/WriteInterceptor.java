@@ -46,8 +46,11 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
         if (SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {
             return invocation.proceed();
         }
-
+        if (mappedStatement.getId().contains("OptLog")) {
+            return invocation.proceed();
+        }
         Long userId = BaseContextHandler.getUserId();
+        log.info("mapperid={}, userId={}", mappedStatement.getId(), userId);
         if (userId == 1) {
             return invocation.proceed();
         }
