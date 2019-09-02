@@ -6,6 +6,8 @@ import java.util.Map;
 import com.github.zuihou.utils.NumberHelper;
 import com.github.zuihou.utils.StrHelper;
 
+import cn.hutool.core.util.StrUtil;
+
 
 /**
  * 获取当前域中的 用户id appid 用户昵称
@@ -135,6 +137,26 @@ public class BaseContextHandler {
     public static void setStationId(String val) {
         set(BaseContextConstants.JWT_KEY_STATION_ID, val);
     }
+
+    public static String getTenant() {
+        Object value = get(BaseContextConstants.TENANT);
+        return StrHelper.getObjectValue(value);
+    }
+
+    public static void setTenant(String val) {
+        set(BaseContextConstants.TENANT, val);
+    }
+
+    public static String getDatabase(String tenant) {
+        Object value = get(BaseContextConstants.DATABASE_NAME);
+        String objectValue = StrHelper.getObjectValue(value);
+        return objectValue + StrUtil.UNDERLINE + tenant;
+    }
+
+    public static void setDatabase(String val) {
+        set(BaseContextConstants.DATABASE_NAME, val);
+    }
+
 
 
     private static String returnObjectValue(Object value) {

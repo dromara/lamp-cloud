@@ -260,15 +260,15 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 
 ## 运行步骤: 
 - 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
-    - docs/sql/zuihou_authority_dev.sql
-    - docs/sql/zuihou_authority_dev_data.sql (数据）
-    - docs/sql/zuihou_file_dev.sql
-    - docs/sql/zuihou_jobs_dev.sql
-    - docs/sql/zuihou_msgs_dev.sql
-    - docs/sql/.sql
-    - docs/sql/.sql
+    - docs/1_create_schema.sql                  # 创建数据库
+    - docs/sql/zuihou_authority_dev.sql       # 导入权限库表结构和数据
+    - docs/sql/c_common_area.sql                # 导入地区表结构和数据
+    - docs/sql/zuihou_file_dev.sql              # 导入文件服务表结构和数据
+    - docs/sql/zuihou_jobs_dev.sql              # 导入定时任务库表结构和数据
+    - docs/sql/zuihou_msgs_dev.sql              # 导入消息服务表结构和数据    
+    - docs/sql/zuihou_demo_dev.sql              # 导入demo服务表结构和数据     
 
-- 2, 在application-dev.yml文件修改配置数据库/redis/rabbitMQ等配置：
+- 2, 在common.yml（zuihou-backend/zuihou-config/src/main/resources）文件修改配置数据库/redis/rabbitMQ等配置：
     
 - 3， 在IDE中启动，编译通过后按如下顺序启动：
     - Nacos                 
@@ -317,38 +317,9 @@ API 界面:
 定时任务调度界面:
 ![eureka注册中心界面.png](docs/image/项目相关/zuihou-jobs-server.png)
 
-## 常见报错：
- - 1, 很多依赖死活都下载不下来？
-    - 答： 由于spring-boot和spring-cloud等版本比较新，所以目前国内的一些仓库还没有新版本的jar。
-    需要配置spring的maven仓库。 （配置后还是无法下载，就先注释掉settings.xml中其他的仓库，只保留这个）
-```
-    <mirror>
-        <id>spring-milestones</id>
-        <name>Spring Milestones</name>
-        <url>https://repo.spring.io/libs-milestone</url>
-        <mirrorOf>central</mirrorOf>
-    </mirror>
-```
- - 2, 很多类缺少get/set方法？
-    - 答：请用IDEA或Eclipse安装`lombok`插件
-    
- - 3, zuihou-generator jar缺失？
-    - 答： https://github.com/zuihou/zuihou-generator 。去我github下载这个项目，自行编译。
-    
- - 4, 为啥要将调度器和执行器合并在一起？
-     - 答： 对于中小型项目，对高可用的需求并不是很大，若把调度器和执行器分开部署，会增加部署成本。    
- 
- - 5, 将配置文件导入到nacos后，启动解析文件报错？
-    - 答： 将配置文件中的所有注释，以及中文删除改成英文
-    
- - 6， 启动zuihou-jobs-server报找不到表的错， 但数据库中确实有表，只是表名全是小写？    
-    - 答： 1） SHOW VARIABLES LIKE '%case%'; 查看 lower_case_table_names 是否=2  
-            2） 修改my.cnf(my.ini) 文件增加  ：
-       ```
-      [mysqld]
-      lower_case_table_names=2
-      ```     
-     
+## 常见问题：  ![常见问题](docs/常见问题汇总.md)
+
+
 ## 查看磁盘空间占用
 df -h
 ## 查看当前目录的磁盘占用
@@ -357,6 +328,3 @@ du -ah --max-depth=1
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   
-
-
-## 
