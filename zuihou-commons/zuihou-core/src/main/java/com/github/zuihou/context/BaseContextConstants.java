@@ -32,5 +32,13 @@ public class BaseContextConstants {
      * 岗位id
      */
     public static final String JWT_KEY_STATION_ID = "stationid";
+    /**
+     * 租户
+     */
+    public static final String TENANT = "tenant";
 
+    /**
+     * 动态数据库名前缀。  每个项目配置死的
+     */
+    public static final String DATABASE_NAME = "database_name";
 }
