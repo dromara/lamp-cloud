@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.base.id.SnowflakeIdGenerate;
+import com.github.zuihou.database.mybatis.WriteInterceptor;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.LeftLikeTypeHandler;
@@ -208,8 +209,12 @@ public abstract class BaseDbConfiguration {
             list.add(dataScopeInterceptor);
         }
 
+        //开发环境
         if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
             list.add(performanceInterceptor());
+        } else {
+            //演示环境
+            list.add(getWriteInterceptor());
         }
         sqlSessionFactory.setPlugins(list.toArray(new Interceptor[list.size()]));
         globalConfig.setMetaObjectHandler(myMetaObjectHandler);
@@ -220,6 +225,16 @@ public abstract class BaseDbConfiguration {
     }
 
     /**
+     * 演示环境权限拦截器
+     *
+     * @return
+     */
+    @Bean
+    public WriteInterceptor getWriteInterceptor() {
+        return new WriteInterceptor();
+    }
+
+    /**
      * 分页插件，自动识别数据库类型
      * 多租户，请参考官网【插件扩展】
      */
@@ -227,9 +242,10 @@ public abstract class BaseDbConfiguration {
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 //        List<ISqlParser> sqlParserList = new ArrayList<>();
+
         // sqlParserList.add(new BlockAttackSqlParser()); 攻击 SQL 阻断解析器、加入解析链
 
-        //多租户
+        //方案1 多租户动态拼接字段
 //        TenantSqlParser tenantSqlParser = new TenantSqlParser();
 //        tenantSqlParser.setTenantHandler(new TenantHandler() {
 //            @Override
@@ -254,12 +270,11 @@ public abstract class BaseDbConfiguration {
 //        });
 //        sqlParserList.add(tenantSqlParser);
 
-
+        //方案2 多租户动态切库
 //        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
 //        sqlParserList.add(dynamicTableNameParser);
 //        paginationInterceptor.setSqlParserList(sqlParserList);
 
-
 //        paginationInterceptor.setSqlParserFilter(new ISqlParserFilter() {
 //            @Override
 //            public boolean doFilter(MetaObject metaObject) {
@@ -272,17 +287,6 @@ public abstract class BaseDbConfiguration {
 //            }
 //        });
 
-//        paginationInterceptor.setSqlParserFilter(new ISqlParserFilter() {
-//            @Override
-//            public boolean doFilter(MetaObject metaObject) {
-//                MappedStatement ms = SqlParserHelper.getMappedStatement(metaObject);
-//                // 过滤自定义查询此时无租户信息约束【 麻花藤 】出现
-//                if (ms.getId().contains("NoTenantId")) {
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
         return paginationInterceptor;
     }
 

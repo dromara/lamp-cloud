@@ -3,6 +3,7 @@ package com.github.zuihou.common.handler;
 import java.sql.SQLException;
 
 import com.github.zuihou.base.R;
+import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,10 @@ public class GlobalDbExceptionHandler {
     @ExceptionHandler(PersistenceException.class)
     public R<String> persistenceException(PersistenceException ex) {
         log.error("PersistenceException:", ex);
+        if (ex.getCause() instanceof BizException) {
+            BizException cause = (BizException) ex.getCause();
+            return R.result(cause.getCode(), "", cause.getMessage());
+        }
         return R.result(ExceptionCode.SQL_EX.getCode(), "", ExceptionCode.SQL_EX.getMsg());
     }
 
