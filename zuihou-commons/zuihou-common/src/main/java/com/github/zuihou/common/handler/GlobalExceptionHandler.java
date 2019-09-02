@@ -205,4 +205,5 @@ public class GlobalExceptionHandler {
     public R<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         return R.fail(METHOD_NOT_ALLOWED);
     }
+
 }
