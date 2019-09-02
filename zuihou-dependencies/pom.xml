@@ -71,7 +71,7 @@
         <mysql.version>6.0.6</mysql.version>
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <swagger.version>1.5.21</swagger.version>
-        <sbu.version>1.9.5</sbu.version>
+        <sbu.version>1.9.6</sbu.version>
         <dozer.version>6.4.0</dozer.version>
         <lombok.version>1.18.8</lombok.version>
         <guava.version>20.0</guava.version>
