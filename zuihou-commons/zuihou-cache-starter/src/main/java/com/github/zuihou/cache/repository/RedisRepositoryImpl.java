@@ -230,7 +230,9 @@ public class RedisRepositoryImpl implements CacheRepository {
         T resultStr = get(key);
         if (resultStr == null) {
             T value = function.apply(key);
-            set(key, value);
+            if (value != null) {
+                set(key, value);
+            }
             return value;
         }
         return resultStr;
