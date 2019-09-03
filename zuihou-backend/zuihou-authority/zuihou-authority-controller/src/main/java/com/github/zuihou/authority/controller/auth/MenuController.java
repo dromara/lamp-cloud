@@ -175,7 +175,7 @@ public class MenuController extends BaseController {
     })
     @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
     @GetMapping
-    @SysLog("查询用户可用的所有菜单")
+//    @SysLog("查询用户可用的所有菜单")
     public R<List<MenuTreeDTO>> myMenus(@RequestParam(value = "group", required = false) String group,
                                         @RequestParam(value = "userId", required = false) Long userId) {
         if (userId == null || userId <= 0) {
