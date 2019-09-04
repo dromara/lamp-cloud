@@ -24,7 +24,8 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 
 
 /**
- * 演示环境写入拦截器
+ * 演示环境写权限控制 拦截器
+ * 该拦截器只用于演示环境， 开发和生产都不需要
  * <p>
  *
  * @author zuihou
@@ -41,19 +42,22 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
         StatementHandler statementHandler = (StatementHandler) PluginUtils.realTarget(invocation.getTarget());
         MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
         this.sqlParser(metaObject);
-        // 先判断是不是SELECT操作
+        // 读操作 放行
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         if (SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {
             return invocation.proceed();
         }
+        // 记录日志相关的 放行
         if (mappedStatement.getId().contains("OptLog")) {
             return invocation.proceed();
         }
+        // userId=1 的超级管理员 放行
         Long userId = BaseContextHandler.getUserId();
         log.info("mapperid={}, userId={}", mappedStatement.getId(), userId);
         if (userId == 1) {
             return invocation.proceed();
         }
+        // 你还可以自定义其他放行规则， 比如：IP 等
 
         throw new BizException(-1, "演示环境，无写入权限");
     }
