@@ -19,14 +19,12 @@
         <result column="handler_params" jdbcType="VARCHAR" property="handlerParams"/>
         <result column="is_single_handle" jdbcType="BIT" property="isSingleHandle"/>
         <result column="is_delete" jdbcType="BIT" property="isDelete"/>
-        <result column="app_code" jdbcType="VARCHAR" property="appCode"/>
-        <result column="app_name" jdbcType="VARCHAR" property="appName"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, create_user, update_time, update_user, 
-        biz_id, biz_type, msgs_center_type, title, content, author, handler_url, handler_params, is_single_handle, is_delete, app_code, app_name
+        id, create_time, create_user, update_time, update_user,
+        biz_id, biz_type, msgs_center_type, title, content, author, handler_url, handler_params, is_single_handle, is_delete
     </sql>
 
 </mapper>
