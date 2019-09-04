@@ -53,7 +53,7 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 
 [介绍文档] https://zuihou.github.io/zuihou-admin-cloud/
 
-## 演示地址 (账号密码均为： zuihou/zuihou)       （演示环境部署不易，请勿胡乱删除、修改数据）
+## 演示地址 (账号密码均为： zuihou/zuihou)       （演示账号没有写权限，只能查询）
 [演示环境] http://42.202.130.216:10000/zuihou-ui                （http://wzroom.cn/zuihou-ui 即将到期）      
 
 [注册中心] http://42.202.130.216:10000/nacos/      
