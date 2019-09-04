@@ -255,11 +255,10 @@ public class UserController extends BaseController {
         User user = User.builder()
                 .account(data.getMobile())
                 .name(data.getMobile()).orgId(DEMO_ORG_ID).stationId(DEMO_STATION_ID)
-                .mobile(data.getMobile()).workDescribe("演示账号")
+                .mobile(data.getMobile())
                 .password(DigestUtils.md5Hex(data.getPassword()))
                 .build();
         return success(userService.save(user));
     }
-
 
 }

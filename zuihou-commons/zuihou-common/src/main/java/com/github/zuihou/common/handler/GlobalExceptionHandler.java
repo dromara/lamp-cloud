@@ -1,5 +1,6 @@
 package com.github.zuihou.common.handler;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,6 +15,9 @@ import com.github.zuihou.exception.code.ExceptionCode;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.mybatis.spring.MyBatisSystemException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
@@ -204,6 +208,38 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public R<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         return R.fail(METHOD_NOT_ALLOWED);
+    }
+
+
+    @ExceptionHandler(PersistenceException.class)
+    public R<String> persistenceException(PersistenceException ex) {
+        log.error("PersistenceException:", ex);
+        if (ex.getCause() instanceof BizException) {
+            BizException cause = (BizException) ex.getCause();
+            return R.result(cause.getCode(), "", cause.getMessage());
+        }
+        return R.result(ExceptionCode.SQL_EX.getCode(), "", ExceptionCode.SQL_EX.getMsg());
+    }
+
+    @ExceptionHandler(MyBatisSystemException.class)
+    public R<String> myBatisSystemException(MyBatisSystemException ex) {
+        log.error("PersistenceException:", ex);
+        if (ex.getCause() instanceof PersistenceException) {
+            return persistenceException((PersistenceException) ex.getCause());
+        }
+        return R.result(ExceptionCode.SQL_EX.getCode(), "", ExceptionCode.SQL_EX.getMsg());
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public R sqlException(SQLException ex) {
+        log.error("SQLException:", ex);
+        return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public R dataIntegrityViolationException(DataIntegrityViolationException ex) {
+        log.error("DataIntegrityViolationException:", ex);
+        return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
     }
 
 }
