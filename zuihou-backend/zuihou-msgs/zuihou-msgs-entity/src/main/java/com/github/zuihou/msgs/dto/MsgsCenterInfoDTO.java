@@ -47,7 +47,6 @@ public class MsgsCenterInfoDTO implements Serializable {
      * #MsgsBizType.code
      */
     @ApiModelProperty(value = "业务类型")
-    @NotNull(message = "业务类型不能为空")
     @Length(max = 64, message = "业务类型长度不能超过64")
     private MsgsBizType bizType;
     /**
@@ -67,7 +66,7 @@ public class MsgsCenterInfoDTO implements Serializable {
      * 内容
      */
     @ApiModelProperty(value = "内容")
-    @Length(max = 500, message = "内容长度不能超过500")
+    @Length(max = 65535, message = "内容长度不能超过65535")
     private String content;
     /**
      * 作者名称
