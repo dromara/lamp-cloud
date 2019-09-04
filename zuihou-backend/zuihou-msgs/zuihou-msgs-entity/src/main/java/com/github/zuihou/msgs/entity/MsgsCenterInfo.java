@@ -56,7 +56,6 @@ public class MsgsCenterInfo extends Entity<Long> {
      * #MsgsBizType{USER_LOCK:账号锁定;}
      */
     @ApiModelProperty(value = "业务类型")
-    @NotNull(message = "业务类型不能为空")
     @TableField("biz_type")
     private MsgsBizType bizType;
 
@@ -81,7 +80,7 @@ public class MsgsCenterInfo extends Entity<Long> {
      * 内容
      */
     @ApiModelProperty(value = "内容")
-    @Length(max = 500, message = "内容长度不能超过500")
+    @Length(max = 65535, message = "内容长度不能超过65535")
     @TableField("content")
     private String content;
 
@@ -126,27 +125,11 @@ public class MsgsCenterInfo extends Entity<Long> {
     @TableField("is_delete")
     private Boolean isDelete;
 
-    /**
-     * 应用code
-     */
-    @ApiModelProperty(value = "应用code")
-    @Length(max = 64, message = "应用code长度不能超过64")
-    @TableField("app_code")
-    private String appCode;
-
-    /**
-     * 应用名称
-     */
-    @ApiModelProperty(value = "应用名称")
-    @Length(max = 255, message = "应用名称长度不能超过255")
-    @TableField("app_name")
-    private String appName;
-
 
     @Builder
     public MsgsCenterInfo(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
                           String bizId, MsgsBizType bizType, MsgsCenterType msgsCenterType, String title, String content,
-                          String author, String handlerUrl, String handlerParams, Boolean isSingleHandle, Boolean isDelete, String appCode, String appName) {
+                          String author, String handlerUrl, String handlerParams, Boolean isSingleHandle, Boolean isDelete) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -162,8 +145,6 @@ public class MsgsCenterInfo extends Entity<Long> {
         this.handlerParams = handlerParams;
         this.isSingleHandle = isSingleHandle;
         this.isDelete = isDelete;
-        this.appCode = appCode;
-        this.appName = appName;
     }
 
 }
