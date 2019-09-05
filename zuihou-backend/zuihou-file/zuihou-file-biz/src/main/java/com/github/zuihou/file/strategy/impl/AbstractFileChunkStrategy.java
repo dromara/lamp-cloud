@@ -142,8 +142,10 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         String folder = info.getName();
         String md5 = info.getMd5();
 
+        int chunksNum = this.getChunksNum(Paths.get(path, folder).toString());
+        log.info("chunks={}, chunksNum={}", chunks, chunksNum);
         //检查是否满足合并条件：分片数量是否足够
-        if (chunks == this.getChunksNum(Paths.get(path, folder).toString())) {
+        if (chunks == chunksNum) {
             //同步指定合并的对象
             Lock lock = FileLock.getLock(folder);
             try {

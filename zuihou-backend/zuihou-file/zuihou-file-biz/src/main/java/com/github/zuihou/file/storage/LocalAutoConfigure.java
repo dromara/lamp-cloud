@@ -119,6 +119,7 @@ public class LocalAutoConfigure {
         @Override
         protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
             //创建合并后的文件
+            log.info("path={},fileName={}", path, fileName);
             java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
             if (!outputFile.exists()) {
                 boolean newFile = outputFile.createNewFile();
@@ -148,7 +149,8 @@ public class LocalAutoConfigure {
                 log.warn("文件[{}], fileName={}已经存在", info.getName(), fileName);
             }
 
-            String relativePath = FileDataTypeUtil.getRelativePath(fileProperties.getStoragePath(), outputFile.getAbsolutePath());
+            String relativePath = FileDataTypeUtil.getRelativePath(Paths.get(fileProperties.getStoragePath()).toString(), outputFile.getAbsolutePath());
+            log.info("relativePath={}, getStoragePath={}, getAbsolutePath={}", relativePath, fileProperties.getStoragePath(), outputFile.getAbsolutePath());
             String url = new StringBuilder(fileProperties.getUriPrefix())
                     .append(relativePath)
                     .append(StrPool.SLASH)
@@ -163,4 +165,13 @@ public class LocalAutoConfigure {
         }
     }
 
+    public static void main(String[] args) {
+        String path = Paths.get("D:\\\\projects\\\\uploadfile\\\\file\\").toString();
+        String pathPrefix = "D:\\projects\\uploadfile\\file\\2019\\09\\ca255cebf05d44e8683c92c7cd2214c9.zip";
+        String remove = StringUtils.remove(path, pathPrefix);
+        log.info("remove={}", remove);
+        String relativePath = StringUtils.substring(remove, 0, remove.lastIndexOf(java.io.File.separator));
+
+
+    }
 }

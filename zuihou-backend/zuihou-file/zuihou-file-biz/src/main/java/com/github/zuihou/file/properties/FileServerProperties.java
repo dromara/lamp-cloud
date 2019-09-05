@@ -1,6 +1,8 @@
 package com.github.zuihou.file.properties;
 
 
+import java.io.File;
+
 import com.github.zuihou.file.enumeration.FileStorageType;
 import com.github.zuihou.utils.StrPool;
 
@@ -69,8 +71,8 @@ public class FileServerProperties {
     }
 
     public String getStoragePath() {
-        if (!storagePath.endsWith(StrPool.SLASH)) {
-            storagePath += StrPool.SLASH;
+        if (!storagePath.endsWith(File.separator)) {
+            storagePath += File.separator;
         }
         return storagePath;
     }
