@@ -90,7 +90,7 @@ public class LocalAutoConfigure {
          * @return
          */
         private String randomFileName(String originalName) {
-            String[] ext = StrUtil.split(originalName, "\\.");
+            String[] ext = StrUtil.split(originalName, ".");
             return UUID.randomUUID().toString() + StrPool.DOT + ext[ext.length - 1];
         }
 
@@ -112,7 +112,7 @@ public class LocalAutoConfigure {
             file.setFilename(filename);
             String url = file.getUrl();
             String newUrl = StrUtil.subPre(url, StrUtil.lastIndexOfIgnoreCase(url, StrPool.SLASH) + 1);
-            file.setUrl(newUrl + filename);
+            file.setUrl(newUrl + filename + "?fileName=" + StrHelper.encode(file.getSubmittedFileName()));
         }
 
 
@@ -163,15 +163,5 @@ public class LocalAutoConfigure {
                     .build();
             return R.success(filePo);
         }
-    }
-
-    public static void main(String[] args) {
-        String path = Paths.get("D:\\\\projects\\\\uploadfile\\\\file\\").toString();
-        String pathPrefix = "D:\\projects\\uploadfile\\file\\2019\\09\\ca255cebf05d44e8683c92c7cd2214c9.zip";
-        String remove = StringUtils.remove(path, pathPrefix);
-        log.info("remove={}", remove);
-        String relativePath = StringUtils.substring(remove, 0, remove.lastIndexOf(java.io.File.separator));
-
-
     }
 }
