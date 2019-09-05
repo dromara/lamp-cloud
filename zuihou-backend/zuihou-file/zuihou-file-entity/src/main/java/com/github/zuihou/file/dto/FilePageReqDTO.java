@@ -1,6 +1,7 @@
 package com.github.zuihou.file.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import com.github.zuihou.file.enumeration.DataType;
 
@@ -23,4 +24,8 @@ public class FilePageReqDTO implements Serializable {
     private String submittedFileName;
     @ApiModelProperty(value = "数据类型 null和''表示查询全部 图片：IMAGE 视频：VIDEO 音频：AUDIO 文档DOC 其他：OTHER", example = "IMAGE,VIDEO,AUDIO,DOC,OTHER")
     private DataType dataType;
+    @ApiModelProperty(value = "开始时间")
+    private LocalDateTime startCreateTime;
+    @ApiModelProperty(value = "结束时间")
+    private LocalDateTime endCreateTime;
 }
