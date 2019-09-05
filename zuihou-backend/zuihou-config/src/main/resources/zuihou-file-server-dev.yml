@@ -1,5 +1,10 @@
 zuihou:
+  ip:
+    nginx: 127.0.0.1
   port:
-    nginx: 180
+    nginx: 10000
   mysql:
     database: zuihou_file_dev
+  file:
+    type: LOCAL # FAST_DFS LOCAL
+    storage-path: /projects/uploadfile/file/  # window 改成  D:\\projects\\uploadfile\\file\\
