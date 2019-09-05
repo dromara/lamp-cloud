@@ -1,6 +1,7 @@
 package com.github.zuihou.file.utils;
 
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +72,7 @@ public class FileDataTypeUtil {
     }
 
     public static String getRelativePath(String pathPrefix, String path) {
-        String remove = StringUtils.remove(path, pathPrefix);
+        String remove = StringUtils.remove(path, pathPrefix + File.separator);
 
         log.info("remove={}, index={}", remove, remove.lastIndexOf(java.io.File.separator));
         String relativePath = StringUtils.substring(remove, 0, remove.lastIndexOf(java.io.File.separator));
