@@ -23,7 +23,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -113,7 +112,6 @@ public class FileChunkController extends BaseController {
         /*
         将MD5签名和合并后的文件path存入持久层，注意这里这个需求导致需要修改webuploader.js源码3170行
         因为原始webuploader.js不支持为formData设置函数类型参数，这将导致不能在控件初始化后修改该参数
-
         文件大小 小于 单个分片时，会执行这里的代码
         */
         if (info.getChunks() == null || info.getChunks() <= 0) {
