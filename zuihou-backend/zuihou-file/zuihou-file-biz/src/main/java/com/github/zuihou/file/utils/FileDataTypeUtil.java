@@ -7,23 +7,16 @@ import java.time.format.DateTimeFormatter;
 
 import com.github.zuihou.file.enumeration.DataType;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-
 /**
  * 根据类型识别工具
  *
  * @author zuihou
  * @date 2019-05-06
  */
+@Slf4j
 public class FileDataTypeUtil {
-    /**
-     * url 分割符
-     */
-//    public static final String URI_SEPARATOR = "/";
-    /**
-     * 文件后缀风格符
-     */
-//    public static final String EXT_SEPARATOR = ".";
     final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy/MM");
     private final static String IMAGE = "image";
     private final static String VIDEO = "video";
@@ -80,7 +73,8 @@ public class FileDataTypeUtil {
     public static String getRelativePath(String pathPrefix, String path) {
         String remove = StringUtils.remove(path, pathPrefix);
 
-        String relativePath = StringUtils.substring(remove, 0, remove.lastIndexOf("/"));
+        log.info("remove={}, index={}", remove, remove.lastIndexOf(java.io.File.separator));
+        String relativePath = StringUtils.substring(remove, 0, remove.lastIndexOf(java.io.File.separator));
         return relativePath;
     }
 
