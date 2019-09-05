@@ -29,7 +29,15 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
 
     @Override
     public IPage<Station> findStationPage(Page page, Station station) {
-        LbqWrapper<Station> wrapper = Wraps.lbQ(station);
+        //Wraps.lbQ(station); 这种写法值 不能和  ${ew.customSqlSegment} 一起使用
+        LbqWrapper<Station> wrapper = Wraps.lbQ();
+
+        // ${ew.customSqlSegment} 语法一定要手动eq like 等
+        wrapper.like(Station::getName, station.getName())
+                .like(Station::getDescribe, station.getDescribe())
+                .eq(Station::getOrgId, station.getOrgId())
+                .eq(Station::getSortValue, station.getSortValue())
+                .eq(Station::getStatus, station.getStatus());
         wrapper.orderByDesc(Station::getCreateTime);
         return baseMapper.findStationPage(page, wrapper, new DataScope());
     }
