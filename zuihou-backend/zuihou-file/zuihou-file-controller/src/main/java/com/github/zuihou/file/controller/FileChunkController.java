@@ -41,7 +41,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @Slf4j
-@CrossOrigin
 @RequestMapping("/chunk")
 @Api(value = "文件续传+秒传", tags = "文件续传+秒传功能，所有方法均需要webuploder.js插件进行配合使用， 且4个方法需要配合使用，单核接口没有意义")
 public class FileChunkController extends BaseController {
@@ -131,7 +130,7 @@ public class FileChunkController extends BaseController {
         } else {
             //为上传的文件准备好对应的位置
             java.io.File target = wu.getReadySpace(info, uploadFolder);
-
+            log.info("target={}", target.getAbsolutePath());
             if (target == null) {
                 return fail(wu.getErrorMsg());
             }
