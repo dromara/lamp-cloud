@@ -49,13 +49,13 @@ import static com.github.zuihou.exception.code.ExceptionCode.REQUIRED_FILE_PARAM
 public class GlobalExceptionHandler {
     @ExceptionHandler(BizException.class)
     public R<String> baseExceptionHandler(BizException ex) {
-        log.info("BizException:", ex);
+        log.warn("BizException:", ex);
         return R.result(ex.getCode(), null, ex.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public R httpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        log.error("HttpMessageNotReadableException:", ex);
+        log.warn("HttpMessageNotReadableException:", ex);
         String message = ex.getMessage();
         if (message != null && !"".equals(message)) {
             if (message.contains("Could not read document:")) {
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BindException.class)
     public R bindException(BindException eee) {
-        log.error("BindException:", eee);
+        log.warn("BindException:", eee);
         try {
             String msgs = eee.getBindingResult().getFieldError().getDefaultMessage();
             if (StrUtil.isNotEmpty(msgs)) {
@@ -92,7 +92,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public R methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
-        log.error("MethodArgumentTypeMismatchException:", ex);
+        log.warn("MethodArgumentTypeMismatchException:", ex);
         MethodArgumentTypeMismatchException eee = (MethodArgumentTypeMismatchException) ex;
         StringBuilder msg = new StringBuilder("参数[").append(eee.getName()).append("]的值[")
                 .append(eee.getValue()).append("]与实际类型[").append(eee.getRequiredType().getName()).append("]不匹配");
@@ -101,13 +101,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalStateException.class)
     public R illegalStateException(IllegalStateException ex) {
-        log.error("IllegalStateException:", ex);
+        log.warn("IllegalStateException:", ex);
         return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public R missingServletRequestParameterException(MissingServletRequestParameterException e) {
-        log.error("MissingServletRequestParameterException:", e);
+        log.warn("MissingServletRequestParameterException:", e);
         StringBuilder msg = new StringBuilder();
         msg.append("缺少必须的[").append(e.getParameterType()).append("] 类型的参数[").append(e.getParameterName()).append("]");
         return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, msg.toString());
@@ -115,19 +115,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public R nullPointerException(NullPointerException ex) {
-        log.error("NullPointerException:", ex);
+        log.warn("NullPointerException:", ex);
         return R.result(ExceptionCode.NULL_POINT_EX.getCode(), null, ExceptionCode.NULL_POINT_EX.getMsg());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public R illegalArgumentException(IllegalArgumentException ex) {
-        log.error("IllegalArgumentException:", ex);
+        log.warn("IllegalArgumentException:", ex);
         return R.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), null, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg());
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public R httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
-        log.error("HttpMediaTypeNotSupportedException:", e);
+        log.warn("HttpMediaTypeNotSupportedException:", e);
         MediaType contentType = e.getContentType();
         if (contentType != null) {
             StringBuilder msg = new StringBuilder();
@@ -139,13 +139,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     public R missingServletRequestPartException(MissingServletRequestPartException ex) {
-        log.error("MissingServletRequestPartException:", ex);
+        log.warn("MissingServletRequestPartException:", ex);
         return R.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
     }
 
     @ExceptionHandler(ServletException.class)
     public R servletException(ServletException ex) {
-        log.error("ServletException:", ex);
+        log.warn("ServletException:", ex);
         String msg = "UT010016: Not a multi part request";
         if (msg.equalsIgnoreCase(ex.getMessage())) {
             return R.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
@@ -155,7 +155,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MultipartException.class)
     public R multipartException(MultipartException ex) {
-        log.error("MultipartException:", ex);
+        log.warn("MultipartException:", ex);
         return R.result(REQUIRED_FILE_PARAM_EX.getCode(), null, REQUIRED_FILE_PARAM_EX.getMsg());
     }
 
@@ -167,7 +167,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public R<String> constraintViolationException(ConstraintViolationException ex) {
-        log.error("ConstraintViolationException:", ex);
+        log.warn("ConstraintViolationException:", ex);
         Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
         String message = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(";"));
         return R.result(ExceptionCode.BASE_VALID_PARAM.getCode(), "", message);
@@ -181,7 +181,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object methodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        log.error("MethodArgumentNotValidException:", ex);
+        log.warn("MethodArgumentNotValidException:", ex);
         return R.result(ExceptionCode.BASE_VALID_PARAM.getCode(), "", ex.getBindingResult().getFieldError().getDefaultMessage());
     }
 
@@ -213,7 +213,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PersistenceException.class)
     public R<String> persistenceException(PersistenceException ex) {
-        log.error("PersistenceException:", ex);
+        log.warn("PersistenceException:", ex);
         if (ex.getCause() instanceof BizException) {
             BizException cause = (BizException) ex.getCause();
             return R.result(cause.getCode(), "", cause.getMessage());
@@ -223,7 +223,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MyBatisSystemException.class)
     public R<String> myBatisSystemException(MyBatisSystemException ex) {
-        log.error("PersistenceException:", ex);
+        log.warn("PersistenceException:", ex);
         if (ex.getCause() instanceof PersistenceException) {
             return persistenceException((PersistenceException) ex.getCause());
         }
@@ -232,13 +232,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SQLException.class)
     public R sqlException(SQLException ex) {
-        log.error("SQLException:", ex);
+        log.warn("SQLException:", ex);
         return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public R dataIntegrityViolationException(DataIntegrityViolationException ex) {
-        log.error("DataIntegrityViolationException:", ex);
+        log.warn("DataIntegrityViolationException:", ex);
         return R.result(ExceptionCode.SQL_EX.getCode(), null, ExceptionCode.SQL_EX.getMsg());
     }
 

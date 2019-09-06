@@ -68,8 +68,6 @@ public class SysLogAspect {
 
     @Before(value = "sysLogAspect()")
     public void recordLog(JoinPoint joinPoint) throws Throwable {
-        log.info("当前线程id={}", Thread.currentThread().getId());
-
         tryCatch((val) -> {
             // 开始时间
             OptLogDTO sysLog = get();
@@ -129,8 +127,6 @@ public class SysLogAspect {
      */
     @AfterReturning(returning = "ret", pointcut = "sysLogAspect()")
     public void doAfterReturning(Object ret) {
-        log.info("当前线程id={}", Thread.currentThread().getId());
-
         tryCatch((aaa) -> {
             R r = Convert.convert(R.class, ret);
             OptLogDTO sysLog = get();
@@ -165,7 +161,6 @@ public class SysLogAspect {
      */
     @AfterThrowing(pointcut = "sysLogAspect()", throwing = "e")
     public void doAfterThrowable(Throwable e) {
-        log.info("当前线程id={}", Thread.currentThread().getId());
         tryCatch((aaa) -> {
             OptLogDTO sysLog = get();
             sysLog.setType("EX");

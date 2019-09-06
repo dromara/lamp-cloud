@@ -28,3 +28,6 @@ spring:
           user.password: ${spring.security.user.password}
           swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
           service.name: 消息服务
+
+logging:
+  path: /data/projects/logs

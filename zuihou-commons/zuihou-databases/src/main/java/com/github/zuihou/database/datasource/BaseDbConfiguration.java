@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.base.id.SnowflakeIdGenerate;
@@ -38,7 +37,6 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Controller;
@@ -67,7 +65,7 @@ public abstract class BaseDbConfiguration {
     /**
      * 测试环境
      */
-    protected static final String[] DEV_PROFILES = new String[]{"dev", "test"};
+    protected static final String[] DEV_PROFILES = new String[]{"dev"};
     private static final List<Class<? extends Annotation>> AOP_POINTCUT_ANNOTATIONS = new ArrayList<>(2);
     private static final String TX_BASE_PACKAGE = "com.github.zuihou";
 
@@ -211,7 +209,7 @@ public abstract class BaseDbConfiguration {
 
         //开发环境
         if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
-            list.add(performanceInterceptor());
+//            list.add(performanceInterceptor());
         } else {
             //演示环境
             list.add(getWriteInterceptor());
@@ -291,16 +289,17 @@ public abstract class BaseDbConfiguration {
     }
 
     /**
+     * 3.2.0废弃该插件， 推荐使用 p6spy
      * SQL执行效率插件
      */
-    @Bean
-    @Profile({"dev", "test"})
-    public PerformanceInterceptor performanceInterceptor() {
-        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
-        performanceInterceptor.setMaxTime(1000);
-        performanceInterceptor.setFormat(true);
-        return performanceInterceptor;
-    }
+//    @Bean
+//    @Profile({"dev", "test"})
+//    public PerformanceInterceptor performanceInterceptor() {
+//        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
+//        performanceInterceptor.setMaxTime(1000);
+//        performanceInterceptor.setFormat(true);
+//        return performanceInterceptor;
+//    }
 
     /**
      * 数据权限插件
@@ -347,10 +346,12 @@ public abstract class BaseDbConfiguration {
         GlobalConfig conf = new GlobalConfig();
         GlobalConfig.DbConfig config = new GlobalConfig.DbConfig();
         config.setIdType(IdType.INPUT);
-        config.setFieldStrategy(FieldStrategy.NOT_EMPTY);
-        config.setColumnLike(true);
+        config.setInsertStrategy(FieldStrategy.NOT_NULL);
+        config.setUpdateStrategy(FieldStrategy.NOT_NULL);
+        config.setSelectStrategy(FieldStrategy.NOT_EMPTY);
+//        config.setColumnLike(true);
+//        conf.setSqlParserCache(true);
         conf.setDbConfig(config);
-        conf.setSqlParserCache(true);
         return conf;
     }
 }
