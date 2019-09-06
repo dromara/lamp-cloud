@@ -28,3 +28,8 @@ spring:
           user.password: ${spring.security.user.password}
           swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
           service.name: 订单服务
+
+
+# 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
+logging:
+  path: /data/projects/logs

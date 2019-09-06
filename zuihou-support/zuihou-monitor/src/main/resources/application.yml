@@ -7,12 +7,6 @@ turbine:
   stream:
     port: 8763
 
-logging:
-  file: ${logging.path}/root.log
-  #  level:
-  #    org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error
-  path: /projects/logs/${spring.application.name}
-
 spring:
   #  mail:
   #    host: smtp.163.com

@@ -3,6 +3,8 @@ zuihou:
     enabled: true
     title: 网关模块
     base-package: com.github.zuihou.zuul.controller
+  log:
+    enabled: false
 
 zuul:
   #  debug:

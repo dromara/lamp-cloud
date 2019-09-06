@@ -61,6 +61,7 @@ public class AuthTokenController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public R<LoginDTO> login(@RequestParam(value = "account") String account,
                              @RequestParam(value = "password") String password) throws BizException {
+        log.info("account={}", account);
         return success(authManager.login(account, password));
     }
 

@@ -42,6 +42,9 @@ public class ZuihouXForwardedHeadersFilter implements HttpHeadersFilter, Ordered
         HttpHeaders original = input;
         HttpHeaders updated = new HttpHeaders();
 
+        original.entrySet().stream()
+                .forEach(entry -> updated.addAll(entry.getKey(), entry.getValue()));
+
         LinkedHashSet<URI> originalUris = exchange.getAttribute(GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
         URI requestUri = exchange.getAttribute(GATEWAY_REQUEST_URL_ATTR);
 
