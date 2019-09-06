@@ -11,12 +11,15 @@ import com.github.zuihou.authority.api.UserApi;
 import com.github.zuihou.database.datasource.BaseDbConfiguration;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.utils.SpringUtil;
+import com.p6spy.engine.spy.P6DataSource;
 
+import cn.hutool.core.util.ArrayUtil;
 import io.seata.rm.datasource.DataSourceProxy;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,10 +42,29 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
         sqlSessionFactoryRef = "orderSqlSessionFactory")
 public class OrderAutoConfiguration extends BaseDbConfiguration {
 
-    @Bean(name = "orderDataSource")
+    /**
+     * 数据源信息
+     *
+     * @return
+     */
+    @Bean(name = "druidDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid")
-    public DataSource db1() {
+    public DataSource druid() {
         return DruidDataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "orderDataSource")
+    public DataSource db1(@Value("${spring.profiles.active}") String profiles, @Qualifier("druidDataSource") DataSource dataSource) {
+        if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
+            return new P6DataSource(dataSource);
+        } else {
+            return dataSource;
+        }
+    }
+
+    @Bean
+    public DataSourceProxy dataSourceProxy(@Qualifier("orderDataSource") DataSource dataSource) {
+        return new DataSourceProxy(dataSource);
     }
 
     @Bean(name = "txorder")
@@ -62,10 +84,6 @@ public class OrderAutoConfiguration extends BaseDbConfiguration {
                 new String[]{"classpath:mapper_order/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
     }
 
-    @Bean
-    public DataSourceProxy dataSourceProxy(@Qualifier("orderDataSource") DataSource dataSource) {
-        return new DataSourceProxy(dataSource);
-    }
 
     @Bean("orderTxAdvice")
     @Primary

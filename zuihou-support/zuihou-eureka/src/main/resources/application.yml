@@ -8,8 +8,7 @@ server:
     context-path: /${spring.application.name}
 
 logging:
-  file: ${logging.path}/root.log
-  path: /projects/logs/${spring.application.name}
+  path: /data/projects/logs/${spring.application.name}
 
 spring:
   profiles:

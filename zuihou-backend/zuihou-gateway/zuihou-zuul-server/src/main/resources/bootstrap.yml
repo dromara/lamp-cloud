@@ -30,3 +30,5 @@ spring:
           swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
           service.name: 网关服务
 
+logging:
+  path: /data/projects/logs
