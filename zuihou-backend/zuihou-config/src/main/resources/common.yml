@@ -76,9 +76,6 @@ spring:
         login-username: zuihou
         login-password: zuihou
 
-logging:
-  file: ${logging.path}/root.log
-  path: /projects/logs/${spring.application.name}
 dozer:
   mappingFiles:
     - classpath:dozer/global.dozer.xml

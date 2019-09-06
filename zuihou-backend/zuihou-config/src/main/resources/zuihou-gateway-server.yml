@@ -1,3 +1,7 @@
+zuihou:
+  log:
+    enabled: false
+
 spring:
   cloud:
     gateway:

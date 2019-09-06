@@ -11,11 +11,14 @@ import com.github.zuihou.authority.api.UserApi;
 import com.github.zuihou.database.datasource.BaseDbConfiguration;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.utils.SpringUtil;
+import com.p6spy.engine.spy.P6DataSource;
 
+import cn.hutool.core.util.ArrayUtil;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,10 +41,24 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
         sqlSessionFactoryRef = "msgsSqlSessionFactory")
 public class MsgsDbAutoConfiguration extends BaseDbConfiguration {
 
-    @Bean(name = "msgsDataSource")
+    /**
+     * 数据源信息
+     *
+     * @return
+     */
+    @Bean(name = "druidDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid")
-    public DataSource db1() {
+    public DataSource druid() {
         return DruidDataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "msgsDataSource")
+    public DataSource db1(@Value("${spring.profiles.active}") String profiles, @Qualifier("druidDataSource") DataSource dataSource) {
+        if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
+            return new P6DataSource(dataSource);
+        } else {
+            return dataSource;
+        }
     }
 
     @Bean(name = "txMsgs")

@@ -19,6 +19,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-zuul-base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-log-starter</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
