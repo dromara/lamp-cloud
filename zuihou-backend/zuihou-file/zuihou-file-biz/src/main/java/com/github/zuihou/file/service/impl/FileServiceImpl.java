@@ -113,12 +113,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Override
     public FolderDTO saveFolder(FolderSaveDTO folderSaveDto) {
         File folder = dozerUtils.map2(folderSaveDto, File.class);
-        if (folderSaveDto.getParentId() == null || folderSaveDto.getParentId() <= 0) {
+        if (folderSaveDto.getFolderId() == null || folderSaveDto.getFolderId() <= 0) {
             folder.setFolderId(DEF_PARENT_ID);
             folder.setTreePath(DEF_ROOT_PATH);
             folder.setGrade(1);
         } else {
-            File parent = super.getById(folderSaveDto.getParentId());
+            File parent = super.getById(folderSaveDto.getFolderId());
             assertNotNull(BASE_VALID_PARAM.build("父文件夹不能为空"), parent);
             assertFalse(BASE_VALID_PARAM.build("父文件夹已经被删除"), parent.getIsDelete());
             assertEquals(BASE_VALID_PARAM.build("父文件夹不存在"), DataType.DIR.name(), parent.getDataType().name());
