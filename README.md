@@ -269,24 +269,34 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     - docs/sql/zuihou_demo_dev.sql              # 导入demo服务表结构和数据     
 
 - 2, 在common.yml（zuihou-backend/zuihou-config/src/main/resources）文件修改配置数据库/redis/rabbitMQ等配置：
-    
+- 2.1 将zuihou-backend/zuihou-config/src/main/resources下的所有配置文件，导入到nacos，具体操作看 third-party/README.md
+
+- 3.0 mac/linux 在启动项目之前先创建日志文件夹
+```
+mkdir -p /data/projects
+
+chown -R $USER:$USER  # linux 
+chown -R $USER:wheel /data/projects  # mac  
+```
+- 3.1 window 在项目启动前，在代码所在的盘创建：D:/data/projects。  如： D:/data/projects
+   
 - 3， 在IDE中启动，编译通过后按如下顺序启动：
     - Nacos                 
-    - 启动seata              (详情参考third-party/README.md)(可选，若要测试分布式事务则一定要在eureka启动后，在启动seata-server)
     - ZuulServerApplication   
     - AuthorityApplication
     - FileServerApplication (可选)
     - MsgsServerApplication (可选)
     - JobsServerApplication (可选)
+    - MonitorApplication    (可选)
+    - 启动seata              (可选，若要测试分布式事务则一定要在nacos启动后，在启动seata-server)(详情参考third-party/README.md)
     - OrderServerApplication (可选)
     - DemoServerApplication (可选)
-    - MonitorApplication    (可选)
     - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-admin-ui?_blank)
 
 - 4， 命令行启动:
     - 先cd 到各个服务的target目录，依次启动即可：
     - java -jar -Dspring.profiles.active=dev zuihou-eureka.jar 
-    - java -jar -Dspring.profiles.active=prod -Dserver.port=8080  zuihou-jobs-server.jar  > /dev/null 2>&1 &  
+    - java -jar -Dspring.profiles.active=dev zuihou-jobs-server.jar  > /dev/null 2>&1 &  
 
 ## 端口号介绍 :
 
