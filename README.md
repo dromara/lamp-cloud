@@ -133,7 +133,6 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
     - 消息队列：RibbitMQ
     - 数据库： MySQL 5.7.9 (驱动6.0.6)
     - 定时器：采用xxl-jobs项目进行二次改造
-    - Java模版：Thymeleaf  3.0.6.RELEASE
     - 前端：vue 
     - 持久层框架： Mybatis-plus 
     - 代码生成器：基于Mybatis-plus-generator自定义  [https://github.com/zuihou/zuihou-generator.git]
