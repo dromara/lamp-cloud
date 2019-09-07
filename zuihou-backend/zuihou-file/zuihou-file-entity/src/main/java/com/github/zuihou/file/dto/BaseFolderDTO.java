@@ -25,7 +25,7 @@ public abstract class BaseFolderDTO {
      * 父文件夹
      */
     @ApiModelProperty(value = "父文件夹id")
-    protected Long parentId;
+    protected Long folderId;
 
     /**
      * 排序

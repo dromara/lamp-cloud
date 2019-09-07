@@ -23,8 +23,6 @@
         <module>zuihou-commons</module>
         <module>zuihou-backend</module>
         <module>zuihou-support</module>
-        <!-- 前端项目已经集成了shiro，并对接登录成功，但没有任何页面功能 前端项目已经迁移到vue项目： https://github.com/zuihou/zuihou-admin-ui -->
-        <!--<module>zuihou-frontend</module>-->
     </modules>
     <packaging>pom</packaging>
     <developers>
