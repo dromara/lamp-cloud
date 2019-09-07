@@ -7,7 +7,7 @@ zuihou:
     database: zuihou_file_dev
   file:
     type: LOCAL # FAST_DFS LOCAL
-    storage-path: /projects/uploadfile/file/  # window 改成  D:\\projects\\uploadfile\\file\\
+    storage-path: /data/projects/uploadfile/file/  # window 改成  D:\\projects\\uploadfile\\file\\
 
 spring:
   datasource:
