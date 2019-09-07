@@ -41,12 +41,9 @@ xxl.job:
     appname: ${spring.application.name}
     ip: ${zuihou.ip.executor}
     port: ${zuihou.port.executor:8771}
-    logpath: /projects/logs/${spring.application.name}/
+    logpath: ${logging.path}/${spring.application.name}/
     logretentiondays: -1
 
-
-logging:
-  path: /projects/logs/${spring.application.name}
 
 server:
   servlet:
@@ -62,8 +59,6 @@ mybatis:
   mapper-locations: classpath:mybatis-mapper/*.xml
 
 spring:
-  application:
-    name: zuihou-jobs-server
   profiles:
     active: dev
   datasource:

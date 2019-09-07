@@ -1,2 +1,6 @@
+spring:
+  application:
+    name: zuihou-jobs-server
+
 logging:
   path: /data/projects/logs

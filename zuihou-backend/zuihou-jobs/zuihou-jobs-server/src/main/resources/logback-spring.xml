@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <jmxConfigurator/>
 
-    <contextName>logback</contextName>
 
     <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
     <springProperty scope="context" name="log.path" source="logging.path"/>
@@ -12,6 +9,11 @@
     <property name="log.level.service" value="INFO"/>
     <property name="log.level.impl" value="INFO"/>
     <property name="log.level.sql" value="DEBUG"/>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <jmxConfigurator/>
+
+    <contextName>logback</contextName>
 
     <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">

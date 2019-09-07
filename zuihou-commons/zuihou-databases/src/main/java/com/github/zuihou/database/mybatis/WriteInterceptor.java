@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,7 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
             return invocation.proceed();
         }
         // 记录日志相关的 放行
-        if (mappedStatement.getId().contains("OptLog")) {
+        if (StrUtil.containsAnyIgnoreCase(mappedStatement.getId(), "OptLog", "File")) {
             return invocation.proceed();
         }
         // userId=1 的超级管理员 放行
@@ -57,6 +58,8 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
         if (userId == 1) {
             return invocation.proceed();
         }
+
+        //上传可以
         // 你还可以自定义其他放行规则， 比如：IP 等
 
         throw new BizException(-1, "演示环境，无写入权限");
