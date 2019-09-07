@@ -89,14 +89,13 @@
         <poi.ooxml.version>3.15</poi.ooxml.version>
         <shiro.version>1.4.0</shiro.version>
 
-
         <groovy-all.version>2.5.5</groovy-all.version>
         <quartz.version>2.3.0</quartz.version>
 
         <jetty-server.version>9.4.14.v20181114</jetty-server.version>
 
         <hutool.version>4.5.6</hutool.version>
-        <antisamy.version>1.5.3</antisamy.version>
+        <antisamy.version>1.5.7</antisamy.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-io.version>2.5</commons-io.version>
         <caffeine.version>2.8.0</caffeine.version>
