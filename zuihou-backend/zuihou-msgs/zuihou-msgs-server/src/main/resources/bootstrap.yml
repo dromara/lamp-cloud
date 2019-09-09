@@ -2,7 +2,7 @@ zuihou:
   port:
     nacos: ${NACOS_PORT:8848}
   ip:
-    nacos: ${NACOS_IP:${spring.cloud.client.ip-address}}
+    nacos: ${NACOS_IP:127.0.0.1}
 
 spring:
   main:

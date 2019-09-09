@@ -1,5 +1,5 @@
 spring:
   application:
-    #    name: zuihou-authority-server-zuihou     # 需要注册到其他人的eureka 进行调试时，可以在这里加一个后缀
+    #    name: zuihou-authority-server-zuihou     # 需要注册到其他人的 eureka/nacos 进行调试时，可以在这里加一个后缀,然后通过网关的 MultiVersionServerSupportFilter 指定路由到具体的服务
     name: zuihou-authority-server
 
