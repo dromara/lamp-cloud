@@ -137,12 +137,13 @@
             </dependency>
 
 
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-generator</artifactId>
-                <scope>test</scope>
-                <version>${project.version}</version>
-            </dependency>
+            <!-- 为了减少新手启动项目的负担， 特意注释掉。 需要生成代码，请移步到 zuihou-generator 项目自行下载 -->
+            <!--            <dependency>-->
+            <!--                <groupId>com.github.zuihou</groupId>-->
+            <!--                <artifactId>zuihou-generator</artifactId>-->
+            <!--                <scope>test</scope>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
 
         </dependencies>
     </dependencyManagement>

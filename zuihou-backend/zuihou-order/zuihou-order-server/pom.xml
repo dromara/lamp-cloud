@@ -56,10 +56,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.jolokia</groupId>
@@ -105,11 +101,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-generator</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.zuihou</groupId>-->
+        <!--            <artifactId>zuihou-generator</artifactId>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
     </dependencies>
 
     <build>
