@@ -31,7 +31,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  * 用户zuihou，在启动 zuihou-authority-server 时， 将改成 spring.application.name: zuihou-authority-server-zuihou ，
  * 通过在请求每个请求头中增加 serviceSuffix=zuihou , 请求就能通过网关路由到 zuihou 的机器上
  *
- *
+ * 该过滤器请勿使用在正式环境
  * @author zuihou
  */
 @Component

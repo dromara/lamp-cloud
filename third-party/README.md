@@ -60,11 +60,11 @@ nacos/nacos
 
 ### 导入配置
 - 新建命名空间： zuihou， 并记下命名空间id： b16f7baf-56e7-4f4e-a26c-425ee0668016     ！！！
-![nacos新建命名空间.jpg](../doc/image/启动配置/nacos新建命名空间.jpg)
+![nacos新建命名空间.jpg](../docs/image/启动配置/nacos新建命名空间.jpg)
 - 向命名空间(zuihou),导入zuihou-config/src/main/resources下的所有配置
 - 一个一个新建太累？试试导入配置: third-party/nacos/nacos_config_zuihou_export_2019-08-15_14_17_03.zip
-![nacos导入项目配置.jpg](../doc/image/启动配置/nacos导入项目配置.jpg)
-- 导入成功后，确定下命名空间： zuihou 下是否有18个配置
+![nacos导入项目配置.jpg](../docs/image/启动配置/nacos导入项目配置.png)
+- 导入成功后，确定下命名空间： zuihou 下是否有14个配置  
 
 - 全文搜索将项目里面所有(bootstrap.yml、registry.conf) (这2个文件没在nacos里哈，是在每个项目(如：zuihou-demo-server)的src/main/resources下)使用了 b16f7baf-56e7-4f4e-a26c-425ee0668016 的地方，
 将其替换成自己新创建的命名空间ID！  （这一步很重要！）
@@ -151,7 +151,7 @@ nacos-config.py localhost
 
 - 向命名空间(public), 导入third-party/seata/conf/nacos-config.txt内的所有数据
 - 一个一个新建太累？试试导入配置: third-party/seata/nacos_config_seata_export_2019-08-15_14_49_05.zip
-![nacos导入seata配置.png](../doc/image/启动配置/nacos导入seata配置.png)
+![nacos导入seata配置.png](../docs/image/启动配置/nacos导入seata配置.png)
 - 导入成功后，确定下命名空间： public 下是否有51个配置
 
 ###启动
@@ -171,7 +171,7 @@ bin/seata-server.bat -p 8091 -h 192.168.1.34 -m db
 
 ### 验证是否启动成功
 打开nacos， 【服务列表】 ->【zuihou】 -> 有一个服务名为： serverAddr 的服务 即表示成功 
-![验证seata启动成功.png](../doc/image/启动配置/验证seata启动成功.png)
+![验证seata启动成功.png](../docs/image/启动配置/验证seata启动成功.png)
 
 ### 在所有业务库中增加表：
 ```

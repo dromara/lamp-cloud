@@ -3,6 +3,7 @@ package com.github.zuihou.file.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
@@ -110,8 +111,10 @@ public class FileController extends BaseController {
     })
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @SysLog("上传文件")
-    public R<File> upload(@RequestParam(value = "folderId") Long folderId,
-                          @RequestParam(value = "file") MultipartFile simpleFile) {
+    public R<File> upload(
+            @NotNull(message = "文件夹不能为空")
+            @RequestParam(value = "folderId") Long folderId,
+            @RequestParam(value = "file") MultipartFile simpleFile) {
         //1，先将文件存在本地,并且生成文件名
         log.info("contentType={}, name={} , sfname={}", simpleFile.getContentType(), simpleFile.getName(), simpleFile.getOriginalFilename());
         // 忽略路径字段,只处理文件类型
