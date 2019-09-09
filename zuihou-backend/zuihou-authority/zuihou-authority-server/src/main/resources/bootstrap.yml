@@ -2,12 +2,12 @@ zuihou:
   port:
     nacos: ${NACOS_PORT:8848}
   ip:
-    nacos: ${NACOS_IP:${spring.cloud.client.ip-address}}
+    nacos: ${NACOS_IP:127.0.0.1}
 
 spring:
   main:
     allow-bean-definition-overriding: true
-  application:
+  application: # 只能配置在bootstrap.yml
     name: zuihou-authority-server
   profiles:
     active: dev
@@ -32,3 +32,15 @@ spring:
 # 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
 logging:
   path: /data/projects/logs
+
+server:
+  servlet:
+    context-path:
+  port: 8764
+
+info:
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

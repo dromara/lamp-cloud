@@ -29,6 +29,7 @@
             </exclusions>
         </dependency>
 
+        <!-- 线程之间 传递参数 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>

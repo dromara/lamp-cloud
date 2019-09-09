@@ -1,16 +1,17 @@
 zuihou:
   port:
-    nginx: ${NGINX_PORT:80}
+    nginx: ${NGINX_PORT:10000}
     redis: ${REDIS_PORT:16379}
   ip:
-    mysql: ${MYSQL_IP:${spring.cloud.client.ip-address}}
-    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
-    redis: ${REDIS_IP:${spring.cloud.client.ip-address}}
+    mysql: ${MYSQL_IP:127.0.0.1}
+    nginx: ${NGINX_IP:127.0.0.1}
+    redis: ${REDIS_IP:127.0.0.1}
   mysql:
     host: ${zuihou.ip.mysql}
-    port: 3306                  # 根据环境更改
+    port: 3306
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: root              # 数据库密码
+    database: zuihou_authority_dev
+    username: root
     password: root
 
 server:
@@ -75,6 +76,7 @@ spring:
         reset-enable: true    #允许清空统计数据
         login-username: zuihou
         login-password: zuihou
+
 
 dozer:
   mappingFiles:

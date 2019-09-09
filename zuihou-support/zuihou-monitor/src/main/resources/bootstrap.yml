@@ -1,9 +1,9 @@
 zuihou:
   ip:
-    rabbitmq: ${RABBIT_IP:${spring.cloud.client.ip-address}}
-    nginx: ${NGINX_IP:${spring.cloud.client.ip-address}}
+    rabbitmq: ${RABBIT_IP:127.0.0.1}
+    nginx: ${NGINX_IP:127.0.0.1}
     local: ${spring.cloud.client.ip-address:127.0.0.1}
-    nacos: ${NACOS_IP:${spring.cloud.client.ip-address}}
+    nacos: ${NACOS_IP:127.0.0.1}
   port:
     nacos: ${NACOS_PORT:8848}
     nginx: ${NGINX_PORT:80}
