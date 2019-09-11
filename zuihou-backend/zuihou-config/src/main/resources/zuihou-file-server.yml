@@ -1,4 +1,10 @@
 zuihou:
+  ip:
+    nginx: ${spring.cloud.client.ip-address}
+  port:
+    nginx: 10000
+  mysql:
+    database: zuihou_file_dev
   swagger:
     enabled: true
     docket:
@@ -11,7 +17,7 @@ zuihou:
   file:
     type: LOCAL # FAST_DFS LOCAL
     storage-path: /data/projects/uploadfile/file/
-    uriPrefix: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/file/ # url 访问前缀
+    uriPrefix: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/file/   # 文件访问 需要通过这个uri前缀进行访问
     inner-uri-prefix: null  #  内网的url前缀
     down-by-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download?ids[]=%s
     down-by-biz-id: http://${zuihou.ip.nginx}:${zuihou.port.nginx}/api/file/attachment/download/biz?bizIds[]=%s

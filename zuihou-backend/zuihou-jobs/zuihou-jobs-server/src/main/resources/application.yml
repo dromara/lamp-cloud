@@ -1,7 +1,6 @@
 zuihou:
   ip:
     mysql: ${MYSQL_IP:127.0.0.1}
-    nginx: ${NGINX_IP:127.0.0.1}
     executor: ${EXECUTOR_IP:127.0.0.1}
   mysql:
     authority:
@@ -20,6 +19,7 @@ zuihou:
     password: root
     port: 3306
     driverClassName: com.mysql.cj.jdbc.Driver
+
 ### xxl-job email
 xxl.job:
   mail:

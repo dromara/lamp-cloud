@@ -1,11 +1,9 @@
 zuihou:
   port:
-    nginx: ${NGINX_PORT:10000}
-    redis: ${REDIS_PORT:16379}
+    redis: 16379
   ip:
-    mysql: ${MYSQL_IP:127.0.0.1}
-    nginx: ${NGINX_IP:127.0.0.1}
-    redis: ${REDIS_IP:127.0.0.1}
+    mysql: 127.0.0.1
+    redis: 127.0.0.1
   mysql:
     host: ${zuihou.ip.mysql}
     port: 3306

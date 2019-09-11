@@ -83,6 +83,35 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!--        <dependency>-->
+        <!--            <groupId>net.oschina.j2cache</groupId>-->
+        <!--            <artifactId>j2cache-spring-boot2-starter</artifactId>-->
+        <!--            <version>2.7.6-release</version>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.alibaba</groupId>-->
+        <!--                    <artifactId>fastjson</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>net.oschina.j2cache</groupId>-->
+        <!--            <artifactId>j2cache-core</artifactId>-->
+        <!--            <version>2.7.8-release</version>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>org.slf4j</groupId>-->
+        <!--                    <artifactId>slf4j-simple</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
+
+        <!--        <dependency>-->
+        <!--            <groupId>com.alicp.jetcache</groupId>-->
+        <!--            <artifactId>jetcache-starter-redis-lettuce</artifactId>-->
+        <!--            <version>2.5.14</version>-->
+        <!--        </dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
