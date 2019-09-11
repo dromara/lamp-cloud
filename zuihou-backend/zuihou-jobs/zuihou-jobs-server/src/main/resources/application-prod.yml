@@ -1,7 +1,6 @@
 zuihou:
   ip:
     mysql: ${MYSQL_IP:192.168.0.9}
-    nginx: ${NGINX_IP:42.202.130.216}
     executor: ${EXECUTOR_IP:192.168.0.9}
   mysql:
     authority:

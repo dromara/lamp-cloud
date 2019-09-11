@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.api;
 
-import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.api.hystrix.AuthTokenApiHystrix;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.base.R;
@@ -26,8 +25,8 @@ public interface AuthTokenApi {
      * @param password
      * @return
      */
-    @RequestMapping(value = "/anno/token", method = RequestMethod.GET)
-    R<Token> token(@RequestParam("account") String account, @RequestParam("password") String password);
+//    @RequestMapping(value = "/anno/token", method = RequestMethod.GET)
+//    R<Token> token(@RequestParam("account") String account, @RequestParam("password") String password);
 
     /**
      * 登录接口

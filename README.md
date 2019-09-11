@@ -297,6 +297,25 @@ chown -R $USER:wheel /data/projects  # mac
     - java -jar -Dspring.profiles.active=dev zuihou-eureka.jar 
     - java -jar -Dspring.profiles.active=dev zuihou-jobs-server.jar  > /dev/null 2>&1 &  
 
+- 5， 启动完毕，就可以测试了。每个服务都能访问各自的swagger文档， 然后在网关有一个聚合文档（能看到所有服务的接口）。
+
+访问：  http://127.0.0.1:8760/api/gate/doc.html ，切换（左上角）到 `authority-权限模块`  -  `登录` - `登录` 输入账号密码(`zuihou/zuihou`) 用于生成token
+
+然后将token复制到 `Authorize` - 填到 token 的value 框， 保存后刷新一下页面， 然后调用其他接口即能正确传递token到后端。
+
+开发小技巧： 这里token 有一个默认值`test` ，用于开发环境测试时使用 （详见：TokenContextFilter）。
+
+```
+# 注意： swagger 文档 只能用谷歌浏览器打开！！！ 只能用谷歌浏览器打开！！！只能用谷歌浏览器打开！！！
+权限服务： http://127.0.0.1:8764/doc.html
+文件服务:  http://127.0.0.1:8765/doc.html
+消息服务： http://127.0.0.1:8768/doc.html
+网关：    http://127.0.0.1:8760/api/gate/doc.html
+定时：    http://127.0.0.1:8767/zuihou-jobs-server/toLogin
+```
+![swagger获取token.jpg](docs/image/项目相关/swagger获取token.jpg)
+![swagger获取token.jpg](docs/image/项目相关/swagger设置token.png)
+
 ## 端口号介绍 :
 
 | 服务 | 端口号 |
