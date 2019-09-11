@@ -3,8 +3,18 @@ zuihou:
     nacos: ${NACOS_PORT:8848}
   ip:
     nacos: ${NACOS_IP:127.0.0.1}
+    local: ${LOCAL_IP:${spring.cloud.client.ip-address}} # docker部署时，需要指定， 表示的运行该服务的宿主机IP
+  nacos:
+    namespace: ${NACOS_ID:b16f7baf-56e7-4f4e-a26c-425ee0668016}
+
+#j2cache:
+#  config-location: /j2cache.properties
+#  redis-client: lettuce
+#  open-spring-cache: true
 
 spring:
+  #  cache:
+  #    type: none
   main:
     allow-bean-definition-overriding: true
   application: # 只能配置在bootstrap.yml
@@ -16,17 +26,17 @@ spring:
       config:
         server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
         file-extension: yml
-        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        namespace: ${zuihou.nacos.namespace}
         shared-dataids: common.yml
         refreshable-dataids: common.yml
         enabled: true
       discovery:
         server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
-        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        namespace: ${zuihou.nacos.namespace}
         metadata:
           user.name: ${spring.security.user.name}
           user.password: ${spring.security.user.password}
-          swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
+          swagger: http://${zuihou.ip.local}:${server.port}/swagger-resources
           service.name: 权限服务
 
 # 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
@@ -44,3 +54,5 @@ info:
   version: '@project.version@'
   spring-boot-version: '@spring.boot.version@'
   spring-cloud-version: '@spring.cloud.version@'
+
+

@@ -1,4 +1,6 @@
 zuihou:
+  mysql:
+    database: zuihou_authority_dev
   swagger:
     enabled: true
     docket:
