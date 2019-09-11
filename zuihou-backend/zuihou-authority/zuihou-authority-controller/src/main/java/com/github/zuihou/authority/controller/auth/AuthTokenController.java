@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/anno")
-@Api(value = "UserAuthController", tags = "用户级别的token管理")
+@Api(value = "UserAuthController", tags = "登录")
 @Slf4j
 @RefreshScope
 public class AuthTokenController extends BaseController {

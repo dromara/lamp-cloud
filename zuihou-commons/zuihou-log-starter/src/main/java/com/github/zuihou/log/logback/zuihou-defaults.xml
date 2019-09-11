@@ -187,10 +187,10 @@
             <appender-ref ref="ASYNC_ROOT_APPENDER"/>
             <appender-ref ref="ASYNC_CONSOLE_APPENDER"/>
         </root>
-        <logger name="com.github.zuihou" additivity="true" level="WARN">
+        <logger name="com.github.zuihou" additivity="true" level="${log.level.console}">
             <appender-ref ref="ASYNC_PROJECT_APPENDER"/>
         </logger>
-        <logger name="com.github.zuihou.common.handler" additivity="true" level="WARN">
+        <logger name="com.github.zuihou.common.handler" additivity="true" level="${log.level.console}">
             <appender-ref ref="ASYNC_EXCEPTION_APPENDER"/>
         </logger>
     </springProfile>
@@ -200,10 +200,10 @@
             <appender-ref ref="CONSOLE_APPENDER"/>
             <appender-ref ref="ROOT_APPENDER"/>
         </root>
-        <logger name="com.github.zuihou" additivity="true" level="WARN">
+        <logger name="com.github.zuihou" additivity="true" level="${log.level.console}">
             <appender-ref ref="PROJECT_APPENDER"/>
         </logger>
-        <logger name="com.github.zuihou.common.handler" additivity="true" level="WARN">
+        <logger name="com.github.zuihou.common.handler" additivity="true" level="${log.level.console}">
             <appender-ref ref="EXCEPTION_APPENDER"/>
         </logger>
     </springProfile>
