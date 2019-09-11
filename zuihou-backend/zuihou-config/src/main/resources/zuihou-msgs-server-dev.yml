@@ -1,6 +1,4 @@
 zuihou:
-  port:
-    nginx: ${server.port}
   mysql:
     database: zuihou_msgs_dev
   #  feign:

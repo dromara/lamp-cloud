@@ -3,7 +3,6 @@ package com.github.zuihou.authority.dto.auth;
 import java.io.Serializable;
 
 import com.github.zuihou.auth.utils.Token;
-import com.github.zuihou.authority.entity.auth.User;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -29,6 +28,6 @@ import lombok.experimental.Accessors;
 @Builder
 @ApiModel(value = "LoginDTO", description = "登录信息")
 public class LoginDTO implements Serializable {
-    private User user;
+    private UserDTO user;
     private Token token;
 }

@@ -1,4 +1,6 @@
 zuihou:
+  mysql:
+    database: zuihou_msgs_dev
   swagger:
     enabled: true
     docket:

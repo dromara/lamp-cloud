@@ -5,8 +5,10 @@ import com.github.zuihou.auth.server.utils.JwtTokenServerUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
+import com.github.zuihou.authority.dto.auth.UserDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
 
@@ -26,13 +28,15 @@ public class AuthManager {
     private JwtTokenServerUtils jwtTokenServerUtils;
     @Autowired
     private UserService accountService;
+    @Autowired
+    private DozerUtils dozer;
 
 
     public LoginDTO login(String account, String password) {
         User user = getUser(account, password);
         Token token = getToken(user);
         log.info("account={}", account);
-        return LoginDTO.builder().user(user).token(token).build();
+        return LoginDTO.builder().user(dozer.map(user, UserDTO.class)).token(token).build();
     }
 
 

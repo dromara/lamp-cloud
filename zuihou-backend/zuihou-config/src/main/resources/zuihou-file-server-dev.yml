@@ -1,8 +1,4 @@
 zuihou:
-  ip:
-    nginx: 127.0.0.1
-  port:
-    nginx: 10000
   mysql:
     database: zuihou_file_dev
   file:
