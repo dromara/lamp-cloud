@@ -187,7 +187,7 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 - 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
 
 ## 小技巧
-- 多线程编译： `clean install -T8`
+- 多线程编译： `clean install -T8 -DskipTests=true`
 - mapper类上增加注解`@Repository`, 防止`IDEA`提示注入报错。
 - IDEA提示`@Autowired`注入失败时，可以用`@Resource` 防止`IDEA`提示注入报错。
 - IDEA提交代码时，勾选Reformat code、Rearrange code、Optimize imports, 让代码更整洁
