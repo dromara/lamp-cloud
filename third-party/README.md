@@ -4,6 +4,7 @@
 
 采用百度的Webupload.js + FileChunkController 实现的大文件/分片/续传功能
 
+
 ## Nacos
 详情参考： https://nacos.io/zh-cn/docs/quick-start.html
 
@@ -22,7 +23,7 @@ CREATE DATABASE `nacos_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ```
 - 导入 third-party/nacos/conf/nacos-mysql.sql
 
-### 修改配置：
+### 修改配置： 将third-party/nacos/conf/目录下的配置，直接覆盖到你自己下载的 nacos/conf目录即可
 vim third-party/nacos/conf/application.properties
 修改数据库配置
 ```
@@ -61,13 +62,15 @@ nacos/nacos
 ### 导入配置
 - 新建命名空间： zuihou， 并记下命名空间id： b16f7baf-56e7-4f4e-a26c-425ee0668016     ！！！
 ![nacos新建命名空间.jpg](../docs/image/启动配置/nacos新建命名空间.jpg)
-- 向命名空间(zuihou),导入zuihou-config/src/main/resources下的所有配置
-- 一个一个新建太累？试试导入配置: third-party/nacos/nacos_config_zuihou_export_2019-08-15_14_17_03.zip
-![nacos导入项目配置.jpg](../docs/image/启动配置/nacos导入项目配置.png)
-- 导入成功后，确定下命名空间： zuihou 下是否有14个配置  
+- 向命名空间(zuihou),导入 zuihou-config/src/main/resources下的所有配置
+- 一个一个新建太累？试试导入配置: third-party/nacos/nacos_config_seata_export_***.zip
+
+![nacos导入完成.jpg](../docs/image/启动配置/nacos导入完成.png)
+- 导入成功后，确定下命名空间： zuihou 下是否有15个配置  
 
 - 全文搜索将项目里面所有(bootstrap.yml、registry.conf) (这2个文件没在nacos里哈，是在每个项目(如：zuihou-demo-server)的src/main/resources下)使用了 b16f7baf-56e7-4f4e-a26c-425ee0668016 的地方，
 将其替换成自己新创建的命名空间ID！  （这一步很重要！）
+
 
 
 ## seata-server
@@ -94,21 +97,10 @@ CREATE DATABASE `seata` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ```
 - 导入 third-party/seata/conf/db_store.sql
 
-### 修改配置
+### 修改配置 将third-party/seata/conf/目录下的配置，直接覆盖到你自己下载的seata/conf目录即可
+
 cd third-party/seata/conf/
 
-- file.conf (`可选`):  
-```
-store {
-  mode = "db"
-  db {
-     datasource = "dbcp"
-     db-type = "mysql"
-     url = "jdbc:mysql://127.0.0.1:3306/seata"
-     user = "root"
-     password = "root"
-   }
-}
 ```
 - logback.xml: (`可选`)
 ```
@@ -158,7 +150,7 @@ nacos-config.py localhost
 ```
 cd third-party/seata/
 sh bin/seata-server.sh -p 8091 -h 192.168.1.34 -m db
-cmd bin/seata-server.cmd -p 8091 -h 192.168.0.9 -m db
+# cmd bin/seata-server.cmd -p 8091 -h 192.168.0.9 -m db
 参数解释： 
 -p 指定端口
 -h 指定ip，  需要修改成`自己的ip` ！！！
@@ -188,6 +180,7 @@ CREATE TABLE `undo_log` (
   KEY `idx_unionkey` (`xid`,`branch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+
 ### 启动项目验证分布式事务 
 1， 修改zuihou-order-server/zuihou-demo-server的bootstrap.yaml中的命名为空为 刚才新建的命名空间ID   ！！！
 ```
@@ -199,17 +192,7 @@ spring:
       discovery:
         namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
 ```
-
-2，file.conf:  
-修改规则： service.vgroup_mapping.${spring.cloud.alibaba.seata.tx-service-group} = default
-
-其中： spring.cloud.alibaba.seata.tx-service-group 在 common.yml 文件中指定了
-```
-service {
-    vgroup_mapping.zuihou_admin_seata_tx_group = "default"
-}
-```
-3，registry.conf
+2，修改项目下的 registry.conf
 ```
 registry {
   type = "nacos"
@@ -219,7 +202,6 @@ registry {
     cluster = "default"
   }
 }
-
 config {
   type = "nacos"
   nacos {
