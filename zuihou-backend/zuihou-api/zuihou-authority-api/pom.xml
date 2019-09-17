@@ -12,6 +12,8 @@
 
     <artifactId>zuihou-authority-api</artifactId>
 
+    <name>${project.artifactId}</name>
+    <description>权限api模块</description>
     <dependencies>
 
         <dependency>

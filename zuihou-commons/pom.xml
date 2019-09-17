@@ -12,7 +12,7 @@
     <artifactId>zuihou-commons</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
-    <description>公共包父pom</description>
+    <description>公共模块</description>
 
     <modules>
         <module>zuihou-core</module>

@@ -12,13 +12,14 @@
 
     <artifactId>zuihou-authority-server</artifactId>
     <name>${project.artifactId}</name>
-    <description>权限认证服务</description>
+    <description>权限认证服务启动模块</description>
 
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-controller</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>
@@ -130,20 +131,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <!-- 过滤后缀为pem、pfx的证书文件 -->
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>pem</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>key</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
-                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

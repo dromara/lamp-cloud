@@ -12,7 +12,7 @@
 
     <artifactId>zuihou-demo-server</artifactId>
     <name>${project.artifactId}</name>
-    <description>文件服务</description>
+    <description>演示服务启动模块</description>
 
     <dependencies>
         <dependency>
@@ -60,10 +60,10 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-core</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.jolokia</groupId>-->
+        <!--            <artifactId>jolokia-core</artifactId>-->
+        <!--        </dependency>-->
 
         <!-- spring boot -->
         <dependency>
@@ -121,20 +121,7 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <!-- 过滤后缀为pem、pfx的证书文件 -->
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>pem</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>key</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
-                </configuration>
-            </plugin>
+
         </plugins>
     </build>
 

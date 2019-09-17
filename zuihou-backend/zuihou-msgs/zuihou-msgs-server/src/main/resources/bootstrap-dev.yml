@@ -1,5 +1,0 @@
-spring:
-  application:
-    #    name: zuihou-msgs-server-zuihou     # 需要注册到其他人的eureka 进行调试时，可以在这里加一个后缀
-    name: zuihou-msgs-server
-

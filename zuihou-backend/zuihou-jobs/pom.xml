@@ -14,6 +14,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
+    <description>定时服务</description>
 
     <modules>
         <module>zuihou-jobs-api</module>

@@ -1,34 +1,41 @@
 zuihou:
-  port:
-    nacos: ${NACOS_PORT:8848}
-  ip:
-    nacos: ${NACOS_IP:127.0.0.1}
+  local-ip: ${LOCAL_IP:${spring.cloud.client.ip-address}}   # docker部署时，需要指定， 表示的运行该服务的宿主机IP
+  nacos:
+    ip: ${NACOS_IP:@pom.nacos.ip@}
+    port: ${NACOS_PORT:@pom.nacos.port@}
+    namespace: ${NACOS_ID:@pom.nacos.namespace@}
+
 
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: zuihou-gateway-server
+    name: @project.artifactId@
   profiles:
-    active: dev
+    active: @pom.profile.name@
   cloud:
     nacos:
       config:
-        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
+        server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
         file-extension: yml
-        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
-        shared-dataids: common.yml
+        namespace: ${zuihou.nacos.namespace}
+        shared-dataids: common.yml,redis.yml,mysql.yml
         refreshable-dataids: common.yml
         enabled: true
       discovery:
-        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
-        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
+        namespace: ${zuihou.nacos.namespace}
         metadata:
-          user.name: ${spring.security.user.name}
-          user.password: ${spring.security.user.password}
-          swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
+          management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
+          swagger: http://${zuihou.local-ip}:${server.port:}/swagger-resources
           service.name: 网关服务
 
 logging:
   path: /data/projects/logs
-  file: ${logging.path}/${spring.application.name}/root.log
+
+info:
+  name: "@project.name@"
+  description: "@project.description@"
+  version: "@project.version@"
+  spring-boot-version: "@spring.boot.version@"
+  spring-cloud-version: "@spring.cloud.version@"

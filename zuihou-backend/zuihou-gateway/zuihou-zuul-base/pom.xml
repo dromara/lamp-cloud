@@ -13,7 +13,7 @@
     <artifactId>zuihou-zuul-base</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>网关公共部分</description>
+    <description>网关公共模块</description>
 
     <dependencies>
         <dependency>

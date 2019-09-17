@@ -12,9 +12,14 @@
 
     <artifactId>zuihou-file-server</artifactId>
     <name>${project.artifactId}</name>
-    <description>文件服务</description>
+    <description>文件服务启动模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-file-controller</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>
@@ -23,12 +28,6 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-validator-starter</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-file-controller</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-xss-starter</artifactId>
@@ -58,17 +57,6 @@
             </exclusions>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.guava</groupId>-->
-        <!--            <artifactId>guava</artifactId>-->
-        <!--        </dependency>-->
-
-        <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-core</artifactId>
-        </dependency>
-
-        <!-- spring boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -96,30 +84,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- 持久化 -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.baomidou</groupId>-->
-        <!--            <artifactId>mybatis-plus-boot-starter</artifactId>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba</groupId>-->
-        <!--            <artifactId>druid-spring-boot-starter</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>mysql</groupId>-->
-        <!--            <artifactId>mysql-connector-java</artifactId>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
-        <!--            <optional>true</optional>-->
-        <!--            <scope>compile</scope>-->
-        <!--        </dependency>-->
-        <!-- api文档 -->
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
@@ -131,6 +95,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>com.github.zuihou</groupId>-->
         <!--            <artifactId>zuihou-generator</artifactId>-->
@@ -140,29 +105,13 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <!-- 过滤后缀为pem、pfx的证书文件 -->
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>pem</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>key</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
-                </configuration>
+                <!--                <configuration>-->
+                <!--                    <executable>true</executable>-->
+                <!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -12,7 +12,7 @@
 
     <artifactId>zuihou-authority</artifactId>
     <name>${project.artifactId}</name>
-    <description>后台管理业务系统服务</description>
+    <description>权限服务</description>
     <packaging>pom</packaging>
     <modules>
         <module>zuihou-authority-entity</module>

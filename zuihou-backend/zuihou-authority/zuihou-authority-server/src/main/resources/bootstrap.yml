@@ -1,53 +1,44 @@
+# @xxx@ 从pom.xml中取值, 所以 @xx@ 标注的值，都不能从nacos中获取
 zuihou:
-  port:
-    nacos: ${NACOS_PORT:8848}
-  ip:
-    nacos: ${NACOS_IP:127.0.0.1}
-    local: ${LOCAL_IP:${spring.cloud.client.ip-address}} # docker部署时，需要指定， 表示的运行该服务的宿主机IP
+  local-ip: ${LOCAL_IP:${spring.cloud.client.ip-address}}   # docker部署时，需要指定， 表示的运行该服务的宿主机IP
   nacos:
-    namespace: ${NACOS_ID:b16f7baf-56e7-4f4e-a26c-425ee0668016}
-
-#j2cache:
-#  config-location: /j2cache.properties
-#  redis-client: lettuce
-#  open-spring-cache: true
+    ip: ${NACOS_IP:@pom.nacos.ip@}
+    port: ${NACOS_PORT:@pom.nacos.port@}
+    namespace: ${NACOS_ID:@pom.nacos.namespace@}
 
 spring:
-  #  cache:
-  #    type: none
   main:
     allow-bean-definition-overriding: true
-  application: # 只能配置在bootstrap.yml
-    name: zuihou-authority-server
+  application:
+    name: @project.artifactId@
   profiles:
-    active: dev
+    active: @pom.profile.name@
   cloud:
     nacos:
       config:
-        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
+        server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
         file-extension: yml
         namespace: ${zuihou.nacos.namespace}
-        shared-dataids: common.yml
+        #支持多个共享 Data Id 的配置，多个之间用逗号隔开,多个共享配置间的一个优先级的关系我们约定：按照配置出现的先后顺序，即后面的优先级要高于前面
+        #Data Id 必须带文件扩展名，文件扩展名既可支持 properties，也可以支持 yaml/yml。 此时 spring.cloud.nacos.config.file-extension 的配置对自定义扩展配置的 Data Id 文件扩展名没有影响。
+        shared-dataids: common.yml,redis.yml,mysql.yml
+        #支持哪些共享配置的 Data Id 在配置变化时，应用中是否可动态刷新， 感知到最新的配置值，多个 Data Id 之间用逗号隔开。如果没有明确配置，默认情况下所有共享配置的 Data Id 都不支持动态刷新。‘
         refreshable-dataids: common.yml
         enabled: true
       discovery:
-        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
+        server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
         namespace: ${zuihou.nacos.namespace}
-        metadata:
-          user.name: ${spring.security.user.name}
-          user.password: ${spring.security.user.password}
-          swagger: http://${zuihou.ip.local}:${server.port}/swagger-resources
+        metadata: # 元数据，用于权限服务实时获取各个服务的所有接口
+          management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
+          swagger: http://${zuihou.local-ip}:${server.port:}/swagger-resources
           service.name: 权限服务
 
 # 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
+# window会自动在 代码所在盘 根目录下自动创建文件夹，  如： D:/data/projects/logs
 logging:
   path: /data/projects/logs
 
-server:
-  servlet:
-    context-path:
-  port: 8764
-
+# 用于/actuator/info
 info:
   name: '@project.name@'
   description: '@project.description@'

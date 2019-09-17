@@ -1,6 +1,5 @@
+# 在这里配置 权限服务 所有环境都能使用的配置
 zuihou:
-  mysql:
-    database: zuihou_authority_dev
   swagger:
     enabled: true
     docket:
@@ -17,11 +16,22 @@ zuihou:
         title: 通用模块
         base-package: com.github.zuihou.general.controller
 
-
-
 authentication:
   user:
     header-name: token
     expire: 43200               # 外部token有效期为12小时
     pri-key: client/pri.key    # 加密
     pub-key: client/pub.key    # 解密
+
+server:
+  servlet:
+    context-path: ${zuihou.swagger.enabled}
+  port: 8764
+
+#j2cache:
+#  config-location: /j2cache.properties
+#  redis-client: lettuce
+#  open-spring-cache: true
+#spring:
+#  cache:
+#    type: none

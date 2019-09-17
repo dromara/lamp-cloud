@@ -15,70 +15,12 @@
     <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>应用监控中心</description>
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/libs-milestone</url>
-        </repository>
-        <repository>
-            <id>oss</id>
-            <name>oss</name>
-            <url>https://oss.sonatype.org/content/groups/public</url>
-        </repository>
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-    <!--    <dependencyManagement>-->
-    <!--        <dependencies>-->
-    <!--            <dependency>-->
-    <!--                <groupId>org.springframework.cloud</groupId>-->
-    <!--                <artifactId>spring-cloud-dependencies</artifactId>-->
-    <!--                <version>${spring.cloud.version}</version>-->
-    <!--                <type>pom</type>-->
-    <!--                <scope>import</scope>-->
-    <!--            </dependency>-->
-    <!--            &lt;!&ndash;<dependency>&ndash;&gt;-->
-    <!--            &lt;!&ndash;<groupId>org.springframework.boot</groupId>&ndash;&gt;-->
-    <!--            &lt;!&ndash;<artifactId>spring-boot-dependencies</artifactId>&ndash;&gt;-->
-    <!--            &lt;!&ndash;<version>${spring.boot.version}</version>&ndash;&gt;-->
-    <!--            &lt;!&ndash;<type>pom</type>&ndash;&gt;-->
-    <!--            &lt;!&ndash;<scope>import</scope>&ndash;&gt;-->
-    <!--            &lt;!&ndash;</dependency>&ndash;&gt;-->
-    <!--            <dependency>-->
-    <!--                <groupId>org.springframework</groupId>-->
-    <!--                <artifactId>spring-framework-bom</artifactId>-->
-    <!--                <version>${spring.version}</version>-->
-    <!--                <type>pom</type>-->
-    <!--                <scope>import</scope>-->
-    <!--            </dependency>-->
-    <!--        </dependencies>-->
-    <!--    </dependencyManagement>-->
 
     <dependencies>
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>com.google.guava</groupId>-->
-        <!--                    <artifactId>guava</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.guava</groupId>-->
-        <!--            <artifactId>guava</artifactId>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>de.codecentric</groupId>

@@ -1,0 +1,14 @@
+# redis 通用配置， 不同的环境，需要配置不同的链接信息，只需要将这段信息复制到具体环境的配置文件中进行修改即可
+# 如：复制到zuihou-authority-server-dev.yml中将数据库名和ip改掉
+zuihou:
+  redis:
+    ip: 127.0.0.1
+    port: 16379
+    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
+
+# redis 通用配置
+spring:
+  redis:
+    host: ${zuihou.redis.ip}
+    password: ${zuihou.redis.password}
+    port: ${zuihou.redis.port}

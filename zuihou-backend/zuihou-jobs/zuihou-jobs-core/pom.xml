@@ -12,6 +12,8 @@
 
     <artifactId>zuihou-jobs-core</artifactId>
 
+    <name>${project.artifactId}</name>
+    <description>定时服务核心模块</description>
     <dependencies>
 
         <!-- xxl-rpc-core -->

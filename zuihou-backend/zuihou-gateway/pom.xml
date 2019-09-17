@@ -13,7 +13,7 @@
     <artifactId>zuihou-gateway</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
-    <description>API统一网关系统服务</description>
+    <description>网关服务</description>
 
     <modules>
         <!-- gateway还没调试正确，存在系列的问题-->
