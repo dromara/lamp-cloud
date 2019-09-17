@@ -8,17 +8,13 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>zuihou-msgs-server</artifactId>
-
     <name>${project.artifactId}</name>
-    <description>消息/短信/邮件服务</description>
+    <description>消息服务启动模块</description>
+
     <dependencies>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-sms-controller</artifactId>
@@ -27,6 +23,11 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-msgs-controller</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-authority-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>
@@ -93,6 +94,12 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+        </dependency>
+
+        <!-- 测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -109,20 +116,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <!-- 过滤后缀为pem、pfx的证书文件 -->
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>pem</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>key</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
-                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

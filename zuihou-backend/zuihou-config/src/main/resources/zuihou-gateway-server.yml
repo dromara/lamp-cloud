@@ -45,6 +45,10 @@ spring:
           filters:
             - StripPrefix=1
 
+server:
+  port: 8760
+  servlet:
+    context-path: /api  # = server.servlet.context-path
 
 authentication:
   user:

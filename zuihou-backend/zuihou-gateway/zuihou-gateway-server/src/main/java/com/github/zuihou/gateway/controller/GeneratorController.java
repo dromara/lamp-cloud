@@ -37,7 +37,7 @@ public class GeneratorController {
      * @throws Exception
      */
     @ApiOperation(value = "获取指定服务的swagger", notes = "获取当前系统所有数据字典和枚举")
-    @GetMapping("${server.servlet.context-path}/{service}/v2/{ext}")
+    @GetMapping("${server.servlet.context-path:}/{service}/v2/{ext}")
     public Rendering apiDocs(@PathVariable String service, @PathVariable String ext, String group) throws Exception {
         if (group == null) {
             group = "default";

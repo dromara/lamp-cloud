@@ -11,7 +11,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zuihou-jobs-server</artifactId>
-    <description>定时服务</description>
+    <name>${project.artifactId}</name>
+    <description>定时服务启动模块</description>
     <dependencies>
         <!-- xxl-job-core -->
         <dependency>

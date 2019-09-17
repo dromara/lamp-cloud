@@ -1,6 +1,4 @@
 zuihou:
-  mysql:
-    database: zuihou_msgs_dev
   swagger:
     enabled: true
     docket:
@@ -26,3 +24,8 @@ zuihou:
         keyPrefix: aaa
       test:
         timeToLive: 2h
+
+server:
+  servlet:
+    context-path:
+  port: 8768

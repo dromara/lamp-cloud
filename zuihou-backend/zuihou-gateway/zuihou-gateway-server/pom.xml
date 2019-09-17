@@ -12,7 +12,7 @@
 
     <artifactId>zuihou-gateway-server</artifactId>
     <name>${project.artifactId}</name>
-    <description>统一网关系统服务</description>
+    <description>网关服务启动模块</description>
 
     <dependencies>
         <!--        <dependency>-->

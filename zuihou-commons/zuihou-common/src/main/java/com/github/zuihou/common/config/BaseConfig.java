@@ -29,9 +29,12 @@ import com.github.zuihou.common.converter.String2DateConverter;
 import com.github.zuihou.common.converter.String2LocalDateConverter;
 import com.github.zuihou.common.converter.String2LocalDateTimeConverter;
 import com.github.zuihou.common.converter.String2LocalTimeConverter;
+import com.github.zuihou.common.undertow.UndertowServerFactoryCustomizer;
 import com.github.zuihou.utils.SpringUtil;
 
+import io.undertow.Undertow;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.ApplicationContext;
@@ -184,6 +187,13 @@ public abstract class BaseConfig {
     public SpringUtil springUtil(ApplicationContext applicationContext) {
         SpringUtil.setApplicationContext(applicationContext);
         return new SpringUtil();
+    }
+
+
+    @Bean
+    @ConditionalOnClass(Undertow.class)
+    public UndertowServerFactoryCustomizer getUndertowServerFactoryCustomizer() {
+        return new UndertowServerFactoryCustomizer();
     }
 
     /////////////////////////////////////////////以下是拦截器配置///////////////////////////////////////////////////////

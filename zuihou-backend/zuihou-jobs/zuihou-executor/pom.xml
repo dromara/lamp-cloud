@@ -11,7 +11,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zuihou-executor</artifactId>
+    <name>${project.artifactId}</name>
 
+    <description>定时服务执行器模块</description>
     <dependencies>
         <!-- xxl-job-core -->
         <dependency>

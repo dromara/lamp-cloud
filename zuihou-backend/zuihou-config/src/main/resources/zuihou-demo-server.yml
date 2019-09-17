@@ -4,3 +4,8 @@ zuihou:
       demo:
         title: 演示服务
         base-package: com.github.zuihou.demo.controller
+
+server:
+  servlet:
+    context-path:
+  port: 8770

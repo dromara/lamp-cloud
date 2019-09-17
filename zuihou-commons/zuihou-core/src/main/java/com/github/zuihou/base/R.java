@@ -1,15 +1,26 @@
 package com.github.zuihou.base;
 
+import java.util.Map;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
+import com.google.common.collect.Maps;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 
 /**
  * @author zuihou
  * @createTime 2017-12-13 10:55
  */
+@Getter
+@Setter
 @SuppressWarnings({"AlibabaClassNamingShouldBeCamel"})
+@Accessors(chain = true)
 public class R<T> {
     public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";
     public static final String HYSTRIX_ERROR_MESSAGE = "请求超时，请稍候再试";
@@ -24,17 +35,34 @@ public class R<T> {
     /**
      * 调用是否成功标识，0：成功，-1:系统繁忙，此时请开发者稍候再试 详情见[ExceptionCode]
      */
+    @ApiModelProperty(value = "响应编码:0/200-请求处理成功")
     private int code;
 
     /**
      * 调用结果
      */
+    @ApiModelProperty(value = "响应数据")
     private T data;
 
     /**
      * 结果消息，如果调用成功，消息通常为空T
      */
+    @ApiModelProperty(value = "提示消息")
     private String msg = "ok";
+
+    @ApiModelProperty(value = "请求路径")
+    private String path;
+    /**
+     * 附加数据
+     */
+    @ApiModelProperty(value = "附加数据")
+    private Map<String, Object> extra;
+
+    /**
+     * 响应时间
+     */
+    @ApiModelProperty(value = "响应时间戳")
+    private long timestamp = System.currentTimeMillis();
 
     private R() {
         super();
@@ -48,7 +76,6 @@ public class R<T> {
 
     public static <E> R<E> result(int code, E data, String msg) {
         return new R<>(code, data, msg);
-
     }
 
     /**
@@ -134,28 +161,13 @@ public class R<T> {
         return fail(TIMEOUT_CODE, HYSTRIX_ERROR_MESSAGE);
     }
 
-    public int getCode() {
-        return code;
-    }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public R<T> put(String key, Object value) {
+        if (this.extra == null) {
+            this.extra = Maps.newHashMap();
+        }
+        this.extra.put(key, value);
+        return this;
     }
 
     /**

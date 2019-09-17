@@ -12,7 +12,7 @@
 
     <artifactId>zuihou-file</artifactId>
     <name>${project.artifactId}</name>
-    <description>文件系统服务</description>
+    <description>文件服务</description>
 
     <packaging>pom</packaging>
     <modules>

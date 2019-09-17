@@ -8,28 +8,28 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>zuihou-msgs-controller</artifactId>
+    <name>${project.artifactId}</name>
+    <description>消息服务接口模块</description>
 
-    <description>消息服务接口</description>
     <dependencies>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-log-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-msgs-biz</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-user-starter</artifactId>
+            <artifactId>zuihou-authority-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-api</artifactId>
+            <artifactId>zuihou-log-starter</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-user-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>

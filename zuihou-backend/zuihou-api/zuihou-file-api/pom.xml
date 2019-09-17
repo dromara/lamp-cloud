@@ -11,6 +11,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zuihou-file-api</artifactId>
+    <name>${project.artifactId}</name>
+    <description>文件api模块</description>
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>

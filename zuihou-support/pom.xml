@@ -12,7 +12,7 @@
     <artifactId>zuihou-support</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
-    <description>支撑服务父pom, 对jar版本，仓库进行管理</description>
+    <description>支撑模块</description>
 
 
     <modules>

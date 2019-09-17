@@ -13,7 +13,7 @@
     <artifactId>zuihou-zuul-authentication</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>网关权限控制插件</description>
+    <description>网关权限控制模块</description>
 
     <dependencies>
         <dependency>
