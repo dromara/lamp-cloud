@@ -25,9 +25,11 @@ import com.google.common.collect.ImmutableMap;
 import cn.hutool.extra.servlet.ServletUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -81,12 +83,19 @@ public class GeneralController {
         return R.success(map);
     }
 
+    /**
+     * 测试网关熔断和超时，
+     *
+     * @param millis
+     * @param request
+     * @return
+     */
     @GetMapping("/test")
-    public R<Object> test(HttpServletRequest request) {
-
+    @SneakyThrows
+    public R<Object> test(@RequestParam(value = "millis", defaultValue = "29") Long millis, HttpServletRequest request) {
         String clientIP = ServletUtil.getClientIP(request);
         log.info("clientIP={}", clientIP);
-
+        Thread.sleep(millis);
         return R.success(clientIP);
     }
 }

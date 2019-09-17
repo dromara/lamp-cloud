@@ -21,7 +21,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +59,7 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
     }
 
     @Bean(name = "authorityDataSource")
-    public DataSource db1(@Value("${spring.profiles.active}") String profiles, @Qualifier("druidDataSource") DataSource dataSource) {
+    public DataSource db1(@Qualifier("druidDataSource") DataSource dataSource) {
         if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
             return new P6DataSource(dataSource);
         } else {

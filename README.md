@@ -13,7 +13,7 @@
 基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的微服务 脚手架，
 具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。
-核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Seata、Nacos、Sentinel
+核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Seata、Nacos、Sentinel、
 RibbitMQ、FastDFS等主要框架和中间件。
 
 希望能努力打造一套从 `基础框架` - `分布式微服务架构` - `持续集成` - `自动化部署` - `系统监测` 的解决方案。
@@ -204,32 +204,37 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     3，等待合并
     4，合并超过5次的朋友，直接拉为项目开发者
     
-## 环境须知：
-
-- nginx (文件下载、预览时需要使用)
-- mysql 5.7.9+
-- JDK8
-- IDE插件一个(Eclipse, IDEA都需要安装插件)，`lombok插件`
-
 ## 项目结构:
 
 ```
 ├─zuihou-admin-cloud
 │  │  
+│  ├─docs-------------------------------------文档
+│  │  
+│  ├─third-party-----------------------------第三方组件
+│  │  
 │  ├─zuihou-backend---------------------------后端服务
 │  |  ├─zuihou-api----------------------------常用API
-│  |  ├─zuihou-authority----------------------后端管理服务[正在开发]
-│  |  |  ├─zuihou-admin-biz-------------------后端管理业务/持久层
-│  |  |  ├─zuihou-admin-controller------------后端管理业务/持久层
-│  |  |  ├─zuihou-admin-server----------------后端管理服务
-│  |  ├─zuihou-file---------------------------文件模块服务[基本完善]
-│  |  ├─zuihou-msgs---------------------------消息模块服务[正在开发]
+│  |  ├─zuihou-authority----------------------权限服务[正在开发]
+│  |  |  ├─zuihou-admin-biz-------------------权限服务业务模块
+│  |  |  ├─zuihou-admin-controller------------权限服务接口模块
+│  |  |  ├─zuihou-admin-entity----------------权限服务实体模块
+│  |  |  ├─zuihou-admin-server----------------权限服务启动模块
+│  |  ├─zuihou-config-------------------------配置中心
+│  |  ├─zuihou-demo---------------------------演示服务
+│  |  ├─zuihou-file---------------------------文件模块服务[完成]
 │  |  ├─zuihou-gateway------------------------统一网关负载中心
-│  |  |  |─zuihou-gateway-ratelimit-----------网关限流插件[未开始]
-│  |  |  |─zuihou-gateway-server--------------项目网关服务[未开始]
+│  |  |  |─zuihou-gateway-server--------------gateway网关启动模块
+│  |  |  |─zuihou-zuul-authentication---------zuul网关权限控制模块
+│  |  |  |─zuihou-zuul-base-------------------zuul网关公共模块
+│  |  |  |─zuihou-zuul-ratelimit--------------zuul网关限流模块
+│  |  |  |─zuihou-zuul-server-----------------zuul网关启动模块
 │  |  ├─zuihou-jobs---------------------------定时任务调度执行器[完成]
+│  |  ├─zuihou-msgs---------------------------消息模块服务[完成]
+│  |  ├─zuihou-order--------------------------订单服务
 │  │ 
 │  ├─zuihou-commons--------------------------公共模块   
+│  |  ├─zuihou-cache-starter-----------------缓存模块
 │  |  ├─zuihou-common------------------------项目业务模块 （业务模块主要用于存放可能跟业务相关的公共代码）
 │  |  ├─zuihou-core--------------------------项目核心模块 （核心模块存放无业务逻辑的公共代码）
 │  |  ├─zuihou-databases---------------------项目数据源配置模块
@@ -245,44 +250,49 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 │  │ 
 │  ├─zuihou-dependencies----------------------项目顶级pom
 │  │ 
-│  ├─zuihou-frontend--------------------------项目前端【考虑废弃】
-│  |  ├─zuihou-manage-center------------------管理后台
-│  │
 │  ├─zuihou-support---------------------------服务模块
-│  |  ├─zuihou-eureka-------------------------注册中心[已开发]
+│  |  ├─zuihou-eureka-------------------------注册中心[已废弃]
 │  |  ├─zuihou-monitor------------------------spring-boot-admin监控中心[已开发]
-│  |  ├─zuihou-zipkin-------------------------zipkin分布式链路跟踪[已开发]
+│  |  ├─zuihou-zipkin-------------------------zipkin分布式链路跟踪[已废弃]
 │  │
 │  │-...
 ```
+
+## 环境须知：
+
+- nginx (文件下载、预览时需要使用)
+- mysql 5.7.9+
+- JDK8
+- IDE插件一个(Eclipse, IDEA都需要安装插件)，`lombok插件`
 
 
 ## 运行步骤: 
 - 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
     - docs/1_create_schema.sql                  # 创建数据库
-    - docs/sql/zuihou_authority_dev.sql       # 导入权限库表结构和数据
-    - docs/sql/c_common_area.sql                # 导入地区表结构和数据
+    - docs/sql/zuihou_authority_dev.sql         # 导入权限库表结构和数据  (文件名 就是库名)
+    - docs/sql/c_common_area.sql                # 向(zuihou_authority_dev库)导入地区表结构和数据  
     - docs/sql/zuihou_file_dev.sql              # 导入文件服务表结构和数据
     - docs/sql/zuihou_jobs_dev.sql              # 导入定时任务库表结构和数据
     - docs/sql/zuihou_msgs_dev.sql              # 导入消息服务表结构和数据    
     - docs/sql/zuihou_demo_dev.sql              # 导入demo服务表结构和数据     
 
-- 2, 在common.yml（zuihou-backend/zuihou-config/src/main/resources）文件修改配置数据库/redis/rabbitMQ等配置：
-- 2.1 将zuihou-backend/zuihou-config/src/main/resources下的所有配置文件，导入到nacos，具体操作看 third-party/README.md
-
-- 3.0 mac/linux 在启动项目之前先创建日志文件夹
+- 2, 启动 nacos，新增命名空间 - `zuihou`，并记录下自己新增的命名空间ID
+- 3，将该明空空间ID复制到项目： `zuihou-dependencies/pom.xml` - `<pom.nacos.namespace>你刚才复制的命名ID</pom.nacos.namespace>` ，同时在pom.xml中将nacos的ip和端口修改成自己的。
+- 4，在nacos中，点击`配置中心`- 切换到`zuihou` - 导入 zuihou-backend/zuihou-config/src/main/resources 下的所有文件，具体操作看 third-party/README.md
+- 5, 在nacos中修改 redis.yml、mysql.yml
+- 6, mac/linux 在启动项目之前先创建日志文件夹
 ```
-mkdir -p /data/projects
+mkdir -p /data/projects/logs
 
-chown -R $USER:$USER  # linux 
-chown -R $USER:wheel /data/projects  # mac  
+chown -R $USER:$USER /data/projects/logs     # linux 
+chown -R $USER:wheel /data/projects/logs     # mac  
 ```
-- 3.1 window 在项目启动前，在代码所在的盘创建：D:/data/projects。  如： D:/data/projects
-   
-- 3， 在IDE中启动，编译通过后按如下顺序启动：
+- 7， window 在项目启动前，在代码所在的盘创建：D:/data/projects。  如： D:/data/projects
+- 8，编译项目：` clean install -DskipTests=true -T8 -P dev -f pom.xml ` (这一步很重要，尤其是在IDEA中启动项目)
+- 9，在IDE中启动，编译通过后按如下顺序启动：
     - Nacos                 
+    - AuthorityApplication     
     - ZuulServerApplication   
-    - AuthorityApplication
     - FileServerApplication (可选)
     - MsgsServerApplication (可选)
     - JobsServerApplication (可选)
@@ -292,12 +302,7 @@ chown -R $USER:wheel /data/projects  # mac
     - DemoServerApplication (可选)
     - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-admin-ui?_blank)
 
-- 4， 命令行启动:
-    - 先cd 到各个服务的target目录，依次启动即可：
-    - java -jar -Dspring.profiles.active=dev zuihou-eureka.jar 
-    - java -jar -Dspring.profiles.active=dev zuihou-jobs-server.jar  > /dev/null 2>&1 &  
-
-- 5， 启动完毕，就可以测试了。每个服务都能访问各自的swagger文档， 然后在网关有一个聚合文档（能看到所有服务的接口）。
+- 10， 启动完毕，就可以测试了。每个服务都能访问各自的swagger文档， 然后在网关有一个聚合文档（能看到所有服务的接口）。
 
 访问：  http://127.0.0.1:8760/api/gate/doc.html ，切换（左上角）到 `authority-权限模块`  -  `登录` - `登录` 输入账号密码(`zuihou/zuihou`) 用于生成token
 

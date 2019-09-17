@@ -13,7 +13,7 @@
     <artifactId>zuihou-authority-controller</artifactId>
 
     <name>${project.artifactId}</name>
-
+    <description>权限服务接口模块</description>
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>

@@ -13,6 +13,6 @@
     <artifactId>zuihou-zuul-ratelimit</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>网关限流插件</description>
+    <description>网关限流模块</description>
 
 </project>

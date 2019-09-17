@@ -11,15 +11,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zuihou-file-controller</artifactId>
+    <name>${project.artifactId}</name>
+    <description>文件服务接口模块</description>
     <dependencies>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-log-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-user-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-file-biz</artifactId>
@@ -28,7 +22,13 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-api</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-log-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-user-starter</artifactId>
+        </dependency>
     </dependencies>
-
 </project>

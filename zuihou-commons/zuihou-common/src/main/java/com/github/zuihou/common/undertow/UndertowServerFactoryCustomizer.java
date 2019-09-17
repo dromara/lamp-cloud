@@ -1,4 +1,4 @@
-package com.github.zuihou.authority.config;
+package com.github.zuihou.common.undertow;
 
 import java.io.IOException;
 
@@ -15,6 +15,8 @@ import org.xnio.XnioWorker;
 
 /**
  * 设置Undertow服务器 XnioWorker Buffers
+ *
+ * 解决启动时警告：[io.undertow.websockets.jsr.handleDeployment:68] --> UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
  *
  * @author zuihou
  * @see <a>https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-programmatic-embedded-container-customization</a>

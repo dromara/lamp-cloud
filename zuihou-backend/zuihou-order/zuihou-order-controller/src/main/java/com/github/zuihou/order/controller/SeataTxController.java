@@ -48,7 +48,7 @@ public class SeataTxController extends BaseController {
         log.info("data={}", data);
         seataTestApi.save(data);
         Order entity = Order.builder()
-                .code(data.getName())
+                .code(data.getAbbreviation())
                 .name(data.getName())
                 .build();
         orderService.save(entity);
@@ -66,7 +66,7 @@ public class SeataTxController extends BaseController {
         seataTestApi.save(data);
         int i = 1 / 0;
         Order entity = Order.builder()
-                .code(data.getName())
+                .code(data.getAbbreviation())
                 .name(data.getName())
                 .build();
         orderService.save(entity);
@@ -84,9 +84,11 @@ public class SeataTxController extends BaseController {
         log.info("data={}", data);
         seataTestApi.save(data);
 
+        //在这里打断点可以看到 m_product 表的数据已经插入
+        //但等执行完整个方法，发现 m_product 数据被删除
         int i = 1 / 0;
         Order entity = Order.builder()
-                .code(data.getName())
+                .code(data.getAbbreviation())
                 .name(data.getName())
                 .build();
         orderService.save(entity);
@@ -106,7 +108,7 @@ public class SeataTxController extends BaseController {
         seataTestApi.saveEx(data);
 
         Order entity = Order.builder()
-                .code(data.getName())
+                .code(data.getAbbreviation())
                 .name(data.getName())
                 .build();
         orderService.save(entity);

@@ -6,6 +6,16 @@ zuihou:
   log:
     enabled: false
 
+spring:
+  mvc:
+    servlet:
+      path: /gate
+
+server:
+  port: 8760
+  servlet:
+    context-path: /api  # = server.servlet.context-path
+
 zuul:
   #  debug:
   #    request: true

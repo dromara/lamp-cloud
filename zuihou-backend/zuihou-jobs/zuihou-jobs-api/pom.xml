@@ -12,6 +12,8 @@
 
     <artifactId>zuihou-jobs-api</artifactId>
 
+    <name>${project.artifactId}</name>
+    <description>定时服务api接口模块</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
