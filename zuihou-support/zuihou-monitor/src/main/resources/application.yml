@@ -24,7 +24,7 @@ spring:
         endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
       turbine:
         clusters: default
-        location: http://${zuihou.ip.local}:${turbine.stream.port}${server.servlet.context-path}
+        location: http://${zuihou.local-ip}:${turbine.stream.port}${server.servlet.context-path}
   #      context-path: ${management.context-path}
   #      notify:
   #        mail:
