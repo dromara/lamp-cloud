@@ -26,8 +26,6 @@
     <springProperty scope="context" name="log.path" source="logging.path"/>
     <property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <property name="log.level.console" value="INFO"/>
-    <property name="log.level.service" value="WARN"/>
-    <property name="log.level.controller" value="INFO"/>
 
     <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
@@ -41,7 +39,7 @@
     </appender>
 
     <appender name="ROOT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/${spring.application.name}/root.log</file>
+        <file>${log.path}/root.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
             <fileNamePattern>${log.path}/${spring.application.name}/%d{yyyy-MM}/root-%d{yyyy-MM-dd}-%i.log.gz

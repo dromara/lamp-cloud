@@ -1,38 +1,36 @@
+#zuihou:
+#  ip:
+#    rabbitmq: ${RABBIT_IP:127.0.0.1}
+#    local: ${spring.cloud.client.ip-address:127.0.0.1}
+#    nacos: ${NACOS_IP:127.0.0.1}
+#  port:
+#    nacos: ${NACOS_PORT:8848}
+
 zuihou:
-  ip:
-    rabbitmq: ${RABBIT_IP:127.0.0.1}
-    nginx: ${NGINX_IP:127.0.0.1}
-    local: ${spring.cloud.client.ip-address:127.0.0.1}
-    nacos: ${NACOS_IP:127.0.0.1}
-  port:
-    nacos: ${NACOS_PORT:8848}
-    nginx: ${NGINX_PORT:80}
+  local-ip: ${LOCAL_IP:${spring.cloud.client.ip-address}}
+  nacos:
+    ip: ${NACOS_IP:@pom.nacos.ip@}
+    port: ${NACOS_PORT:@pom.nacos.port@}
+    namespace: ${NACOS_ID:@pom.nacos.namespace@}
 
 
 logging:
   file: ${logging.path}/${spring.application.name}/root.log
   path: /data/projects/logs
 
-
-server:
-  servlet:
-    context-path:
-  port: 8762
-
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: zuihou-monitor
+    name: @project.artifactId@
+  profiles:
+    active: @pom.profile.name@
   cloud:
     nacos:
       discovery:
-        server-addr: ${zuihou.ip.nacos}:${zuihou.port.nacos}
-        namespace: b16f7baf-56e7-4f4e-a26c-425ee0668016
+        server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
+        namespace: ${zuihou.nacos.namespace}
         metadata:
           user.name: ${spring.security.user.name}
           user.password: ${spring.security.user.password}
           management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
-          swagger: http://${spring.cloud.client.ip-address}:${server.port}/swagger-resources
-          service.name: 监控服务
-
