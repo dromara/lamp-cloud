@@ -55,15 +55,29 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         }
     }
 
-
+    /**
+     * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(...)
+     */
+//    LbqWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
+//               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments) {
+//        super.setEntity(entity);
+//        this.paramNameSeq = paramNameSeq;
+//        this.paramNameValuePairs = paramNameValuePairs;
+//        this.expression = mergeSegments;
+//        this.sqlSelect = sqlSelect;
+//        this.entityClass = entityClass;
+//    }
     LbqWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
-               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments) {
+               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
+               SharedString lastSql, SharedString sqlComment) {
         super.setEntity(entity);
         this.paramNameSeq = paramNameSeq;
         this.paramNameValuePairs = paramNameValuePairs;
         this.expression = mergeSegments;
         this.sqlSelect = sqlSelect;
         this.entityClass = entityClass;
+        this.lastSql = lastSql;
+        this.sqlComment = sqlComment;
     }
 
     public static <T> LbqWrapper<T> lambdaQuery() {
@@ -103,15 +117,6 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return target;
     }
 
-    @SafeVarargs
-    @Override
-    public final LbqWrapper<T> select(SFunction<T, ?>... columns) {
-        if (ArrayUtils.isNotEmpty(columns)) {
-            this.sqlSelect.setStringValue(columnsToString(false, columns));
-        }
-        return typedThis;
-    }
-
     @Override
     public LbqWrapper<T> select(Predicate<TableFieldInfo> predicate) {
         return select(entityClass, predicate);
@@ -129,9 +134,18 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return sqlSelect.getStringValue();
     }
 
+    /**
+     * SELECT 部分 SQL 设置
+     *
+     * @param columns 查询字段
+     */
+    @SafeVarargs
     @Override
-    protected LbqWrapper<T> instance() {
-        return new LbqWrapper<>(entity, entityClass, null, paramNameSeq, paramNameValuePairs, new MergeSegments());
+    public final LbqWrapper<T> select(SFunction<T, ?>... columns) {
+        if (ArrayUtils.isNotEmpty(columns)) {
+            this.sqlSelect.setStringValue(columnsToString(false, columns));
+        }
+        return typedThis;
     }
 
     @Override
@@ -364,6 +378,17 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
             return new BigDecimal(value);
         }
         return value;
+    }
+
+    /**
+     * 用于生成嵌套 sql
+     * <p>故 sqlSelect 不向下传递</p>
+     */
+    @Override
+    protected LbqWrapper<T> instance() {
+//        return new LbqWrapper<>(entity, entityClass, null, paramNameSeq, paramNameValuePairs, new MergeSegments());
+        return new LbqWrapper<>(entity, entityClass, null, paramNameSeq, paramNameValuePairs,
+                new MergeSegments(), SharedString.emptyString(), SharedString.emptyString());
     }
 
     /**
