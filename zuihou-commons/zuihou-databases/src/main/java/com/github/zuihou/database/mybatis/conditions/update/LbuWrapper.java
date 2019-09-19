@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
+import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.conditions.update.Update;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -43,26 +44,15 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
      * 不建议直接 new 该实例，使用 Wrappers.lambdaUpdate(...)
      */
     LbuWrapper(T entity, List<String> sqlSet, AtomicInteger paramNameSeq,
-               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments) {
+               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
+               SharedString lastSql, SharedString sqlComment) {
         super.setEntity(entity);
         this.sqlSet = sqlSet;
         this.paramNameSeq = paramNameSeq;
         this.paramNameValuePairs = paramNameValuePairs;
         this.expression = mergeSegments;
-    }
-
-    public static <T> LbuWrapper<T> lambdaUpdate() {
-        return new LbuWrapper<>();
-    }
-
-    /**
-     * 空值校验
-     * 传入空字符串("")时， 视为： 字段名 = ""
-     *
-     * @param val 参数值
-     */
-    private static boolean checkCondition(Object val) {
-        return val != null;
+        this.lastSql = lastSql;
+        this.sqlComment = sqlComment;
     }
 
     @Override
@@ -89,9 +79,14 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
         return String.join(StringPool.COMMA, sqlSet);
     }
 
-    @Override
-    protected LbuWrapper<T> instance() {
-        return new LbuWrapper<>(entity, sqlSet, paramNameSeq, paramNameValuePairs, new MergeSegments());
+    /**
+     * 空值校验
+     * 传入空字符串("")时， 视为： 字段名 = ""
+     *
+     * @param val 参数值
+     */
+    private static boolean checkCondition(Object val) {
+        return val != null;
     }
 
     @Override
@@ -153,5 +148,12 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
     public LbuWrapper<T> in(SFunction<T, ?> column, Object... values) {
         return super.in(values != null && values.length > 0, column, values);
     }
+
+    @Override
+    protected LbuWrapper<T> instance() {
+        return new LbuWrapper<>(entity, sqlSet, paramNameSeq, paramNameValuePairs, new MergeSegments(),
+                SharedString.emptyString(), SharedString.emptyString());
+    }
+
 
 }
