@@ -12,7 +12,7 @@ spring:
   application:
     name: @project.artifactId@
   profiles:
-    active: @pom.profile.name@
+    active: dev
   cloud:
     nacos:
       config:
