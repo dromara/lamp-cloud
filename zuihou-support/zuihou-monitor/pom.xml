@@ -10,9 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-monitor</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>应用监控中心</description>
 
