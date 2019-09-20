@@ -1,4 +1,4 @@
-package com.github.zuihou.monitor;
+package com.github.zuihou;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
