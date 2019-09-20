@@ -25,7 +25,6 @@
         <!-- 以下两个模块为测试模块 -->
         <module>zuihou-demo</module>
         <module>zuihou-order</module>
-        <module>zuihou-config</module>
     </modules>
     <dependencyManagement>
         <dependencies>
