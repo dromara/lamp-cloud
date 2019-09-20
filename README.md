@@ -259,7 +259,6 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 - JDK8
 - IDE插件一个(Eclipse, IDEA都需要安装插件)，`lombok插件`
 
-
 ## 运行步骤: 
 - 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
     - docs/1_create_schema.sql                  # 创建数据库
@@ -283,8 +282,9 @@ chown -R $USER:$USER /data/projects/logs     # linux
 chown -R $USER:wheel /data/projects/logs     # mac  
 ```
 - 7， window 在项目启动前，在代码所在的盘创建：D:/data/projects。  如： D:/data/projects
-- 8，编译项目：` clean install -DskipTests=true -T8 -P dev -f pom.xml ` (这一步很重要，尤其是在IDEA中启动项目)
-- 9，在IDE中启动，编译通过后按如下顺序启动：
+- 8 启动 nacos、 mysql、redis(可选)、rabbitmq(可选)
+- 9，编译项目：` clean install -DskipTests=true -T8 -P dev -f pom.xml ` (这一步很重要，尤其是在IDEA中启动项目)
+- 10，在IDE中启动，编译通过后按如下顺序启动：
     - Nacos                 
     - AuthorityApplication     
     - ZuulServerApplication   
@@ -298,7 +298,7 @@ chown -R $USER:wheel /data/projects/logs     # mac
     - DemoServerApplication (可选)
     - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-admin-ui?_blank)
 
-- 10， 启动完毕，就可以测试了。每个服务都能访问各自的swagger文档， 然后在网关有一个聚合文档（能看到所有服务的接口）。
+- 11， 启动完毕，就可以测试了。每个服务都能访问各自的swagger文档， 然后在网关有一个聚合文档（能看到所有服务的接口）。
 
 访问：  http://127.0.0.1:8760/api/gate/doc.html ，切换（左上角）到 `authority-权限模块`  -  `登录` - `登录` 输入账号密码(`zuihou/zuihou`) 用于生成token
 
