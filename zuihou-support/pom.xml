@@ -18,8 +18,9 @@
     <modules>
         <!-- 废弃eureka， 采用nacos作为注册/配置中心 -->
         <!--        <module>zuihou-eureka</module>-->
+
+        <!-- 监控和全链路调用监控 开发环境可以不用启动 -->
         <module>zuihou-monitor</module>
-        <!-- zipkin 项目暂时不维护 -->
         <module>zuihou-zipkin</module>
     </modules>
 
