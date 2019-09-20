@@ -36,6 +36,10 @@
             <artifactId>zuihou-demo-controller</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-zipkin-client-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
         </dependency>

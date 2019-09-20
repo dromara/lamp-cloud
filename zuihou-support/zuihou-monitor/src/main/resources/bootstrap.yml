@@ -1,22 +1,9 @@
-#zuihou:
-#  ip:
-#    rabbitmq: ${RABBIT_IP:127.0.0.1}
-#    local: ${spring.cloud.client.ip-address:127.0.0.1}
-#    nacos: ${NACOS_IP:127.0.0.1}
-#  port:
-#    nacos: ${NACOS_PORT:8848}
-
 zuihou:
   local-ip: ${LOCAL_IP:${spring.cloud.client.ip-address}}
   nacos:
     ip: ${NACOS_IP:@pom.nacos.ip@}
     port: ${NACOS_PORT:@pom.nacos.port@}
     namespace: ${NACOS_ID:@pom.nacos.namespace@}
-
-
-logging:
-  file: ${logging.path}/${spring.application.name}/root.log
-  path: /data/projects/logs
 
 spring:
   main:
@@ -27,6 +14,12 @@ spring:
     active: @pom.profile.name@
   cloud:
     nacos:
+      config:
+        server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
+        file-extension: yml
+        namespace: ${zuihou.nacos.namespace}
+        shared-dataids: common.yml,rabbitmq.yml
+        refreshable-dataids: common.yml
       discovery:
         server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
         namespace: ${zuihou.nacos.namespace}
@@ -34,3 +27,14 @@ spring:
           user.name: ${spring.security.user.name}
           user.password: ${spring.security.user.password}
           management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
+
+logging:
+  file: ${logging.path}/${spring.application.name}/root.log
+  path: /data/projects/logs
+
+info:
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  spring-boot-version: '@spring.boot.version@'
+  spring-cloud-version: '@spring.cloud.version@'

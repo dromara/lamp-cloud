@@ -44,7 +44,6 @@
                 <artifactId>zuihou-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-databases</artifactId>
@@ -98,6 +97,11 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-openfeign-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-zipkin-client-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

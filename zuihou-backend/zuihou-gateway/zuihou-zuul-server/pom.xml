@@ -23,11 +23,15 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-log-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-jwt-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-zipkin-client-starter</artifactId>
+        </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>com.github.zuihou</groupId>-->
         <!--            <artifactId>zuihou-gateway-ratelimit</artifactId>-->
