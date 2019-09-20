@@ -21,6 +21,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>zuihou-config</artifactId>
+            <groupId>com.github.zuihou</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
         </dependency>
@@ -48,7 +54,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-zipkin-client-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.cloud</groupId>-->

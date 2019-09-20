@@ -29,7 +29,7 @@ store.file.session.reload.read_size=100
 store.db.datasource=dbcp
 store.db.db-type=mysql
 store.db.driver-class-name=com.mysql.jdbc.Driver
-store.db.url=jdbc:mysql://127.0.0.1:3306/seata?useUnicode=true
+store.db.url=jdbc:mysql://127.0.0.1:3306/zuihou_seata?useUnicode=true
 store.db.user=root
 store.db.password=root
 store.db.min-conn=1

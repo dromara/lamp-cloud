@@ -29,6 +29,7 @@
         <module>zuihou-openfeign-starter</module>
         <module>zuihou-redis-starter</module>
         <module>zuihou-cache-starter</module>
+        <module>zuihou-zipkin-client-starter</module>
     </modules>
 
 

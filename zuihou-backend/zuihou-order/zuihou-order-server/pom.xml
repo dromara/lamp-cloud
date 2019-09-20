@@ -33,9 +33,13 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-order-controller</artifactId>
+            <artifactId>zuihou-zipkin-client-starter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-order-controller</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>

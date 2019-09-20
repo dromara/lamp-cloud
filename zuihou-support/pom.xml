@@ -20,7 +20,7 @@
         <!--        <module>zuihou-eureka</module>-->
         <module>zuihou-monitor</module>
         <!-- zipkin 项目暂时不维护 -->
-        <!--<module>zuihou-zipkin</module>-->
+        <module>zuihou-zipkin</module>
     </modules>
 
 </project>
