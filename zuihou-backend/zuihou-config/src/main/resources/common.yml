@@ -1,5 +1,10 @@
 # 在这里配置 所有的服务 和 所有环境 都相同的配置
 # 如果有个别服务，或者个别环境需要个性化配置， 只需要将配置，单独复制到指定的服务-${profiles.active}.yml即可
+
+zuihou:
+  zipkin:
+    enabled: false
+
 server:
   undertow: # jetty  undertow
     io-threads: 8 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
@@ -8,6 +13,20 @@ server:
     direct-buffers: true  # 是否分配的直接内存
 
 spring:
+  zipkin:
+    enabled: ${zuihou.zipkin.enabled}
+    compression: # 压缩
+      enabled: true
+    locator: # 通过nacos动态获取地址
+      discovery:
+        enabled: true
+    rabbitmq: # 使用指定的队列
+      queue: zuihou_zipkin
+  #被追踪的可能性，默认是0.1 表示百分之10
+  sleuth:
+    enabled: ${zuihou.zipkin.enabled}
+    sampler:
+      probability: 1.0
   cloud:
     alibaba:
       seata:

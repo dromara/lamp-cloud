@@ -58,15 +58,6 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     /**
      * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(...)
      */
-//    LbqWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
-//               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments) {
-//        super.setEntity(entity);
-//        this.paramNameSeq = paramNameSeq;
-//        this.paramNameValuePairs = paramNameValuePairs;
-//        this.expression = mergeSegments;
-//        this.sqlSelect = sqlSelect;
-//        this.entityClass = entityClass;
-//    }
     LbqWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
                Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
                SharedString lastSql, SharedString sqlComment) {
