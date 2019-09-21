@@ -17,20 +17,24 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-log-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-user-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-order-biz</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-api</artifactId>
         </dependency>
+
+        <!-- 操作日志需要在Controller方法上标注注解 -->
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-log-starter</artifactId>
+        </dependency>
+        <!-- 注入当前登录人信息 需要在Controller方法参数上写注解和实体类 -->
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-user-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
