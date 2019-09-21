@@ -10,7 +10,6 @@ import com.github.zuihou.user.annotation.LoginUser;
 import com.github.zuihou.user.model.SysUser;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperationSupport;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,7 +77,6 @@ public class TestController extends BaseController {
         return success(data);
     }
 
-    @ApiOperationSupport(ignoreParameters = {"id", "list.id"})
     @PostMapping("post6")
     public R<EnumDTO> post6(@RequestBody EnumDTO data) throws Exception {
 
@@ -86,14 +84,12 @@ public class TestController extends BaseController {
     }
 
 
-    @ApiOperationSupport(ignoreParameters = {"id", "producttt.id"})
     @PostMapping("post7")
     public R<User> post7(@RequestBody(required = false) User data) throws Exception {
 
         return success(data);
     }
 
-    @ApiOperationSupport(ignoreParameters = {"id", "producttt.id"})
     @PostMapping("post8")
     public R<Resource> post8(@RequestBody(required = false) Resource data) throws Exception {
 
