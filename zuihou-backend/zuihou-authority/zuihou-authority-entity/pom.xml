@@ -36,6 +36,8 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
         </dependency>
+
+        <!-- Role 中字段的类型需要使用 DataScopeType -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-databases</artifactId>

@@ -17,17 +17,17 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-msgs-entity</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-databases</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-dozer-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-msgs-entity</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -36,11 +36,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-commons</artifactId>
         </dependency>
 
     </dependencies>

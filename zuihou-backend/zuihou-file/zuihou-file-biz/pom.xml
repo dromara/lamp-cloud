@@ -18,6 +18,7 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-file-entity</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-databases</artifactId>
@@ -31,6 +32,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- @RefreshScope 需要使用 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
@@ -57,10 +59,6 @@
             <artifactId>fastdfs-client</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>commons-codec</groupId>-->
-        <!--            <artifactId>commons-codec</artifactId>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
