@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.zuul.filters.Route;
-import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_DECORATION_FILTER_ORDER;
@@ -74,10 +73,10 @@ public class MultiVersionServerSupportFilter extends BaseFilter {
 
     @Override
     public boolean shouldFilter() {
-        RequestContext ctx = RequestContext.getCurrentContext();
+//        RequestContext ctx = RequestContext.getCurrentContext();
         boolean flag =
-                !ctx.containsKey(FilterConstants.FORWARD_TO_KEY) &&
-                        !ctx.containsKey(SERVICE_ID_KEY) &&
+//                !ctx.containsKey(FilterConstants.FORWARD_TO_KEY) &&
+//                        !ctx.containsKey(SERVICE_ID_KEY) &&
                         !StrPool.PROD.equalsIgnoreCase(profiles);
         return flag;
     }

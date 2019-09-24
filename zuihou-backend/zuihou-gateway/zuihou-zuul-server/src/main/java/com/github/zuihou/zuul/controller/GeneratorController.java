@@ -40,7 +40,13 @@ public class GeneratorController {
     private DictionaryItemApi dictionaryItemApi;
 
     /**
-     * 解决swagger-bootstrap-ui的一个bug
+     * 解决swagger-bootstrap-ui的一个bug：
+     *
+     * 将swagger发起的请求：
+     * http://127.0.0.1:8760/api/gate/api/authority/v2/api-docs?group=%E5%85%AC%E5%85%B1%E6%A8%A1%E5%9D%97
+     * 从定向到：
+     * http://127.0.0.1:8760/api/authority/v2/api-docs?group=%E5%85%AC%E5%85%B1%E6%A8%A1%E5%9D%97
+     *
      * <p>
      * 有个前提： nginx的端口要和访问端口一致，否则重定向出错
      *
