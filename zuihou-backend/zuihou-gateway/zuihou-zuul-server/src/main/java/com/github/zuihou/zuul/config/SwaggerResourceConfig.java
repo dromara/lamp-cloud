@@ -48,6 +48,11 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
     @Value("${server.servlet.context-path:/api}")
     private String contextPath;
 
+    /**
+     * 每次访问 http://localhost:8670/api/gate/doc.html 会调用该方法
+     *
+     * @return
+     */
     @Override
     public List<SwaggerResource> get() {
         String url = "/swagger-resources";
@@ -61,6 +66,8 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                 continue;
             }
             try {
+                // 通过 restTemplate 远程调用各个服务的 /swagger-resources 地址。获取各个服务的swagger配置
+                // 访问地址： http://zuihou-test-server/swagger-resources  （其中 zuihou-test-server 必须是服务的注册到nacos中的名称，否则无法调用成功 ）
                 JSONArray list = restTemplate.getForObject("http://" + route.getLocation() + url, JSONArray.class);
                 if (!list.isEmpty()) {
                     for (int i = 0; i < list.size(); i++) {
