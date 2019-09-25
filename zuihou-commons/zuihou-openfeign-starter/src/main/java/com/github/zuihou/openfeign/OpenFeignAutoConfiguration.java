@@ -2,6 +2,9 @@ package com.github.zuihou.openfeign;
 
 import java.util.List;
 
+import com.github.zuihou.openfeign.hystrix.ThreadLocalHystrixConcurrencyStrategy;
+import com.github.zuihou.openfeign.interceptor.FeignAddHeaderRequestInterceptor;
+
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 import org.springframework.beans.factory.ObjectFactory;
@@ -39,4 +42,25 @@ public class OpenFeignAutoConfiguration {
         ObjectFactory<HttpMessageConverters> factory = () -> new HttpMessageConverters(converters);
         return new SpringFormEncoder(new SpringEncoder(factory));
     }
+
+    /**
+     * feign client 请求头传播
+     *
+     * @return
+     */
+    @Bean
+    public FeignAddHeaderRequestInterceptor getClientTokenInterceptor() {
+        return new FeignAddHeaderRequestInterceptor();
+    }
+
+    /**
+     * 本地线程 Hystrix并发策略
+     *
+     * @return
+     */
+    @Bean
+    public ThreadLocalHystrixConcurrencyStrategy getThreadLocalHystrixConcurrencyStrategy() {
+        return new ThreadLocalHystrixConcurrencyStrategy();
+    }
+
 }
