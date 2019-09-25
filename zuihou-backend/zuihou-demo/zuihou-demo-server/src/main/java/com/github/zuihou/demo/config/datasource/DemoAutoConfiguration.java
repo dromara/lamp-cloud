@@ -68,18 +68,18 @@ public class DemoAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "txdemo")
     @Primary
-    public DataSourceTransactionManager demoTransactionManager(DataSourceProxy dataSourceProxy) {
-        return new DataSourceTransactionManager(dataSourceProxy);
+    public DataSourceTransactionManager demoTransactionManager(DataSourceProxy dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean("demoSqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("demoGlobalConfig") GlobalConfig globalConfig,
                                                @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler,
-                                               DataSourceProxy dataSourceProxy
+                                               DataSourceProxy dataSource
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(dataSourceProxy);
+        sqlSessionFactory.setDataSource(dataSource);
         return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
                 new String[]{"classpath:mapper_demo/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
     }
