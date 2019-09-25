@@ -31,12 +31,23 @@
             </exclusions>
         </dependency>
 
-        <!-- 线程之间 传递参数 -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>transmittable-thread-local</artifactId>
-            <version>2.11.0</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <!-- 线程之间 传递参数 -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba</groupId>-->
+        <!--            <artifactId>transmittable-thread-local</artifactId>-->
+        <!--            <version>2.11.0</version>-->
+        <!--        </dependency>-->
 
         <!-- 必须有这个jar 才能提示 -->
         <dependency>

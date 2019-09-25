@@ -19,5 +19,11 @@ public class ApplicationLoggerInitializer implements ApplicationContextInitializ
         String appName = environment.getProperty("spring.application.name");
         // spring boot admin 直接加载日志
         System.setProperty("logging.file", String.format("%s/%s/root.log", logBase, appName));
+
+        // nacos的日志文件路径
+        System.setProperty("nacos.logging.path", String.format("%s/%s", logBase, appName));
+        //这里设置了无效，跟启动时，传递 -Dcom.alibaba.nacos.naming.log.level=warn 一样，可能是nacos的bug
+//        System.setProperty("com.alibaba.nacos.naming.log.level", "warn");
+//        System.setProperty("com.alibaba.nacos.config.log.level", "info");
     }
 }
