@@ -29,23 +29,6 @@ spring:
           swagger: http://${zuihou.local-ip}:${server.port:}/swagger-resources
           service.name: 网关服务
 
-  #链路服务的地址
-  zipkin:
-    #    base-url: http://localhost:8080
-    rabbitmq:
-      queue: zuihou_zipkin
-  #被追踪的可能性，默认是0.1 表示百分之10
-  sleuth:
-    sampler:
-      probability: 1.0
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: zuihou
-    password: zuihou
-    listener:
-      type: direct # simple direct
-
 logging:
   path: /data/projects/logs
 
