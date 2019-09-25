@@ -58,7 +58,7 @@ public class BodyValidateController {
 
     @PostMapping("/post6")
     public String bodyPost6(@Validated @RequestBody ValidatorDTO data) {
-        return "类上没有 Validated，方法上有@Validated， 参数有 Valid  不行";
+        return "类上没有 Validated，方法上有@Validated， 可以";
     }
 
     @PostMapping("/post62")

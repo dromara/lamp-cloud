@@ -68,17 +68,17 @@ public class OrderAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "txorder")
     @Primary
-    public DataSourceTransactionManager orderTransactionManager(DataSourceProxy dataSourceProxy) {
-        return new DataSourceTransactionManager(dataSourceProxy);
+    public DataSourceTransactionManager orderTransactionManager(DataSourceProxy dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean("orderSqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("orderGlobalConfig") GlobalConfig globalConfig,
                                                @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler,
-                                               DataSourceProxy dataSourceProxy) throws Exception {
+                                               DataSourceProxy dataSource) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(dataSourceProxy);
+        sqlSessionFactory.setDataSource(dataSource);
         return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
                 new String[]{"classpath:mapper_order/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
     }
