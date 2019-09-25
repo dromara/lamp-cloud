@@ -88,12 +88,12 @@ public class FormValidatorController {
 
     /**
      * 支持第一种拉取方式
+     *  注意： 具体的方法必须在参数上面标注 @Validated 才有效
      *
      * @param request
      * @return
      * @throws Exception
      */
-
     @RequestMapping(FORM_VALIDATOR_URL + "/**")
     @ResponseBody
     public Collection<FieldValidatorDesc> standardByPathVar(HttpServletRequest request) throws Exception {
