@@ -11,15 +11,13 @@ import cn.hutool.core.io.FileUtil;
  * @date 2019/07/31
  */
 public class RsaKeyHelperTest {
-
-
     /***
      * 生成自己的 秘钥/公钥 对
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        //自定义 随机密码
+        //自定义 随机密码,  请修改这里
         String password = "zuihou!@#$%^&*()_+";
 
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");

@@ -29,7 +29,7 @@ public class BaseContextHandler {
         map.put(key, value == null ? "" : value);
     }
 
-    private static Map<String, String> getLocalMap() {
+    public static Map<String, String> getLocalMap() {
         Map<String, String> map = THREAD_LOCAL.get();
         if (map == null) {
             map = new HashMap<>(10);
@@ -37,6 +37,11 @@ public class BaseContextHandler {
         }
         return map;
     }
+
+    public static void setLocalMap(Map<String, String> threadLocalMap) {
+        THREAD_LOCAL.set(threadLocalMap);
+    }
+
 
     public static String get(String key) {
         Map<String, String> map = getLocalMap();
