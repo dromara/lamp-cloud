@@ -21,6 +21,6 @@ set "PATH=%JAVA_HOME%\bin;%PATH%"
 
 echo killing zuihou %MODULER% server
 
-for /f "tokens=1" %%i in ('jps -m ^| find "zuihou-%MODULER%-server"') do ( taskkill /F /PID %%i )
+for /f "tokens=1" %%i in ('jps -m ^| find "zuihou-%MODULER%"') do ( taskkill /F /PID %%i )
 
 echo Done!

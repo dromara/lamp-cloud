@@ -1,2 +1,2 @@
-call shutdown.bat zuul
-call start.bat zuul
+call shutdown.bat zuul-server
+call start.bat zuul-server

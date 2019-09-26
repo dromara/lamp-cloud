@@ -6,6 +6,4 @@ zuihou:
         base-package: com.github.zuihou.demo.controller
 
 server:
-  servlet:
-    context-path:
   port: 8770

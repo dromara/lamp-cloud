@@ -26,6 +26,4 @@ zuihou:
         timeToLive: 2h
 
 server:
-  servlet:
-    context-path:
   port: 8768

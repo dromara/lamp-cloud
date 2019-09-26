@@ -1,2 +1,2 @@
-call shutdown.bat authority
-call start.bat authority
+call shutdown.bat authority-server
+call start.bat authority-server
