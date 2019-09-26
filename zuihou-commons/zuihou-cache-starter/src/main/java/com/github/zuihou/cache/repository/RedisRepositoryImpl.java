@@ -3,6 +3,7 @@ package com.github.zuihou.cache.repository;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.function.Function;
 import com.github.zuihou.cache.utils.RedisObjectSerializer;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -164,12 +166,21 @@ public class RedisRepositoryImpl implements CacheRepository {
 
     /**
      * 查询在这个时间段内即将过期的key
+     * 注意：
+     * 在服务器上执行 keys 命令是非常耗时的， 在使用该方法前，请三思!!!
+     * 在服务器上执行 keys ** 命令是非常恐怖的，禁止执行!!!
      *
      * @param key  the key
      * @param time the time
      * @return the list
      */
     public List<String> willExpire(final String key, final long time) {
+        if (StrUtil.isEmpty(key)) {
+            return Collections.emptyList();
+        }
+        if ("*".equals(key.trim())) {
+            throw new IllegalArgumentException("禁止模糊查询所有的key");
+        }
         final List<String> keysList = new ArrayList<>();
         redisTemplate.execute((RedisCallback<List<String>>) connection -> {
             Set<String> keys = redisTemplate.keys(key + "*");
@@ -187,11 +198,20 @@ public class RedisRepositoryImpl implements CacheRepository {
 
     /**
      * 查询在以keyPatten的所有  key
+     * 注意：
+     * 在服务器上执行 keys 命令是非常耗时的， 在使用该方法前，请三思!!!
+     * 在服务器上执行 keys ** 命令是非常恐怖的，禁止执行!!!
      *
      * @param keyPatten the key patten
      * @return the set
      */
     public Set<String> keys(final String keyPatten) {
+        if (StrUtil.isEmpty(keyPatten)) {
+            return Collections.emptySet();
+        }
+        if ("*".equals(keyPatten.trim())) {
+            throw new IllegalArgumentException("禁止模糊查询所有的key");
+        }
         return redisTemplate.execute((RedisCallback<Set<String>>) connection -> redisTemplate.keys(keyPatten + "*"));
     }
 

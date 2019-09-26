@@ -1,2 +1,2 @@
-call shutdown.bat msgs
-call start.bat msgs
+call shutdown.bat msgs-server
+call start.bat msgs-server

@@ -24,8 +24,6 @@ authentication:
     pub-key: client/pub.key    # 解密
 
 server:
-  servlet:
-    context-path: ${zuihou.swagger.enabled}
   port: 8764
 
 #j2cache:

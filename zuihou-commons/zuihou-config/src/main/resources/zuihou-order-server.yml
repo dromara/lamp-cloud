@@ -6,6 +6,4 @@ zuihou:
         base-package: com.github.zuihou.order.controller
 
 server:
-  servlet:
-    context-path:
   port: 8769

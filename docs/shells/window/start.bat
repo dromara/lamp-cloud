@@ -1,4 +1,4 @@
-@echo off 
+@echo off
 
 set MODULER=%1
 
@@ -8,4 +8,5 @@ set "JAVA_OPT=-server -Xms256M -Xmx256M -Xss512k -XX:MetaspaceSize=64M -XX:MaxMe
 
 echo %JAVA_OPT%
 
-START "%MODULER%" javaw.exe %JAVA_OPT% -Dspring.profiles.active=prod -jar zuihou-%MODULER%-server.jar zuihou-%MODULER%-server 
+START "%MODULER%" javaw.exe %JAVA_OPT% -Dspring.profiles.active=prod -jar zuihou-%MODULER%.jar zuihou-%MODULER%
+
