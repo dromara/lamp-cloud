@@ -17,7 +17,7 @@ zipkin:
     sample-rate: ${COLLECTOR_SAMPLE_RATE:1.0}
     http:
       # 禁用http方式采集
-      enabled: ${HTTP_COLLECTOR_ENABLED:false}
+      enabled: ${HTTP_COLLECTOR_ENABLED:true}
     # 使用异步采集
     rabbitmq:
       addresses: ${zuihou.rabbitmq.ip}:${zuihou.rabbitmq.port}

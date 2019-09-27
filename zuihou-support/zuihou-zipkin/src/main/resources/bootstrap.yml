@@ -40,4 +40,3 @@ info:
   spring-cloud-version: '@spring.cloud.version@'
   zipkin:
     version: '@zipkin.version@'
-

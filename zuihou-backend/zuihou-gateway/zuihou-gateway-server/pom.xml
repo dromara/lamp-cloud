@@ -145,18 +145,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
+            <!-- docker打包插件 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-plugin.version}</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
-                    <!-- 过滤后缀为pem、pfx的证书文件 -->
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>pem</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>key</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
+                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                    <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>
