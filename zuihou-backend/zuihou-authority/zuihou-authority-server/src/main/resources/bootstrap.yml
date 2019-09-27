@@ -32,6 +32,18 @@ spring:
           management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
           swagger: http://${zuihou.local-ip}:${server.port:}/swagger-resources
           service.name: 权限服务
+#  zipkin:
+#    sender:
+#      type: RABBIT  # RABBIT, KAFKA, WEB
+#    baseUrl: http://127.0.0.1:8772/
+#    enabled: ${zuihou.zipkin.enabled}
+#    compression: # 压缩
+#      enabled: true
+#    locator: # 通过nacos动态获取地址
+#      discovery:
+#        enabled: true
+#    rabbitmq: # 使用指定的队列
+#      queue: zuihou_zipkin
 
 # 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
 # window会自动在 代码所在盘 根目录下自动创建文件夹，  如： D:/data/projects/logs
