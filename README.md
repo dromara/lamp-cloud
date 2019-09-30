@@ -25,6 +25,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！
 ## 如果您从这个项目学到了一些技巧，请帮忙发送项目地址给您的好基友，谢谢~😁
 
+## 文档:
+https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+
 master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的代码，移步到 https://gitee.com/zuihou111/zuihou-admin-cloud ，选择 `Greenwich-Eureka` 分支（不在提供升级和维护）。
 
 ## 交流群： 63202894

@@ -32,11 +32,11 @@ public class FileServerProperties {
     /**
      * 文件访问前缀
      */
-    private String uriPrefix = "http://127.0.0.1:10086/";
+    private String uriPrefix = "http://127.0.0.1:10000/";
     /**
      * 文件存储路径
      */
-    private String storagePath = "/projects/uploadfile/file/";
+    private String storagePath = "/data/projects/uploadfile/file/";
     /**
      * 内网通道前缀 主要用于解决某些服务器的无法访问外网ip的问题
      */
