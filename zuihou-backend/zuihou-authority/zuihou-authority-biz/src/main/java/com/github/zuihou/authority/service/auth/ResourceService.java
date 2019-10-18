@@ -24,4 +24,46 @@ public interface ResourceService extends IService<Resource> {
      * @return
      */
     List<Resource> findVisibleResource(ResourceQueryDTO resource);
+
+    /**
+     * 根据ID查
+     *
+     * @param id 主键
+     * @return
+     */
+    Resource getByIdWithCache(Long id);
+
+    /**
+     * 根据ID删除
+     *
+     * @param id
+     * @return
+     */
+    boolean removeByIdWithCache(Long id);
+
+    /**
+     * 修改
+     *
+     * @param resource
+     * @return
+     */
+    boolean updateWithCache(Resource resource);
+
+    /**
+     * 保存
+     *
+     * @param resource
+     * @return
+     */
+    boolean saveWithCache(Resource resource);
+
+
+    /**
+     * 修改资源中冗余的菜单名称，并清除缓存
+     *
+     * @param menuId   菜单id
+     * @param menuName 菜单名称
+     * @return
+     */
+    boolean updateMenuWithCache(Long menuId, String menuName);
 }

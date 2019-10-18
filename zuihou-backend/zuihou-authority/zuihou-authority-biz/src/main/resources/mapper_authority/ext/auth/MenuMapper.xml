@@ -7,9 +7,10 @@
         <include refid="Base_Column_List"/>
         from c_auth_menu
         where is_enable = true
-        <if test="group != null">
-            and group_= #{group, jdbcType=VARCHAR}
-        </if>
+        <!-- 这段逻辑要放到程序中过滤 -->
+        <!--        <if test="group != null">-->
+        <!--            and group_= #{group, jdbcType=VARCHAR}-->
+        <!--        </if>-->
         and (is_public = true
         or
         id in (

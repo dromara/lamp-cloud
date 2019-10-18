@@ -13,12 +13,16 @@ import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.strategy.DataScopeContext;
 import com.github.zuihou.base.id.CodeGenerate;
+import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.utils.StrHelper;
 
 import lombok.extern.slf4j.Slf4j;
+import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,6 +37,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
+
+    @Autowired
+    private CacheChannel cache;
+
     @Autowired
     private DozerUtils dozer;
     @Autowired
@@ -41,6 +49,27 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private DataScopeContext dataScopeContext;
     @Autowired
     private CodeGenerate codeGenerate;
+
+    @Override
+    @Cacheable(value = CacheKey.ROLE, key = "#id")
+    public Role getByIdWithCache(Long id) {
+        return super.getById(id);
+    }
+
+    @Override
+    @CacheEvict(value = CacheKey.ROLE, key = "#id")
+    public boolean removeByIdWithCache(Long id) {
+        super.removeById(id);
+
+        //TODO 这里还要清除 用户拥有的角色 用户拥有的菜单和资源
+//        cache.evict(CacheKey.USER_ROLE, userId);
+//        cache.evict(CacheKey.USER_RESOURCE, userId);
+//        cache.evict(CacheKey.USER_MENU, userId);
+        cache.evict(CacheKey.ROLE_MENU, String.valueOf(id));
+        cache.evict(CacheKey.ROLE_RESOURCE, String.valueOf(id));
+        cache.evict(CacheKey.ROLE_ORG, String.valueOf(id));
+        return true;
+    }
 
     @Override
     public List<Role> findRoleByUserId(Long userId) {
@@ -62,15 +91,21 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         super.save(role);
 
         saveRoleOrg(userId, role, data.getOrgList());
+
+        cache.set(CacheKey.ROLE, String.valueOf(role.getId()), role);
     }
 
     @Override
+    @CacheEvict(value = CacheKey.ROLE, key = "#data.id")
     public void updateRole(RoleUpdateDTO data, Long userId) {
         Role role = dozer.map(data, Role.class);
         super.updateById(role);
 
         roleOrgService.remove(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, data.getId()));
         saveRoleOrg(userId, role, data.getOrgList());
+
+        //角色关联的组织
+        cache.evict(CacheKey.ROLE_ORG, String.valueOf(data.getId()));
     }
 
     private void saveRoleOrg(Long userId, Role role, List<Long> orgList) {

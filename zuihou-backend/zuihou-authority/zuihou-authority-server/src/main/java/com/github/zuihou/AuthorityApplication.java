@@ -14,10 +14,16 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
+ *
+ * https://mp.weixin.qq.com/s/zkxI5IQP0jFTjVYe5pTsXw
+ * EnableAspectJAutoProxy(proxyTargetClass=true, exposeProxy=true) 配合 @EnableCaching
+ * 才能解决在同一个类中通过 AopContext.currentProxy() 调用时，使缓存生效
+ *
  * @author zuihou
  * @createTime 2018-01-13 1:34
  */
@@ -30,6 +36,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.github.zuihou",
 })
 @Slf4j
+@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 @EnableLoginArgResolver
 @EnableFormValidator
 public class AuthorityApplication {

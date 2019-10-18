@@ -31,6 +31,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-zipkin-client-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-j2cache-starter</artifactId>
+        </dependency>
 
         <!--        <dependency>-->
         <!--            <groupId>com.github.zuihou</groupId>-->

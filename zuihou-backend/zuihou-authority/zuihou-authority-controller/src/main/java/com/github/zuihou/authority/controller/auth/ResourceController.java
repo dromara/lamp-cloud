@@ -7,18 +7,14 @@ import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.dto.auth.ResourceSaveDTO;
 import com.github.zuihou.authority.dto.auth.ResourceUpdateDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.utils.BizAssert;
-import com.github.zuihou.utils.StrHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -55,8 +51,6 @@ public class ResourceController extends BaseController {
     @Autowired
     private ResourceService resourceService;
     @Autowired
-    private CodeGenerate codeGenerate;
-    @Autowired
     private DozerUtils dozer;
 
     /**
@@ -90,7 +84,7 @@ public class ResourceController extends BaseController {
     @GetMapping("/{id}")
     @SysLog("查询资源")
     public R<Resource> get(@PathVariable Long id) {
-        return success(resourceService.getById(id));
+        return success(resourceService.getByIdWithCache(id));
     }
 
     /**
@@ -103,21 +97,8 @@ public class ResourceController extends BaseController {
     @PostMapping
     @SysLog("新增资源")
     public R<Resource> save(@RequestBody @Validated ResourceSaveDTO data) {
-        if (ResourceType.URI.eq(data.getResourceType())) {
-            BizAssert.assertNotNull(data.getId());
-        }
-
         Resource resource = dozer.map(data, Resource.class);
-        resource.setCode(StrHelper.getOrDef(resource.getCode(), codeGenerate.next()));
-        if (resourceService.count(Wraps.<Resource>lbQ().eq(Resource::getCode, resource.getCode())) > 0) {
-            return validFail("编码[%s]重复", resource.getCode());
-        }
-
-        if (resource.getId() != null) {
-            resourceService.updateById(resource);
-        } else {
-            resourceService.save(resource);
-        }
+        resourceService.saveWithCache(resource);
         return success(resource);
     }
 
@@ -132,7 +113,7 @@ public class ResourceController extends BaseController {
     @SysLog("修改资源")
     public R<Resource> update(@RequestBody @Validated(SuperEntity.Update.class) ResourceUpdateDTO data) {
         Resource resource = dozer.map(data, Resource.class);
-        resourceService.updateById(resource);
+        resourceService.updateWithCache(resource);
         return success(resource);
     }
 
@@ -149,14 +130,7 @@ public class ResourceController extends BaseController {
     @DeleteMapping(value = "/{id}")
     @SysLog("删除资源")
     public R<Boolean> delete(@PathVariable Long id) {
-        Resource resource = resourceService.getById(id);
-        BizAssert.assertNotNull(resource);
-        if (ResourceType.URI.eq(resource.getResourceType())) {
-            resourceService.update(Wraps.<Resource>lbU().set(Resource::getMenuId, null).eq(Resource::getId, id));
-        } else {
-            resourceService.removeById(id);
-        }
-        return success(true);
+        return success(resourceService.removeByIdWithCache(id));
     }
 
     /**

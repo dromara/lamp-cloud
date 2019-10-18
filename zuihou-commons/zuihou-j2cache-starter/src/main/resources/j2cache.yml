@@ -59,11 +59,11 @@ j2cache:
   # 是否默认缓存空对象(默认为false)
   default_cache_null_object: false
   # 缓存序列化提供者 ， 可选值：
-  # fst -> 使用 fast 序列化 (推荐)
-  # kyro -> 使用 kyro 序列化
-  # json -> 使用 fst's json 序列化 (测试中)
-  # fastjson -> 使用 fastjson 序列化 (嵌入非静态类不支持)
-  # java -> java 标准序列化
+  # fst -> 使用 fast 序列化 (推荐)              缺点：增删改字段后反序列化会报错
+  # kyro -> 使用 kyro 序列化                   缺点：生成的byte数据中部包含field数据，对类升级的兼容性很差。  跨语言支持较复杂！
+  # json -> 使用 fst's json 序列化 (测试中)     缺点：不支持LocalDateTime
+  # fastjson -> 使用 fastjson 序列化           缺点：嵌入非静态类不支持， 阿里的东西bug多...
+  # java -> java 标准序列化                    缺点：速度慢，占空间， 增删改字段后反序列化会报错
   # xxx.xxx.xxxx.Xxx -> [自定义序列化类]
   serialization: json
 
