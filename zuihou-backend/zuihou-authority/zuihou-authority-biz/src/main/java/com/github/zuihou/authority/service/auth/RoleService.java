@@ -18,6 +18,22 @@ import com.github.zuihou.authority.entity.auth.Role;
  */
 public interface RoleService extends IService<Role> {
 
+    /**
+     * 根据ID查
+     *
+     * @param id 主键
+     * @return
+     */
+    Role getByIdWithCache(Long id);
+
+    /**
+     * 根据ID删除
+     *
+     * @param id
+     * @return
+     */
+    boolean removeByIdWithCache(Long id);
+
 
     /**
      * 查询用户拥有的角色

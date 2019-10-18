@@ -47,7 +47,7 @@ j2cache.l2-cache-open=false（默认开启）
 
 
 
-## 场景1： 开发环境，只开启1级缓存, 通知使用 jgroups, 不连redis 
+## 场景1： 开发环境，只开启1级缓存（内存缓存）, 通知使用 jgroups, 不连redis 
 ### 注意： 该场景下无需连接 redis
 1. 引入pom
 ```
@@ -75,9 +75,8 @@ j2cache:
   cache-clean-mode: passive
   allow-null-values: true
   redis-client: lettuce
-  l2-cache-open: false
-  #以下来自j2cache.properties
-  broadcast: jgroups
+  l2-cache-open: false   # 关闭2级缓存
+  broadcast: jgroups     # 关闭2级缓存后，使用jgroups广播，就无需连接redis   
   L1:
     provider_class: caffeine
   L2:

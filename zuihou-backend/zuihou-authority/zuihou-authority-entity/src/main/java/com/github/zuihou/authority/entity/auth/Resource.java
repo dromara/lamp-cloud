@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
@@ -61,7 +62,7 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "资源类型")
     @NotNull(message = "资源类型不能为空")
-    @TableField("resource_type")
+    @TableField(value = "resource_type")
     private ResourceType resourceType;
 
     /**
@@ -70,7 +71,7 @@ public class Resource extends Entity<Long> {
     @ApiModelProperty(value = "接口名称")
     @NotEmpty(message = "接口名称不能为空")
     @Length(max = 255, message = "接口名称长度不能超过255")
-    @TableField("name")
+    @TableField(value = "name", condition = SqlCondition.LIKE)
     private String name;
 
     /**
@@ -124,7 +125,6 @@ public class Resource extends Entity<Long> {
     /**
      * 请求方式
      * #HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}
-     *
      */
     @ApiModelProperty(value = "请求方式")
     @TableField("http_method")

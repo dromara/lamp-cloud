@@ -6,12 +6,6 @@ zuihou:
     port: 16379
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
 
-# redis 通用配置
-#spring:
-#  redis:
-#    host: ${zuihou.redis.ip}
-#    password: ${zuihou.redis.password}
-#    port: ${zuihou.redis.port}
 spring:
   cache:
     type: GENERIC
@@ -22,13 +16,14 @@ j2cache:
   cache-clean-mode: passive
   allow-null-values: true
   redis-client: lettuce
+  # l2-cache-open: false     # 关闭二级缓存
   l2-cache-open: true
-  #以下来自j2cache.properties
-  broadcast: lettuce
+  broadcast: net.oschina.j2cache.cache.support.redis.SpringRedisPubSubPolicy
+  #  broadcast: jgroups       # 关闭二级缓存
   L1:
     provider_class: caffeine
   L2:
-    provider_class: lettuce
+    provider_class: net.oschina.j2cache.cache.support.redis.SpringRedisProvider
     config_section: lettuce
   sync_ttl_to_redis: true
   default_cache_null_object: false

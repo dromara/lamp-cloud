@@ -7,19 +7,14 @@ import com.github.zuihou.authority.dto.auth.MenuSaveDTO;
 import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 import com.github.zuihou.authority.dto.auth.MenuUpdateDTO;
 import com.github.zuihou.authority.entity.auth.Menu;
-import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.service.auth.MenuService;
-import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.utils.NumberHelper;
-import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.TreeUtil;
 
 import io.swagger.annotations.Api;
@@ -38,8 +33,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
 
 
 /**
@@ -60,10 +53,7 @@ public class MenuController extends BaseController {
 
     @Autowired
     private MenuService menuService;
-    @Autowired
-    private ResourceService resourceService;
-    @Autowired
-    private CodeGenerate codeGenerate;
+
     @Autowired
     private DozerUtils dozer;
 
@@ -98,7 +88,7 @@ public class MenuController extends BaseController {
     @GetMapping("/{id}")
     @SysLog("查询菜单")
     public R<Menu> get(@PathVariable Long id) {
-        return success(menuService.getById(id));
+        return success(menuService.getByIdWithCache(id));
     }
 
     /**
@@ -113,16 +103,7 @@ public class MenuController extends BaseController {
     public R<Menu> save(@RequestBody @Validated MenuSaveDTO data) {
         Menu menu = dozer.map(data, Menu.class);
 
-        menu.setCode(StrHelper.getOrDef(menu.getCode(), codeGenerate.next()));
-        if (menuService.count(Wraps.<Menu>lbQ().eq(Menu::getCode, menu.getCode())) > 0) {
-            return validFail("编码[%s]重复", menu.getCode());
-        }
-
-        menu.setIsEnable(NumberHelper.getOrDef(menu.getIsEnable(), true));
-        menu.setIsPublic(NumberHelper.getOrDef(menu.getIsPublic(), false));
-        menu.setParentId(NumberHelper.getOrDef(menu.getParentId(), DEF_PARENT_ID));
-
-        menuService.save(menu);
+        menuService.saveWithCache(menu);
         return success(menu);
     }
 
@@ -139,12 +120,7 @@ public class MenuController extends BaseController {
     public R<Menu> update(@RequestBody @Validated(SuperEntity.Update.class) MenuUpdateDTO data) {
         Menu menu = dozer.map(data, Menu.class);
 
-        menuService.updateById(menu);
-
-        // 修改冗余 菜单名称
-        resourceService.update(Wraps.<Resource>lbU()
-                .set(Resource::getMenuName, menu.getName())
-                .in(Resource::getMenuId, menu.getId()));
+        menuService.updateWithCache(menu);
         return success(menu);
     }
 
@@ -158,7 +134,7 @@ public class MenuController extends BaseController {
     @DeleteMapping(value = "/{id}")
     @SysLog("删除菜单")
     public R<Boolean> delete(@PathVariable Long id) {
-        menuService.removeById(id);
+        menuService.removeByIdWithCache(id);
         return success(true);
     }
 
@@ -175,7 +151,6 @@ public class MenuController extends BaseController {
     })
     @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
     @GetMapping
-//    @SysLog("查询用户可用的所有菜单")
     public R<List<MenuTreeDTO>> myMenus(@RequestParam(value = "group", required = false) String group,
                                         @RequestParam(value = "userId", required = false) Long userId) {
         if (userId == null || userId <= 0) {
@@ -187,6 +162,11 @@ public class MenuController extends BaseController {
         return success(TreeUtil.builderTreeOrdered(treeList));
     }
 
+    /**
+     * 查询系统中所有的的菜单树结构， 不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
+     *
+     * @return
+     */
     @ApiOperation(value = "查询系统所有的菜单", notes = "查询系统所有的菜单")
     @GetMapping("/tree")
     @SysLog("查询系统所有的菜单")
