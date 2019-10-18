@@ -27,7 +27,7 @@
         <module>zuihou-dozer-starter</module>
         <module>zuihou-xss-starter</module>
         <module>zuihou-openfeign-starter</module>
-        <module>zuihou-redis-starter</module>
+        <module>zuihou-j2cache-starter</module>
         <module>zuihou-cache-starter</module>
         <module>zuihou-zipkin-client-starter</module>
         <module>zuihou-config</module>
