@@ -23,17 +23,9 @@ RibbitMQ、FastDFS等主要框架和中间件。
 - k8s部署
 
 ## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！
-## 如果您从这个项目学到了一些技巧，请帮忙发送项目地址给您的好基友，谢谢~😁
 
-## 文档:
+## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 https://www.kancloud.cn/zuihou/zuihou-admin-cloud
-
-master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的代码，移步到 https://gitee.com/zuihou111/zuihou-admin-cloud ，选择 `Greenwich-Eureka` 分支（不在提供升级和维护）。
-
-## 交流群： 63202894
-`一键加群` <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
-
-![qq群.png](docs/image/qq群.png)
 
 ## 项目代码地址
 [gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  
@@ -44,18 +36,18 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 
 [前端] https://gitee.com/zuihou111/zuihou-admin-ui 
 
-[代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
+[代码生成器] https://github.com/zuihou/zuihou-generator  
 
 [原型] http://zuihou111.gitee.io/zuihou-admin-rp/
 
 [介绍文档] https://zuihou.github.io/zuihou-admin-cloud/
 
 ## 演示地址 (账号密码均为： zuihou/zuihou)       （演示账号没有写权限，只能查询）
-[演示环境] http://42.202.130.216:10000/zuihou-ui                （http://wzroom.cn/zuihou-ui 即将到期）      
+[演示环境] http://42.202.130.216:10000/zuihou-ui                      
 
 [注册中心] http://42.202.130.216:10000/nacos/      
 
-[在线文档] http://42.202.130.216:10000/api/gate/doc.html       （http://wzroom.cn/api/gate/doc.html 即将到期）    
+[在线文档] http://42.202.130.216:10000/api/gate/doc.html           
 
 [定时任务] http://42.202.130.216:10000/zuihou-jobs-server
 
@@ -63,6 +55,10 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 
 [全链路监控中心] http://42.202.130.216:10000/zipkin/
 
+## 交流群： 63202894
+`一键加群` <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+
+![qq群.png](docs/image/qq群.png)
 
 ## 功能点介绍:
  - **服务注册与调用：**
@@ -146,7 +142,7 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
     - 分布式系统的流量防卫兵： Sentinel
     - 监控： spring-boot-admin 2.x
     - 链路调用跟踪： zipkin 2.x
-    - 文件服务器：FastDFS 5.0.5/阿里云OSS/七牛/本地存储
+    - 文件服务器：FastDFS 5.0.5/阿里云OSS/本地存储
     - Nginx
 - 部署方面：
     - 服务器：CentOS
@@ -157,14 +153,6 @@ master分支已经采用Nacos作为注册/配置中心， 需要eureka版本的�
 本代码采用 Intellij IDEA(2018.1 EAP) 来编写，但源码与具体的 IDE 无关。
 
 PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，经过调试发现因为版本多低后，导致EnumDeserializer的 Object obj = p.getCurrentValue();取的值为空。
-
-## 感谢：
-- swagger-bootstrap-ui
-- mybatis-plus
-- xxl-jobs
-- hutool
-- guava
-- 等等
 
 ## 约定：
 
@@ -340,7 +328,6 @@ chown -R $USER:wheel /data/projects/logs     # mac
 | zuihou-demo-server | 8769 |  ​
 | zuihou-order-server | 8779 |  ​
 
-
 ## 项目截图：
 spring-boot-admin监控界面:
 ![SBA监控.png](docs/image/监控界面/sba-1.png)
@@ -353,44 +340,14 @@ API 界面:
 定时任务调度界面:
 ![eureka注册中心界面.png](docs/image/项目相关/zuihou-jobs-server.png)
 
-## 常见问题：
- - 1, 很多依赖死活都下载不下来？
-    - 答： 由于spring-boot和spring-cloud等版本比较新，所以目前国内的一些仓库还没有新版本的jar。
-    需要配置spring的maven仓库。 （配置后还是无法下载，就先注释掉settings.xml中其他的仓库，只保留这个）
-```
-    <mirror>
-        <id>spring-milestones</id>
-        <name>Spring Milestones</name>
-        <url>https://repo.spring.io/libs-milestone</url>
-        <mirrorOf>central</mirrorOf>
-    </mirror>
-```
- - 2, 很多类缺少get/set方法？
-    - 答：请用IDEA或Eclipse安装`lombok`插件
-    
- - 3, zuihou-generator jar缺失？
-    - 答： https://github.com/zuihou/zuihou-generator 。去我github下载这个项目，自行编译。
-    
- - 4, 为啥要将调度器和执行器合并在一起？
-     - 答： 对于中小型项目，对高可用的需求并不是很大，若把调度器和执行器分开部署，会增加部署成本。    
- 
- - 5, 将配置文件导入到nacos后，启动解析文件报错？
-    - 答： 将配置文件中的所有注释，以及中文删除改成英文
-    
- - 6， 启动zuihou-jobs-server报找不到表的错， 但数据库中确实有表，只是表名全是小写？    
-    - 答： 1） SHOW VARIABLES LIKE '%case%'; 查看 lower_case_table_names 是否=2  
-            2） 修改my.cnf(my.ini) 文件增加  ：
-       ```
-      [mysqld]
-      lower_case_table_names=2
-      ```     
+## 感谢：
+- swagger-bootstrap-ui
+- mybatis-plus
+- xxl-jobs
+- hutool
+- guava
+- 等等
 
-
-## 查看磁盘空间占用
-df -h
-## 查看当前目录的磁盘占用
-du -ah --max-depth=1
-     
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   

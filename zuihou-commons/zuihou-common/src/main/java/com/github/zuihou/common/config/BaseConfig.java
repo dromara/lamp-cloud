@@ -30,7 +30,7 @@ import com.github.zuihou.common.converter.String2LocalDateConverter;
 import com.github.zuihou.common.converter.String2LocalDateTimeConverter;
 import com.github.zuihou.common.converter.String2LocalTimeConverter;
 import com.github.zuihou.common.undertow.UndertowServerFactoryCustomizer;
-import com.github.zuihou.utils.SpringUtil;
+import com.github.zuihou.utils.SpringUtils;
 
 import io.undertow.Undertow;
 import org.springframework.beans.factory.annotation.Value;
@@ -184,9 +184,9 @@ public abstract class BaseConfig {
      * @return
      */
     @Bean
-    public SpringUtil springUtil(ApplicationContext applicationContext) {
-        SpringUtil.setApplicationContext(applicationContext);
-        return new SpringUtil();
+    public SpringUtils getSpringUtils(ApplicationContext applicationContext) {
+        SpringUtils.setApplicationContext(applicationContext);
+        return new SpringUtils();
     }
 
 

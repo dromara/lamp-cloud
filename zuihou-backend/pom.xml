@@ -35,6 +35,11 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-j2cache-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -53,11 +58,7 @@
                 <artifactId>zuihou-user-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-redis-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-cache-starter</artifactId>

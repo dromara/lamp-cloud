@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.zuihou.authority.api.UserApi;
 import com.github.zuihou.database.datasource.BaseDbConfiguration;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
-import com.github.zuihou.utils.SpringUtil;
+import com.github.zuihou.utils.SpringUtils;
 import com.p6spy.engine.spy.P6DataSource;
 
 import cn.hutool.core.util.ArrayUtil;
@@ -80,7 +80,8 @@ public class OrderAutoConfiguration extends BaseDbConfiguration {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);
         return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
-                new String[]{"classpath:mapper_order/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
+                new String[]{"classpath*:mapper_**/**/*Mapper.xml"},
+                globalConfig, myMetaObjectHandler);
     }
 
 
@@ -116,6 +117,6 @@ public class OrderAutoConfiguration extends BaseDbConfiguration {
      */
     @Override
     public DataScopeInterceptor getDataScopeInterceptor() {
-        return new DataScopeInterceptor((userId) -> SpringUtil.getBean(UserApi.class).getDataScopeById(userId));
+        return new DataScopeInterceptor((userId) -> SpringUtils.getBean(UserApi.class).getDataScopeById(userId));
     }
 }

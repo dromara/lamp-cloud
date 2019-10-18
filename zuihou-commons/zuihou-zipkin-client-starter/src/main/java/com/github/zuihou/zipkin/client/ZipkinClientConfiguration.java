@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 /**
  * zipkin 客服端自定义配置
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/09/20
  */
 @Slf4j

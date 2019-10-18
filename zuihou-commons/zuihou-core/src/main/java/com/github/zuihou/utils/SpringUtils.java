@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
  * @createTime 2017-12-25 16:27
  */
 @SuppressWarnings("squid:S1166")
-public class SpringUtil {
+public class SpringUtils {
     private static ApplicationContext applicationContext;
     private static ApplicationContext parentApplicationContext;
 
