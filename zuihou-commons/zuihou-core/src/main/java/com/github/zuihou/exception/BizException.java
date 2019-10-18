@@ -23,9 +23,7 @@ public class BizException extends BaseUncheckedException {
     }
 
     public BizException(int code, String message, Object... args) {
-        super(code, String.format(message, args));
-        this.code = code;
-        this.message = String.format(message, args);
+        super(code, message, args);
     }
 
     /**
@@ -42,6 +40,10 @@ public class BizException extends BaseUncheckedException {
 
     public static BizException wrap(String message, Object... args) {
         return new BizException(-1, message, args);
+    }
+
+    public static BizException validFail(String message, Object... args) {
+        return new BizException(-9, message, args);
     }
 
     public static BizException wrap(BaseExceptionCode ex) {

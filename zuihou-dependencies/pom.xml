@@ -125,7 +125,7 @@
         <guava.version>20.0</guava.version>
         <tobato-fastdfs-client.version>1.26.6</tobato-fastdfs-client.version>
         <qiniu-java-sdk>7.2.18</qiniu-java-sdk>
-
+        <j2cache.version>2.7.8-release</j2cache.version>
         <hibernate.validator.version>6.0.14.Final</hibernate.validator.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <commons.io.version>2.4</commons.io.version>
@@ -217,6 +217,17 @@
                 <version>${mysql.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>net.oschina.j2cache</groupId>
+                <artifactId>j2cache-core</artifactId>
+                <version>${j2cache.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
             <!-- FastDFS文件 -->
             <dependency>

@@ -349,6 +349,7 @@ public abstract class BaseDbConfiguration {
         config.setInsertStrategy(FieldStrategy.NOT_NULL);
         config.setUpdateStrategy(FieldStrategy.NOT_NULL);
         config.setSelectStrategy(FieldStrategy.NOT_EMPTY);
+//        config.setColumnFormat(LIKE);
 //        config.setColumnLike(true);
 //        conf.setSqlParserCache(true);
         conf.setDbConfig(config);
