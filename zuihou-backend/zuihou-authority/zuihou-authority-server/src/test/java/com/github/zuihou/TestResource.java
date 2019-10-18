@@ -137,13 +137,12 @@ public class TestResource {
     @Test
     public void test3() {
 
-
-        LbqWrapper<Resource> query2 = Wraps.lbQ(Resource.builder().name("新增").build());
+        LbqWrapper<Resource> query2 = Wraps.<Resource>lbQ().eq(Resource::getName, "xiz");
         List<Resource> resources2 = resourceMapper.selectList(query2);
         log.info("{}", resources2.size());
 
 
-        LbqWrapper<Resource> query = Wraps.lbQ(Resource.builder().name("%").resourceType(ResourceType.BUTTON).build());
+        LbqWrapper<Resource> query = Wraps.lbQ(Resource.builder().name("新增%").resourceType(ResourceType.BUTTON).build());
         List<Resource> resources = resourceMapper.selectList(query);
         log.info("{}", resources.size());
 

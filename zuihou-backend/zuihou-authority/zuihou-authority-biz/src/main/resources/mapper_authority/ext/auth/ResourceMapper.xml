@@ -7,12 +7,13 @@
         <include refid="Base_Column_List"/>
         from c_auth_resource
         where 1=1
-        <if test="menuId != null">
-            and menu_id = #{menuId, jdbcType=BIGINT}
-        </if>
-        <if test="type != null">
-            and `resource_type` = #{type, jdbcType=VARCHAR}
-        </if>
+        <!-- 这段逻辑要放到程序中过滤 -->
+        <!--        <if test="menuId != null">-->
+        <!--            and menu_id = #{menuId, jdbcType=BIGINT}-->
+        <!--        </if>-->
+        <!--        <if test="type != null">-->
+        <!--            and `resource_type` = #{type, jdbcType=VARCHAR}-->
+        <!--        </if>-->
         and id in (
         SELECT authority_id FROM c_auth_role_authority ra INNER JOIN c_auth_user_role ur on ra.role_id = ur.role_id
         INNER JOIN c_auth_role r on r.id = ra.role_id

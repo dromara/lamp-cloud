@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.database.datasource.BaseDbConfiguration;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
-import com.github.zuihou.utils.SpringUtil;
+import com.github.zuihou.utils.SpringUtils;
 import com.p6spy.engine.spy.P6DataSource;
 
 import cn.hutool.core.util.ArrayUtil;
@@ -93,7 +93,8 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);
         return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
-                new String[]{"classpath:mapper_authority/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
+                new String[]{"classpath*:mapper_**/**/*Mapper.xml"},
+                globalConfig, myMetaObjectHandler);
     }
 
 
@@ -149,7 +150,7 @@ public class AuthorityAutoConfiguration extends BaseDbConfiguration {
      */
     @Override
     public DataScopeInterceptor getDataScopeInterceptor() {
-        return new DataScopeInterceptor((userId) -> SpringUtil.getBean(UserService.class).getDataScopeById(userId));
+        return new DataScopeInterceptor((userId) -> SpringUtils.getBean(UserService.class).getDataScopeById(userId));
     }
 
 }

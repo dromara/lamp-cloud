@@ -1,6 +1,5 @@
-package com.github.zuihou.general.controller;
+package com.github.zuihou.zuul.controller;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.github.zuihou.authority.entity.auth.User;
@@ -9,11 +8,9 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.common.constant.CacheKey;
 
 import io.swagger.annotations.Api;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
-import org.nustaq.serialization.annotations.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @Api(value = "abcde", tags = "abcde")
-public class AbcdeController {
+public class CacheTestController {
 
     @Autowired
     CacheChannel cache;
@@ -39,6 +36,7 @@ public class AbcdeController {
 
     @GetMapping("/set")
     public R<Object> set(String region, String key) {
+//        CacheChannel cache = J2Cache.getChannel();
         cache.set(region, key, User.builder().id(Long.MAX_VALUE).account(key).name("她最好").sex(Sex.M).createTime(LocalDateTime.now()).build());
 
         return R.success(region + key);
@@ -46,18 +44,20 @@ public class AbcdeController {
 
     @GetMapping("/get")
     public R<Object> get(String region, String key) {
+//        CacheChannel cache = J2Cache.getChannel();
         int check = cache.check(region, key);
         log.info("check={}", check);
-        if (check > 0) {
-            CacheObject cacheObject = cache.get(region, key);
-            System.out.println(cacheObject);
-            return R.success(cacheObject);
-        }
-        return R.success(check);
+//        if (check > 0) {
+        CacheObject cacheObject = cache.get(region, key);
+        System.out.println(cacheObject);
+        return R.success(cacheObject);
+//        }
+//        return R.success(check);
     }
 
     @GetMapping("/evict")
     public R<Object> evict(String region, String key) {
+//        CacheChannel cache = J2Cache.getChannel();
         cache.evict(region, key);
 
         return R.success(region + key);
@@ -66,15 +66,38 @@ public class AbcdeController {
     @GetMapping("/test/get")
     public R<Object> testGet(Long id) {
 
-        Object zuihou = cacTest.zuihou();
-        System.out.println(zuihou);
-        return R.success(zuihou);
+        User menu = cacTest.getMenu("123");
+        System.out.println(menu);
+        return R.success(menu);
     }
 
     @GetMapping("/test/delete")
     public R<Object> testDelete(Long id) {
         cacTest.delete("123");
         return R.success(true);
+    }
+
+    @Cacheable(value = "test", key = "#id")
+    public User get(Long id) {
+        log.info("id={}", id);
+        return User.builder()
+                .account("zuihou")
+                .id(id)
+                .build();
+    }
+
+    @CacheEvict(value = "test", key = "#id")
+    public void delete(Long id) {
+        log.info("id={}", id);
+    }
+
+    @Cacheable(value = "get2", key = "#id")
+    public User get2(Long id) {
+        log.info("id={}", id);
+        return User.builder()
+                .account("zuihou")
+                .id(id)
+                .build();
     }
 }
 
@@ -97,22 +120,8 @@ class CacTest {
         log.info("id={}", name);
     }
 
-    @Cacheable(value = {"zuihou"})
-    public Object zuihou() {
-//        return User.builder()
-//                .account("zuihou").name("张三李四!@#$%^&*()_123")
-//                .id(6079967614237410571L)
-//                .sex(Sex.M)
-//                .createTime(LocalDateTime.now())
-//                .build();
-        Txxxxx t = new Txxxxx();
-        t.setId(1L);
-//        t.setName1("tyh");
-        return t;
-    }
-
-    @Cacheable(value = {"test", "aaaa"}, key = "1")
-    public User test() {
+    @Cacheable(value = "zuihou")
+    public User zuihou() {
         return User.builder()
                 .account("zuihou").name("张三李四!@#$%^&*()_123")
                 .id(6079967614237410571L)
@@ -121,13 +130,13 @@ class CacTest {
                 .build();
     }
 
-    @Data
-    static class Txxxxx implements Serializable {
-        private Long id;
-
-        @Version(1)
-        private String code;
-
-//        private String cod2;
+    @Cacheable(value = "test", key = "1")
+    public User test() {
+        return User.builder()
+                .account("zuihou").name("张三李四!@#$%^&*()_123")
+                .id(6079967614237410571L)
+                .sex(Sex.M)
+                .createTime(LocalDateTime.now())
+                .build();
     }
 }

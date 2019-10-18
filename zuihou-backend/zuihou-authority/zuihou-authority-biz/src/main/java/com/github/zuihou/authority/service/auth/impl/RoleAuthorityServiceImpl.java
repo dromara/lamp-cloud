@@ -1,11 +1,25 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.RoleAuthorityMapper;
+import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
+import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
+import com.github.zuihou.authority.entity.auth.UserRole;
+import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
+import com.github.zuihou.authority.service.auth.UserRoleService;
+import com.github.zuihou.common.constant.CacheKey;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.utils.NumberHelper;
 
 import lombok.extern.slf4j.Slf4j;
+import net.oschina.j2cache.CacheChannel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,4 +35,74 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, RoleAuthority> implements RoleAuthorityService {
 
+    @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
+    private CacheChannel cache;
+
+    @Override
+    public boolean saveUserRole(UserRoleSaveDTO userRole) {
+        super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, userRole.getRoleId()));
+        List<UserRole> list = userRole.getUserIdList()
+                .stream()
+                .map((userId) -> UserRole.builder()
+                        .userId(userId)
+                        .roleId(userRole.getRoleId())
+                        .build())
+                .collect(Collectors.toList());
+        userRoleService.saveBatch(list);
+
+        //清除 用户拥有的菜单和资源列表
+        userRole.getUserIdList().forEach((userId) -> {
+            cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));
+            cache.evict(CacheKey.USER_MENU, String.valueOf(userId));
+        });
+        return true;
+    }
+
+    @Override
+    public boolean saveRoleAuthority(RoleAuthoritySaveDTO dto) {
+        //删除角色和资源的关联
+        super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, dto.getRoleId()));
+
+        List<RoleAuthority> list = new ArrayList<>();
+        if (dto.getMenuIdList() != null) {
+            //保存授予的菜单
+            List<RoleAuthority> menuList = dto.getMenuIdList()
+                    .stream()
+                    .map((menuId) -> RoleAuthority.builder()
+                            .authorityType(AuthorizeType.MENU)
+                            .authorityId(menuId)
+                            .roleId(dto.getRoleId())
+                            .build())
+                    .collect(Collectors.toList());
+            list.addAll(menuList);
+        }
+        if (dto.getResourceIdList() != null) {
+            //保存授予的资源
+            List<RoleAuthority> resourceList = dto.getResourceIdList()
+                    .stream()
+                    .map((resourceId) -> RoleAuthority.builder()
+                            .authorityType(AuthorizeType.RESOURCE)
+                            .authorityId(resourceId)
+                            .roleId(dto.getRoleId())
+                            .build())
+                    .collect(Collectors.toList());
+            list.addAll(resourceList);
+        }
+        super.saveBatch(list);
+
+        // 清理
+        List<Long> userIdList = userRoleService.listObjs(Wraps.<UserRole>lbQ().select(UserRole::getUserId).eq(UserRole::getRoleId, dto.getRoleId()),
+                (userId) -> NumberHelper.longValueOf0(userId));
+        userIdList.stream().collect(Collectors.toSet()).forEach((userId) -> {
+            log.info("清理了 {} 的菜单/资源", userId);
+            cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));
+            cache.evict(CacheKey.USER_MENU, String.valueOf(userId));
+        });
+
+        cache.evict(CacheKey.ROLE_RESOURCE, String.valueOf(dto.getRoleId()));
+        cache.evict(CacheKey.ROLE_MENU, String.valueOf(dto.getRoleId()));
+        return true;
+    }
 }
