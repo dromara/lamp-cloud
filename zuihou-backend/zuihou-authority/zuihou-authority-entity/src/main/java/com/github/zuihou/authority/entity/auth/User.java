@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -22,6 +21,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -29,7 +30,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -49,7 +50,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "账号")
     @NotEmpty(message = "账号不能为空")
     @Length(max = 30, message = "账号长度不能超过30")
-    @TableField("account")
+    @TableField(value = "account", condition = LIKE)
     private String account;
 
     /**
@@ -58,7 +59,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "姓名")
     @NotEmpty(message = "姓名不能为空")
     @Length(max = 50, message = "姓名长度不能超过50")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -82,7 +83,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "手机")
     @Length(max = 20, message = "手机长度不能超过20")
-    @TableField("mobile")
+    @TableField(value = "mobile", condition = LIKE)
     private String mobile;
 
     /**
@@ -97,7 +98,6 @@ public class User extends Entity<Long> {
      * 是否可登陆
      */
     @ApiModelProperty(value = "是否可登陆")
-    @NotNull(message = "是否可登陆不能为空")
     @TableField("is_can_login")
     private Boolean isCanLogin;
 
@@ -113,7 +113,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "照片")
     @Length(max = 255, message = "照片长度不能超过255")
-    @TableField("photo")
+    @TableField(value = "photo", condition = LIKE)
     private String photo;
 
     /**
@@ -122,7 +122,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "工作描述")
     @Length(max = 255, message = "工作描述长度不能超过255")
-    @TableField("work_describe")
+    @TableField(value = "work_describe", condition = LIKE)
     private String workDescribe;
 
     /**
@@ -130,7 +130,6 @@ public class User extends Entity<Long> {
      * 一直累计，记录了此账号总共登录次数
      */
     @ApiModelProperty(value = "登录次数")
-    @NotNull(message = "登录次数不能为空")
     @TableField("login_count")
     private Integer loginCount;
 
@@ -146,7 +145,6 @@ public class User extends Entity<Long> {
      * 一天连续输错密码次数
      */
     @ApiModelProperty(value = "一天连续输错密码次数")
-    @NotNull(message = "一天连续输错密码次数不能为空")
     @TableField("continuation_error_count")
     private Integer continuationErrorCount;
 
@@ -163,7 +161,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "密码")
     @NotEmpty(message = "密码不能为空")
     @Length(max = 64, message = "密码长度不能超过64")
-    @TableField("password")
+    @TableField(value = "password", condition = LIKE)
     private String password;
 
 

@@ -19,6 +19,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -26,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -47,7 +49,7 @@ public class Dictionary extends Entity<Long> {
     @ApiModelProperty(value = "编码")
     @NotEmpty(message = "编码不能为空")
     @Length(max = 64, message = "编码长度不能超过64")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -56,7 +58,7 @@ public class Dictionary extends Entity<Long> {
     @ApiModelProperty(value = "字典名称")
     @NotEmpty(message = "字典名称不能为空")
     @Length(max = 64, message = "字典名称长度不能超过64")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -64,7 +66,7 @@ public class Dictionary extends Entity<Long> {
      */
     @ApiModelProperty(value = "字典描述")
     @Length(max = 200, message = "字典描述长度不能超过200")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**
@@ -84,7 +86,7 @@ public class Dictionary extends Entity<Long> {
 
     @Builder
     public Dictionary(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                      String code, Long parentId, String name, String describe, Boolean isEnable, Boolean isDelete) {
+                      String code, String name, String describe, Boolean isEnable, Boolean isDelete) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;

@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.authority.enumeration.auth.TargetType;
 import com.github.zuihou.base.entity.Entity;
 
 import io.swagger.annotations.ApiModel;
@@ -20,6 +19,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -27,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -47,7 +48,7 @@ public class Menu extends Entity<Long> {
     @ApiModelProperty(value = "菜单名称")
     @NotEmpty(message = "菜单名称不能为空")
     @Length(max = 20, message = "菜单名称长度不能超过20")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -55,7 +56,7 @@ public class Menu extends Entity<Long> {
      */
     @ApiModelProperty(value = "功能描述")
     @Length(max = 200, message = "功能描述长度不能超过200")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**
@@ -63,7 +64,7 @@ public class Menu extends Entity<Long> {
      */
     @ApiModelProperty(value = "资源编码")
     @Length(max = 255, message = "资源编码长度不能超过255")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -75,20 +76,20 @@ public class Menu extends Entity<Long> {
     private Boolean isPublic;
 
     /**
-     * 资源路径
+     * 对应路由path
      */
-    @ApiModelProperty(value = "资源路径")
-    @Length(max = 255, message = "资源路径长度不能超过255")
-    @TableField("href")
-    private String href;
+    @ApiModelProperty(value = "对应路由path")
+    @Length(max = 255, message = "对应路由path长度不能超过255")
+    @TableField(value = "path", condition = LIKE)
+    private String path;
 
     /**
-     * 打开方式
-     * #TargetType{SELF:_self,相同框架;TOP:_top,当前页;BLANK:_blank,新建窗口;PAREN:_parent,父窗口}
+     * 对应路由组件component
      */
-    @ApiModelProperty(value = "打开方式")
-    @TableField("target")
-    private TargetType target;
+    @ApiModelProperty(value = "对应路由组件component")
+    @Length(max = 255, message = "对应路由组件component长度不能超过255")
+    @TableField(value = "component", condition = LIKE)
+    private String component;
 
     /**
      * 是否启用
@@ -109,7 +110,7 @@ public class Menu extends Entity<Long> {
      */
     @ApiModelProperty(value = "菜单图标")
     @Length(max = 255, message = "菜单图标长度不能超过255")
-    @TableField("icon")
+    @TableField(value = "icon", condition = LIKE)
     private String icon;
 
     /**
@@ -117,7 +118,7 @@ public class Menu extends Entity<Long> {
      */
     @ApiModelProperty(value = "菜单分组")
     @Length(max = 20, message = "菜单分组长度不能超过20")
-    @TableField("group_")
+    @TableField(value = "group_", condition = LIKE)
     private String group;
 
     /**
@@ -130,8 +131,8 @@ public class Menu extends Entity<Long> {
 
     @Builder
     public Menu(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String describe, String code, Boolean isPublic, String href,
-                TargetType target, Boolean isEnable, Integer sortValue, String icon, String group, Long parentId) {
+                String name, String describe, String code, Boolean isPublic, String path,
+                String component, Boolean isEnable, Integer sortValue, String icon, String group, Long parentId) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -141,8 +142,8 @@ public class Menu extends Entity<Long> {
         this.describe = describe;
         this.code = code;
         this.isPublic = isPublic;
-        this.href = href;
-        this.target = target;
+        this.path = path;
+        this.component = component;
         this.isEnable = isEnable;
         this.sortValue = sortValue;
         this.icon = icon;

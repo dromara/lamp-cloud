@@ -26,7 +26,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -35,7 +35,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_auth_user_role")
-@ApiModel(value = "UserRole", description = "角色分配 账号角色绑定")
+@ApiModel(value = "UserRole", description = "角色分配")
 public class UserRole extends SuperEntity<Long> {
 
     private static final long serialVersionUID = 1L;

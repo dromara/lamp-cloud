@@ -19,6 +19,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -26,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -45,7 +47,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "操作IP")
     @Length(max = 50, message = "操作IP长度不能超过50")
-    @TableField("request_ip")
+    @TableField(value = "request_ip", condition = LIKE)
     private String requestIp;
 
     /**
@@ -61,7 +63,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "操作人")
     @Length(max = 50, message = "操作人长度不能超过50")
-    @TableField("user_name")
+    @TableField(value = "user_name", condition = LIKE)
     private String userName;
 
     /**
@@ -69,7 +71,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "操作描述")
     @Length(max = 255, message = "操作描述长度不能超过255")
-    @TableField("description")
+    @TableField(value = "description", condition = LIKE)
     private String description;
 
     /**
@@ -77,15 +79,15 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "类路径")
     @Length(max = 255, message = "类路径长度不能超过255")
-    @TableField("class_path")
+    @TableField(value = "class_path", condition = LIKE)
     private String classPath;
 
     /**
-     * 请求类型
+     * 请求方法
      */
-    @ApiModelProperty(value = "请求类型")
-    @Length(max = 50, message = "请求类型长度不能超过50")
-    @TableField("action_method")
+    @ApiModelProperty(value = "请求方法")
+    @Length(max = 50, message = "请求方法长度不能超过50")
+    @TableField(value = "action_method", condition = LIKE)
     private String actionMethod;
 
     /**
@@ -93,7 +95,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "请求地址")
     @Length(max = 50, message = "请求地址长度不能超过50")
-    @TableField("request_uri")
+    @TableField(value = "request_uri", condition = LIKE)
     private String requestUri;
 
     /**
@@ -108,7 +110,7 @@ public class OptLog extends SuperEntity<Long> {
      * 请求参数
      */
     @ApiModelProperty(value = "请求参数")
-    @Length(max = 65535, message = "请求参数长度不能超过65535")
+
     @TableField("params")
     private String params;
 
@@ -116,7 +118,7 @@ public class OptLog extends SuperEntity<Long> {
      * 返回值
      */
     @ApiModelProperty(value = "返回值")
-    @Length(max = 65535, message = "返回值长度不能超过65535")
+
     @TableField("result")
     private String result;
 
@@ -124,7 +126,7 @@ public class OptLog extends SuperEntity<Long> {
      * 异常详情信息
      */
     @ApiModelProperty(value = "异常详情信息")
-    @Length(max = 65535, message = "异常详情信息长度不能超过65535")
+
     @TableField("ex_desc")
     private String exDesc;
 
@@ -132,7 +134,7 @@ public class OptLog extends SuperEntity<Long> {
      * 异常描述
      */
     @ApiModelProperty(value = "异常描述")
-    @Length(max = 65535, message = "异常描述长度不能超过65535")
+
     @TableField("ex_detail")
     private String exDetail;
 
@@ -162,7 +164,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "浏览器")
     @Length(max = 500, message = "浏览器长度不能超过500")
-    @TableField("ua")
+    @TableField(value = "ua", condition = LIKE)
     private String ua;
 
 

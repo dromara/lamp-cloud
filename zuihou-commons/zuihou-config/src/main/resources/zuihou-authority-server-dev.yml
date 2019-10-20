@@ -1,7 +1,7 @@
 # 权限服务 开发环境的个性化配置
 zuihou:
   mysql:
-    database: zuihou_authority_dev
+    database: zuihou_authority_new
 #    ip: 127.0.0.1
 #    port: 3306
 #    driverClassName: com.mysql.cj.jdbc.Driver

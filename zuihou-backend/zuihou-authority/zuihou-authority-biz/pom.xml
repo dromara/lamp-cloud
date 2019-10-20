@@ -55,6 +55,11 @@
             <artifactId>j2cache-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

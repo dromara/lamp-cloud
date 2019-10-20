@@ -2,6 +2,8 @@ package com.github.zuihou.authority.entity.auth;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -18,6 +20,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -25,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -44,7 +48,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "角色名称")
     @Length(max = 30, message = "角色名称长度不能超过30")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -52,7 +56,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "角色编码")
     @Length(max = 20, message = "角色编码长度不能超过20")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -60,7 +64,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "功能描述")
     @Length(max = 100, message = "功能描述长度不能超过100")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**
@@ -82,6 +86,7 @@ public class Role extends Entity<Long> {
      * #DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}
      */
     @ApiModelProperty(value = "数据权限类型")
+    @NotNull(message = "数据权限类型不能为空")
     @TableField("ds_type")
     private DataScopeType dsType;
 
