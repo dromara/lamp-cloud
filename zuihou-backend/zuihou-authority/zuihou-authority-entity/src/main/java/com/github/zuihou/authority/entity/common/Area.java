@@ -20,6 +20,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -27,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -47,7 +49,7 @@ public class Area extends Entity<Long> {
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 255, message = "名称长度不能超过255")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -56,7 +58,7 @@ public class Area extends Entity<Long> {
     @ApiModelProperty(value = "地区编码")
     @NotEmpty(message = "地区编码不能为空")
     @Length(max = 64, message = "地区编码长度不能超过64")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -64,7 +66,7 @@ public class Area extends Entity<Long> {
      */
     @ApiModelProperty(value = "全名")
     @Length(max = 255, message = "全名长度不能超过255")
-    @TableField("full_name")
+    @TableField(value = "full_name", condition = LIKE)
     private String fullName;
 
     /**
@@ -79,7 +81,7 @@ public class Area extends Entity<Long> {
      */
     @ApiModelProperty(value = "经度")
     @Length(max = 255, message = "经度长度不能超过255")
-    @TableField("longitude")
+    @TableField(value = "longitude", condition = LIKE)
     private String longitude;
 
     /**
@@ -87,7 +89,7 @@ public class Area extends Entity<Long> {
      */
     @ApiModelProperty(value = "维度")
     @Length(max = 255, message = "维度长度不能超过255")
-    @TableField("latitude")
+    @TableField(value = "latitude", condition = LIKE)
     private String latitude;
 
     /**
@@ -103,7 +105,7 @@ public class Area extends Entity<Long> {
      */
     @ApiModelProperty(value = "上级行政区码")
     @Length(max = 64, message = "上级行政区码长度不能超过64")
-    @TableField("parent_code")
+    @TableField(value = "parent_code", condition = LIKE)
     private String parentCode;
 
 

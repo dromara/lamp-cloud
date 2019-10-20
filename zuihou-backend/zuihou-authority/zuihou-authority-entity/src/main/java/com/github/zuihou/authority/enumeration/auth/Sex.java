@@ -16,13 +16,13 @@ import lombok.NoArgsConstructor;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-28
+ * @date 2019-10-20
  */
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(value = "Sex", description = "性别-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-@NoArgsConstructor
 public enum Sex implements BaseEnum {
 
     /**

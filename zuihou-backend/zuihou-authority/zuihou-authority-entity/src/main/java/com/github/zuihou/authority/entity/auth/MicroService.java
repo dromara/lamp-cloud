@@ -17,6 +17,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -24,7 +26,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -43,7 +45,7 @@ public class MicroService extends Entity<Long> {
      */
     @ApiModelProperty(value = "服务名称")
     @Length(max = 20, message = "服务名称长度不能超过20")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -51,7 +53,7 @@ public class MicroService extends Entity<Long> {
      */
     @ApiModelProperty(value = "服务描述")
     @Length(max = 100, message = "服务描述长度不能超过100")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**
@@ -60,7 +62,7 @@ public class MicroService extends Entity<Long> {
      */
     @ApiModelProperty(value = "eureka编码")
     @Length(max = 100, message = "eureka编码长度不能超过100")
-    @TableField("eureka_code")
+    @TableField(value = "eureka_code", condition = LIKE)
     private String eurekaCode;
 
     /**
@@ -68,7 +70,7 @@ public class MicroService extends Entity<Long> {
      */
     @ApiModelProperty(value = "swagger地址")
     @Length(max = 255, message = "swagger地址长度不能超过255")
-    @TableField("swagger_url")
+    @TableField(value = "swagger_url", condition = LIKE)
     private String swaggerUrl;
 
     /**

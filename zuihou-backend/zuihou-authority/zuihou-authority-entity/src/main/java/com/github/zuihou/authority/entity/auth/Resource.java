@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
@@ -23,6 +22,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -30,7 +31,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -53,7 +54,7 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "资源编码")
     @Length(max = 255, message = "资源编码长度不能超过255")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -62,7 +63,7 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "资源类型")
     @NotNull(message = "资源类型不能为空")
-    @TableField(value = "resource_type")
+    @TableField("resource_type")
     private ResourceType resourceType;
 
     /**
@@ -71,7 +72,7 @@ public class Resource extends Entity<Long> {
     @ApiModelProperty(value = "接口名称")
     @NotEmpty(message = "接口名称不能为空")
     @Length(max = 255, message = "接口名称长度不能超过255")
-    @TableField(value = "name", condition = SqlCondition.LIKE)
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -95,7 +96,7 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "菜单名称")
     @Length(max = 255, message = "菜单名称长度不能超过255")
-    @TableField("menu_name")
+    @TableField(value = "menu_name", condition = LIKE)
     private String menuName;
 
     /**
@@ -103,7 +104,7 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "类标签")
     @Length(max = 255, message = "类标签长度不能超过255")
-    @TableField("tags")
+    @TableField(value = "tags", condition = LIKE)
     private String tags;
 
     /**
@@ -111,7 +112,7 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "接口描述")
     @Length(max = 255, message = "接口描述长度不能超过255")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**
@@ -119,12 +120,13 @@ public class Resource extends Entity<Long> {
      */
     @ApiModelProperty(value = "地址")
     @Length(max = 150, message = "地址长度不能超过150")
-    @TableField("uri")
+    @TableField(value = "uri", condition = LIKE)
     private String uri;
 
     /**
      * 请求方式
      * #HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}
+     *
      */
     @ApiModelProperty(value = "请求方式")
     @TableField("http_method")

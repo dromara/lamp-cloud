@@ -10,7 +10,6 @@ import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.enumeration.auth.Sex;
-import com.github.zuihou.authority.enumeration.auth.TargetType;
 import com.github.zuihou.authority.enumeration.common.LogType;
 import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.authority.service.core.OrgService;
@@ -59,7 +58,6 @@ public class GeneralController {
         map.put(LogType.class.getSimpleName(), BaseEnum.getMap(LogType.values()));
         map.put(ResourceType.class.getSimpleName(), BaseEnum.getMap(ResourceType.values()));
         map.put(Sex.class.getSimpleName(), BaseEnum.getMap(Sex.values()));
-        map.put(TargetType.class.getSimpleName(), BaseEnum.getMap(TargetType.values()));
         return R.success(map);
     }
 
@@ -98,4 +96,5 @@ public class GeneralController {
         Thread.sleep(millis);
         return R.success(clientIP);
     }
+
 }

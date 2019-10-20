@@ -20,6 +20,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -27,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -55,7 +57,7 @@ public class DictionaryItem extends Entity<Long> {
     @ApiModelProperty(value = "字典编码")
     @NotEmpty(message = "字典编码不能为空")
     @Length(max = 64, message = "字典编码长度不能超过64")
-    @TableField("dictionary_code")
+    @TableField(value = "dictionary_code", condition = LIKE)
     private String dictionaryCode;
 
     /**
@@ -64,7 +66,7 @@ public class DictionaryItem extends Entity<Long> {
     @ApiModelProperty(value = "字典项编码")
     @NotEmpty(message = "字典项编码不能为空")
     @Length(max = 64, message = "字典项编码长度不能超过64")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -73,7 +75,7 @@ public class DictionaryItem extends Entity<Long> {
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过64")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -95,7 +97,7 @@ public class DictionaryItem extends Entity<Long> {
      */
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**

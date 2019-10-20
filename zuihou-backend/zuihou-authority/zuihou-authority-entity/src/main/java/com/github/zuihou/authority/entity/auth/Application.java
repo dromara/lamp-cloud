@@ -19,6 +19,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -26,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -45,7 +47,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "首页访问地址")
     @Length(max = 100, message = "首页访问地址长度不能超过100")
-    @TableField("index_url")
+    @TableField(value = "index_url", condition = LIKE)
     private String indexUrl;
 
     /**
@@ -53,7 +55,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用名称")
     @Length(max = 20, message = "应用名称长度不能超过20")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -61,7 +63,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用logo")
     @Length(max = 255, message = "应用logo长度不能超过255")
-    @TableField("logo_url")
+    @TableField(value = "logo_url", condition = LIKE)
     private String logoUrl;
 
     /**
@@ -69,7 +71,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "功能描述")
     @Length(max = 200, message = "功能描述长度不能超过200")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**
@@ -79,7 +81,7 @@ public class Application extends Entity<Long> {
     @ApiModelProperty(value = "应用编码")
     @NotEmpty(message = "应用编码不能为空")
     @Length(max = 20, message = "应用编码长度不能超过20")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -101,7 +103,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "ICP备案号")
     @Length(max = 32, message = "ICP备案号长度不能超过32")
-    @TableField("icp_code")
+    @TableField(value = "icp_code", condition = LIKE)
     private String icpCode;
 
     /**
@@ -109,7 +111,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "标题logo")
     @Length(max = 255, message = "标题logo长度不能超过255")
-    @TableField("title_icon")
+    @TableField(value = "title_icon", condition = LIKE)
     private String titleIcon;
 
     /**
@@ -117,7 +119,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "技术支持单位")
     @Length(max = 32, message = "技术支持单位长度不能超过32")
-    @TableField("support_unit")
+    @TableField(value = "support_unit", condition = LIKE)
     private String supportUnit;
 
     /**
@@ -125,7 +127,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "公网备案号")
     @Length(max = 32, message = "公网备案号长度不能超过32")
-    @TableField("common_record")
+    @TableField(value = "common_record", condition = LIKE)
     private String commonRecord;
 
 
