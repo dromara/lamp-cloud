@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-28
+ * @date 2019-10-20
  */
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(value = "ResourceType", description = "资源类型-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ResourceType implements BaseEnum {

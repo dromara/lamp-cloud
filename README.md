@@ -32,9 +32,9 @@ https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 
 [github] https://github.com/zuihou/zuihou-admin-cloud  (由于某种特殊原因，下载代码有时非常慢)
 
-[前端] https://github.com/zuihou/zuihou-admin-ui   
+[前端] https://github.com/zuihou/zuihou-ui   
 
-[前端] https://gitee.com/zuihou111/zuihou-admin-ui 
+[前端] https://gitee.com/zuihou111/zuihou-ui 
 
 [代码生成器] https://github.com/zuihou/zuihou-generator  
 
@@ -291,7 +291,7 @@ chown -R $USER:wheel /data/projects/logs     # mac
     - 启动seata              (可选，若要测试分布式事务则一定要在nacos启动后，在启动seata-server)(详情参考third-party/README.md)
     - OrderServerApplication (可选)
     - DemoServerApplication (可选)
-    - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-admin-ui?_blank)
+    - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-ui?_blank)
 
 - 11， 启动完毕，就可以测试了。每个服务都能访问各自的swagger文档， 然后在网关有一个聚合文档（能看到所有服务的接口）。
 

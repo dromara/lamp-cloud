@@ -139,6 +139,7 @@
 
         <groovy-all.version>2.5.5</groovy-all.version>
         <quartz.version>2.3.0</quartz.version>
+        <easy-captcha.version>1.6.2</easy-captcha.version>
 
         <jetty-server.version>9.4.14.v20181114</jetty-server.version>
 
@@ -342,6 +343,12 @@
                 <version>${commons-lang.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -375,6 +382,7 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
+
 
     </dependencies>
 

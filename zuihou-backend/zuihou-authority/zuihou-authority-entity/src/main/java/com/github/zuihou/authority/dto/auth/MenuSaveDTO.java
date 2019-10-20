@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.github.zuihou.authority.enumeration.auth.TargetType;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -68,13 +66,7 @@ public class MenuSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "资源路径")
     @Length(max = 255, message = "资源路径长度不能超过255")
-    private String href;
-    /**
-     * 打开方式
-     * #TargetType{SELF:_self,相同框架;TOP:_top,当前页;BLANK:_blank,新建窗口;PAREN:_parent,父窗口}
-     */
-    @ApiModelProperty(value = "打开方式")
-    private TargetType target;
+    private String path;
     /**
      * 是否启用
      */

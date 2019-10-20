@@ -13,6 +13,14 @@ import com.google.common.base.Joiner;
  */
 public interface CacheKey {
     // 权限系统缓存 start
+
+    /**
+     * 验证码 前缀
+     * 完整key: captcha:{key} -> str
+     */
+    String CAPTCHA = "captcha";
+
+
     /**
      * 菜单 前缀
      * 完整key: menu:{menuId} -> obj

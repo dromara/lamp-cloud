@@ -2,6 +2,8 @@ package com.github.zuihou.authority.entity.core;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -17,6 +19,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -24,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -42,8 +46,9 @@ public class Org extends Entity<Long> {
      * 名称
      */
     @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
     @Length(max = 255, message = "名称长度不能超过255")
-    @TableField("name")
+    @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
@@ -51,7 +56,7 @@ public class Org extends Entity<Long> {
      */
     @ApiModelProperty(value = "简称")
     @Length(max = 255, message = "简称长度不能超过255")
-    @TableField("abbreviation")
+    @TableField(value = "abbreviation", condition = LIKE)
     private String abbreviation;
 
     /**
@@ -66,7 +71,7 @@ public class Org extends Entity<Long> {
      */
     @ApiModelProperty(value = "树结构")
     @Length(max = 255, message = "树结构长度不能超过255")
-    @TableField("tree_path")
+    @TableField(value = "tree_path", condition = LIKE)
     private String treePath;
 
     /**
@@ -88,7 +93,7 @@ public class Org extends Entity<Long> {
      */
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
-    @TableField("describe_")
+    @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
 

@@ -46,7 +46,7 @@ spring:
 dozer:
   mappingFiles:
     - classpath:dozer/global.dozer.xml
-
+    - classpath:dozer/biz.dozer.xml
 management:
   endpoints:
     web:

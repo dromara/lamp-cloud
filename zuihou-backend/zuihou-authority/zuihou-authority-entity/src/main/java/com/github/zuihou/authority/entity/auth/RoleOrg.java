@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2019-10-20
  */
 @Data
 @NoArgsConstructor
@@ -46,10 +46,10 @@ public class RoleOrg extends SuperEntity<Long> {
     private Long roleId;
 
     /**
-     * 组织ID
+     * 部门ID
      * #c_core_org
      */
-    @ApiModelProperty(value = "组织ID")
+    @ApiModelProperty(value = "部门ID")
     @TableField("org_id")
     private Long orgId;
 

@@ -19,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time,
+        id, create_user, create_time, update_user, update_time, 
         name, code, describe_, is_enable, is_readonly, ds_type
     </sql>
 
