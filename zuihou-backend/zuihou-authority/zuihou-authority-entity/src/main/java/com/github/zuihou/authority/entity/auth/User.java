@@ -30,7 +30,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-20
+ * @since 2019-10-22
  */
 @Data
 @NoArgsConstructor
@@ -79,6 +79,14 @@ public class User extends Entity<Long> {
     private Long stationId;
 
     /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮箱")
+    @Length(max = 255, message = "邮箱长度不能超过255")
+    @TableField(value = "email", condition = LIKE)
+    private String email;
+
+    /**
      * 手机
      */
     @ApiModelProperty(value = "手机")
@@ -107,6 +115,13 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "删除标记")
     @TableField("is_delete")
     private Boolean isDelete;
+
+    /**
+     * 启用状态 1启用 0禁用
+     */
+    @ApiModelProperty(value = "启用状态 1启用 0禁用")
+    @TableField("status")
+    private Boolean status;
 
     /**
      * 照片
@@ -167,9 +182,9 @@ public class User extends Entity<Long> {
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String account, String name, Long orgId, Long stationId, String mobile,
-                Sex sex, Boolean isCanLogin, Boolean isDelete, String photo, String workDescribe, Integer loginCount,
-                LocalDate continuationErrorDay, Integer continuationErrorCount, LocalDateTime passwordExpireTime, String password) {
+                String account, String name, Long orgId, Long stationId, String email,
+                String mobile, Sex sex, Boolean isCanLogin, Boolean isDelete, Boolean status, String photo,
+                String workDescribe, Integer loginCount, LocalDate continuationErrorDay, Integer continuationErrorCount, LocalDateTime passwordExpireTime, String password) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -179,10 +194,12 @@ public class User extends Entity<Long> {
         this.name = name;
         this.orgId = orgId;
         this.stationId = stationId;
+        this.email = email;
         this.mobile = mobile;
         this.sex = sex;
         this.isCanLogin = isCanLogin;
         this.isDelete = isDelete;
+        this.status = status;
         this.photo = photo;
         this.workDescribe = workDescribe;
         this.loginCount = loginCount;

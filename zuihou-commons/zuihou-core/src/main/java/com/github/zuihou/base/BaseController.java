@@ -23,13 +23,13 @@ public abstract class BaseController {
     protected HttpServletResponse response;
 
     /**
-     * 页码
+     * 当前页
      */
-    protected static final String PAGE_NO = "pageNo";
+    protected static final String CURRENT = "current";
     /**
-     * 分页条数
+     * 每页显示条数
      */
-    protected static final String PAGE_SIZE = "pageSize";
+    protected static final String SIZE = "size";
     /**
      * 排序字段 ASC
      */
@@ -132,11 +132,11 @@ public abstract class BaseController {
     }
 
     protected Integer getPageNo() {
-        return NumberHelper.intValueOf(request.getParameter(PAGE_NO), 1);
+        return NumberHelper.intValueOf(request.getParameter(CURRENT), 1);
     }
 
     protected Integer getPageSize() {
-        return NumberHelper.intValueOf(request.getParameter(PAGE_SIZE), DEFAULT_LIMIT);
+        return NumberHelper.intValueOf(request.getParameter(SIZE), DEFAULT_LIMIT);
     }
 
     /**
