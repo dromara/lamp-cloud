@@ -1,6 +1,4 @@
 zuihou:
-  mysql:
-    database: zuihou_file_dev
   #    ip: 127.0.0.1
   #    port: 3306
   #    driverClassName: com.mysql.cj.jdbc.Driver

@@ -10,11 +10,11 @@
 
 
 ## 简介：
-基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的微服务 脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
+基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的 SaaS型微服务脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Seata、Nacos、Sentinel、
 RibbitMQ、FastDFS等主要框架和中间件。
 
-希望能努力打造一套从 `基础框架` - `分布式微服务架构` - `持续集成` - `自动化部署` - `系统监测` 的解决方案。`本项目旨在实现基础能力，不涉及具体业务。`
+希望能努力打造一套从 `SaaS基础框架` - `分布式微服务架构` - `持续集成` - `自动化部署` - `系统监测` 的解决方案。`本项目旨在实现基础能力，不涉及具体业务。`
 
 部署方面, 可以采用以下4种方式，并会陆续公布jenkins集合以下3种部署方式的脚本和配置文件：
 - IDEA 启动
@@ -85,6 +85,13 @@ https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 
 利用基于Mybatis的DataScopeInterceptor拦截器实现了简单的数据权限
 
+ - ** SaaS的无感解决方案 **
+ 使用Mybatis拦截器实现对所有SQL的拦截，修改默认的Schema，从而实现多租户数据隔离的目的。
+ 
+- ** 二级缓存 **
+采用J2Cache操作缓存，第一级缓存使用内存(Caffeine)，第二级缓存使用 Redis。 由于大量的缓存读取会导致 L2 的网络成为整个系统的瓶颈，因此 L1 的目标是降低对 L2 的读取次数。 
+该缓存框架主要用于集群环境中。单机也可使用，用于避免应用重启导致的缓存冷启动后对后端业务的冲击。
+
 - **优雅的Bean转换**
 
 采用Dozer组件来对 DTO、DO、PO等对象的优化转换
@@ -126,6 +133,8 @@ https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 - 所涉及的相关的技术有：
     - JSON序列化:Jackson
     - 消息队列：RibbitMQ
+    - 缓存：Redis 
+    - 缓存框架：J2Cache 
     - 数据库： MySQL 5.7.9 (驱动6.0.6)
     - 定时器：采用xxl-jobs项目进行二次改造
     - 前端：vue 
@@ -256,14 +265,12 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 
 ## 运行步骤: 
 - 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
-    - docs/1_create_schema.sql                  # 创建数据库
-    - docs/sql/zuihou_authority_dev.sql         # 导入权限库表结构和数据  (文件名 就是库名)
-    - docs/sql/c_common_area.sql                # 向(zuihou_authority_dev库)导入地区表结构和数据  
-    - docs/sql/zuihou_file_dev.sql              # 导入文件服务表结构和数据
-    - docs/sql/zuihou_jobs_dev.sql              # 导入定时任务库表结构和数据
-    - docs/sql/zuihou_msgs_dev.sql              # 导入消息服务表结构和数据    
-    - docs/sql/zuihou_demo_dev.sql              # 导入demo服务表结构和数据     
-    - zuihou-support/zuihou-zipkin/src/main/resources/zuihou_zipkin.sql   # 导入 zuihou_zipkin 库
+    - 解压： docs/sql.zip                             
+    - docs/sql/1.先执行我,创建数据库.sql          # 创建数据库
+    - docs/sql/zuihou_defaults.sql              # 导入默认库
+    - docs/sql/zuihou_base_0000.sql             # 导入内置的租户库  
+    - docs/sql/4.导入c_common_area表的数据.sql    # 导入内置租户库的地区表数据
+    - docs/sql/zuihou_zipkin.sql                # 导入 zuihou_zipkin 库
     
 - 2, 启动 nacos，新增命名空间 - `zuihou`，并记录下自己新增的命名空间ID
 - 3，将该命名空间ID复制到项目： `zuihou-dependencies/pom.xml` - `<pom.nacos.namespace>你刚才复制的命名ID</pom.nacos.namespace>` ，同时在pom.xml中将nacos的ip和端口修改成自己的。
