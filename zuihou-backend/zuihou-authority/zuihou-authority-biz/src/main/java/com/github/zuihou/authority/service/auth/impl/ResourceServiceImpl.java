@@ -108,7 +108,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @CacheEvict(value = CacheKey.RESOURCE, key = "#id")
     public boolean removeByIdWithCache(Long id) {
         Resource resource = super.getById(id);
-        BizAssert.assertNotNull(resource);
+        BizAssert.notNull(resource);
         if (ResourceType.URI.eq(resource.getResourceType())) {
             //TODO 注意这里有没有必要
             return super.update(Wraps.<Resource>lbU().set(Resource::getMenuId, null).eq(Resource::getId, id));
@@ -126,8 +126,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Override
     public boolean saveWithCache(Resource resource) {
         if (ResourceType.URI.eq(resource.getResourceType())) {
-            BizAssert.assertNotNull(resource.getId(), "URI资源不能为空");
-            BizAssert.assertNotNull(resource.getMenuId(), "URI资源必须关联菜单");
+            BizAssert.notNull(resource.getId(), "URI资源不能为空");
+            BizAssert.notNull(resource.getMenuId(), "URI资源必须关联菜单");
         }
 
         resource.setCode(StrHelper.getOrDef(resource.getCode(), codeGenerate.next()));

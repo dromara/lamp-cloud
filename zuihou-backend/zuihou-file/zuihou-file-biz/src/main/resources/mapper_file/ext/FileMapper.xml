@@ -16,8 +16,7 @@
     <select id="findByIds" resultMap="FileQueryResult" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from f_file
-        where id in
+        from f_file where id in
         <foreach close=")" collection="ids" item="id" open="(" separator=",">
             #{id}
         </foreach>

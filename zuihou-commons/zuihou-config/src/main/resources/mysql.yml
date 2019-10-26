@@ -5,7 +5,8 @@ zuihou:
     ip: 127.0.0.1
     port: 3306
     driverClassName: com.mysql.cj.jdbc.Driver
-    database: zuihou_authority_dev
+    database: zuihou_defaults
+    biz-database: zuihou_defaults
     username: root
     password: root
 

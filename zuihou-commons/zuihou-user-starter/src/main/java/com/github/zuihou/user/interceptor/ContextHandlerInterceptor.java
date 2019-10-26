@@ -35,8 +35,6 @@ public class ContextHandlerInterceptor extends HandlerInterceptorAdapter {
                 log.info("not exec!!! url={}", request.getRequestURL());
                 return super.preHandle(request, response, handler);
             }
-//            HandlerMethod handlerMethod = (HandlerMethod) handler;
-
             String userId = getHeader(request, BaseContextConstants.JWT_KEY_USER_ID);
             String account = getHeader(request, BaseContextConstants.JWT_KEY_ACCOUNT);
             String name = getHeader(request, BaseContextConstants.JWT_KEY_NAME);

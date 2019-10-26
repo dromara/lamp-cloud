@@ -1,17 +1,3 @@
-# 权限服务 开发环境的个性化配置
-zuihou:
-  mysql:
-    database: zuihou_authority_new
-#    ip: 127.0.0.1
-#    port: 3306
-#    driverClassName: com.mysql.cj.jdbc.Driver
-#    username: root
-#    password: root
-#  redis:
-#    ip: 127.0.0.1
-#    port: 16379
-#    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
-
 # 开发环境需要使用p6spy进行sql语句输出
 # 但p6spy会有性能损耗，不适合在生产线使用，故其他环境无需配置
 spring:

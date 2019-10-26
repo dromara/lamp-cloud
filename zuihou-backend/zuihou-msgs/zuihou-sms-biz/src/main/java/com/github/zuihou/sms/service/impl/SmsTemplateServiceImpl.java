@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
-import static com.github.zuihou.utils.BizAssert.assertNotNull;
+import static com.github.zuihou.utils.BizAssert.notNull;
 
 /**
  * <p>
@@ -54,7 +54,7 @@ public class SmsTemplateServiceImpl extends ServiceImpl<SmsTemplateMapper, SmsTe
 
     private void buildParams(SmsTemplate smsTemplate) {
         SmsProvider smsProvider = smsProviderService.getById(smsTemplate.getProviderId());
-        assertNotNull(smsProvider, "短信供应商不存在");
+        notNull(smsProvider, "短信供应商不存在");
         String content = smsTemplate.getContent();
         if (StrUtil.isNotEmpty(content)) {
             String param = getParamByContent(content, smsProvider.getProviderType().getRegex());

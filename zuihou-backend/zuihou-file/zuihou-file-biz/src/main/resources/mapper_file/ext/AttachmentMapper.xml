@@ -37,8 +37,7 @@
 
 
     <select id="countByGroup" parameterType="java.util.Map" resultType="java.lang.Integer">
-        select count(id) from f_file
-        where id not in
+        select count(id) from f_file where id not in
         <foreach collection="ids" open="(" close=")" item="id" separator=",">
             #{id, jdbcType=BIGINT}
         </foreach>
@@ -50,7 +49,6 @@
     <select id="page" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM f_attachment
-        ${ew.customSqlSegment}
+        FROM f_attachment f ${ew.customSqlSegment}
     </select>
 </mapper>

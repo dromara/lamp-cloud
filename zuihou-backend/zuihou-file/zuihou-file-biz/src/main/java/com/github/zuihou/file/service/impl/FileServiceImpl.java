@@ -34,6 +34,7 @@ import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.enumeration.IconType;
 import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.file.strategy.FileStrategy;
+import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.DateUtils;
 
 import lombok.Getter;
@@ -45,10 +46,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
-import static com.github.zuihou.utils.BizAssert.assertEquals;
-import static com.github.zuihou.utils.BizAssert.assertFalse;
-import static com.github.zuihou.utils.BizAssert.assertNotNull;
-import static com.github.zuihou.utils.BizAssert.assertTrue;
 import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
 import static com.github.zuihou.utils.StrPool.DEF_ROOT_PATH;
 import static java.util.stream.Collectors.groupingBy;
@@ -105,7 +102,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
             treePath = StringUtils.join(folder.getTreePath(), folder.getId(), DEF_ROOT_PATH);
             grade = folder.getGrade() + 1;
         }
-        assertTrue(BASE_VALID_PARAM.build("文件夹层级不能超过10层"), grade <= 10);
+        BizAssert.isTrue(grade <= 10, BASE_VALID_PARAM.build("文件夹层级不能超过10层"));
         return new FileAttrDO(treePath, grade, folderName, folderId);
     }
 
@@ -119,10 +116,10 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
             folder.setGrade(1);
         } else {
             File parent = super.getById(folderSaveDto.getFolderId());
-            assertNotNull(BASE_VALID_PARAM.build("父文件夹不能为空"), parent);
-            assertFalse(BASE_VALID_PARAM.build("父文件夹已经被删除"), parent.getIsDelete());
-            assertEquals(BASE_VALID_PARAM.build("父文件夹不存在"), DataType.DIR.name(), parent.getDataType().name());
-            assertTrue(BASE_VALID_PARAM.build("文件夹层级不能超过10层"), parent.getGrade() < 10);
+            BizAssert.notNull(parent, BASE_VALID_PARAM.build("父文件夹不能为空"));
+            BizAssert.isFalse(parent.getIsDelete(), BASE_VALID_PARAM.build("父文件夹已经被删除"));
+            BizAssert.equals(DataType.DIR.name(), parent.getDataType().name(), BASE_VALID_PARAM.build("父文件夹不存在"));
+            BizAssert.isTrue(parent.getGrade() < 10, BASE_VALID_PARAM.build("文件夹层级不能超过10层"));
             folder.setFolderName(parent.getSubmittedFileName());
             folder.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), DEF_ROOT_PATH));
             folder.setGrade(parent.getGrade() + 1);
