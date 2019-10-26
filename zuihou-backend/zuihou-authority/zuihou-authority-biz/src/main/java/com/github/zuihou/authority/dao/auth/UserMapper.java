@@ -28,4 +28,12 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     List<User> findUserByRoleId(@Param("roleId") Long roleId, @Param("keyword") String keyword);
+
+    /**
+     * 递增 密码错误次数
+     *
+     * @param id
+     * @return
+     */
+    int incrPasswordErrorNumById(@Param("id") Long id);
 }

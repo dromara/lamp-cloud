@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.entity.auth;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
@@ -30,7 +29,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-22
+ * @since 2019-10-25
  */
 @Data
 @NoArgsConstructor
@@ -103,13 +102,6 @@ public class User extends Entity<Long> {
     private Sex sex;
 
     /**
-     * 是否可登陆
-     */
-    @ApiModelProperty(value = "是否可登陆")
-    @TableField("is_can_login")
-    private Boolean isCanLogin;
-
-    /**
      * 删除标记
      */
     @ApiModelProperty(value = "删除标记")
@@ -141,27 +133,18 @@ public class User extends Entity<Long> {
     private String workDescribe;
 
     /**
-     * 登录次数
-     * 一直累计，记录了此账号总共登录次数
+     * 最后一次密码错误时间
      */
-    @ApiModelProperty(value = "登录次数")
-    @TableField("login_count")
-    private Integer loginCount;
+    @ApiModelProperty(value = "最后一次密码错误时间")
+    @TableField("password_error_last_time")
+    private LocalDateTime passwordErrorLastTime;
 
     /**
-     * 输入密码错误的日期
-     * 比如20190102  与error_count合力实现一天输入密码错误次数限制
+     * 密码错误次数
      */
-    @ApiModelProperty(value = "输入密码错误的日期")
-    @TableField("continuation_error_day")
-    private LocalDate continuationErrorDay;
-
-    /**
-     * 一天连续输错密码次数
-     */
-    @ApiModelProperty(value = "一天连续输错密码次数")
-    @TableField("continuation_error_count")
-    private Integer continuationErrorCount;
+    @ApiModelProperty(value = "密码错误次数")
+    @TableField("password_error_num")
+    private Integer passwordErrorNum;
 
     /**
      * 密码过期时间
@@ -183,8 +166,8 @@ public class User extends Entity<Long> {
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                 String account, String name, Long orgId, Long stationId, String email,
-                String mobile, Sex sex, Boolean isCanLogin, Boolean isDelete, Boolean status, String photo,
-                String workDescribe, Integer loginCount, LocalDate continuationErrorDay, Integer continuationErrorCount, LocalDateTime passwordExpireTime, String password) {
+                String mobile, Sex sex, Boolean isDelete, Boolean status, String photo, String workDescribe,
+                LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -197,14 +180,12 @@ public class User extends Entity<Long> {
         this.email = email;
         this.mobile = mobile;
         this.sex = sex;
-        this.isCanLogin = isCanLogin;
         this.isDelete = isDelete;
         this.status = status;
         this.photo = photo;
         this.workDescribe = workDescribe;
-        this.loginCount = loginCount;
-        this.continuationErrorDay = continuationErrorDay;
-        this.continuationErrorCount = continuationErrorCount;
+        this.passwordErrorLastTime = passwordErrorLastTime;
+        this.passwordErrorNum = passwordErrorNum;
         this.passwordExpireTime = passwordExpireTime;
         this.password = password;
     }

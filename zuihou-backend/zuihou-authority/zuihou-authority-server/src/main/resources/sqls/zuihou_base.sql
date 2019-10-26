@@ -1,0 +1,676 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 127.0.0.1
+ Source Server Type    : MySQL
+ Source Server Version : 50722
+ Source Host           : 127.0.0.1:3306
+ Source Schema         : zuihou_base_0000
+
+ Target Server Type    : MySQL
+ Target Server Version : 50722
+ File Encoding         : 65001
+
+ Date: 25/10/2019 11:34:26
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for c_auth_application
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_application`;
+CREATE TABLE `c_auth_application` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `index_url` varchar(100) DEFAULT '' COMMENT '首页访问地址',
+  `name` varchar(20) DEFAULT '' COMMENT '应用名称',
+  `logo_url` varchar(255) DEFAULT '' COMMENT '应用logo',
+  `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
+  `code` varchar(20) NOT NULL COMMENT '应用编码\r\n必须唯一',
+  `sort_value` int(11) DEFAULT '1' COMMENT '序号',
+  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `icp_code` varchar(32) DEFAULT '' COMMENT 'ICP备案号',
+  `title_icon` varchar(255) DEFAULT '' COMMENT '标题logo',
+  `support_unit` varchar(32) DEFAULT '' COMMENT '技术支持单位',
+  `common_record` varchar(32) DEFAULT '' COMMENT '公网备案号',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `un_code_` (`code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用';
+
+-- ----------------------------
+-- Table structure for c_auth_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_menu`;
+CREATE TABLE `c_auth_menu` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
+  `code` varchar(255) DEFAULT '' COMMENT '资源编码',
+  `is_public` bit(1) DEFAULT b'0' COMMENT '是否公开菜单\r\n就是无需分配就可以访问的。所有人可见',
+  `path` varchar(255) DEFAULT '' COMMENT '对应路由path',
+  `component` varchar(255) DEFAULT NULL COMMENT '对应路由组件component',
+  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
+  `icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
+  `group_` varchar(20) DEFAULT '' COMMENT '菜单分组',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父级菜单id',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_CODE` (`code`) USING BTREE COMMENT '编码唯一'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
+
+-- ----------------------------
+-- Table structure for c_auth_micro_service
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_micro_service`;
+CREATE TABLE `c_auth_micro_service` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(20) DEFAULT '' COMMENT '服务名称',
+  `describe_` varchar(100) DEFAULT '' COMMENT '服务描述',
+  `eureka_code` varchar(100) DEFAULT '' COMMENT 'eureka编码\r\n就是服务注册到eureka后，他的application name',
+  `swagger_url` varchar(255) DEFAULT '' COMMENT 'swagger地址',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务表';
+
+-- ----------------------------
+-- Table structure for c_auth_resource
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_resource`;
+CREATE TABLE `c_auth_resource` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `code` varchar(255) DEFAULT '' COMMENT '资源编码\n规则：\n链接：\n数据列：\n按钮：',
+  `resource_type` varchar(10) NOT NULL DEFAULT 'BUTTON' COMMENT '资源类型 \n#ResourceType{BUTTON:按钮;URI:链接;COLUMN:字段;}',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '接口名称',
+  `micro_service_id` bigint(20) DEFAULT NULL COMMENT '服务ID\n#c_auth_micro_service',
+  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID\n#c_auth_menu',
+  `menu_name` varchar(255) DEFAULT '' COMMENT '菜单名称',
+  `tags` varchar(255) DEFAULT '' COMMENT '类标签',
+  `describe_` varchar(255) DEFAULT '' COMMENT '接口描述',
+  `uri` varchar(150) DEFAULT '' COMMENT '地址',
+  `http_method` varchar(7) DEFAULT 'GET' COMMENT '请求方式\r\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}\n         ',
+  `deprecated` bit(1) DEFAULT b'0' COMMENT '是否过时',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_CODE` (`code`) COMMENT '编码唯一',
+  UNIQUE KEY `UN_URI` (`resource_type`,`micro_service_id`,`http_method`,`uri`) USING BTREE COMMENT 'URI唯一'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
+
+-- ----------------------------
+-- Table structure for c_auth_role
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_role`;
+CREATE TABLE `c_auth_role` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(30) DEFAULT '' COMMENT '角色名称',
+  `code` varchar(20) DEFAULT '' COMMENT '角色编码',
+  `describe_` varchar(100) DEFAULT '' COMMENT '功能描述',
+  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `is_readonly` bit(1) DEFAULT b'0' COMMENT '是否只读角色',
+  `ds_type` varchar(20) NOT NULL DEFAULT 'SELF' COMMENT '数据权限类型\n#DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_CODE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
+
+-- ----------------------------
+-- Table structure for c_auth_role_authority
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_role_authority`;
+CREATE TABLE `c_auth_role_authority` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `authority_id` bigint(20) NOT NULL COMMENT '资源id\n#c_auth_resource\n#c_auth_menu',
+  `authority_type` varchar(10) NOT NULL DEFAULT 'MENU' COMMENT '权限类型\n#AuthorizeType{MENU:菜单;RESOURCE:资源;}',
+  `role_id` bigint(20) NOT NULL COMMENT '角色id\n#c_auth_role',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色的资源';
+
+-- ----------------------------
+-- Table structure for c_auth_role_org
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_role_org`;
+CREATE TABLE `c_auth_role_org` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID\n#c_auth_role',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '部门ID\n#c_core_org',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色组织关系';
+
+-- ----------------------------
+-- Table structure for c_auth_user
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_user`;
+CREATE TABLE `c_auth_user` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `account` varchar(30) NOT NULL COMMENT '账号',
+  `name` varchar(50) NOT NULL COMMENT '姓名',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org',
+  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station',
+  `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(20) DEFAULT '' COMMENT '手机',
+  `sex` varchar(1) DEFAULT 'M' COMMENT '性别\n#Sex{W:女;M:男}',
+  `is_can_login` bit(1) DEFAULT b'1' COMMENT '是否可登陆',
+  `is_delete` bit(1) DEFAULT b'0' COMMENT '删除标记',
+  `status` bit(1) DEFAULT b'0' COMMENT '启用状态 1启用 0禁用',
+  `photo` varchar(255) DEFAULT '' COMMENT '照片',
+  `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
+  `login_count` int(11) DEFAULT '0' COMMENT '登录次数\n一直累计，记录了此账号总共登录次数',
+  `continuation_error_day` date DEFAULT NULL COMMENT '输入密码错误的日期\r\n比如20190102  与error_count合力实现一天输入密码错误次数限制',
+  `continuation_error_count` int(11) DEFAULT '0' COMMENT '一天连续输错密码次数',
+  `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
+  `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_ACCOUNT` (`account`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
+
+-- ----------------------------
+-- Table structure for c_auth_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_user_role`;
+CREATE TABLE `c_auth_user_role` (
+  `id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '角色ID\n#c_auth_role',
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户ID\n#c_core_accou',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色分配\r\n账号角色绑定';
+
+-- ----------------------------
+-- Table structure for c_common_area
+-- ----------------------------
+DROP TABLE IF EXISTS `c_common_area`;
+CREATE TABLE `c_common_area` (
+  `id` bigint(11) NOT NULL COMMENT 'id',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '地区编码',
+  `full_name` varchar(255) DEFAULT '' COMMENT '全名',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
+  `longitude` varchar(255) DEFAULT '' COMMENT '经度',
+  `latitude` varchar(255) DEFAULT '' COMMENT '维度',
+  `level` int(1) NOT NULL DEFAULT '0' COMMENT '行政区级',
+  `parent_code` varchar(64) DEFAULT NULL COMMENT '上级行政区码',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(11) DEFAULT '0' COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_user` bigint(11) DEFAULT '0' COMMENT '更新人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
+
+-- ----------------------------
+-- Table structure for c_common_dictionary
+-- ----------------------------
+DROP TABLE IF EXISTS `c_common_dictionary`;
+CREATE TABLE `c_common_dictionary` (
+  `id` bigint(20) NOT NULL,
+  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '字典名称',
+  `describe_` varchar(200) DEFAULT '' COMMENT '字典描述',
+  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典目录';
+
+-- ----------------------------
+-- Table structure for c_common_dictionary_item
+-- ----------------------------
+DROP TABLE IF EXISTS `c_common_dictionary_item`;
+CREATE TABLE `c_common_dictionary_item` (
+  `id` bigint(20) NOT NULL COMMENT '字典项id',
+  `dictionary_id` bigint(20) NOT NULL COMMENT '字典id',
+  `dictionary_code` varchar(64) NOT NULL COMMENT '字典编码',
+  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '字典项编码',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
+  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除',
+  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `dict_code_item_code_uniq` (`dictionary_code`,`code`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
+
+-- ----------------------------
+-- Table structure for c_common_login_log
+-- ----------------------------
+DROP TABLE IF EXISTS `c_common_login_log`;
+CREATE TABLE `c_common_login_log` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `request_ip` varchar(50) DEFAULT '' COMMENT '操作IP',
+  `user_name` varchar(50) DEFAULT '' COMMENT '登录用户',
+  `description` varchar(255) DEFAULT '' COMMENT '登录描述',
+  `login_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `ua` bigint(20) DEFAULT '0' COMMENT '浏览器请求头',
+  `location` varchar(50) DEFAULT '' COMMENT '登录地点',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
+
+-- ----------------------------
+-- Table structure for c_common_opt_log
+-- ----------------------------
+DROP TABLE IF EXISTS `c_common_opt_log`;
+CREATE TABLE `c_common_opt_log` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `request_ip` varchar(50) DEFAULT '' COMMENT '操作IP',
+  `type` varchar(5) DEFAULT 'OPT' COMMENT '日志类型\n#LogType{OPT:操作类型;EX:异常类型}',
+  `user_name` varchar(50) DEFAULT '' COMMENT '操作人',
+  `description` varchar(255) DEFAULT '' COMMENT '操作描述',
+  `class_path` varchar(255) DEFAULT '' COMMENT '类路径',
+  `action_method` varchar(50) DEFAULT '' COMMENT '请求方法',
+  `request_uri` varchar(50) DEFAULT '' COMMENT '请求地址',
+  `http_method` varchar(10) DEFAULT 'GET' COMMENT '请求类型\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
+  `params` longtext COMMENT '请求参数',
+  `result` longtext COMMENT '返回值',
+  `ex_desc` longtext COMMENT '异常详情信息',
+  `ex_detail` longtext COMMENT '异常描述',
+  `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
+  `consuming_time` bigint(20) DEFAULT '0' COMMENT '消耗时间',
+  `ua` varchar(500) DEFAULT '' COMMENT '浏览器',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `index_type` (`type`) USING BTREE COMMENT '日志类型'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
+
+-- ----------------------------
+-- Table structure for c_core_org
+-- ----------------------------
+DROP TABLE IF EXISTS `c_core_org`;
+CREATE TABLE `c_core_org` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
+  `tree_path` varchar(255) DEFAULT ',' COMMENT '树结构',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY `FU_PATH` (`tree_path`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
+
+-- ----------------------------
+-- Table structure for c_core_station
+-- ----------------------------
+DROP TABLE IF EXISTS `c_core_station`;
+CREATE TABLE `c_core_station` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `org_id` bigint(20) DEFAULT '0' COMMENT '组织ID\n#c_core_org',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
+
+-- ----------------------------
+-- Table structure for f_attachment
+-- ----------------------------
+DROP TABLE IF EXISTS `f_attachment`;
+CREATE TABLE `f_attachment` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `biz_id` varchar(64) DEFAULT NULL COMMENT '业务ID',
+  `biz_type` varchar(255) DEFAULT NULL COMMENT '业务类型\n#AttachmentType',
+  `data_type` varchar(255) DEFAULT 'IMAGE' COMMENT '数据类型\n#DataType{DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他}',
+  `submitted_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `app_code` varchar(64) DEFAULT NULL COMMENT '应用ID\n#c_application',
+  `group_` varchar(255) DEFAULT '' COMMENT 'FastDFS返回的组\n用于FastDFS',
+  `path` varchar(255) DEFAULT '' COMMENT 'FastDFS的远程文件名\n用于FastDFS',
+  `relative_path` varchar(255) DEFAULT '' COMMENT '文件相对路径',
+  `url` varchar(255) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
+  `characters` mediumtext COMMENT '语音转文字',
+  `thumbnail` varchar(255) DEFAULT '' COMMENT '视频截图地址',
+  `file_md5` varchar(255) DEFAULT NULL COMMENT '文件md5值',
+  `context_type` varchar(255) DEFAULT '' COMMENT '文件上传类型\n取上传文件的值',
+  `filename` varchar(255) DEFAULT '' COMMENT '唯一文件名',
+  `ext` varchar(64) DEFAULT '' COMMENT '后缀\n (没有.)',
+  `size` bigint(20) DEFAULT '0' COMMENT '大小',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org',
+  `icon` varchar(64) DEFAULT '' COMMENT '图标',
+  `create_month` varchar(10) DEFAULT NULL COMMENT '创建年月\n格式：yyyy-MM 用于统计',
+  `create_week` varchar(10) DEFAULT NULL COMMENT '创建时处于当年的第几周\nyyyy-ww 用于统计',
+  `create_day` varchar(12) DEFAULT NULL COMMENT '创建年月日\n格式： yyyy-MM-dd 用于统计',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(11) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  `update_user` bigint(11) DEFAULT NULL COMMENT '最后修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件';
+
+-- ----------------------------
+-- Table structure for f_file
+-- ----------------------------
+DROP TABLE IF EXISTS `f_file`;
+CREATE TABLE `f_file` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `data_type` varchar(255) DEFAULT 'IMAGE' COMMENT '数据类型\n#DataType{DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他}',
+  `submitted_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `tree_path` varchar(255) DEFAULT ',' COMMENT '父目录层级关系',
+  `grade` int(11) DEFAULT '1' COMMENT '层级等级\n从1开始计算',
+  `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除\n#BooleanStatus{TRUE:1,已删除;FALSE:0,未删除}',
+  `folder_id` bigint(20) DEFAULT '0' COMMENT '父文件夹ID',
+  `url` varchar(1000) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
+  `size` bigint(20) DEFAULT '0' COMMENT '文件大小\n单位字节',
+  `folder_name` varchar(255) DEFAULT '' COMMENT '父文件夹名称',
+  `group_` varchar(255) DEFAULT '' COMMENT 'FastDFS组\n用于FastDFS',
+  `path` varchar(255) DEFAULT '' COMMENT 'FastDFS远程文件名\n用于FastDFS',
+  `relative_path` varchar(255) DEFAULT '' COMMENT '文件的相对路径 ',
+  `file_md5` varchar(255) DEFAULT '' COMMENT 'md5值',
+  `context_type` varchar(255) DEFAULT '' COMMENT '文件类型\n取上传文件的值',
+  `filename` varchar(255) DEFAULT '' COMMENT '唯一文件名',
+  `ext` varchar(64) DEFAULT '' COMMENT '文件名后缀 \n(没有.)',
+  `icon` varchar(64) DEFAULT '' COMMENT '文件图标\n用于云盘显示',
+  `create_month` varchar(10) DEFAULT NULL COMMENT '创建时年月\n格式：yyyy-MM 用于统计',
+  `create_week` varchar(10) DEFAULT NULL COMMENT '创建时年周\nyyyy-ww 用于统计',
+  `create_day` varchar(12) DEFAULT NULL COMMENT '创建时年月日\n格式： yyyy-MM-dd 用于统计',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '最后修改人',
+  PRIMARY KEY (`id`) USING BTREE,
+  FULLTEXT KEY `FU_TREE_PATH` (`tree_path`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件表';
+
+-- ----------------------------
+-- Table structure for m_order
+-- ----------------------------
+DROP TABLE IF EXISTS `m_order`;
+CREATE TABLE `m_order` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `code` varchar(255) DEFAULT NULL COMMENT '编号',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单';
+
+-- ----------------------------
+-- Table structure for m_product
+-- ----------------------------
+DROP TABLE IF EXISTS `m_product`;
+CREATE TABLE `m_product` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `stock` int(11) DEFAULT NULL COMMENT '库存',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品';
+
+-- ----------------------------
+-- Table structure for mail_provider
+-- ----------------------------
+DROP TABLE IF EXISTS `mail_provider`;
+CREATE TABLE `mail_provider` (
+  `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
+  `mail_type` varchar(10) DEFAULT 'TENCENT' COMMENT '邮箱类型\n#MailType{SINA:新浪;QQ:腾讯;WY163:网易}',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱账号',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱授权码',
+  `host` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '主机',
+  `port` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '端口',
+  `protocol` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '协议',
+  `auth` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否进行用户名密码校验',
+  `name` varchar(60) DEFAULT NULL COMMENT '名称',
+  `description` varchar(300) DEFAULT NULL COMMENT '描述',
+  `properties` varchar(500) DEFAULT NULL COMMENT '属性',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='邮件供应商';
+
+-- ----------------------------
+-- Table structure for mail_send_status
+-- ----------------------------
+DROP TABLE IF EXISTS `mail_send_status`;
+CREATE TABLE `mail_send_status` (
+  `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
+  `task_id` bigint(20) NOT NULL COMMENT '任务id\n#mail_task',
+  `email` varchar(64) NOT NULL COMMENT '收件邮箱',
+  `mail_status` varchar(255) NOT NULL DEFAULT 'UNREAD' COMMENT '邮件状态\r\n#MailStatus{UNREAD:未读;READ:已读;DELETED:已删除;ABNORMAL:异常;VIRUSES:病毒;TRASH:垃圾}',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='邮件发送状态';
+
+-- ----------------------------
+-- Table structure for mail_task
+-- ----------------------------
+DROP TABLE IF EXISTS `mail_task`;
+CREATE TABLE `mail_task` (
+  `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
+  `status` varchar(10) DEFAULT 'WAITING' COMMENT '执行状态\r\n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
+  `provider_id` bigint(20) DEFAULT NULL COMMENT '发件人id\n#mail_provider',
+  `to` varchar(500) DEFAULT '' COMMENT '收件人\n多个,号分割',
+  `cc` varchar(255) DEFAULT '' COMMENT '抄送人\n多个,分割',
+  `bcc` varchar(255) DEFAULT '' COMMENT '密送人\n多个,分割',
+  `subject` varchar(255) DEFAULT '' COMMENT '主题',
+  `body` text CHARACTER SET utf8 COMMENT '正文',
+  `err_msg` varchar(500) DEFAULT '' COMMENT '发送失败原因',
+  `sender_code` varchar(64) DEFAULT '' COMMENT '发送商编码',
+  `plan_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '计划发送时间\n(默认当前时间，可定时发送)',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='邮件任务';
+
+-- ----------------------------
+-- Table structure for msgs_center_info
+-- ----------------------------
+DROP TABLE IF EXISTS `msgs_center_info`;
+CREATE TABLE `msgs_center_info` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `biz_id` varchar(64) DEFAULT NULL COMMENT '业务ID\n业务表的唯一id',
+  `biz_type` varchar(64) DEFAULT NULL COMMENT '业务类型\n#MsgsBizType{USER_LOCK:账号锁定;}',
+  `msgs_center_type` varchar(20) NOT NULL DEFAULT 'NOTIFY' COMMENT '消息类型\n#MsgsCenterType{WAIT:待办;NOTIFY:通知;PUBLICITY:公告;WARN:预警;}',
+  `title` varchar(100) DEFAULT '' COMMENT '标题',
+  `content` text COMMENT '内容',
+  `author` varchar(50) DEFAULT '' COMMENT '作者名称',
+  `handler_url` varchar(200) DEFAULT '' COMMENT '处理地址\n以http开头时直接跳转，否则与#c_application表拼接后跳转\nhttp可带参数',
+  `handler_params` varchar(400) DEFAULT '' COMMENT '处理参数',
+  `is_single_handle` bit(1) DEFAULT b'1' COMMENT '是否单人处理后就标记已处理',
+  `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除\n业务数据删除后，会调用接口删除该消息',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心表';
+
+-- ----------------------------
+-- Table structure for msgs_center_info_receive
+-- ----------------------------
+DROP TABLE IF EXISTS `msgs_center_info_receive`;
+CREATE TABLE `msgs_center_info_receive` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `msgs_center_id` bigint(20) NOT NULL COMMENT '消息中心ID\n#msgs_center_info',
+  `user_id` bigint(20) NOT NULL COMMENT '接收人ID\n#c_user',
+  `is_read` bit(1) DEFAULT b'0' COMMENT '是否已读\n#BooleanStatus',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心接收表';
+
+-- ----------------------------
+-- Table structure for sms_provider
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_provider`;
+CREATE TABLE `sms_provider` (
+  `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
+  `provider_type` varchar(10) NOT NULL DEFAULT 'TENCENT' COMMENT '供应商类型\n#ProviderType{ALI:OK,阿里云短信;TENCENT:0,腾讯云短信;BAIDU:1000,百度云短信}',
+  `app_id` varchar(64) DEFAULT '' COMMENT '应用编码',
+  `app_secret` varchar(64) DEFAULT '' COMMENT '应用密钥',
+  `url` varchar(255) DEFAULT '' COMMENT 'SMS服务域名\n百度、其他厂商会用',
+  `name` varchar(255) DEFAULT '' COMMENT '账号名称',
+  `account` varchar(100) DEFAULT '' COMMENT '第三方登录账号',
+  `password` varchar(255) DEFAULT NULL COMMENT '第三方登录密码',
+  `description` varchar(300) DEFAULT '' COMMENT '描述',
+  `existing` bigint(20) DEFAULT '0' COMMENT '现有短信量',
+  `used` bigint(20) DEFAULT '0' COMMENT '已用短信量',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信供应商';
+
+-- ----------------------------
+-- Table structure for sms_send_status
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_send_status`;
+CREATE TABLE `sms_send_status` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `task_id` bigint(20) NOT NULL COMMENT '任务ID\n#sms_task',
+  `send_status` varchar(10) NOT NULL DEFAULT 'WAITING' COMMENT '发送状态\n#SendStatus{WAITING:等待发送;SUCCESS:发送成功;FAIL:发送失败}',
+  `receiver` varchar(20) NOT NULL COMMENT '接收者手机号\n单个手机号',
+  `biz_id` varchar(255) DEFAULT '' COMMENT '发送回执ID\n阿里：发送回执ID,可根据该ID查询具体的发送状态  腾讯：sid 标识本次发送id，标识一次短信下发记录  百度：requestId 短信发送请求唯一流水ID',
+  `ext` varchar(255) DEFAULT '' COMMENT '发送返回\n阿里：RequestId 请求ID  腾讯：ext：用户的session内容，腾讯server回包中会原样返回   百度：无',
+  `code` varchar(255) DEFAULT '' COMMENT '状态码\n阿里：返回OK代表请求成功,其他错误码详见错误码列表  腾讯：0表示成功(计费依据)，非0表示失败  百度：1000 表示成功',
+  `message` varchar(500) DEFAULT '' COMMENT '状态码的描述',
+  `fee` int(11) DEFAULT '0' COMMENT '短信计费的条数\n腾讯专用',
+  `create_month` varchar(7) DEFAULT '' COMMENT '创建时年月\n格式：yyyy-MM 用于统计',
+  `create_week` varchar(10) DEFAULT '' COMMENT '创建时年周\n创建时处于当年的第几周 yyyy-ww 用于统计',
+  `create_date` varchar(10) DEFAULT '' COMMENT '创建时年月日\n格式： yyyy-MM-dd 用于统计',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信发送状态';
+
+-- ----------------------------
+-- Table structure for sms_task
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_task`;
+CREATE TABLE `sms_task` (
+  `id` bigint(20) NOT NULL COMMENT '短信记录ID',
+  `provider_id` bigint(20) NOT NULL COMMENT '发送供应商ID\n#sms_provider',
+  `template_id` bigint(20) NOT NULL COMMENT '短信模板ID\n#sms_template',
+  `status` varchar(10) DEFAULT 'WAITING' COMMENT '任务执行状态\n(手机号具体发送状态看sms_send_status表) \n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
+  `source_type` varchar(10) DEFAULT 'APP' COMMENT '来源类型\n#SourceType{APP:应用;SERVICE:服务}\n',
+  `receiver` text COMMENT '接收者手机号\n群发用英文逗号分割.\n支持2种格式:\n1: 手机号,手机号 \n2: 姓名<手机号>,姓名<手机号>',
+  `topic` varchar(255) DEFAULT '' COMMENT '主题',
+  `template_params` varchar(500) DEFAULT '' COMMENT '短信模板参数 \n需要封装为{‘key’:’value’, ...}格式\n且key必须有序\n\n',
+  `send_time` datetime DEFAULT NULL COMMENT '短信发送时间',
+  `context` varchar(500) DEFAULT '' COMMENT '发送内容\n需要封装正确格式化: 您好，张三，您有一个新的快递。',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='发送任务\n所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息，\n具体的发送状态查看发送状态（#sms_send_status）表';
+
+-- ----------------------------
+-- Table structure for sms_template
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_template`;
+CREATE TABLE `sms_template` (
+  `id` bigint(20) NOT NULL COMMENT '模板ID',
+  `provider_id` bigint(20) NOT NULL COMMENT '供应商ID\n#sms_provider',
+  `custom_code` varchar(20) NOT NULL DEFAULT '' COMMENT '模板编码\n用于api发送',
+  `name` varchar(255) DEFAULT '' COMMENT '模板名称',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '模板内容',
+  `template_params` varchar(255) NOT NULL DEFAULT '' COMMENT '模板参数',
+  `template_code` varchar(50) DEFAULT '' COMMENT '模板CODE',
+  `sign_name` varchar(100) DEFAULT '' COMMENT '模板签名名称',
+  `template_describe` varchar(255) DEFAULT '' COMMENT '模板描述',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_CODE` (`custom_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信模板';
+
+-- ----------------------------
+-- Table structure for undo_log
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log`;
+CREATE TABLE `undo_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `branch_id` bigint(20) NOT NULL,
+  `xid` varchar(100) NOT NULL,
+  `context` varchar(128) NOT NULL,
+  `rollback_info` longblob NOT NULL,
+  `log_status` int(11) NOT NULL,
+  `log_created` datetime NOT NULL,
+  `log_modified` datetime NOT NULL,
+  `ext` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Table structure for undo_log_copy1
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log_copy1`;
+CREATE TABLE `undo_log_copy1` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `branch_id` bigint(20) NOT NULL,
+  `xid` varchar(100) NOT NULL,
+  `context` varchar(128) NOT NULL,
+  `rollback_info` longblob NOT NULL,
+  `log_status` int(11) NOT NULL,
+  `log_created` datetime NOT NULL,
+  `log_modified` datetime NOT NULL,
+  `ext` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+SET FOREIGN_KEY_CHECKS = 1;

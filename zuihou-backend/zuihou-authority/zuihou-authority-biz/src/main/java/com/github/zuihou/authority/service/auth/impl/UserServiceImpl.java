@@ -87,4 +87,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         map.put("orgIds", orgIds);
         return map;
     }
+
+    @Override
+    public boolean check(String account) {
+        return super.count(Wraps.<User>lbQ().eq(User::getAccount, account)) > 0;
+    }
+
+    @Override
+    public void updatePasswordErrorNumById(Long id) {
+        baseMapper.incrPasswordErrorNumById(id);
+    }
 }

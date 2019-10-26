@@ -5,8 +5,7 @@
     <select id="findVisibleResource" parameterType="map" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        from c_auth_resource
-        where 1=1
+        from c_auth_resource where 1=1
         <!-- 这段逻辑要放到程序中过滤 -->
         <!--        <if test="menuId != null">-->
         <!--            and menu_id = #{menuId, jdbcType=BIGINT}-->

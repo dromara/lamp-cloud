@@ -16,22 +16,20 @@
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="is_can_login" jdbcType="BIT" property="isCanLogin"/>
         <result column="is_delete" jdbcType="BIT" property="isDelete"/>
         <result column="status" jdbcType="BIT" property="status"/>
         <result column="photo" jdbcType="VARCHAR" property="photo"/>
         <result column="work_describe" jdbcType="VARCHAR" property="workDescribe"/>
-        <result column="login_count" jdbcType="INTEGER" property="loginCount"/>
-        <result column="continuation_error_day" jdbcType="DATE" property="continuationErrorDay"/>
-        <result column="continuation_error_count" jdbcType="INTEGER" property="continuationErrorCount"/>
+        <result column="password_error_last_time" jdbcType="TIMESTAMP" property="passwordErrorLastTime"/>
+        <result column="password_error_num" jdbcType="INTEGER" property="passwordErrorNum"/>
         <result column="password_expire_time" jdbcType="TIMESTAMP" property="passwordExpireTime"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
-        account, name, org_id, station_id, email, mobile, sex, is_can_login, is_delete, status, photo, work_describe, login_count, continuation_error_day, continuation_error_count, password_expire_time, password
+        id, create_user, create_time, update_user, update_time,
+        account, name, org_id, station_id, email, mobile, sex, is_delete, status, photo, work_describe, lock_time, password_error_last_time, password_error_num, password_expire_time, password
     </sql>
 
 </mapper>

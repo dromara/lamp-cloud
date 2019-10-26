@@ -9,7 +9,6 @@
         <result column="is_read" jdbcType="BIT" property="isRead"/>
     </resultMap>
 
-
     <!--
      分页查询消息数据， 消息有4种类型： 代办、预警、通知、公告
 
@@ -24,9 +23,7 @@
         info.id, info.create_time, info.create_user, info.update_time, info.update_user,
         info.biz_id, info.biz_type, info.msgs_center_type, info.title, info.content, info.author,
         info.handler_url, info.handler_params, info.is_single_handle, info.is_delete
-        FROM msgs_center_info info LEFT JOIN
-        msgs_center_info_receive
-        rece on info.id = rece.msgs_center_id
+        FROM msgs_center_info info LEFT JOIN msgs_center_info_receive rece on info.id = rece.msgs_center_id
         <if test="data.userId != null">
             and rece.user_id = #{data.userId, jdbcType=BIGINT}
         </if>

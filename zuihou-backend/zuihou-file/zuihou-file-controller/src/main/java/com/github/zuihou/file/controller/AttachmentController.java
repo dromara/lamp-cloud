@@ -46,8 +46,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
-import static com.github.zuihou.utils.BizAssert.assertNotEmpty;
-import static com.github.zuihou.utils.BizAssert.assertNotNull;
 import static java.util.stream.Collectors.groupingBy;
 
 /**
@@ -115,8 +113,7 @@ public class AttachmentController extends BaseController {
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "bizId", required = false) String bizId,
             @RequestParam(value = "bizType", required = false) String bizType) throws Exception {
-        assertNotNull(BASE_VALID_PARAM.build("请求中必须至少包含一个有效文件"), file);
-        assertNotEmpty(BASE_VALID_PARAM.build("业务类型不能为空"), bizType);
+        BizAssert.notEmpty(bizType, BASE_VALID_PARAM.build("业务类型不能为空"));
         // 忽略路径字段,只处理文件类型
         if (file.isEmpty()) {
             return fail(BASE_VALID_PARAM.build("请求中必须至少包含一个有效文件"));
@@ -155,7 +152,7 @@ public class AttachmentController extends BaseController {
     public R<List<AttachmentResultDTO>> findAttachment(@RequestParam(value = "bizTypes", required = false) String[] bizTypes,
                                                        @RequestParam(value = "bizIds", required = false) String[] bizIds) {
         //不能同时为空
-        BizAssert.assertTrue(BASE_VALID_PARAM.build("业务类型不能为空"), !(ArrayUtils.isEmpty(bizTypes) && ArrayUtils.isEmpty(bizIds)));
+        BizAssert.isTrue(!(ArrayUtils.isEmpty(bizTypes) && ArrayUtils.isEmpty(bizIds)), BASE_VALID_PARAM.build("业务类型不能为空"));
         return success(attachmentService.find(bizTypes, bizIds));
     }
 
@@ -193,7 +190,7 @@ public class AttachmentController extends BaseController {
             @ApiParam(name = "ids[]", value = "文件id 数组")
             @RequestParam(value = "ids[]") Long[] ids,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BizAssert.assertTrue(BASE_VALID_PARAM.build("附件id不能为空"), ArrayUtils.isNotEmpty(ids));
+        BizAssert.isTrue(ArrayUtils.isNotEmpty(ids), BASE_VALID_PARAM.build("附件id不能为空"));
         attachmentService.download(request, response, ids);
     }
 
@@ -217,8 +214,7 @@ public class AttachmentController extends BaseController {
             @RequestParam(value = "bizIds[]", required = false) String[] bizIds,
             @RequestParam(value = "bizTypes[]", required = false) String[] bizTypes,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BizAssert.assertTrue(BASE_VALID_PARAM.build("附件业务id和业务类型不能同时为空"),
-                !(ArrayUtils.isEmpty(bizTypes) && ArrayUtils.isEmpty(bizIds)));
+        BizAssert.isTrue(!(ArrayUtils.isEmpty(bizTypes) && ArrayUtils.isEmpty(bizIds)), BASE_VALID_PARAM.build("附件业务id和业务类型不能同时为空"));
         attachmentService.downloadByBiz(request, response, bizTypes, bizIds);
     }
 
@@ -240,7 +236,7 @@ public class AttachmentController extends BaseController {
     @SysLog("根据文件连接下载文件")
     public void downloadUrl(@RequestParam(value = "url") String url, @RequestParam(value = "filename", required = false) String filename,
                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BizAssert.assertTrue(BASE_VALID_PARAM.build("附件下载地址不能为空"), StringUtils.isNotEmpty(url));
+        BizAssert.isTrue(StringUtils.isNotEmpty(url), BASE_VALID_PARAM.build("附件下载地址不能为空"));
         log.info("name={}, url={}", filename, url);
         attachmentService.downloadByUrl(request, response, url, filename);
     }

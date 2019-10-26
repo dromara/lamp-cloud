@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.zuihou.base.id.IdGenerate;
@@ -22,6 +23,8 @@ import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.LeftLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.RightLikeTypeHandler;
+import com.github.zuihou.database.parsers.DynamicTableNameParser;
+import com.github.zuihou.database.parsers.TenantWebMvcConfigurer;
 
 import cn.hutool.core.util.ArrayUtil;
 import org.apache.ibatis.plugin.Interceptor;
@@ -209,7 +212,6 @@ public abstract class BaseDbConfiguration {
 
         //开发环境
         if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
-//            list.add(performanceInterceptor());
         } else {
             //演示环境
             list.add(getWriteInterceptor());
@@ -239,67 +241,17 @@ public abstract class BaseDbConfiguration {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-//        List<ISqlParser> sqlParserList = new ArrayList<>();
+        List<ISqlParser> sqlParserList = new ArrayList<>();
 
         // sqlParserList.add(new BlockAttackSqlParser()); 攻击 SQL 阻断解析器、加入解析链
 
-        //方案1 多租户动态拼接字段
-//        TenantSqlParser tenantSqlParser = new TenantSqlParser();
-//        tenantSqlParser.setTenantHandler(new TenantHandler() {
-//            @Override
-//            public Expression getTenantId() {
-//                return new StringValue(BaseContextHandler.getName());
-//            }
-//
-//            @Override
-//            public String getTenantIdColumn() {
-//                return "tenant_id";
-//            }
-//
-//            @Override
-//            public boolean doTableFilter(String tableName) {
-//                // 这里可以判断是否过滤表
-//            /*
-//            if ("user".equals(tableName)) {
-//                return true;
-//            }*/
-//                return false;
-//            }
-//        });
-//        sqlParserList.add(tenantSqlParser);
-
-        //方案2 多租户动态切库
-//        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
-//        sqlParserList.add(dynamicTableNameParser);
-//        paginationInterceptor.setSqlParserList(sqlParserList);
-
-//        paginationInterceptor.setSqlParserFilter(new ISqlParserFilter() {
-//            @Override
-//            public boolean doFilter(MetaObject metaObject) {
-//                MappedStatement ms = SqlParserHelper.getMappedStatement(metaObject);
-//                // 过滤自定义查询此时无租户信息约束【 麻花藤 】出现
-//                if (ms.getId().contains("NoTenantId")) {
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
+        //动态"表名" 插件 来实现 租户schema切换
+        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
+        sqlParserList.add(dynamicTableNameParser);
+        paginationInterceptor.setSqlParserList(sqlParserList);
 
         return paginationInterceptor;
     }
-
-    /**
-     * 3.2.0废弃该插件， 推荐使用 p6spy
-     * SQL执行效率插件
-     */
-//    @Bean
-//    @Profile({"dev", "test"})
-//    public PerformanceInterceptor performanceInterceptor() {
-//        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
-//        performanceInterceptor.setMaxTime(1000);
-//        performanceInterceptor.setFormat(true);
-//        return performanceInterceptor;
-//    }
 
     /**
      * 数据权限插件
@@ -354,5 +306,10 @@ public abstract class BaseDbConfiguration {
 //        conf.setSqlParserCache(true);
         conf.setDbConfig(config);
         return conf;
+    }
+
+    @Bean
+    public TenantWebMvcConfigurer getTenantWebMvcConfigurer() {
+        return new TenantWebMvcConfigurer();
     }
 }

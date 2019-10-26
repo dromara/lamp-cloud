@@ -5,15 +5,13 @@
             resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        from c_auth_menu
-        where is_enable = true
+        from c_auth_menu where is_enable = true
         <!-- 这段逻辑要放到程序中过滤 -->
         <!--        <if test="group != null">-->
         <!--            and group_= #{group, jdbcType=VARCHAR}-->
         <!--        </if>-->
         and (is_public = true
-        or
-        id in (
+        or id in (
         SELECT distinct authority_id FROM c_auth_role_authority ra
         INNER JOIN c_auth_user_role ur on ra.role_id = ur.role_id
         INNER JOIN c_auth_role r on r.id = ra.role_id

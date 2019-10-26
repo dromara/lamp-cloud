@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.base.R;
+import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.log.event.SysLogEvent;
@@ -103,6 +104,7 @@ public class SysLogAspect {
                 sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
                 sysLog.setHttpMethod(request.getMethod());
                 sysLog.setUa(request.getHeader("user-agent"));
+                sysLog.setTenantCode(request.getHeader(BaseContextConstants.TENANT));
             }
             sysLog.setStartTime(LocalDateTime.now());
 
@@ -116,6 +118,7 @@ public class SysLogAspect {
             consumer.accept("");
         } catch (Exception e) {
             log.warn("记录操作日志异常", e);
+            THREAD_LOCAL.remove();
         }
     }
 
@@ -130,16 +133,16 @@ public class SysLogAspect {
         tryCatch((aaa) -> {
             R r = Convert.convert(R.class, ret);
             OptLogDTO sysLog = get();
-            if (r == null || r.getIsSuccess()) {
+            if (r == null) {
                 sysLog.setType("OPT");
             } else {
-                sysLog.setType("EX");
-                sysLog.setExDetail(r.getMsg());
-            }
-            if (r != null) {
+                if (r.getIsSuccess()) {
+                    sysLog.setType("OPT");
+                } else {
+                    sysLog.setType("EX");
+                    sysLog.setExDetail(r.getMsg());
+                }
                 sysLog.setResult(getText(r.toString()));
-            } else {
-                sysLog.setResult(getText(JSONObject.toJSONString(ret)));
             }
 
             publishEvent(sysLog);
