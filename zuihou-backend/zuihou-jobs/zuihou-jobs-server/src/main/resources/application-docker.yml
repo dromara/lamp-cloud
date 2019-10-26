@@ -3,18 +3,6 @@ zuihou:
     mysql: ${MYSQL_IP:127.0.0.1}
     executor: ${EXECUTOR_IP:127.0.0.1}
   mysql:
-    authority:
-      database: zuihou_authority_dev
-      host: ${zuihou.ip.mysql}
-      port: ${zuihou.mysql.port}
-    msgs:
-      database: zuihou_msgs_dev
-      host: ${zuihou.ip.mysql}
-      port: ${zuihou.mysql.port}
-    jobs:
-      database: zuihou_jobs_dev
-      host: ${zuihou.ip.mysql}
-      port: ${zuihou.mysql.port}
     port: 3306
     username: root
     password: root

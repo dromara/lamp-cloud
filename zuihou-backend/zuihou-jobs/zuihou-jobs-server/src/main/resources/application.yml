@@ -4,15 +4,15 @@ zuihou:
     executor: ${EXECUTOR_IP:127.0.0.1}
   mysql:
     authority:
-      database: zuihou_authority_dev
+      database: zuihou_base_0000
       host: ${zuihou.ip.mysql}
       port: ${zuihou.mysql.port}
     msgs:
-      database: zuihou_msgs_dev
+      database: zuihou_base_0000
       host: ${zuihou.ip.mysql}
       port: ${zuihou.mysql.port}
     jobs:
-      database: zuihou_jobs_dev
+      database: zuihou_defaults
       host: ${zuihou.ip.mysql}
       port: ${zuihou.mysql.port}
     username: root

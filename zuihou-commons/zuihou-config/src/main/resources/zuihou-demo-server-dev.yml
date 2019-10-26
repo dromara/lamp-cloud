@@ -1,16 +1,3 @@
-zuihou:
-  mysql:
-    database: zuihou_demo_dev
-#    ip: 127.0.0.1
-#    port: 3306
-#    driverClassName: com.mysql.cj.jdbc.Driver
-#    username: root
-#    password: root
-#  redis:
-#    ip: 127.0.0.1
-#    port: 16379
-#    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
-
 logging:
   io.seata: debug
   org.springframework.cloud.alibaba.seata.web: debug
