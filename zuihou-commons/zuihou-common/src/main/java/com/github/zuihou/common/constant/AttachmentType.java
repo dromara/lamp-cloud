@@ -32,7 +32,7 @@ public class AttachmentType {
 
     public static boolean assertType(String type) {
         boolean flag = Arrays.asList(ALL_TYPES).contains(type);
-        BizAssert.assertTrue(ExceptionCode.BAD_GATEWAY, flag);
+        BizAssert.isTrue(flag, ExceptionCode.BAD_GATEWAY);
         return flag;
     }
 

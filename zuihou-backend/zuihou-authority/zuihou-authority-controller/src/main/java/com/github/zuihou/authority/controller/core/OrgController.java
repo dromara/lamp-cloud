@@ -110,7 +110,7 @@ public class OrgController extends BaseController {
             org.setTreePath(DEF_ROOT_PATH);
         } else {
             Org parent = orgService.getById(org.getParentId());
-            BizAssert.assertNotNull(parent, "父组织不能为空");
+            BizAssert.notNull(parent, "父组织不能为空");
 
             org.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), DEF_ROOT_PATH));
         }

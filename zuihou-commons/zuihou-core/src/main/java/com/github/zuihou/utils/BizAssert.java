@@ -1,10 +1,13 @@
 package com.github.zuihou.utils;
 
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
+
+import cn.hutool.core.util.ArrayUtil;
 
 import static com.github.zuihou.exception.BaseException.BASE_VALID_PARAM;
 
@@ -37,7 +40,7 @@ public class BizAssert {
         if (exceptionCode != null) {
             throw new BizException(exceptionCode.getCode(), exceptionCode.getMsg());
         }
-        fail();
+        fail(BASE_VALID_PARAM, "参数验证异常");
     }
 
     /**
@@ -51,10 +54,9 @@ public class BizAssert {
 
     public static void fail(String message) {
         if (message == null || "".equals(message)) {
-            fail();
-        } else {
-            fail(BASE_VALID_PARAM, message);
+            message = "参数验证异常";
         }
+        fail(BASE_VALID_PARAM, message);
     }
 
     /**
@@ -65,21 +67,34 @@ public class BizAssert {
      * @param condition     被检查的条件
      * @
      */
-    public static void assertTrue(BaseExceptionCode exceptionCode, boolean condition) {
+    public static void isTrue(boolean condition, BaseExceptionCode exceptionCode) {
         if (!condition) {
             fail(exceptionCode);
         }
     }
 
-    public static void assertTrue(boolean condition) {
+    /**
+     * 断言条件为真。如果不是，它会抛出一个参数检测异常
+     * {@link BizException}
+     *
+     * @param condition 被检查的条件
+     * @
+     */
+    public static void isTrue(boolean condition, String exceptionMessage) {
         if (!condition) {
-            fail();
+            fail(exceptionMessage);
         }
     }
 
-    public static void assertTrue(boolean condition, String message) {
+    /**
+     * 断言条件为真。如果不是，它会抛出一个参数检测异常
+     * {@link BizException}
+     *
+     * @param condition 被检查的条件
+     */
+    public static void isTrue(boolean condition) {
         if (!condition) {
-            fail(message);
+            fail();
         }
     }
 
@@ -91,167 +106,15 @@ public class BizAssert {
      * @param condition     被检查的条件
      * @
      */
-    public static void assertFalse(BaseExceptionCode exceptionCode, boolean condition) {
-        assertTrue(exceptionCode, !condition);
-    }
-
-
-    private static boolean equalsRegardingNull(Object expected, Object actual) {
-        return expected == null ? actual == null : isEquals(expected, actual);
-    }
-
-    private static boolean isEquals(Object expected, Object actual) {
-        return expected.equals(actual);
-    }
-
-
-    /**
-     * 断言2个对象不是相等的。如果相等则抛出异常
-     * {@link BizException}。
-     * 如果<code>unexpected</code> 和 <code>actual</code> 是 <code>null</code>,
-     * 他们被认为是相等的。
-     *
-     * @param exceptionCode 错误码
-     * @param unexpected    意想不到的值
-     * @param actual        要检查的值 <code>unexpected</code>
-     * @
-     */
-    public static void assertNotEquals(BaseExceptionCode exceptionCode, Object unexpected, Object actual) {
-        if (equalsRegardingNull(unexpected, actual)) {
+    public static void isFalse(boolean condition, BaseExceptionCode exceptionCode) {
+        if (condition) {
             fail(exceptionCode);
         }
     }
 
-    /**
-     * 断言2个对象不是相等的。如果相等则抛出异常
-     * {@link BizException}。
-     *
-     * @param exceptionCode 错误码
-     * @param unexpected    意想不到的值
-     * @param actual        要检查的值 <code>unexpected</code>
-     * @
-     */
-    public static void assertNotEquals(BaseExceptionCode exceptionCode, long unexpected, long actual) {
-        if (unexpected == actual) {
-            fail(exceptionCode);
-        }
-    }
-
-    /**
-     * 断言2个doubles类型的值，在误差范围内<b>不</b>是相等的。如果相等则抛出异常
-     * {@link BizException}。
-     * <p>
-     * 如果<code>unexpected</code>值为无穷大，则忽略<code>delta</code>值。
-     * NaN被认为是相等的:
-     *
-     * @param exceptionCode 错误码
-     * @param unexpected    意想不到的值
-     * @param actual        要检查的值 <code>unexpected</code>
-     * @param delta         误差范围内
-     * @
-     */
-    public static void assertNotEquals(BaseExceptionCode exceptionCode, double unexpected,
-                                       double actual, double delta) {
-        if (!doubleIsDifferent(unexpected, actual, delta)) {
-            fail(exceptionCode);
-        }
-    }
-
-    /**
-     * 断言2个 float 类型的值，在误差范围内<b>不</b>是相等的。如果相等则抛出异常
-     * {@link BizException}。
-     * <p>
-     * 如果<code>unexpected</code>值为无穷大，则忽略<code>delta</code>值。
-     * NaN被认为是相等的:
-     *
-     * @param exceptionCode 错误码
-     * @param unexpected    意想不到的值
-     * @param actual        要检查的值 <code>unexpected</code>
-     * @param delta         误差范围内
-     * @
-     */
-    public static void assertNotEquals(BaseExceptionCode exceptionCode, float unexpected,
-                                       float actual, float delta) {
-        if (!floatIsDifferent(unexpected, actual, delta)) {
-            fail(exceptionCode);
-        }
-    }
-
-    /**
-     * 断言2个doubles类型的值，在误差范围内是相等的。如果不相等则抛出异常
-     * {@link BizException}。
-     * <p>
-     * 如果<code>unexpected</code>值为无穷大，则忽略<code>delta</code>值。
-     * NaN被认为是相等的:
-     *
-     * @param exceptionCode 错误码
-     * @param expected      预期的值
-     * @param actual        要检查的值 <code>unexpected</code>
-     * @param delta         误差范围内
-     * @
-     */
-    public static void assertEquals(BaseExceptionCode exceptionCode, double expected,
-                                    double actual, double delta) {
-        if (doubleIsDifferent(expected, actual, delta)) {
-            fail(exceptionCode);
-        }
-    }
-
-    /**
-     * 断言2个float类型的值，在误差范围内是相等的。如果不相等则抛出异常
-     * {@link BizException}。
-     * <p>
-     * 如果<code>unexpected</code>值为无穷大，则忽略<code>delta</code>值。
-     * NaN被认为是相等的:
-     *
-     * @param exceptionCode 错误码
-     * @param expected      预期的值
-     * @param actual        要检查的值 <code>unexpected</code>
-     * @param delta         误差范围内
-     * @
-     */
-    public static void assertEquals(BaseExceptionCode exceptionCode, float expected,
-                                    float actual, float delta) {
-        if (floatIsDifferent(expected, actual, delta)) {
-            fail(exceptionCode);
-        }
-    }
-
-
-    private static boolean doubleIsDifferent(double d1, double d2, double delta) {
-        if (Double.compare(d1, d2) == 0) {
-            return false;
-        }
-        if ((Math.abs(d1 - d2) <= delta)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    private static boolean floatIsDifferent(float f1, float f2, float delta) {
-        if (Float.compare(f1, f2) == 0) {
-            return false;
-        }
-        if ((Math.abs(f1 - f2) <= delta)) {
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * 断言2个long类型的值 是相等的。如果不相等则抛出异常
-     * {@link BizException}。
-     *
-     * @param exceptionCode 错误码
-     * @param expected      预期的值
-     * @param actual        要检查的值 <code>expected</code>
-     * @
-     */
-    public static void assertEquals(BaseExceptionCode exceptionCode, long expected, long actual) {
-        if (expected != actual) {
-            fail(exceptionCode);
+    public static void isFalse(boolean condition, String exceptionMessage) {
+        if (condition) {
+            fail(exceptionMessage);
         }
     }
 
@@ -264,18 +127,23 @@ public class BizAssert {
      * @param object        检查对象
      * @
      */
-    public static void assertNotNull(BaseExceptionCode exceptionCode, Object object) {
-        assertTrue(exceptionCode, object != null);
+    public static void notNull(Object object, BaseExceptionCode exceptionCode) {
+        if (object == null) {
+            fail(exceptionCode);
+        }
     }
 
-    public static void assertNotNull(Object object) {
-        assertNotNull(object, null);
+    public static void notNull(Object object) {
+        if (object == null) {
+            fail();
+        }
     }
 
-    public static void assertNotNull(Object object, String message) {
-        assertTrue(object != null, message);
+    public static void notNull(Object object, String message) {
+        if (object == null) {
+            fail(message);
+        }
     }
-
 
     /**
      * 断言检查这个对象是 Null。 如果不是null，用给定的错误码<code>exceptionCode</code>抛出异常
@@ -285,44 +153,12 @@ public class BizAssert {
      * @param object        检查对象
      * @
      */
-    public static void assertNull(BaseExceptionCode exceptionCode, Object object) {
-        if (object == null) {
-            return;
-        }
-        fail(exceptionCode);
-    }
-
-
-    /**
-     * 断言两个对象引用同一个对象. 如果不同，用指定错误码抛出异常
-     * {@link BizException}
-     *
-     * @param exceptionCode 错误码
-     * @param expected      期望的对象
-     * @param actual        需要比较的对象 <code>expected</code>
-     * @
-     */
-    public static void assertSame(BaseExceptionCode exceptionCode, Object expected, Object actual) {
-        if (expected == actual) {
-            return;
-        }
-        fail(exceptionCode);
-    }
-
-    /**
-     * 断言两个对象不是引用同一个对象. 如果相同，用指定错误码抛出异常
-     * {@link BizException}
-     *
-     * @param exceptionCode 错误码
-     * @param unexpected    意外的对象
-     * @param actual        需要比较的对象 <code>expected</code>
-     * @
-     */
-    public static void assertNotSame(BaseExceptionCode exceptionCode, Object unexpected, Object actual) {
-        if (unexpected == actual) {
+    public static void isNull(Object object, BaseExceptionCode exceptionCode) {
+        if (object != null) {
             fail(exceptionCode);
         }
     }
+
 
     /**
      * 断言集合不为空，如果为null或者empty，用指定错误码抛出异常
@@ -332,8 +168,14 @@ public class BizAssert {
      * @param collection    集合
      * @
      */
-    public static void assertNotEmpty(BaseExceptionCode exceptionCode, Collection<?> collection) {
+    public static void notEmpty(Collection<?> collection, BaseExceptionCode exceptionCode) {
         if (collection == null || collection.isEmpty()) {
+            fail(exceptionCode);
+        }
+    }
+
+    public static <T> void notEmpty(T[] array, BaseExceptionCode exceptionCode) {
+        if (ArrayUtil.hasNull(array)) {
             fail(exceptionCode);
         }
     }
@@ -346,16 +188,43 @@ public class BizAssert {
      * @param value         字符串
      * @
      */
-    public static void assertNotEmpty(BaseExceptionCode exceptionCode, String value) {
+    public static void notEmpty(String value, BaseExceptionCode exceptionCode) {
         if (value == null || value.isEmpty()) {
             fail(exceptionCode);
         }
     }
 
-    public static void assertNotEmpty(String value) {
+    public static void notEmpty(String value, String exceptionMsgs) {
+        if (value == null || value.isEmpty()) {
+            fail(exceptionMsgs);
+        }
+    }
+
+    public static void notEmpty(String value) {
         if (value == null || value.isEmpty()) {
             fail();
         }
+    }
+
+    /**
+     * 断言2个对象不是相等的。如果相等则抛出异常
+     * {@link BizException}。
+     * 如果<code>unexpected</code> 和 <code>actual</code> 是 <code>null</code>,
+     * 他们被认为是相等的。
+     *
+     * @param exceptionCode 错误码
+     * @param unexpected    意想不到的值
+     * @param actual        要检查的值 <code>unexpected</code>
+     * @
+     */
+    public static void notEquals(Object unexpected, Object actual, BaseExceptionCode exceptionCode) {
+        if (unexpected == actual) {
+            fail(exceptionCode);
+        }
+        if (unexpected != null && unexpected.equals(actual)) {
+            fail(exceptionCode);
+        }
+
     }
 
     /**
@@ -367,7 +236,7 @@ public class BizAssert {
      * @param actual        需要比较的字符串<code>expected</code>
      * @
      */
-    public static void assertEquals(BaseExceptionCode exceptionCode, String expected, String actual) {
+    public static void equals(String expected, String actual, BaseExceptionCode exceptionCode) {
         if (expected == null && actual == null) {
             return;
         }
@@ -376,4 +245,44 @@ public class BizAssert {
         }
         fail(exceptionCode);
     }
+
+    public static void equals(String expected, String actual, String exceptionMsgs) {
+        if (expected == null && actual == null) {
+            return;
+        }
+        if (expected != null && expected.equals(actual)) {
+            return;
+        }
+        fail(exceptionMsgs);
+    }
+
+    public static void equals(Object expected, Object actual, String exceptionMsgs) {
+        if (expected == null && actual == null) {
+            return;
+        }
+        if (expected != null && expected.equals(actual)) {
+            return;
+        }
+        fail(exceptionMsgs);
+    }
+
+
+    /**
+     * 断言 预期值（expected） 大于 实际值（actual）
+     *
+     * @param expected      预期值
+     * @param actual        实际值
+     * @param exceptionMsgs
+     */
+    public static void gt(LocalDateTime expected, LocalDateTime actual, String exceptionMsgs) {
+        if (expected == null || actual == null) {
+            fail(exceptionMsgs);
+        }
+
+        if (expected.isAfter(actual)) {
+            fail(exceptionMsgs);
+        }
+    }
+
+
 }

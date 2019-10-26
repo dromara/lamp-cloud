@@ -10,12 +10,12 @@ import com.github.zuihou.sms.dao.SmsTemplateMapper;
 import com.github.zuihou.sms.entity.SmsProvider;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.entity.SmsTemplate;
+import com.github.zuihou.utils.BizAssert;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
-import static com.github.zuihou.utils.BizAssert.assertNotNull;
 
 /**
  * 短信发送上下文
@@ -60,14 +60,14 @@ public class SmsContext {
      */
     public String smsSend(Long taskId) {
         SmsTask smsTask = smsTaskMapper.selectById(taskId);
-        assertNotNull(BASE_VALID_PARAM.build("短信任务尚未保存成功"), smsTask);
+        BizAssert.notNull(smsTask, BASE_VALID_PARAM.build("短信任务尚未保存成功"));
 
         SmsProvider smsProvider = smsProviderMapper.selectById(smsTask.getProviderId());
-        assertNotNull(BASE_VALID_PARAM.build("短信供应商不存在"), smsTask);
+        BizAssert.notNull(smsTask, BASE_VALID_PARAM.build("短信供应商不存在"));
 
         // 根据短信任务选择的服务商，动态选择短信服务商策略类来具体发送短信
         SmsStrategy smsStrategy = smsContextStrategyMap.get(smsProvider.getProviderType().name());
-        assertNotNull(BASE_VALID_PARAM.build("短信供应商不存在"), smsStrategy);
+        BizAssert.notNull(smsStrategy, BASE_VALID_PARAM.build("短信供应商不存在"));
 
         SmsTemplate template = smsTemplateMapper.selectById(smsTask.getTemplateId());
 

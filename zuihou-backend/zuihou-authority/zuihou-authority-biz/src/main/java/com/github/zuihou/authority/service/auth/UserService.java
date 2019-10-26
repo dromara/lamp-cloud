@@ -35,4 +35,14 @@ public interface UserService extends IService<User> {
      * @return
      */
     List<User> findUserByRoleId(Long roleId, String keyword);
+
+    /**
+     * 检测账号是否存在
+     *
+     * @param account
+     * @return
+     */
+    boolean check(String account);
+
+    void updatePasswordErrorNumById(Long id);
 }

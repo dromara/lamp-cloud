@@ -8,13 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
-import com.github.zuihou.authority.mananger.AuthManager;
 import com.github.zuihou.authority.service.auth.ValidateCodeService;
+import com.github.zuihou.authority.service.auth.impl.AuthManager;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.exception.BizException;
 
-import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/anno")
 @Api(value = "UserAuthController", tags = "登录")
 @Slf4j
-public class AuthTokenController extends BaseController {
+public class LoginController extends BaseController {
 
     @Autowired
     private AuthManager authManager;
@@ -47,18 +46,15 @@ public class AuthTokenController extends BaseController {
 
     @ApiOperation(value = "登录", notes = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public R<LoginDTO> login(
+    public R<LoginDTO> loginTx(
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "tenant") String tenant,
             @RequestParam(value = "account") String account,
             @RequestParam(value = "password") String password) throws BizException {
         log.info("account={}", account);
-        //TODO 为了兼容zuihou-admin-ui登录，等zuihou-ui项目完善后，将屏蔽这里
-        if (StrUtil.isEmpty(key) && StrUtil.isEmpty(code)) {
-            return success(authManager.login(account, password));
-        }
         if (validateCodeService.check(key, code)) {
-            return success(authManager.login(account, password));
+            return authManager.login(tenant, account, password);
         }
         return success(null);
     }
@@ -71,9 +67,11 @@ public class AuthTokenController extends BaseController {
      */
     @ApiOperation(value = "刷新并获取token", notes = "刷新并获取token")
     @RequestMapping(value = "/token", method = RequestMethod.POST)
-    public R<LoginDTO> token(@RequestParam(value = "account") String account,
-                             @RequestParam(value = "password") String password) throws BizException {
-        return success(authManager.login(account, password));
+    public R<LoginDTO> tokenTx(
+            @RequestParam(value = "tenant") String tenant,
+            @RequestParam(value = "account") String account,
+            @RequestParam(value = "password") String password) throws BizException {
+        return authManager.login(tenant, account, password);
     }
 
 

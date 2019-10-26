@@ -44,6 +44,7 @@
             <artifactId>spring-cloud-commons</artifactId>
         </dependency>
 
+
         <!-- md5 工具类 -->
         <dependency>
             <groupId>commons-codec</groupId>

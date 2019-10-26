@@ -32,6 +32,7 @@ public class OptLogDTO {
      * 操作IP
      */
     private String requestIp;
+    private String tenantCode;
 
     /**
      * 日志类型
