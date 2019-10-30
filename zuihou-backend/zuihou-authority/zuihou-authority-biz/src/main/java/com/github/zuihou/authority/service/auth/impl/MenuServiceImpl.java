@@ -11,6 +11,7 @@ import com.github.zuihou.authority.service.auth.MenuService;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.constant.CacheKey;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.utils.NumberHelper;
@@ -59,7 +60,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     public List<Menu> findVisibleMenu(String group, Long userId) {
-        CacheObject cacheObject = cache.get(CacheKey.USER_MENU, String.valueOf(userId), (key) -> {
+        String key = CacheKey.build(BaseContextHandler.getTenant(), userId);
+        CacheObject cacheObject = cache.get(CacheKey.USER_MENU, key, (k) -> {
             List<Menu> visibleMenu = baseMapper.findVisibleMenu(group, userId);
             return visibleMenu.stream().mapToLong(Menu::getId).boxed().collect(Collectors.toList());
         });

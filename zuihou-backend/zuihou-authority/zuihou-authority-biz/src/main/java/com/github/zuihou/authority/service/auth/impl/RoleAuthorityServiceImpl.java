@@ -14,6 +14,7 @@ import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.common.constant.CacheKey;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.utils.NumberHelper;
 
@@ -52,10 +53,12 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
                 .collect(Collectors.toList());
         userRoleService.saveBatch(list);
 
+
         //清除 用户拥有的菜单和资源列表
         userRole.getUserIdList().forEach((userId) -> {
-            cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));
-            cache.evict(CacheKey.USER_MENU, String.valueOf(userId));
+            String key = CacheKey.build(BaseContextHandler.getTenant(), userId);
+            cache.evict(CacheKey.USER_RESOURCE, key);
+            cache.evict(CacheKey.USER_MENU, key);
         });
         return true;
     }
