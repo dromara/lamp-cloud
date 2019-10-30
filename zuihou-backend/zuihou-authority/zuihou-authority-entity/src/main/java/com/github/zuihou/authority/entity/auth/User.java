@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.Entity;
 
@@ -101,12 +102,6 @@ public class User extends Entity<Long> {
     @TableField("sex")
     private Sex sex;
 
-    /**
-     * 删除标记
-     */
-    @ApiModelProperty(value = "删除标记")
-    @TableField("is_delete")
-    private Boolean isDelete;
 
     /**
      * 启用状态 1启用 0禁用
@@ -160,13 +155,14 @@ public class User extends Entity<Long> {
     @NotEmpty(message = "密码不能为空")
     @Length(max = 64, message = "密码长度不能超过64")
     @TableField(value = "password", condition = LIKE)
+    @JsonIgnore
     private String password;
 
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                 String account, String name, Long orgId, Long stationId, String email,
-                String mobile, Sex sex, Boolean isDelete, Boolean status, String photo, String workDescribe,
+                String mobile, Sex sex, Boolean status, String photo, String workDescribe,
                 LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password) {
         this.id = id;
         this.createUser = createUser;
@@ -180,7 +176,6 @@ public class User extends Entity<Long> {
         this.email = email;
         this.mobile = mobile;
         this.sex = sex;
-        this.isDelete = isDelete;
         this.status = status;
         this.photo = photo;
         this.workDescribe = workDescribe;

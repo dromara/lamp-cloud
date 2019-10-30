@@ -3,6 +3,7 @@ package com.github.zuihou.authority.service.defaults.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.defaults.TenantMapper;
 import com.github.zuihou.authority.dto.defaults.TenantSaveDTO;
+import com.github.zuihou.authority.dto.defaults.TenantSaveInitDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.defaults.GlobalUser;
 import com.github.zuihou.authority.entity.defaults.Tenant;
@@ -54,7 +55,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
     }
 
     @Override
-    public Tenant save(TenantSaveDTO data) {
+    public Tenant saveInit(TenantSaveInitDTO data) {
         BizAssert.equals(data.getPassword(), data.getConfirmPassword(), "2次输入的密码不一致");
         // defaults 库
         isFalse(check(data.getCode()), "编码重复，请重新输入");
@@ -81,7 +82,6 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         // 4，保存租户用户 // 租户库
         User user = dozer.map(data, User.class);
         user.setId(globalAccount.getId());
-        user.setIsDelete(Boolean.FALSE);
         user.setPassword(DigestUtils.md5Hex(data.getPassword()));
 //            user.setPasswordExpireTime(LocalDateTime.now().plusDays(authorityServerProperties.getPasswordExpire()));
         user.setName(StrHelper.getOrDef(data.getName(), data.getAccount()));
@@ -89,7 +89,23 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 
         // 5， 新建用户授权 // 租户库
 
+        return tenant;
+    }
 
+    @Override
+    public Tenant save(TenantSaveDTO data) {
+        // defaults 库
+        isFalse(check(data.getCode()), "编码重复，请重新输入");
+
+        // 1， 保存租户 (默认库)
+        Tenant tenant = dozer.map(data, Tenant.class);
+        tenant.setStatus(TenantStatusEnum.NORMAL);
+        tenant.setType(TenantTypeEnum.CREATE);
+        // defaults 库
+        super.save(tenant);
+
+        // 3, 初始化库，表, 数据  考虑异步完成 // 租户库
+        initSystemService.init(tenant.getCode());
         return tenant;
     }
 

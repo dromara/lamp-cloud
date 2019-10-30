@@ -1,8 +1,12 @@
 package com.github.zuihou.authority.controller.defaults;
 
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.defaults.TenantPageDTO;
 import com.github.zuihou.authority.dto.defaults.TenantSaveDTO;
+import com.github.zuihou.authority.dto.defaults.TenantSaveInitDTO;
 import com.github.zuihou.authority.dto.defaults.TenantUpdateDTO;
 import com.github.zuihou.authority.entity.defaults.Tenant;
 import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
@@ -29,7 +33,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum.NORMAL;
 
 /**
  * <p>
@@ -60,17 +67,28 @@ public class TenantController extends BaseController {
      */
     @ApiOperation(value = "分页查询企业", notes = "分页查询企业")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询企业")
-    public R<IPage<Tenant>> page(Tenant data) {
+    public R<IPage<Tenant>> page(TenantPageDTO data) {
         IPage<Tenant> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<Tenant> query = Wraps.lbQ(data);
+        Tenant pageEntity = dozer.map(data, Tenant.class);
+        LbqWrapper<Tenant> query = Wraps.lbQ(pageEntity)
+                .leFooter(Tenant::getCreateTime, data.getEndCreateTime())
+                .geHeader(Tenant::getCreateTime, data.getStartCreateTime())
+                .orderByDesc(Tenant::getCreateTime);
         tenantService.page(page, query);
         return success(page);
+    }
+
+    @ApiOperation(value = "查询所有企业", notes = "查询所有企业")
+    @GetMapping
+    @SysLog("查询所有企业")
+    public R<List<Tenant>> list() {
+        return success(tenantService.list(Wraps.<Tenant>lbQ().eq(Tenant::getStatus, NORMAL)));
     }
 
     /**
@@ -92,6 +110,14 @@ public class TenantController extends BaseController {
      * @param data 新增对象
      * @return 新增结果
      */
+    @ApiOperation(value = "初始化企业", notes = "快速初始化企业")
+    @PostMapping("/init")
+    @SysLog("初始化企业")
+    public R<Tenant> saveInit(@RequestBody @Validated TenantSaveInitDTO data) {
+        Tenant tenant = tenantService.saveInit(data);
+        return success(tenant);
+    }
+
     @ApiOperation(value = "新增企业", notes = "新增企业不为空的字段")
     @PostMapping
     @SysLog("新增企业")
@@ -127,6 +153,14 @@ public class TenantController extends BaseController {
     @SysLog("删除企业")
     public R<Boolean> delete(@PathVariable Long id) {
         tenantService.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, TenantStatusEnum.FORBIDDEN).eq(Tenant::getId, id));
+        return success(true);
+    }
+
+    @ApiOperation(value = "批量删除企业", notes = "批量删除企业")
+    @DeleteMapping(value = "/remove")
+    @SysLog("删除企业")
+    public R<Boolean> remove(@RequestParam("ids[]") Long[] ids) {
+        tenantService.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, TenantStatusEnum.FORBIDDEN).in(Tenant::getId, ids));
         return success(true);
     }
 

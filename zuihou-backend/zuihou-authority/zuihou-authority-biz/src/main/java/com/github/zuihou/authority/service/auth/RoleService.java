@@ -34,6 +34,12 @@ public interface RoleService extends IService<Role> {
      */
     boolean removeByIdWithCache(Long id);
 
+    /**
+     * 判断用户是否超级管理员
+     * @param userId
+     * @return
+     */
+    boolean isSuperAdmin(Long userId);
 
     /**
      * 查询用户拥有的角色

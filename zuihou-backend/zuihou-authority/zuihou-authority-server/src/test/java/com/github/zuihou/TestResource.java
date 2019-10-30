@@ -18,6 +18,7 @@ import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
@@ -25,6 +26,7 @@ import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.utils.NumberHelper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,12 @@ public class TestResource {
     @Autowired
     private DozerUtils dozer;
 
+    @Before
+    public void setTenant() {
+        BaseContextHandler.setTenant("0000");
+    }
+
+
     @Test
     public void testSaveUser() {
     }
@@ -68,7 +76,6 @@ public class TestResource {
 
     @Test
     public void test() {
-
         List<Long> userIdByCode = roleMapper.findUserIdByCode(new String[]{"SUPER_ADMIN"});
         System.out.println(userIdByCode.size());
     }

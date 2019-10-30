@@ -2,6 +2,7 @@ package com.github.zuihou.authority.controller.defaults;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.defaults.GlobalUserPageDTO;
 import com.github.zuihou.authority.dto.defaults.GlobalUserSaveDTO;
 import com.github.zuihou.authority.dto.defaults.GlobalUserUpdateDTO;
 import com.github.zuihou.authority.entity.defaults.GlobalUser;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -59,15 +61,19 @@ public class GlobalUserController extends BaseController {
      */
     @ApiOperation(value = "分页查询全局账号", notes = "分页查询全局账号")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "current", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "size", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询全局账号")
-    public R<IPage<GlobalUser>> page(GlobalUser data) {
+    public R<IPage<GlobalUser>> page(GlobalUserPageDTO data) {
+        GlobalUser user = dozer.map(data, GlobalUser.class);
         IPage<GlobalUser> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<GlobalUser> query = Wraps.lbQ(data);
+        LbqWrapper<GlobalUser> query = Wraps.<GlobalUser>lbQ(user)
+                .geHeader(GlobalUser::getCreateTime, data.getStartCreateTime())
+                .leFooter(GlobalUser::getCreateTime, data.getEndCreateTime())
+                .orderByDesc(GlobalUser::getCreateTime);
         globalUserService.page(page, query);
         return success(page);
     }
@@ -91,13 +97,22 @@ public class GlobalUserController extends BaseController {
      * @param data 新增对象
      * @return 新增结果
      */
-    @ApiOperation(value = "新增全局账号", notes = "新增全局账号不为空的字段")
+    @ApiOperation(value = "新增企业管理员", notes = "新增企业管理员")
     @PostMapping
     @SysLog("新增全局账号")
     public R<GlobalUser> save(@RequestBody @Validated GlobalUserSaveDTO data) {
-        GlobalUser globalUser = dozer.map(data, GlobalUser.class);
-        globalUserService.save(globalUser);
-        return success(globalUser);
+        return success(globalUserService.save(data));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tenantCode", value = "企业编码", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "account", value = "账号", dataType = "string", paramType = "query"),
+    })
+    @ApiOperation(value = "检测账号是否可用", notes = "检测账号是否可用")
+    @GetMapping("/check")
+    @SysLog("检测账号是否可用")
+    public R<Boolean> check(@RequestParam String tenantCode, @RequestParam String account) {
+        return success(globalUserService.check(tenantCode, account));
     }
 
     /**
@@ -110,23 +125,19 @@ public class GlobalUserController extends BaseController {
     @PutMapping
     @SysLog("修改全局账号")
     public R<GlobalUser> update(@RequestBody @Validated(SuperEntity.Update.class) GlobalUserUpdateDTO data) {
-        GlobalUser globalUser = dozer.map(data, GlobalUser.class);
-        globalUserService.updateById(globalUser);
-        return success(globalUser);
+        return success(globalUserService.update(data));
     }
 
-    /**
-     * 删除全局账号
-     *
-     * @param id 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除全局账号", notes = "根据id物理删除全局账号")
-    @DeleteMapping(value = "/{id}")
-    @SysLog("删除全局账号")
-    public R<Boolean> delete(@PathVariable Long id) {
-        globalUserService.removeById(id);
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tenantCode", value = "企业编码", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "ids[]", value = "id", dataType = "array", paramType = "query"),
+    })
+    @ApiOperation(value = "批量删除", notes = "批量删除")
+    @DeleteMapping(value = "/remove")
+    @SysLog("删除企业")
+    public R<Boolean> remove(@RequestParam String tenantCode, @RequestParam("ids[]") Long[] ids) {
+        globalUserService.removeByIds(tenantCode, ids);
         return success(true);
     }
-
 }

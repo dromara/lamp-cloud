@@ -51,6 +51,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private CodeGenerate codeGenerate;
 
     @Override
+    public boolean isSuperAdmin(Long userId) {
+        return userId != null && userId.equals(1L);
+    }
+
+    @Override
     @Cacheable(value = CacheKey.ROLE, key = "#id")
     public Role getByIdWithCache(Long id) {
         return super.getById(id);

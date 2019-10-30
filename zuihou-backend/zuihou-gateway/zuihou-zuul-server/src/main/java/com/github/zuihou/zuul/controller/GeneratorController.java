@@ -5,11 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import com.github.zuihou.authority.api.AuthorityGeneralApi;
 import com.github.zuihou.authority.api.DictionaryItemApi;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.constant.DictionaryCode;
+import com.github.zuihou.context.BaseContextConstants;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.file.api.FileGeneralApi;
 import com.github.zuihou.msgs.api.MsgsGeneralApi;
 import com.github.zuihou.utils.StrPool;
@@ -77,7 +80,8 @@ public class GeneratorController {
     @ApiOperation(value = "获取当前系统所有数据字典和枚举", notes = "获取当前系统所有数据字典和枚举")
     @GetMapping("/dictionary/enums")
     @ResponseBody
-    public R<Map<String, Map<String, String>>> dictionaryAndEnum() {
+    public R<Map<String, Map<String, String>>> dictionaryAndEnum(HttpServletRequest request) {
+        BaseContextHandler.setTenant(request.getHeader(BaseContextConstants.TENANT));
         Map<String, Map<String, String>> map = new HashMap<>(3);
 
         //权限服务的枚举

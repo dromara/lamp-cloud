@@ -48,6 +48,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private OrgService orgService;
 
     @Override
+    public User getByAccount(String account) {
+        //TODO 缓存
+        return super.getOne(Wraps.<User>lbQ().eq(User::getAccount, account));
+    }
+
+    @Override
     public List<User> findUserByRoleId(Long roleId, String keyword) {
         return baseMapper.findUserByRoleId(roleId, keyword);
     }
