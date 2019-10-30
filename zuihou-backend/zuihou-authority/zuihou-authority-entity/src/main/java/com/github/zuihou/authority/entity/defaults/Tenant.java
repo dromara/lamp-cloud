@@ -73,6 +73,9 @@ public class Tenant extends Entity<Long> {
     @ApiModelProperty(value = "状态")
     @TableField("status")
     private TenantStatusEnum status;
+    @ApiModelProperty(value = "只读")
+    @TableField("readonly")
+    private Boolean readonly;
 
     /**
      * 责任人
@@ -127,7 +130,7 @@ public class Tenant extends Entity<Long> {
      * 单位：次
      */
     @ApiModelProperty(value = "密码输错次数")
-    @TableField("passwordErrorNum")
+    @TableField("password_error_num")
     private Integer passwordErrorNum;
 
     /**
@@ -139,19 +142,20 @@ public class Tenant extends Entity<Long> {
      */
     @ApiModelProperty(value = "账号锁定时间")
     @Length(max = 50, message = "账号锁定时间长度不能超过50")
-    @TableField(value = "passwordErrorLockTime", condition = LIKE)
+    @TableField(value = "password_error_lock_time", condition = LIKE)
     private String passwordErrorLockTime;
 
 
     @Builder
     public Tenant(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
                   String code, String name, TenantTypeEnum type, TenantStatusEnum status, String duty,
-                  LocalDateTime expirationTime, String logo, String describe, Integer passwordExpire, Boolean isMultipleLogin, Integer passwordErrorNum, String passwordErrorLockTime) {
+                  LocalDateTime expirationTime, Boolean readonly, String logo, String describe, Integer passwordExpire, Boolean isMultipleLogin, Integer passwordErrorNum, String passwordErrorLockTime) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
         this.updateTime = updateTime;
         this.updateUser = updateUser;
+        this.readonly = readonly;
         this.code = code;
         this.name = name;
         this.type = type;

@@ -93,11 +93,24 @@ public class LoginLog extends SuperEntity<Long> {
     @Length(max = 50, message = "登录地点长度不能超过50")
     @TableField(value = "location", condition = LIKE)
     private String location;
+    @ApiModelProperty(value = "浏览器名称")
+    @Length(max = 255, message = "浏览器名称长度不能超过50")
+    @TableField(value = "browser", condition = LIKE)
+    private String browser;
+    @ApiModelProperty(value = "浏览器版本")
+    @Length(max = 255, message = "浏览器版本长度不能超过50")
+    @TableField(value = "browser_version", condition = LIKE)
+    private String browserVersion;
+    @ApiModelProperty(value = "操作系统")
+    @Length(max = 255, message = "操作系统长度不能超过255")
+    @TableField(value = "operating_system", condition = LIKE)
+    private String operatingSystem;
 
 
     @Builder
     public LoginLog(Long id, LocalDateTime createTime, Long createUser,
-                    String requestIp, String account, String userName, Long userId, String description, LocalDateTime loginTime, String ua, String location) {
+                    String requestIp, String account, String userName, Long userId, String description, LocalDateTime loginTime, String ua, String location,
+                    String operatingSystem, String browser, String browserVersion) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -109,6 +122,9 @@ public class LoginLog extends SuperEntity<Long> {
         this.loginTime = loginTime;
         this.ua = ua;
         this.location = location;
+        this.operatingSystem = operatingSystem;
+        this.browser = browser;
+        this.browserVersion = browserVersion;
     }
 
 }

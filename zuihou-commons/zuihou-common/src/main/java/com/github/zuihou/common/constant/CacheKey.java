@@ -87,7 +87,7 @@ public interface CacheKey {
      * @param args
      * @return
      */
-    static String build(String... args) {
+    static String build(Object... args) {
         return Joiner.on(StrPool.COLON).join(args);
     }
 }

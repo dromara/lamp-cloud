@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 25/10/2019 11:34:26
+ Date: 30/10/2019 23:02:22
 */
 
 SET NAMES utf8mb4;
@@ -171,14 +171,11 @@ CREATE TABLE `c_auth_user` (
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT 'M' COMMENT '性别\n#Sex{W:女;M:男}',
-  `is_can_login` bit(1) DEFAULT b'1' COMMENT '是否可登陆',
-  `is_delete` bit(1) DEFAULT b'0' COMMENT '删除标记',
   `status` bit(1) DEFAULT b'0' COMMENT '启用状态 1启用 0禁用',
   `photo` varchar(255) DEFAULT '' COMMENT '照片',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
-  `login_count` int(11) DEFAULT '0' COMMENT '登录次数\n一直累计，记录了此账号总共登录次数',
-  `continuation_error_day` date DEFAULT NULL COMMENT '输入密码错误的日期\r\n比如20190102  与error_count合力实现一天输入密码错误次数限制',
-  `continuation_error_count` int(11) DEFAULT '0' COMMENT '一天连续输错密码次数',
+  `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次密码错误时间',
+  `password_error_num` int(11) DEFAULT '0' COMMENT '密码错误次数',
   `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
@@ -233,7 +230,6 @@ CREATE TABLE `c_common_dictionary` (
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '字典名称',
   `describe_` varchar(200) DEFAULT '' COMMENT '字典描述',
   `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
-  `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
@@ -252,7 +248,6 @@ CREATE TABLE `c_common_dictionary_item` (
   `code` varchar(64) NOT NULL DEFAULT '' COMMENT '字典项编码',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
   `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
-  `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
@@ -270,15 +265,17 @@ DROP TABLE IF EXISTS `c_common_login_log`;
 CREATE TABLE `c_common_login_log` (
   `id` bigint(20) NOT NULL COMMENT '主键',
   `request_ip` varchar(50) DEFAULT '' COMMENT '操作IP',
-  `user_name` varchar(50) DEFAULT '' COMMENT '登录用户',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '登录人ID',
+  `user_name` varchar(50) DEFAULT NULL COMMENT '登录人姓名',
+  `account` varchar(30) DEFAULT '' COMMENT '登录人账号',
   `description` varchar(255) DEFAULT '' COMMENT '登录描述',
   `login_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
-  `ua` bigint(20) DEFAULT '0' COMMENT '浏览器请求头',
+  `ua` varchar(500) DEFAULT '0' COMMENT '浏览器请求头',
   `location` varchar(50) DEFAULT '' COMMENT '登录地点',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='登录日志';
 
 -- ----------------------------
 -- Table structure for c_common_opt_log

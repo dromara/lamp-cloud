@@ -44,7 +44,7 @@ public class GeneratorController {
 
     /**
      * 解决swagger-bootstrap-ui的一个bug：
-     *
+     * <p>
      * 将swagger发起的请求：
      * http://127.0.0.1:8760/api/gate/api/authority/v2/api-docs?group=%E5%85%AC%E5%85%B1%E6%A8%A1%E5%9D%97
      * 从定向到：
@@ -82,8 +82,20 @@ public class GeneratorController {
     @ResponseBody
     public R<Map<String, Map<String, String>>> dictionaryAndEnum(HttpServletRequest request) {
         BaseContextHandler.setTenant(request.getHeader(BaseContextConstants.TENANT));
-        Map<String, Map<String, String>> map = new HashMap<>(3);
+        Map<String, Map<String, String>> map = new HashMap<>(4);
 
+        map.putAll(enums());
+
+        //整个系统的数据字典
+        R<Map<String, Map<String, String>>> itemMap = dictionaryItemApi.map(DictionaryCode.ALL);
+        if (itemMap.getIsSuccess()) {
+            map.putAll(itemMap.getData());
+        }
+        return R.success(map);
+    }
+
+    private Map enums() {
+        Map<String, Map<String, String>> map = new HashMap<>(3);
         //权限服务的枚举
         R<Map<String, Map<String, String>>> authorityResult = authorityGeneralApi.enums();
         if (authorityResult.getIsSuccess()) {
@@ -100,13 +112,19 @@ public class GeneratorController {
         if (msgsResult.getIsSuccess()) {
             map.putAll(msgsResult.getData());
         }
+        return map;
+    }
 
-        //整个系统的数据字典
-        R<Map<String, Map<String, String>>> itemMap = dictionaryItemApi.map(DictionaryCode.ALL);
-        if (itemMap.getIsSuccess()) {
-            map.putAll(itemMap.getData());
-        }
-        return R.success(map);
+    /**
+     * 获取当前系统所有数据字典和枚举
+     *
+     * @return
+     */
+    @ApiOperation(value = "获取当前系统所有枚举", notes = "获取当前系统所有枚举")
+    @GetMapping("/enums")
+    @ResponseBody
+    public R<Map<String, Map<String, String>>> enums(HttpServletRequest request) {
+        return R.success(enums());
     }
 
 }
