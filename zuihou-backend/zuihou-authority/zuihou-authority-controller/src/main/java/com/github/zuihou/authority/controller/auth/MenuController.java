@@ -11,7 +11,6 @@ import com.github.zuihou.authority.dto.auth.RouterMeta;
 import com.github.zuihou.authority.dto.auth.VueRouter;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
-import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -57,8 +56,6 @@ public class MenuController extends BaseController {
 
     @Autowired
     private MenuService menuService;
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     private DozerUtils dozer;

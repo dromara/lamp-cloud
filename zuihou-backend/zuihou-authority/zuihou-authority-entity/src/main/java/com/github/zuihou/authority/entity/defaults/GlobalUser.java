@@ -68,6 +68,9 @@ public class GlobalUser extends Entity<Long> {
     @Length(max = 20, message = "手机长度不能超过20")
     @TableField(value = "mobile", condition = LIKE)
     private String mobile;
+    @ApiModelProperty(value = "是否只读")
+    @TableField(value = "readonly")
+    private Boolean readonly;
 
     /**
      * 姓名
@@ -91,16 +94,16 @@ public class GlobalUser extends Entity<Long> {
     @JsonIgnore
     private String password;
 
-
     @Builder
     public GlobalUser(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                      String tenantCode, String account, String mobile, String name, String email, String password) {
+                      String tenantCode, String account, Boolean readonly, String mobile, String name, String email, String password) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
         this.updateTime = updateTime;
         this.updateUser = updateUser;
         this.tenantCode = tenantCode;
+        this.readonly = readonly;
         this.account = account;
         this.mobile = mobile;
         this.name = name;

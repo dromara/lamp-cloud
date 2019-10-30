@@ -9,6 +9,9 @@ import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.common.LoginLogService;
 
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.OperatingSystem;
+import eu.bitwalker.useragentutils.UserAgent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,15 +34,21 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
     @Override
     public LoginLog save(String account, String ua, String ip, String location) {
         User user = userService.getByAccount(account);
-
+        UserAgent userAgent = UserAgent.parseUserAgentString(ua);
+        Browser browser = userAgent.getBrowser();
+        OperatingSystem operatingSystem = userAgent.getOperatingSystem();
         LoginLog loginLog = LoginLog.builder()
                 .account(account).location(location)
                 .loginTime(LocalDateTime.now())
                 .requestIp(ip).ua(ua).userName(account)
+                .browser(browser.getName()).browserVersion(userAgent.getBrowserVersion().getVersion())
+                .operatingSystem(operatingSystem.getName())
                 .build();
         if (user != null) {
             loginLog.setUserId(user.getId()).setUserName(user.getName());
         }
+
+
         super.save(loginLog);
         return loginLog;
     }

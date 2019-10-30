@@ -15,11 +15,12 @@ import com.github.zuihou.authority.service.defaults.InitSystemService;
 import com.github.zuihou.exception.BizException;
 
 import cn.hutool.core.util.StrUtil;
-import jline.internal.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@RefreshScope
 public class InitSystemServiceImpl implements InitSystemService {
     /**
      * 需要初始化的sql文件在classpath中的路径
@@ -44,11 +46,36 @@ public class InitSystemServiceImpl implements InitSystemService {
     @Autowired
     private InitDbMapper initDbMapper;
 
+    @Value("${zuihou.mysql.database}")
+    private String defaultDatabase;
+
     @Override
     public void init(String tenant) {
-        this.initDatabases(tenant);
-        this.initTables(tenant);
-        this.initData(tenant);
+        initDatabases(tenant);
+        initTables(tenant);
+        initData(tenant);
+        // 切换为默认数据源
+        resetDatabase();
+    }
+
+    private void resetDatabase() {
+        ScriptRunner runner = null;
+        try {
+            runner = getScriptRunner();
+            Reader reader = new StringReader("use " + defaultDatabase + ";");
+            runner.runScript(reader);
+        } catch (Exception e) {
+            log.error("切换为默认数据源失败", e);
+            new BizException(-1, "切换为默认数据源失败");
+        } finally {
+            try {
+                if (runner != null) {
+                    runner.closeConnection();
+                }
+            } catch (Exception e) {
+                new BizException(-1, "切换为默认数据源失败");
+            }
+        }
     }
 
     @Override
@@ -66,7 +93,7 @@ public class InitSystemServiceImpl implements InitSystemService {
                 runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, database)));
             }
         } catch (Exception e) {
-            log.error("初始化表失败",e);
+            log.error("初始化表失败", e);
             new BizException(-1, "初始化表失败");
         } finally {
             try {
@@ -98,7 +125,7 @@ public class InitSystemServiceImpl implements InitSystemService {
                 runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, dataScript)));
             }
         } catch (Exception e) {
-            log.error("初始化数据失败",e);
+            log.error("初始化数据失败", e);
             new BizException(-1, "初始化数据失败");
         } finally {
             try {

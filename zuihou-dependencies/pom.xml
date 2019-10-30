@@ -149,6 +149,7 @@
         <commons-io.version>2.5</commons-io.version>
         <caffeine.version>2.8.0</caffeine.version>
         <ip2region.version>1.7.2</ip2region.version>
+        <bitwalker.version>1.21</bitwalker.version>
 
         <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
         <!--私有镜像仓库-->
@@ -186,6 +187,12 @@
                 <groupId>org.lionsoul</groupId>
                 <artifactId>ip2region</artifactId>
                 <version>${ip2region.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
             </dependency>
 
             <!-- 持久层相关 -->
