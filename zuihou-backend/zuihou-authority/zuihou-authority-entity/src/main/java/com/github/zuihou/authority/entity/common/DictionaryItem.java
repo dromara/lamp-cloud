@@ -85,12 +85,6 @@ public class DictionaryItem extends Entity<Long> {
     @TableField("is_enable")
     private Boolean isEnable;
 
-    /**
-     * 是否删除
-     */
-    @ApiModelProperty(value = "是否删除")
-    @TableField("is_delete")
-    private Boolean isDelete;
 
     /**
      * 描述
@@ -111,7 +105,7 @@ public class DictionaryItem extends Entity<Long> {
     @Builder
     public DictionaryItem(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                           Long dictionaryId, String dictionaryCode, String code, String name, Boolean isEnable,
-                          Boolean isDelete, String describe, Integer sortValue) {
+                          String describe, Integer sortValue) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -122,7 +116,6 @@ public class DictionaryItem extends Entity<Long> {
         this.code = code;
         this.name = name;
         this.isEnable = isEnable;
-        this.isDelete = isDelete;
         this.describe = describe;
         this.sortValue = sortValue;
     }

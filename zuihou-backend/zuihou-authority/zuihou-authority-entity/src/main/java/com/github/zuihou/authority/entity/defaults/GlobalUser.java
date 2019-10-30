@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.zuihou.base.entity.Entity;
 
 import io.swagger.annotations.ApiModel;
@@ -72,7 +73,7 @@ public class GlobalUser extends Entity<Long> {
      * 姓名
      */
     @ApiModelProperty(value = "姓名")
-    @Length(max = 20, message = "姓名长度不能超过20")
+    @Length(max = 50, message = "姓名长度不能超过20")
     @TableField(value = "name", condition = LIKE)
     private String name;
 
@@ -84,10 +85,16 @@ public class GlobalUser extends Entity<Long> {
     @TableField(value = "email", condition = LIKE)
     private String email;
 
+    @ApiModelProperty(value = "密码")
+    @Length(max = 64, message = "密码长度不能超过64")
+    @TableField(value = "password", condition = LIKE)
+    @JsonIgnore
+    private String password;
+
 
     @Builder
     public GlobalUser(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                      String tenantCode, String account, String mobile, String name, String email) {
+                      String tenantCode, String account, String mobile, String name, String email, String password) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -98,6 +105,7 @@ public class GlobalUser extends Entity<Long> {
         this.mobile = mobile;
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
 }

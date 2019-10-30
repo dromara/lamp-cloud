@@ -100,7 +100,6 @@ public class DictionaryItemController extends BaseController {
     public R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes) {
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
                 .in(DictionaryItem::getDictionaryCode, codes)
-                .eq(DictionaryItem::getIsDelete, false)
                 .eq(DictionaryItem::getIsEnable, true)
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = dictionaryItemService.list(query);
@@ -126,8 +125,8 @@ public class DictionaryItemController extends BaseController {
      */
     @ApiOperation(value = "分页查询字典项", notes = "分页查询字典项")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询字典项")
@@ -137,8 +136,7 @@ public class DictionaryItemController extends BaseController {
         LbqWrapper<DictionaryItem> query = Wraps.lbQ(data)
                 //忽略lbQ 默认的like拼接， 然后将DictionaryCode改成 = 查询
                 .ignore(DictionaryItem::setDictionaryCode)
-                .eq(DictionaryItem::getDictionaryCode, data.getDictionaryCode())
-                .eq(DictionaryItem::getIsDelete, false);
+                .eq(DictionaryItem::getDictionaryCode, data.getDictionaryCode());
         dictionaryItemService.page(page, query);
         return success(page);
     }

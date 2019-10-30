@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,11 +28,12 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
     @JsonIgnore
     private Long parentId;
 
+    @ApiModelProperty(value = "路径")
     private String path;
-    @ApiModelProperty(value = "菜单名称")
-    private String name;
-    @ApiModelProperty(value = "功能描述")
-    private String describe;
+//    @ApiModelProperty(value = "菜单名称")
+//    private String name;
+//    @ApiModelProperty(value = "功能描述")
+//    private String describe;
     @ApiModelProperty(value = "组件")
     private String component;
     @ApiModelProperty(value = "重定向")
@@ -46,11 +48,11 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
     @ApiModelProperty(value = "子路由")
     private List<VueRouter> children;
 
-    @JsonIgnore
-    private Boolean hasParent = false;
-
-    @JsonIgnore
-    private Boolean hasChildren = false;
+//    @JsonIgnore
+//    private Boolean hasParent = false;
+//
+//    @JsonIgnore
+//    private Boolean hasChildren = false;
 
 
     @Override
@@ -60,6 +62,9 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
 
     @Override
     public void add(VueRouter node) {
+        if (children == null) {
+            children = new ArrayList<>();
+        }
         children.add(node);
     }
 }

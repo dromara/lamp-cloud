@@ -51,10 +51,18 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录用户
      */
-    @ApiModelProperty(value = "登录用户")
+    @ApiModelProperty(value = "登录人账号")
+    @Length(max = 30, message = "登录人账号长度不能超过50")
+    @TableField(value = "account", condition = LIKE)
+    private String account;
+
+    @ApiModelProperty(value = "登录人姓名")
     @Length(max = 50, message = "登录用户长度不能超过50")
     @TableField(value = "user_name", condition = LIKE)
     private String userName;
+    @ApiModelProperty(value = "登录人ID")
+    @TableField(value = "user_id")
+    private Long userId;
 
     /**
      * 登录描述
@@ -76,7 +84,7 @@ public class LoginLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "浏览器请求头")
     @TableField("ua")
-    private Long ua;
+    private String ua;
 
     /**
      * 登录地点
@@ -89,12 +97,14 @@ public class LoginLog extends SuperEntity<Long> {
 
     @Builder
     public LoginLog(Long id, LocalDateTime createTime, Long createUser,
-                    String requestIp, String userName, String description, LocalDateTime loginTime, Long ua, String location) {
+                    String requestIp, String account, String userName, Long userId, String description, LocalDateTime loginTime, String ua, String location) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
         this.requestIp = requestIp;
+        this.account = account;
         this.userName = userName;
+        this.userId = userId;
         this.description = description;
         this.loginTime = loginTime;
         this.ua = ua;

@@ -76,17 +76,10 @@ public class Dictionary extends Entity<Long> {
     @TableField("is_enable")
     private Boolean isEnable;
 
-    /**
-     * 是否删除
-     */
-    @ApiModelProperty(value = "是否删除")
-    @TableField("is_delete")
-    private Boolean isDelete;
-
 
     @Builder
     public Dictionary(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                      String code, String name, String describe, Boolean isEnable, Boolean isDelete) {
+                      String code, String name, String describe, Boolean isEnable) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -96,7 +89,6 @@ public class Dictionary extends Entity<Long> {
         this.name = name;
         this.describe = describe;
         this.isEnable = isEnable;
-        this.isDelete = isDelete;
     }
 
 }

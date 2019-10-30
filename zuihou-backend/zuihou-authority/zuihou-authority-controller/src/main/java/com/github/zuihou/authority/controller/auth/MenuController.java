@@ -1,14 +1,17 @@
 package com.github.zuihou.authority.controller.auth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.MenuSaveDTO;
 import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 import com.github.zuihou.authority.dto.auth.MenuUpdateDTO;
+import com.github.zuihou.authority.dto.auth.RouterMeta;
 import com.github.zuihou.authority.dto.auth.VueRouter;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
+import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -54,6 +57,8 @@ public class MenuController extends BaseController {
 
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private DozerUtils dozer;
@@ -66,8 +71,8 @@ public class MenuController extends BaseController {
      */
     @ApiOperation(value = "分页查询菜单", notes = "分页查询菜单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询菜单")
@@ -161,7 +166,50 @@ public class MenuController extends BaseController {
         List<Menu> list = menuService.findVisibleMenu(group, userId);
         List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
 
-        return success(TreeUtil.builderTreeOrdered(treeList));
+        List<MenuTreeDTO> tree = TreeUtil.builderTreeOrdered(treeList);
+        return success(tree);
+    }
+
+
+    private List<VueRouter> buildSuperAdminRouter() {
+        List<VueRouter> tree = new ArrayList<>();
+        List<VueRouter> children = new ArrayList<>();
+
+        VueRouter tenant = new VueRouter();
+        tenant.setPath("/defaults/tenant");
+        tenant.setComponent("zuihou/defaults/tenant/Index");
+        tenant.setHidden(false);
+        tenant.setMeta(RouterMeta.builder()
+                .title("租户管理").breadcrumb(true)
+                .build());
+        tenant.setId(-2L);
+        tenant.setParentId(-1L);
+        children.add(tenant);
+
+        VueRouter globalUser = new VueRouter();
+        globalUser.setPath("/defaults/globaluser");
+        globalUser.setComponent("zuihou/defaults/globaluser/Index");
+        globalUser.setHidden(false);
+        globalUser.setMeta(RouterMeta.builder()
+                .title("全局用户").breadcrumb(true)
+                .build());
+        globalUser.setId(-3L);
+        globalUser.setParentId(-1L);
+        children.add(globalUser);
+
+        VueRouter defaults = new VueRouter();
+        defaults.setPath("/defaults");
+        defaults.setComponent("Layout");
+        defaults.setHidden(false);
+        defaults.setAlwaysShow(true);
+        defaults.setMeta(RouterMeta.builder()
+                .title("系统设置").icon("el-icon-coin").breadcrumb(true)
+                .build());
+        defaults.setId(-1L);
+        defaults.setChildren(children);
+
+        tree.add(defaults);
+        return tree;
     }
 
     @ApiImplicitParams({
@@ -177,8 +225,13 @@ public class MenuController extends BaseController {
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
         List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
-
         return success(TreeUtil.builderTreeOrdered(treeList));
+    }
+
+    @ApiOperation(value = "查询超管菜单路由树", notes = "查询超管菜单路由树")
+    @GetMapping("/admin/router")
+    public R<List<VueRouter>> adminRouter() {
+        return success(buildSuperAdminRouter());
     }
 
     /**

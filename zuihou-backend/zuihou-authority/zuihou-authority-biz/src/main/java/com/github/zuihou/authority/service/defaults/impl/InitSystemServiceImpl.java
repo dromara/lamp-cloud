@@ -15,6 +15,8 @@ import com.github.zuihou.authority.service.defaults.InitSystemService;
 import com.github.zuihou.exception.BizException;
 
 import cn.hutool.core.util.StrUtil;
+import jline.internal.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
  * @date 2019/10/25
  */
 @Service
+@Slf4j
 public class InitSystemServiceImpl implements InitSystemService {
     /**
      * 需要初始化的sql文件在classpath中的路径
@@ -63,6 +66,7 @@ public class InitSystemServiceImpl implements InitSystemService {
                 runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, database)));
             }
         } catch (Exception e) {
+            log.error("初始化表失败",e);
             new BizException(-1, "初始化表失败");
         } finally {
             try {
@@ -94,7 +98,8 @@ public class InitSystemServiceImpl implements InitSystemService {
                 runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, dataScript)));
             }
         } catch (Exception e) {
-            new BizException(-1, "初始化表失败");
+            log.error("初始化数据失败",e);
+            new BizException(-1, "初始化数据失败");
         } finally {
             try {
                 if (runner != null) {
@@ -130,7 +135,7 @@ public class InitSystemServiceImpl implements InitSystemService {
 
             Resources.setCharset(Charset.forName("UTF8"));
 
-            //设置分隔符 runner.setDelimiter(";");
+//            设置分隔符 runner.setDelimiter(";");
             runner.setFullLineDelimiter(false);
             return runner;
         } catch (Exception ex) {

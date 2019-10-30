@@ -9,9 +9,12 @@ import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.authority.dto.auth.UserDTO;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.defaults.GlobalUser;
 import com.github.zuihou.authority.entity.defaults.Tenant;
+import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
 import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.service.defaults.GlobalUserService;
 import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.authority.utils.TimeUtils;
 import com.github.zuihou.base.R;
@@ -23,6 +26,7 @@ import com.github.zuihou.exception.code.ExceptionCode;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.NumberHelper;
 
+import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +49,54 @@ public class AuthManager {
     @Autowired
     private UserService userService;
     @Autowired
+    private GlobalUserService globalUserService;
+    @Autowired
     private TenantService tenantService;
     @Autowired
     private DozerUtils dozer;
 
+    private static final String SUPER_TENANT = "admin";
+    private static final String[] SUPER_ACCOUNT = new String[]{"admin", "superAdmin"};
+
+
+    /**
+     * 超管账号登录
+     *
+     * @param account
+     * @param password
+     * @return
+     */
+    public R<LoginDTO> adminLogin(String account, String password) {
+        GlobalUser user = globalUserService.getOne(Wrappers.<GlobalUser>lambdaQuery()
+                .eq(GlobalUser::getAccount, account).eq(GlobalUser::getTenantCode, SUPER_TENANT));
+        // 密码错误
+        if (user == null) {
+            throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
+        }
+
+        String passwordMd5 = DigestUtils.md5Hex(password);
+        if (!user.getPassword().equalsIgnoreCase(passwordMd5)) {
+            userService.updatePasswordErrorNumById(user.getId());
+            return R.fail("用户名或密码错误!");
+        }
+        JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), 0L, 0L);
+
+        Token token = jwtTokenServerUtils.generateUserToken(userInfo, null);
+        log.info("token={}", token.getToken());
+
+        UserDTO dto = dozer.map(user, UserDTO.class);
+        dto.setIsDelete(false).setOrgId(0L).setStationId(0L).setPhoto("").setSex(Sex.M).setWorkDescribe("心情很美丽");
+        return R.success(LoginDTO.builder().user(dto).token(token).build());
+    }
+
+    /**
+     * 租户账号登录
+     *
+     * @param tenantCode
+     * @param account
+     * @param password
+     * @return
+     */
     public R<LoginDTO> login(String tenantCode, String account, String password) {
         // 1，检测租户是否可用
         Tenant tenant = tenantService.getByCode(tenantCode);
@@ -70,7 +118,6 @@ public class AuthManager {
         log.info("account={}", account);
         return R.success(LoginDTO.builder().user(dozer.map(user, UserDTO.class)).token(token).build());
     }
-
 
     private Token getToken(User user) {
         JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), user.getOrgId(), user.getStationId());
@@ -101,7 +148,6 @@ public class AuthManager {
         }
 
         // 用户禁用
-        isFalse(user.getIsDelete(), ExceptionCode.JWT_USER_INVALID);
         isTrue(user.getStatus(), "用户被禁用，请联系管理员！");
 
         // 用户锁定
