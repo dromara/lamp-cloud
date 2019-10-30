@@ -8,6 +8,8 @@ import com.github.zuihou.authority.service.auth.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static com.github.zuihou.common.constant.BizConstant.INIT_ROLE_ID;
+
 /**
  * <p>
  * 业务实现类
@@ -22,4 +24,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
+    @Override
+    public void initAdmin(Long userId) {
+        UserRole userRole = UserRole.builder()
+                .userId(userId).roleId(INIT_ROLE_ID)
+                .build();
+
+        super.save(userRole);
+    }
 }

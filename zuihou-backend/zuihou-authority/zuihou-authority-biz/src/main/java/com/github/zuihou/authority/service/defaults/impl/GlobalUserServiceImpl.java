@@ -83,7 +83,7 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
         user.setName(StrHelper.getOrDef(data.getName(), data.getAccount()));
         userService.save(user);
 
-        // TODO 授权
+        userRoleService.initAdmin(user.getId());
         return globalAccount;
     }
 

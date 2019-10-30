@@ -17,7 +17,6 @@ import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -71,7 +70,6 @@ public class TenantController extends BaseController {
             @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
-    @SysLog("分页查询企业")
     public R<IPage<Tenant>> page(TenantPageDTO data) {
         IPage<Tenant> page = getPage();
         // 构建值不为null的查询条件
@@ -86,7 +84,6 @@ public class TenantController extends BaseController {
 
     @ApiOperation(value = "查询所有企业", notes = "查询所有企业")
     @GetMapping
-    @SysLog("查询所有企业")
     public R<List<Tenant>> list() {
         return success(tenantService.list(Wraps.<Tenant>lbQ().eq(Tenant::getStatus, NORMAL)));
     }
@@ -99,7 +96,6 @@ public class TenantController extends BaseController {
      */
     @ApiOperation(value = "查询企业", notes = "查询企业")
     @GetMapping("/{id}")
-    @SysLog("查询企业")
     public R<Tenant> get(@PathVariable Long id) {
         return success(tenantService.getById(id));
     }
@@ -112,7 +108,6 @@ public class TenantController extends BaseController {
      */
     @ApiOperation(value = "初始化企业", notes = "快速初始化企业")
     @PostMapping("/init")
-    @SysLog("初始化企业")
     public R<Tenant> saveInit(@RequestBody @Validated TenantSaveInitDTO data) {
         Tenant tenant = tenantService.saveInit(data);
         return success(tenant);
@@ -120,7 +115,6 @@ public class TenantController extends BaseController {
 
     @ApiOperation(value = "新增企业", notes = "新增企业不为空的字段")
     @PostMapping
-    @SysLog("新增企业")
     public R<Tenant> save(@RequestBody @Validated TenantSaveDTO data) {
         Tenant tenant = tenantService.save(data);
         return success(tenant);
@@ -134,7 +128,6 @@ public class TenantController extends BaseController {
      */
     @ApiOperation(value = "修改企业", notes = "修改企业不为空的字段")
     @PutMapping
-    @SysLog("修改企业")
     public R<Tenant> update(@RequestBody @Validated(SuperEntity.Update.class) TenantUpdateDTO data) {
         Tenant tenant = dozer.map(data, Tenant.class);
         tenantService.updateById(tenant);
@@ -150,7 +143,6 @@ public class TenantController extends BaseController {
      */
     @ApiOperation(value = "删除企业", notes = "根据id物理删除企业")
     @DeleteMapping(value = "/{id}")
-    @SysLog("删除企业")
     public R<Boolean> delete(@PathVariable Long id) {
         tenantService.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, TenantStatusEnum.FORBIDDEN).eq(Tenant::getId, id));
         return success(true);
@@ -158,7 +150,6 @@ public class TenantController extends BaseController {
 
     @ApiOperation(value = "批量删除企业", notes = "批量删除企业")
     @DeleteMapping(value = "/remove")
-    @SysLog("删除企业")
     public R<Boolean> remove(@RequestParam("ids[]") Long[] ids) {
         tenantService.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, TenantStatusEnum.FORBIDDEN).in(Tenant::getId, ids));
         return success(true);
