@@ -13,7 +13,6 @@ import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
-import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -65,7 +64,6 @@ public class GlobalUserController extends BaseController {
             @ApiImplicitParam(name = "size", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
-    @SysLog("分页查询全局账号")
     public R<IPage<GlobalUser>> page(GlobalUserPageDTO data) {
         GlobalUser user = dozer.map(data, GlobalUser.class);
         IPage<GlobalUser> page = getPage();
@@ -86,7 +84,6 @@ public class GlobalUserController extends BaseController {
      */
     @ApiOperation(value = "查询全局账号", notes = "查询全局账号")
     @GetMapping("/{id}")
-    @SysLog("查询全局账号")
     public R<GlobalUser> get(@PathVariable Long id) {
         return success(globalUserService.getById(id));
     }
@@ -99,7 +96,6 @@ public class GlobalUserController extends BaseController {
      */
     @ApiOperation(value = "新增企业管理员", notes = "新增企业管理员")
     @PostMapping
-    @SysLog("新增全局账号")
     public R<GlobalUser> save(@RequestBody @Validated GlobalUserSaveDTO data) {
         return success(globalUserService.save(data));
     }
@@ -110,7 +106,6 @@ public class GlobalUserController extends BaseController {
     })
     @ApiOperation(value = "检测账号是否可用", notes = "检测账号是否可用")
     @GetMapping("/check")
-    @SysLog("检测账号是否可用")
     public R<Boolean> check(@RequestParam String tenantCode, @RequestParam String account) {
         return success(globalUserService.check(tenantCode, account));
     }
@@ -123,7 +118,6 @@ public class GlobalUserController extends BaseController {
      */
     @ApiOperation(value = "修改全局账号", notes = "修改全局账号不为空的字段")
     @PutMapping
-    @SysLog("修改全局账号")
     public R<GlobalUser> update(@RequestBody @Validated(SuperEntity.Update.class) GlobalUserUpdateDTO data) {
         return success(globalUserService.update(data));
     }
@@ -135,7 +129,6 @@ public class GlobalUserController extends BaseController {
     })
     @ApiOperation(value = "批量删除", notes = "批量删除")
     @DeleteMapping(value = "/remove")
-    @SysLog("删除企业")
     public R<Boolean> remove(@RequestParam String tenantCode, @RequestParam("ids[]") Long[] ids) {
         globalUserService.removeByIds(tenantCode, ids);
         return success(true);
