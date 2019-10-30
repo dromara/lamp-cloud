@@ -2,6 +2,7 @@ package com.github.zuihou.authority.service.defaults;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.defaults.TenantSaveDTO;
+import com.github.zuihou.authority.dto.defaults.TenantSaveInitDTO;
 import com.github.zuihou.authority.entity.defaults.Tenant;
 
 /**
@@ -22,6 +23,13 @@ public interface TenantService extends IService<Tenant> {
      */
     boolean check(String tenantCode);
 
+    /**
+     * 初始化
+     *
+     * @param data
+     * @return
+     */
+    Tenant saveInit(TenantSaveInitDTO data);
     /**
      * 保存
      *

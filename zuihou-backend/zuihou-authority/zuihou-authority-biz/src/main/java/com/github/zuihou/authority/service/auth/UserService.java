@@ -44,5 +44,16 @@ public interface UserService extends IService<User> {
      */
     boolean check(String account);
 
+    /**
+     * 修改输错密码的次数
+     * @param id
+     */
     void updatePasswordErrorNumById(Long id);
+
+    /**
+     * 根据账号查询用户
+     * @param account
+     * @return
+     */
+    User getByAccount(String account);
 }

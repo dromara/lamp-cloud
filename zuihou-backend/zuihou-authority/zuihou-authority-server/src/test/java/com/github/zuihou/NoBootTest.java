@@ -10,6 +10,7 @@ import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
+import com.github.zuihou.database.parsers.TableNameParser;
 
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.log.Log;
@@ -48,11 +49,23 @@ public class NoBootTest {
     }
 
     public static void main(String[] args) {
-        String field = "name";
-        System.out.println(getField(MenuTreeDTO.class, field));
+//        String field = "name";
+//        System.out.println(getField(MenuTreeDTO.class, field));
+//
+//        System.out.println(ReflectUtil.getField(MenuTreeDTO.class, field));
 
-        System.out.println(ReflectUtil.getField(MenuTreeDTO.class, field));
 
+        String sql ="       SELECT u.id, account, name, mobile, sex\n" +
+                "FROM c_auth_user\n" +
+                "u\n" +
+                "WHERE 1=1\n" +
+                "and EXISTS (\n" +
+                "select 1 from c_auth_user_role\n" +
+                "ur where  u.id = ur.user_id\n" +
+                "and ur.role_id = 100\n" +
+                ")";
+        TableNameParser tableNameParser = new TableNameParser(sql);
+        tableNameParser.tables().forEach(System.out::println);
     }
 
     @Test

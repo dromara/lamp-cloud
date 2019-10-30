@@ -13,13 +13,12 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="is_enable" jdbcType="BIT" property="isEnable"/>
-        <result column="is_delete" jdbcType="BIT" property="isDelete"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
-        code, name, describe_, is_enable, is_delete
+        id, create_user, create_time, update_user, update_time,
+        code, name, describe_, is_enable
     </sql>
 
 </mapper>

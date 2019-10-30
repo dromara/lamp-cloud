@@ -37,11 +37,11 @@ public class GlobalUserSaveDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 租户编号
+     * 企业编码
      */
-    @ApiModelProperty(value = "租户编号")
-    @NotEmpty(message = "租户编号不能为空")
-    @Length(max = 10, message = "租户编号长度不能超过10")
+    @ApiModelProperty(value = "企业编码")
+    @NotEmpty(message = "企业编码不能为空")
+    @Length(max = 10, message = "企业编码长度不能超过10")
     private String tenantCode;
     /**
      * 账号
@@ -60,7 +60,7 @@ public class GlobalUserSaveDTO implements Serializable {
      * 姓名
      */
     @ApiModelProperty(value = "姓名")
-    @Length(max = 20, message = "姓名长度不能超过20")
+    @Length(max = 50, message = "姓名长度不能超过20")
     private String name;
     /**
      * 邮箱
@@ -72,7 +72,12 @@ public class GlobalUserSaveDTO implements Serializable {
      * 密码
      */
     @ApiModelProperty(value = "密码")
-    @Length(max = 76, message = "密码长度不能超过76")
+    @Length(max = 64, message = "密码长度不能超过64")
+    @NotEmpty(message = "密码不能为空")
     private String password;
+    @ApiModelProperty(value = "确认密码")
+    @Length(max = 64, message = "确认密码长度不能超过76")
+    @NotEmpty(message = "确认密码不能为空")
+    private String confirmPassword;
 
 }

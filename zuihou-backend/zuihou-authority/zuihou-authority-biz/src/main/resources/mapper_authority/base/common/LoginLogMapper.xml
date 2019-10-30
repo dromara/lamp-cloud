@@ -9,16 +9,18 @@
         <result column="create_user" jdbcType="BIGINT" property="createUser"/>
         <result column="request_ip" jdbcType="VARCHAR" property="requestIp"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="login_time" jdbcType="TIMESTAMP" property="loginTime"/>
-        <result column="ua" jdbcType="BIGINT" property="ua"/>
+        <result column="ua" jdbcType="VARCHAR" property="ua"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, create_user, 
-        request_ip, user_name, description, login_time, ua, location
+        id, create_time, create_user,
+        request_ip, user_name, user_id, account, description, login_time, ua, location
     </sql>
 
 </mapper>

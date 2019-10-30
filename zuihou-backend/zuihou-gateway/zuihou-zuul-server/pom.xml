@@ -35,6 +35,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-j2cache-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-openfeign-starter</artifactId>
+        </dependency>
 
         <!--        <dependency>-->
         <!--            <groupId>com.github.zuihou</groupId>-->

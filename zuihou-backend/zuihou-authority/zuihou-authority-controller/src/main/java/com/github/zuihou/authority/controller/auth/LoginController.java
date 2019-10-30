@@ -44,6 +44,30 @@ public class LoginController extends BaseController {
     @Autowired
     private ValidateCodeService validateCodeService;
 
+    /**
+     * 超级管理员登录
+     * @param key
+     * @param code
+     * @param account
+     * @param password
+     * @return
+     * @throws BizException
+     */
+    @ApiOperation(value = "超级管理员登录", notes = "超级管理员登录")
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+    public R<LoginDTO> loginAdminTx(
+            @RequestParam(value = "key", required = false) String key,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "account") String account,
+            @RequestParam(value = "password") String password) throws BizException {
+        log.info("account={}", account);
+        if (validateCodeService.check(key, code)) {
+            return authManager.adminLogin(account, password);
+        }
+        return success(null);
+    }
+
+
     @ApiOperation(value = "登录", notes = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public R<LoginDTO> loginTx(

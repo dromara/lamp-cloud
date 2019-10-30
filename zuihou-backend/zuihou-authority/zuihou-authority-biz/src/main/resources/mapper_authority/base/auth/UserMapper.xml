@@ -16,7 +16,6 @@
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
-        <result column="is_delete" jdbcType="BIT" property="isDelete"/>
         <result column="status" jdbcType="BIT" property="status"/>
         <result column="photo" jdbcType="VARCHAR" property="photo"/>
         <result column="work_describe" jdbcType="VARCHAR" property="workDescribe"/>
@@ -29,7 +28,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time,
-        account, name, org_id, station_id, email, mobile, sex, is_delete, status, photo, work_describe, lock_time, password_error_last_time, password_error_num, password_expire_time, password
+        account, name, org_id, station_id, email, mobile, sex, status, photo, work_describe, lock_time, password_error_last_time, password_error_num, password_expire_time, password
     </sql>
 
 </mapper>

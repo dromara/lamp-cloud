@@ -103,7 +103,7 @@ public class SysLogAspect {
                 sysLog.setRequestIp(ServletUtil.getClientIP(request));
                 sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
                 sysLog.setHttpMethod(request.getMethod());
-                sysLog.setUa(request.getHeader("user-agent"));
+                sysLog.setUa(StrUtil.sub(request.getHeader("user-agent"), 0, 500));
                 sysLog.setTenantCode(request.getHeader(BaseContextConstants.TENANT));
             }
             sysLog.setStartTime(LocalDateTime.now());

@@ -37,9 +37,9 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         if (StringUtils.isBlank(key)) {
             throw BizException.validFail("验证码key不能为空");
         }
-        setHeader(response, "png");
+        setHeader(response, "arithmetic");
 
-        Captcha captcha = createCaptcha("png");
+        Captcha captcha = createCaptcha("arithmetic");
         cache.set(CacheKey.CAPTCHA, key, StringUtils.lowerCase(captcha.text()));
         captcha.out(response.getOutputStream());
     }

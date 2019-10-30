@@ -1,19 +1,20 @@
 package com.github.zuihou.authority.controller.common;
 
 
+import javax.validation.constraints.NotBlank;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.common.LoginLogSaveDTO;
-import com.github.zuihou.authority.dto.common.LoginLogUpdateDTO;
 import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.log.util.AddressUtil;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,12 +22,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,13 +40,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/loginLog")
-@Api(value = "LoginLog", tags = "系统日志")
+@Api(value = "LoginLog", tags = "登录日志")
 public class LoginLogController extends BaseController {
 
     @Autowired
     private LoginLogService loginLogService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询系统日志
@@ -59,8 +54,8 @@ public class LoginLogController extends BaseController {
      */
     @ApiOperation(value = "分页查询系统日志", notes = "分页查询系统日志")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询系统日志")
@@ -88,45 +83,20 @@ public class LoginLogController extends BaseController {
     /**
      * 新增系统日志
      *
-     * @param data 新增对象
+     * @param account 用户名
      * @return 新增结果
      */
     @ApiOperation(value = "新增系统日志", notes = "新增系统日志不为空的字段")
-    @PostMapping
+    @GetMapping("/success/{account}")
     @SysLog("新增系统日志")
-    public R<LoginLog> save(@RequestBody @Validated LoginLogSaveDTO data) {
-        LoginLog loginLog = dozer.map(data, LoginLog.class);
-        loginLogService.save(loginLog);
+    public R<LoginLog> save(@NotBlank(message = "用户名不能为为空") @PathVariable String account) {
+        String ua = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
+        String ip = ServletUtil.getClientIP(request);
+        String location = AddressUtil.getCityInfo(ip);
+
+        LoginLog loginLog = loginLogService.save(account, ua, ip, location);
         return success(loginLog);
     }
 
-    /**
-     * 修改系统日志
-     *
-     * @param data 修改对象
-     * @return 修改结果
-     */
-    @ApiOperation(value = "修改系统日志", notes = "修改系统日志不为空的字段")
-    @PutMapping
-    @SysLog("修改系统日志")
-    public R<LoginLog> update(@RequestBody @Validated(SuperEntity.Update.class) LoginLogUpdateDTO data) {
-        LoginLog loginLog = dozer.map(data, LoginLog.class);
-        loginLogService.updateById(loginLog);
-        return success(loginLog);
-    }
-
-    /**
-     * 删除系统日志
-     *
-     * @param id 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除系统日志", notes = "根据id物理删除系统日志")
-    @DeleteMapping(value = "/{id}")
-    @SysLog("删除系统日志")
-    public R<Boolean> delete(@PathVariable Long id) {
-        loginLogService.removeById(id);
-        return success(true);
-    }
 
 }

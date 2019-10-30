@@ -14,4 +14,14 @@ import com.github.zuihou.authority.entity.common.LoginLog;
  */
 public interface LoginLogService extends IService<LoginLog> {
 
+    /**
+     * 记录登录日志
+     *
+     * @param account 账号
+     * @param ua 浏览器
+     * @param ip 客户端IP
+     * @param location 客户端地址
+     * @return
+     */
+    LoginLog save(String account, String ua, String ip, String location);
 }
