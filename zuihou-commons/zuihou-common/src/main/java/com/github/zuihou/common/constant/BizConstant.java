@@ -8,6 +8,11 @@ package com.github.zuihou.common.constant;
  */
 public interface BizConstant {
     /**
+     * 初始化的租户管理员角色
+     */
+    Long INIT_ROLE_ID = 100L;
+
+    /**
      * 演示用的组织ID
      */
     Long DEMO_ORG_ID = 101L;
