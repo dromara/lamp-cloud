@@ -49,7 +49,7 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
             return invocation.proceed();
         }
         // 记录日志相关的 放行
-        if (StrUtil.containsAnyIgnoreCase(mappedStatement.getId(), "OptLog", "File", "xxl")) {
+        if (StrUtil.containsAnyIgnoreCase(mappedStatement.getId(), "OptLog", "LoginLog", "File", "xxl")) {
             return invocation.proceed();
         }
         // userId=1 的超级管理员 放行
@@ -71,7 +71,7 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
 
         // 你还可以自定义其他限制规则， 比如：IP 等
 
-        //内置的超管
+        //其他用户
         return invocation.proceed();
     }
 

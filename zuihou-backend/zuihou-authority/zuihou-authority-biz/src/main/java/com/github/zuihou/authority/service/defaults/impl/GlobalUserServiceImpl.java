@@ -79,8 +79,9 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
         // 1，保存租户用户 // 租户库
         User user = dozer.map(data, User.class);
         user.setId(globalAccount.getId());
-        user.setPassword(md5Password);
-        user.setName(StrHelper.getOrDef(data.getName(), data.getAccount()));
+        user.setPassword(md5Password)
+                .setName(StrHelper.getOrDef(data.getName(), data.getAccount()))
+                .setStatus(true);
         userService.save(user);
 
         userRoleService.initAdmin(user.getId());
