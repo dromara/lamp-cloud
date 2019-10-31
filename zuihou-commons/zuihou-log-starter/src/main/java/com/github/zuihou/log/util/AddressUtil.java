@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 
+import cn.hutool.core.io.resource.ResourceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,7 @@ import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
 import org.lionsoul.ip2region.Util;
+
 /**
  * 根据ip查询地址
  *
@@ -25,6 +27,7 @@ public class AddressUtil {
 
     /**
      * 根据ip查询地址
+     *
      * @param ip
      * @return
      */
@@ -37,7 +40,8 @@ public class AddressUtil {
                 String tmpDir = System.getProperties().getProperty(JAVA_TEMP_DIR);
                 dbPath = tmpDir + "ip.db";
                 file = new File(dbPath);
-                InputStream resourceAsStream = AddressUtil.class.getClassLoader().getResourceAsStream("classpath:ip2region/ip2region.db");
+                String classPath = "classpath:ip2region/ip2region.db";
+                InputStream resourceAsStream = ResourceUtil.getStreamSafe(classPath);
                 if (resourceAsStream != null) {
                     FileUtils.copyInputStreamToFile(resourceAsStream, file);
                 }
@@ -51,7 +55,7 @@ public class AddressUtil {
             DataBlock dataBlock = (DataBlock) method.invoke(searcher, ip);
             return dataBlock.getRegion();
         } catch (Exception e) {
-            log.error("获取地址信息异常，{}", e.getMessage());
+            log.error("获取地址信息异常，{}", e);
             return StringUtils.EMPTY;
         } finally {
             if (searcher != null) {
