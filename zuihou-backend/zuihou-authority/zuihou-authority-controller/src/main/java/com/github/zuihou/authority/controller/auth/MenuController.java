@@ -177,7 +177,7 @@ public class MenuController extends BaseController {
         tenant.setComponent("zuihou/defaults/tenant/Index");
         tenant.setHidden(false);
         tenant.setMeta(RouterMeta.builder()
-                .title("租户管理").breadcrumb(true)
+                .title("租户管理").breadcrumb(true).icon("")
                 .build());
         tenant.setId(-2L);
         tenant.setParentId(-1L);
@@ -188,7 +188,7 @@ public class MenuController extends BaseController {
         globalUser.setComponent("zuihou/defaults/globaluser/Index");
         globalUser.setHidden(false);
         globalUser.setMeta(RouterMeta.builder()
-                .title("全局用户").breadcrumb(true)
+                .title("全局用户").breadcrumb(true).icon("")
                 .build());
         globalUser.setId(-3L);
         globalUser.setParentId(-1L);
