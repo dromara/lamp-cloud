@@ -273,7 +273,6 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     - docs/sql/1.先执行我,创建数据库.sql          # 创建数据库
     - docs/sql/zuihou_defaults.sql              # 导入默认库
     - docs/sql/zuihou_base_0000.sql             # 导入内置的租户库  
-    - docs/sql/4.导入c_common_area表的数据.sql    # 导入内置租户库的地区表数据
     - docs/sql/zuihou_zipkin.sql                # 导入 zuihou_zipkin 库
     
 - 2, 启动 nacos，新增命名空间 - `zuihou`，并记录下自己新增的命名空间ID
