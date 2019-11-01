@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 106.53.26.9(my)
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
- Source Server Version : 50709
- Source Host           : 106.53.26.9:3218
+ Source Server Version : 50722
+ Source Host           : 127.0.0.1:3306
  Source Schema         : zuihou_base_0000
 
  Target Server Type    : MySQL
- Target Server Version : 50709
+ Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 31/10/2019 15:57:41
+ Date: 01/11/2019 18:07:41
 */
 
 SET NAMES utf8mb4;
@@ -107,7 +107,7 @@ CREATE TABLE `c_auth_resource` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) USING BTREE COMMENT '编码唯一',
+  UNIQUE KEY `UN_CODE` (`code`) COMMENT '编码唯一',
   UNIQUE KEY `UN_URI` (`resource_type`,`micro_service_id`,`http_method`,`uri`) USING BTREE COMMENT 'URI唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
 
@@ -128,7 +128,7 @@ CREATE TABLE `c_auth_role` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) USING BTREE
+  UNIQUE KEY `UN_CODE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
@@ -155,7 +155,7 @@ CREATE TABLE `c_auth_role_org` (
   `org_id` bigint(20) DEFAULT NULL COMMENT '部门ID\n#c_core_org',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色组织关系';
 
 -- ----------------------------
@@ -171,7 +171,7 @@ CREATE TABLE `c_auth_user` (
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT 'M' COMMENT '性别\n#Sex{W:女;M:男}',
-  `status` bit(1) DEFAULT b'1' COMMENT '启用状态 1启用 0禁用',
+  `status` bit(1) DEFAULT b'0' COMMENT '启用状态 1启用 0禁用',
   `photo` varchar(255) DEFAULT '' COMMENT '照片',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
   `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次密码错误时间',
@@ -269,7 +269,7 @@ CREATE TABLE `c_common_login_log` (
   `user_name` varchar(50) DEFAULT NULL COMMENT '登录人姓名',
   `account` varchar(30) DEFAULT '' COMMENT '登录人账号',
   `description` varchar(255) DEFAULT '' COMMENT '登录描述',
-  `login_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `login_date` date DEFAULT NULL COMMENT '登录时间',
   `ua` varchar(500) DEFAULT '0' COMMENT '浏览器请求头',
   `browser` varchar(255) DEFAULT NULL COMMENT '浏览器名称',
   `browser_version` varchar(255) DEFAULT NULL COMMENT '浏览器版本',
@@ -277,8 +277,12 @@ CREATE TABLE `c_common_login_log` (
   `location` varchar(50) DEFAULT '' COMMENT '登录地点',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `IDX_BROWSER` (`browser`),
+  KEY `IDX_OPERATING` (`operating_system`),
+  KEY `IDX_LOGIN_DATE` (`login_date`,`account`) USING BTREE,
+  KEY `IDX_ACCOUNT_IP` (`account`,`request_ip`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='登录日志';
 
 -- ----------------------------
 -- Table structure for c_common_opt_log
@@ -306,7 +310,7 @@ CREATE TABLE `c_common_opt_log` (
   `create_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_type` (`type`) USING BTREE COMMENT '日志类型'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
 
 -- ----------------------------
 -- Table structure for c_core_org
@@ -325,7 +329,7 @@ CREATE TABLE `c_core_org` (
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
+  PRIMARY KEY (`id`),
   FULLTEXT KEY `FU_PATH` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
@@ -344,7 +348,7 @@ CREATE TABLE `c_core_station` (
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
@@ -428,7 +432,7 @@ CREATE TABLE `m_order` (
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单';
 
 -- ----------------------------
 -- Table structure for m_product
@@ -442,7 +446,7 @@ CREATE TABLE `m_product` (
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品';
 
 -- ----------------------------
@@ -466,7 +470,7 @@ CREATE TABLE `mail_provider` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='邮件供应商';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='邮件供应商';
 
 -- ----------------------------
 -- Table structure for mail_send_status
@@ -482,7 +486,7 @@ CREATE TABLE `mail_send_status` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='邮件发送状态';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='邮件发送状态';
 
 -- ----------------------------
 -- Table structure for mail_task
@@ -505,7 +509,7 @@ CREATE TABLE `mail_task` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='邮件任务';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='邮件任务';
 
 -- ----------------------------
 -- Table structure for msgs_center_info
@@ -528,7 +532,7 @@ CREATE TABLE `msgs_center_info` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息中心表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心表';
 
 -- ----------------------------
 -- Table structure for msgs_center_info_receive
@@ -544,7 +548,7 @@ CREATE TABLE `msgs_center_info_receive` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息中心接收表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心接收表';
 
 -- ----------------------------
 -- Table structure for sms_provider
@@ -567,7 +571,7 @@ CREATE TABLE `sms_provider` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信供应商';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信供应商';
 
 -- ----------------------------
 -- Table structure for sms_send_status
@@ -591,7 +595,7 @@ CREATE TABLE `sms_send_status` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信发送状态';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信发送状态';
 
 -- ----------------------------
 -- Table structure for sms_task
@@ -613,7 +617,7 @@ CREATE TABLE `sms_task` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='发送任务\n所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息，\n具体的发送状态查看发送状态（#sms_send_status）表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='发送任务\n所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息，\n具体的发送状态查看发送状态（#sms_send_status）表';
 
 -- ----------------------------
 -- Table structure for sms_template
@@ -635,7 +639,7 @@ CREATE TABLE `sms_template` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UN_CODE` (`custom_code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信模板';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信模板';
 
 -- ----------------------------
 -- Table structure for undo_log
@@ -651,8 +655,8 @@ CREATE TABLE `undo_log` (
   `log_created` datetime NOT NULL,
   `log_modified` datetime NOT NULL,
   `ext` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`) USING BTREE
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 SET FOREIGN_KEY_CHECKS = 1;

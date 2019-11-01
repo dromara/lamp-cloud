@@ -1,7 +1,9 @@
 package com.github.zuihou.common.constant;
 
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.utils.StrPool;
-import com.google.common.base.Joiner;
+
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 用于同一管理和生成缓存的key， 避免多个项目使用的key重复
@@ -70,6 +72,38 @@ public interface CacheKey {
      */
     String USER_RESOURCE = "user:resource";
 
+    /**
+     * 登录总次数
+     * login:log:total:{TENANT} -> Long
+     */
+    String LOGIN_LOG_TOTAL = "login:log:total";
+    /**
+     * 今日登录总次数
+     * login:log:today:{TENANT}:{today} -> Long
+     */
+    String LOGIN_LOG_TODAY = "login:log:today";
+    /**
+     * 今日登录总ip
+     * login:log:todayip:{TENANT}:{today} -> Map
+     */
+    String LOGIN_LOG_TODAY_IP = "login:log:todayip";
+    /**
+     * 最近10访问记录
+     * login:log:tenday:{TENANT}:{today}:{account} -> Map
+     */
+    String LOGIN_LOG_TEN_DAY = "login:log:tenday";
+    /**
+     * 登录总次数
+     * login:log:browser:{TENANT} -> Map
+     */
+    String LOGIN_LOG_BROWSER = "login:log:browser";
+    /**
+     * 登录总次数
+     * login:log:system{TENANT} -> Map
+     */
+    String LOGIN_LOG_SYSTEM = "login:log:system";
+
+
     // 权限系统缓存 end
 
 
@@ -88,6 +122,10 @@ public interface CacheKey {
      * @return
      */
     static String build(Object... args) {
-        return Joiner.on(StrPool.COLON).join(args);
+        if (args.length > 0) {
+            return StrUtil.join(StrPool.COLON, BaseContextHandler.getTenant(), args);
+        } else {
+            return StrUtil.join(StrPool.COLON, BaseContextHandler.getTenant());
+        }
     }
 }
