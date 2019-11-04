@@ -33,7 +33,7 @@ public class J2CacheController {
 
     @ApiOperation(value = "数据写入", notes = "数据写入")
     @GetMapping("/set")
-    public R<Object> set(String region, String key, Object value) {
+    public R<Object> set(String region, String key, String value) {
         cache.set(region, key, value);
         return R.success(String.format("%s:%s", region, key));
     }
@@ -88,7 +88,7 @@ public class J2CacheController {
         return R.success(regions);
     }
 
-    @ApiOperation(value = "删除缓存 Region", notes = "删除缓存 Region")
+    @ApiOperation(value = "删除1级缓存 Region", notes = "删除1级缓存 Region")
     @GetMapping("/removeRegion")
     public R<Object> regions(String region) {
         cache.removeRegion(region);
