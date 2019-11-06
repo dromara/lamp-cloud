@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 01/11/2019 18:07:41
+ Date: 06/11/2019 12:01:34
 */
 
 SET NAMES utf8mb4;
@@ -170,14 +170,15 @@ CREATE TABLE `c_auth_user` (
   `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
-  `sex` varchar(1) DEFAULT 'M' COMMENT '性别\n#Sex{W:女;M:男}',
+  `sex` varchar(1) DEFAULT 'N' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
   `status` bit(1) DEFAULT b'0' COMMENT '启用状态 1启用 0禁用',
-  `photo` varchar(255) DEFAULT '' COMMENT '照片',
+  `avatar` varchar(255) DEFAULT '' COMMENT '头像',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
-  `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次密码错误时间',
+  `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
   `password_error_num` int(11) DEFAULT '0' COMMENT '密码错误次数',
   `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
@@ -361,13 +362,10 @@ CREATE TABLE `f_attachment` (
   `biz_type` varchar(255) DEFAULT NULL COMMENT '业务类型\n#AttachmentType',
   `data_type` varchar(255) DEFAULT 'IMAGE' COMMENT '数据类型\n#DataType{DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他}',
   `submitted_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
-  `app_code` varchar(64) DEFAULT NULL COMMENT '应用ID\n#c_application',
   `group_` varchar(255) DEFAULT '' COMMENT 'FastDFS返回的组\n用于FastDFS',
   `path` varchar(255) DEFAULT '' COMMENT 'FastDFS的远程文件名\n用于FastDFS',
   `relative_path` varchar(255) DEFAULT '' COMMENT '文件相对路径',
   `url` varchar(255) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
-  `characters` mediumtext COMMENT '语音转文字',
-  `thumbnail` varchar(255) DEFAULT '' COMMENT '视频截图地址',
   `file_md5` varchar(255) DEFAULT NULL COMMENT '文件md5值',
   `context_type` varchar(255) DEFAULT '' COMMENT '文件上传类型\n取上传文件的值',
   `filename` varchar(255) DEFAULT '' COMMENT '唯一文件名',
