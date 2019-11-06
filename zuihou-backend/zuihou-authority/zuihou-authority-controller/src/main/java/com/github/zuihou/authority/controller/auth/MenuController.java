@@ -163,7 +163,7 @@ public class MenuController extends BaseController {
         List<Menu> list = menuService.findVisibleMenu(group, userId);
         List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
 
-        List<MenuTreeDTO> tree = TreeUtil.builderTreeOrdered(treeList);
+        List<MenuTreeDTO> tree = TreeUtil.build(treeList);
         return success(tree);
     }
 
@@ -222,7 +222,7 @@ public class MenuController extends BaseController {
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
         List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
-        return success(TreeUtil.builderTreeOrdered(treeList));
+        return success(TreeUtil.build(treeList));
     }
 
     @ApiOperation(value = "查询超管菜单路由树", notes = "查询超管菜单路由树")
@@ -242,6 +242,6 @@ public class MenuController extends BaseController {
     public R<List<MenuTreeDTO>> allTree() {
         List<Menu> list = menuService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortValue));
         List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
-        return success(TreeUtil.builderTreeOrdered(treeList));
+        return success(TreeUtil.build(treeList));
     }
 }

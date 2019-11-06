@@ -30,8 +30,8 @@ public enum ExceptionCode implements BaseExceptionCode {
 
     //系统相关 start
     SUCCESS(0, "成功"),
-    SYSTEM_BUSY(-1, "系统繁忙"),
-    SYSTEM_TIMEOUT(-2, "服务超时"),
+    SYSTEM_BUSY(-1, "系统繁忙~请稍后再试~"),
+    SYSTEM_TIMEOUT(-2, "系统维护中~请稍后再试~"),
     PARAM_EX(-3, "参数类型解析异常"),
     SQL_EX(-4, "运行SQL出现异常"),
     NULL_POINT_EX(-5, "空指针异常"),
@@ -67,7 +67,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),
     //jwt token 相关 start
 
-    JWT_TOKEN_EXPIRED(40001, "token超时，请重新登录"),
+    JWT_TOKEN_EXPIRED(40001, "登录超时，请重新登录"),
     JWT_SIGNATURE(40002, "不合法的token，请认真比对 token 的签名"),
     JWT_ILLEGAL_ARGUMENT(40003, "缺少token参数"),
     JWT_GEN_TOKEN_FAIL(40004, "生成token失败"),

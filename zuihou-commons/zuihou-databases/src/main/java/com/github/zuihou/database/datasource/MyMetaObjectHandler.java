@@ -46,8 +46,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("start insert fill ....");
-
         boolean flag = true;
         if (metaObject.getOriginalObject() instanceof SuperEntity) {
             Object oldId = ((SuperEntity) metaObject.getOriginalObject()).getId();
@@ -109,7 +107,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("start update fill ....");
+        log.debug("start update fill ....");
         if (metaObject.getOriginalObject() instanceof Entity) {
             Entity entity = (Entity) metaObject.getOriginalObject();
             update(metaObject, entity);

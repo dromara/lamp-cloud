@@ -111,6 +111,9 @@ public class UserController extends BaseController {
             List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrgId()));
             wrapper.in(User::getOrgId, children.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList()));
         }
+        wrapper.geHeader(User::getCreateTime, userPage.getStartCreateTime())
+                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
+                .orderByDesc(User::getId);
         userService.page(page, wrapper);
         return success(page);
     }
@@ -139,7 +142,7 @@ public class UserController extends BaseController {
     @SysLog("新增用户")
     public R<User> save(@RequestBody @Validated UserSaveDTO data) {
         User user = dozer.map(data, User.class);
-        userService.save(user);
+        userService.saveUser(user);
         return success(user);
     }
 
@@ -154,21 +157,29 @@ public class UserController extends BaseController {
     @SysLog("修改用户")
     public R<User> update(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateDTO data) {
         User user = dozer.map(data, User.class);
-        userService.updateById(user);
+        userService.updateUser(user);
         return success(user);
+    }
+
+    @ApiOperation(value = "重置密码", notes = "重置密码")
+    @GetMapping("/reset")
+    @SysLog("重置密码")
+    public R<Boolean> resetTx(@RequestParam("ids[]") Long[] ids) {
+        userService.reset(ids);
+        return success();
     }
 
     /**
      * 删除用户
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除用户", notes = "根据id物理删除用户")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除用户")
-    public R<Boolean> delete(@PathVariable Long id) {
-        userService.removeById(id);
+    public R<Boolean> delete(@RequestParam("ids[]") Long[] ids) {
+        userService.removeByIds(Arrays.asList(ids));
         return success(true);
     }
 
@@ -187,7 +198,6 @@ public class UserController extends BaseController {
             return success(null);
         }
         SysUser sysUser = dozer.map(user, SysUser.class);
-
 
         if (query.getFull() || query.getOrg()) {
             sysUser.setOrg(dozer.map(orgService.getById(user.getOrgId()), SysOrg.class));

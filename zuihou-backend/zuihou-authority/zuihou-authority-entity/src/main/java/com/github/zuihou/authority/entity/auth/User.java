@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.Entity;
 
@@ -30,7 +29,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-25
+ * @since 2019-11-04
  */
 @Data
 @NoArgsConstructor
@@ -96,12 +95,11 @@ public class User extends Entity<Long> {
 
     /**
      * 性别
-     * #Sex{W:女;M:男}
+     * #Sex{W:女;M:男;N:未知}
      */
     @ApiModelProperty(value = "性别")
     @TableField("sex")
     private Sex sex;
-
 
     /**
      * 启用状态 1启用 0禁用
@@ -111,12 +109,12 @@ public class User extends Entity<Long> {
     private Boolean status;
 
     /**
-     * 照片
+     * 头像
      */
-    @ApiModelProperty(value = "照片")
-    @Length(max = 255, message = "照片长度不能超过255")
-    @TableField(value = "photo", condition = LIKE)
-    private String photo;
+    @ApiModelProperty(value = "头像")
+    @Length(max = 255, message = "头像长度不能超过255")
+    @TableField(value = "avatar", condition = LIKE)
+    private String avatar;
 
     /**
      * 工作描述
@@ -128,9 +126,9 @@ public class User extends Entity<Long> {
     private String workDescribe;
 
     /**
-     * 最后一次密码错误时间
+     * 最后一次输错密码时间
      */
-    @ApiModelProperty(value = "最后一次密码错误时间")
+    @ApiModelProperty(value = "最后一次输错密码时间")
     @TableField("password_error_last_time")
     private LocalDateTime passwordErrorLastTime;
 
@@ -155,15 +153,21 @@ public class User extends Entity<Long> {
     @NotEmpty(message = "密码不能为空")
     @Length(max = 64, message = "密码长度不能超过64")
     @TableField(value = "password", condition = LIKE)
-    @JsonIgnore
     private String password;
+
+    /**
+     * 最后登录时间
+     */
+    @ApiModelProperty(value = "最后登录时间")
+    @TableField("last_login_time")
+    private LocalDateTime lastLoginTime;
 
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                 String account, String name, Long orgId, Long stationId, String email,
-                String mobile, Sex sex, Boolean status, String photo, String workDescribe,
-                LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password) {
+                String mobile, Sex sex, Boolean status, String avatar, String workDescribe, LocalDateTime passwordErrorLastTime,
+                Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password, LocalDateTime lastLoginTime) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -177,12 +181,13 @@ public class User extends Entity<Long> {
         this.mobile = mobile;
         this.sex = sex;
         this.status = status;
-        this.photo = photo;
+        this.avatar = avatar;
         this.workDescribe = workDescribe;
         this.passwordErrorLastTime = passwordErrorLastTime;
         this.passwordErrorNum = passwordErrorNum;
         this.passwordExpireTime = passwordExpireTime;
         this.password = password;
+        this.lastLoginTime = lastLoginTime;
     }
 
 }

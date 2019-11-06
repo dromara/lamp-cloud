@@ -73,15 +73,6 @@ public class Attachment extends Entity<Long> {
     private String submittedFileName;
 
     /**
-     * 应用ID
-     * #c_application
-     */
-    @ApiModelProperty(value = "应用ID")
-    @Length(max = 64, message = "应用ID长度不能超过64")
-    @TableField("app_code")
-    private String appCode;
-
-    /**
      * FastDFS返回的组
      * 用于FastDFS
      */
@@ -115,22 +106,6 @@ public class Attachment extends Entity<Long> {
     @Length(max = 255, message = "文件访问链接长度不能超过255")
     @TableField("url")
     private String url;
-
-    /**
-     * 语音转文字
-     */
-    @ApiModelProperty(value = "语音转文字")
-    @Length(max = 16777215, message = "语音转文字长度不能超过16777215")
-    @TableField("characters")
-    private String characters;
-
-    /**
-     * 视频截图地址
-     */
-    @ApiModelProperty(value = "视频截图地址")
-    @Length(max = 255, message = "视频截图地址长度不能超过255")
-    @TableField("thumbnail")
-    private String thumbnail;
 
     /**
      * 文件md5值
@@ -217,8 +192,8 @@ public class Attachment extends Entity<Long> {
 
     @Builder
     public Attachment(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                      String bizId, String bizType, DataType dataType, String submittedFileName, String appCode,
-                      String group, String path, String relativePath, String url, String characters, String thumbnail,
+                      String bizId, String bizType, DataType dataType, String submittedFileName,
+                      String group, String path, String relativePath, String url,
                       String fileMd5, String contextType, String filename, String ext, Long size, Long orgId, String icon,
                       String createMonth, String createWeek, String createDay) {
         this.id = id;
@@ -230,13 +205,10 @@ public class Attachment extends Entity<Long> {
         this.bizType = bizType;
         this.dataType = dataType;
         this.submittedFileName = submittedFileName;
-        this.appCode = appCode;
         this.group = group;
         this.path = path;
         this.relativePath = relativePath;
         this.url = url;
-        this.characters = characters;
-        this.thumbnail = thumbnail;
         this.fileMd5 = fileMd5;
         this.contextType = contextType;
         this.filename = filename;

@@ -6,6 +6,7 @@ import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.model.ITreeNode;
 
 import io.swagger.annotations.ApiModel;
+import lombok.Data;
 import lombok.ToString;
 
 /**
@@ -15,9 +16,11 @@ import lombok.ToString;
  * @date 2019/07/29
  */
 @ToString(callSuper = true)
+@Data
 @ApiModel(value = "OrgTreeDTO", description = "组织树")
 public class OrgTreeDTO extends Org implements ITreeNode<OrgTreeDTO, Long> {
     private List<OrgTreeDTO> children;
+    private String label;
 
     @Override
     public Long getId() {
@@ -34,10 +37,10 @@ public class OrgTreeDTO extends Org implements ITreeNode<OrgTreeDTO, Long> {
         return super.getUpdateUser();
     }
 
-    @Override
-    public void add(OrgTreeDTO node) {
-        children.add(node);
-    }
+//    @Override
+//    public void add(OrgTreeDTO node) {
+//        children.add(node);
+//    }
 
     @Override
     public List<OrgTreeDTO> getChildren() {
@@ -49,13 +52,17 @@ public class OrgTreeDTO extends Org implements ITreeNode<OrgTreeDTO, Long> {
         this.children = children;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
+    public String getLabel() {
+        return this.getName();
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
+    //    @Override
+//    public boolean equals(Object o) {
+//        return super.equals(o);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return super.hashCode();
+//    }
 }

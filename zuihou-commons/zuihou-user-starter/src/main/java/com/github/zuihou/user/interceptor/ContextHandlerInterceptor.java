@@ -46,7 +46,6 @@ public class ContextHandlerInterceptor extends HandlerInterceptorAdapter {
             BaseContextHandler.setOrgId(orgId);
             BaseContextHandler.setStationId(stationId);
         } catch (Exception e) {
-
             log.warn("解析token信息时，发生异常. ", e);
         }
         return super.preHandle(request, response, handler);
@@ -63,7 +62,6 @@ public class ContextHandlerInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         BaseContextHandler.remove();
-        log.info("拦截器结束，清除上下文中的值");
         super.afterCompletion(request, response, handler, ex);
     }
 

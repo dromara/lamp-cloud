@@ -89,8 +89,9 @@ public class LoginController extends BaseController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "刷新并获取token", notes = "刷新并获取token")
+    @ApiOperation(value = "仅供测试使用", notes = "仅供测试使用")
     @RequestMapping(value = "/token", method = RequestMethod.POST)
+    @Deprecated
     public R<LoginDTO> tokenTx(
             @RequestParam(value = "tenant") String tenant,
             @RequestParam(value = "account") String account,

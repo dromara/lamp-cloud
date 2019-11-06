@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  * </p>
  *
  * @author zuihou
- * @date 2019-10-25
+ * @date 2019-11-04
  */
 @Getter
 @AllArgsConstructor
@@ -33,6 +33,10 @@ public enum Sex implements BaseEnum {
      * M="男"
      */
     M("男"),
+    /**
+     * N="未知"
+     */
+    N("未知"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -64,7 +68,7 @@ public enum Sex implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "W,M", example = "W")
+    @ApiModelProperty(value = "编码", allowableValues = "W,M,N", example = "W")
     public String getCode() {
         return this.name();
     }
