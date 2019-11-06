@@ -118,8 +118,6 @@ public class TokenContextFilter extends BaseFilter {
             return null;
         }
 
-        log.info("userInfo={}", userInfo);
-
         //3, 将信息放入header
         if (userInfo != null) {
             addHeader(ctx, BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount());
@@ -130,7 +128,7 @@ public class TokenContextFilter extends BaseFilter {
             addHeader(ctx, BaseContextConstants.JWT_KEY_STATION_ID, userInfo.getStationId());
         }
 
-        log.info("access filter end");
+        log.info("userInfo={}", userInfo);
         return null;
     }
 
