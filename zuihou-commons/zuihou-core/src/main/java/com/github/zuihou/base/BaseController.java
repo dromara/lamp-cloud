@@ -114,6 +114,9 @@ public abstract class BaseController {
         return BaseContextHandler.getUserId();
     }
 
+    protected String getTenant() {
+        return BaseContextHandler.getTenant();
+    }
     protected String getAccount() {
         return BaseContextHandler.getAccount();
     }

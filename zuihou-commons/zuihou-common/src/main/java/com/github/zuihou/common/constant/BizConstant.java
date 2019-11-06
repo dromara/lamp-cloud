@@ -22,6 +22,11 @@ public interface BizConstant {
     Long DEMO_STATION_ID = 101L;
 
     /**
+     * 默认MD5密码：123456
+     */
+    String DEF_PASSWORD = "e10adc3949ba59abbe56e057f20f883e";
+
+    /**
      * 默认的定时任务组
      */
     String DEF_JOB_GROUP_NAME = "zuihou-jobs-server";
@@ -29,5 +34,6 @@ public interface BizConstant {
      * 短信发送处理器
      */
     String SMS_SEND_JOB_HANDLER = "smsSendJobHandler";
+
 
 }

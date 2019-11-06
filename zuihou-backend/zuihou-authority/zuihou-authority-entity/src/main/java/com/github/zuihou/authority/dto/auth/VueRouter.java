@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -60,11 +59,11 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
         return this.children;
     }
 
-    @Override
-    public void add(VueRouter node) {
-        if (children == null) {
-            children = new ArrayList<>();
-        }
-        children.add(node);
-    }
+//    @Override
+//    public void add(VueRouter node) {
+//        if (children == null) {
+//            children = new ArrayList<>();
+//        }
+//        children.add(node);
+//    }
 }

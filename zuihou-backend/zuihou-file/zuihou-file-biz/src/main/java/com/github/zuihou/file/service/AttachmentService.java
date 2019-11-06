@@ -28,14 +28,15 @@ public interface AttachmentService extends IService<Attachment> {
     /**
      * 上传附件
      *
-     * @param file
-     * @param appCode
-     * @param id
-     * @param bizType
-     * @param bizId
+     * @param file 文件
+     * @param tenant 租户
+     * @param id 附件id
+     * @param bizType 业务类型
+     * @param bizId 业务id
+     * @param isSingle 是否单个文件
      * @return
      */
-    AttachmentDTO upload(MultipartFile file, String appCode, Long id, String bizType, String bizId);
+    AttachmentDTO upload(MultipartFile file, String tenant, Long id, String bizType, String bizId, Boolean isSingle);
 
     /**
      * 删除附件

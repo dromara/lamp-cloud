@@ -99,7 +99,7 @@ public class AttachmentController extends BaseController {
      */
     @ApiOperation(value = "附件上传", notes = "附件上传")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "appCode", value = "应用编码", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "isSingle", value = "是否单文件", dataType = "boolean", paramType = "query"),
             @ApiImplicitParam(name = "id", value = "文件id", dataType = "long", paramType = "query"),
             @ApiImplicitParam(name = "bizId", value = "业务id", dataType = "long", paramType = "query"),
             @ApiImplicitParam(name = "bizType", value = "业务类型", dataType = "long", paramType = "query"),
@@ -109,26 +109,27 @@ public class AttachmentController extends BaseController {
     @SysLog("上传附件")
     public R<AttachmentDTO> upload(
             @RequestParam(value = "file") MultipartFile file,
-            @RequestParam(value = "appCode", required = false) String appCode,
+            @RequestParam(value = "isSingle", required = false, defaultValue = "false") Boolean isSingle,
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "bizId", required = false) String bizId,
-            @RequestParam(value = "bizType", required = false) String bizType) throws Exception {
+            @RequestParam(value = "bizType", required = false) String bizType) {
         BizAssert.notEmpty(bizType, BASE_VALID_PARAM.build("业务类型不能为空"));
         // 忽略路径字段,只处理文件类型
         if (file.isEmpty()) {
             return fail(BASE_VALID_PARAM.build("请求中必须至少包含一个有效文件"));
         }
+        String tenant = getTenant();
 
-        AttachmentDTO attachment = attachmentService.upload(file, appCode, id, bizType, bizId);
+        AttachmentDTO attachment = attachmentService.upload(file, tenant, id, bizType, bizId, isSingle);
 
         return success(attachment);
     }
 
     @ApiOperation(value = "删除文件", notes = "删除文件")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "ids[]", value = "文件ids", dataType = "long", paramType = "query"),
-//    })
-    @DeleteMapping(value = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids[]", value = "文件ids", dataType = "array", paramType = "query"),
+    })
+    @DeleteMapping
     @SysLog("删除附件")
     public R<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
         attachmentService.remove(ids);
@@ -248,8 +249,8 @@ public class AttachmentController extends BaseController {
     @ApiOperation(value = "获取图片", notes = "根据业务类型和业务id在前端img标签中回显图片附件， 但存在多个附件时，默认显示第一个图片")
     @GetMapping(value = "/download/{bizType}/{bizId}", produces = "image/png")
     @SysLog("获取图片")
-    public R<Boolean> findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery()
                 .eq(Attachment::getBizType, bizType).eq(Attachment::getBizId, bizId)
                 .orderByDesc(Attachment::getCreateTime)
@@ -264,8 +265,6 @@ public class AttachmentController extends BaseController {
             //实例生成验证码对象
             //向页面输出验证码图片
             attachmentService.download(request, response, new Long[]{list.get(0).getId()});
-            return success();
         }
-        return fail("附件不存在");
     }
 }

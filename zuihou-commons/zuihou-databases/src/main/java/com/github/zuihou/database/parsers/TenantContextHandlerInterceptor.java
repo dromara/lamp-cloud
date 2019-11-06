@@ -39,6 +39,9 @@ public class TenantContextHandlerInterceptor extends HandlerInterceptorAdapter {
     private String getHeader(HttpServletRequest request, String name) {
         String value = request.getHeader(name);
         if (StrUtil.isEmpty(value)) {
+            value = request.getParameter(name);
+        }
+        if (StrUtil.isEmpty(value)) {
             return StrUtil.EMPTY;
         }
         return StrHelper.decode(value);

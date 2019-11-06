@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.github.zuihou.base.R;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.file.domain.FileDeleteDO;
 import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
@@ -20,7 +21,6 @@ import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
 import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
-import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.StrPool;
 
 import cn.hutool.core.io.FileUtil;
@@ -33,6 +33,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import static com.github.zuihou.utils.DateUtils.DEFAULT_MONTH_FORMAT_SLASH;
 
 
 /**
@@ -54,8 +56,11 @@ public class LocalAutoConfigure {
         protected void uploadFile(File file, MultipartFile multipartFile) throws Exception {
             //生成文件名
             String fileName = UUID.randomUUID().toString() + StrPool.DOT + file.getExt();
+
+            String tenant = BaseContextHandler.getTenant();
+
             //日期文件夹
-            String relativePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
+            String relativePath = Paths.get(tenant, LocalDate.now().format(DateTimeFormatter.ofPattern(DEFAULT_MONTH_FORMAT_SLASH))).toString();
             // web服务器存放的绝对路径
             String absolutePath = Paths.get(fileProperties.getStoragePath(), relativePath).toString();
 
@@ -66,7 +71,6 @@ public class LocalAutoConfigure {
                     .append(relativePath)
                     .append(StrPool.SLASH)
                     .append(fileName)
-                    .append("?fileName=" + StrHelper.encode(file.getSubmittedFileName()))
                     .toString();
             //替换掉windows环境的\路径
             file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
@@ -112,7 +116,7 @@ public class LocalAutoConfigure {
             file.setFilename(filename);
             String url = file.getUrl();
             String newUrl = StrUtil.subPre(url, StrUtil.lastIndexOfIgnoreCase(url, StrPool.SLASH) + 1);
-            file.setUrl(newUrl + filename + "?fileName=" + StrHelper.encode(file.getSubmittedFileName()));
+            file.setUrl(newUrl + filename);
         }
 
 
@@ -155,7 +159,6 @@ public class LocalAutoConfigure {
                     .append(relativePath)
                     .append(StrPool.SLASH)
                     .append(fileName)
-                    .append("?fileName=" + StrHelper.encode(info.getSubmittedFileName()))
                     .toString();
             File filePo = File.builder()
                     .relativePath(relativePath)

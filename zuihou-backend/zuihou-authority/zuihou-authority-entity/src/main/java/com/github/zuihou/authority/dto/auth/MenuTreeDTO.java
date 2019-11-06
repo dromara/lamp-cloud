@@ -34,10 +34,10 @@ public class MenuTreeDTO extends Menu implements ITreeNode<MenuTreeDTO, Long> {
         return super.getUpdateUser();
     }
 
-    @Override
-    public void add(MenuTreeDTO node) {
-        children.add(node);
-    }
+//    @Override
+//    public void add(MenuTreeDTO node) {
+//        children.add(node);
+//    }
 
     @Override
     public List<MenuTreeDTO> getChildren() {

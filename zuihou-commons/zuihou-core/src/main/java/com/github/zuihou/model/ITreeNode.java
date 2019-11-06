@@ -1,6 +1,7 @@
 package com.github.zuihou.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface ITreeNode<T, I extends Serializable> {
      *
      * @param node
      */
-    void add(T node);
+//    void add(T node);
 
     /**
      * 获取id
@@ -48,4 +49,12 @@ public interface ITreeNode<T, I extends Serializable> {
      */
     void setChildren(List<T> children);
 
+    /**
+     * 初始化子类
+     */
+    default void initChildren() {
+        if (getChildren() == null) {
+            this.setChildren(new ArrayList<>());
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -15,15 +16,21 @@ import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.RoleOrg;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.authority.entity.defaults.Tenant;
 import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
+import com.github.zuihou.authority.service.defaults.TenantService;
+import com.github.zuihou.common.constant.BizConstant;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.utils.BizAssert;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +53,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RoleOrgService roleOrgService;
     @Autowired
     private OrgService orgService;
+    @Autowired
+    private TenantService tenantService;
 
     @Override
     public User getByAccount(String account) {
@@ -102,5 +111,63 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void updatePasswordErrorNumById(Long id) {
         baseMapper.incrPasswordErrorNumById(id);
+    }
+
+    @Override
+    public void updateLoginTime(String account) {
+        baseMapper.update(User.builder().lastLoginTime(LocalDateTime.now()).build(), Wraps.<User>lbQ().eq(User::getAccount, account));
+    }
+
+    @Override
+    public User saveUser(User user) {
+        Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
+        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
+
+        // 永不过期
+        if (tenant.getPasswordExpire() == null || tenant.getPasswordExpire() <= 0) {
+            user.setPasswordExpireTime(null);
+        } else {
+            user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
+        }
+
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+        user.setPasswordErrorNum(0);
+        super.save(user);
+        return user;
+    }
+
+    @Override
+    public boolean reset(Long[] ids) {
+        Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
+        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
+
+        LocalDateTime passwordExpireTime = null;
+        if (tenant.getPasswordExpire() != null && tenant.getPasswordExpire() > 0) {
+            passwordExpireTime = LocalDateTime.now().plusDays(tenant.getPasswordExpire());
+        }
+
+        String defPassword = BizConstant.DEF_PASSWORD;
+        super.update(Wraps.<User>lbU()
+                .set(User::getPassword, defPassword)
+                .set(User::getPasswordErrorNum, 0L)
+                .set(User::getPasswordErrorLastTime, null)
+                .set(User::getPasswordExpireTime, passwordExpireTime)
+                .in(User::getId, Arrays.asList(ids))
+        );
+        return true;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
+        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
+        // 永不过期
+        if (tenant.getPasswordExpire() == null || tenant.getPasswordExpire() <= 0) {
+            user.setPasswordExpireTime(null);
+        } else {
+            user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
+        }
+        super.save(user);
+        return user;
     }
 }
