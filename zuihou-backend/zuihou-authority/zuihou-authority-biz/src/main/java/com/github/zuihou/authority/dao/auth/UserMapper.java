@@ -36,4 +36,5 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     int incrPasswordErrorNumById(@Param("id") Long id);
+
 }

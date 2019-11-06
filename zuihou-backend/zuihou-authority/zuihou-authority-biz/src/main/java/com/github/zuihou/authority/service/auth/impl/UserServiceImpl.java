@@ -167,7 +167,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         } else {
             user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
         }
-        super.save(user);
+        super.updateById(user);
         return user;
     }
 }

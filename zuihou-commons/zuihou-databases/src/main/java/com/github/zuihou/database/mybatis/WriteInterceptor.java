@@ -54,6 +54,7 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
         }
         // userId=1 的超级管理员 放行
         Long userId = BaseContextHandler.getUserId();
+        String tenant = BaseContextHandler.getTenant();
         log.info("mapperid={}, userId={}", mappedStatement.getId(), userId);
 
         //演示用的超级管理员 能查 和 增
@@ -62,11 +63,8 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
         }
 
         //内置的租户管理员 不能删除
-        if (userId == 3 && (
-                SqlCommandType.DELETE.equals(mappedStatement.getSqlCommandType()) || SqlCommandType.UPDATE.equals(mappedStatement.getSqlCommandType())
-                        || SqlCommandType.INSERT.equals(mappedStatement.getSqlCommandType())
-        )) {
-            throw new BizException(-1, "演示环境，无写入权限,请自行创建租户后测试写入");
+        if ("0000".equals(tenant) && SqlCommandType.DELETE.equals(mappedStatement.getSqlCommandType())) {
+            throw new BizException(-1, "演示环境，无删除权限,请自行创建租户后测试写入");
         }
 
         // 你还可以自定义其他限制规则， 比如：IP 等
