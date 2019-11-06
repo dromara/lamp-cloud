@@ -1,6 +1,9 @@
 package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotEmpty;
 
 import com.github.zuihou.authority.enumeration.auth.Sex;
 
@@ -13,6 +16,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 用户
@@ -38,12 +42,16 @@ public class UserDTO implements Serializable {
      * 账号
      */
     @ApiModelProperty(value = "账号")
+    @NotEmpty(message = "账号不能为空")
+    @Length(max = 30, message = "账号长度不能超过30")
     private String account;
 
     /**
      * 姓名
      */
     @ApiModelProperty(value = "姓名")
+    @NotEmpty(message = "姓名不能为空")
+    @Length(max = 50, message = "姓名长度不能超过50")
     private String name;
 
     /**
@@ -61,29 +69,37 @@ public class UserDTO implements Serializable {
     private Long stationId;
 
     /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮箱")
+    @Length(max = 255, message = "邮箱长度不能超过255")
+    private String email;
+
+    /**
      * 手机
      */
     @ApiModelProperty(value = "手机")
+    @Length(max = 20, message = "手机长度不能超过20")
     private String mobile;
 
     /**
      * 性别
-     * #Sex{W:女;M:男}
+     * #Sex{W:女;M:男;N:未知}
      */
     @ApiModelProperty(value = "性别")
     private Sex sex;
 
     /**
-     * 删除标记
+     * 启用状态 1启用 0禁用
      */
-    @ApiModelProperty(value = "删除标记")
-    private Boolean isDelete;
+    @ApiModelProperty(value = "启用状态 1启用 0禁用")
+    private Boolean status;
 
     /**
      * 照片
      */
-    @ApiModelProperty(value = "照片")
-    private String photo;
+    @ApiModelProperty(value = "头像")
+    private String avatar;
 
     /**
      * 工作描述
@@ -91,5 +107,11 @@ public class UserDTO implements Serializable {
      */
     @ApiModelProperty(value = "工作描述")
     private String workDescribe;
+
+    /**
+     * 最后登录时间
+     */
+    @ApiModelProperty(value = "最后登录时间")
+    private LocalDateTime lastLoginTime;
 
 }

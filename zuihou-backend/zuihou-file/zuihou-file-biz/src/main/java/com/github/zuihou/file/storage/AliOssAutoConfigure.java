@@ -25,6 +25,7 @@ import com.aliyun.oss.model.UploadPartCopyResult;
 import com.aliyun.oss.model.UploadPartRequest;
 import com.aliyun.oss.model.UploadPartResult;
 import com.github.zuihou.base.R;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.file.domain.FileDeleteDO;
 import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
 import com.github.zuihou.file.entity.File;
@@ -72,7 +73,8 @@ public class AliOssAutoConfigure {
             //生成文件名
             String fileName = StrUtil.join(StrPool.EMPTY, UUID.randomUUID().toString(), StrPool.DOT, file.getExt());
             //日期文件夹
-            String relativePath = LocalDate.now().format(DateTimeFormatter.ofPattern(DEFAULT_MONTH_FORMAT_SLASH));
+            String tenant = BaseContextHandler.getTenant();
+            String relativePath = tenant + StrPool.SLASH + LocalDate.now().format(DateTimeFormatter.ofPattern(DEFAULT_MONTH_FORMAT_SLASH));
             // web服务器存放的绝对路径
             String relativeFileName = relativePath + StrPool.SLASH + fileName;
 

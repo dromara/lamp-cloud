@@ -16,7 +16,6 @@ import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.strategy.impl.AbstractFileChunkStrategy;
 import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
-import com.github.zuihou.utils.StrHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -47,7 +46,7 @@ public class FastDfsAutoConfigure {
         @Override
         protected void uploadFile(File file, MultipartFile multipartFile) throws Exception {
             StorePath storePath = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), file.getExt(), null);
-            file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath() + "?fileName=" + StrHelper.encode(file.getSubmittedFileName()));
+            file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath());
             file.setGroup(storePath.getGroup());
             file.setPath(storePath.getPath());
         }
@@ -108,7 +107,6 @@ public class FastDfsAutoConfigure {
             log.info("上传耗时={}", (end - start));
             String url = new StringBuilder(fileProperties.getUriPrefix())
                     .append(storePath.getFullPath())
-                    .append("?fileName=" + StrHelper.encode(info.getSubmittedFileName()))
                     .toString();
             File filePo = File.builder()
                     .url(url)

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.entity.common.LoginLog;
+import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -44,6 +45,8 @@ public class LoginLogController extends BaseController {
 
     @Autowired
     private LoginLogService loginLogService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 分页查询登录日志
@@ -92,7 +95,8 @@ public class LoginLogController extends BaseController {
         String ua = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
         String ip = ServletUtil.getClientIP(request);
         String location = AddressUtil.getCityInfo(ip);
-
+        // update last login time
+        this.userService.updateLoginTime(account);
         LoginLog loginLog = loginLogService.save(account, ua, ip, location);
         return success(loginLog);
     }

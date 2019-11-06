@@ -73,7 +73,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
     }
 
     @Override
-    public AttachmentDTO upload(MultipartFile multipartFile, String appCode, Long id, String bizType, String bizId) {
+    public AttachmentDTO upload(MultipartFile multipartFile, String tenant, Long id, String bizType, String bizId, Boolean isSingle) {
         //根据业务类型来判断是否生成业务id
         if (StringUtils.isNotEmpty(bizType) && StringUtils.isEmpty(bizId)) {
             bizId = String.valueOf(idGenerate.generate());
@@ -85,8 +85,11 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
         attachment.setOrgId(BaseContextHandler.getOrgId());
         attachment.setBizId(bizId);
         attachment.setBizType(bizType);
-        attachment.setAppCode(appCode);
         setDate(attachment);
+
+        if (isSingle) {
+            super.remove(Wraps.<Attachment>lbQ().eq(Attachment::getBizId, bizId).eq(Attachment::getBizType, bizType));
+        }
 
         if (id != null && id > 0) {
             //当前端传递了文件id时，修改这条记录

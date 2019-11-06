@@ -56,4 +56,35 @@ public interface UserService extends IService<User> {
      * @return
      */
     User getByAccount(String account);
+
+    /**
+     * 修改用户最后一次登录 时间
+     *
+     * @param account
+     */
+    void updateLoginTime(String account);
+
+    /**
+     * 保存
+     *
+     * @param user
+     * @return
+     */
+    User saveUser(User user);
+
+    /**
+     * 重置密码
+     *
+     * @param ids
+     * @return
+     */
+    boolean reset(Long[] ids);
+
+    /**
+     * 修改
+     *
+     * @param user
+     * @return
+     */
+    User updateUser(User user);
 }

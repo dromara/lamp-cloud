@@ -170,6 +170,8 @@ public class OrgController extends BaseController {
         List<Org> list = orgService.list(Wraps.<Org>lbQ().like(Org::getName, name)
                 .eq(Org::getStatus, status).orderByAsc(Org::getSortValue));
         List<OrgTreeDTO> treeList = dozer.mapList(list, OrgTreeDTO.class);
-        return success(TreeUtil.builderTreeOrdered(treeList));
+        return success(TreeUtil.build(treeList));
     }
+
+
 }

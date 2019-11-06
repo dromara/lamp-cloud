@@ -1,11 +1,8 @@
 package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.github.zuihou.authority.enumeration.auth.Sex;
 
@@ -27,7 +24,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-27
+ * @since 2019-11-04
  */
 @Data
 @NoArgsConstructor
@@ -41,6 +38,8 @@ public class UserSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键")
+    private Long id;
     /**
      * 账号
      */
@@ -68,6 +67,12 @@ public class UserSaveDTO implements Serializable {
     @ApiModelProperty(value = "岗位ID")
     private Long stationId;
     /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮箱")
+    @Length(max = 255, message = "邮箱长度不能超过255")
+    private String email;
+    /**
      * 手机
      */
     @ApiModelProperty(value = "手机")
@@ -75,23 +80,21 @@ public class UserSaveDTO implements Serializable {
     private String mobile;
     /**
      * 性别
-     * #Sex{W:女;M:男}
+     * #Sex{W:女;M:男;N:未知}
      */
     @ApiModelProperty(value = "性别")
     private Sex sex;
     /**
-     * 是否可登陆
+     * 启用状态 1启用 0禁用
      */
-    @ApiModelProperty(value = "是否可登陆")
-    @NotNull(message = "是否可登陆不能为空")
-    private Boolean isCanLogin;
-
+    @ApiModelProperty(value = "启用状态 1启用 0禁用")
+    private Boolean status;
     /**
-     * 照片
+     * 头像
      */
-    @ApiModelProperty(value = "照片")
-    @Length(max = 255, message = "照片长度不能超过255")
-    private String photo;
+    @ApiModelProperty(value = "头像")
+    @Length(max = 255, message = "头像长度不能超过255")
+    private String avatar;
     /**
      * 工作描述
      * 比如：  市长、管理员、局长等等   用于登陆展示
@@ -99,30 +102,6 @@ public class UserSaveDTO implements Serializable {
     @ApiModelProperty(value = "工作描述")
     @Length(max = 255, message = "工作描述长度不能超过255")
     private String workDescribe;
-    /**
-     * 登录次数
-     * 一直累计，记录了此账号总共登录次数
-     */
-    @ApiModelProperty(value = "登录次数")
-    @NotNull(message = "登录次数不能为空")
-    private Integer loginCount;
-    /**
-     * 输入密码错误的日期
-     * 比如20190102  与error_count合力实现一天输入密码错误次数限制
-     */
-    @ApiModelProperty(value = "输入密码错误的日期")
-    private LocalDate continuationErrorDay;
-    /**
-     * 一天连续输错密码次数
-     */
-    @ApiModelProperty(value = "一天连续输错密码次数")
-    @NotNull(message = "一天连续输错密码次数不能为空")
-    private Integer continuationErrorCount;
-    /**
-     * 密码过期时间
-     */
-    @ApiModelProperty(value = "密码过期时间")
-    private LocalDateTime passwordExpireTime;
     /**
      * 密码
      */

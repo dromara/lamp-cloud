@@ -26,14 +26,12 @@ import com.github.zuihou.exception.code.ExceptionCode;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.NumberHelper;
 
-import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.github.zuihou.utils.BizAssert.gt;
-import static com.github.zuihou.utils.BizAssert.isFalse;
 import static com.github.zuihou.utils.BizAssert.isTrue;
 import static com.github.zuihou.utils.BizAssert.notNull;
 
@@ -85,7 +83,7 @@ public class AuthManager {
         log.info("token={}", token.getToken());
 
         UserDTO dto = dozer.map(user, UserDTO.class);
-        dto.setIsDelete(false).setOrgId(0L).setStationId(0L).setPhoto("").setSex(Sex.M).setWorkDescribe("心情很美丽");
+        dto.setStatus(true).setOrgId(0L).setStationId(0L).setAvatar("").setSex(Sex.M).setWorkDescribe("心情很美丽");
         return R.success(LoginDTO.builder().user(dto).token(token).build());
     }
 
