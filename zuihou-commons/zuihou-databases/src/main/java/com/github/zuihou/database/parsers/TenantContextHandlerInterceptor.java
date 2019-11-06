@@ -50,7 +50,6 @@ public class TenantContextHandlerInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         BaseContextHandler.remove();
-        log.info("拦截器结束，清除上下文中的值");
         super.afterCompletion(request, response, handler, ex);
     }
 
