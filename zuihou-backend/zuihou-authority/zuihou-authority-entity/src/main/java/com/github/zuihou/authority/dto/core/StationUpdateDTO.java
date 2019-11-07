@@ -55,11 +55,6 @@ public class StationUpdateDTO implements Serializable {
     @ApiModelProperty(value = "组织ID")
     private Long orgId;
     /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序")
-    private Integer sortValue;
-    /**
      * 状态
      */
     @ApiModelProperty(value = "状态")

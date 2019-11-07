@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.dto.core;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,8 +30,8 @@ import org.hibernate.validator.constraints.Length;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "StationSaveDTO", description = "岗位")
-public class StationSaveDTO implements Serializable {
+@ApiModel(value = "StationPageDTO", description = "岗位")
+public class StationPageDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -58,4 +59,8 @@ public class StationSaveDTO implements Serializable {
     @Length(max = 255, message = "描述长度不能超过255")
     private String describe;
 
+    @ApiModelProperty(value = "开始创建时间")
+    private LocalDateTime startCreateTime;
+    @ApiModelProperty(value = "截止创建时间")
+    private LocalDateTime endCreateTime;
 }
