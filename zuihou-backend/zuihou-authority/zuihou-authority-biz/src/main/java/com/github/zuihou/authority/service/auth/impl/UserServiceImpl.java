@@ -15,10 +15,12 @@ import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.RoleOrg;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.defaults.Tenant;
 import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.auth.RoleService;
+import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.defaults.TenantService;
@@ -49,6 +51,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserRoleService userRoleService;
     @Autowired
     private RoleOrgService roleOrgService;
     @Autowired
@@ -137,7 +141,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public boolean reset(Long[] ids) {
+    public boolean reset(List<Long> ids) {
         Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
         BizAssert.notNull(tenant, "租户不存在，请联系管理员");
 
@@ -152,7 +156,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .set(User::getPasswordErrorNum, 0L)
                 .set(User::getPasswordErrorLastTime, null)
                 .set(User::getPasswordExpireTime, passwordExpireTime)
-                .in(User::getId, Arrays.asList(ids))
+                .in(User::getId, ids)
         );
         return true;
     }
@@ -169,5 +173,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         super.updateById(user);
         return user;
+    }
+
+    @Override
+    public boolean remove(List<Long> ids) {
+        userRoleService.remove(Wraps.<UserRole>lbQ()
+                .in(UserRole::getUserId, ids)
+        );
+        return super.removeByIds(ids);
     }
 }
