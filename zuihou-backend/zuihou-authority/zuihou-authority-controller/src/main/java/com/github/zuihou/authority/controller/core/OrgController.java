@@ -133,24 +133,17 @@ public class OrgController extends BaseController {
         return success(org);
     }
 
-    @ApiOperation(value = "移动", notes = "修改不为空的字段")
-    @PutMapping("/move")
-    @SysLog("移动")
-    public R<Boolean> move() {
-        return success();
-    }
-
     /**
      * 删除组织
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除组织", notes = "根据id物理删除组织")
-    @DeleteMapping(value = "/{id}")
     @SysLog("删除组织")
-    public R<Boolean> delete(@PathVariable Long id) {
-        orgService.removeById(id);
+    @DeleteMapping
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        orgService.remove(ids);
         return success(true);
     }
 

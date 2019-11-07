@@ -78,7 +78,7 @@ public interface UserService extends IService<User> {
      * @param ids
      * @return
      */
-    boolean reset(Long[] ids);
+    boolean reset(List<Long> ids);
 
     /**
      * 修改
@@ -87,4 +87,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     User updateUser(User user);
+
+    /**
+     * 删除
+     *
+     * @param ids
+     * @return
+     */
+    boolean remove(List<Long> ids);
 }

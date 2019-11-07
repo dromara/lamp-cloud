@@ -11,6 +11,10 @@
             <b>meta.title</b>
         </field>
         <field>
+            <a>name</a>
+            <b>name</b>
+        </field>
+        <field>
             <a>icon</a>
             <b>meta.icon</b>
         </field>

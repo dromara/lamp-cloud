@@ -22,4 +22,12 @@ public interface OrgService extends IService<Org> {
      * @return
      */
     List<Org> findChildren(List<Long> ids);
+
+    /**
+     * 批量删除以及删除其子节点
+     *
+     * @param ids
+     * @return
+     */
+    boolean remove(List<Long> ids);
 }

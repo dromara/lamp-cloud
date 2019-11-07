@@ -164,7 +164,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "重置密码", notes = "重置密码")
     @GetMapping("/reset")
     @SysLog("重置密码")
-    public R<Boolean> resetTx(@RequestParam("ids[]") Long[] ids) {
+    public R<Boolean> resetTx(@RequestParam("ids[]") List<Long> ids) {
         userService.reset(ids);
         return success();
     }
@@ -178,8 +178,8 @@ public class UserController extends BaseController {
     @ApiOperation(value = "删除用户", notes = "根据id物理删除用户")
     @DeleteMapping
     @SysLog("删除用户")
-    public R<Boolean> delete(@RequestParam("ids[]") Long[] ids) {
-        userService.removeByIds(Arrays.asList(ids));
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        userService.remove(ids);
         return success(true);
     }
 

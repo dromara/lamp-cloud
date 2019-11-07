@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 06/11/2019 12:01:34
+ Date: 07/11/2019 17:54:38
 */
 
 SET NAMES utf8mb4;
@@ -342,7 +342,6 @@ CREATE TABLE `c_core_station` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `org_id` bigint(20) DEFAULT '0' COMMENT '组织ID\n#c_core_org',
-  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `create_time` datetime DEFAULT NULL,

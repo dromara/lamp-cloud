@@ -21,7 +21,7 @@ zuihou:
         title: 公共模块
         base-package: com.github.zuihou.authority.controller.common
       core:
-        title: 核心模块
+        title: 组织模块
         base-package: com.github.zuihou.authority.controller.core
       general:
         title: 通用模块

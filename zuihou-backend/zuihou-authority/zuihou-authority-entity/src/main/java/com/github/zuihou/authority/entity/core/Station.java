@@ -59,12 +59,6 @@ public class Station extends Entity<Long> {
     @TableField("org_id")
     private Long orgId;
 
-    /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序")
-    @TableField("sort_value")
-    private Integer sortValue;
 
     /**
      * 状态
@@ -84,7 +78,7 @@ public class Station extends Entity<Long> {
 
     @Builder
     public Station(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                   String name, Long orgId, Integer sortValue, Boolean status, String describe) {
+                   String name, Long orgId, Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -92,7 +86,6 @@ public class Station extends Entity<Long> {
         this.updateUser = updateUser;
         this.name = name;
         this.orgId = orgId;
-        this.sortValue = sortValue;
         this.status = status;
         this.describe = describe;
     }

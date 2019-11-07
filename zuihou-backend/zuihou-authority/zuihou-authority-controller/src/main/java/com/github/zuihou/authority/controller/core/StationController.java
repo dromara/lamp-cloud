@@ -1,7 +1,10 @@
 package com.github.zuihou.authority.controller.core;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.dto.core.StationSaveDTO;
 import com.github.zuihou.authority.dto.core.StationUpdateDTO;
 import com.github.zuihou.authority.entity.core.Station;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -61,7 +65,8 @@ public class StationController extends BaseController {
     })
     @GetMapping("/page")
     @SysLog("分页查询岗位")
-    public R<IPage<Station>> page(Station data) {
+    public R<IPage<Station>> page(StationPageDTO data) {
+
         Page<Station> page = getPage();
         stationService.findStationPage(page, data);
         return success(page);
@@ -113,15 +118,15 @@ public class StationController extends BaseController {
     /**
      * 删除岗位
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除岗位", notes = "根据id物理删除岗位")
-    @DeleteMapping(value = "/{id}")
     @SysLog("删除岗位")
-    public R<Boolean> delete(@PathVariable Long id) {
-        stationService.removeById(id);
-        return success(true);
+    @DeleteMapping
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        stationService.removeByIds(ids);
+        return success();
     }
 
 }

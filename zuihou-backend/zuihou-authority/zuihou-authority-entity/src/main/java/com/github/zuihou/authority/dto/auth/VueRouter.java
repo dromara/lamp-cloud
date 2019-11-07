@@ -29,8 +29,8 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
 
     @ApiModelProperty(value = "路径")
     private String path;
-//    @ApiModelProperty(value = "菜单名称")
-//    private String name;
+    @ApiModelProperty(value = "菜单名称")
+    private String name;
 //    @ApiModelProperty(value = "功能描述")
 //    private String describe;
     @ApiModelProperty(value = "组件")
