@@ -28,7 +28,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-20
+ * @since 2019-11-09
  */
 @Data
 @NoArgsConstructor
@@ -58,14 +58,6 @@ public class Menu extends Entity<Long> {
     @Length(max = 200, message = "功能描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
     private String describe;
-
-    /**
-     * 资源编码
-     */
-    @ApiModelProperty(value = "资源编码")
-    @Length(max = 255, message = "资源编码长度不能超过255")
-    @TableField(value = "code", condition = LIKE)
-    private String code;
 
     /**
      * 是否公开菜单
@@ -131,8 +123,8 @@ public class Menu extends Entity<Long> {
 
     @Builder
     public Menu(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String describe, String code, Boolean isPublic, String path,
-                String component, Boolean isEnable, Integer sortValue, String icon, String group, Long parentId) {
+                String name, String describe, Boolean isPublic, String path, String component,
+                Boolean isEnable, Integer sortValue, String icon, String group, Long parentId) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -140,7 +132,6 @@ public class Menu extends Entity<Long> {
         this.updateTime = updateTime;
         this.name = name;
         this.describe = describe;
-        this.code = code;
         this.isPublic = isPublic;
         this.path = path;
         this.component = component;

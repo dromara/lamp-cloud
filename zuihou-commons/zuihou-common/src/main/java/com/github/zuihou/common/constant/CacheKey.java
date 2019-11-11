@@ -42,66 +42,66 @@ public interface CacheKey {
     String ROLE = "role";
     /**
      * 角色拥有那些菜单 前缀
-     * 完整key: role:menu:{ROLE_ID} -> [MENU_ID, MENU_ID, ...]
+     * 完整key: role_menu:{ROLE_ID} -> [MENU_ID, MENU_ID, ...]
      */
-    String ROLE_MENU = "role:menu";
+    String ROLE_MENU = "role_menu";
     /**
      * 角色拥有那些资源 前缀
-     * 完整key: role:resource:{ROLE_ID} -> [RESOURCE_ID, ...]
+     * 完整key: role_resource:{ROLE_ID} -> [RESOURCE_ID, ...]
      */
-    String ROLE_RESOURCE = "role:resource";
+    String ROLE_RESOURCE = "role_resource";
     /**
      * 角色拥有那些组织 前缀
-     * 完整key: role:org:{ROLE_ID} -> [ORG_ID, ...]
+     * 完整key: role_org:{ROLE_ID} -> [ORG_ID, ...]
      */
-    String ROLE_ORG = "role:org";
+    String ROLE_ORG = "role_org";
 
     /**
      * 用户拥有那些角色 前缀
-     * 完整key: user:role:{USER_ID} -> [ROLE_ID, ...]
+     * 完整key: user_role:{USER_ID} -> [ROLE_ID, ...]
      */
-    String USER_ROLE = "user:role";
+    String USER_ROLE = "user_role";
     /**
      * 用户拥有的菜单 前缀
-     * 完整key: user:menu:{userId} -> [MENU_ID, MENU_ID, ...]
+     * 完整key: user_menu:{userId} -> [MENU_ID, MENU_ID, ...]
      */
-    String USER_MENU = "user:menu";
+    String USER_MENU = "user_menu";
     /**
      * 用户拥有的资源 前缀
-     * 完整key: user:resource:{userId} -> [RESOURCE_ID, ...]
+     * 完整key: user_resource:{userId} -> [RESOURCE_ID, ...]
      */
-    String USER_RESOURCE = "user:resource";
+    String USER_RESOURCE = "user_resource";
 
     /**
      * 登录总次数
-     * login:log:total:{TENANT} -> Long
+     * login_log_total:{TENANT} -> Long
      */
-    String LOGIN_LOG_TOTAL = "login:log:total";
+    String LOGIN_LOG_TOTAL = "login_log_total";
     /**
      * 今日登录总次数
-     * login:log:today:{TENANT}:{today} -> Long
+     * login_log_today:{TENANT}:{today} -> Long
      */
-    String LOGIN_LOG_TODAY = "login:log:today";
+    String LOGIN_LOG_TODAY = "login_log_today";
     /**
      * 今日登录总ip
-     * login:log:todayip:{TENANT}:{today} -> Map
+     * login_log_todayip:{TENANT}:{today} -> Map
      */
-    String LOGIN_LOG_TODAY_IP = "login:log:todayip";
+    String LOGIN_LOG_TODAY_IP = "login_log_todayip";
     /**
      * 最近10访问记录
-     * login:log:tenday:{TENANT}:{today}:{account} -> Map
+     * login_log_tenday:{TENANT}:{today}:{account} -> Map
      */
-    String LOGIN_LOG_TEN_DAY = "login:log:tenday";
+    String LOGIN_LOG_TEN_DAY = "login_log_tenday";
     /**
      * 登录总次数
-     * login:log:browser:{TENANT} -> Map
+     * login_log_browser:{TENANT} -> Map
      */
-    String LOGIN_LOG_BROWSER = "login:log:browser";
+    String LOGIN_LOG_BROWSER = "login_log_browser";
     /**
      * 登录总次数
-     * login:log:system{TENANT} -> Map
+     * login_log_system{TENANT} -> Map
      */
-    String LOGIN_LOG_SYSTEM = "login:log:system";
+    String LOGIN_LOG_SYSTEM = "login_log_system";
 
 
     // 权限系统缓存 end
@@ -121,11 +121,27 @@ public interface CacheKey {
      * @param args
      * @return
      */
-    static String build(Object... args) {
+    static String buildTenantKey(Object... args) {
         if (args.length > 0) {
             return StrUtil.join(StrPool.COLON, BaseContextHandler.getTenant(), args);
         } else {
-            return StrUtil.join(StrPool.COLON, BaseContextHandler.getTenant());
+            return BaseContextHandler.getTenant();
+        }
+    }
+
+    /**
+     * 构建没有租户信息的key
+     *
+     * @param args
+     * @return
+     */
+    static String buildKey(Object... args) {
+        if (args.length == 1) {
+            return String.valueOf(args[0]);
+        } else if (args.length > 0) {
+            return StrUtil.join(StrPool.COLON, args);
+        } else {
+            return "";
         }
     }
 }

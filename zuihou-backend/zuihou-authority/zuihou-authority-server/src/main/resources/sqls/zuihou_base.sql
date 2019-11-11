@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 07/11/2019 17:54:38
+ Date: 11/11/2019 14:41:38
 */
 
 SET NAMES utf8mb4;
@@ -50,7 +50,6 @@ CREATE TABLE `c_auth_menu` (
   `id` bigint(20) NOT NULL COMMENT '主键',
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '菜单名称',
   `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
-  `code` varchar(255) DEFAULT '' COMMENT '资源编码',
   `is_public` bit(1) DEFAULT b'0' COMMENT '是否公开菜单\r\n就是无需分配就可以访问的。所有人可见',
   `path` varchar(255) DEFAULT '' COMMENT '对应路由path',
   `component` varchar(255) DEFAULT NULL COMMENT '对应路由组件component',
@@ -63,8 +62,7 @@ CREATE TABLE `c_auth_menu` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) USING BTREE COMMENT '编码唯一'
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
 
 -- ----------------------------
@@ -92,23 +90,15 @@ DROP TABLE IF EXISTS `c_auth_resource`;
 CREATE TABLE `c_auth_resource` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `code` varchar(255) DEFAULT '' COMMENT '资源编码\n规则：\n链接：\n数据列：\n按钮：',
-  `resource_type` varchar(10) NOT NULL DEFAULT 'BUTTON' COMMENT '资源类型 \n#ResourceType{BUTTON:按钮;URI:链接;COLUMN:字段;}',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '接口名称',
-  `micro_service_id` bigint(20) DEFAULT NULL COMMENT '服务ID\n#c_auth_micro_service',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID\n#c_auth_menu',
-  `menu_name` varchar(255) DEFAULT '' COMMENT '菜单名称',
-  `tags` varchar(255) DEFAULT '' COMMENT '类标签',
   `describe_` varchar(255) DEFAULT '' COMMENT '接口描述',
-  `uri` varchar(150) DEFAULT '' COMMENT '地址',
-  `http_method` varchar(7) DEFAULT 'GET' COMMENT '请求方式\r\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}\n         ',
-  `deprecated` bit(1) DEFAULT b'0' COMMENT '是否过时',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) COMMENT '编码唯一',
-  UNIQUE KEY `UN_URI` (`resource_type`,`micro_service_id`,`http_method`,`uri`) USING BTREE COMMENT 'URI唯一'
+  UNIQUE KEY `UN_CODE` (`code`) COMMENT '编码唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
 
 -- ----------------------------

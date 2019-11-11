@@ -14,7 +14,6 @@ import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.entity.core.Org;
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
@@ -149,7 +148,7 @@ public class TestResource {
         log.info("{}", resources2.size());
 
 
-        LbqWrapper<Resource> query = Wraps.lbQ(Resource.builder().name("新增%").resourceType(ResourceType.BUTTON).build());
+        LbqWrapper<Resource> query = Wraps.lbQ(Resource.builder().name("新增%").build());
         List<Resource> resources = resourceMapper.selectList(query);
         log.info("{}", resources.size());
 

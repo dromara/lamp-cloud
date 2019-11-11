@@ -25,7 +25,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-27
+ * @since 2019-11-09
  */
 @Data
 @NoArgsConstructor
@@ -56,7 +56,6 @@ public class MenuUpdateDTO implements Serializable {
     @ApiModelProperty(value = "功能描述")
     @Length(max = 200, message = "功能描述长度不能超过200")
     private String describe;
-
     /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见
@@ -64,11 +63,17 @@ public class MenuUpdateDTO implements Serializable {
     @ApiModelProperty(value = "是否公开菜单")
     private Boolean isPublic;
     /**
-     * 资源路径
+     * 对应路由path
      */
-    @ApiModelProperty(value = "资源路径")
-    @Length(max = 255, message = "资源路径长度不能超过255")
+    @ApiModelProperty(value = "对应路由path")
+    @Length(max = 255, message = "对应路由path长度不能超过255")
     private String path;
+    /**
+     * 对应路由组件component
+     */
+    @ApiModelProperty(value = "对应路由组件component")
+    @Length(max = 255, message = "对应路由组件component长度不能超过255")
+    private String component;
     /**
      * 是否启用
      */

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -123,14 +124,14 @@ public class ResourceController extends BaseController {
      * 链接类型的资源 只清空 menu_id
      * 按钮和数据列 则物理删除
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除资源", notes = "根据id物理删除资源")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除资源")
-    public R<Boolean> delete(@PathVariable Long id) {
-        return success(resourceService.removeByIdWithCache(id));
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        return success(resourceService.removeByIdWithCache(ids));
     }
 
     /**

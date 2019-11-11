@@ -27,10 +27,10 @@ public interface MenuService extends IService<Menu> {
     /**
      * 根据ID删除
      *
-     * @param id
+     * @param ids
      * @return
      */
-    boolean removeByIdWithCache(Long id);
+    boolean removeByIdWithCache(List<Long> ids);
 
     /**
      * 修改菜单

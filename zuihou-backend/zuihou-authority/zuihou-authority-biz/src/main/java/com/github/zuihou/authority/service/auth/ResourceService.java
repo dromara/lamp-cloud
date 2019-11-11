@@ -36,10 +36,10 @@ public interface ResourceService extends IService<Resource> {
     /**
      * 根据ID删除
      *
-     * @param id
+     * @param ids
      * @return
      */
-    boolean removeByIdWithCache(Long id);
+    boolean removeByIdWithCache(List<Long> ids);
 
     /**
      * 修改
@@ -59,11 +59,8 @@ public interface ResourceService extends IService<Resource> {
 
 
     /**
-     * 修改资源中冗余的菜单名称，并清除缓存
-     *
-     * @param menuId   菜单id
-     * @param menuName 菜单名称
-     * @return
+     * 根据菜单id删除资源
+     * @param menuIds
      */
-    boolean updateMenuWithCache(Long menuId, String menuName);
+    void removeByMenuIdWithCache(List<Long> menuIds);
 }

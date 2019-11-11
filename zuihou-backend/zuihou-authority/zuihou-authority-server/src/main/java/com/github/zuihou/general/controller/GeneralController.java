@@ -9,12 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.enumeration.common.LogType;
 import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
 import com.github.zuihou.authority.enumeration.defaults.TenantTypeEnum;
-import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
 import com.github.zuihou.base.BaseEnum;
@@ -46,8 +44,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class GeneralController {
 
     @Autowired
-    private DictionaryService dictionaryService;
-    @Autowired
     private OrgService orgService;
     @Autowired
     private StationService stationService;
@@ -60,7 +56,6 @@ public class GeneralController {
         map.put(DataScopeType.class.getSimpleName(), BaseEnum.getMap(DataScopeType.values()));
         map.put(LogType.class.getSimpleName(), BaseEnum.getMap(LogType.values()));
         map.put(AuthorizeType.class.getSimpleName(), BaseEnum.getMap(AuthorizeType.values()));
-        map.put(ResourceType.class.getSimpleName(), BaseEnum.getMap(ResourceType.values()));
         map.put(Sex.class.getSimpleName(), BaseEnum.getMap(Sex.values()));
         map.put(TenantTypeEnum.class.getSimpleName(), BaseEnum.getMap(TenantTypeEnum.values()));
         map.put(TenantStatusEnum.class.getSimpleName(), BaseEnum.getMap(TenantStatusEnum.values()));
