@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.base.entity.SuperEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -26,7 +25,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-27
+ * @since 2019-11-09
  */
 @Data
 @NoArgsConstructor
@@ -43,14 +42,6 @@ public class ResourceUpdateDTO implements Serializable {
     @ApiModelProperty(value = "主键")
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
     private Long id;
-
-    /**
-     * 资源类型
-     * #ResourceType{BUTTON:按钮;URI:链接;COLUMN:字段;}
-     */
-    @ApiModelProperty(value = "资源类型")
-    @NotNull(message = "资源类型不能为空")
-    private ResourceType resourceType;
     /**
      * 接口名称
      */
@@ -59,24 +50,11 @@ public class ResourceUpdateDTO implements Serializable {
     @Length(max = 255, message = "接口名称长度不能超过255")
     private String name;
     /**
-     * 服务ID
-     * #c_auth_micro_service
-     */
-    @ApiModelProperty(value = "服务ID")
-    private Long microServiceId;
-    /**
      * 菜单ID
      * #c_auth_menu
      */
     @ApiModelProperty(value = "菜单ID")
     private Long menuId;
-    /**
-     * 菜单名称
-     */
-    @ApiModelProperty(value = "菜单名称")
-    @Length(max = 255, message = "菜单名称长度不能超过255")
-    private String menuName;
-
     /**
      * 接口描述
      */

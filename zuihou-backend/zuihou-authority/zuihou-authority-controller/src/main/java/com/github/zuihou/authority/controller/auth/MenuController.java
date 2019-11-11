@@ -130,14 +130,14 @@ public class MenuController extends BaseController {
     /**
      * 删除菜单
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除菜单", notes = "根据id物理删除菜单")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除菜单")
-    public R<Boolean> delete(@PathVariable Long id) {
-        menuService.removeByIdWithCache(id);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        menuService.removeByIdWithCache(ids);
         return success(true);
     }
 

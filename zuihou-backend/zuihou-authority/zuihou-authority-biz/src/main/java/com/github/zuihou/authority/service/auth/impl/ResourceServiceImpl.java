@@ -9,15 +9,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.update.LbuWrapper;
 import com.github.zuihou.exception.BizException;
-import com.github.zuihou.utils.BizAssert;
-import com.github.zuihou.utils.NumberHelper;
 import com.github.zuihou.utils.StrHelper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +53,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Override
     public List<Resource> findVisibleResource(ResourceQueryDTO resource) {
         //1, 先查 cache，cache中没有就执行回调查询DB，并设置到缓存
-        CacheObject cacheObject = cache.get(CacheKey.USER_RESOURCE, String.valueOf(resource.getUserId()), (key) -> {
+        String userResourceKey = CacheKey.buildKey(resource.getUserId());
+        CacheObject cacheObject = cache.get(CacheKey.USER_RESOURCE, userResourceKey, (key) -> {
             List<Resource> visibleResource = baseMapper.findVisibleResource(resource);
             return visibleResource.stream().mapToLong(Resource::getId).boxed().collect(Collectors.toList());
         });
@@ -68,35 +65,18 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         }
 
         List<Long> list = (List<Long>) cacheObject.getValue();
-
-        // 将cache 中的 [resource_id ,...] 转换成 [obj ,...]
         List<Resource> resourceList = list.stream().map(((ResourceService) AopContext.currentProxy())::getByIdWithCache).collect(Collectors.toList());
 
-        if (resource.getType() == null && resource.getMenuId() == null) {
+        if (resource.getMenuId() == null) {
             return resourceList;
         }
 
         // 根据查询条件过滤数据
         return resourceList.stream()
-                .filter((re) -> resource.getType() != null ? Objects.equals(resource.getType(), re.getResourceType()) : true)
-                .filter((re) -> resource.getMenuId() != null ? Objects.equals(resource.getMenuId(), re.getMenuId()) : true)
+                .filter((re) -> Objects.equals(resource.getMenuId(), re.getMenuId()))
                 .collect(Collectors.toList());
     }
 
-
-    @Override
-    public boolean updateMenuWithCache(Long menuId, String menuName) {
-        //批量修改冗余数据
-        super.update(Wraps.<Resource>lbU()
-                .set(Resource::getMenuName, menuName)
-                .eq(Resource::getMenuId, menuId));
-
-        //清除资源缓存
-        LbuWrapper<Resource> query = Wraps.<Resource>lbU().eq(Resource::getMenuId, menuId);
-        List<Long> list = super.listObjs(query, (resourceId) -> NumberHelper.longValueOf0(resourceId));
-        list.forEach((resourceId) -> cache.evict(CacheKey.RESOURCE, String.valueOf(resourceId)));
-        return true;
-    }
 
     @Override
     @Cacheable(value = CacheKey.RESOURCE, key = "#id")
@@ -105,16 +85,26 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     }
 
     @Override
-    @CacheEvict(value = CacheKey.RESOURCE, key = "#id")
-    public boolean removeByIdWithCache(Long id) {
-        Resource resource = super.getById(id);
-        BizAssert.notNull(resource);
-        if (ResourceType.URI.eq(resource.getResourceType())) {
-            //TODO 注意这里有没有必要
-            return super.update(Wraps.<Resource>lbU().set(Resource::getMenuId, null).eq(Resource::getId, id));
-        } else {
-            return super.removeById(id);
+    public boolean removeByIdWithCache(List<Long> ids) {
+        boolean result = super.removeByIds(ids);
+        if (result) {
+            String[] keys = ids.stream().map(CacheKey::buildKey).toArray(String[]::new);
+            cache.evict(CacheKey.RESOURCE, keys);
         }
+        return result;
+    }
+
+    @Override
+    public void removeByMenuIdWithCache(List<Long> menuIds) {
+        List<Resource> resources = super.list(Wraps.<Resource>lbQ().in(Resource::getMenuId, menuIds));
+        if (resources.isEmpty()) {
+            return;
+        }
+        List<Long> idList = resources.stream().mapToLong(Resource::getId).boxed().collect(Collectors.toList());
+        super.removeByIds(idList);
+
+        String[] keys = idList.stream().map(CacheKey::buildKey).toArray(String[]::new);
+        cache.evict(CacheKey.RESOURCE, keys);
     }
 
     @Override
@@ -125,23 +115,14 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Override
     public boolean saveWithCache(Resource resource) {
-        if (ResourceType.URI.eq(resource.getResourceType())) {
-            BizAssert.notNull(resource.getId(), "URI资源不能为空");
-            BizAssert.notNull(resource.getMenuId(), "URI资源必须关联菜单");
-        }
-
         resource.setCode(StrHelper.getOrDef(resource.getCode(), codeGenerate.next()));
         if (super.count(Wraps.<Resource>lbQ().eq(Resource::getCode, resource.getCode())) > 0) {
             throw BizException.validFail("编码[%s]重复", resource.getCode());
         }
 
-        if (resource.getId() != null) {
-            super.updateById(resource);
-            cache.evict(CacheKey.RESOURCE, String.valueOf(resource.getId()));
-        } else {
-            super.save(resource);
-            cache.set(CacheKey.RESOURCE, String.valueOf(resource.getId()), resource);
-        }
+        super.save(resource);
+        String resourceKey = CacheKey.buildKey(resource.getId());
+        cache.set(CacheKey.RESOURCE, resourceKey, resource);
         return true;
     }
 }

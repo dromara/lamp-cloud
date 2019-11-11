@@ -55,7 +55,7 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
 
         //清除 用户拥有的菜单和资源列表
         userRole.getUserIdList().forEach((userId) -> {
-            String key = CacheKey.build(userId);
+            String key = CacheKey.buildKey(userId);
             cache.evict(CacheKey.USER_RESOURCE, key);
             cache.evict(CacheKey.USER_MENU, key);
         });
