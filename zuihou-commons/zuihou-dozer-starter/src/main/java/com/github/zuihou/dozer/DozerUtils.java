@@ -113,6 +113,7 @@ public class DozerUtils {
             return Collections.emptyList();
         }
         List<T> destinationList = sourceList.stream()
+                .filter(item -> item != null)
                 .map((sourceObject) -> mapper.map(sourceObject, destinationClass))
                 .collect(Collectors.toList());
 

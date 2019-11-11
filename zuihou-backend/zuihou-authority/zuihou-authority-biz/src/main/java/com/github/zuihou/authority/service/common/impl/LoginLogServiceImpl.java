@@ -60,53 +60,53 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
 
         LocalDate now = LocalDate.now();
         LocalDate tenDays = now.plusDays(-9);
-        cache.evict(CacheKey.LOGIN_LOG_TOTAL, CacheKey.build());
-        cache.evict(CacheKey.LOGIN_LOG_TODAY, CacheKey.build(now));
-        cache.evict(CacheKey.LOGIN_LOG_TODAY_IP, CacheKey.build(now));
-        cache.evict(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.build(tenDays, null));
-        cache.evict(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.build(tenDays, account));
-        cache.evict(CacheKey.LOGIN_LOG_BROWSER, CacheKey.build());
-        cache.evict(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.build());
+        cache.evict(CacheKey.LOGIN_LOG_TOTAL, CacheKey.buildTenantKey());
+        cache.evict(CacheKey.LOGIN_LOG_TODAY, CacheKey.buildTenantKey(now));
+        cache.evict(CacheKey.LOGIN_LOG_TODAY_IP, CacheKey.buildTenantKey(now));
+        cache.evict(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, null));
+        cache.evict(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, account));
+        cache.evict(CacheKey.LOGIN_LOG_BROWSER, CacheKey.buildTenantKey());
+        cache.evict(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.buildTenantKey());
 
         return loginLog;
     }
 
     @Override
     public Long findTotalVisitCount() {
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TOTAL, CacheKey.build(), (key) -> this.baseMapper.findTotalVisitCount());
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TOTAL, CacheKey.buildTenantKey(), (key) -> this.baseMapper.findTotalVisitCount());
         return (Long) cacheObject.getValue();
     }
 
     @Override
     public Long findTodayVisitCount() {
         LocalDate now = LocalDate.now();
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY, CacheKey.build(now), (key) -> this.baseMapper.findTodayVisitCount(now));
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY, CacheKey.buildTenantKey(now), (key) -> this.baseMapper.findTodayVisitCount(now));
         return (Long) cacheObject.getValue();
     }
 
     @Override
     public Long findTodayIp() {
         LocalDate now = LocalDate.now();
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY_IP, CacheKey.build(now), (key) -> this.baseMapper.findTodayIp(now));
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY_IP, CacheKey.buildTenantKey(now), (key) -> this.baseMapper.findTodayIp(now));
         return (Long) cacheObject.getValue();
     }
 
     @Override
     public List<Map<String, Object>> findLastTenDaysVisitCount(String account) {
         LocalDate tenDays = LocalDate.now().plusDays(-9);
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.build(tenDays, account), (key) -> this.baseMapper.findLastTenDaysVisitCount(tenDays, account));
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, account), (key) -> this.baseMapper.findLastTenDaysVisitCount(tenDays, account));
         return (List<Map<String, Object>>) cacheObject.getValue();
     }
 
     @Override
     public List<Map<String, Object>> findByBrowser() {
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_BROWSER, CacheKey.build(), (key) -> this.baseMapper.findByBrowser());
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_BROWSER, CacheKey.buildTenantKey(), (key) -> this.baseMapper.findByBrowser());
         return (List<Map<String, Object>>) cacheObject.getValue();
     }
 
     @Override
     public List<Map<String, Object>> findByOperatingSystem() {
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.build(), (key) -> this.baseMapper.findByOperatingSystem());
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.buildTenantKey(), (key) -> this.baseMapper.findByOperatingSystem());
         return (List<Map<String, Object>>) cacheObject.getValue();
     }
 }

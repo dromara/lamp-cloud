@@ -47,7 +47,7 @@ public class J2CacheController {
 
     @ApiOperation(value = "淘汰缓存", notes = "淘汰缓存")
     @GetMapping("/evict")
-    public R<Object> evict(String region, @RequestParam(value = "keys[]") String[] keys) {
+    public R<Object> evict(String region, @RequestParam(value = "keys[]", required = false) String[] keys) {
         cache.evict(region, keys);
         return R.success(String.format("%s:%s", region, keys));
     }

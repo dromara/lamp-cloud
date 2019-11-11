@@ -19,6 +19,8 @@ import lombok.ToString;
 public class MenuTreeDTO extends Menu implements ITreeNode<MenuTreeDTO, Long> {
     private List<MenuTreeDTO> children;
 
+    private String label;
+
     @Override
     public Long getId() {
         return super.getId();
@@ -34,11 +36,6 @@ public class MenuTreeDTO extends Menu implements ITreeNode<MenuTreeDTO, Long> {
         return super.getUpdateUser();
     }
 
-//    @Override
-//    public void add(MenuTreeDTO node) {
-//        children.add(node);
-//    }
-
     @Override
     public List<MenuTreeDTO> getChildren() {
         return this.children;
@@ -49,14 +46,18 @@ public class MenuTreeDTO extends Menu implements ITreeNode<MenuTreeDTO, Long> {
         this.children = children;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
+    public String getLabel() {
+        return this.getName();
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
+    //    @Override
+//    public boolean equals(Object o) {
+//        return super.equals(o);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return super.hashCode();
+//    }
 
 }

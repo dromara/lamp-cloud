@@ -1,8 +1,6 @@
 package com.github.zuihou.authority.dto.auth;
 
 
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -22,11 +20,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @ApiModel(value = "ResourceQueryDTO", description = "资源查询")
 public class ResourceQueryDTO {
-    /**
-     * 资源类型 #ResourceType{Menu: 菜单; Opt: 菜单内部按钮}
-     */
-    @ApiModelProperty(value = "资源类型")
-    private ResourceType type;
 
     /**
      * 父资源id， 用于查询按钮

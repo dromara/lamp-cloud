@@ -15,7 +15,6 @@ import com.github.zuihou.authority.dao.auth.MicroServiceMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.entity.auth.MicroService;
 import com.github.zuihou.authority.entity.auth.Resource;
-import com.github.zuihou.authority.enumeration.auth.ResourceType;
 import com.github.zuihou.authority.service.auth.MicroServiceService;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 
@@ -138,14 +137,14 @@ public class MicroServiceServiceImpl extends ServiceImpl<MicroServiceMapper, Mic
                         String code = path.replace("/", "_");
                         Resource resource = Resource.builder()
                                 .code(code)
-                                .resourceType(ResourceType.URI)
+//                                .resourceType(ResourceType.URI)
                                 .name(summary)
-                                .microServiceId(ms.getId())
-                                .tags(tags)
+//                                .microServiceId(ms.getId())
+//                                .tags(tags)
                                 .describe(description)
-                                .uri(path)
-                                .httpMethod(com.github.zuihou.common.enums.HttpMethod.get(method))
-                                .deprecated(deprecated)
+//                                .uri(path)
+//                                .httpMethod(com.github.zuihou.common.enums.HttpMethod.get(method))
+//                                .deprecated(deprecated)
                                 .build();
                         resourceList.add(resource);
                     }

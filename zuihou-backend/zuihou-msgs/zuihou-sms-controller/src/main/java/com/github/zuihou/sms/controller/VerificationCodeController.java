@@ -63,7 +63,7 @@ public class VerificationCodeController extends BaseController {
         smsTask.setReceiver(data.getMobile());
         smsManager.saveTask(smsTask, TemplateCodeType.ZUIHOU_COMMON);
 
-        String key = CacheKey.build(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
+        String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
         redisRepository.setExpire(key, code, CacheRepository.DEF_TIMEOUT_5M);
         return success();
     }
@@ -77,8 +77,7 @@ public class VerificationCodeController extends BaseController {
     @ApiOperation(value = "验证验证码", notes = "验证验证码")
     @PostMapping
     public R<Boolean> verification(@Validated(SuperEntity.Update.class) @RequestBody VerificationCodeDTO data) {
-
-        String key = CacheKey.build(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
+        String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
         String code = redisRepository.get(key);
         return success(data.getCode().equals(code));
     }
