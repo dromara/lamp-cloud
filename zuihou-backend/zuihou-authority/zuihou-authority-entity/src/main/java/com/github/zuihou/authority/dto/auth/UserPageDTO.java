@@ -60,6 +60,8 @@ public class UserPageDTO {
      */
     @ApiModelProperty(value = "性别")
     private Sex sex;
+    @ApiModelProperty(value = "启用状态 1启用 0禁用")
+    private Boolean status;
     /**
      * 是否可登陆
      */

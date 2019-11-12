@@ -31,7 +31,7 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
     private String path;
     @ApiModelProperty(value = "菜单名称")
     private String name;
-//    @ApiModelProperty(value = "功能描述")
+    //    @ApiModelProperty(value = "功能描述")
 //    private String describe;
     @ApiModelProperty(value = "组件")
     private String component;
@@ -59,11 +59,14 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
         return this.children;
     }
 
-//    @Override
-//    public void add(VueRouter node) {
-//        if (children == null) {
-//            children = new ArrayList<>();
-//        }
-//        children.add(node);
-//    }
+    public Boolean getAlwaysShow() {
+        return getChildren() != null && !getChildren().isEmpty();
+    }
+
+    public String getComponent() {
+        if (getChildren() != null && !getChildren().isEmpty()) {
+            return "Layout";
+        }
+        return this.component;
+    }
 }

@@ -42,7 +42,7 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
 
     @Override
     public boolean saveUserRole(UserRoleSaveDTO userRole) {
-        super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, userRole.getRoleId()));
+        userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, userRole.getRoleId()));
         List<UserRole> list = userRole.getUserIdList()
                 .stream()
                 .map((userId) -> UserRole.builder()
@@ -51,7 +51,6 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
                         .build())
                 .collect(Collectors.toList());
         userRoleService.saveBatch(list);
-
 
         //清除 用户拥有的菜单和资源列表
         userRole.getUserIdList().forEach((userId) -> {
