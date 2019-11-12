@@ -62,17 +62,23 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    @CacheEvict(value = CacheKey.ROLE, key = "#id")
-    public boolean removeByIdWithCache(Long id) {
-        super.removeById(id);
+    public boolean removeByIdWithCache(List<Long> ids) {
+        if (ids.isEmpty()) {
+            return true;
+        }
+        super.removeByIds(ids);
+        roleOrgService.remove(Wraps.<RoleOrg>lbQ().in(RoleOrg::getRoleId, ids));
 
         //TODO 这里还要清除 用户拥有的角色 用户拥有的菜单和资源
 //        cache.evict(CacheKey.USER_ROLE, userId);
 //        cache.evict(CacheKey.USER_RESOURCE, userId);
 //        cache.evict(CacheKey.USER_MENU, userId);
-        cache.evict(CacheKey.ROLE_MENU, String.valueOf(id));
-        cache.evict(CacheKey.ROLE_RESOURCE, String.valueOf(id));
-        cache.evict(CacheKey.ROLE_ORG, String.valueOf(id));
+        ids.forEach((id) -> {
+            cache.evict(CacheKey.ROLE, String.valueOf(id));
+            cache.evict(CacheKey.ROLE_MENU, String.valueOf(id));
+            cache.evict(CacheKey.ROLE_RESOURCE, String.valueOf(id));
+            cache.evict(CacheKey.ROLE_ORG, String.valueOf(id));
+        });
         return true;
     }
 
@@ -92,7 +98,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public void saveRole(RoleSaveDTO data, Long userId) {
         Role role = dozer.map(data, Role.class);
         role.setCode(StrHelper.getOrDef(data.getCode(), codeGenerate.next()));
-        role.setIsReadonly(false);
+        role.setReadonly(false);
         super.save(role);
 
         saveRoleOrg(userId, role, data.getOrgList());
@@ -129,5 +135,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public List<Long> findUserIdByCode(String[] codes) {
         return baseMapper.findUserIdByCode(codes);
+    }
+
+    @Override
+    public Boolean check(String code) {
+        return super.count(Wraps.<Role>lbQ().eq(Role::getCode, code)) > 0;
     }
 }

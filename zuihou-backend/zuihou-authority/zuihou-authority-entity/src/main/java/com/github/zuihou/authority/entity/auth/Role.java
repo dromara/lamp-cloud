@@ -2,6 +2,7 @@ package com.github.zuihou.authority.entity.auth;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -29,7 +30,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-20
+ * @since 2019-11-11
  */
 @Data
 @NoArgsConstructor
@@ -47,6 +48,7 @@ public class Role extends Entity<Long> {
      * 角色名称
      */
     @ApiModelProperty(value = "角色名称")
+    @NotEmpty(message = "角色名称不能为空")
     @Length(max = 30, message = "角色名称长度不能超过30")
     @TableField(value = "name", condition = LIKE)
     private String name;
@@ -68,18 +70,18 @@ public class Role extends Entity<Long> {
     private String describe;
 
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
-    @TableField("is_enable")
-    private Boolean isEnable;
+    @ApiModelProperty(value = "状态")
+    @TableField("status")
+    private Boolean status;
 
     /**
-     * 是否只读角色
+     * 是否内置角色
      */
-    @ApiModelProperty(value = "是否只读角色")
-    @TableField("is_readonly")
-    private Boolean isReadonly;
+    @ApiModelProperty(value = "是否内置角色")
+    @TableField("readonly")
+    private Boolean readonly;
 
     /**
      * 数据权限类型
@@ -93,7 +95,7 @@ public class Role extends Entity<Long> {
 
     @Builder
     public Role(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String code, String describe, Boolean isEnable, Boolean isReadonly, DataScopeType dsType) {
+                String name, String code, String describe, Boolean status, Boolean readonly, DataScopeType dsType) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -102,8 +104,8 @@ public class Role extends Entity<Long> {
         this.name = name;
         this.code = code;
         this.describe = describe;
-        this.isEnable = isEnable;
-        this.isReadonly = isReadonly;
+        this.status = status;
+        this.readonly = readonly;
         this.dsType = dsType;
     }
 

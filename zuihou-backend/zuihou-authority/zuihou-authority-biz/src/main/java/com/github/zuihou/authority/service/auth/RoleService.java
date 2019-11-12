@@ -29,10 +29,10 @@ public interface RoleService extends IService<Role> {
     /**
      * 根据ID删除
      *
-     * @param id
+     * @param ids
      * @return
      */
-    boolean removeByIdWithCache(Long id);
+    boolean removeByIdWithCache(List<Long> ids);
 
     /**
      * 判断用户是否超级管理员
@@ -72,4 +72,12 @@ public interface RoleService extends IService<Role> {
      * @return
      */
     List<Long> findUserIdByCode(String[] codes);
+
+    /**
+     * 检测编码重复
+     *
+     * @param code
+     * @return 存在返回真
+     */
+    Boolean check(String code);
 }

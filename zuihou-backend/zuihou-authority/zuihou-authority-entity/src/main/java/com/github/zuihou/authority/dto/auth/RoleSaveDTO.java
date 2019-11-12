@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-27
+ * @since 2019-11-11
  */
 @Data
 @NoArgsConstructor
@@ -60,11 +60,10 @@ public class RoleSaveDTO implements Serializable {
     @Length(max = 100, message = "功能描述长度不能超过100")
     private String describe;
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
-    private Boolean isEnable;
-
+    @ApiModelProperty(value = "状态")
+    private Boolean status;
     /**
      * 数据权限类型
      * #DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}

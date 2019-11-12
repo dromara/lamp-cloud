@@ -1,20 +1,28 @@
 package com.github.zuihou.authority.controller.auth;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
+import com.github.zuihou.authority.dto.auth.RolePageDTO;
+import com.github.zuihou.authority.dto.auth.RoleQueryDTO;
 import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
 import com.github.zuihou.authority.dto.auth.RoleUpdateDTO;
 import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.entity.auth.Role;
+import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
+import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.auth.RoleService;
+import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 
 import io.swagger.annotations.Api;
@@ -54,11 +62,17 @@ public class RoleController extends BaseController {
     private RoleService roleService;
     @Autowired
     private RoleAuthorityService roleAuthorityService;
+    @Autowired
+    private RoleOrgService roleOrgService;
+    @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询角色
      *
-     * @param data 分页查询对象
+     * @param param 分页查询对象
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询角色", notes = "分页查询角色")
@@ -68,10 +82,14 @@ public class RoleController extends BaseController {
     })
     @GetMapping("/page")
     @SysLog("分页查询角色")
-    public R<IPage<Role>> page(Role data) {
+    public R<IPage<Role>> page(RolePageDTO param) {
         IPage<Role> page = getPage();
+        Role role = dozer.map(param, Role.class);
         // 构建值不为null的查询条件
-        LbqWrapper<Role> query = Wraps.lbQ(data);
+        LbqWrapper<Role> query = Wraps.lbQ(role)
+                .geHeader(Role::getCreateTime, param.getStartCreateTime())
+                .leFooter(Role::getCreateTime, param.getEndCreateTime())
+                .orderByDesc(Role::getId);
         roleService.page(page, query);
         return success(page);
     }
@@ -85,8 +103,22 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "查询角色", notes = "查询角色")
     @GetMapping("/{id}")
     @SysLog("查询角色")
-    public R<Role> get(@PathVariable Long id) {
-        return success(roleService.getByIdWithCache(id));
+    public R<RoleQueryDTO> get(@PathVariable Long id) {
+        Role role = roleService.getByIdWithCache(id);
+
+        RoleQueryDTO query = dozer.map(role, RoleQueryDTO.class);
+        if (query.getDsType() != null && DataScopeType.CUSTOMIZE.eq(query.getDsType())) {
+            List<Long> orgList = roleOrgService.listOrgByRoleId(role.getId());
+            query.setOrgList(orgList);
+        }
+        return success(query);
+    }
+
+    @ApiOperation(value = "检测角色编码", notes = "检测角色编码")
+    @GetMapping("/check/{code}")
+    @SysLog("新增角色")
+    public R<Boolean> check(@PathVariable String code) {
+        return success(roleService.check(code));
     }
 
     /**
@@ -120,14 +152,14 @@ public class RoleController extends BaseController {
     /**
      * 删除角色
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除角色", notes = "根据id物理删除角色")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除角色")
-    public R<Boolean> delete(@PathVariable Long id) {
-        roleService.removeByIdWithCache(id);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        roleService.removeByIdWithCache(ids);
         return success(true);
     }
 
@@ -145,15 +177,30 @@ public class RoleController extends BaseController {
     }
 
     /**
+     * 查询角色的用户
+     *
+     * @param roleId 角色id
+     * @return 新增结果
+     */
+    @ApiOperation(value = "查询角色的用户", notes = "查询角色的用户")
+    @GetMapping("/user/{roleId}")
+    @SysLog("查询角色的用户")
+    public R<List<Long>> findUserIdByRoleId(@PathVariable Long roleId) {
+        List<UserRole> list = userRoleService.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
+        return success(list.stream().mapToLong(UserRole::getUserId).boxed().collect(Collectors.toList()));
+    }
+
+
+    /**
      * 给角色配置权限
      *
      * @param roleAuthoritySaveDTO 角色权限授权对象
      * @return 新增结果
      */
     @ApiOperation(value = "给角色配置权限", notes = "给角色配置权限")
-    @PostMapping("/menu")
+    @PostMapping("/authority")
     @SysLog("给角色配置权限")
-    public R<Boolean> save(@RequestBody RoleAuthoritySaveDTO roleAuthoritySaveDTO) {
+    public R<Boolean> saveRoleAuthority(@RequestBody RoleAuthoritySaveDTO roleAuthoritySaveDTO) {
         return success(roleAuthorityService.saveRoleAuthority(roleAuthoritySaveDTO));
     }
 

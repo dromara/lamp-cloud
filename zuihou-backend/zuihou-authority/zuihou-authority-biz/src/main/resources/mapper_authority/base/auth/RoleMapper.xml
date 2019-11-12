@@ -12,15 +12,15 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
-        <result column="is_enable" jdbcType="BIT" property="isEnable"/>
-        <result column="is_readonly" jdbcType="BIT" property="isReadonly"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="readonly" jdbcType="BIT" property="readonly"/>
         <result column="ds_type" jdbcType="VARCHAR" property="dsType"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        name, code, describe_, is_enable, is_readonly, ds_type
+        name, code, describe_, status, readonly, ds_type
     </sql>
 
 </mapper>
