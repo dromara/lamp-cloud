@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 11/11/2019 14:41:38
+ Date: 12/11/2019 20:44:33
 */
 
 SET NAMES utf8mb4;
@@ -62,7 +62,8 @@ CREATE TABLE `c_auth_menu` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `INX_STATUS` (`is_enable`,`is_public`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
 
 -- ----------------------------
@@ -107,11 +108,11 @@ CREATE TABLE `c_auth_resource` (
 DROP TABLE IF EXISTS `c_auth_role`;
 CREATE TABLE `c_auth_role` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(30) DEFAULT '' COMMENT '角色名称',
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '角色名称',
   `code` varchar(20) DEFAULT '' COMMENT '角色编码',
   `describe_` varchar(100) DEFAULT '' COMMENT '功能描述',
-  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
-  `is_readonly` bit(1) DEFAULT b'0' COMMENT '是否只读角色',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `readonly` bit(1) DEFAULT b'0' COMMENT '是否内置角色',
   `ds_type` varchar(20) NOT NULL DEFAULT 'SELF' COMMENT '数据权限类型\n#DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -132,7 +133,8 @@ CREATE TABLE `c_auth_role_authority` (
   `role_id` bigint(20) NOT NULL COMMENT '角色id\n#c_auth_role',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `IDX_KEY` (`role_id`,`authority_type`,`authority_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色的资源';
 
 -- ----------------------------
@@ -187,7 +189,8 @@ CREATE TABLE `c_auth_user_role` (
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户ID\n#c_core_accou',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `IDX_KEY` (`role_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色分配\r\n账号角色绑定';
 
 -- ----------------------------
