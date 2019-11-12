@@ -42,10 +42,13 @@ https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 
 [介绍文档] https://zuihou.github.io/zuihou-admin-cloud/
 
-## 演示地址 (账号密码均为： zuihou/zuihou)       （演示账号没有写权限，只能查询）  
+## 演示地址       （演示账号没有写权限，只能查询）  
 [租户系统演示环境] http://tangyh.top:10000/zuihou-ui/
+平台管理员账号/密码： zuihou/zuihou
+普通用户账号/密码: test/zuiou
 
 [开发&运营平台演示环境] http://tangyh.top:180/zuihou-admin-ui/
+账号/密码： demoAdmin/zuihou
 
 [演示环境] http://42.202.130.216:10000/zuihou-ui      （旧项目，不在维护）              
 
