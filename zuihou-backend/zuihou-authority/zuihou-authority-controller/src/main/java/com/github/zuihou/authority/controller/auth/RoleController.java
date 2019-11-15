@@ -11,7 +11,9 @@ import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
 import com.github.zuihou.authority.dto.auth.RoleUpdateDTO;
 import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.entity.auth.Role;
+import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.entity.auth.UserRole;
+import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.auth.RoleService;
@@ -188,6 +190,25 @@ public class RoleController extends BaseController {
     public R<List<Long>> findUserIdByRoleId(@PathVariable Long roleId) {
         List<UserRole> list = userRoleService.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
         return success(list.stream().mapToLong(UserRole::getUserId).boxed().collect(Collectors.toList()));
+    }
+
+    /**
+     * 查询角色拥有的资源id
+     *
+     * @param roleId 角色id
+     * @return 新增结果
+     */
+    @ApiOperation(value = "查询角色拥有的资源id集合", notes = "查询角色拥有的资源id集合")
+    @GetMapping("/authority/{roleId}")
+    @SysLog("查询角色拥有的资源")
+    public R<RoleAuthoritySaveDTO> findAuthorityIdByRoleId(@PathVariable Long roleId) {
+        List<RoleAuthority> list = roleAuthorityService.list(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleId));
+        List<Long> menuIdList = list.stream().filter(item -> AuthorizeType.MENU.eq(item.getAuthorityType())).mapToLong(RoleAuthority::getAuthorityId).boxed().collect(Collectors.toList());
+        List<Long> resourceIdList = list.stream().filter(item -> AuthorizeType.RESOURCE.eq(item.getAuthorityType())).mapToLong(RoleAuthority::getAuthorityId).boxed().collect(Collectors.toList());
+        RoleAuthoritySaveDTO roleAuthority = RoleAuthoritySaveDTO.builder()
+                .menuIdList(menuIdList).resourceIdList(resourceIdList)
+                .build();
+        return success(roleAuthority);
     }
 
 
