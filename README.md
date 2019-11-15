@@ -280,7 +280,7 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     
 - 2, 启动 nacos，新增命名空间 - `zuihou`，并记录下自己新增的命名空间ID
 - 3，将该命名空间ID复制到项目： `zuihou-dependencies/pom.xml` - `<pom.nacos.namespace>你刚才复制的命名ID</pom.nacos.namespace>` ，同时在pom.xml中将nacos的ip和端口修改成自己的。
-- 4，在nacos中，点击`配置中心`- 切换到`zuihou` - 导入 zuihou-backend/zuihou-config/src/main/resources 下的所有文件，具体操作看 third-party/README.md
+- 4，在nacos中，点击`配置中心`- 切换到`zuihou` - 导入 zuihou-commons/zuihou-config/src/main/resources 下的所有文件，具体操作看 third-party/README.md
 - 5, 在nacos中修改 redis.yml、mysql.yml、rabbitmq.yml
 - 6, mac/linux 在启动项目之前先创建日志文件夹
 ```
