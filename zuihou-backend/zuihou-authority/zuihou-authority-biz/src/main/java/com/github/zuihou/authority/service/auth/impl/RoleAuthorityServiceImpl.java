@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
+import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.common.constant.CacheKey;
@@ -37,6 +39,8 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
 
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private ResourceService resourceService;
     @Autowired
     private CacheChannel cache;
 
@@ -67,21 +71,16 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
         super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, dto.getRoleId()));
 
         List<RoleAuthority> list = new ArrayList<>();
-        if (dto.getMenuIdList() != null) {
-            //保存授予的菜单
-            List<RoleAuthority> menuList = dto.getMenuIdList()
-                    .stream()
-                    .map((menuId) -> RoleAuthority.builder()
-                            .authorityType(AuthorizeType.MENU)
-                            .authorityId(menuId)
-                            .roleId(dto.getRoleId())
-                            .build())
-                    .collect(Collectors.toList());
-            list.addAll(menuList);
-        }
-        if (dto.getResourceIdList() != null) {
+        if (dto.getResourceIdList() != null && !dto.getResourceIdList().isEmpty()) {
+            List<Long> menuIdList = resourceService.findMenuIdByResourceId(dto.getResourceIdList());
+            if (dto.getMenuIdList() == null || dto.getMenuIdList().isEmpty()) {
+                dto.setMenuIdList(menuIdList);
+            } else {
+                dto.getMenuIdList().addAll(menuIdList);
+            }
+
             //保存授予的资源
-            List<RoleAuthority> resourceList = dto.getResourceIdList()
+            List<RoleAuthority> resourceList = new HashSet<>(dto.getResourceIdList())
                     .stream()
                     .map((resourceId) -> RoleAuthority.builder()
                             .authorityType(AuthorizeType.RESOURCE)
@@ -90,6 +89,18 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
                             .build())
                     .collect(Collectors.toList());
             list.addAll(resourceList);
+        }
+        if (dto.getMenuIdList() != null && !dto.getMenuIdList().isEmpty()) {
+            //保存授予的菜单
+            List<RoleAuthority> menuList = new HashSet<>(dto.getMenuIdList())
+                    .stream()
+                    .map((menuId) -> RoleAuthority.builder()
+                            .authorityType(AuthorizeType.MENU)
+                            .authorityId(menuId)
+                            .roleId(dto.getRoleId())
+                            .build())
+                    .collect(Collectors.toList());
+            list.addAll(menuList);
         }
         super.saveBatch(list);
 

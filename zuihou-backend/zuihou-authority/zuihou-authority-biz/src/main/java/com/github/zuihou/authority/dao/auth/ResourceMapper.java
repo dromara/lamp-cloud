@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -34,4 +35,6 @@ public interface ResourceMapper extends BaseMapper<Resource> {
      * @return
      */
     int saveOrUpdateUnique(Resource resource);
+
+    List<Long> findMenuIdByResourceId(@Param("resourceIdList") List<Long> resourceIdList);
 }
