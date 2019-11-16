@@ -21,37 +21,37 @@ import lombok.NoArgsConstructor;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum HttpMethod implements BaseEnum {
     /**
-     * GET:GET请求
+     * GET:GET
      */
-    GET("GET请求"),
+    GET("GET"),
     /**
-     * POST:POST请求
+     * POST:POST
      */
-    POST("POST请求"),
+    POST("POST"),
     /**
-     * PUT:PUT请求
+     * PUT:PUT
      */
-    PUT("PUT请求"),
+    PUT("PUT"),
     /**
-     * DELETE:DELETE请求
+     * DELETE:DELETE
      */
-    DELETE("DELETE请求"),
+    DELETE("DELETE"),
     /**
-     * PATCH:PATCH请求
+     * PATCH:PATCH
      */
-    PATCH("PATCH请求"),
+    PATCH("PATCH"),
     /**
-     * TRACE:TRACE请求
+     * TRACE:TRACE
      */
-    TRACE("TRACE请求"),
+    TRACE("TRACE"),
     /**
-     * HEAD:HEAD请求
+     * HEAD:HEAD
      */
-    HEAD("HEAD请求"),
+    HEAD("HEAD"),
     /**
-     * OPTIONS:OPTIONS请求
+     * OPTIONS:OPTIONS
      */
-    OPTIONS("OPTIONS请求"),
+    OPTIONS("OPTIONS"),
     ;
     @ApiModelProperty(value = "描述")
     private String desc;

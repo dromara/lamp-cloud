@@ -57,6 +57,9 @@ public class AntiSqlFilter {
     }
 
     public static String getSafeValue(String oldValue) {
+        if (oldValue == null || "".equals(oldValue)) {
+            return oldValue;
+        }
         StringBuilder sb = new StringBuilder(oldValue);
         String lowerCase = oldValue.toLowerCase();
         for (String keyWord : KEY_WORDS) {

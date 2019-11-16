@@ -1,6 +1,8 @@
 package com.github.zuihou.authority.controller.common;
 
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,6 +13,7 @@ import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.log.util.AddressUtil;
 
 import cn.hutool.core.util.StrUtil;
@@ -22,9 +25,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -64,8 +69,11 @@ public class LoginLogController extends BaseController {
         IPage<LoginLog> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<LoginLog> query = Wraps.<LoginLog>lbQ()
-                .likeLeft(LoginLog::getAccount, data.getAccount())
+                .likeRight(LoginLog::getAccount, data.getAccount())
                 .likeRight(LoginLog::getRequestIp, data.getRequestIp())
+                .like(LoginLog::getLocation, data.getLocation())
+                .leFooter(LoginLog::getCreateTime, getEndCreateTime())
+                .geHeader(LoginLog::getCreateTime, getStartCreateTime())
                 .orderByDesc(LoginLog::getId);
         loginLogService.page(page, query);
         return success(page);
@@ -102,4 +110,17 @@ public class LoginLogController extends BaseController {
     }
 
 
+    /**
+     * 删除系统日志
+     *
+     * @param ids 主键id
+     * @return 删除结果
+     */
+    @ApiOperation(value = "删除日志", notes = "根据id物理删除系统日志")
+    @DeleteMapping
+    @SysLog("删除登录日志")
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        loginLogService.removeByIds(ids);
+        return success(true);
+    }
 }
