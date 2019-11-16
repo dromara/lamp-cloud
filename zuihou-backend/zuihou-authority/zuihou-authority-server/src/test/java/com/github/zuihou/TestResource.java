@@ -65,11 +65,14 @@ public class TestResource {
     @Before
     public void setTenant() {
         BaseContextHandler.setTenant("0000");
+        BaseContextHandler.setDatabase("zuihou_base");
     }
 
 
     @Test
     public void testSaveUser() {
+        List<Long> menuIdByResourceId = resourceService.findMenuIdByResourceId(Arrays.asList(643444897201784193L, 643445674330819745L, 643445641149680705L));
+        System.out.println(menuIdByResourceId.size());
     }
 
 

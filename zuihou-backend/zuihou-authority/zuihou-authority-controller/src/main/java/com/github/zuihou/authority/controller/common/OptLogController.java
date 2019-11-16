@@ -1,6 +1,8 @@
 package com.github.zuihou.authority.controller.common;
 
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.service.common.OptLogService;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -60,7 +63,10 @@ public class OptLogController extends BaseController {
     public R<IPage<OptLog>> page(OptLog data) {
         IPage<OptLog> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<OptLog> query = Wraps.lbQ(data).orderByDesc(OptLog::getCreateTime);
+        LbqWrapper<OptLog> query = Wraps.lbQ(data)
+                .leFooter(OptLog::getCreateTime, getEndCreateTime())
+                .geHeader(OptLog::getCreateTime, getStartCreateTime())
+                .orderByDesc(OptLog::getId);
         optLogService.page(page, query);
         return success(page);
     }
@@ -93,14 +99,14 @@ public class OptLogController extends BaseController {
     /**
      * 删除系统日志
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除系统日志", notes = "根据id物理删除系统日志")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除系统日志")
-    public R<Boolean> delete(@PathVariable Long id) {
-        optLogService.removeById(id);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        optLogService.removeByIds(ids);
         return success(true);
     }
 

@@ -28,11 +28,11 @@ public enum LogType implements BaseEnum {
     /**
      * OPT="操作类型"
      */
-    OPT("操作类型"),
+    OPT("正常"),
     /**
      * EX="异常类型"
      */
-    EX("异常类型"),
+    EX("异常"),
     ;
 
     @ApiModelProperty(value = "描述")
