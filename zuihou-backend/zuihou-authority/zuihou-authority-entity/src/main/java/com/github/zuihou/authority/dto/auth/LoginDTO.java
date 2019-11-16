@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.github.zuihou.auth.utils.Token;
 
@@ -30,4 +31,5 @@ import lombok.experimental.Accessors;
 public class LoginDTO implements Serializable {
     private UserDTO user;
     private Token token;
+    private List<String> permissionsList;
 }

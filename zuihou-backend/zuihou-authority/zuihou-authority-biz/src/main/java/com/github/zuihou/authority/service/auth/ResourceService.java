@@ -63,4 +63,12 @@ public interface ResourceService extends IService<Resource> {
      * @param menuIds
      */
     void removeByMenuIdWithCache(List<Long> menuIds);
+
+    /**
+     * 根据资源id 查询菜单id
+     *
+     * @param resourceIdList
+     * @return
+     */
+    List<Long> findMenuIdByResourceId(List<Long> resourceIdList);
 }
