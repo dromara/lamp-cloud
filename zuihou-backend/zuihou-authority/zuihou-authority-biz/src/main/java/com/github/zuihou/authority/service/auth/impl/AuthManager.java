@@ -1,18 +1,23 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.auth.server.utils.JwtTokenServerUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
+import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.dto.auth.UserDTO;
+import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.defaults.GlobalUser;
 import com.github.zuihou.authority.entity.defaults.Tenant;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
+import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.defaults.GlobalUserService;
 import com.github.zuihou.authority.service.defaults.TenantService;
@@ -48,6 +53,8 @@ public class AuthManager {
     private UserService userService;
     @Autowired
     private GlobalUserService globalUserService;
+    @Autowired
+    private ResourceService resourceService;
     @Autowired
     private TenantService tenantService;
     @Autowired
@@ -103,6 +110,7 @@ public class AuthManager {
         if (tenant.getExpirationTime() != null) {
             gt(LocalDateTime.now(), tenant.getExpirationTime(), "企业服务已到期~");
         }
+        BaseContextHandler.setTenant(tenant.getCode());
 
         // 2. 验证登录
         R<User> result = getUser(tenant, account, password);
@@ -113,8 +121,12 @@ public class AuthManager {
 
         // 3, token
         Token token = getToken(user);
+
+        List<Resource> resourceList = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(user.getId()).build());
+        List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
+
         log.info("account={}", account);
-        return R.success(LoginDTO.builder().user(dozer.map(user, UserDTO.class)).token(token).build());
+        return R.success(LoginDTO.builder().user(dozer.map(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
     }
 
     private Token getToken(User user) {
@@ -126,7 +138,6 @@ public class AuthManager {
     }
 
     private R<User> getUser(Tenant tenant, String account, String password) {
-        BaseContextHandler.setTenant(tenant.getCode());
         User user = userService.getOne(Wrappers.<User>lambdaQuery()
                 .eq(User::getAccount, account));
         // 密码错误
@@ -163,6 +174,7 @@ public class AuthManager {
 
         // 错误次数清空
         userService.update(Wraps.<User>lbU().set(User::getPasswordErrorNum, 0).eq(User::getId, user.getId()));
+
         return R.success(user);
     }
 

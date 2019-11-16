@@ -16,7 +16,7 @@
         and id in (
         SELECT authority_id FROM c_auth_role_authority ra INNER JOIN c_auth_user_role ur on ra.role_id = ur.role_id
         INNER JOIN c_auth_role r on r.id = ra.role_id
-        where ur.user_id = #{userId, jdbcType=BIGINT} and r.is_enable = true
+        where ur.user_id = #{userId, jdbcType=BIGINT} and r.`status` = true
         and ra.authority_type = 'RESOURCE'
         )
     </select>
@@ -32,5 +32,12 @@
       update_user = #{updateUser,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     </insert>
+
+    <select id="findMenuIdByResourceId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT menu_id from c_auth_resource where id in
+        <foreach close=")" collection="resourceIdList" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </select>
 
 </mapper>

@@ -125,4 +125,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         cache.set(CacheKey.RESOURCE, resourceKey, resource);
         return true;
     }
+
+    @Override
+    public List<Long> findMenuIdByResourceId(List<Long> resourceIdList) {
+        return baseMapper.findMenuIdByResourceId(resourceIdList);
+    }
 }
