@@ -46,15 +46,19 @@ http://doc.tangyh.top/zuihou-admin-cloud
 
 ## 演示地址       （演示账号没有写权限，只能查询）  
 [租户系统演示环境] http://tangyh.top:10000/zuihou-ui/
+
 平台管理员账号/密码： zuihou/zuihou
 普通用户账号/密码: test/zuiou
 
 [开发&运营平台演示环境] http://tangyh.top:180/zuihou-admin-ui/
+
 账号/密码： demoAdmin/zuihou
 
-[演示环境] http://42.202.130.216:10000/zuihou-ui      （旧项目，不在维护）              
+以下演示地址为老版本的演示，代码已经不在维护
 
-[注册中心] http://42.202.130.216:10000/nacos/      
+[演示环境] http://42.202.130.216:10000/zuihou-ui                 
+
+[注册&配置中心] http://42.202.130.216:10000/nacos/      
 
 [在线文档] http://42.202.130.216:10000/api/gate/doc.html           
 
