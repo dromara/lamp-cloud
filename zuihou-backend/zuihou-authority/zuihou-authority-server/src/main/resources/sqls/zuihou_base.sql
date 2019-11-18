@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 15/11/2019 11:46:04
+ Date: 18/11/2019 08:53:12
 */
 
 SET NAMES utf8mb4;
@@ -53,7 +53,7 @@ CREATE TABLE `c_auth_menu` (
   `is_public` bit(1) DEFAULT b'0' COMMENT '是否公开菜单\r\n就是无需分配就可以访问的。所有人可见',
   `path` varchar(255) DEFAULT '' COMMENT '对应路由path',
   `component` varchar(255) DEFAULT NULL COMMENT '对应路由组件component',
-  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `is_enable` bit(1) DEFAULT b'1' COMMENT '状态',
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
   `group_` varchar(20) DEFAULT '' COMMENT '菜单分组',
