@@ -25,22 +25,24 @@ RibbitMQ、FastDFS等主要框架和中间件。
 ## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！
 
 ## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
-https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+http://doc.tangyh.top/zuihou-admin-cloud
+
 
 ## 项目代码地址
-[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  
+微服务后端 代码：
 
-[github] https://github.com/zuihou/zuihou-admin-cloud  (由于某种特殊原因，下载代码有时非常慢)
+[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  /[github] https://github.com/zuihou/zuihou-admin-cloud 
 
-[前端] https://github.com/zuihou/zuihou-ui   
+租户系统 代码：
 
-[前端] https://gitee.com/zuihou111/zuihou-ui 
+[gitee] https://gitee.com/zuihou111/zuihou-ui  / [github] https://github.com/zuihou/zuihou-ui 
+
+开发&运营管理系统 代码：
+
+[gitee] https://gitee.com/zuihou111/zuihou-admin-ui  / [github] https://github.com/zuihou/zuihou-admin-ui  
 
 [代码生成器] https://github.com/zuihou/zuihou-generator  
 
-[原型] http://zuihou111.gitee.io/zuihou-admin-rp/
-
-[介绍文档] https://zuihou.github.io/zuihou-admin-cloud/
 
 ## 演示地址       （演示账号没有写权限，只能查询）  
 [租户系统演示环境] http://tangyh.top:10000/zuihou-ui/
@@ -124,6 +126,7 @@ https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 基于xxl-jobs进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
 
 - **汉化 Eureka 注册中心页面**
+已换成nacos
 
 - **大文件/断点/分片续传**
 
@@ -170,32 +173,6 @@ https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 
 PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，经过调试发现因为版本多低后，导致EnumDeserializer的 Object obj = p.getCurrentValue();取的值为空。
 
-## 约定：
-
-- zuihou-xxx-api 模块中提供feign客户端
-- 区分po、dto，不要把po中的所有字段都返回给前端。 前端需要什么字段，就返回什么字段
-- 类名：首字母大写驼峰规则；方法名：首字母小写驼峰规则；常量：全大写；变量：首字母小写驼峰规则，尽量非缩写
-- 业务模块接口层命名为`项目-业务-api`，如`zuihou-authority-api`
-- 业务模块业务层命名为`项目-业务-biz`，如`zuihou-authority-biz`
-- 业务模块控制层命名为`项目-业务-controller`，如`zuihou-authority-controller`
-- 业务模块容器命名为`项目-业务-server`，如`zuihou-authority-server`
-- 数据表命名为：`前缀_[模块_]表名`， 模块可有可无， 如`c_auth_role`、 `f_file`
-- 注释：
-```
-表注释： 第一行用简短的文字来描述表的名称，会体现在Swagger中； 换行后对表进行详细介绍
-字段注释： 第一行用简短的文字来描述字段的名称，会体现在Swagger的字段描述上； 换行后对字段进行详细的描述。
-        另外，若字段需要使用枚举类型，则字段需要设置成varchar类型， 并在字段注释上使用 #枚举类型{KEY:描述;key2:描述;} 格式来描述枚举类型格式， 代码生成器会自动生成枚举类
-        eg: #LogType{OPT:操作日志;EX:异常日志;}
-类注释： 用 /** 开头的文档型注释， 并添加 @author @date 等参数
-方法注释：  用 /** 开头的文档型注释， 并添加 @param @return 等参数
-```
-- 更多规范，参考[阿里巴巴Java开发手册] https://gitee.com/zuihou111/zuihou-admin-cloud/attach_files
-
-## 小技巧
-- 多线程编译： `clean install -T8 -DskipTests=true`
-- mapper类上增加注解`@Repository`, 防止`IDEA`提示注入报错。
-- IDEA提示`@Autowired`注入失败时，可以用`@Resource` 防止`IDEA`提示注入报错。
-- IDEA提交代码时，勾选Reformat code、Rearrange code、Optimize imports, 让代码更整洁
 
 ## 期待您的加入：
     1，前端  （急需！！只要你懂点vue、热爱开源，请加入我们的队伍吧）
@@ -209,140 +186,7 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     3，等待合并
     4，合并超过5次的朋友，直接拉为项目开发者
     
-## 项目结构:
-
-```
-├─zuihou-admin-cloud
-│  │  
-│  ├─docs-------------------------------------文档
-│  │  
-│  ├─third-party-----------------------------第三方组件
-│  │  
-│  ├─zuihou-backend---------------------------后端服务
-│  |  ├─zuihou-api----------------------------常用API
-│  |  ├─zuihou-authority----------------------权限服务[正在开发]
-│  |  |  ├─zuihou-authority-biz---------------权限服务业务模块
-│  |  |  ├─zuihou-authority-controller--------权限服务接口模块
-│  |  |  ├─zuihou-authority-entity------------权限服务实体模块
-│  |  |  ├─zuihou-authority-server------------权限服务启动模块
-│  |  ├─zuihou-config-------------------------配置中心
-│  |  ├─zuihou-demo---------------------------演示服务
-│  |  ├─zuihou-file---------------------------文件模块服务[完成]
-│  |  ├─zuihou-gateway------------------------统一网关负载中心
-│  |  |  |─zuihou-gateway-server--------------gateway网关启动模块
-│  |  |  |─zuihou-zuul-authentication---------zuul网关权限控制模块
-│  |  |  |─zuihou-zuul-base-------------------zuul网关公共模块
-│  |  |  |─zuihou-zuul-ratelimit--------------zuul网关限流模块
-│  |  |  |─zuihou-zuul-server-----------------zuul网关启动模块
-│  |  ├─zuihou-jobs---------------------------定时任务调度执行器[完成]
-│  |  ├─zuihou-msgs---------------------------消息模块服务[完成]
-│  |  ├─zuihou-order--------------------------订单服务
-│  │ 
-│  ├─zuihou-commons--------------------------公共模块   
-│  |  ├─zuihou-cache-starter-----------------缓存模块
-│  |  ├─zuihou-common------------------------项目业务模块 （业务模块主要用于存放可能跟业务相关的公共代码）
-│  |  ├─zuihou-core--------------------------项目核心模块 （核心模块存放无业务逻辑的公共代码）
-│  |  ├─zuihou-databases---------------------项目数据源配置模块
-│  |  ├─zuihou-dozer-starter-----------------优雅的bean转换起步依赖
-│  |  ├─zuihou-jwt-starter-------------------JWT起步依赖
-│  |  ├─zuihou-log-starter-------------------操作日志起步依赖
-│  |  ├─zuihou-openfeign-starter-------------OpenFeign常用配置起步依赖
-│  |  ├─zuihou-shiro-starter-----------------shiro起步依赖
-│  |  ├─zuihou-swagger2-starter--------------SwaggerUI文档配置
-│  |  ├─zuihou-user-starter------------------用户信息自动注入起步依赖
-│  |  ├─zuihou-validator-starter-------------增强表单前后端统一验证起步依赖
-│  |  ├─zuihou-xss-starter-------------------防XSS起步依赖
-│  │ 
-│  ├─zuihou-dependencies----------------------项目顶级pom
-│  │ 
-│  ├─zuihou-support---------------------------服务模块
-│  |  ├─zuihou-eureka-------------------------注册中心[已废弃]
-│  |  ├─zuihou-monitor------------------------spring-boot-admin监控中心[已开发]
-│  |  ├─zuihou-zipkin-------------------------zipkin分布式链路跟踪[已废弃]
-│  │
-│  │-...
-```
-
-## 环境须知：
-
-- nginx (文件下载、预览时需要使用)
-- mysql 5.7.9+
-- JDK8
-- IDE插件一个(Eclipse, IDEA都需要安装插件)，`lombok插件`
-- 本项目对于初学者有一定的难度，作者着生产级的项目
-
-
-## 运行步骤: 
-- 1, 依次运行数据库脚本(开发阶段，数据库脚本可能更新不及时，有问题github、gitee上留言， 会第一次时间同步)：
-    - 解压： docs/sql.zip                             
-    - docs/sql/1.先执行我,创建数据库.sql          # 创建数据库
-    - docs/sql/zuihou_defaults.sql              # 导入默认库
-    - docs/sql/zuihou_base_0000.sql             # 导入内置的租户库  
-    - docs/sql/zuihou_zipkin.sql                # 导入 zuihou_zipkin 库
     
-- 2, 启动 nacos，新增命名空间 - `zuihou`，并记录下自己新增的命名空间ID
-- 3，将该命名空间ID复制到项目： `zuihou-dependencies/pom.xml` - `<pom.nacos.namespace>你刚才复制的命名ID</pom.nacos.namespace>` ，同时在pom.xml中将nacos的ip和端口修改成自己的。
-- 4，在nacos中，点击`配置中心`- 切换到`zuihou` - 导入 zuihou-commons/zuihou-config/src/main/resources 下的所有文件，具体操作看 third-party/README.md
-- 5, 在nacos中修改 redis.yml、mysql.yml、rabbitmq.yml
-- 6, mac/linux 在启动项目之前先创建日志文件夹
-```
-mkdir -p /data/projects/logs
-
-chown -R $USER:$USER /data/projects/logs     # linux 
-chown -R $USER:wheel /data/projects/logs     # mac  
-```
-- 7， window 在项目启动前，在代码所在的盘创建：D:/data/projects。  如： D:/data/projects
-- 8 启动 nacos、 mysql、redis(可选)、rabbitmq(可选)
-- 9，编译项目：` clean install -DskipTests=true -T8 -P dev -f pom.xml ` (这一步很重要，尤其是在IDEA中启动项目)
-- 10，在IDE中启动，编译通过后按如下顺序启动：
-    - Nacos                 
-    - AuthorityApplication     
-    - ZuulServerApplication   
-    - FileServerApplication (可选)
-    - MsgsServerApplication (可选)
-    - JobsServerApplication (可选)
-    - MonitorApplication    (可选)
-    - ZipkinApplication     (可选)  # 如何使用请看ZipkinApplication中的注释
-    - 启动seata              (可选，若要测试分布式事务则一定要在nacos启动后，在启动seata-server)(详情参考third-party/README.md)
-    - OrderServerApplication (可选)
-    - DemoServerApplication (可选)
-    - 前端启动，参考 [前端] (https://github.com/zuihou/zuihou-ui?_blank)
-
-- 11， 启动完毕，就可以测试了。每个服务都能访问各自的swagger文档， 然后在网关有一个聚合文档（能看到所有服务的接口）。
-
-访问：  http://127.0.0.1:8760/api/gate/doc.html ，切换（左上角）到 `authority-权限模块`  -  `登录` - `登录` 输入账号密码(`zuihou/zuihou`) 用于生成token
-
-然后将token复制到 `Authorize` - 填到 token 的value 框， 保存后刷新一下页面， 然后调用其他接口即能正确传递token到后端。
-
-开发小技巧： 这里token 有一个默认值`test` ，用于开发环境测试时使用 （详见：TokenContextFilter）。
-
-```
-# 注意： swagger 文档 只能用谷歌浏览器打开！！！ 只能用谷歌浏览器打开！！！只能用谷歌浏览器打开！！！
-权限服务： http://127.0.0.1:8764/doc.html
-文件服务:  http://127.0.0.1:8765/doc.html
-消息服务： http://127.0.0.1:8768/doc.html
-网关：    http://127.0.0.1:8760/api/gate/doc.html
-定时：    http://127.0.0.1:8767/zuihou-jobs-server/toLogin
-```
-![swagger获取token.jpg](docs/image/项目相关/swagger获取token.jpg)
-![swagger获取token.jpg](docs/image/项目相关/swagger设置token.png)
-
-## 端口号介绍 :
-
-| 服务 | 端口号 |
-|:----:|:----:|
-| zuihou-eureka | 8761 |  ​
-| zuihou-zipkin | 8767 |  ​ 
-| zuihou-monitor | 8762,8763 |  ​
-| - | - |​- | ​
-| zuihou-gateway-server | 8760 |  ​
-| zuihou-authority-server | 8764 |  ​
-| zuihou-file-server | 8765 |  ​
-| zuihou-msgs-server | 8766 |  ​
-| zuihou-jobs-server | 8767/8768 |  ​
-| zuihou-demo-server | 8769 |  ​
-| zuihou-order-server | 8779 |  ​
-
 ## 项目截图：
 spring-boot-admin监控界面:
 ![SBA监控.png](docs/image/监控界面/sba-1.png)
