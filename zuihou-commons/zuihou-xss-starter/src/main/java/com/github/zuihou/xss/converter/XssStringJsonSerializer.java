@@ -10,7 +10,8 @@ import com.github.zuihou.xss.utils.XssUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 基于xss的JsonSerializer
+ * 基于xss的 json 序列化器
+ * 在本项目中，没有使用该类
  *
  * @author zuihou
  * @date 2019/06/28
