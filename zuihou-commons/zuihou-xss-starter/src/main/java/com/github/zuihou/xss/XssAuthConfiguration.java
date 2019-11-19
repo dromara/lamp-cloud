@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean;
  */
 public class XssAuthConfiguration {
     /**
-     * 配置跨站攻击 序列化处理器
+     * 配置跨站攻击 反序列化处理器
      *
      * @return
      */

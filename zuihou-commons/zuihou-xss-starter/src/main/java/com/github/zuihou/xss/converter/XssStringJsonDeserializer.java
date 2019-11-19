@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.github.zuihou.xss.utils.XssUtils;
 
 /**
- * 所有的enum反序列化工具
+ * 过滤跨站脚本的 反序列化工具
  *
  * @author zuihou
  */

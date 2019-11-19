@@ -43,6 +43,13 @@ public class XssUtils {
         }
     }
 
+    /**
+     * 跨站攻击语句过滤 方法
+     *
+     * @param paramValue           待过滤的参数
+     * @param ignoreParamValueList 忽略过滤的参数列表
+     * @return
+     */
     public static String xssClean(String paramValue, List<String> ignoreParamValueList) {
         AntiSamy antiSamy = new AntiSamy();
 
@@ -53,7 +60,7 @@ public class XssUtils {
                 return paramValue;
             } else {
                 final CleanResults cr = antiSamy.scan(paramValue, policy);
-                cr.getErrorMessages().forEach(log::info);
+                cr.getErrorMessages().forEach(log::debug);
                 String str = cr.getCleanHTML();
                 /*String str = StringEscapeUtils.escapeHtml(cr.getCleanHTML());
                 str = str.replaceAll((antiSamy.scan("&nbsp;", policy)).getCleanHTML(), "");

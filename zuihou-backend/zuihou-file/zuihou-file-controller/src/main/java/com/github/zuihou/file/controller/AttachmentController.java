@@ -18,7 +18,6 @@ import com.github.zuihou.file.dto.AttachmentRemoveDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.entity.Attachment;
-import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.service.AttachmentService;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BizAssert;
@@ -242,29 +241,29 @@ public class AttachmentController extends BaseController {
         attachmentService.downloadByUrl(request, response, url, filename);
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "bizType", value = "业务类型", dataType = "string", paramType = "path"),
-            @ApiImplicitParam(name = "bizId", value = "业务id", dataType = "string", paramType = "path"),
-    })
-    @ApiOperation(value = "获取图片", notes = "根据业务类型和业务id在前端img标签中回显图片附件， 但存在多个附件时，默认显示第一个图片")
-    @GetMapping(value = "/download/{bizType}/{bizId}", produces = "image/png")
-    @SysLog("获取图片")
-    public void findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery()
-                .eq(Attachment::getBizType, bizType).eq(Attachment::getBizId, bizId)
-                .orderByDesc(Attachment::getCreateTime)
-        );
-        if (!list.isEmpty() && DataType.IMAGE.eq(list.get(0).getDataType())) {
-            // 设置响应的类型格式为图片格式
-            response.setContentType("image/jpeg");
-            // 禁止图像缓存。
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setDateHeader("Expires", 0);
-            //实例生成验证码对象
-            //向页面输出验证码图片
-            attachmentService.download(request, response, new Long[]{list.get(0).getId()});
-        }
-    }
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "bizType", value = "业务类型", dataType = "string", paramType = "path"),
+//            @ApiImplicitParam(name = "bizId", value = "业务id", dataType = "string", paramType = "path"),
+//    })
+//    @ApiOperation(value = "获取图片", notes = "根据业务类型和业务id在前端img标签中回显图片附件， 但存在多个附件时，默认显示第一个图片")
+//    @GetMapping(value = "/download/{bizType}/{bizId}", produces = "image/png")
+//    @SysLog("获取图片")
+//    public void findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
+//                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery()
+//                .eq(Attachment::getBizType, bizType).eq(Attachment::getBizId, bizId)
+//                .orderByDesc(Attachment::getCreateTime)
+//        );
+//        if (!list.isEmpty() && DataType.IMAGE.eq(list.get(0).getDataType())) {
+//            // 设置响应的类型格式为图片格式
+//            response.setContentType("image/jpeg");
+//            // 禁止图像缓存。
+//            response.setHeader("Pragma", "no-cache");
+//            response.setHeader("Cache-Control", "no-cache");
+//            response.setDateHeader("Expires", 0);
+//            //实例生成验证码对象
+//            //向页面输出验证码图片
+//            attachmentService.download(request, response, new Long[]{list.get(0).getId()});
+//        }
+//    }
 }
