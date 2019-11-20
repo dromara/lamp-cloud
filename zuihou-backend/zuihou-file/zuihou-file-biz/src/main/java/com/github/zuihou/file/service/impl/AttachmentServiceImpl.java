@@ -19,6 +19,7 @@ import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
+import com.github.zuihou.exception.BizException;
 import com.github.zuihou.file.biz.FileBiz;
 import com.github.zuihou.file.dao.AttachmentMapper;
 import com.github.zuihou.file.domain.FileDO;
@@ -67,8 +68,14 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
     @Override
     public IPage<Attachment> page(Page<Attachment> page, FilePageReqDTO data) {
         Attachment attachment = dozer.map(data, Attachment.class);
-        LbqWrapper<Attachment> wrapper = Wraps.lbQ(attachment);
-        wrapper.orderByDesc(Attachment::getCreateTime);
+
+        // ${ew.customSqlSegment} 语法一定要手动eq like 等 不能用lbQ!
+        LbqWrapper<Attachment> wrapper = Wraps.<Attachment>lbQ()
+                .like(Attachment::getSubmittedFileName, attachment.getSubmittedFileName())
+                .like(Attachment::getBizType, attachment.getBizType())
+                .like(Attachment::getBizId, attachment.getBizId())
+                .eq(Attachment::getDataType, attachment.getDataType())
+                .orderByDesc(Attachment::getId);
         return baseMapper.page(page, wrapper, new DataScope());
     }
 
@@ -181,7 +188,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
 
     private void down(HttpServletRequest request, HttpServletResponse response, List<Attachment> list) throws Exception {
         if (list.isEmpty()) {
-            return;
+            throw BizException.wrap("您下载的文件不存在");
         }
         List<FileDO> listDO = list.stream().map((file) ->
                 FileDO.builder()
