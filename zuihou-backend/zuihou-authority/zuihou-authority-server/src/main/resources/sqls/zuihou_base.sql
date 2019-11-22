@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 18/11/2019 08:53:12
+ Date: 22/11/2019 15:29:55
 */
 
 SET NAMES utf8mb4;
@@ -541,29 +541,6 @@ CREATE TABLE `msgs_center_info_receive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心接收表';
 
 -- ----------------------------
--- Table structure for sms_provider
--- ----------------------------
-DROP TABLE IF EXISTS `sms_provider`;
-CREATE TABLE `sms_provider` (
-  `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
-  `provider_type` varchar(10) NOT NULL DEFAULT 'TENCENT' COMMENT '供应商类型\n#ProviderType{ALI:OK,阿里云短信;TENCENT:0,腾讯云短信;BAIDU:1000,百度云短信}',
-  `app_id` varchar(64) DEFAULT '' COMMENT '应用编码',
-  `app_secret` varchar(64) DEFAULT '' COMMENT '应用密钥',
-  `url` varchar(255) DEFAULT '' COMMENT 'SMS服务域名\n百度、其他厂商会用',
-  `name` varchar(255) DEFAULT '' COMMENT '账号名称',
-  `account` varchar(100) DEFAULT '' COMMENT '第三方登录账号',
-  `password` varchar(255) DEFAULT NULL COMMENT '第三方登录密码',
-  `description` varchar(300) DEFAULT '' COMMENT '描述',
-  `existing` bigint(20) DEFAULT '0' COMMENT '现有短信量',
-  `used` bigint(20) DEFAULT '0' COMMENT '已用短信量',
-  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
-  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='短信供应商';
-
--- ----------------------------
 -- Table structure for sms_send_status
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_send_status`;
@@ -593,16 +570,15 @@ CREATE TABLE `sms_send_status` (
 DROP TABLE IF EXISTS `sms_task`;
 CREATE TABLE `sms_task` (
   `id` bigint(20) NOT NULL COMMENT '短信记录ID',
-  `provider_id` bigint(20) NOT NULL COMMENT '发送供应商ID\n#sms_provider',
-  `template_id` bigint(20) NOT NULL COMMENT '短信模板ID\n#sms_template',
-  `status` varchar(10) DEFAULT 'WAITING' COMMENT '任务执行状态\n(手机号具体发送状态看sms_send_status表) \n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
+  `template_id` bigint(20) NOT NULL COMMENT '模板ID\n#sms_template',
+  `status` varchar(10) DEFAULT 'WAITING' COMMENT '执行状态\n(手机号具体发送状态看sms_send_status表) \n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
   `source_type` varchar(10) DEFAULT 'APP' COMMENT '来源类型\n#SourceType{APP:应用;SERVICE:服务}\n',
   `receiver` text COMMENT '接收者手机号\n群发用英文逗号分割.\n支持2种格式:\n1: 手机号,手机号 \n2: 姓名<手机号>,姓名<手机号>',
   `topic` varchar(255) DEFAULT '' COMMENT '主题',
-  `template_params` varchar(500) DEFAULT '' COMMENT '短信模板参数 \n需要封装为{‘key’:’value’, ...}格式\n且key必须有序\n\n',
-  `send_time` datetime DEFAULT NULL COMMENT '短信发送时间',
+  `template_params` varchar(500) DEFAULT '' COMMENT '参数 \n需要封装为{‘key’:’value’, ...}格式\n且key必须有序\n\n',
+  `send_time` datetime DEFAULT NULL COMMENT '发送时间',
   `context` varchar(500) DEFAULT '' COMMENT '发送内容\n需要封装正确格式化: 您好，张三，您有一个新的快递。',
-  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
@@ -615,14 +591,17 @@ CREATE TABLE `sms_task` (
 DROP TABLE IF EXISTS `sms_template`;
 CREATE TABLE `sms_template` (
   `id` bigint(20) NOT NULL COMMENT '模板ID',
-  `provider_id` bigint(20) NOT NULL COMMENT '供应商ID\n#sms_provider',
+  `provider_type` varchar(10) NOT NULL COMMENT '供应商类型\n#ProviderType{ALI:OK,阿里云短信;TENCENT:0,腾讯云短信;BAIDU:1000,百度云短信}',
+  `app_id` varchar(255) NOT NULL COMMENT '应用ID',
+  `app_secret` varchar(255) NOT NULL COMMENT '应用密码',
+  `url` varchar(255) DEFAULT '' COMMENT 'SMS服务域名\n百度、其他厂商会用',
   `custom_code` varchar(20) NOT NULL DEFAULT '' COMMENT '模板编码\n用于api发送',
   `name` varchar(255) DEFAULT '' COMMENT '模板名称',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '模板内容',
   `template_params` varchar(255) NOT NULL DEFAULT '' COMMENT '模板参数',
   `template_code` varchar(50) DEFAULT '' COMMENT '模板CODE',
-  `sign_name` varchar(100) DEFAULT '' COMMENT '模板签名名称',
-  `template_describe` varchar(255) DEFAULT '' COMMENT '模板描述',
+  `sign_name` varchar(100) DEFAULT '' COMMENT '签名',
+  `template_describe` varchar(255) DEFAULT '' COMMENT '备注',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
