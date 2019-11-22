@@ -1,3 +1,24 @@
+如果hystrix.command.default.execution.timeout.enabled为true,则会有两个执行方法超时的配置,一个就是ribbon的ReadTimeout,一个就是熔断器hystrix的timeoutInMilliseconds, 此时谁的值小谁生效
+如果hystrix.command.default.execution.timeout.enabled为false,则熔断器不进行超时熔断,而是根据ribbon的ReadTimeout抛出的异常而熔断,也就是取决于ribbon
+ribbon的ConnectTimeout,配置的是请求服务的超时时间,除非服务找不到,或者网络原因,这个时间才会生效
+ribbon还有MaxAutoRetries对当前实例的重试次数,MaxAutoRetriesNextServer对切换实例的重试次数, 如果ribbon的ReadTimeout超时,或者ConnectTimeout连接超时,会进行重试操作
+由于ribbon的重试机制,通常熔断的超时时间需要配置的比ReadTimeout长,ReadTimeout比ConnectTimeout长,否则还未重试,就熔断了
+为了确保重试机制的正常运作,理论上（以实际情况为准）建议hystrix的超时时间为:(1 + MaxAutoRetries + MaxAutoRetriesNextServer) * ReadTimeout
+
+
+# 单纯的 Ribbon + Hystrix 搭配使用时，配置是最灵活的，两者没有相互干涉，可以自由定义 commandKey 来实现超时时间的配置
+# Feign + Hystrix 搭配时，由于 Feign 封装了 Hystrix 所需的 commandKey，我们不能自定义，所以同一个 FeignClient 下的服务接口不能方便的统一配置，如果有相应的业务需求，或许只能对每个特殊的接口方法做独立的超时配置（找到新方法的话再回来更新）
+# Zuul + Hystrix 搭配时，和上述的情况相反，能对不同服务实例做不同的超时配置，但不能再细化到服务下的具体接口方法
+# https://www.jianshu.com/p/228ee6e5eca6
+
+
+# hystrix 的 timeoutInMilliseconds必须要大于 ribbon 超时时间（ribbonTimeout）
+# 其中 ribbonTimeout = (ribbon.ReadTimeout + ribbon.ConnectTimeout) * (ribbon.maxAutoRetries + 1) * (ribbon.maxAutoRetriesNextServer + 1);
+# PS: ribbonTimeout = (300000 + 300000) * (0 + 1) * (1 + 1)
+# 即： hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds 必须大于 ribbonTimeout
+
+
+
 hystrix.command.default和hystrix.threadpool.default中的default为默认CommandKey
 
 Command Properties
