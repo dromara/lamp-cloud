@@ -22,11 +22,12 @@ zuihou:
     down-by-biz-id: http://${zuihou.nginx.ip}:${zuihou.nginx.port}/api/file/attachment/download/biz?bizIds[]=%s
     down-by-url: http://${zuihou.nginx.ip}:${zuihou.nginx.port}/api/file/attachment/download/url?url=%s&filename=%s
     ali:
-      uriPrefix: http://wzroom.oss-cn-shenzhen.aliyuncs.com/
-      bucket-name: wzroom
+      # 请填写自己的阿里云存储配置
+      uriPrefix: http://test.oss-cn-shenzhen.aliyuncs.com/
+      bucket-name: test
       endpoint: http://oss-cn-shenzhen.aliyuncs.com
-      access-key-id: LTAIceuhEooYZblM
-      access-key-secret: EWGOYiEKLyK7Bz7BGlGkufM6RxDDEV
+      access-key-id: test
+      access-key-secret: test
 
 #FAST_DFS配置
 fdfs:
