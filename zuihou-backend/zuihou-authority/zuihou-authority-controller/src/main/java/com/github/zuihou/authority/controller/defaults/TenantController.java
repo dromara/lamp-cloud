@@ -120,6 +120,12 @@ public class TenantController extends BaseController {
         return success(tenant);
     }
 
+    @ApiOperation(value = "检测租户是否存在", notes = "检测租户是否存在")
+    @GetMapping("/check/{code}")
+    public R<Boolean> check(@PathVariable("code") String code) {
+        return success(tenantService.check(code));
+    }
+
     /**
      * 修改企业
      *
