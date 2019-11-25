@@ -18,12 +18,12 @@ import lombok.NoArgsConstructor;
  * </p>
  *
  * @author zuihou
- * @date 2019-08-01
+ * @date 2019-11-22
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "TaskStatus", description = "任务执行状态-枚举")
+@ApiModel(value = "TaskStatus", description = "执行状态-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TaskStatus implements BaseEnum {
 

@@ -70,4 +70,10 @@ public class StatisticsController extends BaseController {
     }
 
 
+    @GetMapping(value = "/test1")
+    public R<Object> test1(@RequestParam(value = "sleep", required = false, defaultValue = "10000") Long sleep) throws Exception {
+        Thread.sleep(sleep);
+        return success("等了" + sleep);
+    }
+
 }
