@@ -2,6 +2,7 @@ package com.github.zuihou.sms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.sms.entity.SmsTask;
+import com.github.zuihou.sms.enumeration.TemplateCodeType;
 
 /**
  * <p>
@@ -21,7 +22,7 @@ public interface SmsTaskService extends IService<SmsTask> {
      * @param smsTask
      * @return
      */
-    SmsTask saveTask(SmsTask smsTask);
+    void saveTask(SmsTask smsTask, TemplateCodeType type);
 
     /**
      * 修改短信任务

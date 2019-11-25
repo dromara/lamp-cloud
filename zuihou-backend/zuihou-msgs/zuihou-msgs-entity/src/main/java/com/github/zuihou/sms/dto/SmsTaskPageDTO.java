@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
-import com.alibaba.fastjson.JSONObject;
+import com.github.zuihou.sms.enumeration.SourceType;
+import com.github.zuihou.sms.enumeration.TaskStatus;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,7 +38,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @ApiModel(value = "SmsTaskSaveDTO", description = "发送任务 所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息， 具体的发送状态查看发送状态（#sms_send_status）表")
-public class SmsTaskSaveDTO implements Serializable {
+public class SmsTaskPageDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,6 +49,19 @@ public class SmsTaskSaveDTO implements Serializable {
     @ApiModelProperty(value = "模板ID")
     @NotNull(message = "模板ID不能为空")
     private Long templateId;
+    /**
+     * 执行状态
+     * (手机号具体发送状态看sms_send_status表)
+     * #TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}
+     */
+    @ApiModelProperty(value = "执行状态")
+    private TaskStatus status;
+    /**
+     * 来源类型
+     * #SourceType{APP:应用;SERVICE:服务}
+     */
+    @ApiModelProperty(value = "来源类型")
+    private SourceType sourceType;
     /**
      * 接收者手机号
      * 群发用英文逗号分割.
@@ -70,7 +84,8 @@ public class SmsTaskSaveDTO implements Serializable {
      * 且key必须有序
      */
     @ApiModelProperty(value = "参数")
-    private JSONObject templateParam = new JSONObject(true);
+    @Length(max = 500, message = "参数长度不能超过500")
+    private String templateParams;
     /**
      * 发送时间
      */
@@ -84,6 +99,6 @@ public class SmsTaskSaveDTO implements Serializable {
     @Length(max = 500, message = "发送内容长度不能超过500")
     private String content;
 
+    @ApiModelProperty(value = "是否草稿")
     private Boolean draft;
-
 }

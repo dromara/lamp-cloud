@@ -59,8 +59,10 @@ management:
       enabled: true
 
 feign:
-  #  okhttp:
-  #    enabled: true
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
   hystrix:
     enabled: true   # feign 熔断机制是否开启
     #支持压缩的mime types
@@ -85,6 +87,12 @@ ribbon:
   MaxAutoRetriesNextServer: 1   # 最大自动像下一个服务重试
   OkToRetryOnAllOperations: false  #无论是请求超时或者socket read timeout都进行重试，
 
+# 文件服务由于需要上传大文件，所以可以将超时时间测试大一些，其他服务超时时间是30s
+zuihou-file-server:
+  ribbon:
+    ConnectTimeout: 300000
+    ReadTimeout: 300000
+
 hystrix:
   threadpool:
     default:
@@ -97,6 +105,11 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 120000  # 熔断超时 ribbon和hystrix是同时生效的，哪个值小哪个生效
+    zuihou-file-server:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1200000
 
 id-generator:
   machine-code: 1  # id生成器机器掩码

@@ -1,6 +1,8 @@
 package com.github.zuihou.sms.controller;
 
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -10,11 +12,11 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.sms.dto.SmsSendTaskDTO;
+import com.github.zuihou.sms.dto.SmsTaskPageDTO;
 import com.github.zuihou.sms.dto.SmsTaskSaveDTO;
 import com.github.zuihou.sms.dto.SmsTaskUpdateDTO;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.enumeration.SourceType;
-import com.github.zuihou.sms.manager.SmsManager;
 import com.github.zuihou.sms.service.SmsTaskService;
 
 import io.swagger.annotations.Api;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -53,8 +56,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SmsTaskController extends BaseController {
 
     @Autowired
-    private SmsManager smsManager;
-    @Autowired
     private SmsTaskService smsTaskService;
 
     @Autowired
@@ -66,7 +67,7 @@ public class SmsTaskController extends BaseController {
         SmsTask smsTask = dozer.map2(smsTaskDTO, SmsTask.class);
         smsTask.setSourceType(SourceType.SERVICE);
         smsTask.setTemplateParams(smsTaskDTO.getTemplateParam().toString());
-        smsManager.saveTask(smsTask, smsTaskDTO.getCustomCode());
+        smsTaskService.saveTask(smsTask, smsTaskDTO.getCustomCode());
         return success(smsTask);
     }
 
@@ -82,7 +83,8 @@ public class SmsTaskController extends BaseController {
     public R<SmsTask> save(@RequestBody @Validated SmsTaskSaveDTO data) {
         SmsTask smsTask = dozer.map(data, SmsTask.class);
         smsTask.setSourceType(SourceType.APP);
-        smsManager.saveTask(smsTask, null);
+        smsTask.setTemplateParams(data.getTemplateParam().toString());
+        smsTaskService.saveTask(smsTask, null);
         return success(smsTask);
     }
 
@@ -99,10 +101,12 @@ public class SmsTaskController extends BaseController {
     })
     @GetMapping("/page")
     @SysLog("分页查询发送任务")
-    public R<IPage<SmsTask>> page(SmsTask data) {
+    public R<IPage<SmsTask>> page(SmsTaskPageDTO data) {
         IPage<SmsTask> page = getPage();
+        SmsTask task = dozer.map(data, SmsTask.class);
         // 构建值不为null的查询条件
-        LbqWrapper<SmsTask> query = Wraps.lbQ(data).orderByDesc(SmsTask::getCreateTime);
+        LbqWrapper<SmsTask> query = Wraps.lbQ(task)
+                .orderByDesc(SmsTask::getCreateTime);
         smsTaskService.page(page, query);
         return success(page);
     }
@@ -132,21 +136,23 @@ public class SmsTaskController extends BaseController {
     @SysLog("修改发送任务")
     public R<SmsTask> update(@RequestBody @Validated(SuperEntity.Update.class) SmsTaskUpdateDTO data) {
         SmsTask smsTask = dozer.map(data, SmsTask.class);
-        smsTaskService.updateById(smsTask);
+        smsTask.setSourceType(SourceType.APP);
+        smsTask.setTemplateParams(data.getTemplateParam().toString());
+        smsTaskService.update(smsTask);
         return success(smsTask);
     }
 
     /**
      * 删除发送任务
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除发送任务", notes = "根据id物理删除发送任务")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除发送任务")
-    public R<Boolean> delete(@PathVariable Long id) {
-        smsTaskService.removeById(id);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        smsTaskService.removeByIds(ids);
         return success(true);
     }
 

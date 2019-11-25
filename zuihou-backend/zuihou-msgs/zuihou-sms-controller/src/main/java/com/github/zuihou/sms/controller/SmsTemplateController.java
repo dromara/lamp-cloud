@@ -1,6 +1,8 @@
 package com.github.zuihou.sms.controller;
 
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -116,17 +119,26 @@ public class SmsTemplateController extends BaseController {
         return success(smsTemplate);
     }
 
+    @ApiOperation(value = "检测自定义编码是否存在", notes = "检测自定义编码是否存在")
+    @GetMapping("/check")
+    @SysLog("检测自定义编码是否存在")
+    public R<Boolean> check(@RequestParam(value = "customCode") String customCode) {
+        int count = smsTemplateService.count(Wraps.<SmsTemplate>lbQ().eq(SmsTemplate::getCustomCode, customCode));
+        return success(count > 0);
+    }
+
+
     /**
      * 删除短信模板
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除短信模板", notes = "根据id物理删除短信模板")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除短信模板")
-    public R<Boolean> delete(@PathVariable Long id) {
-        smsTemplateService.removeById(id);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        smsTemplateService.removeByIds(ids);
         return success(true);
     }
 

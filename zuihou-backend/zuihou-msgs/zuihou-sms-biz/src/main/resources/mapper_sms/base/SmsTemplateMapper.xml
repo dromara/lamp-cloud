@@ -9,7 +9,10 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="provider_id" jdbcType="BIGINT" property="providerId"/>
+        <result column="provider_type" jdbcType="VARCHAR" property="providerType"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="custom_code" jdbcType="VARCHAR" property="customCode"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
@@ -22,7 +25,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        provider_id, custom_code, name, content, template_params, template_code, sign_name, template_describe
+        provider_type, app_id, app_secret, url, custom_code, name, content, template_params, template_code, sign_name, template_describe
     </sql>
 
 </mapper>

@@ -5,9 +5,8 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.sms.enumeration.SourceType;
-import com.github.zuihou.sms.enumeration.TaskStatus;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-08-01
+ * @since 2019-11-22
  */
 @Data
 @NoArgsConstructor
@@ -48,32 +47,12 @@ public class SmsTaskUpdateDTO implements Serializable {
     private Long id;
 
     /**
-     * 发送供应商ID
-     * #sms_provider
-     */
-    @ApiModelProperty(value = "发送供应商ID")
-    @NotNull(message = "发送供应商ID不能为空")
-    private Long providerId;
-    /**
-     * 短信模板ID
+     * 模板ID
      * #sms_template
      */
-    @ApiModelProperty(value = "短信模板ID")
-    @NotNull(message = "短信模板ID不能为空")
+    @ApiModelProperty(value = "模板ID")
+    @NotNull(message = "模板ID不能为空")
     private Long templateId;
-    /**
-     * 任务执行状态
-     * (手机号具体发送状态看sms_send_status表)
-     * #TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}
-     */
-    @ApiModelProperty(value = "任务执行状态")
-    private TaskStatus status;
-    /**
-     * 来源类型
-     * #SourceType{APP:应用;SERVICE:服务}
-     */
-    @ApiModelProperty(value = "来源类型")
-    private SourceType sourceType;
     /**
      * 接收者手机号
      * 群发用英文逗号分割.
@@ -91,17 +70,18 @@ public class SmsTaskUpdateDTO implements Serializable {
     @Length(max = 255, message = "主题长度不能超过255")
     private String topic;
     /**
-     * 短信模板参数
+     * 参数
      * 需要封装为{‘key’:’value’, ...}格式
      * 且key必须有序
+     *
+     *
      */
-    @ApiModelProperty(value = "短信模板参数")
-    @Length(max = 500, message = "短信模板参数长度不能超过500")
-    private String templateParams;
+    @ApiModelProperty(value = "参数")
+    private JSONObject templateParam = new JSONObject(true);
     /**
-     * 短信发送时间
+     * 发送时间
      */
-    @ApiModelProperty(value = "短信发送时间")
+    @ApiModelProperty(value = "发送时间")
     private LocalDateTime sendTime;
     /**
      * 发送内容
@@ -109,6 +89,8 @@ public class SmsTaskUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "发送内容")
     @Length(max = 500, message = "发送内容长度不能超过500")
-    private String context;
+    private String content;
+
+    private Boolean draft;
 
 }
