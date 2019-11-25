@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 22/11/2019 15:29:55
+ Date: 25/11/2019 23:14:56
 */
 
 SET NAMES utf8mb4;
@@ -577,7 +577,8 @@ CREATE TABLE `sms_task` (
   `topic` varchar(255) DEFAULT '' COMMENT '主题',
   `template_params` varchar(500) DEFAULT '' COMMENT '参数 \n需要封装为{‘key’:’value’, ...}格式\n且key必须有序\n\n',
   `send_time` datetime DEFAULT NULL COMMENT '发送时间',
-  `context` varchar(500) DEFAULT '' COMMENT '发送内容\n需要封装正确格式化: 您好，张三，您有一个新的快递。',
+  `content` varchar(500) DEFAULT '' COMMENT '发送内容\n需要封装正确格式化: 您好，张三，您有一个新的快递。',
+  `draft` bit(1) DEFAULT b'0' COMMENT '是否草稿',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
@@ -599,7 +600,7 @@ CREATE TABLE `sms_template` (
   `name` varchar(255) DEFAULT '' COMMENT '模板名称',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '模板内容',
   `template_params` varchar(255) NOT NULL DEFAULT '' COMMENT '模板参数',
-  `template_code` varchar(50) DEFAULT '' COMMENT '模板CODE',
+  `template_code` varchar(50) NOT NULL DEFAULT '' COMMENT '模板CODE',
   `sign_name` varchar(100) DEFAULT '' COMMENT '签名',
   `template_describe` varchar(255) DEFAULT '' COMMENT '备注',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人ID',
