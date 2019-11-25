@@ -2,7 +2,6 @@ package com.github.zuihou.sms.strategy;
 
 
 import com.github.zuihou.base.R;
-import com.github.zuihou.sms.entity.SmsProvider;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.entity.SmsTemplate;
 
@@ -19,9 +18,8 @@ public interface SmsStrategy {
      * 发送短信
      *
      * @param task
-     * @param provider
      * @param template
      * @return
      */
-    R<String> sendSms(SmsTask task, SmsProvider provider, SmsTemplate template);
+    R<String> sendSms(SmsTask task, SmsTemplate template);
 }

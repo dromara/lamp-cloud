@@ -94,6 +94,12 @@ public class SmsSendTaskDTO {
     @ApiModelProperty(value = "发送内容")
     @Length(max = 500, message = "发送内容不能超过450")
     private String context;
+    /**
+     * 是否为草稿
+     * #BooleanStatus
+     */
+    @ApiModelProperty(value = "是否为草稿")
+    private Boolean draft;
 
     /**
      * 最少传递的参数

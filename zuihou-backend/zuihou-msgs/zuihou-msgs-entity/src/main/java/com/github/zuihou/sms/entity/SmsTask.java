@@ -21,6 +21,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -30,7 +32,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-08-01
+ * @since 2019-11-22
  */
 @Data
 @NoArgsConstructor
@@ -39,35 +41,26 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sms_task")
-@ApiModel(value = "SmsTask", description = "发送任务 所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息， 具体的发送状态查看发送状态（#sms_send_status）表")
+@ApiModel(value = "SmsTask", description = "发送任务")
 public class SmsTask extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 发送供应商ID
-     * #sms_provider
-     */
-    @ApiModelProperty(value = "发送供应商ID")
-    @NotNull(message = "发送供应商ID不能为空")
-    @TableField("provider_id")
-    private Long providerId;
-
-    /**
-     * 短信模板ID
+     * 模板ID
      * #sms_template
      */
-    @ApiModelProperty(value = "短信模板ID")
-    @NotNull(message = "短信模板ID不能为空")
+    @ApiModelProperty(value = "模板ID")
+    @NotNull(message = "模板ID不能为空")
     @TableField("template_id")
     private Long templateId;
 
     /**
-     * 任务执行状态
+     * 执行状态
      * (手机号具体发送状态看sms_send_status表)
      * #TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}
      */
-    @ApiModelProperty(value = "任务执行状态")
+    @ApiModelProperty(value = "执行状态")
     @TableField("status")
     private TaskStatus status;
 
@@ -96,23 +89,23 @@ public class SmsTask extends Entity<Long> {
      */
     @ApiModelProperty(value = "主题")
     @Length(max = 255, message = "主题长度不能超过255")
-    @TableField("topic")
+    @TableField(value = "topic", condition = LIKE)
     private String topic;
 
     /**
-     * 短信模板参数
+     * 参数
      * 需要封装为{‘key’:’value’, ...}格式
      * 且key必须有序
      */
-    @ApiModelProperty(value = "短信模板参数")
-    @Length(max = 500, message = "短信模板参数长度不能超过500")
-    @TableField("template_params")
+    @ApiModelProperty(value = "参数")
+    @Length(max = 500, message = "参数长度不能超过500")
+    @TableField(value = "template_params", condition = LIKE)
     private String templateParams;
 
     /**
-     * 短信发送时间
+     * 发送时间
      */
-    @ApiModelProperty(value = "短信发送时间")
+    @ApiModelProperty(value = "发送时间")
     @TableField("send_time")
     private LocalDateTime sendTime;
 
@@ -122,20 +115,22 @@ public class SmsTask extends Entity<Long> {
      */
     @ApiModelProperty(value = "发送内容")
     @Length(max = 500, message = "发送内容长度不能超过500")
-    @TableField("context")
-    private String context;
+    @TableField(value = "content", condition = LIKE)
+    private String content;
 
+    @ApiModelProperty(value = "是否草稿")
+    @TableField(value = "draft")
+    private Boolean draft;
 
     @Builder
     public SmsTask(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                   Long providerId, Long templateId, TaskStatus status, SourceType sourceType, String receiver,
-                   String topic, String templateParams, LocalDateTime sendTime, String context) {
+                   Long templateId, TaskStatus status, SourceType sourceType, String receiver, String topic,
+                   String templateParams, LocalDateTime sendTime, String content, Boolean draft) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
-        this.providerId = providerId;
         this.templateId = templateId;
         this.status = status;
         this.sourceType = sourceType;
@@ -143,7 +138,8 @@ public class SmsTask extends Entity<Long> {
         this.topic = topic;
         this.templateParams = templateParams;
         this.sendTime = sendTime;
-        this.context = context;
+        this.draft = draft;
+        this.content = content;
     }
 
 }
