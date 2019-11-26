@@ -113,8 +113,16 @@ public class UserController extends BaseController {
         }
         wrapper.geHeader(User::getCreateTime, userPage.getStartCreateTime())
                 .leFooter(User::getCreateTime, userPage.getEndCreateTime())
+                .like(User::getName, userPage.getName())
+                .like(User::getAccount, userPage.getAccount())
+                .like(User::getEmail, userPage.getEmail())
+                .like(User::getMobile, userPage.getMobile())
+                .eq(User::getSex, userPage.getSex())
+                .eq(User::getStatus, userPage.getStatus())
                 .orderByDesc(User::getId);
-        userService.page(page, wrapper);
+//        userService.page(page, wrapper);
+
+        userService.findPage(page, wrapper);
         return success(page);
     }
 

@@ -2,8 +2,12 @@ package com.github.zuihou.authority.dao.auth;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.database.mybatis.auth.DataScope;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -37,4 +41,13 @@ public interface UserMapper extends BaseMapper<User> {
      */
     int incrPasswordErrorNumById(@Param("id") Long id);
 
+    /**
+     * 带数据权限的分页查询
+     *
+     * @param page
+     * @param wrapper
+     * @param dataScope
+     * @return
+     */
+    IPage<User> findPage(IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
 }
