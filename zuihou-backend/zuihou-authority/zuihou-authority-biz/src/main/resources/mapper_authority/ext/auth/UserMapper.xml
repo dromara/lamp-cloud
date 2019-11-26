@@ -16,4 +16,11 @@
         update c_auth_user set password_error_num = password_error_num + 1, password_error_last_time = SYSDATE()
         where id = #{id, jdbcType=BIGINT}
     </update>
+
+
+    <select id="findPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM c_auth_user s ${ew.customSqlSegment}
+    </select>
 </mapper>

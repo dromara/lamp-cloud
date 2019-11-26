@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.entity.auth.Role;
@@ -26,6 +27,7 @@ import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
@@ -59,6 +61,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private OrgService orgService;
     @Autowired
     private TenantService tenantService;
+
+    @Override
+    public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
+        return baseMapper.findPage(page, wrapper, new DataScope());
+    }
 
     @Override
     public User getByAccount(String account) {
