@@ -13,6 +13,7 @@ import com.alibaba.fastjson.parser.Feature;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.common.constant.BizConstant;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.jobs.api.JobsTimingApi;
 import com.github.zuihou.jobs.dto.XxlJobInfo;
@@ -146,7 +147,15 @@ public class SmsTaskServiceImpl extends ServiceImpl<SmsTaskMapper, SmsTask> impl
     public void update(SmsTask smsTask) {
         validAndInit(smsTask, null);
 
-        send(smsTask, (task) -> updateById(task));
+        send(smsTask, (task) -> {
+            updateById(task);
+            if (task.getSendTime() == null) {
+                update(Wraps.<SmsTask>lbU()
+                        .set(SmsTask::getSendTime, null)
+                        .eq(SmsTask::getId, task.getId()));
+            }
+            return true;
+        });
     }
 
 

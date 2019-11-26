@@ -21,6 +21,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 /**
  * <p>
  * 实体类
@@ -67,7 +69,7 @@ public class SmsSendStatus extends Entity<Long> {
     @ApiModelProperty(value = "接收者手机号")
     @NotEmpty(message = "接收者手机号不能为空")
     @Length(max = 20, message = "接收者手机号长度不能超过20")
-    @TableField("receiver")
+    @TableField(value = "receiver", condition = LIKE)
     private String receiver;
 
     /**
@@ -76,7 +78,7 @@ public class SmsSendStatus extends Entity<Long> {
      */
     @ApiModelProperty(value = "发送回执ID")
     @Length(max = 255, message = "发送回执ID长度不能超过255")
-    @TableField("biz_id")
+    @TableField(value = "biz_id", condition = LIKE)
     private String bizId;
 
     /**
@@ -85,7 +87,7 @@ public class SmsSendStatus extends Entity<Long> {
      */
     @ApiModelProperty(value = "发送返回")
     @Length(max = 255, message = "发送返回长度不能超过255")
-    @TableField("ext")
+    @TableField(value = "ext", condition = LIKE)
     private String ext;
 
     /**
@@ -94,7 +96,7 @@ public class SmsSendStatus extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态码")
     @Length(max = 255, message = "状态码长度不能超过255")
-    @TableField("code")
+    @TableField(value = "code", condition = LIKE)
     private String code;
 
     /**
@@ -102,7 +104,7 @@ public class SmsSendStatus extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态码的描述")
     @Length(max = 500, message = "状态码的描述长度不能超过500")
-    @TableField("message")
+    @TableField(value = "message", condition = LIKE)
     private String message;
 
     /**
