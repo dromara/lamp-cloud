@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,7 +40,7 @@ public class SmsSendStatusController extends BaseController {
     private SmsSendStatusService smsSendStatusService;
 
     @ApiOperation(value = "分页查询", notes = "分页查询")
-    @PostMapping("/page")
+    @GetMapping("/page")
     public R<IPage<SmsSendStatus>> page(SmsSendStatus data) {
         Page<SmsSendStatus> page = getPage();
         LbqWrapper<SmsSendStatus> query = Wraps.lbQ(data)
