@@ -54,6 +54,8 @@ public class UserPageDTO {
      */
     @ApiModelProperty(value = "手机")
     private String mobile;
+    @ApiModelProperty(value = "邮箱")
+    private String email;
     /**
      * 性别
      * #Sex{W:女;M:男}

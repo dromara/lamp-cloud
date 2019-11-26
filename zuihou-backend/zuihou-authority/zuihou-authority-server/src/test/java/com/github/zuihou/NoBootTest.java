@@ -9,10 +9,8 @@ import javax.validation.ValidatorFactory;
 import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
-import com.github.zuihou.authority.dto.auth.MenuTreeDTO;
 import com.github.zuihou.database.parsers.TableNameParser;
 
-import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +62,28 @@ public class NoBootTest {
                 "ur where  u.id = ur.user_id\n" +
                 "and ur.role_id = 100\n" +
                 ")";
+
+
+        sql = "insert into c_auth_resource ( id, create_user, create_time, update_user, update_time, code, name, menu_id, describe_)\n" +
+                "    values (1, 2, SYSDATE(), 2,SYSDATE(), 'code', 'name', 1, ''\t\t)\n" +
+                "    ON DUPLICATE KEY UPDATE " +
+                "      name = 'name2',\n" +
+                "      describe_ = 'ddd',\n" +
+                "      update_user = 3,\n" +
+                "      update_time = SYSDATE()";
+        sql = "CREATE TABLE `aaa_ba`  (\n" +
+                "  `id` bigint(20) NOT NULL COMMENT 'ID',\n" +
+                "  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '资源编码\\n规则：\\n链接：\\n数据列：\\n按钮：',\n" +
+                "  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '接口名称',\n" +
+                "  `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID\\n#c_auth_menu',\n" +
+                "  `describe_` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '接口描述',\n" +
+                "  `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人id',\n" +
+                "  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',\n" +
+                "  `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人id',\n" +
+                "  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',\n" +
+                "  PRIMARY KEY (`id`) USING BTREE,\n" +
+                "  UNIQUE INDEX `UN_CODE`(`code`) USING BTREE COMMENT '编码唯一'\n" +
+                ") ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '资源' ROW_FORMAT = Dynamic;";
         TableNameParser tableNameParser = new TableNameParser(sql);
         tableNameParser.tables().forEach(System.out::println);
     }

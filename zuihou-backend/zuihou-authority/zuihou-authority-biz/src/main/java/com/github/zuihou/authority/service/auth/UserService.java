@@ -3,8 +3,10 @@ package com.github.zuihou.authority.service.auth;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 
 /**
  * <p>
@@ -46,12 +48,14 @@ public interface UserService extends IService<User> {
 
     /**
      * 修改输错密码的次数
+     *
      * @param id
      */
     void updatePasswordErrorNumById(Long id);
 
     /**
      * 根据账号查询用户
+     *
      * @param account
      * @return
      */
@@ -95,4 +99,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean remove(List<Long> ids);
+
+    /**
+     * 数据权限 分页
+     *
+     * @param page
+     * @param wrapper
+     */
+    IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper);
 }
