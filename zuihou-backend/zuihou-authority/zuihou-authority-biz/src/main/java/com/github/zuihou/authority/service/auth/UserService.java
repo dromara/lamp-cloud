@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 
@@ -107,4 +108,12 @@ public interface UserService extends IService<User> {
      * @param wrapper
      */
     IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper);
+
+    /**
+     * 修改密码
+     *
+     * @param data
+     * @return
+     */
+    Boolean updatePassword(UserUpdatePasswordDTO data);
 }

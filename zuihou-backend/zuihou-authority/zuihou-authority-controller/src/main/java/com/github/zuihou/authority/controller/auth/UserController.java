@@ -12,7 +12,9 @@ import com.github.zuihou.authority.dto.auth.UserPageDTO;
 import com.github.zuihou.authority.dto.auth.UserRegisterDTO;
 import com.github.zuihou.authority.dto.auth.UserRoleDTO;
 import com.github.zuihou.authority.dto.auth.UserSaveDTO;
+import com.github.zuihou.authority.dto.auth.UserUpdateAvatarDTO;
 import com.github.zuihou.authority.dto.auth.UserUpdateDTO;
+import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.core.Org;
@@ -167,6 +169,22 @@ public class UserController extends BaseController {
         User user = dozer.map(data, User.class);
         userService.updateUser(user);
         return success(user);
+    }
+
+    @ApiOperation(value = "修改头像", notes = "修改头像")
+    @PutMapping("/avatar")
+    @SysLog("修改头像")
+    public R<User> avatar(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateAvatarDTO data) {
+        User user = dozer.map(data, User.class);
+        userService.updateUser(user);
+        return success(user);
+    }
+
+    @ApiOperation(value = "修改密码", notes = "修改密码")
+    @PutMapping("/password")
+    @SysLog("修改密码")
+    public R<Boolean> updatePassword(@RequestBody UserUpdatePasswordDTO data) {
+        return success(userService.updatePassword(data));
     }
 
     @ApiOperation(value = "重置密码", notes = "重置密码")

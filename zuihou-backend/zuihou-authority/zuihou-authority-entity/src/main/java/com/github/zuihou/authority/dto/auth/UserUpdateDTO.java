@@ -2,7 +2,6 @@ package com.github.zuihou.authority.dto.auth;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.github.zuihou.authority.enumeration.auth.Sex;
@@ -48,14 +47,12 @@ public class UserUpdateDTO implements Serializable {
      * 账号
      */
     @ApiModelProperty(value = "账号")
-    @NotEmpty(message = "账号不能为空")
     @Length(max = 30, message = "账号长度不能超过30")
     private String account;
     /**
      * 姓名
      */
     @ApiModelProperty(value = "姓名")
-    @NotEmpty(message = "姓名不能为空")
     @Length(max = 50, message = "姓名长度不能超过50")
     private String name;
     /**

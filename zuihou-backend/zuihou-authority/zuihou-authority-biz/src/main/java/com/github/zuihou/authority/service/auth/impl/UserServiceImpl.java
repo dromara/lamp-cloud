@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.UserMapper;
+import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.RoleOrg;
 import com.github.zuihou.authority.entity.auth.User;
@@ -33,6 +34,7 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.BizAssert;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
         return baseMapper.findPage(page, wrapper, new DataScope());
+    }
+
+    @Override
+    public Boolean updatePassword(UserUpdatePasswordDTO data) {
+        BizAssert.equals(data.getConfirmPassword(), data.getPassword(), "密码与确认密码不一致");
+
+        User user = getById(data.getId());
+        BizAssert.notNull(user, "用户不存在");
+        String oldPassword = DigestUtils.md5Hex(data.getOldPassword());
+        BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
+
+        User build = User.builder().password(data.getPassword()).id(data.getId()).build();
+        this.updateUser(build);
+        return true;
     }
 
     @Override
@@ -177,6 +193,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setPasswordExpireTime(null);
         } else {
             user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
+        }
+
+        if (StrUtil.isNotEmpty(user.getPassword())) {
+            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
         }
         super.updateById(user);
         return user;
