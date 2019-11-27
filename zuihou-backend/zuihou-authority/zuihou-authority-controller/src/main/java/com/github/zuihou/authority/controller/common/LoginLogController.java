@@ -69,6 +69,7 @@ public class LoginLogController extends BaseController {
         IPage<LoginLog> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<LoginLog> query = Wraps.<LoginLog>lbQ()
+                .eq(LoginLog::getUserId, data.getUserId())
                 .likeRight(LoginLog::getAccount, data.getAccount())
                 .likeRight(LoginLog::getRequestIp, data.getRequestIp())
                 .like(LoginLog::getLocation, data.getLocation())
