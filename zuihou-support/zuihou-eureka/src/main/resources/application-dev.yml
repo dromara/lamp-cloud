@@ -1,8 +1,0 @@
-zuihou:
-  ip:
-    eureka: 127.0.0.1
-
-
-eureka:
-  server:
-    enable-self-preservation: false # 关闭自我保护
