@@ -73,7 +73,9 @@ public class LocalAutoConfigure {
                     .append(fileName)
                     .toString();
             //替换掉windows环境的\路径
-            file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
+            url = StrUtil.replace(url, "\\\\", StrPool.SLASH);
+            url = StrUtil.replace(url, "\\", StrPool.SLASH);
+            file.setUrl(url);
             file.setFilename(fileName);
             file.setRelativePath(relativePath);
         }
