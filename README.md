@@ -212,14 +212,18 @@ API 界面:
 - 等等
 
 ## 请作者买瓶防脱发药水吧~~~ o(╥﹏╥)o
+![QnOjKA.png](https://s2.ax1x.com/2019/12/02/QnOjKA.png)
+----
+[img]https://s2.ax1x.com/2019/12/02/QnOjKA.png[/img]
+----
+<img src="https://s2.ax1x.com/2019/12/02/QnOjKA.png" alt="QnOjKA.png" border="0" />
 
-<table>
-    <tr>
-        <td><img src="https://files.gitee.com/group1/M00/0A/9C/wKgCNF3kwLOATTggAAFfLNsVk9E916.png?token=dadd079522e7c15384ab404d912bdf85&ts=1575272628&attname=%E8%AF%B7%E4%BD%9C%E8%80%85%E4%B9%B0%E4%B8%AA%E9%98%B2%E8%84%B1%E5%8F%91%E8%8D%AF%E6%B0%B4%E5%90%A72.png&disposition=inline"/></td>
-        <td><img src="https://files.gitee.com/group1/M00/0A/9C/wKgCNF3kwKCASBaKAAFC71qEz_g636.png?token=e302962e6fb0cd8a1508adfe48e6b4ba&ts=1575272628&attname=%E8%AF%B7%E4%BD%9C%E8%80%85%E4%B9%B0%E4%B8%AA%E9%98%B2%E8%84%B1%E5%8F%91%E8%8D%AF%E6%B0%B4%E5%90%A71.png&disposition=inline"/></td>
-    </tr>
-</table>
 
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   
+    
+
+![请作者买个防脱发药水吧1.png](docs/image/请作者买个防脱发药水吧1.png)
+------
+![请作者买个防脱发药水吧1.png](docs/image/请作者买个防脱发药水吧2.png)
