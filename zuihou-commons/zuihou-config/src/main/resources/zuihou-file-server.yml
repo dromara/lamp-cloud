@@ -15,7 +15,7 @@ zuihou:
         base-package: com.github.zuihou.general.controller
   file:
     type: LOCAL # FAST_DFS LOCAL
-    storage-path: /data/projects/uploadfile/file/
+    storage-path: /data/projects/uploadfile/file/     # 文件存储路径  （ 某些版本的 window 需要改成  D:\\data\\projects\\uploadfile\\file\\  ）
     uriPrefix: http://${zuihou.nginx.ip}:${zuihou.nginx.port}/file/   # 文件访问 需要通过这个uri前缀进行访问
     inner-uri-prefix: null  #  内网的url前缀
     down-by-id: http://${zuihou.nginx.ip}:${zuihou.nginx.port}/api/file/attachment/download?ids[]=%s
