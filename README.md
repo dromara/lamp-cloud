@@ -220,4 +220,5 @@ API 界面:
 ## 请作者买瓶防脱发药水吧~~~ o(╥﹏╥)o
 ![QnOjKA.png](https://s2.ax1x.com/2019/12/02/QnOjKA.png)
 ----
-![QnXgdP.png](https://s2.ax1x.com/2019/12/02/QnXgdP.png)
+<img src="https://s2.ax1x.com/2019/12/02/QnjpLR.png" alt="QnjpLR.png" border="0" />
+
