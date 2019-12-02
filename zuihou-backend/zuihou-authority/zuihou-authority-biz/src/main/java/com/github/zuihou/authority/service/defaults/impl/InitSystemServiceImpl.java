@@ -41,7 +41,7 @@ public class InitSystemServiceImpl implements InitSystemService {
      * 需要初始化的库
      */
     private final static List<String> INIT_DATABASE_LIST = Arrays.asList("zuihou_base");
-    @Resource(name = "authorityDataSource")
+    @Resource(name = "druidDataSource")
     DataSource dataSource;
     @Autowired
     private InitDbMapper initDbMapper;

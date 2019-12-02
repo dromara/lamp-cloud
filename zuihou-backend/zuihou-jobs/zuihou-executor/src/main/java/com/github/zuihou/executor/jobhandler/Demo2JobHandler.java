@@ -1,6 +1,8 @@
 package com.github.zuihou.executor.jobhandler;
 
 import com.github.zuihou.authority.dao.auth.UserMapper;
+import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.context.BaseContextHandler;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
@@ -31,9 +33,14 @@ public class Demo2JobHandler extends IJobHandler {
 
     @Override
     public ReturnT<String> execute2(String param) throws Exception {
+
+        BaseContextHandler.setTenant("0000");
+        BaseContextHandler.setDatabase("zuihou_base");
+
+        User user = userMapper.selectById(3);
         //记录日志的方法推荐使用这个:XxlJobLogger.log ，因为这个记录的日志，可以在zuihou-jobs-server管理后台查看
-        XxlJobLogger.log("执行结果--->param={}, user={} ", param, "hello");
-        log.info("执行结果--->hello:{}, user:[{}] ", "hello local", userMapper.selectById(1));
+        XxlJobLogger.log("执行结果--->param={}, user={} ", param, user);
+        log.info("执行结果--->hello:{}, user:[{}] ", "hello local", user);
 
 
         return SUCCESS;
