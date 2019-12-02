@@ -3,18 +3,17 @@ zuihou:
     mysql: ${MYSQL_IP:127.0.0.1}
     executor: ${EXECUTOR_IP:127.0.0.1}
   mysql:
-    authority:
-      database: zuihou_base_0000
-      host: ${zuihou.ip.mysql}
-      port: ${zuihou.mysql.port}
-    msgs:
-      database: zuihou_base_0000
-      host: ${zuihou.ip.mysql}
-      port: ${zuihou.mysql.port}
-    jobs:
-      database: zuihou_defaults
-      host: ${zuihou.ip.mysql}
-      port: ${zuihou.mysql.port}
+    #    authority:
+    #      database: zuihou_base_0000
+    #      host: ${zuihou.ip.mysql}
+    #      port: ${zuihou.mysql.port}
+    #    msgs:
+    #      database: zuihou_base_0000
+    #      host: ${zuihou.ip.mysql}
+    #      port: ${zuihou.mysql.port}
+    database: zuihou_defaults
+    biz-database: zuihou_base
+    host: ${zuihou.ip.mysql}
     username: root
     password: root
     port: 3306
@@ -63,27 +62,22 @@ spring:
     active: dev
   datasource:
     druid:
-      jobs:
-        url: jdbc:mysql://${zuihou.mysql.jobs.host}:${zuihou.mysql.jobs.port}/${zuihou.mysql.jobs.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
-        username: ${zuihou.mysql.username}
-        password: ${zuihou.mysql.password}
-        driver-class-name: ${zuihou.mysql.driverClassName}
-      authority:
-        username: ${zuihou.mysql.username}
-        password: ${zuihou.mysql.password}
-        driver-class-name: ${zuihou.mysql.driverClassName}
-        url: jdbc:mysql://${zuihou.mysql.authority.host}:${zuihou.mysql.authority.port}/${zuihou.mysql.authority.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
-        initialSize: 10
-        minIdle: 50
-        maxActive: 200
-      msgs:
-        username: ${zuihou.mysql.username}
-        password: ${zuihou.mysql.password}
-        driver-class-name: ${zuihou.mysql.driverClassName}
-        url: jdbc:mysql://${zuihou.mysql.msgs.host}:${zuihou.mysql.msgs.port}/${zuihou.mysql.msgs.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false
-        initialSize: 10
-        minIdle: 50
-        maxActive: 200
+      url: jdbc:mysql://${zuihou.mysql.host}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      username: ${zuihou.mysql.username}
+      password: ${zuihou.mysql.password}
+      driver-class-name: ${zuihou.mysql.driverClassName}
+      initialSize: 10
+      minIdle: 10
+      maxActive: 500
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 'x'
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
   mvc:
     static-path-pattern: /static/**
   resources:
