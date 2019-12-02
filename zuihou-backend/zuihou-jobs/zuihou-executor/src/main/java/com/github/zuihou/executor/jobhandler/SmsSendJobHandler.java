@@ -1,5 +1,6 @@
 package com.github.zuihou.executor.jobhandler;
 
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.sms.strategy.SmsContext;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
@@ -31,6 +32,9 @@ public class SmsSendJobHandler extends IJobHandler {
 
     @Override
     public ReturnT<String> execute2(String param) throws Exception {
+
+        BaseContextHandler.setTenant("0000");
+        BaseContextHandler.setDatabase("zuihou_base");
         XxlJobLogger.log("执行结果--->param={} ", param);
         smsContext.smsSend(Long.valueOf(param));
         return SUCCESS;

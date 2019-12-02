@@ -1,116 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <include resource="com/github/zuihou/log/logback/zuihou-defaults.xml"/>
 
-    <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
-    <springProperty scope="context" name="log.path" source="logging.path"/>
-    <property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
-    <property name="log.level.console" value="INFO"/>
-    <property name="log.level.service" value="INFO"/>
-    <property name="log.level.impl" value="INFO"/>
-    <property name="log.level.sql" value="DEBUG"/>
+    <springProfile name="test,docker,prod">
+        <logger name="com.xxl.job.admin" additivity="true" level="WARN">
+            <appender-ref ref="ASYNC_PROJECT_APPENDER"/>
+        </logger>
+    </springProfile>
 
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <jmxConfigurator/>
-
-    <contextName>logback</contextName>
-
-    <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>${log.level.console}</level>
-        </filter>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="CONSOLE_SQL_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>${log.level.sql}</level>
-        </filter>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="ROOT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/${spring.application.name}/root.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/${spring.application.name}/%d{yyyy-MM}/root-%d{yyyy-MM-dd}-%i.log.gz
-            </fileNamePattern>
-            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
-            <maxFileSize>128MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>20GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-    <appender name="PROJECT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/${spring.application.name}/project.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/${spring.application.name}/%d{yyyy-MM}/project-%d{yyyy-MM-dd}-%i.log.gz
-            </fileNamePattern>
-            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
-            <maxFileSize>128MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>20GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-    <appender name="JOBS_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/${spring.application.name}/jobs.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/${spring.application.name}/%d{yyyy-MM}/jobs-%d{yyyy-MM-dd}-%i.log.gz
-            </fileNamePattern>
-            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
-            <maxFileSize>128MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>20GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-    <appender name="DAO_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/${spring.application.name}/dao.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 每天一归档 -->
-            <fileNamePattern>${log.path}/${spring.application.name}/%d{yyyy-MM}/dao-%d{yyyy-MM-dd}-%i.log.gz
-            </fileNamePattern>
-            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
-            <maxFileSize>128MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>20GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${common-pattern}</pattern>
-        </encoder>
-    </appender>
-
-    <root level="info">
-        <appender-ref ref="CONSOLE_APPENDER"/>
-        <appender-ref ref="ROOT_APPENDER"/>
-    </root>
-
-    <logger name="com.github.zuihou.common.handler" additivity="true" level="WARN">
-        <appender-ref ref="ROOT_APPENDER"/>
-    </logger>
-    <logger name="com.xxl.job.admin" additivity="true" level="WARN">
-        <appender-ref ref="JOBS_APPENDER"/>
-    </logger>
-    <logger name="com.github.zuihou" additivity="true" level="WARN">
-        <appender-ref ref="PROJECT_APPENDER"/>
-    </logger>
-    <logger name="com.xxl.job.admin.dao" additivity="true" level="DEBUG">
-        <appender-ref ref="DAO_APPENDER"/>
-        <appender-ref ref="CONSOLE_SQL_APPENDER"/>
-    </logger>
+    <springProfile name="dev">
+        <logger name="com.xxl.job.admin" additivity="true" level="WARN">
+            <appender-ref ref="PROJECT_APPENDER"/>
+        </logger>
+    </springProfile>
 
 </configuration>

@@ -9,7 +9,9 @@ import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.zuihou.database.datasource.BaseDbConfiguration;
+import com.p6spy.engine.spy.P6DataSource;
 
+import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
@@ -37,6 +39,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 @MapperScan(
         basePackages = {
                 "com.xxl.job.admin.dao",
+                "com.github.zuihou",
         },
         annotationClass = Repository.class,
         sqlSessionFactoryRef = "jobsSqlSessionFactory")
@@ -48,10 +51,20 @@ public class JobsAutoConfiguration extends BaseDbConfiguration {
      * @return
      */
     @Primary
-    @Bean(name = "jobsDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.jobs")
-    public DataSource db1() {
+    @Bean(name = "druidDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
+    public DataSource druid() {
         return DruidDataSourceBuilder.create().build();
+    }
+
+
+    @Bean(name = "jobsDataSource")
+    public DataSource db1(@Qualifier("druidDataSource") DataSource dataSource) {
+        if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
+            return new P6DataSource(dataSource);
+        } else {
+            return dataSource;
+        }
     }
 
     /**
@@ -60,8 +73,8 @@ public class JobsAutoConfiguration extends BaseDbConfiguration {
      * @return
      */
     @Bean(name = "txJobs")
-    public DataSourceTransactionManager rdsTransactionManager() {
-        return new DataSourceTransactionManager(db1());
+    public DataSourceTransactionManager rdsTransactionManager(@Qualifier("jobsDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     /**
@@ -75,10 +88,12 @@ public class JobsAutoConfiguration extends BaseDbConfiguration {
     @Bean("jobsSqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("jobsGlobalConfig") GlobalConfig globalConfig,
+                                               @Qualifier("jobsDataSource") DataSource dataSource,
                                                @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(db1());
-        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory, new String[]{"classpath:mybatis-mapper/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
+        sqlSessionFactory.setDataSource(dataSource);
+        return super.setMybatisSqlSessionFactoryBean(sqlSessionFactory,
+                new String[]{"classpath:mybatis-mapper/**/*Mapper.xml", "classpath*:mapper_**/**/*Mapper.xml"}, globalConfig, myMetaObjectHandler);
     }
 
     /**
