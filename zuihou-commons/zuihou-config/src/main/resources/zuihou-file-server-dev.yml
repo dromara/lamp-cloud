@@ -10,7 +10,7 @@ zuihou:
   #    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
   file:
     type: LOCAL    # FAST_DFS LOCAL
-    storage-path: /data/projects/uploadfile/file/  # window 改成  D:\\projects\\uploadfile\\file\\
+    storage-path: /data/projects/uploadfile/file/  # window 改成  D:\\data\\projects\\uploadfile\\file\\
 
 spring:
   datasource:
