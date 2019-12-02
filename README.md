@@ -211,19 +211,13 @@ API 界面:
 - guava
 - 等等
 
-## 请作者买瓶防脱发药水吧~~~ o(╥﹏╥)o
-![QnOjKA.png](https://s2.ax1x.com/2019/12/02/QnOjKA.png)
-----
-[img]https://s2.ax1x.com/2019/12/02/QnOjKA.png[/img]
-----
-<img src="https://s2.ax1x.com/2019/12/02/QnOjKA.png" alt="QnOjKA.png" border="0" />
 
 
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的（对自己负责，也是对大家负责）。   
     
-
-![请作者买个防脱发药水吧1.png](docs/image/请作者买个防脱发药水吧1.png)
-------
-![请作者买个防脱发药水吧1.png](docs/image/请作者买个防脱发药水吧2.png)
+## 请作者买瓶防脱发药水吧~~~ o(╥﹏╥)o
+![QnOjKA.png](https://s2.ax1x.com/2019/12/02/QnOjKA.png)
+----
+![QnXgdP.png](https://s2.ax1x.com/2019/12/02/QnXgdP.png)
