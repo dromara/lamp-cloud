@@ -107,12 +107,12 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
             for (String path : docketInfo.getExcludePath()) {
                 excludePath.add(PathSelectors.ant(path));
             }
-
+            List<Parameter> parameters = assemblyGlobalOperationParameters(swaggerProperties.getGlobalOperationParameters(),
+                    docketInfo.getGlobalOperationParameters());
             Docket docket = new Docket(DocumentationType.SWAGGER_2)
                     .host(swaggerProperties.getHost())
                     .apiInfo(apiInfo)
-                    .globalOperationParameters(assemblyGlobalOperationParameters(swaggerProperties.getGlobalOperationParameters(),
-                            docketInfo.getGlobalOperationParameters()))
+                    .globalOperationParameters(parameters)
                     .groupName(docketInfo.getGroup())
                     .select()
                     .apis(RequestHandlerSelectors.basePackage(docketInfo.getBasePackage()))
@@ -264,7 +264,10 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
                     .description(globalOperationParameter.getDescription())
                     .modelRef(new ModelRef(globalOperationParameter.getModelRef()))
                     .parameterType(globalOperationParameter.getParameterType())
-                    .required(Boolean.parseBoolean(globalOperationParameter.getRequired()))
+                    .required(globalOperationParameter.getRequired())
+                    .defaultValue(globalOperationParameter.getDefaultValue())
+                    .allowEmptyValue(globalOperationParameter.getAllowEmptyValue())
+                    .order(globalOperationParameter.getOrder())
                     .build());
         }
         return parameters;
