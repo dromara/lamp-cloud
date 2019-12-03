@@ -4,6 +4,14 @@
 zuihou:
   zipkin:
     enabled: false
+  swagger:
+    global-operation-parameters:
+      - name: tenant
+        description: 租户编码
+        modelRef: String
+        parameterType: header
+        required: true
+        defaultValue: "0000"
 
 server:
   undertow: # jetty  undertow

@@ -103,7 +103,7 @@ public class LoginLogController extends BaseController {
     public R<LoginLog> save(@NotBlank(message = "用户名不能为为空") @PathVariable String account) {
         String ua = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
         String ip = ServletUtil.getClientIP(request);
-        String location = AddressUtil.getCityInfo(ip);
+        String location = AddressUtil.getRegion(ip);
         // update last login time
         this.userService.updateLoginTime(account);
         LoginLog loginLog = loginLogService.save(account, ua, ip, location);
