@@ -74,9 +74,9 @@ http://doc.tangyh.top/zuihou-admin-cloud
 ![qq群.png](docs/image/qq群.png)
 
 ## 功能点介绍:
- - **服务注册与调用：**
+ - **服务注册&发现与调用：**
 
-基于Eureka来实现的服务注册与调用，在Spring Cloud中使用Feign, 我们可以做到使用HTTP请求远程服务时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。
+基于Nacos来实现的服务注册与发现，使用使用Feign来实现服务互调, 可以做到使用HTTP请求远程调用时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。
 
  - **服务鉴权:**
 
@@ -99,9 +99,11 @@ http://doc.tangyh.top/zuihou-admin-cloud
 利用基于Mybatis的DataScopeInterceptor拦截器实现了简单的数据权限
 
  - **SaaS的无感解决方案**
+ 
  使用Mybatis拦截器实现对所有SQL的拦截，修改默认的Schema，从而实现多租户数据隔离的目的。
  
 - **二级缓存**
+
 采用J2Cache操作缓存，第一级缓存使用内存(Caffeine)，第二级缓存使用 Redis。 由于大量的缓存读取会导致 L2 的网络成为整个系统的瓶颈，因此 L1 的目标是降低对 L2 的读取次数。 
 该缓存框架主要用于集群环境中。单机也可使用，用于避免应用重启导致的缓存冷启动后对后端业务的冲击。
 
@@ -128,9 +130,6 @@ http://doc.tangyh.top/zuihou-admin-cloud
 - **定时任务调度器**：
 
 基于xxl-jobs进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
-
-- **汉化 Eureka 注册中心页面**
-已换成nacos
 
 - **大文件/断点/分片续传**
 

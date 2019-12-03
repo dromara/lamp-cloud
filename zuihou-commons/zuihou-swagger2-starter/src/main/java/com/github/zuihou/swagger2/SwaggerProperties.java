@@ -99,6 +99,7 @@ public class SwaggerProperties {
      * 排序
      */
     private Integer order = 1;
+
     /**
      * 全局参数配置
      **/
@@ -115,22 +116,34 @@ public class SwaggerProperties {
         /**
          * 描述信息
          **/
-        private String description;
+        private String description = "全局参数";
 
         /**
          * 指定参数类型
          **/
-        private String modelRef;
+        private String modelRef = "String";
 
         /**
          * 参数放在哪个地方:header,query,path,body.form
          **/
-        private String parameterType;
+        private String parameterType = "header";
 
         /**
          * 参数是否必须传
          **/
-        private String required;
+        private Boolean required = false;
+        /**
+         * 默认值
+         */
+        private String defaultValue = "";
+        /**
+         * 允许为空
+         */
+        private Boolean allowEmptyValue = true;
+        /**
+         * 排序
+         */
+        private int order = 1;
     }
 
     @Data
