@@ -9,7 +9,7 @@ import com.github.zuihou.utils.NumberHelper;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/10/25
  */
 public class TimeUtils {

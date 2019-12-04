@@ -18,7 +18,6 @@ ribbon还有MaxAutoRetries对当前实例的重试次数,MaxAutoRetriesNextServe
 # 即： hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds 必须大于 ribbonTimeout
 
 
-
 hystrix.command.default和hystrix.threadpool.default中的default为默认CommandKey
 
 Command Properties

@@ -16,7 +16,7 @@ import org.lionsoul.ip2region.Util;
 /**
  * 根据ip查询地址
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/10/30
  */
 @Slf4j

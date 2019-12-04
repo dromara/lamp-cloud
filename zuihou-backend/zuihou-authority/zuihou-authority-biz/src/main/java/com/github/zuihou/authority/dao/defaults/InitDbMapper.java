@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * 初始化数据库DAO
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/09/02
  */
 @Repository
