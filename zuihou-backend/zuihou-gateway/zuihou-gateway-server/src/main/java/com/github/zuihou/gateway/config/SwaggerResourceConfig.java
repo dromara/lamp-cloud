@@ -69,7 +69,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                                                 }
                                             }
                                         } catch (Exception e) {
-                                            log.warn("加载后端资源是失败{}", route.getUri().getHost());
+                                            log.warn("加载后端资源时失败{}", route.getUri().getHost());
                                         }
                                     }
 
@@ -77,7 +77,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                 });
 
         //gateway 网关和bootsway
-        //resources.add(swaggerResource("网关模块", "/v2/api-docs?group=网关模块"));
+//        resources.add(swaggerResource("网关模块", "/v2/api-docs?group=网关模块"));
         return resources;
     }
 

@@ -8,7 +8,7 @@ package com.github.zuihou.authority.service.defaults;
  * zuihou_base.sql            # 基础库：权限、消息，短信，邮件，文件等
  * data_zuihou_base.sql       # 基础库数据： 如初始用户，初始角色，初始菜单
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/10/25
  */
 public interface InitSystemService {

@@ -1,20 +1,31 @@
 package com.github.zuihou.gateway.controller;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import com.github.zuihou.authority.api.AuthorityGeneralApi;
+import com.github.zuihou.authority.api.DictionaryItemApi;
+import com.github.zuihou.base.R;
+import com.github.zuihou.common.constant.DictionaryCode;
+import com.github.zuihou.context.BaseContextConstants;
+import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.file.api.FileGeneralApi;
+import com.github.zuihou.msgs.api.MsgsGeneralApi;
 
 import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.result.view.Rendering;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
-//import com.github.zuihou.authority.api.AuthorityGeneralApi;
-//import com.github.zuihou.authority.api.DictionaryItemApi;
-//import com.github.zuihou.base.R;
-//import com.github.zuihou.common.constant.DictionaryCode;
-//import com.github.zuihou.file.api.FileGeneralApi;
-//import com.github.zuihou.utils.StrPool;
 
 /**
  * 常用Controller
@@ -24,6 +35,15 @@ import org.springframework.web.reactive.result.view.Rendering;
  */
 @Controller
 public class GeneratorController {
+
+    @Resource
+    private AuthorityGeneralApi authorityGeneralApi;
+    @Resource
+    private FileGeneralApi fileGeneralApi;
+    @Resource
+    private MsgsGeneralApi msgsGeneralApi;
+    @Resource
+    private DictionaryItemApi dictionaryItemApi;
 
     /**
      * 解决swagger-bootstrap-ui的一个bug
@@ -49,18 +69,37 @@ public class GeneratorController {
         return Rendering.redirectTo("/api/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8")).build();
     }
 
-   /* @Resource
-    private AuthorityGeneralApi authorityGeneralApi;
-    @Resource
-    private FileGeneralApi fileGeneralApi;
-    @Resource
-    private DictionaryItemApi dictionaryItemApi;
-    @ApiOperation(value = "获取当前系统所有数据字典和枚举", notes = "获取当前系统所有数据字典和枚举")
-    @GetMapping("/dictionary/enums")
-    @ResponseBody
-    public R<Map<String, Map<String, String>>> dictionaryAndEnum() {
-        Map<String, Map<String, String>> map = new HashMap<>();
 
+    /**
+     * 获取当前系统所有数据字典和枚举
+     *
+     * @return
+     */
+    @ApiOperation(value = "获取当前系统所有数据字典和枚举", notes = "获取当前系统所有数据字典和枚举")
+    @GetMapping("/gate/dictionary/enums")
+    @ResponseBody
+    public Mono<R<Map<String, Map<String, String>>>> dictionaryAndEnum(ServerWebExchange exchange) {
+        List<String> tenants = exchange.getRequest().getHeaders().get(BaseContextConstants.TENANT);
+
+        if (tenants != null && !tenants.isEmpty()) {
+            BaseContextHandler.setTenant(tenants.get(0));
+        }
+
+        Map<String, Map<String, String>> map = new HashMap<>(4);
+
+        map.putAll(enums());
+
+        //整个系统的数据字典
+        R<Map<String, Map<String, String>>> itemMap = dictionaryItemApi.map(DictionaryCode.ALL);
+        if (itemMap.getIsSuccess()) {
+            map.putAll(itemMap.getData());
+        }
+
+        return Mono.just(R.success(map));
+    }
+
+    private Map enums() {
+        Map<String, Map<String, String>> map = new HashMap<>(3);
         //权限服务的枚举
         R<Map<String, Map<String, String>>> authorityResult = authorityGeneralApi.enums();
         if (authorityResult.getIsSuccess()) {
@@ -73,11 +112,22 @@ public class GeneratorController {
             map.putAll(fileResult.getData());
         }
 
-        //整个系统的数据字典
-        R<Map<String, Map<String, String>>> itemMap = dictionaryItemApi.map(DictionaryCode.ALL);
-        if (itemMap.getIsSuccess()) {
-            map.putAll(itemMap.getData());
+        R<Map<String, Map<String, String>>> msgsResult = msgsGeneralApi.enums();
+        if (msgsResult.getIsSuccess()) {
+            map.putAll(msgsResult.getData());
         }
-        return R.success(map);
-    }*/
+        return map;
+    }
+
+    /**
+     * 获取当前系统所有数据字典和枚举
+     *
+     * @return
+     */
+    @ApiOperation(value = "获取当前系统所有枚举", notes = "获取当前系统所有枚举")
+    @GetMapping("/gate/enums")
+    @ResponseBody
+    public Mono<R<Map<String, Map<String, String>>>> allEnums() {
+        return Mono.just(R.success(enums()));
+    }
 }

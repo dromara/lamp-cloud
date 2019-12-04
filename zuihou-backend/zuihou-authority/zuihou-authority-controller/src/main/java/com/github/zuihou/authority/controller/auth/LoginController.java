@@ -12,8 +12,10 @@ import com.github.zuihou.authority.service.auth.ValidateCodeService;
 import com.github.zuihou.authority.service.auth.impl.AuthManager;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -73,10 +75,13 @@ public class LoginController extends BaseController {
     public R<LoginDTO> loginTx(
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "code", required = false) String code,
-            @RequestParam(value = "tenant") String tenant,
+            @RequestParam(value = "tenant", required = false) String tenant,
             @RequestParam(value = "account") String account,
             @RequestParam(value = "password") String password) throws BizException {
         log.info("account={}", account);
+        if (StrUtil.isEmpty(tenant)) {
+            tenant = BaseContextHandler.getTenant();
+        }
         if (validateCodeService.check(key, code)) {
             return authManager.login(tenant, account, password);
         }
@@ -93,9 +98,12 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/token", method = RequestMethod.POST)
     @Deprecated
     public R<LoginDTO> tokenTx(
-            @RequestParam(value = "tenant") String tenant,
+            @RequestParam(value = "tenant", required = false) String tenant,
             @RequestParam(value = "account") String account,
             @RequestParam(value = "password") String password) throws BizException {
+        if (StrUtil.isEmpty(tenant)) {
+            tenant = BaseContextHandler.getTenant();
+        }
         return authManager.login(tenant, account, password);
     }
 

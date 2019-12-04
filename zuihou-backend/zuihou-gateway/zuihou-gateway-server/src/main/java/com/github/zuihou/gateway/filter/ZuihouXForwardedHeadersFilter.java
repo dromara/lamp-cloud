@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.headers.HttpHeadersFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -38,7 +37,6 @@ public class ZuihouXForwardedHeadersFilter implements HttpHeadersFilter, Ordered
 
     @Override
     public HttpHeaders filter(HttpHeaders input, ServerWebExchange exchange) {
-        ServerHttpRequest request = exchange.getRequest();
         HttpHeaders original = input;
         HttpHeaders updated = new HttpHeaders();
 
@@ -51,7 +49,6 @@ public class ZuihouXForwardedHeadersFilter implements HttpHeadersFilter, Ordered
         if (originalUris != null && requestUri != null) {
 
             originalUris.stream().forEach(originalUri -> {
-
                 if (originalUri != null && originalUri.getPath() != null) {
                     String prefix = originalUri.getPath();
 
@@ -65,7 +62,6 @@ public class ZuihouXForwardedHeadersFilter implements HttpHeadersFilter, Ordered
                             updated.set(X_FORWARDED_PREFIX_HEADER, contextPath + prefix);
                         }
                     }
-
                 }
             });
         }

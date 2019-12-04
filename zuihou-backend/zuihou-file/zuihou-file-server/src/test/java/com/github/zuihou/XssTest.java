@@ -5,7 +5,7 @@ import com.github.zuihou.xss.utils.XssUtils;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/11/19
  */
 public class XssTest {
