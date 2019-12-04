@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 /**
  * 初始化系统
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/10/25
  */
 @Service
