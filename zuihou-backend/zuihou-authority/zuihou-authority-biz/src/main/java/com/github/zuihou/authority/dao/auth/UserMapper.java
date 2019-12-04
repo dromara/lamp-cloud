@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.dao.auth;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -50,4 +51,21 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     IPage<User> findPage(IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
+
+    /**
+     * 重置 密码错误次数
+     *
+     * @param id
+     * @return
+     */
+    int resetPassErrorNum(@Param("id") Long id);
+
+    /**
+     * 修改用户最后登录时间
+     *
+     * @param account
+     * @param now
+     * @return
+     */
+    int updateLastLoginTime(@Param("account") String account, @Param("now") LocalDateTime now);
 }
