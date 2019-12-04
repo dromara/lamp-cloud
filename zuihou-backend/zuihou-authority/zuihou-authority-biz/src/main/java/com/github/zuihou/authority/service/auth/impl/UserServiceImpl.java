@@ -70,6 +70,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public int resetPassErrorNum(Long id) {
+        return baseMapper.resetPassErrorNum(id);
+    }
+
+    @Override
     public Boolean updatePassword(UserUpdatePasswordDTO data) {
         BizAssert.equals(data.getConfirmPassword(), data.getPassword(), "密码与确认密码不一致");
 
@@ -142,7 +147,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void updateLoginTime(String account) {
-        baseMapper.update(User.builder().lastLoginTime(LocalDateTime.now()).build(), Wraps.<User>lbQ().eq(User::getAccount, account));
+//        baseMapper.update(User.builder().lastLoginTime(LocalDateTime.now()).build(), Wraps.<User>lbQ().eq(User::getAccount, account));
+        baseMapper.updateLastLoginTime(account, LocalDateTime.now());
     }
 
     @Override

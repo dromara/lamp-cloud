@@ -24,7 +24,6 @@ import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.authority.utils.TimeUtils;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
@@ -173,8 +172,8 @@ public class AuthManager {
         }
 
         // 错误次数清空
-        userService.update(Wraps.<User>lbU().set(User::getPasswordErrorNum, 0).eq(User::getId, user.getId()));
-
+//        userService.update(Wraps.<User>lbU().set(User::getPasswordErrorNum, 0).eq(User::getId, user.getId()));
+        userService.resetPassErrorNum(user.getId());
         return R.success(user);
     }
 
