@@ -116,4 +116,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     Boolean updatePassword(UserUpdatePasswordDTO data);
+
+    /**
+     * 重置密码错误次数
+     *
+     * @param id
+     * @return
+     */
+    int resetPassErrorNum(Long id);
 }
