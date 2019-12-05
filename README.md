@@ -12,7 +12,7 @@
 ## 简介：
 基于`SpringCloud(Greenwich.RELEASE)`  + `SpringBoot(2.1.2.RELEASE)` 的 SaaS型微服务脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。核心技术采用Eureka、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Seata、Nacos、Sentinel、
-RibbitMQ、FastDFS等主要框架和中间件。
+RabbitMQ、FastDFS等主要框架和中间件。
 
 希望能努力打造一套从 `SaaS基础框架` - `分布式微服务架构` - `持续集成` - `自动化部署` - `系统监测` 的解决方案。`本项目旨在实现基础能力，不涉及具体业务。`
 
@@ -145,7 +145,7 @@ http://doc.tangyh.top/zuihou-admin-cloud
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有：
     - JSON序列化:Jackson
-    - 消息队列：RibbitMQ
+    - 消息队列：RabbitMQ
     - 缓存：Redis 
     - 缓存框架：J2Cache 
     - 数据库： MySQL 5.7.9 (驱动6.0.6)
@@ -176,12 +176,6 @@ http://doc.tangyh.top/zuihou-admin-cloud
 
 PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，经过调试发现因为版本多低后，导致EnumDeserializer的 Object obj = p.getCurrentValue();取的值为空。
 
-
-## 期待您的加入：
-    1，前端  （急需！！只要你懂点vue、热爱开源，请加入我们的队伍吧）
-    2，后端
-    3，土豪哥哥(求赞助服务器)
-    4，有想要合作或者赞助服务器的朋友加群（63202894）联系群主
 
 ## 如何贡献代码    
     1，Fork

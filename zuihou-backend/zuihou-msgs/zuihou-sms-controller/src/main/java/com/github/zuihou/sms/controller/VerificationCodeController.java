@@ -37,10 +37,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class VerificationCodeController extends BaseController {
 
     @Autowired
-    private CacheRepository redisRepository;
+    private CacheRepository cacheRepository;
     @Autowired
     private SmsManager smsManager;
-
 
     /**
      * 通用的发送验证码功能
@@ -64,7 +63,7 @@ public class VerificationCodeController extends BaseController {
         smsManager.saveTask(smsTask, TemplateCodeType.ZUIHOU_COMMON);
 
         String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
-        redisRepository.setExpire(key, code, CacheRepository.DEF_TIMEOUT_5M);
+        cacheRepository.setExpire(key, code, CacheRepository.DEF_TIMEOUT_5M);
         return success();
     }
 
@@ -78,9 +77,7 @@ public class VerificationCodeController extends BaseController {
     @PostMapping
     public R<Boolean> verification(@Validated(SuperEntity.Update.class) @RequestBody VerificationCodeDTO data) {
         String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
-        String code = redisRepository.get(key);
+        String code = cacheRepository.get(key);
         return success(data.getCode().equals(code));
     }
-
-
 }
