@@ -11,6 +11,8 @@ import zipkin2.server.internal.EnableZipkinServer;
  * 指定URL使用不同的采样率
  * https://blog.csdn.net/u012394095/article/details/82785745
  *
+ * http://c.biancheng.net/view/5496.html
+ *
  * @author zuihou
  * @createTime 2018-01-14 12:04
  */
