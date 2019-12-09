@@ -7,11 +7,21 @@ import zipkin2.server.internal.EnableZipkinServer;
 
 /**
  * 启动类
- *
+ * <p>
  * 指定URL使用不同的采样率
  * https://blog.csdn.net/u012394095/article/details/82785745
- *
+ * <p>
+ * 注意事项，小技巧：
  * http://c.biancheng.net/view/5496.html
+ * <p>
+ * 深入探究ZIPKIN调用链跟踪——链路上报篇:
+ * https://www.jianshu.com/p/17ce989e108e
+ * <p>
+ * 在zuul中使用okhttp集成zipkin的链路追踪解决方案:
+ * https://blog.csdn.net/shuidexiongdi/article/details/95359196
+ * <p>
+ * demo:
+ * https://github.com/xzjayx/zipkin
  *
  * @author zuihou
  * @createTime 2018-01-14 12:04
