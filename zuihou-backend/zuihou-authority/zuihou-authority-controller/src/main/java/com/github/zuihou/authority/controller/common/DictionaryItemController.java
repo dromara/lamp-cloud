@@ -1,8 +1,6 @@
 package com.github.zuihou.authority.controller.common;
 
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -17,8 +15,6 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.utils.MapHelper;
-import com.google.common.collect.ImmutableMap;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,9 +32,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
 
 /**
  * <p>
@@ -98,23 +91,7 @@ public class DictionaryItemController extends BaseController {
     @ApiOperation(value = "根据字典编码查询字典条目的map集合", notes = "根据字典编码查询字典条目的map集合")
     @GetMapping("/codes")
     public R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes) {
-        LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
-                .in(DictionaryItem::getDictionaryCode, codes)
-                .eq(DictionaryItem::getIsEnable, true)
-                .orderByAsc(DictionaryItem::getSortValue);
-        List<DictionaryItem> list = dictionaryItemService.list(query);
-
-        //key 是字典编码
-        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
-
-        //需要返回的map
-        Map<String, Map<String, String>> typeCodeNameMap = new LinkedHashMap<>(typeMap.size());
-
-        typeMap.forEach((key, items) -> {
-            ImmutableMap<String, String> itemCodeMap = MapHelper.uniqueIndex(items, DictionaryItem::getCode, DictionaryItem::getName);
-            typeCodeNameMap.put(key, itemCodeMap);
-        });
-        return success(typeCodeNameMap);
+        return success(dictionaryItemService.map(codes));
     }
 
     /**

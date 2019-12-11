@@ -28,7 +28,6 @@ RabbitMQ、FastDFS等主要框架和中间件。
 http://doc.tangyh.top/zuihou-admin-cloud
 
 ## 项目代码地址
-微服务后端 代码：
 
 | 项目 | gitee | github |
 |---|---|---|

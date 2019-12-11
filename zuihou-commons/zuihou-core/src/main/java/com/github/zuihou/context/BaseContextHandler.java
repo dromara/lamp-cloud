@@ -29,6 +29,16 @@ public class BaseContextHandler {
         map.put(key, value == null ? "" : value);
     }
 
+    public static void set(String key, Boolean value) {
+        Map<String, String> map = getLocalMap();
+        map.put(key, value == null ? "false" : value.toString());
+    }
+
+    public static void main(String[] args) {
+        Boolean s = true;
+        System.out.println(s.toString());
+    }
+
     public static Map<String, String> getLocalMap() {
         Map<String, String> map = THREAD_LOCAL.get();
         if (map == null) {
@@ -46,6 +56,20 @@ public class BaseContextHandler {
     public static String get(String key) {
         Map<String, String> map = getLocalMap();
         return map.getOrDefault(key, "");
+    }
+
+    public static Boolean isBoot() {
+        Object value = get(BaseContextConstants.IS_BOOT);
+        return NumberHelper.boolValueOf0(value);
+    }
+
+    /**
+     * 账号id
+     *
+     * @param userId
+     */
+    public static void setBoot(Boolean val) {
+        set(BaseContextConstants.IS_BOOT, val);
     }
 
     /**

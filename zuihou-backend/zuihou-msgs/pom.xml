@@ -52,17 +52,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.qcloudsms</groupId>
-                <artifactId>qcloudsms</artifactId>
-                <version>1.0.6</version>
-            </dependency>
-            <!-- 百度 -->
-            <dependency>
-                <groupId>com.baidubce</groupId>
-                <artifactId>bce-java-sdk</artifactId>
-                <version>0.10.21</version>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>

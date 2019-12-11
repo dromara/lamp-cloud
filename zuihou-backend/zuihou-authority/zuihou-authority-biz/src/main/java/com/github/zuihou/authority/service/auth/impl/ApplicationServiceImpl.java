@@ -20,5 +20,4 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, Application> implements ApplicationService {
-
 }
