@@ -32,7 +32,7 @@ public class GeneralController {
     @ApiOperation(value = "获取当前系统所有枚举", notes = "获取当前系统所有枚举")
     @GetMapping("/enums")
     public R<Map<String, Map<String, String>>> enums() {
-        Map<String, Map<String, String>> map = new HashMap<>(1);
+        Map<String, Map<String, String>> map = new HashMap<>(6);
         map.put(MsgsCenterType.class.getSimpleName(), BaseEnum.getMap(MsgsCenterType.values()));
         map.put(MsgsBizType.class.getSimpleName(), BaseEnum.getMap(MsgsBizType.values()));
         map.put(ProviderType.class.getSimpleName(), BaseEnum.getMap(ProviderType.values()));

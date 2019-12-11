@@ -37,6 +37,8 @@ public class BaseContextConstants {
      */
     public static final String TENANT = "tenant";
 
+    public static final String IS_BOOT = "boot";
+
     /**
      * 动态数据库名前缀。  每个项目配置死的
      */
