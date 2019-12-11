@@ -27,6 +27,7 @@ public class TenantWebMvcConfigurer implements WebMvcConfigurer {
             String[] commonPathPatterns = getExcludeCommonPathPatterns();
             registry.addInterceptor(getHandlerInterceptor())
                     .addPathPatterns("/**")
+                    .order(9)
                     .excludePathPatterns(commonPathPatterns);
             WebMvcConfigurer.super.addInterceptors(registry);
         }

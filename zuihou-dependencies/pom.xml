@@ -142,6 +142,10 @@
         <easy-captcha.version>1.6.2</easy-captcha.version>
 
         <jetty-server.version>9.4.14.v20181114</jetty-server.version>
+        <jjwt.version>0.7.0</jjwt.version>
+        <qcloudsms.version>1.0.6</qcloudsms.version>
+        <bce-java-sdk.version>0.10.21</bce-java-sdk.version>
+
 
         <hutool.version>4.5.6</hutool.version>
         <antisamy.version>1.5.7</antisamy.version>
@@ -211,11 +215,11 @@
                 <artifactId>mybatis-typehandlers-jsr310</artifactId>
                 <version>${mybatis.typehandlers.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>com.alibaba</groupId>-->
+            <!--                <artifactId>druid</artifactId>-->
+            <!--                <version>${druid.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
@@ -300,7 +304,20 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
-                <version>0.7.0</version>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <!-- 腾讯云add  -->
+            <dependency>
+                <groupId>com.github.qcloudsms</groupId>
+                <artifactId>qcloudsms</artifactId>
+                <version>${qcloudsms.version}</version>
+            </dependency>
+            <!-- 百度 -->
+            <dependency>
+                <groupId>com.baidubce</groupId>
+                <artifactId>bce-java-sdk</artifactId>
+                <version>${bce-java-sdk.version}</version>
             </dependency>
 
             <!-- jackson 序列化 -->

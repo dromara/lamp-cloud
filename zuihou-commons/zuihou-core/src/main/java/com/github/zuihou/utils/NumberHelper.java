@@ -35,6 +35,10 @@ public class NumberHelper {
         return valueOfDef(value, (val) -> Long.valueOf(val.toString()), 0L);
     }
 
+    public static Boolean boolValueOf0(Object value) {
+        return valueOfDef(value, (val) -> Boolean.valueOf(val.toString()), false);
+    }
+
     public static Integer intValueOfNil(String value) {
         return valueOfDef(value, (val) -> Integer.valueOf(val), null);
     }
