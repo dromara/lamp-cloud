@@ -244,6 +244,9 @@ public class ZipUtils {
                     if (bis != null) {
                         bis.close();
                     }
+                    if (zos != null) {
+                        zos.closeEntry();
+                    }
                 }
             }
         }
