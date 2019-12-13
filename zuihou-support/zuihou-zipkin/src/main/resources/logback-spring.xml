@@ -28,6 +28,7 @@
     <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue="dev"/>
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern" defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
+    <springProperty scope="context" name="log.level.nacos" source="logging.level.nacos" defaultValue="WARN"/>
 
     <contextName>${spring.application.name}-${spring.profiles.active}-logback</contextName>
 
@@ -56,6 +57,13 @@
         </encoder>
     </appender>
 
+    <logger name="com.alibaba.nacos.client" level="${log.level.nacos}" additivity="false">
+        <appender-ref ref="ROOT_APPENDER"/>
+    </logger>
+
+    <logger name="com.alibaba.nacos.client.config" level="${log.level.nacos}" additivity="false">
+        <appender-ref ref="ROOT_APPENDER"/>
+    </logger>
     <root level="${log.level.console}">
         <appender-ref ref="CONSOLE_APPENDER"/>
         <appender-ref ref="ROOT_APPENDER"/>
