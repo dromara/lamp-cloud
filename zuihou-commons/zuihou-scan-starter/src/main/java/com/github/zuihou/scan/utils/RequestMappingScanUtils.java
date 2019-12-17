@@ -25,7 +25,7 @@ import springfox.documentation.annotations.ApiIgnore;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/12/16
  */
 public class RequestMappingScanUtils {
