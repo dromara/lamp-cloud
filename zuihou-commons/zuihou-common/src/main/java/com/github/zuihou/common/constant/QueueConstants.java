@@ -3,7 +3,7 @@ package com.github.zuihou.common.constant;
 /**
  * 队列名常量
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/12/17
  */
 public class QueueConstants {

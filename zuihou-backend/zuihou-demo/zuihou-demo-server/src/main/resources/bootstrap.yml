@@ -26,8 +26,6 @@ spring:
         namespace: ${zuihou.nacos.namespace}
         metadata:
           management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
-          swagger: http://${zuihou.local-ip}:${server.port:}/swagger-resources
-          service.name: 演示服务
 
 logging:
   path: /data/projects/logs
