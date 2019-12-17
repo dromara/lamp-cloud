@@ -49,6 +49,6 @@
 //        Set<EntityFiledType> filedTypes = new HashSet<>();
 ////        filedTypes.addAll(Arrays.asList());
 //        build.setFiledTypes(filedTypes);
-//        CodeGenerator.main(build);
+//        CodeGenerator.run(build);
 //    }
 //}

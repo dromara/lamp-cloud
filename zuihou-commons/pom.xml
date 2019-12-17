@@ -31,6 +31,7 @@
         <module>zuihou-cache-starter</module>
         <module>zuihou-zipkin-client-starter</module>
         <module>zuihou-config</module>
+        <module>zuihou-scan-starter</module>
     </modules>
 
 

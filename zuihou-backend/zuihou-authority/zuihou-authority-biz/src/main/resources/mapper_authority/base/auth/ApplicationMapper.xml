@@ -9,6 +9,8 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
         <result column="index_url" jdbcType="VARCHAR" property="indexUrl"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="logo_url" jdbcType="VARCHAR" property="logoUrl"/>
@@ -16,16 +18,12 @@
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
         <result column="is_enable" jdbcType="BIT" property="isEnable"/>
-        <result column="icp_code" jdbcType="VARCHAR" property="icpCode"/>
-        <result column="title_icon" jdbcType="VARCHAR" property="titleIcon"/>
-        <result column="support_unit" jdbcType="VARCHAR" property="supportUnit"/>
-        <result column="common_record" jdbcType="VARCHAR" property="commonRecord"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_user, create_time, update_user, update_time, 
-        index_url, name, logo_url, describe_, code, sort_value, is_enable, icp_code, title_icon, support_unit, common_record
+        app_key, app_secret, index_url, name, logo_url, describe_, code, sort_value, is_enable
     </sql>
 
 </mapper>

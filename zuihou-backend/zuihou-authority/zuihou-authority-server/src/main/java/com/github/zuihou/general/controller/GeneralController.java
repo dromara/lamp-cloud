@@ -27,6 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,9 @@ public class GeneralController {
     private OrgService orgService;
     @Autowired
     private StationService stationService;
+
+    //                @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @ApiOperation(value = "获取当前系统所有枚举", notes = "获取当前系统所有枚举")
     @GetMapping("/enums")
@@ -97,7 +101,9 @@ public class GeneralController {
     public R<Object> test(@RequestParam(value = "millis", defaultValue = "29") Long millis, HttpServletRequest request) {
         String clientIP = ServletUtil.getClientIP(request);
         log.info("clientIP={}", clientIP);
+        rabbitTemplate.convertAndSend("aaa", "123");
         Thread.sleep(millis);
+
         return R.success(clientIP + "--port=" + port);
     }
 

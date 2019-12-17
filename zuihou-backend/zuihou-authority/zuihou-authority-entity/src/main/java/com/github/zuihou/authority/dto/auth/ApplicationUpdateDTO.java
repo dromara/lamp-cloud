@@ -25,7 +25,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-27
+ * @since 2019-12-17
  */
 @Data
 @NoArgsConstructor
@@ -44,10 +44,22 @@ public class ApplicationUpdateDTO implements Serializable {
     private Long id;
 
     /**
-     * 首页访问地址
+     * AppId
      */
-    @ApiModelProperty(value = "首页访问地址")
-    @Length(max = 100, message = "首页访问地址长度不能超过100")
+    @ApiModelProperty(value = "AppId")
+    @Length(max = 100, message = "AppId长度不能超过100")
+    private String appKey;
+    /**
+     * AppSecret
+     */
+    @ApiModelProperty(value = "AppSecret")
+    @Length(max = 255, message = "AppSecret长度不能超过255")
+    private String appSecret;
+    /**
+     * 首页地址
+     */
+    @ApiModelProperty(value = "首页地址")
+    @Length(max = 100, message = "首页地址长度不能超过100")
     private String indexUrl;
     /**
      * 应用名称
@@ -85,29 +97,5 @@ public class ApplicationUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "是否启用")
     private Boolean isEnable;
-    /**
-     * ICP备案号
-     */
-    @ApiModelProperty(value = "ICP备案号")
-    @Length(max = 32, message = "ICP备案号长度不能超过32")
-    private String icpCode;
-    /**
-     * 标题logo
-     */
-    @ApiModelProperty(value = "标题logo")
-    @Length(max = 255, message = "标题logo长度不能超过255")
-    private String titleIcon;
-    /**
-     * 技术支持单位
-     */
-    @ApiModelProperty(value = "技术支持单位")
-    @Length(max = 32, message = "技术支持单位长度不能超过32")
-    private String supportUnit;
-    /**
-     * 公网备案号
-     */
-    @ApiModelProperty(value = "公网备案号")
-    @Length(max = 32, message = "公网备案号长度不能超过32")
-    private String commonRecord;
 
 }

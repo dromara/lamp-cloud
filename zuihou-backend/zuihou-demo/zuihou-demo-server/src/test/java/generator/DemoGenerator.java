@@ -50,6 +50,6 @@
 ////                EntityFiledType.builder().name("httpMethod").packagePath("com.github.zuihou.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
 //        ));
 //        build.setFiledTypes(filedTypes);
-//        CodeGenerator.main(build);
+//        CodeGenerator.run(build);
 //    }
 //}
