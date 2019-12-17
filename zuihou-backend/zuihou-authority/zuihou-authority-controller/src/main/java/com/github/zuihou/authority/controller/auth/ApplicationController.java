@@ -1,6 +1,8 @@
 package com.github.zuihou.authority.controller.auth;
 
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ApplicationSaveDTO;
 import com.github.zuihou.authority.dto.auth.ApplicationUpdateDTO;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zuihou
- * @date 2019-07-22
+ * @date 2019-12-15
  */
 @Slf4j
 @Validated
@@ -118,14 +121,14 @@ public class ApplicationController extends BaseController {
     /**
      * 删除应用
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除应用", notes = "根据id物理删除应用")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除应用")
-    public R<Boolean> delete(@PathVariable Long id) {
-        applicationService.removeById(id);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        applicationService.removeByIds(ids);
         return success(true);
     }
 
