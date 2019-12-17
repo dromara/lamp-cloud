@@ -19,7 +19,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 /**
  * 消息队列配置
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/12/17
  */
 @Configuration

@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 26/11/2019 17:19:53
+ Date: 17/12/2019 18:07:27
 */
 
 SET NAMES utf8mb4;
@@ -23,17 +23,15 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `c_auth_application`;
 CREATE TABLE `c_auth_application` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `index_url` varchar(100) DEFAULT '' COMMENT '首页访问地址',
+  `app_key` varchar(100) DEFAULT NULL COMMENT 'AppId',
+  `app_secret` varchar(255) DEFAULT NULL COMMENT 'AppSecret',
+  `index_url` varchar(100) DEFAULT '' COMMENT '首页地址',
   `name` varchar(20) DEFAULT '' COMMENT '应用名称',
   `logo_url` varchar(255) DEFAULT '' COMMENT '应用logo',
   `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
   `code` varchar(20) NOT NULL COMMENT '应用编码\r\n必须唯一',
   `sort_value` int(11) DEFAULT '1' COMMENT '序号',
   `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
-  `icp_code` varchar(32) DEFAULT '' COMMENT 'ICP备案号',
-  `title_icon` varchar(255) DEFAULT '' COMMENT '标题logo',
-  `support_unit` varchar(32) DEFAULT '' COMMENT '技术支持单位',
-  `common_record` varchar(32) DEFAULT '' COMMENT '公网备案号',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
@@ -41,6 +39,21 @@ CREATE TABLE `c_auth_application` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `un_code_` (`code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用';
+
+-- ----------------------------
+-- Table structure for c_auth_application_system_api
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_application_system_api`;
+CREATE TABLE `c_auth_application_system_api` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `application_id` bigint(20) DEFAULT NULL COMMENT '应用id',
+  `system_api_id` bigint(20) DEFAULT NULL COMMENT '资源id',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用接口';
 
 -- ----------------------------
 -- Table structure for c_auth_menu
@@ -65,24 +78,6 @@ CREATE TABLE `c_auth_menu` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `INX_STATUS` (`is_enable`,`is_public`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
-
--- ----------------------------
--- Table structure for c_auth_micro_service
--- ----------------------------
-DROP TABLE IF EXISTS `c_auth_micro_service`;
-CREATE TABLE `c_auth_micro_service` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(20) DEFAULT '' COMMENT '服务名称',
-  `describe_` varchar(100) DEFAULT '' COMMENT '服务描述',
-  `eureka_code` varchar(100) DEFAULT '' COMMENT 'eureka编码\r\n就是服务注册到eureka后，他的application name',
-  `swagger_url` varchar(255) DEFAULT '' COMMENT 'swagger地址',
-  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
-  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务表';
 
 -- ----------------------------
 -- Table structure for c_auth_resource
@@ -149,6 +144,35 @@ CREATE TABLE `c_auth_role_org` (
   `create_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色组织关系';
+
+-- ----------------------------
+-- Table structure for c_auth_system_api
+-- ----------------------------
+DROP TABLE IF EXISTS `c_auth_system_api`;
+CREATE TABLE `c_auth_system_api` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `code` varchar(255) CHARACTER SET utf8mb4 NOT NULL COMMENT '接口编码',
+  `name` varchar(100) CHARACTER SET utf8mb4 NOT NULL COMMENT '接口名称',
+  `describe_` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源描述',
+  `request_method` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '请求方式',
+  `content_type` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '响应类型',
+  `service_id` varchar(50) CHARACTER SET utf8mb4 NOT NULL COMMENT '服务ID',
+  `path` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '请求路径',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态\n:0-无效 1-有效',
+  `is_persist` bit(1) DEFAULT b'0' COMMENT '保留数据 \n0-否 1-是 系统内资数据,不允许删除',
+  `is_auth` bit(1) DEFAULT b'1' COMMENT '是否需要认证\n: 0-无认证 1-身份认证 默认:1',
+  `is_open` bit(1) DEFAULT b'0' COMMENT '是否公开\n: 0-内部的 1-公开的',
+  `class_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '类名',
+  `method_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '方法名',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UNX_ID` (`id`) USING BTREE,
+  UNIQUE KEY `UNX_CODE` (`code`(100)) USING BTREE,
+  KEY `service_id` (`service_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT COMMENT='API接口';
 
 -- ----------------------------
 -- Table structure for c_auth_user
