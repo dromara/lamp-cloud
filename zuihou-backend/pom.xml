@@ -66,6 +66,11 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-scan-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-swagger2-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>

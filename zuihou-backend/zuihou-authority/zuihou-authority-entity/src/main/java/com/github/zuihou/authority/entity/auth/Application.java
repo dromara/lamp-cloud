@@ -28,7 +28,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-20
+ * @since 2019-12-17
  */
 @Data
 @NoArgsConstructor
@@ -43,10 +43,26 @@ public class Application extends Entity<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 首页访问地址
+     * AppId
      */
-    @ApiModelProperty(value = "首页访问地址")
-    @Length(max = 100, message = "首页访问地址长度不能超过100")
+    @ApiModelProperty(value = "AppId")
+    @Length(max = 100, message = "AppId长度不能超过100")
+    @TableField(value = "app_key", condition = LIKE)
+    private String appKey;
+
+    /**
+     * AppSecret
+     */
+    @ApiModelProperty(value = "AppSecret")
+    @Length(max = 255, message = "AppSecret长度不能超过255")
+    @TableField(value = "app_secret", condition = LIKE)
+    private String appSecret;
+
+    /**
+     * 首页地址
+     */
+    @ApiModelProperty(value = "首页地址")
+    @Length(max = 100, message = "首页地址长度不能超过100")
     @TableField(value = "index_url", condition = LIKE)
     private String indexUrl;
 
@@ -98,48 +114,18 @@ public class Application extends Entity<Long> {
     @TableField("is_enable")
     private Boolean isEnable;
 
-    /**
-     * ICP备案号
-     */
-    @ApiModelProperty(value = "ICP备案号")
-    @Length(max = 32, message = "ICP备案号长度不能超过32")
-    @TableField(value = "icp_code", condition = LIKE)
-    private String icpCode;
-
-    /**
-     * 标题logo
-     */
-    @ApiModelProperty(value = "标题logo")
-    @Length(max = 255, message = "标题logo长度不能超过255")
-    @TableField(value = "title_icon", condition = LIKE)
-    private String titleIcon;
-
-    /**
-     * 技术支持单位
-     */
-    @ApiModelProperty(value = "技术支持单位")
-    @Length(max = 32, message = "技术支持单位长度不能超过32")
-    @TableField(value = "support_unit", condition = LIKE)
-    private String supportUnit;
-
-    /**
-     * 公网备案号
-     */
-    @ApiModelProperty(value = "公网备案号")
-    @Length(max = 32, message = "公网备案号长度不能超过32")
-    @TableField(value = "common_record", condition = LIKE)
-    private String commonRecord;
-
 
     @Builder
     public Application(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                       String indexUrl, String name, String logoUrl, String describe, String code,
-                       Integer sortValue, Boolean isEnable, String icpCode, String titleIcon, String supportUnit, String commonRecord) {
+                       String appKey, String appSecret, String indexUrl, String name, String logoUrl,
+                       String describe, String code, Integer sortValue, Boolean isEnable) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
+        this.appKey = appKey;
+        this.appSecret = appSecret;
         this.indexUrl = indexUrl;
         this.name = name;
         this.logoUrl = logoUrl;
@@ -147,10 +133,6 @@ public class Application extends Entity<Long> {
         this.code = code;
         this.sortValue = sortValue;
         this.isEnable = isEnable;
-        this.icpCode = icpCode;
-        this.titleIcon = titleIcon;
-        this.supportUnit = supportUnit;
-        this.commonRecord = commonRecord;
     }
 
 }
