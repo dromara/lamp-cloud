@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.github.xiaoymin.swaggerbootstrapui.model.OrderExtensions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
@@ -128,8 +127,8 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
                     .globalResponseMessage(RequestMethod.GET, getResponseMessages())
                     .globalResponseMessage(RequestMethod.POST, getResponseMessages())
                     .globalResponseMessage(RequestMethod.PUT, getResponseMessages())
-                    .globalResponseMessage(RequestMethod.DELETE, getResponseMessages())
-                    .extensions(Lists.newArrayList(new OrderExtensions(swaggerProperties.getOrder())));
+                    .globalResponseMessage(RequestMethod.DELETE, getResponseMessages());
+//                    .extensions(Lists.newArrayList(new OrderExtensions(swaggerProperties.getOrder())));
 
             configurableBeanFactory.registerSingleton(groupName, docket);
             docketList.add(docket);
@@ -196,7 +195,7 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
                 .globalResponseMessage(RequestMethod.POST, getResponseMessages())
                 .globalResponseMessage(RequestMethod.PUT, getResponseMessages())
                 .globalResponseMessage(RequestMethod.DELETE, getResponseMessages())
-                .extensions(Lists.newArrayList(new OrderExtensions(swaggerProperties.getOrder())))
+//                .extensions(Lists.newArrayList(new OrderExtensions(swaggerProperties.getOrder())))
                 ;
     }
 
