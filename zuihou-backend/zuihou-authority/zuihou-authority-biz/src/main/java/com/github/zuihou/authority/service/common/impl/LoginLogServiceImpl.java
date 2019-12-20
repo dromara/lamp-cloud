@@ -1,9 +1,6 @@
 package com.github.zuihou.authority.service.common.impl;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.common.LoginLogMapper;
 import com.github.zuihou.authority.entity.auth.User;
@@ -11,7 +8,6 @@ import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.common.constant.CacheKey;
-
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -20,6 +16,10 @@ import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -38,6 +38,31 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
     @Autowired
     private CacheChannel cache;
 
+    private final static String[] BROWSER = new String[]{
+            "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
+    };
+    private final static String[] OPERATING_SYSTEM = new String[]{
+            "Android", "Linux", "Mac OS X", "Ubuntu", "Windows 10", "Windows 8", "Windows 7", "Windows XP", "Windows Vista"
+    };
+
+    private static String simplifyOperatingSystem(String operatingSystem) {
+        for (String b : OPERATING_SYSTEM) {
+            if (StrUtil.containsIgnoreCase(operatingSystem, b)) {
+                return b;
+            }
+        }
+        return operatingSystem;
+    }
+
+    private static String simplifyBrowser(String browser) {
+        for (String b : BROWSER) {
+            if (StrUtil.containsIgnoreCase(browser, b)) {
+                return b;
+            }
+        }
+        return browser;
+    }
+
     @Override
     public LoginLog save(String account, String ua, String ip, String location) {
         User user = userService.getByAccount(account);
@@ -48,8 +73,8 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
                 .account(account).location(location)
                 .loginDate(LocalDate.now())
                 .requestIp(ip).ua(ua).userName(account)
-                .browser(browser.getName()).browserVersion(userAgent.getBrowserVersion().getVersion())
-                .operatingSystem(operatingSystem.getName())
+                .browser(simplifyBrowser(browser.getName())).browserVersion(userAgent.getBrowserVersion().getVersion())
+                .operatingSystem(simplifyOperatingSystem(operatingSystem.getName()))
                 .build();
         if (user != null) {
             loginLog.setUserId(user.getId()).setUserName(user.getName());
@@ -71,42 +96,43 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
         return loginLog;
     }
 
+
     @Override
     public Long findTotalVisitCount() {
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TOTAL, CacheKey.buildTenantKey(), (key) -> this.baseMapper.findTotalVisitCount());
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TOTAL, CacheKey.buildTenantKey(), (key) -> baseMapper.findTotalVisitCount());
         return (Long) cacheObject.getValue();
     }
 
     @Override
     public Long findTodayVisitCount() {
         LocalDate now = LocalDate.now();
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY, CacheKey.buildTenantKey(now), (key) -> this.baseMapper.findTodayVisitCount(now));
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY, CacheKey.buildTenantKey(now), (key) -> baseMapper.findTodayVisitCount(now));
         return (Long) cacheObject.getValue();
     }
 
     @Override
     public Long findTodayIp() {
         LocalDate now = LocalDate.now();
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY_IP, CacheKey.buildTenantKey(now), (key) -> this.baseMapper.findTodayIp(now));
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TODAY_IP, CacheKey.buildTenantKey(now), (key) -> baseMapper.findTodayIp(now));
         return (Long) cacheObject.getValue();
     }
 
     @Override
     public List<Map<String, Object>> findLastTenDaysVisitCount(String account) {
         LocalDate tenDays = LocalDate.now().plusDays(-9);
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, account), (key) -> this.baseMapper.findLastTenDaysVisitCount(tenDays, account));
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, account), (key) -> baseMapper.findLastTenDaysVisitCount(tenDays, account));
         return (List<Map<String, Object>>) cacheObject.getValue();
     }
 
     @Override
     public List<Map<String, Object>> findByBrowser() {
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_BROWSER, CacheKey.buildTenantKey(), (key) -> this.baseMapper.findByBrowser());
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_BROWSER, CacheKey.buildTenantKey(), (key) -> baseMapper.findByBrowser());
         return (List<Map<String, Object>>) cacheObject.getValue();
     }
 
     @Override
     public List<Map<String, Object>> findByOperatingSystem() {
-        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.buildTenantKey(), (key) -> this.baseMapper.findByOperatingSystem());
+        CacheObject cacheObject = cache.get(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.buildTenantKey(), (key) -> baseMapper.findByOperatingSystem());
         return (List<Map<String, Object>>) cacheObject.getValue();
     }
 }
