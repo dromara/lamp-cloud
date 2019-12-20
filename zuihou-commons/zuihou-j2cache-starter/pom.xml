@@ -42,8 +42,23 @@
                     <groupId>org.objenesis</groupId>
                     <artifactId>objenesis</artifactId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>javassist</artifactId>
+                    <groupId>org.javassist</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <artifactId>javassist</artifactId>
+            <groupId>org.javassist</groupId>
+            <version>3.25.0-GA</version>
+        </dependency>
+
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
