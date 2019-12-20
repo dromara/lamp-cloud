@@ -106,6 +106,7 @@
         <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
         <spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
         <spring-cloud-alibaba-dependencies.version>2.1.0.RELEASE</spring-cloud-alibaba-dependencies.version>
+        <seata.version>0.9.0</seata.version>
         <spring.version>5.1.4.RELEASE</spring.version>
         <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
         <mybatis.version>3.5.2</mybatis.version>
@@ -138,6 +139,7 @@
         <poi.ooxml.version>3.15</poi.ooxml.version>
         <shiro.version>1.4.0</shiro.version>
 
+        <asm.version>5.0.4</asm.version>
         <groovy-all.version>2.5.5</groovy-all.version>
         <quartz.version>2.3.0</quartz.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
@@ -186,6 +188,11 @@
                 <version>${spring-cloud-alibaba-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-all</artifactId>
+                <version>${seata.version}</version>
             </dependency>
 
             <dependency>

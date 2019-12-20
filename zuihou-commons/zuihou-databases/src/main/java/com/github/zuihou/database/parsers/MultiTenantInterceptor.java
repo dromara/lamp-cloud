@@ -1,51 +1,26 @@
 package com.github.zuihou.database.parsers;
 
-import java.util.List;
-import java.util.Properties;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObject;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.expr.SQLAggregateExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCaseExpr;
-import com.alibaba.druid.sql.ast.expr.SQLExistsExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInSubQueryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
-import com.alibaba.druid.sql.ast.statement.SQLCreateStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
-import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
+import com.alibaba.druid.sql.ast.expr.*;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlDeleteStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
-
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -104,13 +79,17 @@ public class MultiTenantInterceptor implements Interceptor {
     public void setProperties(Properties properties) {
     }
 
+    void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         Object[] args = invocation.getArgs();
         MappedStatement mappedStatement = (MappedStatement) args[0];
         Object parameter = args[1];
-        schemaName = SCHEMA_NAME_PREFIX + this.getCurrentSchemaName(mappedStatement);
-        args[0] = this.getNewMappedStatement(parameter, mappedStatement);
+        schemaName = SCHEMA_NAME_PREFIX + getCurrentSchemaName(mappedStatement);
+        args[0] = getNewMappedStatement(parameter, mappedStatement);
         return invocation.proceed();
     }
 
@@ -136,7 +115,7 @@ public class MultiTenantInterceptor implements Interceptor {
     private MappedStatement getNewMappedStatement(Object parameter, MappedStatement mappedStatement) {
         BoundSql boundSql = mappedStatement.getBoundSql(parameter);
         logger.debug("原SQL：{}", boundSql.getSql());
-        String resultSql = this.processSqlByInterceptor(boundSql.getSql());
+        String resultSql = processSqlByInterceptor(boundSql.getSql());
         logger.debug("结果SQL：{}", resultSql);
         BoundSql newBoundSql = new BoundSql(mappedStatement.getConfiguration(), resultSql, boundSql.getParameterMappings(), boundSql.getParameterObject());
         MappedStatement.Builder builder = new MappedStatement.Builder(mappedStatement.getConfiguration(), mappedStatement.getId(), parameterObject -> newBoundSql, mappedStatement.getSqlCommandType());
@@ -144,8 +123,9 @@ public class MultiTenantInterceptor implements Interceptor {
         builder.fetchSize(mappedStatement.getFetchSize());
         builder.statementType(mappedStatement.getStatementType());
         builder.keyGenerator(mappedStatement.getKeyGenerator());
-        if (mappedStatement.getKeyProperties() != null && mappedStatement.getKeyProperties().length > 0)
+        if (mappedStatement.getKeyProperties() != null && mappedStatement.getKeyProperties().length > 0) {
             builder.keyProperty(mappedStatement.getKeyProperties()[0]);
+        }
         builder.timeout(mappedStatement.getTimeout());
         builder.parameterMap(mappedStatement.getParameterMap());
         builder.resultMaps(mappedStatement.getResultMaps());
@@ -155,8 +135,9 @@ public class MultiTenantInterceptor implements Interceptor {
         builder.useCache(mappedStatement.isUseCache());
         for (ParameterMapping mapping : boundSql.getParameterMappings()) {
             String prop = mapping.getProperty();
-            if (boundSql.hasAdditionalParameter(prop))
+            if (boundSql.hasAdditionalParameter(prop)) {
                 newBoundSql.setAdditionalParameter(prop, boundSql.getAdditionalParameter(prop));
+            }
         }
         return builder.build();
     }
@@ -191,7 +172,7 @@ public class MultiTenantInterceptor implements Interceptor {
         }
     }
 
-    private String processSqlByInterceptor(String sql) {
+    String processSqlByInterceptor(String sql) {
         MySqlStatementParser parser = new MySqlStatementParser(sql);
         SQLStatement sqlStatement = parser.parseStatement();
         if (sqlStatement instanceof SQLSelectStatement) {

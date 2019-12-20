@@ -57,18 +57,8 @@
         </dependency>
 
         <dependency>
-            <groupId>net.oschina.j2cache</groupId>
-            <artifactId>j2cache-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.objenesis</groupId>
-                    <artifactId>objenesis</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-j2cache-starter</artifactId>
         </dependency>
 
         <dependency>

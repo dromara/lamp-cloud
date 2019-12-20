@@ -1,17 +1,14 @@
 package com.github.zuihou.database.parsers;
 
-import java.util.Collection;
-import java.util.Map;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.core.parser.SqlInfo;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.github.zuihou.context.BaseContextHandler;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.ibatis.reflection.MetaObject;
+
+import java.util.Map;
 
 
 /**
@@ -37,24 +34,34 @@ public class DynamicTableNameParser implements ISqlParser {
     @Override
     public SqlInfo parser(MetaObject metaObject, String sql) {
         if (allowProcess(metaObject)) {
-            Collection<String> tables = new TableNameParser(sql).tables();
-            if (CollectionUtils.isNotEmpty(tables)) {
-                boolean sqlParsed = false;
-                String parsedSql = sql;
-                for (final String table : tables) {
-                    ITableNameHandler tableNameHandler = defaultTableNameHandler;
-                    if (CollectionUtils.isNotEmpty(tableNameHandlerMap)) {
-                        tableNameHandler = tableNameHandlerMap.get(table);
-                    }
-                    if (tableNameHandler != null) {
-                        parsedSql = tableNameHandler.process(metaObject, parsedSql, table);
-                        sqlParsed = true;
-                    }
-                }
-                if (sqlParsed) {
-                    return SqlInfo.newInstance().setSql(parsedSql);
-                }
+            //Collection<String> tables = new TableNameParser(sql).tables();
+            //if (CollectionUtils.isNotEmpty(tables)) {
+            //    boolean sqlParsed = false;
+            //    String parsedSql = sql;
+            //    for (final String table : tables) {
+            //        ITableNameHandler tableNameHandler = defaultTableNameHandler;
+            //        if (CollectionUtils.isNotEmpty(tableNameHandlerMap)) {
+            //            tableNameHandler = tableNameHandlerMap.get(table);
+            //        }
+            //        if (tableNameHandler != null) {
+            //            parsedSql = tableNameHandler.process(metaObject, parsedSql, table);
+            //            sqlParsed = true;
+            //        }
+            //    }
+            //    if (sqlParsed) {
+            //        return SqlInfo.newInstance().setSql(parsedSql);
+            //    }
+            //}
+
+            String tenantCode = BaseContextHandler.getTenant();
+            if (StrUtil.isEmpty(tenantCode)) {
+                return null;
             }
+
+            MultiTenantInterceptor multiTenantInterceptor = new MultiTenantInterceptor();
+            multiTenantInterceptor.setSchemaName(BaseContextHandler.getDatabase(tenantCode));
+            String parsedSql = multiTenantInterceptor.processSqlByInterceptor(sql);
+            return SqlInfo.newInstance().setSql(parsedSql);
         }
         return null;
     }
@@ -67,7 +74,7 @@ public class DynamicTableNameParser implements ISqlParser {
      * @param metaObject 元对象
      * @return true
      */
-    public boolean allowProcess(MetaObject metaObject) {
+    private boolean allowProcess(MetaObject metaObject) {
         return true;
     }
 }
