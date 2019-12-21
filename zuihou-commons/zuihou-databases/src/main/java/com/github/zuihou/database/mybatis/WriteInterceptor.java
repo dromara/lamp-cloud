@@ -1,33 +1,26 @@
 package com.github.zuihou.database.mybatis;
 
-import java.sql.Connection;
-import java.util.Arrays;
-import java.util.Properties;
-
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
-
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 
-import static org.apache.ibatis.mapping.SqlCommandType.DELETE;
-import static org.apache.ibatis.mapping.SqlCommandType.INSERT;
-import static org.apache.ibatis.mapping.SqlCommandType.UPDATE;
+import java.sql.Connection;
+import java.util.Arrays;
+import java.util.Properties;
+
+import static org.apache.ibatis.mapping.SqlCommandType.*;
 
 
 /**
@@ -48,14 +41,14 @@ public class WriteInterceptor extends AbstractSqlParserHandler implements Interc
     public Object intercept(Invocation invocation) {
         StatementHandler statementHandler = (StatementHandler) PluginUtils.realTarget(invocation.getTarget());
         MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
-        this.sqlParser(metaObject);
+        sqlParser(metaObject);
         // 读操作 放行
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         if (SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {
             return invocation.proceed();
         }
         // 记录日志相关的 放行
-        if (StrUtil.containsAnyIgnoreCase(mappedStatement.getId(), "resetPassErrorNum", "updateLastLoginTime", "OptLog", "LoginLog", "File", "xxl")) {
+        if (StrUtil.containsAnyIgnoreCase(mappedStatement.getId(), "sms", "MsgsCenterInfo", "resetPassErrorNum", "updateLastLoginTime", "OptLog", "LoginLog", "File", "xxl")) {
             return invocation.proceed();
         }
         // userId=1 的超级管理员 放行
