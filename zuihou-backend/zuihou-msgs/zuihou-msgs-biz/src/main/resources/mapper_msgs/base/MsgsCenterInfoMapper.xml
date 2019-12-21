@@ -13,18 +13,17 @@
         <result column="biz_type" jdbcType="VARCHAR" property="bizType"/>
         <result column="msgs_center_type" jdbcType="VARCHAR" property="msgsCenterType"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
-        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
         <result column="author" jdbcType="VARCHAR" property="author"/>
         <result column="handler_url" jdbcType="VARCHAR" property="handlerUrl"/>
         <result column="handler_params" jdbcType="VARCHAR" property="handlerParams"/>
         <result column="is_single_handle" jdbcType="BIT" property="isSingleHandle"/>
-        <result column="is_delete" jdbcType="BIT" property="isDelete"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, create_user, update_time, update_user,
-        biz_id, biz_type, msgs_center_type, title, content, author, handler_url, handler_params, is_single_handle, is_delete
+        id, create_time, create_user, update_time, update_user, 
+        biz_id, biz_type, msgs_center_type, title, content, author, handler_url, handler_params, is_single_handle
     </sql>
 
 </mapper>

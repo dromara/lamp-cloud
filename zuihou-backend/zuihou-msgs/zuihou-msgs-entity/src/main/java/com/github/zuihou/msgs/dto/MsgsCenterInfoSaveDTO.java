@@ -1,30 +1,23 @@
 package com.github.zuihou.msgs.dto;
 
-import java.io.Serializable;
-import java.util.Set;
-
-import javax.validation.constraints.NotNull;
-
 import com.google.common.collect.Sets;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Set;
 
 /**
  * <p>
  * 实体类
- * 消息中心
+ * 消息中心表
  * </p>
  *
  * @author zuihou
- * @since 2019-08-01
+ * @since 2019-12-21
  */
 @Data
 @NoArgsConstructor

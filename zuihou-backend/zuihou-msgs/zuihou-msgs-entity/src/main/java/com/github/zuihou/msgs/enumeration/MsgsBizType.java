@@ -2,7 +2,6 @@ package com.github.zuihou.msgs.enumeration;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,11 +11,11 @@ import lombok.NoArgsConstructor;
 /**
  * <p>
  * 实体注释中生成的类型枚举
- * 消息中心
+ * 消息中心表
  * </p>
  *
  * @author zuihou
- * @date 2019-08-02
+ * @date 2019-12-21
  */
 @Getter
 @AllArgsConstructor
@@ -26,7 +25,7 @@ import lombok.NoArgsConstructor;
 public enum MsgsBizType implements BaseEnum {
 
     /**
-     * USER_LOCK="账号锁定"
+     * USER_LOCK:账号锁定;USER_REG:账号申请;WORK_APPROVAL:考勤审批;
      */
     USER_LOCK("账号锁定"),
     USER_REG("账号申请"),
@@ -51,7 +50,7 @@ public enum MsgsBizType implements BaseEnum {
     }
 
     public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
+        return name().equalsIgnoreCase(val);
     }
 
     public boolean eq(MsgsBizType val) {
@@ -64,7 +63,7 @@ public enum MsgsBizType implements BaseEnum {
     @Override
     @ApiModelProperty(value = "编码", allowableValues = "USER_LOCK", example = "USER_LOCK")
     public String getCode() {
-        return this.name();
+        return name();
     }
 
 }

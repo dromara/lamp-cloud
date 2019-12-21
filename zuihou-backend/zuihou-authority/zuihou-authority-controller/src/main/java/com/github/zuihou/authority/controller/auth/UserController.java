@@ -1,20 +1,7 @@
 package com.github.zuihou.authority.controller.auth;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.UserPageDTO;
-import com.github.zuihou.authority.dto.auth.UserRegisterDTO;
-import com.github.zuihou.authority.dto.auth.UserRoleDTO;
-import com.github.zuihou.authority.dto.auth.UserSaveDTO;
-import com.github.zuihou.authority.dto.auth.UserUpdateAvatarDTO;
-import com.github.zuihou.authority.dto.auth.UserUpdateDTO;
-import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
+import com.github.zuihou.authority.dto.auth.*;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.core.Org;
@@ -37,7 +24,6 @@ import com.github.zuihou.user.model.SysOrg;
 import com.github.zuihou.user.model.SysRole;
 import com.github.zuihou.user.model.SysStation;
 import com.github.zuihou.user.model.SysUser;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -46,15 +32,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.github.zuihou.common.constant.BizConstant.DEMO_ORG_ID;
 import static com.github.zuihou.common.constant.BizConstant.DEMO_STATION_ID;
@@ -140,6 +124,15 @@ public class UserController extends BaseController {
     public R<User> get(@PathVariable Long id) {
         return success(userService.getById(id));
     }
+
+
+    @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
+    @GetMapping("/find")
+    @SysLog("查询所有用户")
+    public R<List<Long>> findAllUserId() {
+        return success(userService.list().stream().mapToLong(User::getId).boxed().collect(Collectors.toList()));
+    }
+
 
     /**
      * 新增用户
