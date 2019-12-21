@@ -1,34 +1,29 @@
 package com.github.zuihou.msgs.entity;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotNull;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
 import com.github.zuihou.msgs.enumeration.MsgsBizType;
 import com.github.zuihou.msgs.enumeration.MsgsCenterType;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
 /**
  * <p>
  * 实体类
- * 消息中心
+ * 消息中心表
  * </p>
  *
  * @author zuihou
- * @since 2019-08-02
+ * @since 2019-12-21
  */
 @Data
 @NoArgsConstructor
@@ -37,7 +32,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("msgs_center_info")
-@ApiModel(value = "MsgsCenterInfo", description = "消息中心")
+@ApiModel(value = "MsgsCenterInfo", description = "消息中心表")
 public class MsgsCenterInfo extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +43,7 @@ public class MsgsCenterInfo extends Entity<Long> {
      */
     @ApiModelProperty(value = "业务ID")
     @Length(max = 64, message = "业务ID长度不能超过64")
-    @TableField("biz_id")
+    @TableField(value = "biz_id", condition = LIKE)
     private String bizId;
 
     /**
@@ -61,7 +56,7 @@ public class MsgsCenterInfo extends Entity<Long> {
 
     /**
      * 消息类型
-     * #MsgsCenterType{WAIT:待办;NOTIFY:通知;PUBLICITY:公示公告;WARN:预警;}
+     * #MsgsCenterType{WAIT:待办;NOTIFY:通知;PUBLICITY:公告;WARN:预警;}
      */
     @ApiModelProperty(value = "消息类型")
     @NotNull(message = "消息类型不能为空")
@@ -72,8 +67,8 @@ public class MsgsCenterInfo extends Entity<Long> {
      * 标题
      */
     @ApiModelProperty(value = "标题")
-    @Length(max = 100, message = "标题长度不能超过100")
-    @TableField("title")
+    @Length(max = 255, message = "标题长度不能超过255")
+    @TableField(value = "title", condition = LIKE)
     private String title;
 
     /**
@@ -85,11 +80,11 @@ public class MsgsCenterInfo extends Entity<Long> {
     private String content;
 
     /**
-     * 作者名称
+     * 作者
      */
-    @ApiModelProperty(value = "作者名称")
-    @Length(max = 50, message = "作者名称长度不能超过50")
-    @TableField("author")
+    @ApiModelProperty(value = "作者")
+    @Length(max = 50, message = "作者长度不能超过50")
+    @TableField(value = "author", condition = LIKE)
     private String author;
 
     /**
@@ -98,8 +93,8 @@ public class MsgsCenterInfo extends Entity<Long> {
      * http可带参数
      */
     @ApiModelProperty(value = "处理地址")
-    @Length(max = 200, message = "处理地址长度不能超过200")
-    @TableField("handler_url")
+    @Length(max = 255, message = "处理地址长度不能超过255")
+    @TableField(value = "handler_url", condition = LIKE)
     private String handlerUrl;
 
     /**
@@ -107,29 +102,21 @@ public class MsgsCenterInfo extends Entity<Long> {
      */
     @ApiModelProperty(value = "处理参数")
     @Length(max = 400, message = "处理参数长度不能超过400")
-    @TableField("handler_params")
+    @TableField(value = "handler_params", condition = LIKE)
     private String handlerParams;
 
     /**
-     * 是否单人处理后就标记已处理
+     * 是否单人处理
      */
-    @ApiModelProperty(value = "是否单人处理后就标记已处理")
+    @ApiModelProperty(value = "是否单人处理")
     @TableField("is_single_handle")
     private Boolean isSingleHandle;
-
-    /**
-     * 是否删除
-     * 业务数据删除后，会调用接口删除该消息
-     */
-    @ApiModelProperty(value = "是否删除")
-    @TableField("is_delete")
-    private Boolean isDelete;
 
 
     @Builder
     public MsgsCenterInfo(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
                           String bizId, MsgsBizType bizType, MsgsCenterType msgsCenterType, String title, String content,
-                          String author, String handlerUrl, String handlerParams, Boolean isSingleHandle, Boolean isDelete) {
+                          String author, String handlerUrl, String handlerParams, Boolean isSingleHandle) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -144,7 +131,6 @@ public class MsgsCenterInfo extends Entity<Long> {
         this.handlerUrl = handlerUrl;
         this.handlerParams = handlerParams;
         this.isSingleHandle = isSingleHandle;
-        this.isDelete = isDelete;
     }
 
 }
