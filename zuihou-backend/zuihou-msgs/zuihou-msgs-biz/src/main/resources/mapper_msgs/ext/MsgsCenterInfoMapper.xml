@@ -42,6 +42,9 @@
         <if test="data.msgsCenterType != null">
             and info.msgs_center_type = #{data.msgsCenterType, jdbcType=VARCHAR}
         </if>
+        <if test="data.bizType != null">
+            and info.biz_type = #{data.bizType, jdbcType=VARCHAR}
+        </if>
         <if test="data.title != null and data.title != ''">
             and info.title like #{data.title, typeHandler=fullLike}
         </if>

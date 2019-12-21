@@ -1,11 +1,7 @@
 package com.github.zuihou.authority.controller.auth;
 
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.authority.service.auth.ValidateCodeService;
@@ -14,17 +10,14 @@ import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
-
-import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 /**
@@ -48,6 +41,7 @@ public class LoginController extends BaseController {
 
     /**
      * 超级管理员登录
+     *
      * @param key
      * @param code
      * @param account
@@ -135,8 +129,9 @@ public class LoginController extends BaseController {
         return success(validateCodeService.check(key, code));
     }
 
-    @GetMapping("/captcha")
-    public void captcha(@RequestParam(value = "key") String key, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @ApiOperation(value = "验证码", notes = "验证码")
+    @GetMapping(value = "/captcha", produces = "image/png")
+    public void captcha(@RequestParam(value = "key") String key, HttpServletResponse response) throws IOException {
         validateCodeService.create(key, response);
     }
 
