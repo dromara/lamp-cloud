@@ -1,8 +1,7 @@
 package com.github.zuihou.authority.controller.auth;
 
 
-import java.util.List;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.SystemApiSaveDTO;
 import com.github.zuihou.authority.dto.auth.SystemApiScanSaveDTO;
@@ -16,23 +15,17 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -72,6 +65,7 @@ public class SystemApiController extends BaseController {
         IPage<SystemApi> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<SystemApi> query = Wraps.lbQ(data);
+        query.orderByDesc(SystemApi::getId);
         systemApiService.page(page, query);
         return success(page);
     }
@@ -114,6 +108,11 @@ public class SystemApiController extends BaseController {
     @SysLog("新增API接口")
     public R<SystemApi> save(@RequestBody @Validated SystemApiSaveDTO data) {
         SystemApi systemApi = dozer.map(data, SystemApi.class);
+        systemApi.setIsPersist(false);
+        if (StrUtil.isEmpty(systemApi.getCode())) {
+            systemApi.setCode(DigestUtils.md5Hex(systemApi.getServiceId() + systemApi.getPath()));
+        }
+
         systemApiService.save(systemApi);
         return success(systemApi);
     }

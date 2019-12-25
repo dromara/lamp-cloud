@@ -1,23 +1,16 @@
 package com.github.zuihou.authority.entity.auth;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -28,7 +21,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-12-17
+ * @since 2019-12-25
  */
 @Data
 @NoArgsConstructor
@@ -46,7 +39,6 @@ public class SystemApi extends Entity<Long> {
      * 接口编码
      */
     @ApiModelProperty(value = "接口编码")
-    @NotEmpty(message = "接口编码不能为空")
     @Length(max = 255, message = "接口编码长度不能超过255")
     @TableField(value = "code", condition = LIKE)
     private String code;
