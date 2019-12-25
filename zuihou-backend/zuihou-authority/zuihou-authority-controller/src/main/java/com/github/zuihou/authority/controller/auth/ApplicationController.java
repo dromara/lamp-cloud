@@ -1,8 +1,6 @@
 package com.github.zuihou.authority.controller.auth;
 
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ApplicationSaveDTO;
 import com.github.zuihou.authority.dto.auth.ApplicationUpdateDTO;
@@ -15,7 +13,6 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,15 +20,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -71,6 +62,7 @@ public class ApplicationController extends BaseController {
         IPage<Application> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Application> query = Wraps.lbQ(data);
+        query.orderByDesc(Application::getId);
         applicationService.page(page, query);
         return success(page);
     }
@@ -99,6 +91,7 @@ public class ApplicationController extends BaseController {
     @SysLog("新增应用")
     public R<Application> save(@RequestBody @Validated ApplicationSaveDTO data) {
         Application application = dozer.map(data, Application.class);
+
         applicationService.save(application);
         return success(application);
     }

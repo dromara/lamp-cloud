@@ -1,22 +1,15 @@
 package com.github.zuihou.authority.dto.auth;
 
-import java.io.Serializable;
+import com.github.zuihou.base.entity.SuperEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import com.github.zuihou.base.entity.SuperEntity;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -25,7 +18,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-12-17
+ * @since 2019-12-25
  */
 @Data
 @NoArgsConstructor
@@ -47,7 +40,6 @@ public class SystemApiUpdateDTO implements Serializable {
      * 接口编码
      */
     @ApiModelProperty(value = "接口编码")
-    @NotEmpty(message = "接口编码不能为空")
     @Length(max = 255, message = "接口编码长度不能超过255")
     private String code;
     /**
