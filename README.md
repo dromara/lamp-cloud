@@ -22,22 +22,22 @@ RabbitMQ、FastDFS等主要框架和中间件。
 - docker部署
 - k8s部署
 
-## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！
+## 如果觉得对您有任何一点帮助，请点右上角 "Star" 支持一下吧，谢谢！
 
 ## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
 http://doc.tangyh.top/zuihou-admin-cloud
 
 ## 项目代码地址
 
-| 项目 | gitee | github |
-|---|---|---|
-| 微服务项目 | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud |
-| 单体项目 | https://gitee.com/zuihou111/zuihou-admin-boot | https://github.com/zuihou/zuihou-admin-boot |
-| 租户后台 | https://gitee.com/zuihou111/zuihou-ui | https://github.com/zuihou/zuihou-ui |
-| 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui |
-| 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator |
+| 项目 | gitee | github | 备注 |
+|---|---|---|---|
+| 微服务项目 | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud | SpringCloud 版本 |
+| 单体项目 | https://gitee.com/zuihou111/zuihou-admin-boot | https://github.com/zuihou/zuihou-admin-boot | SpringBoot 版本 |
+| 租户后台 | https://gitee.com/zuihou111/zuihou-ui | https://github.com/zuihou/zuihou-ui | 给客户使用 |
+| 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui | 给公司内部开发&运营&运维等人员使用 |
+| 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator | 给开发人员使用 |
 
-## 演示地址
+## 演示地址 （服务器没法备案，只能加上端口~~~）
 
 | 项目 | 演示地址 | 管理员账号 | 普通账号 |
 |---|---|---|---|
