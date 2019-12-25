@@ -1,14 +1,15 @@
 package com.github.zuihou.file.utils;
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.github.zuihou.exception.BizException;
+import com.github.zuihou.utils.StrPool;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -18,16 +19,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.github.zuihou.exception.BizException;
-import com.github.zuihou.utils.StrPool;
-
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
 
 import static com.github.zuihou.utils.StrPool.SLASH;
 
@@ -43,7 +34,7 @@ public class ZipUtils {
 
     private final static String AGENT_FIREFOX = "firefox";
 
-    public static void zipFiles(ZipOutputStream out, String path, File... srcFiles) {
+    private static void zipFiles(ZipOutputStream out, String path, File... srcFiles) {
         path = path.replaceAll("\\*", SLASH);
         if (!path.endsWith(SLASH)) {
             path += SLASH;
@@ -109,7 +100,7 @@ public class ZipUtils {
      * @param
      * @throws Exception
      */
-    public static void downloadFile(InputStream is, OutputStream out) throws Exception {
+    private static void downloadFile(InputStream is, OutputStream out) throws Exception {
         try {
             byte[] b = new byte[2048];
             int length;
@@ -201,7 +192,8 @@ public class ZipUtils {
         }
         response.setHeader("Content-Disposition", "attachment;fileName=" + downloadFileName);
         if (fileSize != null && fileSize > 0) {
-            response.setHeader("Content-Length", String.valueOf(fileSize));
+            // 加了这个下载会报错？
+//            response.setHeader("Content-Length", String.valueOf(fileSize));
         }
 
         ServletOutputStream out = response.getOutputStream();
