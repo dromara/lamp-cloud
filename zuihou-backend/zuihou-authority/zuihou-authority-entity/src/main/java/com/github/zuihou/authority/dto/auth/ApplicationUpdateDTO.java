@@ -1,22 +1,16 @@
 package com.github.zuihou.authority.dto.auth;
 
-import java.io.Serializable;
+import com.github.zuihou.authority.enumeration.auth.ApplicationAppTypeEnum;
+import com.github.zuihou.base.entity.SuperEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import com.github.zuihou.base.entity.SuperEntity;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -25,7 +19,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-12-17
+ * @since 2019-12-25
  */
 @Data
 @NoArgsConstructor
@@ -44,10 +38,10 @@ public class ApplicationUpdateDTO implements Serializable {
     private Long id;
 
     /**
-     * AppId
+     * AppKey
      */
-    @ApiModelProperty(value = "AppId")
-    @Length(max = 100, message = "AppId长度不能超过100")
+    @ApiModelProperty(value = "AppKey")
+    @Length(max = 100, message = "AppKey长度不能超过100")
     private String appKey;
     /**
      * AppSecret
@@ -56,46 +50,40 @@ public class ApplicationUpdateDTO implements Serializable {
     @Length(max = 255, message = "AppSecret长度不能超过255")
     private String appSecret;
     /**
-     * 首页地址
+     * 官网
      */
-    @ApiModelProperty(value = "首页地址")
-    @Length(max = 100, message = "首页地址长度不能超过100")
-    private String indexUrl;
+    @ApiModelProperty(value = "官网")
+    @Length(max = 100, message = "官网长度不能超过100")
+    private String website;
     /**
      * 应用名称
      */
     @ApiModelProperty(value = "应用名称")
-    @Length(max = 20, message = "应用名称长度不能超过20")
+    @NotEmpty(message = "应用名称不能为空")
+    @Length(max = 255, message = "应用名称长度不能超过255")
     private String name;
     /**
-     * 应用logo
+     * 应用图标
      */
-    @ApiModelProperty(value = "应用logo")
-    @Length(max = 255, message = "应用logo长度不能超过255")
-    private String logoUrl;
+    @ApiModelProperty(value = "应用图标")
+    @Length(max = 255, message = "应用图标长度不能超过255")
+    private String icon;
     /**
-     * 功能描述
+     * 类型
+     * #{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}
      */
-    @ApiModelProperty(value = "功能描述")
-    @Length(max = 200, message = "功能描述长度不能超过200")
+    @ApiModelProperty(value = "类型")
+    private ApplicationAppTypeEnum appType;
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "备注")
+    @Length(max = 200, message = "备注长度不能超过200")
     private String describe;
-    /**
-     * 应用编码
-     * 必须唯一
-     */
-    @ApiModelProperty(value = "应用编码")
-    @NotEmpty(message = "应用编码不能为空")
-    @Length(max = 20, message = "应用编码长度不能超过20")
-    private String code;
-    /**
-     * 序号
-     */
-    @ApiModelProperty(value = "序号")
-    private Integer sortValue;
     /**
      * 是否启用
      */
     @ApiModelProperty(value = "是否启用")
-    private Boolean isEnable;
+    private Boolean status;
 
 }

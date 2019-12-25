@@ -1,14 +1,8 @@
 package com.github.zuihou.scan.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.scan.model.SystemApiSaveDTO;
 import com.github.zuihou.scan.model.SystemApiScanSaveDTO;
-
-import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.core.MethodParameter;
@@ -21,6 +15,11 @@ import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondit
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This is a Description
@@ -61,13 +60,13 @@ public class RequestMappingScanUtils {
             String requestMethod = getMethods(methodsCondition.getMethods());
             // 请求路径
             PatternsRequestCondition p = info.getPatternsCondition();
-            String urls = getUrls(p.getPatterns());
+            String path = getUrls(p.getPatterns());
             // 类名
             String className = method.getMethod().getDeclaringClass().getName();
             // 方法名
             String methodName = method.getMethod().getName();
             // md5码
-            String code = DigestUtils.md5Hex(serviceId + urls);
+            String code = DigestUtils.md5Hex(serviceId + path);
             String name = "";
             String describe = "";
             // 是否需要安全认证 默认:1-是 0-否
@@ -95,7 +94,7 @@ public class RequestMappingScanUtils {
             SystemApiSaveDTO api = SystemApiSaveDTO.builder()
                     .name(name).code(code).describe(describe)
                     .requestMethod(requestMethod).contentType(contentType)
-                    .serviceId(serviceId).path(urls)
+                    .serviceId(serviceId).path(path)
                     .status(true).isPersist(true).isAuth(isAuth)
                     .isOpen(false)
                     .className(className).methodName(methodName)

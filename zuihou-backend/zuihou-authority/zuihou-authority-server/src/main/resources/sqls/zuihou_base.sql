@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 17/12/2019 18:07:27
+ Date: 25/12/2019 18:10:14
 */
 
 SET NAMES utf8mb4;
@@ -23,21 +23,19 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `c_auth_application`;
 CREATE TABLE `c_auth_application` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `app_key` varchar(100) DEFAULT NULL COMMENT 'AppId',
+  `app_key` varchar(100) DEFAULT NULL COMMENT 'AppKey',
   `app_secret` varchar(255) DEFAULT NULL COMMENT 'AppSecret',
-  `index_url` varchar(100) DEFAULT '' COMMENT '首页地址',
-  `name` varchar(20) DEFAULT '' COMMENT '应用名称',
-  `logo_url` varchar(255) DEFAULT '' COMMENT '应用logo',
-  `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
-  `code` varchar(20) NOT NULL COMMENT '应用编码\r\n必须唯一',
-  `sort_value` int(11) DEFAULT '1' COMMENT '序号',
-  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `website` varchar(100) DEFAULT '' COMMENT '官网',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '应用名称',
+  `icon` varchar(255) DEFAULT '' COMMENT '应用图标',
+  `app_type` varchar(10) DEFAULT NULL COMMENT '类型\n#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}\n',
+  `describe_` varchar(200) DEFAULT '' COMMENT '备注',
+  `status` bit(1) DEFAULT b'1' COMMENT '是否启用',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `un_code_` (`code`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用';
 
 -- ----------------------------
@@ -151,7 +149,7 @@ CREATE TABLE `c_auth_role_org` (
 DROP TABLE IF EXISTS `c_auth_system_api`;
 CREATE TABLE `c_auth_system_api` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `code` varchar(255) CHARACTER SET utf8mb4 NOT NULL COMMENT '接口编码',
+  `code` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '接口编码',
   `name` varchar(100) CHARACTER SET utf8mb4 NOT NULL COMMENT '接口名称',
   `describe_` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源描述',
   `request_method` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '请求方式',
@@ -532,15 +530,14 @@ DROP TABLE IF EXISTS `msgs_center_info`;
 CREATE TABLE `msgs_center_info` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `biz_id` varchar(64) DEFAULT NULL COMMENT '业务ID\n业务表的唯一id',
-  `biz_type` varchar(64) DEFAULT NULL COMMENT '业务类型\n#MsgsBizType{USER_LOCK:账号锁定;}',
+  `biz_type` varchar(64) DEFAULT NULL COMMENT '业务类型\n#MsgsBizType{USER_LOCK:账号锁定;USER_REG:账号申请;WORK_APPROVAL:考勤审批;}',
   `msgs_center_type` varchar(20) NOT NULL DEFAULT 'NOTIFY' COMMENT '消息类型\n#MsgsCenterType{WAIT:待办;NOTIFY:通知;PUBLICITY:公告;WARN:预警;}',
-  `title` varchar(100) DEFAULT '' COMMENT '标题',
+  `title` varchar(255) DEFAULT '' COMMENT '标题',
   `content` text COMMENT '内容',
-  `author` varchar(50) DEFAULT '' COMMENT '作者名称',
-  `handler_url` varchar(200) DEFAULT '' COMMENT '处理地址\n以http开头时直接跳转，否则与#c_application表拼接后跳转\nhttp可带参数',
+  `author` varchar(50) DEFAULT '' COMMENT '作者',
+  `handler_url` varchar(255) DEFAULT '' COMMENT '处理地址\n以http开头时直接跳转，否则与#c_application表拼接后跳转\nhttp可带参数',
   `handler_params` varchar(400) DEFAULT '' COMMENT '处理参数',
-  `is_single_handle` bit(1) DEFAULT b'1' COMMENT '是否单人处理后就标记已处理',
-  `is_delete` bit(1) DEFAULT b'0' COMMENT '是否删除\n业务数据删除后，会调用接口删除该消息',
+  `is_single_handle` bit(1) DEFAULT b'1' COMMENT '是否单人处理',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
