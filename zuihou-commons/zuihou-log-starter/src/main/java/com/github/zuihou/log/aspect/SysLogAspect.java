@@ -1,14 +1,10 @@
 package com.github.zuihou.log.aspect;
 
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.function.Consumer;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
@@ -16,22 +12,21 @@ import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.log.event.SysLogEvent;
 import com.github.zuihou.log.util.LogUtil;
-
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * 操作日志使用spring event异步入库
@@ -49,7 +44,7 @@ public class SysLogAspect {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public static final ThreadLocal<OptLogDTO> THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<OptLogDTO> THREAD_LOCAL = new ThreadLocal<>();
 
     /***
      * 定义controller切入点拦截规则，拦截SysLog注解的方法
@@ -74,12 +69,27 @@ public class SysLogAspect {
             OptLogDTO sysLog = get();
             sysLog.setCreateUser(BaseContextHandler.getUserId());
             sysLog.setUserName(BaseContextHandler.getName());
-            sysLog.setDescription(LogUtil.getControllerMethodDescription(joinPoint));
+            String controllerDescription = "";
+            Api api = joinPoint.getTarget().getClass().getAnnotation(Api.class);
+            if (api != null) {
+                String[] tags = api.tags();
+                if (tags != null && tags.length > 0) {
+                    controllerDescription = tags[0];
+                }
+            }
+
+            String controllerMethodDescription = LogUtil.getControllerMethodDescription(joinPoint);
+            if (StrUtil.isEmpty(controllerDescription)) {
+                sysLog.setDescription(controllerMethodDescription);
+            } else {
+                sysLog.setDescription(controllerDescription + "-" + controllerMethodDescription);
+            }
 
             // 类名
             sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
             //获取执行的方法名
             sysLog.setActionMethod(joinPoint.getSignature().getName());
+
 
             // 参数
             Object[] args = joinPoint.getArgs();

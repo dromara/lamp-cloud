@@ -67,7 +67,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),
     //jwt token 相关 start
 
-    JWT_TOKEN_EXPIRED(40001, "登录超时，请重新登录"),
+    JWT_TOKEN_EXPIRED(40001, "会话超时，请重新登录"),
     JWT_SIGNATURE(40002, "不合法的token，请认真比对 token 的签名"),
     JWT_ILLEGAL_ARGUMENT(40003, "缺少token参数"),
     JWT_GEN_TOKEN_FAIL(40004, "生成token失败"),
@@ -103,7 +103,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     }
 
     public ExceptionCode param(Object... param) {
-        this.msg = String.format(msg, param);
+        msg = String.format(msg, param);
         return this;
     }
 }
