@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 25/12/2019 18:10:14
+ Date: 26/12/2019 14:04:07
 */
 
 SET NAMES utf8mb4;
@@ -23,8 +23,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `c_auth_application`;
 CREATE TABLE `c_auth_application` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `app_key` varchar(100) DEFAULT NULL COMMENT 'AppKey',
-  `app_secret` varchar(255) DEFAULT NULL COMMENT 'AppSecret',
+  `app_key` varchar(24) DEFAULT NULL COMMENT 'AppKey',
+  `app_secret` varchar(32) DEFAULT NULL COMMENT 'AppSecret',
   `website` varchar(100) DEFAULT '' COMMENT '官网',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '应用名称',
   `icon` varchar(255) DEFAULT '' COMMENT '应用图标',
@@ -35,7 +35,8 @@ CREATE TABLE `c_auth_application` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `UN_APP_KEY` (`app_key`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用';
 
 -- ----------------------------
