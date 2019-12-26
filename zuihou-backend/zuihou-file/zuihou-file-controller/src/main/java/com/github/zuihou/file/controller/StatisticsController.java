@@ -1,15 +1,11 @@
 package com.github.zuihou.file.controller;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.file.domain.FileStatisticsDO;
 import com.github.zuihou.file.dto.FileOverviewDTO;
 import com.github.zuihou.file.dto.FileStatisticsAllDTO;
 import com.github.zuihou.file.service.FileService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -48,11 +47,11 @@ public class StatisticsController extends BaseController {
         return success(fileService.findAllByDataType(getUserId()));
     }
 
-    @ApiOperation(value = "云盘首页个人文件下载数量排行", notes = "云盘首页个人文件下载数量排行")
-    @GetMapping(value = "/downTop20")
-    public R<List<FileStatisticsDO>> downTop20() {
-        return success(fileService.downTop20(getUserId()));
-    }
+//    @ApiOperation(value = "云盘首页个人文件下载数量排行", notes = "云盘首页个人文件下载数量排行")
+//    @GetMapping(value = "/downTop20")
+//    public R<List<FileStatisticsDO>> downTop20() {
+//        return success(fileService.downTop20(getUserId()));
+//    }
 
     @ApiOperation(value = "按照时间统计各种类型的文件的数量和大小", notes = "按照时间统计各种类型的文件的数量和大小 不指定时间，默认查询一个月")
     @GetMapping(value = "")
@@ -61,13 +60,13 @@ public class StatisticsController extends BaseController {
         return success(fileService.findNumAndSizeToTypeByDate(getUserId(), startTime, endTime));
     }
 
-    @ApiOperation(value = "按照时间统计下载数量", notes = "按照时间统计下载数量 不指定时间，默认查询一个月")
-    @GetMapping(value = "/down")
-    public R<FileStatisticsAllDTO> findDownSizeByDate(@RequestParam(value = "startTime", required = false) LocalDateTime startTime,
-                                                      @RequestParam(value = "endTime", required = false) LocalDateTime endTime) {
-        Long userId = getUserId();
-        return success(fileService.findDownSizeByDate(userId, startTime, endTime));
-    }
+//    @ApiOperation(value = "按照时间统计下载数量", notes = "按照时间统计下载数量 不指定时间，默认查询一个月")
+//    @GetMapping(value = "/down")
+//    public R<FileStatisticsAllDTO> findDownSizeByDate(@RequestParam(value = "startTime", required = false) LocalDateTime startTime,
+//                                                      @RequestParam(value = "endTime", required = false) LocalDateTime endTime) {
+//        Long userId = getUserId();
+//        return success(fileService.findDownSizeByDate(userId, startTime, endTime));
+//    }
 
 
     @GetMapping(value = "/test1")

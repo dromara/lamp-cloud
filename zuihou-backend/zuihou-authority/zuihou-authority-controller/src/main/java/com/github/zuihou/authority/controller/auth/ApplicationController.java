@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.controller.auth;
 
 
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ApplicationSaveDTO;
 import com.github.zuihou.authority.dto.auth.ApplicationUpdateDTO;
@@ -91,7 +92,8 @@ public class ApplicationController extends BaseController {
     @SysLog("新增应用")
     public R<Application> save(@RequestBody @Validated ApplicationSaveDTO data) {
         Application application = dozer.map(data, Application.class);
-
+        application.setAppKey(RandomUtil.randomString(24));
+        application.setAppSecret(RandomUtil.randomString(32));
         applicationService.save(application);
         return success(application);
     }

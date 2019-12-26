@@ -40,7 +40,7 @@ public class Application extends Entity<Long> {
      * AppKey
      */
     @ApiModelProperty(value = "AppKey")
-    @Length(max = 100, message = "AppKey长度不能超过100")
+    @Length(max = 24, message = "AppKey长度不能超过100")
     @TableField(value = "app_key", condition = LIKE)
     private String appKey;
 
@@ -48,7 +48,7 @@ public class Application extends Entity<Long> {
      * AppSecret
      */
     @ApiModelProperty(value = "AppSecret")
-    @Length(max = 255, message = "AppSecret长度不能超过255")
+    @Length(max = 32, message = "AppSecret长度不能超过255")
     @TableField(value = "app_secret", condition = LIKE)
     private String appSecret;
 

@@ -1,13 +1,9 @@
 package com.github.zuihou.general.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.hutool.extra.servlet.ServletUtil;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.authority.enumeration.auth.ApplicationAppTypeEnum;
 import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.enumeration.common.LogType;
@@ -21,8 +17,6 @@ import com.github.zuihou.common.enums.HttpMethod;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
-
-import cn.hutool.extra.servlet.ServletUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
@@ -33,6 +27,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 通用 控制器
@@ -64,6 +63,7 @@ public class GeneralController {
         map.put(Sex.class.getSimpleName(), BaseEnum.getMap(Sex.values()));
         map.put(TenantTypeEnum.class.getSimpleName(), BaseEnum.getMap(TenantTypeEnum.values()));
         map.put(TenantStatusEnum.class.getSimpleName(), BaseEnum.getMap(TenantStatusEnum.values()));
+        map.put(ApplicationAppTypeEnum.class.getSimpleName(), BaseEnum.getMap(ApplicationAppTypeEnum.values()));
         return R.success(map);
     }
 
@@ -89,6 +89,7 @@ public class GeneralController {
 
     @Value("${server.port}")
     private String port;
+
     /**
      * 测试网关熔断和超时，
      *
