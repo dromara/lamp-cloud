@@ -1,17 +1,8 @@
 package com.github.zuihou.swagger2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
-
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,22 +13,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RequestMethod;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.builders.*;
 import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Parameter;
-import springfox.documentation.service.ResponseMessage;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * swagger 包扫描配置
@@ -65,7 +49,7 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
 
         // 没有分组
         if (swaggerProperties.getDocket().isEmpty()) {
-            final Docket docket = createDocket(swaggerProperties);
+            Docket docket = createDocket(swaggerProperties);
             configurableBeanFactory.registerSingleton(swaggerProperties.getTitle(), docket);
             docketList.add(docket);
             return docketList;
@@ -142,7 +126,7 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
      * @param swaggerProperties swagger配置
      * @return Docket
      */
-    private Docket createDocket(final SwaggerProperties swaggerProperties) {
+    private Docket createDocket(SwaggerProperties swaggerProperties) {
         //API 基础信息
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title(swaggerProperties.getTitle())
@@ -199,12 +183,12 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
                 ;
     }
 
-    protected List<ResponseMessage> getResponseMessages() {
+    private List<ResponseMessage> getResponseMessages() {
         List<ResponseMessage> collect = Arrays.asList(
                 new ResponseMessageBuilder().code(0).message("成功").build(),
                 new ResponseMessageBuilder().code(-1).message("系统繁忙").build(),
                 new ResponseMessageBuilder().code(-2).message("服务超时").build(),
-                new ResponseMessageBuilder().code(40001).message("token超时，请重新登录").build(),
+                new ResponseMessageBuilder().code(40001).message("会话超时，请重新登录").build(),
                 new ResponseMessageBuilder().code(40003).message("缺少token参数").build()
         );
         return collect;

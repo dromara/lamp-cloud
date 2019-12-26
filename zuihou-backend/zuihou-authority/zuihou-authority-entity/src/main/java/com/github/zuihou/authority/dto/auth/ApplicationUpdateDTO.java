@@ -41,13 +41,13 @@ public class ApplicationUpdateDTO implements Serializable {
      * AppKey
      */
     @ApiModelProperty(value = "AppKey")
-    @Length(max = 100, message = "AppKey长度不能超过100")
+    @Length(max = 24, message = "AppKey长度不能超过100")
     private String appKey;
     /**
      * AppSecret
      */
     @ApiModelProperty(value = "AppSecret")
-    @Length(max = 255, message = "AppSecret长度不能超过255")
+    @Length(max = 32, message = "AppSecret长度不能超过255")
     private String appSecret;
     /**
      * 官网
