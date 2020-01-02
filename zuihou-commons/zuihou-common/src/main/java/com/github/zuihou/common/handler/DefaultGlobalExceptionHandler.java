@@ -1,40 +1,34 @@
 package com.github.zuihou.common.handler;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.base.R;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.github.zuihou.exception.code.ExceptionCode.METHOD_NOT_ALLOWED;
 import static com.github.zuihou.exception.code.ExceptionCode.REQUIRED_FILE_PARAM_EX;
@@ -45,10 +39,10 @@ import static com.github.zuihou.utils.StrPool.EMPTY;
  * @author zuihou
  * @createTime 2017-12-13 17:04
  */
-@ControllerAdvice(annotations = {RestController.class, Controller.class})
-@ResponseBody
+//@ControllerAdvice(annotations = {RestController.class, Controller.class})
+//@ResponseBody
 @Slf4j
-public class GlobalExceptionHandler {
+public abstract class DefaultGlobalExceptionHandler {
     @ExceptionHandler(BizException.class)
     public R<String> bizException(BizException ex, HttpServletRequest request) {
         log.warn("BizException:", ex);
@@ -193,7 +187,7 @@ public class GlobalExceptionHandler {
     public R<String> otherExceptionHandler(Exception ex, HttpServletRequest request) {
         log.warn("Exception:", ex);
         if (ex.getCause() instanceof BizException) {
-            return bizException((BizException) ex.getCause(), request);
+            return this.bizException((BizException) ex.getCause(), request);
         }
         return R.result(ExceptionCode.SYSTEM_BUSY.getCode(), EMPTY, ExceptionCode.SYSTEM_BUSY.getMsg()).setPath(request.getRequestURI());
     }
@@ -223,7 +217,7 @@ public class GlobalExceptionHandler {
     public R<String> myBatisSystemException(MyBatisSystemException ex, HttpServletRequest request) {
         log.warn("PersistenceException:", ex);
         if (ex.getCause() instanceof PersistenceException) {
-            return persistenceException((PersistenceException) ex.getCause(), request);
+            return this.persistenceException((PersistenceException) ex.getCause(), request);
         }
         return R.result(ExceptionCode.SQL_EX.getCode(), EMPTY, ExceptionCode.SQL_EX.getMsg()).setPath(request.getRequestURI());
     }
