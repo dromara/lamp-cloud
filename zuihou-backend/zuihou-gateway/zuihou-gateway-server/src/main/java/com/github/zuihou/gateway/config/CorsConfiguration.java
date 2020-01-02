@@ -1,9 +1,14 @@
 package com.github.zuihou.gateway.config;
 
+import feign.codec.Decoder;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
 import org.springframework.cloud.gateway.discovery.DiscoveryLocatorProperties;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
+import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
+import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -11,11 +16,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.codec.support.DefaultServerCodecConfigurer;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.reactive.CorsUtils;
 import org.springframework.web.server.WebFilter;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * 解决跨域问题
@@ -68,5 +77,18 @@ public class CorsConfiguration {
     @Bean
     public ServerCodecConfigurer serverCodecConfigurer() {
         return new DefaultServerCodecConfigurer();
+    }
+
+
+    /**
+     * 升级版本后， 不加这个 gateway 使用feign会报错，不知道什么原因
+     *
+     * @return
+     */
+    @Bean
+    public Decoder feignFormDecoder() {
+        List<HttpMessageConverter<?>> converters = new RestTemplate().getMessageConverters();
+        ObjectFactory<HttpMessageConverters> factory = () -> new HttpMessageConverters(converters);
+        return new ResponseEntityDecoder(new SpringDecoder(factory));
     }
 }

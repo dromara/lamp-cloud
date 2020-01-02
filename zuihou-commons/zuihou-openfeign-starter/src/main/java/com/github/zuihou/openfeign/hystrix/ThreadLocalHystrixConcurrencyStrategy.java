@@ -1,11 +1,5 @@
 package com.github.zuihou.openfeign.hystrix;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import com.github.zuihou.context.BaseContextHandler;
 import com.netflix.hystrix.HystrixThreadPoolKey;
 import com.netflix.hystrix.HystrixThreadPoolProperties;
@@ -18,15 +12,22 @@ import com.netflix.hystrix.strategy.executionhook.HystrixCommandExecutionHook;
 import com.netflix.hystrix.strategy.metrics.HystrixMetricsPublisher;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 import com.netflix.hystrix.strategy.properties.HystrixProperty;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+//import io.seata.core.context.RootContext;
+
 /**
  * feign
  *
- * @author pdy
+ * @author zuihou
  * @date 2019-07-25 11:23
  */
 @Slf4j
@@ -129,21 +130,26 @@ public class ThreadLocalHystrixConcurrencyStrategy extends HystrixConcurrencyStr
         private final RequestAttributes requestAttributes;
         private final Map<String, String> threadLocalMap; //研究并发是否会冲突
 
-        public WrappedCallable(Callable<T> target) {
+//        private final String xid;
+
+        WrappedCallable(Callable<T> target) {
             this.target = target;
             this.requestAttributes = RequestContextHolder.getRequestAttributes();
             this.threadLocalMap = BaseContextHandler.getLocalMap();
+//            this.xid = RootContext.getXID();
         }
 
         @Override
         public T call() throws Exception {
             try {
-                RequestContextHolder.setRequestAttributes(requestAttributes);
-                BaseContextHandler.setLocalMap(threadLocalMap);
-                return target.call();
+                RequestContextHolder.setRequestAttributes(this.requestAttributes);
+                BaseContextHandler.setLocalMap(this.threadLocalMap);
+//                RootContext.bind(this.xid);
+                return this.target.call();
             } finally {
                 RequestContextHolder.resetRequestAttributes();
                 BaseContextHandler.remove();
+//                RootContext.unbind();
             }
         }
     }

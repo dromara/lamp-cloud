@@ -1,17 +1,13 @@
 package com.github.zuihou.xss.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.validator.html.AntiSamy;
-import org.owasp.validator.html.CleanResults;
-import org.owasp.validator.html.Policy;
-import org.owasp.validator.html.PolicyException;
-import org.owasp.validator.html.ScanException;
+import org.owasp.validator.html.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * XSS 工具类， 用于过滤特殊字符
@@ -25,11 +21,11 @@ public class XssUtils {
     private static Policy policy = null;
 
     static {
-        log.info(" start read XSS configfile [" + ANTISAMY_SLASHDOT_XML + "]");
+        log.debug(" start read XSS configfile [" + ANTISAMY_SLASHDOT_XML + "]");
         InputStream inputStream = XssUtils.class.getClassLoader().getResourceAsStream(ANTISAMY_SLASHDOT_XML);
         try {
             policy = Policy.getInstance(inputStream);
-            log.info("read XSS configfile [" + ANTISAMY_SLASHDOT_XML + "] success");
+            log.debug("read XSS configfile [" + ANTISAMY_SLASHDOT_XML + "] success");
         } catch (PolicyException e) {
             log.error("read XSS configfile [" + ANTISAMY_SLASHDOT_XML + "] fail , reason:", e);
         } finally {

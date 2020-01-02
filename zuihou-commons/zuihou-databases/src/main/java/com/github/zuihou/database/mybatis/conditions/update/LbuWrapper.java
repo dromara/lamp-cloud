@@ -1,33 +1,40 @@
 package com.github.zuihou.database.mybatis.conditions.update;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.conditions.update.Update;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.zuihou.database.mybatis.typehandler.BaseLikeTypeHandler;
 
-import cn.hutool.core.util.StrUtil;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author luosh
+ * @author zuihou
  * @date Created on 2019/5/27 17:15
  * @description 修改构造器
  */
 public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
         implements Update<LbuWrapper<T>, SFunction<T, ?>> {
 
+    private static final long serialVersionUID = -4194344880194881367L;
+    /**
+     * SQL 更新字段内容，例如：name='1', age=2
+     */
     private final List<String> sqlSet;
 
+    /**
+     * 不建议直接 new 该实例，使用 Wrappers.lambdaUpdate()
+     */
     public LbuWrapper() {
+        // 如果无参构造函数，请注意实体 NULL 情况 SET 必须有否则 SQL 异常
         this(null);
     }
 
@@ -43,9 +50,9 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
     /**
      * 不建议直接 new 该实例，使用 Wrappers.lambdaUpdate(...)
      */
-    LbuWrapper(T entity, List<String> sqlSet, AtomicInteger paramNameSeq,
-               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
-               SharedString lastSql, SharedString sqlComment) {
+    private LbuWrapper(T entity, List<String> sqlSet, AtomicInteger paramNameSeq,
+                       Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
+                       SharedString lastSql, SharedString sqlComment) {
         super.setEntity(entity);
         this.sqlSet = sqlSet;
         this.paramNameSeq = paramNameSeq;
@@ -58,25 +65,31 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
     @Override
     public LbuWrapper<T> set(boolean condition, SFunction<T, ?> column, Object val) {
         if (condition) {
-            sqlSet.add(String.format("%s=%s", columnToString(column), formatSql("{0}", val)));
+            this.sqlSet.add(String.format("%s=%s", this.columnToString(column), this.formatSql("{0}", val)));
         }
-        return typedThis;
+        return this.typedThis;
     }
 
     @Override
     public LbuWrapper<T> setSql(boolean condition, String sql) {
-        if (condition && StrUtil.isNotEmpty(sql)) {
-            sqlSet.add(sql);
+        if (condition && StringUtils.isNotEmpty(sql)) {
+            this.sqlSet.add(sql);
         }
-        return typedThis;
+        return this.typedThis;
     }
 
     @Override
     public String getSqlSet() {
-        if (CollectionUtils.isEmpty(sqlSet)) {
+        if (CollectionUtils.isEmpty(this.sqlSet)) {
             return null;
         }
-        return String.join(StringPool.COMMA, sqlSet);
+        return String.join(StringPool.COMMA, this.sqlSet);
+    }
+
+    @Override
+    protected LbuWrapper<T> instance() {
+        return new LbuWrapper<>(this.entity, this.sqlSet, this.paramNameSeq, this.paramNameValuePairs, new MergeSegments(),
+                SharedString.emptyString(), SharedString.emptyString());
     }
 
     /**
@@ -147,12 +160,6 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
     @Override
     public LbuWrapper<T> in(SFunction<T, ?> column, Object... values) {
         return super.in(values != null && values.length > 0, column, values);
-    }
-
-    @Override
-    protected LbuWrapper<T> instance() {
-        return new LbuWrapper<>(entity, sqlSet, paramNameSeq, paramNameValuePairs, new MergeSegments(),
-                SharedString.emptyString(), SharedString.emptyString());
     }
 
 
