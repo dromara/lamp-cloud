@@ -24,7 +24,7 @@ import java.io.IOException;
  * 客户端获取token
  * jwt token管理
  *
- * @author luosh
+ * @author zuihou
  * @date Created on 2019/5/28 9:17
  */
 @RestController

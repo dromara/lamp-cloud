@@ -1,12 +1,11 @@
 package com.github.zuihou.xss.wrapper;
 
-import java.util.List;
-import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Map;
 
 import static com.github.zuihou.xss.utils.XssUtils.xssClean;
 
@@ -31,11 +30,11 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
     public Map<String, String[]> getParameterMap() {
         Map<String, String[]> requestMap = super.getParameterMap();
         for (Map.Entry<String, String[]> me : requestMap.entrySet()) {
-            log.info(me.getKey() + ":");
+            log.debug(me.getKey() + ":");
             String[] values = me.getValue();
             for (int i = 0; i < values.length; i++) {
-                log.info(values[i]);
-                values[i] = xssClean(values[i], ignoreParamValueList);
+                log.debug(values[i]);
+                values[i] = xssClean(values[i], this.ignoreParamValueList);
             }
         }
         return requestMap;
@@ -50,7 +49,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         int i = arrayOfString1.length;
         String[] arrayOfString2 = new String[i];
         for (int j = 0; j < i; j++) {
-            arrayOfString2[j] = xssClean(arrayOfString1[j], ignoreParamValueList);
+            arrayOfString2[j] = xssClean(arrayOfString1[j], this.ignoreParamValueList);
         }
         return arrayOfString2;
     }
@@ -61,7 +60,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         if (str == null) {
             return null;
         }
-        return xssClean(str, ignoreParamValueList);
+        return xssClean(str, this.ignoreParamValueList);
     }
 
     @Override
@@ -70,7 +69,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         if (str == null) {
             return null;
         }
-        return xssClean(str, ignoreParamValueList);
+        return xssClean(str, this.ignoreParamValueList);
     }
 
 

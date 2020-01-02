@@ -34,6 +34,7 @@ spring:
     proxy-target-class: true
     auto: true
 
+
 # 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
 # window会自动在 代码所在盘 根目录下自动创建文件夹，  如： D:/data/projects/logs
 logging:

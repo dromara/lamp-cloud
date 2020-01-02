@@ -1,52 +1,56 @@
+-- -------------------------------- The script used when storeMode is ''db'' --------------------------------
 -- the table to store GlobalSession data
-drop table if exists `global_table`;
-create table `global_table` (
-  `xid` varchar(128)  not null,
-  `transaction_id` bigint,
-  `status` tinyint not null,
-  `application_id` varchar(32),
-  `transaction_service_group` varchar(32),
-  `transaction_name` varchar(64),
-  `timeout` int,
-  `begin_time` bigint,
-  `application_data` varchar(2000),
-  `gmt_create` datetime,
-  `gmt_modified` datetime,
-  primary key (`xid`),
-  key `idx_gmt_modified_status` (`gmt_modified`, `status`),
-  key `idx_transaction_id` (`transaction_id`)
-);
+CREATE TABLE IF NOT EXISTS `global_table`
+(
+    `xid`                       VARCHAR(128) NOT NULL,
+    `transaction_id`            BIGINT,
+    `status`                    TINYINT      NOT NULL,
+    `application_id`            VARCHAR(32),
+    `transaction_service_group` VARCHAR(32),
+    `transaction_name`          VARCHAR(128),
+    `timeout`                   INT,
+    `begin_time`                BIGINT,
+    `application_data`          VARCHAR(2000),
+    `gmt_create`                DATETIME,
+    `gmt_modified`              DATETIME,
+    PRIMARY KEY (`xid`),
+    KEY `idx_gmt_modified_status` (`gmt_modified`, `status`),
+    KEY `idx_transaction_id` (`transaction_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 -- the table to store BranchSession data
-drop table if exists `branch_table`;
-create table `branch_table` (
-  `branch_id` bigint not null,
-  `xid` varchar(128) not null,
-  `transaction_id` bigint ,
-  `resource_group_id` varchar(32),
-  `resource_id` varchar(256) ,
-  `lock_key` varchar(128) ,
-  `branch_type` varchar(8) ,
-  `status` tinyint,
-  `client_id` varchar(64),
-  `application_data` varchar(2000),
-  `gmt_create` datetime,
-  `gmt_modified` datetime,
-  primary key (`branch_id`),
-  key `idx_xid` (`xid`)
-);
+CREATE TABLE IF NOT EXISTS `branch_table`
+(
+    `branch_id`         BIGINT       NOT NULL,
+    `xid`               VARCHAR(128) NOT NULL,
+    `transaction_id`    BIGINT,
+    `resource_group_id` VARCHAR(32),
+    `resource_id`       VARCHAR(256),
+    `branch_type`       VARCHAR(8),
+    `status`            TINYINT,
+    `client_id`         VARCHAR(64),
+    `application_data`  VARCHAR(2000),
+    `gmt_create`        DATETIME,
+    `gmt_modified`      DATETIME,
+    PRIMARY KEY (`branch_id`),
+    KEY `idx_xid` (`xid`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 -- the table to store lock data
-drop table if exists `lock_table`;
-create table `lock_table` (
-  `row_key` varchar(128) not null,
-  `xid` varchar(96),
-  `transaction_id` long ,
-  `branch_id` long,
-  `resource_id` varchar(256) ,
-  `table_name` varchar(32) ,
-  `pk` varchar(32) ,
-  `gmt_create` datetime ,
-  `gmt_modified` datetime,
-  primary key(`row_key`)
-);
+CREATE TABLE IF NOT EXISTS `lock_table`
+(
+    `row_key`        VARCHAR(128) NOT NULL,
+    `xid`            VARCHAR(96),
+    `transaction_id` BIGINT,
+    `branch_id`      BIGINT       NOT NULL,
+    `resource_id`    VARCHAR(256),
+    `table_name`     VARCHAR(32),
+    `pk`             VARCHAR(36),
+    `gmt_create`     DATETIME,
+    `gmt_modified`   DATETIME,
+    PRIMARY KEY (`row_key`),
+    KEY `idx_branch_id` (`branch_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

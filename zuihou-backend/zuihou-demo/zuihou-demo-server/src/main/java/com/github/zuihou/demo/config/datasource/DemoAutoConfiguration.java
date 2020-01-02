@@ -1,8 +1,7 @@
 package com.github.zuihou.demo.config.datasource;
 
 
-import javax.sql.DataSource;
-
+import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -12,10 +11,9 @@ import com.github.zuihou.database.datasource.BaseDbConfiguration;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.utils.SpringUtils;
 import com.p6spy.engine.spy.P6DataSource;
-
-import cn.hutool.core.util.ArrayUtil;
 import io.seata.rm.datasource.DataSourceProxy;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +26,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import javax.sql.DataSource;
+
 /**
  * zuihou 中心数据库配置 附件配置
  *
@@ -38,45 +38,50 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 @MapperScan(
         basePackages = {"com.github.zuihou.demo.dao"},
         annotationClass = Repository.class,
-        sqlSessionFactoryRef = "demoSqlSessionFactory")
+        sqlSessionFactoryRef = "sqlSessionFactory")
 public class DemoAutoConfiguration extends BaseDbConfiguration {
+
+    @Bean
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
 
     /**
      * 数据源信息
      *
      * @return
      */
-    @Bean(name = "druidDataSource")
+    @Bean(name = "ds")
     @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource druid() {
         return DruidDataSourceBuilder.create().build();
     }
 
-    @Bean(name = "demoDataSource")
-    public DataSource db1(@Qualifier("druidDataSource") DataSource dataSource) {
-        if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
+    @Bean(name = "p6ds")
+    public DataSource p6ds(@Qualifier("ds") DataSource dataSource) {
+        if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
             return new P6DataSource(dataSource);
         } else {
             return dataSource;
         }
     }
 
-    @Bean
-    public DataSourceProxy dataSourceProxy(@Qualifier("demoDataSource") DataSource dataSource) {
+    @Bean("dataSourceProxy")
+    public DataSourceProxy dataSourceProxy(@Qualifier("p6ds") DataSource dataSource) {
         return new DataSourceProxy(dataSource);
     }
 
     @Bean(name = "txdemo")
     @Primary
-    public DataSourceTransactionManager demoTransactionManager(DataSourceProxy dataSource) {
+    public DataSourceTransactionManager demoTransactionManager(@Qualifier("dataSourceProxy") DataSourceProxy dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean("demoSqlSessionFactory")
+    @Bean("sqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("demoGlobalConfig") GlobalConfig globalConfig,
                                                @Qualifier("myMetaObjectHandler") MetaObjectHandler myMetaObjectHandler,
-                                               DataSourceProxy dataSource
+                                               @Qualifier("dataSourceProxy") DataSourceProxy dataSource
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);
@@ -107,7 +112,7 @@ public class DemoAutoConfiguration extends BaseDbConfiguration {
      */
     @Bean("demoGlobalConfig")
     public GlobalConfig globalConfig() {
-        return defGlobalConfig();
+        return this.defGlobalConfig();
     }
 
 

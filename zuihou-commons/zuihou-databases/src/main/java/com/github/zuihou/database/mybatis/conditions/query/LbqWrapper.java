@@ -1,17 +1,5 @@
 package com.github.zuihou.database.mybatis.conditions.query;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiFunction;
-import java.util.function.Predicate;
-
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
@@ -25,23 +13,47 @@ import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.typehandler.BaseLikeTypeHandler;
 import com.github.zuihou.utils.StrPool;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+
 
 /**
- * @author luosh
+ * @author zuihou
  * @date Created on 2019/5/27 17:11
  * @description 查询构造器
  */
 public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         implements Query<LbqWrapper<T>, T, SFunction<T, ?>> {
-
+    private static final long serialVersionUID = -6842140106034506889L;
+    /**
+     * 查询字段
+     */
     private SharedString sqlSelect = new SharedString();
 
+    /**
+     * 是否跳过空值（zuihou项目扩展）
+     */
     private boolean skipEmpty = true;
 
+    /**
+     * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(entity)
+     */
     public LbqWrapper() {
         this(null);
     }
 
+    /**
+     * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(entity)
+     */
     public LbqWrapper(T entity) {
         if (entity instanceof SuperEntity) {
             T cloneT = (T) ((SuperEntity) entity).clone();
@@ -58,9 +70,9 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     /**
      * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(...)
      */
-    LbqWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
-               Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
-               SharedString lastSql, SharedString sqlComment) {
+    private LbqWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
+                       Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
+                       SharedString lastSql, SharedString sqlComment) {
         super.setEntity(entity);
         this.paramNameSeq = paramNameSeq;
         this.paramNameValuePairs = paramNameValuePairs;
@@ -71,8 +83,108 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         this.sqlComment = sqlComment;
     }
 
-    public static <T> LbqWrapper<T> lambdaQuery() {
-        return new LbqWrapper<>();
+    /**
+     * 根据字段名称取值
+     *
+     * @param obj       指定对象
+     * @param fieldName 字段名称
+     * @return 指定对象
+     */
+    private static Object getClassValue(Object obj, String fieldName) {
+        if (obj == null) {
+            return null;
+        }
+        Class beanClass = obj.getClass();
+        Method[] ms = beanClass.getMethods();
+        for (int i = 0; i < ms.length; i++) {
+            // 非get方法不取
+            if (!ms[i].getName().startsWith("get")) {
+                continue;
+            }
+            if (!ms[i].getName().equalsIgnoreCase("get" + fieldName)) {
+                continue;
+            }
+            Object objValue = null;
+            try {
+                objValue = ms[i].invoke(obj, new Object[]{});
+            } catch (Exception e) {
+                continue;
+            }
+            if (objValue == null) {
+                continue;
+            }
+            if (ms[i].getName().toUpperCase().equals(fieldName.toUpperCase())
+                    || ms[i].getName().substring(3).toUpperCase().equals(fieldName.toUpperCase())) {
+                return objValue;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 给对象的字段赋指定的值
+     *
+     * @param obj       指定对象
+     * @param fieldName 属性
+     * @param value     值
+     * @return
+     * @see
+     */
+    private static Object setClassValue(Object obj, String fieldName, Object value) {
+        if (obj == null) {
+            return null;
+        }
+        if (StrPool.NULL.equals(value)) {
+            value = null;
+        }
+        Class beanClass = obj.getClass();
+        Method[] ms = beanClass.getMethods();
+        for (int i = 0; i < ms.length; i++) {
+            try {
+                if (ms[i].getName().startsWith("set")) {
+                    if (ms[i].getName().toUpperCase().equals(fieldName.toUpperCase())
+                            || ms[i].getName().substring(3).toUpperCase().equals(fieldName.toUpperCase())) {
+                        String pt = ms[i].getParameterTypes()[0].toString();
+                        if (value != null) {
+                            ms[i].invoke(obj, transVal(value.toString(), pt.substring(pt.lastIndexOf(".") + 1)));
+                        } else {
+                            ms[i].invoke(obj, new Object[]{null});
+                        }
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                continue;
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * 根据属性类型赋值
+     *
+     * @param value      值
+     * @param paramsType 属性类型
+     * @return
+     * @see
+     */
+    private static Object transVal(String value, String paramsType) {
+        if (ColumnType.String.toString().equals(paramsType)) {
+            return value;
+        }
+        if (ColumnType.Double.toString().equals(paramsType)) {
+            return Double.parseDouble(value);
+        }
+        if (ColumnType.Integer.toString().equals(paramsType)) {
+            return Integer.parseInt(value);
+        }
+        if (ColumnType.Long.toString().equals(paramsType)) {
+            return Long.parseLong(value);
+        }
+        if (ColumnType.BigDecimal.toString().equals(paramsType)) {
+            return new BigDecimal(value);
+        }
+        return value;
     }
 
     /**
@@ -108,23 +220,6 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return target;
     }
 
-    @Override
-    public LbqWrapper<T> select(Predicate<TableFieldInfo> predicate) {
-        return select(entityClass, predicate);
-    }
-
-    @Override
-    public LbqWrapper<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
-        this.entityClass = entityClass;
-        this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(getCheckEntityClass()).chooseSelect(predicate));
-        return typedThis;
-    }
-
-    @Override
-    public String getSqlSelect() {
-        return sqlSelect.getStringValue();
-    }
-
     /**
      * SELECT 部分 SQL 设置
      *
@@ -134,36 +229,74 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     @Override
     public final LbqWrapper<T> select(SFunction<T, ?>... columns) {
         if (ArrayUtils.isNotEmpty(columns)) {
-            this.sqlSelect.setStringValue(columnsToString(false, columns));
+            this.sqlSelect.setStringValue(this.columnsToString(false, columns));
         }
-        return typedThis;
+        return this.typedThis;
+    }
+
+    @Override
+    public LbqWrapper<T> select(Predicate<TableFieldInfo> predicate) {
+        return this.select(this.entityClass, predicate);
+    }
+
+    /**
+     * 过滤查询的字段信息(主键除外!)
+     * <p>例1: 只要 java 字段名以 "test" 开头的             -> select(i -&gt; i.getProperty().startsWith("test"))</p>
+     * <p>例2: 只要 java 字段属性是 CharSequence 类型的     -> select(TableFieldInfo::isCharSequence)</p>
+     * <p>例3: 只要 java 字段没有填充策略的                 -> select(i -&gt; i.getFieldFill() == FieldFill.DEFAULT)</p>
+     * <p>例4: 要全部字段                                   -> select(i -&gt; true)</p>
+     * <p>例5: 只要主键字段                                 -> select(i -&gt; false)</p>
+     *
+     * @param predicate 过滤方式
+     * @return this
+     */
+    @Override
+    public LbqWrapper<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
+        this.entityClass = entityClass;
+        this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(this.getCheckEntityClass()).chooseSelect(predicate));
+        return this.typedThis;
+    }
+
+    @Override
+    public String getSqlSelect() {
+        return this.sqlSelect.getStringValue();
+    }
+
+    /**
+     * 用于生成嵌套 sql
+     * <p>故 sqlSelect 不向下传递</p>
+     */
+    @Override
+    protected LbqWrapper<T> instance() {
+        return new LbqWrapper<>(this.entity, this.entityClass, null, this.paramNameSeq, this.paramNameValuePairs,
+                new MergeSegments(), SharedString.emptyString(), SharedString.emptyString());
     }
 
     @Override
     public LbqWrapper<T> eq(SFunction<T, ?> column, Object val) {
-        return super.eq(checkCondition(val), column, val);
+        return super.eq(this.checkCondition(val), column, val);
     }
 
     @Override
     public LbqWrapper<T> ne(SFunction<T, ?> column, Object val) {
-        return super.ne(checkCondition(val), column, val);
+        return super.ne(this.checkCondition(val), column, val);
     }
 
     @Override
     public LbqWrapper<T> gt(SFunction<T, ?> column, Object val) {
-        return super.gt(checkCondition(val), column, val);
+        return super.gt(this.checkCondition(val), column, val);
     }
 
     @Override
     public LbqWrapper<T> ge(SFunction<T, ?> column, Object val) {
-        return super.ge(checkCondition(val), column, val);
+        return super.ge(this.checkCondition(val), column, val);
     }
 
     public LbqWrapper<T> geHeader(SFunction<T, ?> column, LocalDateTime val) {
         if (val != null) {
             val = LocalDateTime.of(val.toLocalDate(), LocalTime.MIN);
         }
-        return super.ge(checkCondition(val), column, val);
+        return super.ge(this.checkCondition(val), column, val);
     }
 
     public LbqWrapper<T> geHeader(SFunction<T, ?> column, LocalDate val) {
@@ -171,24 +304,24 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         if (val != null) {
             dateTime = LocalDateTime.of(val, LocalTime.MIN);
         }
-        return super.ge(checkCondition(val), column, val);
+        return super.ge(this.checkCondition(val), column, val);
     }
 
     @Override
     public LbqWrapper<T> lt(SFunction<T, ?> column, Object val) {
-        return super.lt(checkCondition(val), column, val);
+        return super.lt(this.checkCondition(val), column, val);
     }
 
     @Override
     public LbqWrapper<T> le(SFunction<T, ?> column, Object val) {
-        return super.le(checkCondition(val), column, val);
+        return super.le(this.checkCondition(val), column, val);
     }
 
     public LbqWrapper<T> leFooter(SFunction<T, ?> column, LocalDateTime val) {
         if (val != null) {
             val = LocalDateTime.of(val.toLocalDate(), LocalTime.MAX);
         }
-        return super.le(checkCondition(val), column, val);
+        return super.le(this.checkCondition(val), column, val);
     }
 
     public LbqWrapper<T> leFooter(SFunction<T, ?> column, LocalDate val) {
@@ -196,27 +329,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         if (val != null) {
             dateTime = LocalDateTime.of(val, LocalTime.MAX);
         }
-        return super.le(checkCondition(val), column, dateTime);
-    }
-
-    @Override
-    public LbqWrapper<T> like(SFunction<T, ?> column, Object val) {
-        return super.like(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
-    }
-
-    @Override
-    public LbqWrapper<T> notLike(SFunction<T, ?> column, Object val) {
-        return super.notLike(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
-    }
-
-    @Override
-    public LbqWrapper<T> likeLeft(SFunction<T, ?> column, Object val) {
-        return super.likeLeft(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
-    }
-
-    @Override
-    public LbqWrapper<T> likeRight(SFunction<T, ?> column, Object val) {
-        return super.likeRight(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.le(this.checkCondition(val), column, dateTime);
     }
 
     @Override
@@ -231,42 +344,9 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
 
     //----------------以下为自定义方法---------
 
-    /**
-     * 根据字段名称取值
-     *
-     * @param obj       指定对象
-     * @param fieldName 字段名称
-     * @return 指定对象
-     */
-    public static Object getClassValue(Object obj, String fieldName) {
-        if (obj == null) {
-            return null;
-        }
-        Class beanClass = obj.getClass();
-        Method[] ms = beanClass.getMethods();
-        for (int i = 0; i < ms.length; i++) {
-            // 非get方法不取
-            if (!ms[i].getName().startsWith("get")) {
-                continue;
-            }
-            if (!ms[i].getName().equalsIgnoreCase("get" + fieldName)) {
-                continue;
-            }
-            Object objValue = null;
-            try {
-                objValue = ms[i].invoke(obj, new Object[]{});
-            } catch (Exception e) {
-                continue;
-            }
-            if (objValue == null) {
-                continue;
-            }
-            if (ms[i].getName().toUpperCase().equals(fieldName.toUpperCase())
-                    || ms[i].getName().substring(3).toUpperCase().equals(fieldName.toUpperCase())) {
-                return objValue;
-            }
-        }
-        return null;
+    @Override
+    public LbqWrapper<T> like(SFunction<T, ?> column, Object val) {
+        return super.like(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
     }
 
     /**
@@ -278,20 +358,9 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      * @return
      */
 
-    /**
-     * 空值校验
-     * 传入空字符串("")时， 视为： 字段名 = ""
-     *
-     * @param val 参数值
-     */
-    private boolean checkCondition(Object val) {
-        if (val instanceof String && skipEmpty) {
-            return StringUtils.isNotEmpty((String) val);
-        }
-        if (val instanceof Collection && skipEmpty) {
-            return !((Collection) val).isEmpty();
-        }
-        return val != null;
+    @Override
+    public LbqWrapper<T> notLike(SFunction<T, ?> column, Object val) {
+        return super.notLike(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
     }
 
     /**
@@ -304,82 +373,30 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return this;
     }
 
-    /**
-     * 给对象的字段赋指定的值
-     *
-     * @param obj       指定对象
-     * @param fieldName 属性
-     * @param value     值
-     * @return
-     * @see
-     */
-    public static Object setClassValue(Object obj, String fieldName, Object value) {
-        if (obj == null) {
-            return null;
-        }
-        if (StrPool.NULL.equals(value)) {
-            value = null;
-        }
-        Class beanClass = obj.getClass();
-        Method[] ms = beanClass.getMethods();
-        for (int i = 0; i < ms.length; i++) {
-            try {
-                if (ms[i].getName().startsWith("set")) {
-                    if (ms[i].getName().toUpperCase().equals(fieldName.toUpperCase())
-                            || ms[i].getName().substring(3).toUpperCase().equals(fieldName.toUpperCase())) {
-                        String pt = ms[i].getParameterTypes()[0].toString();
-                        if (value != null) {
-                            ms[i].invoke(obj, transVal(value.toString(), pt.substring(pt.lastIndexOf(".") + 1)));
-                        } else {
-                            ms[i].invoke(obj, new Object[]{null});
-                        }
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                continue;
-            }
-        }
-        return obj;
-    }
-
-
-    /**
-     * 根据属性类型赋值
-     *
-     * @param value      值
-     * @param paramsType 属性类型
-     * @return
-     * @see
-     */
-    public static Object transVal(String value, String paramsType) {
-        if (ColumnType.String.toString().equals(paramsType)) {
-            return value;
-        }
-        if (ColumnType.Double.toString().equals(paramsType)) {
-            return Double.parseDouble(value);
-        }
-        if (ColumnType.Integer.toString().equals(paramsType)) {
-            return Integer.parseInt(value);
-        }
-        if (ColumnType.Long.toString().equals(paramsType)) {
-            return Long.parseLong(value);
-        }
-        if (ColumnType.BigDecimal.toString().equals(paramsType)) {
-            return new BigDecimal(value);
-        }
-        return value;
-    }
-
-    /**
-     * 用于生成嵌套 sql
-     * <p>故 sqlSelect 不向下传递</p>
-     */
     @Override
-    protected LbqWrapper<T> instance() {
-//        return new LbqWrapper<>(entity, entityClass, null, paramNameSeq, paramNameValuePairs, new MergeSegments());
-        return new LbqWrapper<>(entity, entityClass, null, paramNameSeq, paramNameValuePairs,
-                new MergeSegments(), SharedString.emptyString(), SharedString.emptyString());
+    public LbqWrapper<T> likeLeft(SFunction<T, ?> column, Object val) {
+        return super.likeLeft(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+    }
+
+    @Override
+    public LbqWrapper<T> likeRight(SFunction<T, ?> column, Object val) {
+        return super.likeRight(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+    }
+
+    /**
+     * 空值校验
+     * 传入空字符串("")时， 视为： 字段名 = ""
+     *
+     * @param val 参数值
+     */
+    private boolean checkCondition(Object val) {
+        if (val instanceof String && this.skipEmpty) {
+            return StringUtils.isNotEmpty((String) val);
+        }
+        if (val instanceof Collection && this.skipEmpty) {
+            return !((Collection) val).isEmpty();
+        }
+        return val != null;
     }
 
     /**
@@ -391,9 +408,10 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      * @return
      */
     public <A extends Object> LbqWrapper<T> ignore(BiFunction<T, A, ?> setColumn) {
-        setColumn.apply(entity, null);
+        setColumn.apply(this.entity, null);
         return this;
     }
+
 
     /**
      * 字段类型
@@ -418,8 +436,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         /**
          * 类型
          */
-        BigDecimal;
+        BigDecimal
     }
-
 
 }
