@@ -1,11 +1,10 @@
-package com.github.zuihou.authority.mq;
+package com.github.zuihou.authority.config.mq;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.authority.dto.auth.SystemApiScanSaveDTO;
 import com.github.zuihou.authority.service.auth.SystemApiService;
 import com.github.zuihou.common.constant.QueueConstants;
 import com.github.zuihou.context.BaseContextHandler;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -25,7 +24,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 @Configuration
 @Slf4j
 @ConditionalOnProperty(prefix = "zuihou.rabbitmq", name = "enabled", havingValue = "true")
-public class MqAutoConfiguration {
+public class AuthorityMqAutoConfiguration {
     @Value("${zuihou.mysql.biz-database:zuihou_default}")
     private String databaseName;
     @Autowired
@@ -42,8 +41,8 @@ public class MqAutoConfiguration {
     public void ScanApiResourceQueue(@Payload String param) {
         SystemApiScanSaveDTO scan = JSONObject.parseObject(param, SystemApiScanSaveDTO.class);
         BaseContextHandler.setTenant(scan.getTenant());
-        BaseContextHandler.setDatabase(databaseName);
+        BaseContextHandler.setDatabase(this.databaseName);
 
-        systemApiService.batchSave(scan);
+        this.systemApiService.batchSave(scan);
     }
 }

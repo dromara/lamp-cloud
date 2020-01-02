@@ -42,7 +42,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @Api(value = "Common", tags = "通用Controller")
-public class GeneralController {
+public class AuthorityGeneralController {
 
     @Autowired
     private OrgService orgService;
@@ -77,8 +77,8 @@ public class GeneralController {
     @GetMapping("/orgs")
     public R<Map<String, Map<Long, String>>> find() {
         Map<String, Map<Long, String>> map = new HashMap<>(2);
-        List<Station> stationList = stationService.list();
-        List<Org> orgList = orgService.list();
+        List<Station> stationList = this.stationService.list();
+        List<Org> orgList = this.orgService.list();
         ImmutableMap<Long, String> stationMap = MapHelper.uniqueIndex(stationList, Station::getId, Station::getName);
         ImmutableMap<Long, String> orgMap = MapHelper.uniqueIndex(orgList, Org::getId, Org::getName);
         map.put(Org.class.getSimpleName(), orgMap);
@@ -102,10 +102,10 @@ public class GeneralController {
     public R<Object> test(@RequestParam(value = "millis", defaultValue = "29") Long millis, HttpServletRequest request) {
         String clientIP = ServletUtil.getClientIP(request);
         log.info("clientIP={}", clientIP);
-        rabbitTemplate.convertAndSend("aaa", "123");
+        this.rabbitTemplate.convertAndSend("aaa", "123");
         Thread.sleep(millis);
 
-        return R.success(clientIP + "--port=" + port);
+        return R.success(clientIP + "--port=" + this.port);
     }
 
 }

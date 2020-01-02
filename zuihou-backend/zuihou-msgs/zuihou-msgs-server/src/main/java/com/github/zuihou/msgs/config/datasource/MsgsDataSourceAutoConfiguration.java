@@ -1,8 +1,7 @@
 package com.github.zuihou.msgs.config.datasource;
 
 
-import javax.sql.DataSource;
-
+import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -12,8 +11,6 @@ import com.github.zuihou.database.datasource.BaseDbConfiguration;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.utils.SpringUtils;
 import com.p6spy.engine.spy.P6DataSource;
-
-import cn.hutool.core.util.ArrayUtil;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
@@ -27,6 +24,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import javax.sql.DataSource;
+
 /**
  * zuihou 中心数据库配置 附件配置
  *
@@ -38,7 +37,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
         basePackages = {"com.github.zuihou"},
         annotationClass = Repository.class,
         sqlSessionFactoryRef = "msgsSqlSessionFactory")
-public class MsgsDbAutoConfiguration extends BaseDbConfiguration {
+public class MsgsDataSourceAutoConfiguration extends BaseDbConfiguration {
 
     /**
      * 数据源信息
@@ -53,7 +52,7 @@ public class MsgsDbAutoConfiguration extends BaseDbConfiguration {
 
     @Bean(name = "msgsDataSource")
     public DataSource db1(@Qualifier("druidDataSource") DataSource dataSource) {
-        if (ArrayUtil.contains(DEV_PROFILES, profiles)) {
+        if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
             return new P6DataSource(dataSource);
         } else {
             return dataSource;
@@ -100,7 +99,7 @@ public class MsgsDbAutoConfiguration extends BaseDbConfiguration {
      */
     @Bean("msgsGlobalConfig")
     public GlobalConfig globalConfig() {
-        return defGlobalConfig();
+        return this.defGlobalConfig();
     }
 
 

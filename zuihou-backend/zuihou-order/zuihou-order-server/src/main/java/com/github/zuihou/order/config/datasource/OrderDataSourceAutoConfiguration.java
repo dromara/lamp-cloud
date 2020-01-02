@@ -39,7 +39,7 @@ import javax.sql.DataSource;
         basePackages = {"com.github.zuihou.order.dao"},
         annotationClass = Repository.class,
         sqlSessionFactoryRef = "sqlSessionFactory")
-public class OrderAutoConfiguration extends BaseDbConfiguration {
+public class OrderDataSourceAutoConfiguration extends BaseDbConfiguration {
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
