@@ -1,15 +1,14 @@
 package com.github.zuihou.general.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.github.zuihou.base.R;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 通用 控制器
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @Api(value = "Common", tags = "公共Controller")
-public class GeneralController {
+public class OrderGeneralController {
 
     @ApiOperation(value = "获取当前系统所有枚举", notes = "获取当前系统所有枚举")
     @GetMapping("/enums")

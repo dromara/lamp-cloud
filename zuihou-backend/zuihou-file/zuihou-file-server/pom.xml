@@ -20,7 +20,6 @@
             <artifactId>zuihou-file-controller</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-scan-starter</artifactId>

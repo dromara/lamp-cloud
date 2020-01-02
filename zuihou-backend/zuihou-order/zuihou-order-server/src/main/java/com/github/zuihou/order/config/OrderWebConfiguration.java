@@ -1,7 +1,6 @@
-package com.github.zuihou.msgs.config;
+package com.github.zuihou.order.config;
 
 import com.github.zuihou.common.config.BaseConfig;
-
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -9,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * @createTime 2017-12-15 14:42
  */
 @Configuration
-public class MsgsConfiguration extends BaseConfig {
+public class OrderWebConfiguration extends BaseConfig {
 
 }
