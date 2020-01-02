@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.2.RELEASE</version>
+        <version>2.2.2.RELEASE</version>
         <relativePath/>
     </parent>
     <groupId>com.github.zuihou</groupId>
@@ -40,6 +40,8 @@
                 <pom.nacos.port>8848</pom.nacos.port>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
                 <pom.nacos.namespace>b16f7baf-56e7-4f4e-a26c-425ee0668016</pom.nacos.namespace>
+                <pom.seata.namespace></pom.seata.namespace>
+                <!--                <pom.seata.namespace>3bef359b-1ef7-4816-9c31-adb694b90bbe</pom.seata.namespace>-->
             </properties>
         </profile>
         <!-- docker 环境 -->
@@ -52,6 +54,7 @@
                 <pom.nacos.port>8848</pom.nacos.port>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
                 <pom.nacos.namespace>3bef359b-1ef7-4816-9c31-adb694b90bbe</pom.nacos.namespace>
+                <pom.seata.namespace>3bef359b-1ef7-4816-9c31-adb694b90bbe</pom.seata.namespace>
             </properties>
         </profile>
         <!-- 生产 -->
@@ -64,6 +67,7 @@
                 <pom.nacos.port>8848</pom.nacos.port>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
                 <pom.nacos.namespace>c2c8d8e2-0f26-489c-bf27-28543d7b79b6</pom.nacos.namespace>
+                <pom.seata.namespace>3bef359b-1ef7-4816-9c31-adb694b90bbe</pom.seata.namespace>
             </properties>
         </profile>
     </profiles>
@@ -102,26 +106,26 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot-admin.version>2.1.3</spring-boot-admin.version>
-        <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
-        <spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
-        <spring-cloud-alibaba-dependencies.version>2.1.0.RELEASE</spring-cloud-alibaba-dependencies.version>
-        <seata.version>0.9.0</seata.version>
-        <spring.version>5.1.4.RELEASE</spring.version>
-        <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
+        <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
+        <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
+        <spring-cloud-alibaba-dependencies.version>2.1.1.RELEASE</spring-cloud-alibaba-dependencies.version>
+        <seata.version>1.0.0</seata.version>
+        <spring.version>5.2.2.RELEASE</spring.version>
+        <spring-boot-admin.version>2.2.0</spring-boot-admin.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <mybatis.version>3.5.2</mybatis.version>
         <mybatis.typehandlers.version>1.0.2</mybatis.typehandlers.version>
         <mybatisplus.version>3.2.0</mybatisplus.version>
         <p6spy.version>3.8.1</p6spy.version>
-        <mybatis.dynamic.version>2.5.4</mybatis.dynamic.version>
-        <mybatis.spring.version>2.0.2</mybatis.spring.version>
+        <!--        <mybatis.dynamic.version>2.5.4</mybatis.dynamic.version>-->
+        <!--        <mybatis.spring.version>2.0.3</mybatis.spring.version>-->
         <fastjson.version>1.2.60</fastjson.version>
         <druid.version>1.1.21</druid.version>
         <mysql.version>6.0.6</mysql.version>
+        <knife4j.version>2.0.1</knife4j.version>
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <swagger.version>1.5.21</swagger.version>
-        <sbu.version>1.9.6</sbu.version>
-        <knife4j.version>2.0.1</knife4j.version>
+        <!--        <sbu.version>1.9.6</sbu.version>-->
         <dozer.version>6.4.0</dozer.version>
         <lombok.version>1.18.8</lombok.version>
         <guava.version>20.0</guava.version>
@@ -150,7 +154,7 @@
         <bce-java-sdk.version>0.10.21</bce-java-sdk.version>
 
 
-        <hutool.version>4.5.6</hutool.version>
+        <hutool.version>5.1.0</hutool.version>
         <antisamy.version>1.5.7</antisamy.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-io.version>2.5</commons-io.version>
@@ -182,6 +186,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>

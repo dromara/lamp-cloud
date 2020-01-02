@@ -5,10 +5,16 @@ zuihou:
     ip: 127.0.0.1
     port: 16379
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
+    database: 0
 
 spring:
   cache:
     type: GENERIC
+  redis:
+    host: ${zuihou.redis.ip}
+    password: ${zuihou.redis.password}
+    port: ${zuihou.redis.port}
+    database: ${zuihou.redis.database}
 
 j2cache:
   #  config-location: /j2cache.properties
@@ -16,8 +22,8 @@ j2cache:
   cache-clean-mode: passive
   allow-null-values: true
   redis-client: lettuce
-  # l2-cache-open: false     # 关闭二级缓存
   l2-cache-open: true
+  # l2-cache-open: false     # 关闭二级缓存
   broadcast: net.oschina.j2cache.cache.support.redis.SpringRedisPubSubPolicy
   #  broadcast: jgroups       # 关闭二级缓存
   L1:
@@ -38,7 +44,7 @@ lettuce:
   scheme: redis
   hosts: ${zuihou.redis.ip}:${zuihou.redis.port}
   password: ${zuihou.redis.password}
-  database: 0
+  database: ${zuihou.redis.database}
   sentinelMasterId:
   maxTotal: 100
   maxIdle: 10
