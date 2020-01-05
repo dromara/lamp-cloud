@@ -1,20 +1,14 @@
 package com.github.zuihou.authority.dto.common;
 
-import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -23,7 +17,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2020-01-03
  */
 @Data
 @NoArgsConstructor
@@ -42,7 +36,6 @@ public class DictionaryItemSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "字典id")
     @NotNull(message = "字典id不能为空")
-
     private Long dictionaryId;
     /**
      * 字典编码
@@ -50,15 +43,13 @@ public class DictionaryItemSaveDTO implements Serializable {
     @ApiModelProperty(value = "字典编码")
     @NotEmpty(message = "字典编码不能为空")
     @Length(max = 64, message = "字典编码长度不能超过64")
-
     private String dictionaryCode;
     /**
-     * 字典项编码
+     * 编码
      */
-    @ApiModelProperty(value = "字典项编码")
-    @NotEmpty(message = "字典项编码不能为空")
-    @Length(max = 64, message = "字典项编码长度不能超过64")
-
+    @ApiModelProperty(value = "编码")
+    @NotEmpty(message = "编码不能为空")
+    @Length(max = 64, message = "编码长度不能超过64")
     private String code;
     /**
      * 名称
@@ -66,32 +57,22 @@ public class DictionaryItemSaveDTO implements Serializable {
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过64")
-
     private String name;
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
-
-    private Boolean isEnable;
-    /**
-     * 是否删除
-     */
-    @ApiModelProperty(value = "是否删除")
-
-    private Boolean isDelete;
+    @ApiModelProperty(value = "状态")
+    private Boolean status;
     /**
      * 描述
      */
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
-
     private String describe;
     /**
      * 排序
      */
     @ApiModelProperty(value = "排序")
-
     private Integer sortValue;
 
 }
