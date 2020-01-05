@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 02/01/2020 21:19:14
+ Date: 05/01/2020 21:37:57
 */
 
 SET NAMES utf8mb4;
@@ -223,13 +223,14 @@ DROP TABLE IF EXISTS `c_common_area`;
 CREATE TABLE `c_common_area` (
   `id` bigint(11) NOT NULL COMMENT 'id',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '地区编码',
+  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
   `full_name` varchar(255) DEFAULT '' COMMENT '全名',
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `longitude` varchar(255) DEFAULT '' COMMENT '经度',
   `latitude` varchar(255) DEFAULT '' COMMENT '维度',
   `level` int(1) NOT NULL DEFAULT '0' COMMENT '行政区级',
-  `parent_code` varchar(64) DEFAULT NULL COMMENT '上级行政区码',
+  `parent_code` varchar(64) DEFAULT NULL COMMENT '父CODE',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '父ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `create_user` bigint(11) DEFAULT '0' COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
@@ -244,9 +245,9 @@ DROP TABLE IF EXISTS `c_common_dictionary`;
 CREATE TABLE `c_common_dictionary` (
   `id` bigint(20) NOT NULL,
   `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
-  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '字典名称',
-  `describe_` varchar(200) DEFAULT '' COMMENT '字典描述',
-  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
+  `describe_` varchar(200) DEFAULT '' COMMENT '描述',
+  `status_` bit(1) DEFAULT b'1' COMMENT '状态',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
@@ -259,12 +260,12 @@ CREATE TABLE `c_common_dictionary` (
 -- ----------------------------
 DROP TABLE IF EXISTS `c_common_dictionary_item`;
 CREATE TABLE `c_common_dictionary_item` (
-  `id` bigint(20) NOT NULL COMMENT '字典项id',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `dictionary_id` bigint(20) NOT NULL COMMENT '字典id',
   `dictionary_code` varchar(64) NOT NULL COMMENT '字典编码',
-  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '字典项编码',
+  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
-  `is_enable` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `status_` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
@@ -561,6 +562,19 @@ CREATE TABLE `msgs_center_info_receive` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心接收表';
+
+-- ----------------------------
+-- Table structure for order_tbl
+-- ----------------------------
+DROP TABLE IF EXISTS `order_tbl`;
+CREATE TABLE `order_tbl` (
+  `id` bigint(20) NOT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  `commodity_code` varchar(255) DEFAULT NULL,
+  `count` int(11) DEFAULT '0',
+  `money` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for sms_send_status
