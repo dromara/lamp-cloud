@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.common.DictionarySaveDTO;
 import com.github.zuihou.authority.dto.common.DictionaryUpdateDTO;
 import com.github.zuihou.authority.entity.common.Dictionary;
+import com.github.zuihou.authority.entity.common.DictionaryItem;
+import com.github.zuihou.authority.service.common.DictionaryItemService;
 import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -13,7 +15,6 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,14 +22,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -49,6 +45,8 @@ public class DictionaryController extends BaseController {
     @Autowired
     private DictionaryService dictionaryService;
     @Autowired
+    private DictionaryItemService dictionaryItemService;
+    @Autowired
     private DozerUtils dozer;
 
     /**
@@ -65,11 +63,11 @@ public class DictionaryController extends BaseController {
     @GetMapping("/page")
     @SysLog("分页查询字典目录")
     public R<IPage<Dictionary>> page(Dictionary data) {
-        IPage<Dictionary> page = getPage();
+        IPage<Dictionary> page = this.getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Dictionary> query = Wraps.lbQ(data);
-        dictionaryService.page(page, query);
-        return success(page);
+        this.dictionaryService.page(page, query);
+        return this.success(page);
     }
 
     /**
@@ -82,7 +80,7 @@ public class DictionaryController extends BaseController {
     @GetMapping("/{id}")
     @SysLog("查询字典目录")
     public R<Dictionary> get(@PathVariable Long id) {
-        return success(dictionaryService.getById(id));
+        return this.success(this.dictionaryService.getById(id));
     }
 
     /**
@@ -95,9 +93,9 @@ public class DictionaryController extends BaseController {
     @PostMapping
     @SysLog("新增字典目录")
     public R<Dictionary> save(@RequestBody @Validated DictionarySaveDTO data) {
-        Dictionary dictionary = dozer.map(data, Dictionary.class);
-        dictionaryService.save(dictionary);
-        return success(dictionary);
+        Dictionary dictionary = this.dozer.map(data, Dictionary.class);
+        this.dictionaryService.save(dictionary);
+        return this.success(dictionary);
     }
 
     /**
@@ -110,23 +108,24 @@ public class DictionaryController extends BaseController {
     @PutMapping
     @SysLog("修改字典目录")
     public R<Dictionary> update(@RequestBody @Validated(SuperEntity.Update.class) DictionaryUpdateDTO data) {
-        Dictionary dictionary = dozer.map(data, Dictionary.class);
-        dictionaryService.updateById(dictionary);
-        return success(dictionary);
+        Dictionary dictionary = this.dozer.map(data, Dictionary.class);
+        this.dictionaryService.updateById(dictionary);
+        return this.success(dictionary);
     }
 
     /**
      * 删除字典目录
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除字典目录", notes = "根据id物理删除字典目录")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除字典目录")
-    public R<Boolean> delete(@PathVariable Long id) {
-        dictionaryService.removeById(id);
-        return success(true);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        this.dictionaryService.removeByIds(ids);
+        this.dictionaryItemService.remove(Wraps.<DictionaryItem>lbQ().in(DictionaryItem::getDictionaryId, ids));
+        return this.success(true);
     }
 
 

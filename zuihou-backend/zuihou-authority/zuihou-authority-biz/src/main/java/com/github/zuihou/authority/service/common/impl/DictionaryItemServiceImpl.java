@@ -1,9 +1,5 @@
 package com.github.zuihou.authority.service.common.impl;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.common.DictionaryItemMapper;
 import com.github.zuihou.authority.entity.common.DictionaryItem;
@@ -12,9 +8,12 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -35,7 +34,7 @@ public class DictionaryItemServiceImpl extends ServiceImpl<DictionaryItemMapper,
     public Map<String, Map<String, String>> map(String[] codes) {
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
                 .in(DictionaryItem::getDictionaryCode, codes)
-                .eq(DictionaryItem::getIsEnable, true)
+                .eq(DictionaryItem::getStatus, true)
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = super.list(query);
 

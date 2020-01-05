@@ -1,23 +1,16 @@
 package com.github.zuihou.authority.entity.common;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -28,7 +21,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-20
+ * @since 2020-01-03
  */
 @Data
 @NoArgsConstructor
@@ -53,33 +46,33 @@ public class Dictionary extends Entity<Long> {
     private String code;
 
     /**
-     * 字典名称
+     * 名称
      */
-    @ApiModelProperty(value = "字典名称")
-    @NotEmpty(message = "字典名称不能为空")
-    @Length(max = 64, message = "字典名称长度不能超过64")
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 64, message = "名称长度不能超过64")
     @TableField(value = "name", condition = LIKE)
     private String name;
 
     /**
-     * 字典描述
+     * 描述
      */
-    @ApiModelProperty(value = "字典描述")
-    @Length(max = 200, message = "字典描述长度不能超过200")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 200, message = "描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
     private String describe;
 
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
-    @TableField("is_enable")
-    private Boolean isEnable;
+    @ApiModelProperty(value = "状态")
+    @TableField("status_")
+    private Boolean status;
 
 
     @Builder
     public Dictionary(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                      String code, String name, String describe, Boolean isEnable) {
+                      String code, String name, String describe, Boolean status) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
@@ -88,7 +81,7 @@ public class Dictionary extends Entity<Long> {
         this.code = code;
         this.name = name;
         this.describe = describe;
-        this.isEnable = isEnable;
+        this.status = status;
     }
 
 }

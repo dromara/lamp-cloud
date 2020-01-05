@@ -17,12 +17,13 @@
         <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
         <result column="level" jdbcType="INTEGER" property="level"/>
         <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_time, create_user, update_time, update_user, 
-        name, code, full_name, sort_value, longitude, latitude, level, parent_code
+        name, code, full_name, sort_value, longitude, latitude, level, parent_code, parent_id
     </sql>
 
 </mapper>

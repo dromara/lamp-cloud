@@ -1,24 +1,17 @@
 package com.github.zuihou.authority.entity.common;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -29,7 +22,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-10-20
+ * @since 2020-01-03
  */
 @Data
 @NoArgsConstructor
@@ -53,11 +46,11 @@ public class Area extends Entity<Long> {
     private String name;
 
     /**
-     * 地区编码
+     * 编码
      */
-    @ApiModelProperty(value = "地区编码")
-    @NotEmpty(message = "地区编码不能为空")
-    @Length(max = 64, message = "地区编码长度不能超过64")
+    @ApiModelProperty(value = "编码")
+    @NotEmpty(message = "编码不能为空")
+    @Length(max = 64, message = "编码长度不能超过64")
     @TableField(value = "code", condition = LIKE)
     private String code;
 
@@ -101,18 +94,25 @@ public class Area extends Entity<Long> {
     private Integer level;
 
     /**
-     * 上级行政区码
+     * 父CODE
      */
-    @ApiModelProperty(value = "上级行政区码")
-    @Length(max = 64, message = "上级行政区码长度不能超过64")
+    @ApiModelProperty(value = "父CODE")
+    @Length(max = 64, message = "父CODE长度不能超过64")
     @TableField(value = "parent_code", condition = LIKE)
     private String parentCode;
+
+    /**
+     * 父ID
+     */
+    @ApiModelProperty(value = "父ID")
+    @TableField("parent_id")
+    private Long parentId;
 
 
     @Builder
     public Area(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
                 String name, String code, String fullName, Integer sortValue, String longitude,
-                String latitude, Integer level, String parentCode) {
+                String latitude, Integer level, String parentCode, Long parentId) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -126,6 +126,7 @@ public class Area extends Entity<Long> {
         this.latitude = latitude;
         this.level = level;
         this.parentCode = parentCode;
+        this.parentId = parentId;
     }
 
 }
