@@ -1,19 +1,13 @@
 package com.github.zuihou.authority.dto.common;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotEmpty;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -22,7 +16,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  *
  * @author zuihou
- * @since 2019-07-28
+ * @since 2020-01-03
  */
 @Data
 @NoArgsConstructor
@@ -43,34 +37,24 @@ public class DictionarySaveDTO implements Serializable {
     @ApiModelProperty(value = "编码")
     @NotEmpty(message = "编码不能为空")
     @Length(max = 64, message = "编码长度不能超过64")
-
     private String code;
     /**
-     * 字典名称
+     * 名称
      */
-    @ApiModelProperty(value = "字典名称")
-    @NotEmpty(message = "字典名称不能为空")
-    @Length(max = 64, message = "字典名称长度不能超过64")
-
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 64, message = "名称长度不能超过64")
     private String name;
     /**
-     * 字典描述
+     * 描述
      */
-    @ApiModelProperty(value = "字典描述")
-    @Length(max = 200, message = "字典描述长度不能超过200")
-
+    @ApiModelProperty(value = "描述")
+    @Length(max = 200, message = "描述长度不能超过200")
     private String describe;
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
-
-    private Boolean isEnable;
-    /**
-     * 是否删除
-     */
-    @ApiModelProperty(value = "是否删除")
-
-    private Boolean isDelete;
+    @ApiModelProperty(value = "状态")
+    private Boolean status;
 
 }
