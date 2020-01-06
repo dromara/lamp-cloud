@@ -133,24 +133,25 @@ public final class HttpLoggingInterceptor implements Interceptor {
             } else if (this.bodyHasUnknownEncoding(request.headers())) {
                 this.logger.log("--> END " + request.method() + " (encoded body omitted)");
             } else {
-                Buffer buffer = new Buffer();
-                requestBody.writeTo(buffer);
+//                Buffer buffer = new Buffer();
+//                requestBody.writeTo(buffer);
 
-                Charset charset = UTF8;
-                MediaType contentType = requestBody.contentType();
-                if (contentType != null) {
-                    charset = contentType.charset(UTF8);
-                }
+//                Charset charset = UTF8;
+//                MediaType contentType = requestBody.contentType();
+//                if (contentType != null) {
+//                    charset = contentType.charset(UTF8);
+//                }
 
                 this.logger.log("");
-                if (isPlaintext(buffer)) {
-                    this.logger.log(buffer.readString(charset));
-                    this.logger.log("--> END " + request.method()
-                            + " (" + requestBody.contentLength() + "-byte body)");
-                } else {
-                    this.logger.log("--> END " + request.method() + " (binary "
-                            + requestBody.contentLength() + "-byte body omitted)");
-                }
+                //执行这个方法后，post请求会报错
+//                if (isPlaintext(buffer)) {
+//                this.logger.log(buffer.readString(charset));
+                this.logger.log("--> END " + request.method()
+                        + " (" + requestBody.contentLength() + "-byte body)");
+//                } else {
+//                    this.logger.log("--> END " + request.method() + " (binary "
+//                            + requestBody.contentLength() + "-byte body omitted)");
+//                }
             }
         }
 
