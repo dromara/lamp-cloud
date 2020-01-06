@@ -80,7 +80,7 @@ public class SeataTxController extends BaseController {
      * 1， seata-all 1.0.0 SeataHystrixConcurrencyStrategy 和 本项目中 ThreadLocalHystrixConcurrencyStrategy 冲突，导致事务回滚失效。
      * 临时解决方案是将 ThreadLocalHystrixConcurrencyStrategy 中内部类 WrappedCallable 中注释的4行代码释放开
      * <p>
-     * 2，insert into zuihou_base_0000.m_product 语法，还是无法回滚， 想要测试，请勿在请求头中传递 tenant 参数
+     * 2，insert into zuihou_base_0000.m_product 语法，还是无法回滚， 想要测试，请勿在请求头中传递 tenant 参数，并将m_product表和m_order 表复制到 zuihou_defaults
      *
      * @param
      * @return
