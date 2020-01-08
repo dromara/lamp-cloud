@@ -27,7 +27,7 @@ public class DatabaseProperties {
      *
      * @return
      */
-    public Boolean isBlockAttack = true;
+    public Boolean isBlockAttack = false;
     /**
      * 是否 启用多租户
      */

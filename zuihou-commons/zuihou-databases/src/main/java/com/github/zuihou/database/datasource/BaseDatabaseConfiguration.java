@@ -31,7 +31,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.*;
 import org.springframework.util.Assert;
@@ -54,15 +53,10 @@ import java.util.*;
 public abstract class BaseDatabaseConfiguration implements InitializingBean {
 
     /**
-     * 事务超时时间 单位秒
-     */
-//    private static final int TX_METHOD_TIMEOUT = 60 * 60;
-    /**
      * 测试环境
      */
     protected static final String[] DEV_PROFILES = new String[]{"dev"};
     private static final List<Class<? extends Annotation>> AOP_POINTCUT_ANNOTATIONS = new ArrayList<>(2);
-//    private static final String TX_BASE_PACKAGE = "com.github.zuihou";
 
     static {
         //事务在controller层开启。
@@ -72,9 +66,6 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
 
     protected final MybatisPlusProperties properties;
 
-    //    private int getTxTimeOut() {
-//        return TX_METHOD_TIMEOUT;
-//    }
     private final DatabaseProperties databaseProperties;
     private final Interceptor[] interceptors;
     private final TypeHandler[] typeHandlers;
@@ -148,7 +139,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
         return txTransactionAttributeSource;
     }
 
-    protected Advisor txAdviceAdvisor(PlatformTransactionManager transactionManager, TransactionInterceptor ti) {
+    protected Advisor txAdviceAdvisor(TransactionInterceptor ti) {
         return new DefaultPointcutAdvisor(new Pointcut() {
             @Override
             public MethodMatcher getMethodMatcher() {
