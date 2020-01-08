@@ -21,6 +21,7 @@ spring:
       password: ${zuihou.mysql.password}
       driver-class-name: ${zuihou.mysql.driverClassName}
       url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      db-type: mysql
       initialSize: 10
       minIdle: 10
       maxActive: 500

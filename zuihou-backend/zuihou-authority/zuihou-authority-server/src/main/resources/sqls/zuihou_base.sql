@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 05/01/2020 21:37:57
+ Date: 08/01/2020 16:05:41
 */
 
 SET NAMES utf8mb4;
@@ -446,7 +446,7 @@ CREATE TABLE `m_order` (
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单(用于测试)';
 
 -- ----------------------------
 -- Table structure for m_product
@@ -461,7 +461,7 @@ CREATE TABLE `m_product` (
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品(用于测试)';
 
 -- ----------------------------
 -- Table structure for mail_provider
@@ -562,19 +562,6 @@ CREATE TABLE `msgs_center_info_receive` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息中心接收表';
-
--- ----------------------------
--- Table structure for order_tbl
--- ----------------------------
-DROP TABLE IF EXISTS `order_tbl`;
-CREATE TABLE `order_tbl` (
-  `id` bigint(20) NOT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
-  `commodity_code` varchar(255) DEFAULT NULL,
-  `count` int(11) DEFAULT '0',
-  `money` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for sms_send_status
