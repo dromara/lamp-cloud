@@ -18,7 +18,7 @@ zuihou:
         title: 权限模块
         base-package: com.github.zuihou.authority.controller.auth
       common:
-        title: 公共模块
+        title: 公共模块123
         base-package: com.github.zuihou.authority.controller.common
       core:
         title: 组织模块
@@ -39,11 +39,3 @@ authentication:
 
 server:
   port: 8764
-
-#j2cache:
-#  config-location: /j2cache.properties
-#  redis-client: lettuce
-#  open-spring-cache: true
-#spring:
-#  cache:
-#    type: none

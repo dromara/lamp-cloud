@@ -1,6 +1,5 @@
 # @xxx@ 从pom.xml中取值, 所以 @xx@ 标注的值，都不能从nacos中获取
 zuihou:
-  local-ip: ${LOCAL_IP:${spring.cloud.client.ip-address}}   # docker部署时，需要指定， 表示的运行该服务的宿主机IP
   nacos:
     ip: ${NACOS_IP:@pom.nacos.ip@}
     port: ${NACOS_PORT:@pom.nacos.port@}
@@ -34,11 +33,12 @@ spring:
     proxy-target-class: true
     auto: true
 
-
 # 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
 # window会自动在 代码所在盘 根目录下自动创建文件夹，  如： D:/data/projects/logs
 logging:
-  path: /data/projects/logs
+  file:
+    path: /data/projects/logs
+    name: ${logging.file.path}/${spring.application.name}/root.log
 
 # 用于/actuator/info
 info:
@@ -49,3 +49,10 @@ info:
   spring-cloud-version: '@spring.cloud.version@'
 
 
+
+server:
+  undertow: # jetty  undertow
+    io-threads: 8 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    worker-threads: 120  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    buffer-size: 2048  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
+    direct-buffers: true  # 是否分配的直接内存

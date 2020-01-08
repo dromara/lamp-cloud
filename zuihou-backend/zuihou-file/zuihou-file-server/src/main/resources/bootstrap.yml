@@ -28,7 +28,9 @@ spring:
           management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
 
 logging:
-  path: /data/projects/logs
+  file:
+    path: /data/projects/logs
+    name: ${logging.file.path}/${spring.application.name}/root.log
 
 info:
   name: "@project.name@"

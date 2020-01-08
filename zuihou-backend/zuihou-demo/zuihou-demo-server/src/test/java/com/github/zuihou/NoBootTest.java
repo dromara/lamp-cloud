@@ -1,13 +1,12 @@
 package com.github.zuihou;
 
-import java.io.File;
-import java.util.Collection;
-
-import com.github.zuihou.database.parsers.TableNameParser;
-
 import cn.hutool.core.io.FileUtil;
+import com.github.zuihou.database.parsers.TableNameParser;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.Collection;
 
 /**
  * This is a Description
@@ -32,7 +31,7 @@ public class NoBootTest {
     public void testSqlTablesParse() {
         String sql = "select * from aa a left join bb b on aa.id = bb.id";
 
-        sql = "select pdy.c from c,pdy,d where pdy.c=s";
+        sql = "select zuihou.c from c,zuihou,d where zuihou.c=s";
 
         //c_auth_account_role c_auth_role_resource  c_auth_role c_auth_resource c_auth_application
         sql = " select\n" +
