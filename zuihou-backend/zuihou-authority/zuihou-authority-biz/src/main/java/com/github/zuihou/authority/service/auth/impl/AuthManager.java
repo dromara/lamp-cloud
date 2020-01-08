@@ -1,9 +1,5 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.auth.server.utils.JwtTokenServerUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
@@ -24,20 +20,22 @@ import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.authority.utils.TimeUtils;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.database.properties.DatabaseProperties;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.NumberHelper;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.github.zuihou.utils.BizAssert.gt;
-import static com.github.zuihou.utils.BizAssert.isTrue;
-import static com.github.zuihou.utils.BizAssert.notNull;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.github.zuihou.utils.BizAssert.*;
 
 /**
  * @author zuihou
@@ -58,10 +56,11 @@ public class AuthManager {
     private TenantService tenantService;
     @Autowired
     private DozerUtils dozer;
+    @Autowired
+    private DatabaseProperties databaseProperties;
 
     private static final String SUPER_TENANT = "admin";
     private static final String[] SUPER_ACCOUNT = new String[]{"admin", "superAdmin"};
-
 
     /**
      * 超管账号登录
@@ -71,7 +70,7 @@ public class AuthManager {
      * @return
      */
     public R<LoginDTO> adminLogin(String account, String password) {
-        GlobalUser user = globalUserService.getOne(Wrappers.<GlobalUser>lambdaQuery()
+        GlobalUser user = this.globalUserService.getOne(Wrappers.<GlobalUser>lambdaQuery()
                 .eq(GlobalUser::getAccount, account).eq(GlobalUser::getTenantCode, SUPER_TENANT));
         // 密码错误
         if (user == null) {
@@ -80,17 +79,77 @@ public class AuthManager {
 
         String passwordMd5 = DigestUtils.md5Hex(password);
         if (!user.getPassword().equalsIgnoreCase(passwordMd5)) {
-            userService.updatePasswordErrorNumById(user.getId());
+            this.userService.updatePasswordErrorNumById(user.getId());
             return R.fail("用户名或密码错误!");
         }
         JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), 0L, 0L);
 
-        Token token = jwtTokenServerUtils.generateUserToken(userInfo, null);
+        Token token = this.jwtTokenServerUtils.generateUserToken(userInfo, null);
         log.info("token={}", token.getToken());
 
-        UserDTO dto = dozer.map(user, UserDTO.class);
+        UserDTO dto = this.dozer.map(user, UserDTO.class);
         dto.setStatus(true).setOrgId(0L).setStationId(0L).setAvatar("").setSex(Sex.M).setWorkDescribe("心情很美丽");
         return R.success(LoginDTO.builder().user(dto).token(token).build());
+    }
+
+    /**
+     * 多租户模式登陆
+     *
+     * @param tenantCode
+     * @param account
+     * @param password
+     * @return
+     */
+    private R<LoginDTO> tenantLogin(String tenantCode, String account, String password) {
+        // 1，检测租户是否可用
+        Tenant tenant = this.tenantService.getByCode(tenantCode);
+        notNull(tenant, "企业不存在");
+        BizAssert.equals(TenantStatusEnum.NORMAL, tenant.getStatus(), "企业不可用~");
+        if (tenant.getExpirationTime() != null) {
+            gt(LocalDateTime.now(), tenant.getExpirationTime(), "企业服务已到期~");
+        }
+        BaseContextHandler.setTenant(tenant.getCode());
+
+        // 2. 验证登录
+        R<User> result = this.getUser(tenant, account, password);
+        if (result.getIsError()) {
+            return R.fail(result.getCode(), result.getMsg());
+        }
+        User user = result.getData();
+
+        // 3, token
+        Token token = this.getToken(user);
+
+        List<Resource> resourceList = this.resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(user.getId()).build());
+        List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
+
+        log.info("account={}", account);
+        return R.success(LoginDTO.builder().user(this.dozer.map(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
+    }
+
+    /**
+     * 非多租户模式登陆
+     *
+     * @param account
+     * @param password
+     * @return
+     */
+    private R<LoginDTO> simpleLogin(String account, String password) {
+        // 2. 验证登录
+        R<User> result = this.getUser(new Tenant(), account, password);
+        if (result.getIsError()) {
+            return R.fail(result.getCode(), result.getMsg());
+        }
+        User user = result.getData();
+
+        // 3, token
+        Token token = this.getToken(user);
+
+        List<Resource> resourceList = this.resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(user.getId()).build());
+        List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
+
+        log.info("account={}", account);
+        return R.success(LoginDTO.builder().user(this.dozer.map(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
     }
 
     /**
@@ -101,52 +160,36 @@ public class AuthManager {
      * @param password
      * @return
      */
+
     public R<LoginDTO> login(String tenantCode, String account, String password) {
-        // 1，检测租户是否可用
-        Tenant tenant = tenantService.getByCode(tenantCode);
-        notNull(tenant, "企业不存在");
-        BizAssert.equals(TenantStatusEnum.NORMAL, tenant.getStatus(), "企业不可用~");
-        if (tenant.getExpirationTime() != null) {
-            gt(LocalDateTime.now(), tenant.getExpirationTime(), "企业服务已到期~");
+        if (this.databaseProperties.getIsMultiTenant()) {
+            return this.tenantLogin(tenantCode, account, password);
+        } else {
+            return this.simpleLogin(account, password);
         }
-        BaseContextHandler.setTenant(tenant.getCode());
-
-        // 2. 验证登录
-        R<User> result = getUser(tenant, account, password);
-        if (result.getIsError()) {
-            return R.fail(result.getCode(), result.getMsg());
-        }
-        User user = result.getData();
-
-        // 3, token
-        Token token = getToken(user);
-
-        List<Resource> resourceList = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(user.getId()).build());
-        List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
-
-        log.info("account={}", account);
-        return R.success(LoginDTO.builder().user(dozer.map(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
     }
 
     private Token getToken(User user) {
         JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), user.getOrgId(), user.getStationId());
 
-        Token token = jwtTokenServerUtils.generateUserToken(userInfo, null);
+        Token token = this.jwtTokenServerUtils.generateUserToken(userInfo, null);
         log.info("token={}", token.getToken());
         return token;
     }
 
     private R<User> getUser(Tenant tenant, String account, String password) {
-        User user = userService.getOne(Wrappers.<User>lambdaQuery()
+        User user = this.userService.getOne(Wrappers.<User>lambdaQuery()
                 .eq(User::getAccount, account));
         // 密码错误
         String passwordMd5 = DigestUtils.md5Hex(password);
         if (user == null) {
-            throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
+//            throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
+            return R.fail(ExceptionCode.JWT_USER_INVALID);
         }
 
+
         if (!user.getPassword().equalsIgnoreCase(passwordMd5)) {
-            userService.updatePasswordErrorNumById(user.getId());
+            this.userService.updatePasswordErrorNumById(user.getId());
             return R.fail("用户名或密码错误!");
         }
 
@@ -173,12 +216,12 @@ public class AuthManager {
 
         // 错误次数清空
 //        userService.update(Wraps.<User>lbU().set(User::getPasswordErrorNum, 0).eq(User::getId, user.getId()));
-        userService.resetPassErrorNum(user.getId());
+        this.userService.resetPassErrorNum(user.getId());
         return R.success(user);
     }
 
     public JwtUserInfo validateUserToken(String token) throws BizException {
-        return jwtTokenServerUtils.getUserInfo(token);
+        return this.jwtTokenServerUtils.getUserInfo(token);
     }
 
     public void invalidUserToken(String token) throws BizException {
