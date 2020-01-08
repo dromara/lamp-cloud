@@ -39,7 +39,7 @@ public class InitSystemServiceImpl implements InitSystemService {
      * 需要初始化的库
      */
     private final static List<String> INIT_DATABASE_LIST = Arrays.asList("zuihou_base");
-    @Resource(name = "druidDataSource")
+    @Resource(name = "masterDruidDataSource")
     private DataSource dataSource;
     @Autowired
     private InitDbMapper initDbMapper;

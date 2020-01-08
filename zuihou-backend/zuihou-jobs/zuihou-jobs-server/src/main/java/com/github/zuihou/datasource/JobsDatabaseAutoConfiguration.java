@@ -1,4 +1,4 @@
-package com.github.zuihou.authority.config.datasource;
+package com.github.zuihou.datasource;
 
 
 import cn.hutool.core.util.ArrayUtil;
@@ -26,6 +26,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
@@ -58,26 +59,29 @@ import java.util.List;
 @Configuration
 @Slf4j
 @MapperScan(
-        basePackages = {"com.github.zuihou",},
+        basePackages = {
+                "com.xxl.job.admin.dao",
+                "com.github.zuihou",
+        },
         annotationClass = Repository.class,
-        sqlSessionFactoryRef = AuthorityDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
+        sqlSessionFactoryRef = JobsDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class, DatabaseProperties.class})
-public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
+public class JobsDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
     /**
      * 每个数据源配置不同即可
      */
     final static String DATABASE_PREFIX = "master";
 
-    public AuthorityDatabaseAutoConfiguration(MybatisPlusProperties properties,
-                                              DatabaseProperties databaseProperties,
-                                              ObjectProvider<Interceptor[]> interceptorsProvider,
-                                              ObjectProvider<TypeHandler[]> typeHandlersProvider,
-                                              ObjectProvider<LanguageDriver[]> languageDriversProvider,
-                                              ResourceLoader resourceLoader,
-                                              ObjectProvider<DatabaseIdProvider> databaseIdProvider,
-                                              ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
-                                              ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
-                                              ApplicationContext applicationContext) {
+    public JobsDatabaseAutoConfiguration(MybatisPlusProperties properties,
+                                         DatabaseProperties databaseProperties,
+                                         ObjectProvider<Interceptor[]> interceptorsProvider,
+                                         ObjectProvider<TypeHandler[]> typeHandlersProvider,
+                                         ObjectProvider<LanguageDriver[]> languageDriversProvider,
+                                         ResourceLoader resourceLoader,
+                                         ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+                                         ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
+                                         ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
+                                         ApplicationContext applicationContext) {
         super(properties, databaseProperties, interceptorsProvider, typeHandlersProvider,
                 languageDriversProvider, resourceLoader, databaseIdProvider,
                 configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);
@@ -99,6 +103,7 @@ public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguratio
      * @return
      */
     @Bean(name = DATABASE_PREFIX + "DruidDataSource")
+    @Primary
     @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource druidDataSource() {
         return DruidDataSourceBuilder.create().build();
