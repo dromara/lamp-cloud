@@ -161,7 +161,7 @@ public class OrderDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
      */
     @Bean(DATABASE_PREFIX + "Advisor")
     public Advisor getAdvisor(@Qualifier(DATABASE_PREFIX + "TransactionManager") PlatformTransactionManager transactionManager, @Qualifier(DATABASE_PREFIX + "TransactionInterceptor") TransactionInterceptor ti) {
-        return super.txAdviceAdvisor(transactionManager, ti);
+        return super.txAdviceAdvisor(ti);
     }
 
 }

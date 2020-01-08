@@ -18,7 +18,7 @@ zuihou:
         title: 权限模块
         base-package: com.github.zuihou.authority.controller.auth
       common:
-        title: 公共模块123
+        title: 公共模块
         base-package: com.github.zuihou.authority.controller.common
       core:
         title: 组织模块
