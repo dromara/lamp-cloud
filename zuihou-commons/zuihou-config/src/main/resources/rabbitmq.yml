@@ -9,6 +9,7 @@ zuihou:
 
 spring:
   rabbitmq:
+    enabled: ${zuihou.rabbitmq.enabled}
     host: ${zuihou.rabbitmq.ip}
     port: ${zuihou.rabbitmq.port}
     username: ${zuihou.rabbitmq.username}
