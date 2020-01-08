@@ -1,4 +1,4 @@
-package com.github.zuihou.authority.config.datasource;
+package com.github.zuihou.file.config.datasource;
 
 
 import cn.hutool.core.util.ArrayUtil;
@@ -60,24 +60,24 @@ import java.util.List;
 @MapperScan(
         basePackages = {"com.github.zuihou",},
         annotationClass = Repository.class,
-        sqlSessionFactoryRef = AuthorityDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
+        sqlSessionFactoryRef = FileDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class, DatabaseProperties.class})
-public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
+public class FileDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
     /**
      * 每个数据源配置不同即可
      */
     final static String DATABASE_PREFIX = "master";
 
-    public AuthorityDatabaseAutoConfiguration(MybatisPlusProperties properties,
-                                              DatabaseProperties databaseProperties,
-                                              ObjectProvider<Interceptor[]> interceptorsProvider,
-                                              ObjectProvider<TypeHandler[]> typeHandlersProvider,
-                                              ObjectProvider<LanguageDriver[]> languageDriversProvider,
-                                              ResourceLoader resourceLoader,
-                                              ObjectProvider<DatabaseIdProvider> databaseIdProvider,
-                                              ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
-                                              ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
-                                              ApplicationContext applicationContext) {
+    public FileDatabaseAutoConfiguration(MybatisPlusProperties properties,
+                                         DatabaseProperties databaseProperties,
+                                         ObjectProvider<Interceptor[]> interceptorsProvider,
+                                         ObjectProvider<TypeHandler[]> typeHandlersProvider,
+                                         ObjectProvider<LanguageDriver[]> languageDriversProvider,
+                                         ResourceLoader resourceLoader,
+                                         ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+                                         ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
+                                         ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
+                                         ApplicationContext applicationContext) {
         super(properties, databaseProperties, interceptorsProvider, typeHandlersProvider,
                 languageDriversProvider, resourceLoader, databaseIdProvider,
                 configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);

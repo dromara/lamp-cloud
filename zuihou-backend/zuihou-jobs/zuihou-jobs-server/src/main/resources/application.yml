@@ -18,6 +18,9 @@ zuihou:
     password: root
     port: 3306
     driverClassName: com.mysql.cj.jdbc.Driver
+  database:
+    isBlockAttack: false
+    isMultiTenant: true
 
 ### xxl-job email
 xxl.job:
@@ -40,7 +43,7 @@ xxl.job:
     appname: ${spring.application.name}
     ip: ${zuihou.ip.executor}
     port: ${zuihou.port.executor:8771}
-    logpath: ${logging.path}/${spring.application.name}/
+    logpath: ${logging.file.path}/${spring.application.name}/
     logretentiondays: -1
 
 
