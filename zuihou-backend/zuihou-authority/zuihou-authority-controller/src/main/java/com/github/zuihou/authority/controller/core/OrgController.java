@@ -1,7 +1,5 @@
 package com.github.zuihou.authority.controller.core;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.core.OrgSaveDTO;
 import com.github.zuihou.authority.dto.core.OrgTreeDTO;
@@ -17,7 +15,6 @@ import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.TreeUtil;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,15 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
 import static com.github.zuihou.utils.StrPool.DEF_ROOT_PATH;
@@ -74,11 +65,11 @@ public class OrgController extends BaseController {
     @GetMapping("/page")
     @SysLog("分页查询组织")
     public R<IPage<Org>> page(Org data) {
-        IPage<Org> page = getPage();
+        IPage<Org> page = this.getPage();
         // 构建值不为null的查询条件
         LbqWrapper<Org> query = Wraps.lbQ(data);
-        orgService.page(page, query);
-        return success(page);
+        this.orgService.page(page, query);
+        return this.success(page);
     }
 
     /**
@@ -91,7 +82,7 @@ public class OrgController extends BaseController {
     @GetMapping("/{id}")
     @SysLog("查询组织")
     public R<Org> get(@PathVariable Long id) {
-        return success(orgService.getById(id));
+        return this.success(this.orgService.getById(id));
     }
 
     /**
@@ -104,18 +95,18 @@ public class OrgController extends BaseController {
     @PostMapping
     @SysLog("新增组织")
     public R<Org> save(@RequestBody @Validated OrgSaveDTO data) {
-        Org org = dozer.map(data, Org.class);
+        Org org = this.dozer.map(data, Org.class);
         if (org.getParentId() == null || org.getParentId() <= 0) {
             org.setParentId(DEF_PARENT_ID);
             org.setTreePath(DEF_ROOT_PATH);
         } else {
-            Org parent = orgService.getById(org.getParentId());
+            Org parent = this.orgService.getById(org.getParentId());
             BizAssert.notNull(parent, "父组织不能为空");
 
             org.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), DEF_ROOT_PATH));
         }
-        orgService.save(org);
-        return success(org);
+        this.orgService.save(org);
+        return this.success(org);
     }
 
     /**
@@ -128,9 +119,9 @@ public class OrgController extends BaseController {
     @PutMapping
     @SysLog("修改组织")
     public R<Org> update(@RequestBody @Validated(SuperEntity.Update.class) OrgUpdateDTO data) {
-        Org org = dozer.map(data, Org.class);
-        orgService.updateById(org);
-        return success(org);
+        Org org = this.dozer.map(data, Org.class);
+        this.orgService.updateById(org);
+        return this.success(org);
     }
 
     /**
@@ -143,8 +134,8 @@ public class OrgController extends BaseController {
     @SysLog("删除组织")
     @DeleteMapping
     public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        orgService.remove(ids);
-        return success(true);
+        this.orgService.remove(ids);
+        return this.success(true);
     }
 
     /**
@@ -160,10 +151,10 @@ public class OrgController extends BaseController {
     @SysLog("查询系统所有的组织树")
     public R<List<OrgTreeDTO>> tree(@RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "status", required = false) Boolean status) {
-        List<Org> list = orgService.list(Wraps.<Org>lbQ().like(Org::getName, name)
+        List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getName, name)
                 .eq(Org::getStatus, status).orderByAsc(Org::getSortValue));
-        List<OrgTreeDTO> treeList = dozer.mapList(list, OrgTreeDTO.class);
-        return success(TreeUtil.build(treeList));
+        List<OrgTreeDTO> treeList = this.dozer.mapList(list, OrgTreeDTO.class);
+        return this.success(TreeUtil.build(treeList));
     }
 
 

@@ -1,21 +1,20 @@
 package com.github.zuihou.authority.service.core.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.core.OrgMapper;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-
-import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
