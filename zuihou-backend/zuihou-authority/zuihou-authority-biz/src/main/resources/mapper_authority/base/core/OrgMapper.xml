@@ -20,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, create_user, update_time, update_user, 
+        id, create_time, create_user, update_time, update_user,
         name, abbreviation, parent_id, tree_path, sort_value, status, describe_
     </sql>
 

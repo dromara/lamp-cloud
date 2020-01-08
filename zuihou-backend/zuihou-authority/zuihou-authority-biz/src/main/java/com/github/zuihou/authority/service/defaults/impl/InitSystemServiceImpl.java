@@ -1,20 +1,9 @@
 package com.github.zuihou.authority.service.defaults.impl;
 
-import java.io.Reader;
-import java.io.StringReader;
-import java.nio.charset.Charset;
-import java.sql.Connection;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.authority.dao.defaults.InitDbMapper;
 import com.github.zuihou.authority.service.defaults.InitSystemService;
 import com.github.zuihou.exception.BizException;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
@@ -22,6 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.io.Reader;
+import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 初始化系统
@@ -42,7 +40,7 @@ public class InitSystemServiceImpl implements InitSystemService {
      */
     private final static List<String> INIT_DATABASE_LIST = Arrays.asList("zuihou_base");
     @Resource(name = "druidDataSource")
-    DataSource dataSource;
+    private DataSource dataSource;
     @Autowired
     private InitDbMapper initDbMapper;
 
@@ -51,18 +49,18 @@ public class InitSystemServiceImpl implements InitSystemService {
 
     @Override
     public void init(String tenant) {
-        initDatabases(tenant);
-        initTables(tenant);
-        initData(tenant);
+        this.initDatabases(tenant);
+        this.initTables(tenant);
+        this.initData(tenant);
         // 切换为默认数据源
-        resetDatabase();
+        this.resetDatabase();
     }
 
     private void resetDatabase() {
         ScriptRunner runner = null;
         try {
-            runner = getScriptRunner();
-            Reader reader = new StringReader("use " + defaultDatabase + ";");
+            runner = this.getScriptRunner();
+            Reader reader = new StringReader("use " + this.defaultDatabase + ";");
             runner.runScript(reader);
         } catch (Exception e) {
             log.error("切换为默认数据源失败", e);
@@ -80,16 +78,16 @@ public class InitSystemServiceImpl implements InitSystemService {
 
     @Override
     public void initDatabases(String tenant) {
-        INIT_DATABASE_LIST.forEach((database) -> initDbMapper.createDatabase(StrUtil.join(StrUtil.UNDERLINE, database, tenant)));
+        INIT_DATABASE_LIST.forEach((database) -> this.initDbMapper.createDatabase(StrUtil.join(StrUtil.UNDERLINE, database, tenant)));
     }
 
     @Override
     public void initTables(String tenant) {
         ScriptRunner runner = null;
         try {
-            runner = getScriptRunner();
+            runner = this.getScriptRunner();
             for (String database : INIT_DATABASE_LIST) {
-                useDb(tenant, runner, database);
+                this.useDb(tenant, runner, database);
                 runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, database)));
             }
         } catch (Exception e) {
@@ -117,10 +115,10 @@ public class InitSystemServiceImpl implements InitSystemService {
     public void initData(String tenant) {
         ScriptRunner runner = null;
         try {
-            runner = getScriptRunner();
+            runner = this.getScriptRunner();
 
             for (String database : INIT_DATABASE_LIST) {
-                useDb(tenant, runner, database);
+                this.useDb(tenant, runner, database);
                 String dataScript = database + "_data";
                 runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, dataScript)));
             }
@@ -146,9 +144,9 @@ public class InitSystemServiceImpl implements InitSystemService {
     }
 
     @SuppressWarnings("AlibabaRemoveCommentedCode")
-    public ScriptRunner getScriptRunner() {
+    private ScriptRunner getScriptRunner() {
         try {
-            Connection connection = dataSource.getConnection();
+            Connection connection = this.dataSource.getConnection();
             ScriptRunner runner = new ScriptRunner(connection);
             runner.setAutoCommit(false);
             //遇见错误是否停止
