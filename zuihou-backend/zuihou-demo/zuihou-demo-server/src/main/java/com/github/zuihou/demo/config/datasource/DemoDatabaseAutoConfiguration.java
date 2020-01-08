@@ -1,4 +1,4 @@
-package com.github.zuihou.authority.config.datasource;
+package com.github.zuihou.demo.config.datasource;
 
 
 import cn.hutool.core.util.ArrayUtil;
@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.github.zuihou.database.datasource.BaseDatabaseConfiguration;
 import com.github.zuihou.database.properties.DatabaseProperties;
 import com.p6spy.engine.spy.P6DataSource;
+import io.seata.rm.datasource.DataSourceProxy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
@@ -58,26 +59,26 @@ import java.util.List;
 @Configuration
 @Slf4j
 @MapperScan(
-        basePackages = {"com.github.zuihou",},
+        basePackages = {"com.github.zuihou"},
         annotationClass = Repository.class,
-        sqlSessionFactoryRef = AuthorityDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
+        sqlSessionFactoryRef = DemoDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class, DatabaseProperties.class})
-public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
+public class DemoDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
     /**
      * 每个数据源配置不同即可
      */
     final static String DATABASE_PREFIX = "master";
 
-    public AuthorityDatabaseAutoConfiguration(MybatisPlusProperties properties,
-                                              DatabaseProperties databaseProperties,
-                                              ObjectProvider<Interceptor[]> interceptorsProvider,
-                                              ObjectProvider<TypeHandler[]> typeHandlersProvider,
-                                              ObjectProvider<LanguageDriver[]> languageDriversProvider,
-                                              ResourceLoader resourceLoader,
-                                              ObjectProvider<DatabaseIdProvider> databaseIdProvider,
-                                              ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
-                                              ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
-                                              ApplicationContext applicationContext) {
+    public DemoDatabaseAutoConfiguration(MybatisPlusProperties properties,
+                                         DatabaseProperties databaseProperties,
+                                         ObjectProvider<Interceptor[]> interceptorsProvider,
+                                         ObjectProvider<TypeHandler[]> typeHandlersProvider,
+                                         ObjectProvider<LanguageDriver[]> languageDriversProvider,
+                                         ResourceLoader resourceLoader,
+                                         ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+                                         ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
+                                         ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
+                                         ApplicationContext applicationContext) {
         super(properties, databaseProperties, interceptorsProvider, typeHandlersProvider,
                 languageDriversProvider, resourceLoader, databaseIdProvider,
                 configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);
@@ -111,6 +112,11 @@ public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguratio
         } else {
             return dataSource;
         }
+    }
+
+    @Bean(DATABASE_PREFIX + "DataSource")
+    public DataSourceProxy dataSourceProxy(@Qualifier(DATABASE_PREFIX + "DataSource") DataSource dataSource) {
+        return new DataSourceProxy(dataSource);
     }
 
     /**
