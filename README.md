@@ -39,7 +39,7 @@ http://doc.tangyh.top/zuihou-admin-cloud
 | 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui | 给公司内部开发&运营&运维等人员使用 |
 | 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator | 给开发人员使用 |
 
-## 演示地址 （服务器没法备案，只能加上端口~~~）
+## zuihou-admin-cloud 演示地址 （服务器没法备案，只能加上端口~~~）
 
 | 项目 | 演示地址 | 管理员账号 | 普通账号 |
 |---|---|---|---|
@@ -47,17 +47,20 @@ http://doc.tangyh.top/zuihou-admin-cloud
 | 开发&运营后台 | http://tangyh.top:180/zuihou-admin-ui/ | demoAdmin/zuihou | 无 |
 
 > 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请到`开发&运营后台`自行创建租户后测试
+> 租户后台 和 开发&运营后台 2者之间的关系是什么？
+> A公司 使用这套SaaS脚手架二次开发了一个OA或者商城， B和C公司想使用A公司开发的这套系统，但土豪公司B有钱想要个性化功能，C公司是个穷逼，不愿意多花钱
+> 于是，A公司就在 zuihou-admin-ui（开发&运营后台） 上新建了 租户B 和租户C， 并各自新建了账号b1和账号c1， 分别给B公司和C公司 试用，
+> B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 试用很满意，但土豪B公司先要定制功能， 就跟A公司签了一个500W的定制大单，并要求独立部署在他们自己的服务器 
+> 穷逼C公司没钱， 就花了20W使用A公司部署的云环境， 服务器和数据等都存在A公司的云服务器上。
 
-## 老版本演示地址，代码已经不在更新
+## zuihou-admin-boot 演示地址 
 
-| 项目 | 演示地址 | 管理员账号 | 警告！ |
+| 项目 | 演示地址 | 管理员账号 | 普通账号 |
 |---|---|---|---|
-| 后台 | http://42.202.130.216:10000/zuihou-ui | zuihou/zuihou | 请勿修改数据 |
-| 注册中心 | http://42.202.130.216:10000/nacos/ | nacos/nacos | 请勿修改数据 |
-| swagger文档 | http://42.202.130.216:10000/api/gate/doc.html | 无 | 请勿修改数据 |
-| 定时任务 | http://42.202.130.216:10000/zuihou-jobs-server | zuihou/zuihou | 请勿修改数据 |
-| 监控中心 | http://42.202.130.216:10000/zuihou-monitor/ | zuihou/zuihou | 请勿修改数据 |
-| 链路调用 | http://42.202.130.216:10000/zipkin/ | 无 | 请勿修改数据 |
+| 租户后台 | http://42.202.130.216:10000/zuihou-ui | zuihou/zuihou | test/zuiou |
+| 开发&运营后台 | http://42.202.130.216:180/zuihou-admin-ui | demoAdmin/zuihou | 无 |
+| swagger文档 | http://42.202.130.216:10000/api/gate/doc.html | 无 | 无 |
+| 定时任务 | http://42.202.130.216:10000/zuihou-jobs-server | zuihou/zuihou | 无  |
 
 
 ## 交流群： 63202894
