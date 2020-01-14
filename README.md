@@ -199,7 +199,8 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
 | 预览 | 预览 |
 |---|---|
 | ![预览.png](docs/image/项目相关/开发%26运营后台预览.png) | ![预览.png](docs/image/项目相关/租户后台预览.png) |
-| ![预览.png](docs/image/监控界面/sba.png) | ![预览.png](docs/image/监控界面/zipkin.png) |
+| ![预览.png](docs/image/监控界面/sba.png) | ![预览.png](docs/image/监控界面/zipkin1_2_19_2.png) |
+| ![预览.png](docs/image/监控界面/zipkin2_2_19_2.png) | ![预览.png](docs/image/监控界面/zipkin3_2_19_2.png) |
 | ![预览.png](docs/image/项目相关/swagger获取token.jpg) | ![预览.png](docs/image/项目相关/admin-api.png)  |
 | ![预览.png](docs/image/1000star.png) | ![预览.png](docs/image/项目相关/zuihou-jobs-server.png) |
 
