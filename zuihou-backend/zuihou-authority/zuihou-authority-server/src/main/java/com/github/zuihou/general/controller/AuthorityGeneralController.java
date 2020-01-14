@@ -102,7 +102,7 @@ public class AuthorityGeneralController {
     public R<Object> test(@RequestParam(value = "millis", defaultValue = "29") Long millis, HttpServletRequest request) {
         String clientIP = ServletUtil.getClientIP(request);
         log.info("clientIP={}", clientIP);
-        this.rabbitTemplate.convertAndSend("aaa", "123");
+//        this.rabbitTemplate.convertAndSend("aaa", "123");
         Thread.sleep(millis);
 
         return R.success(clientIP + "--port=" + this.port);
