@@ -22,9 +22,11 @@ server:
 
 spring:
   zipkin:
+    sender:
+      type: RABBIT
     enabled: ${zuihou.zipkin.enabled}
     discoveryClientEnabled: true
-    baseUrl: http://zuihou-zipkin:8772/
+    baseUrl: http://localhost:9411/  #http://zuihou-zipkin:8772/
     compression: # 压缩
       enabled: true
     locator: # 通过nacos动态获取地址
