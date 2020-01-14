@@ -1,27 +1,21 @@
 package com.github.zuihou.base.entity;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.github.zuihou.exception.BizException;
-
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
- * 超类基础实体
+ * 基础实体
  *
  * @author zuihou
  * @date 2019/05/05
@@ -36,6 +30,7 @@ public class SuperEntity<T> implements Serializable, Cloneable {
     public static final String FIELD_ID = "id";
     public static final String CREATE_TIME = "createTime";
     public static final String CREATE_USER = "createUser";
+    private static final long serialVersionUID = -4603650115461757622L;
 
     @TableId(value = "id", type = IdType.INPUT)
     @ApiModelProperty(value = "主键")
