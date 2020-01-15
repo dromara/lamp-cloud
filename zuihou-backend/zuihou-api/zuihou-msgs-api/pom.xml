@@ -17,6 +17,7 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-msgs-entity</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
