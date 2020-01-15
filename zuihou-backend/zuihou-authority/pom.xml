@@ -26,6 +26,11 @@
 
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-authority-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-authority-biz</artifactId>
                 <version>${project.version}</version>
             </dependency>

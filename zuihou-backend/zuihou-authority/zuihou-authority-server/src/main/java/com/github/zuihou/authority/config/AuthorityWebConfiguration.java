@@ -1,6 +1,10 @@
 package com.github.zuihou.authority.config;
 
+import com.github.zuihou.authority.service.common.OptLogService;
 import com.github.zuihou.common.config.BaseConfig;
+import com.github.zuihou.log.event.SysLogListener;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -9,5 +13,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class AuthorityWebConfiguration extends BaseConfig {
+    @Value("${zuihou.mysql.biz-database:zuihou_defaults}")
+    private String database;
 
+    @Bean
+    public SysLogListener sysLogListener(OptLogService optLogService) {
+        return new SysLogListener(this.database, (log) -> optLogService.save(log));
+    }
 }

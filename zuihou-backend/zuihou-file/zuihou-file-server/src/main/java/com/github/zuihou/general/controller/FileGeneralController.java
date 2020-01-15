@@ -31,5 +31,4 @@ public class FileGeneralController {
         return R.success(map);
     }
 
-
 }
