@@ -22,7 +22,6 @@ import org.apache.ibatis.reflection.MetaObject;
  * MyBatis Plus 元数据处理类
  * 用于自动 注入 id, createTime, updateTime, createUser, updateUser 等字段
  *
- *
  * @author zuihou
  * @date 2019/04/29
  */
@@ -45,12 +44,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     /**
      * 注意：不支持 复合主键 自动注入！！
-     *
+     * <p>
      * 所有的继承了Entity、SuperEntity的实体，在insert时，
      * id： id为空时， 通过IdGenerate生成唯一ID， 不为空则使用传递进来的id
      * createUser, updateUser: 自动赋予 当前线程上的登录人id
      * createTime, updateTime: 自动赋予 服务器的当前时间
-     *
+     * <p>
      * 未继承任何父类的实体，且主键标注了 @TableId(value = "xxx", type = IdType.INPUT) 自动注入 主键
      * 主键的字段名称任意
      *
@@ -71,11 +70,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
                 this.setFieldValByName(Entity.CREATE_TIME, LocalDateTime.now(), metaObject);
             }
             if (entity.getCreateUser() == null || entity.getCreateUser().equals(0)) {
-                if (ID_TYPE.equals(metaObject.getGetterType(SuperEntity.CREATE_USER).getName())) {
-                    this.setFieldValByName(Entity.CREATE_USER, String.valueOf(BaseContextHandler.getUserId()), metaObject);
-                } else {
-                    this.setFieldValByName(Entity.CREATE_USER, BaseContextHandler.getUserId(), metaObject);
-                }
+                Object userIdVal = ID_TYPE.equals(metaObject.getGetterType(SuperEntity.CREATE_USER).getName()) ? String.valueOf(BaseContextHandler.getUserId()) : BaseContextHandler.getUserId();
+                this.setFieldValByName(Entity.CREATE_USER, userIdVal, metaObject);
             }
         }
 
@@ -124,11 +120,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     private void update(MetaObject metaObject, Entity entity, String et) {
         if (entity.getUpdateUser() == null || entity.getUpdateUser().equals(0)) {
-            if (ID_TYPE.equals(metaObject.getGetterType(et + Entity.UPDATE_USER).getName())) {
-                this.setFieldValByName(Entity.UPDATE_USER, String.valueOf(BaseContextHandler.getUserId()), metaObject);
-            } else {
-                this.setFieldValByName(Entity.UPDATE_USER, BaseContextHandler.getUserId(), metaObject);
-            }
+            Object userIdVal = ID_TYPE.equals(metaObject.getGetterType(et + Entity.UPDATE_USER).getName()) ? String.valueOf(BaseContextHandler.getUserId()) : BaseContextHandler.getUserId();
+            this.setFieldValByName(Entity.UPDATE_USER, BaseContextHandler.getUserId(), metaObject);
         }
         if (entity.getUpdateTime() == null) {
             this.setFieldValByName(Entity.UPDATE_TIME, LocalDateTime.now(), metaObject);
