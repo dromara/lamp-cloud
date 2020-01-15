@@ -29,6 +29,12 @@ http://doc.tangyh.top/zuihou-admin-cloud
 
     ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 备注邮箱，可得开发文档一份（支持后续更新） （比看云的价格便宜哦）
 
+
+## 交流群： 63202894
+![qq群.png](docs/image/qq群.png) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+
+    加群前请先将下方项目点star，支持下群主，谢谢😘
+
 ## 项目代码地址
 
 | 项目 | gitee | github | 备注 |
@@ -64,9 +70,6 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 | swagger文档 | http://42.202.130.216:10000/api/gate/doc.html | 无 | 无 |
 | 定时任务 | http://42.202.130.216:10000/zuihou-jobs-server | zuihou/zuihou | 无  |
 
-
-## 交流群： 63202894
-![qq群.png](docs/image/qq群.png) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
 
 ## 功能点介绍:
 1. **服务注册&发现与调用：**

@@ -19,6 +19,7 @@
         <module>zuihou-authority-api</module>
         <module>zuihou-file-api</module>
         <module>zuihou-msgs-api</module>
+<!--        <module>zuihou-haha-api</module>-->
     </modules>
 
     <dependencies>
@@ -45,7 +46,6 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
-            <version>${asm.version}</version>
         </dependency>
 
         <dependency>
