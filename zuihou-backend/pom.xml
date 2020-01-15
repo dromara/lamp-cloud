@@ -25,107 +25,112 @@
         <!-- 以下两个模块为测试模块 -->
         <module>zuihou-demo</module>
         <module>zuihou-order</module>
+        <!--        <module>zuihou-haha</module>-->
     </modules>
+
+    <properties>
+        <!-- 核心包版本 -->
+        <commons.version>1.0-SNAPSHOT</commons.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-config</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-j2cache-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-core</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-common</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-databases</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-j2cache-starter</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-cache-starter</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-config</artifactId>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-user-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-cache-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-scan-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-swagger2-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-dozer-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-log-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-validator-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-jwt-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-xss-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-openfeign-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-zipkin-client-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-authority-entity</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-file-entity</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-msgs-entity</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
+            <!--            <dependency>-->
+            <!--                <groupId>com.github.zuihou</groupId>-->
+            <!--                <artifactId>zuihou-authority-entity</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.github.zuihou</groupId>-->
+            <!--                <artifactId>zuihou-file-entity</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.github.zuihou</groupId>-->
+            <!--                <artifactId>zuihou-msgs-entity</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-authority-api</artifactId>

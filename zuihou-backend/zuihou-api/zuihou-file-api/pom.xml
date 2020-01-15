@@ -17,9 +17,8 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-file-entity</artifactId>
+            <version>${project.version}</version>
         </dependency>
-
-
     </dependencies>
 
 </project>
