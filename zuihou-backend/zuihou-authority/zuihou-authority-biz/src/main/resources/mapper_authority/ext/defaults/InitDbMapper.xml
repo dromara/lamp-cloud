@@ -7,4 +7,9 @@
     </update>
 
 
+    <delete id="dropDatabase" parameterType="java.util.Map">
+        DROP DATABASE IF EXISTS ${database}
+    </delete>
+
+
 </mapper>

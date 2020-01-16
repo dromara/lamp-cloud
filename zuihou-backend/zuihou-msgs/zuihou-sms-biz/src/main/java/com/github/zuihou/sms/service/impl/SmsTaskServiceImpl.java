@@ -1,18 +1,11 @@
 package com.github.zuihou.sms.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.Resource;
-
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.common.constant.BizConstant;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.jobs.api.JobsTimingApi;
@@ -29,11 +22,17 @@ import com.github.zuihou.sms.strategy.SmsContext;
 import com.github.zuihou.sms.util.PhoneUtils;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.DateUtils;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
 
@@ -184,12 +183,16 @@ public class SmsTaskServiceImpl extends ServiceImpl<SmsTaskMapper, SmsTask> impl
         if (smsTask.getSendTime() == null) {
             smsContext.smsSend(smsTask.getId());
         } else {
+            JSONObject param = new JSONObject();
+            param.put("id", smsTask.getId());
+            param.put("tenant", BaseContextHandler.getTenant());
+            param.put("database", BaseContextHandler.getDatabase());
             //推送定时任务
             jobsTimingApi.addTimingTask(
                     XxlJobInfo.build(BizConstant.DEF_JOB_GROUP_NAME,
                             DateUtils.localDateTime2Date(smsTask.getSendTime()),
                             BizConstant.SMS_SEND_JOB_HANDLER,
-                            String.valueOf(smsTask.getId())));
+                            param.toString()));
         }
         return smsTask;
     }

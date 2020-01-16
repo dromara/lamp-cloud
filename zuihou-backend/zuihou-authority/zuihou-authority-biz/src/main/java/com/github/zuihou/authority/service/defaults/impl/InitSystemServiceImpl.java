@@ -56,7 +56,8 @@ public class InitSystemServiceImpl implements InitSystemService {
         this.resetDatabase();
     }
 
-    private void resetDatabase() {
+    @Override
+    public void resetDatabase() {
         ScriptRunner runner = null;
         try {
             runner = this.getScriptRunner();
@@ -136,15 +137,17 @@ public class InitSystemServiceImpl implements InitSystemService {
         }
     }
 
-    private String useDb(String tenant, ScriptRunner runner, String database) {
+    @Override
+    public String useDb(String tenant, ScriptRunner runner, String database) {
         String db = StrUtil.join(StrUtil.UNDERLINE, database, tenant);
         Reader reader = new StringReader("use " + db + ";");
         runner.runScript(reader);
         return db;
     }
 
+    @Override
     @SuppressWarnings("AlibabaRemoveCommentedCode")
-    private ScriptRunner getScriptRunner() {
+    public ScriptRunner getScriptRunner() {
         try {
             Connection connection = this.dataSource.getConnection();
             ScriptRunner runner = new ScriptRunner(connection);
