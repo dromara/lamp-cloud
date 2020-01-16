@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.dao.defaults;
 
 import com.baomidou.mybatisplus.annotation.SqlParser;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -21,5 +20,14 @@ public interface InitDbMapper {
      * @return
      */
     int createDatabase(@Param("database") String database);
+
+
+    /**
+     * 删除数据库
+     *
+     * @param database
+     * @return
+     */
+    int dropDatabase(@Param("database") String database);
 
 }
