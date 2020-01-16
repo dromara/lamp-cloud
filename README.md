@@ -66,7 +66,7 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 | 项目 | 演示地址 | 管理员账号 | 普通账号 |
 |---|---|---|---|
 | 租户后台 | http://42.202.130.216:10000/zuihou-ui | zuihou/zuihou | test/zuiou |
-| 开发&运营后台 | http://42.202.130.216:180/zuihou-admin-ui | demoAdmin/zuihou | 无 |
+| 开发&运营后台 | http://42.202.130.216:10000/zuihou-admin-ui | demoAdmin/zuihou | 无 |
 | swagger文档 | http://42.202.130.216:10000/api/gate/doc.html | 无 | 无 |
 | 定时任务 | http://42.202.130.216:10000/zuihou-jobs-server | zuihou/zuihou | 无  |
 
