@@ -1,12 +1,13 @@
 package com.github.zuihou.executor.jobhandler;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.sms.strategy.SmsContext;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,11 +33,12 @@ public class SmsSendJobHandler extends IJobHandler {
 
     @Override
     public ReturnT<String> execute2(String param) throws Exception {
+        XxlJobLogger.log("执行参数--->param={} ", param);
+        JSONObject map = JSONObject.parseObject(param);
+        BaseContextHandler.setTenant(map.getString(BaseContextConstants.TENANT));
+        BaseContextHandler.setDatabase(map.getString(BaseContextConstants.DATABASE_NAME));
 
-        BaseContextHandler.setTenant("0000");
-        BaseContextHandler.setDatabase("zuihou_base");
-        XxlJobLogger.log("执行结果--->param={} ", param);
-        smsContext.smsSend(Long.valueOf(param));
+        smsContext.smsSend(map.getLong("id"));
         return SUCCESS;
     }
 

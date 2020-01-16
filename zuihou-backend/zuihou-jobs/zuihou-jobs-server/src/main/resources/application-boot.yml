@@ -1,0 +1,8 @@
+zuihou:
+  ip:
+    mysql: ${MYSQL_IP:192.168.0.9}
+    executor: ${EXECUTOR_IP:192.168.0.9}
+  mysql:
+    port: 3218
+    username: root
+    password: root

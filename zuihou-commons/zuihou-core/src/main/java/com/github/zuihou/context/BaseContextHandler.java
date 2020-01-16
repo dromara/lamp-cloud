@@ -184,6 +184,11 @@ public class BaseContextHandler {
         return objectValue + StrUtil.UNDERLINE + tenant;
     }
 
+    public static String getDatabase() {
+        Object value = get(BaseContextConstants.DATABASE_NAME);
+        return StrHelper.getObjectValue(value);
+    }
+
     public static void setDatabase(String val) {
         set(BaseContextConstants.DATABASE_NAME, val);
     }

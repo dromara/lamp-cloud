@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.service.defaults;
 
+import org.apache.ibatis.jdbc.ScriptRunner;
+
 /**
  * 初始化系统
  * <p>
@@ -39,4 +41,26 @@ public interface InitSystemService {
      * @param tenant
      */
     void initData(String tenant);
+
+    /**
+     * 获取
+     *
+     * @return
+     */
+    ScriptRunner getScriptRunner();
+
+    /**
+     * 切换数据源
+     *
+     * @param tenant
+     * @param runner
+     * @param database
+     * @return
+     */
+    String useDb(String tenant, ScriptRunner runner, String database);
+
+    /**
+     * 重置数据源
+     */
+    void resetDatabase();
 }
