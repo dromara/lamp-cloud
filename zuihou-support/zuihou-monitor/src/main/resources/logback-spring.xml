@@ -23,7 +23,7 @@
     输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)
     -->
     <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
-    <springProperty scope="context" name="log.path" source="logging.path"/>
+    <springProperty scope="context" name="log.path" source="logging.file.path"/>
     <property name="common-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%C{1}:%M:%L] --> %m%n"/>
     <property name="log.level.console" value="INFO"/>
     <springProperty scope="context" name="log.level.nacos" source="logging.level.nacos" defaultValue="WARN"/>
