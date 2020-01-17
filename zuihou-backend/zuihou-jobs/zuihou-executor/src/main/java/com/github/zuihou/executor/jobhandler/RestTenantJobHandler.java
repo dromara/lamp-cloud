@@ -2,7 +2,9 @@ package com.github.zuihou.executor.jobhandler;
 
 import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.authority.dao.defaults.InitDbMapper;
+import com.github.zuihou.authority.entity.defaults.GlobalUser;
 import com.github.zuihou.authority.entity.defaults.Tenant;
+import com.github.zuihou.authority.service.defaults.GlobalUserService;
 import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -32,9 +34,12 @@ public class RestTenantJobHandler extends IJobHandler {
      * 内置租户
      */
     private final static String DEF_TENANT = "0000";
+    private final static String ADMIN_TENANT = "admin";
 
     @Autowired
     private TenantService tenantService;
+    @Autowired
+    private GlobalUserService globalUserService;
     @Autowired
     private InitDbMapper initDbMapper;
 
@@ -54,6 +59,9 @@ public class RestTenantJobHandler extends IJobHandler {
         tenantService.remove(Wraps.<Tenant>lbQ().in(Tenant::getCode, tenantCodeList));
 
         tenantCodeList.forEach((tenant) -> initDbMapper.dropDatabase(database + StrUtil.UNDERLINE + tenant));
+
+        //删除全局用户
+        globalUserService.remove(Wraps.<GlobalUser>lbQ().notIn(GlobalUser::getTenantCode, DEF_TENANT, ADMIN_TENANT));
         return SUCCESS;
     }
 }
