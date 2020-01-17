@@ -3,7 +3,6 @@ package com.github.zuihou.file.api.fallback;
 import com.github.zuihou.base.R;
 import com.github.zuihou.file.api.AttachmentApi;
 import com.github.zuihou.file.dto.AttachmentDTO;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class AttachmentApiFallback implements AttachmentApi {
     @Override
-    public R<AttachmentDTO> upload(MultipartFile file, Long id, String bizId, String bizType) {
+    public R<AttachmentDTO> upload(MultipartFile file, Boolean isSingle, Long id, String bizId, String bizType) {
         return R.timeout();
     }
 }

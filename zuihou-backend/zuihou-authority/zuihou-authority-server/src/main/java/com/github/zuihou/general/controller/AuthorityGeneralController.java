@@ -108,4 +108,26 @@ public class AuthorityGeneralController {
         return R.success(clientIP + "--port=" + this.port);
     }
 
+//    @Autowired
+//    private AttachmentApi attachmentApi;
+//
+//    @ApiOperation(value = "附件上传", notes = "附件上传")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "isSingle", value = "是否单文件", dataType = "boolean", paramType = "query"),
+//            @ApiImplicitParam(name = "id", value = "文件id", dataType = "long", paramType = "query"),
+//            @ApiImplicitParam(name = "bizId", value = "业务id", dataType = "long", paramType = "query"),
+//            @ApiImplicitParam(name = "bizType", value = "业务类型", dataType = "long", paramType = "query"),
+//            @ApiImplicitParam(name = "file", value = "附件", dataType = "MultipartFile", allowMultiple = true, required = true),
+//    })
+//    @PostMapping(value = "/upload")
+//    @SysLog("上传附件")
+//    public R<AttachmentDTO> upload(
+//            @RequestParam(value = "file") MultipartFile file,
+//            @RequestParam(value = "isSingle", required = false, defaultValue = "false") Boolean isSingle,
+//            @RequestParam(value = "id", required = false) Long id,
+//            @RequestParam(value = "bizId", required = false) String bizId,
+//            @RequestParam(value = "bizType", required = false) String bizType) {
+//        return attachmentApi.upload(file,isSingle, id, bizId, bizType);
+//    }
+
 }
