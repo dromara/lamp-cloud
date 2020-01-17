@@ -18,8 +18,11 @@
     <modules>
         <!-- 监控和全链路调用监控 开发环境可以不用启动 -->
         <module>zuihou-monitor</module>
-        <!-- SpringBoot 升级到 2.2.2.RELEASE 后，该项目就无法正常使用了 -->
+        <!-- 关于 Zipkin 的服务端，在使用 Spring Boot 2.x 版本后，官方就不推荐自行定制编译了，反而是直接提供了编译好的 jar 包来给我们使用 -->
+        <!-- 所以本项目 SpringBoot 升级到 2.2.2.RELEASE 后，该项目就无法正常使用了 -->
+
         <!-- 新版如何使用 zipkin？ 请看：   https://www.kancloud.cn/zuihou/zuihou-admin-cloud/1472918  -->
+        <!-- https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/ -->
         <!--        <module>zuihou-zipkin</module>-->
     </modules>
 
