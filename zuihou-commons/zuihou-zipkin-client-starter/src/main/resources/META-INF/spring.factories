@@ -1,3 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.github.zuihou.zipkin.client.ZipkinClientConfiguration
-#    com.github.zuihou.zipkin.client.amqp.RabbitAutoConfiguration
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#    com.github.zuihou.zipkin.client.ZipkinClientConfiguration
