@@ -32,6 +32,7 @@
         <module>zuihou-zipkin-client-starter</module>
         <module>zuihou-config</module>
         <module>zuihou-scan-starter</module>
+        <module>zuihou-mq-starter</module>
     </modules>
 
 
@@ -50,6 +51,11 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-databases</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-mq-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
