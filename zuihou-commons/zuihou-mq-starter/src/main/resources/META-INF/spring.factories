@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.github.zuihou.mq.RabbitMqConfiguration
+    com.github.zuihou.mq.ZuihouRabbitMqConfiguration
