@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 08/01/2020 16:05:41
+ Date: 20/01/2020 23:28:59
 */
 
 SET NAMES utf8mb4;
@@ -221,21 +221,23 @@ CREATE TABLE `c_auth_user_role` (
 -- ----------------------------
 DROP TABLE IF EXISTS `c_common_area`;
 CREATE TABLE `c_common_area` (
-  `id` bigint(11) NOT NULL COMMENT 'id',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `id` bigint(20) NOT NULL COMMENT 'id',
   `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
+  `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `full_name` varchar(255) DEFAULT '' COMMENT '全名',
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `longitude` varchar(255) DEFAULT '' COMMENT '经度',
   `latitude` varchar(255) DEFAULT '' COMMENT '维度',
-  `level` int(1) NOT NULL DEFAULT '0' COMMENT '行政区级',
-  `parent_code` varchar(64) DEFAULT NULL COMMENT '父CODE',
-  `parent_id` bigint(20) DEFAULT NULL COMMENT '父ID',
+  `level` varchar(10) DEFAULT '' COMMENT '行政区级',
+  `source_` varchar(255) DEFAULT NULL COMMENT '数据来源',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_user` bigint(11) DEFAULT '0' COMMENT '创建人',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `update_user` bigint(11) DEFAULT '0' COMMENT '更新人',
-  PRIMARY KEY (`id`) USING BTREE
+  `update_user` bigint(20) DEFAULT '0' COMMENT '更新人',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_CODE` (`code`),
+  KEY `IDX_PARENT_ID` (`parent_id`,`label`) USING BTREE COMMENT '查询'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
 -- ----------------------------
