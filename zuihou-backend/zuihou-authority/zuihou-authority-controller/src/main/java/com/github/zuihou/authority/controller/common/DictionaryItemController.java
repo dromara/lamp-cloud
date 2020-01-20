@@ -22,8 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 /**
  * <p>
@@ -84,6 +88,19 @@ public class DictionaryItemController extends BaseController {
     @GetMapping("/codes")
     public R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes) {
         return this.success(this.dictionaryItemService.map(codes));
+    }
+
+    @ApiOperation(value = "根据字典编码查询字典条目", notes = "根据字典编码查询字典条目")
+    @GetMapping
+    public R<Map<String, List<DictionaryItem>>> list(@RequestParam("codes[]") String[] codes) {
+        LbqWrapper<DictionaryItem> wrapper = Wraps.<DictionaryItem>lbQ()
+                .in(DictionaryItem::getDictionaryCode, codes).eq(DictionaryItem::getStatus, true)
+                .orderByAsc(DictionaryItem::getSortValue);
+        List<DictionaryItem> list = dictionaryItemService.list(wrapper);
+
+        //key 是字典编码
+        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
+        return this.success(typeMap);
     }
 
     /**
