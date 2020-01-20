@@ -1,9 +1,8 @@
 package com.github.zuihou.common.constant;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.utils.StrPool;
-
-import cn.hutool.core.util.StrUtil;
 
 /**
  * 用于同一管理和生成缓存的key， 避免多个项目使用的key重复
@@ -103,6 +102,16 @@ public interface CacheKey {
      */
     String LOGIN_LOG_SYSTEM = "login_log_system";
 
+    /**
+     * 地区 前缀
+     * 完整key: area:{id} -> obj
+     */
+    String AREA = "area";
+    /**
+     * 所有地区 前缀
+     * 完整key: area_all -> [AREA_ID]
+     */
+    String AREA_ALL = "area_all";
 
     // 权限系统缓存 end
 

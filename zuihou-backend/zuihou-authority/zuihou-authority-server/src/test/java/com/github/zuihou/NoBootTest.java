@@ -1,21 +1,26 @@
 package com.github.zuihou;
 
-import java.lang.reflect.Field;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
+import com.github.zuihou.auth.utils.JwtHelper;
+import com.github.zuihou.auth.utils.JwtUserInfo;
+import com.github.zuihou.auth.utils.Token;
+import com.github.zuihou.authority.entity.common.Area;
+import com.github.zuihou.database.parsers.TableNameParser;
+import com.github.zuihou.remotedata.core.RemoteFieldPo;
+import com.github.zuihou.utils.TreeUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.map.HashedMap;
+import org.hibernate.validator.HibernateValidator;
+import org.junit.Test;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-
-import com.github.zuihou.auth.utils.JwtHelper;
-import com.github.zuihou.auth.utils.JwtUserInfo;
-import com.github.zuihou.auth.utils.Token;
-import com.github.zuihou.database.parsers.TableNameParser;
-
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.HibernateValidator;
-import org.junit.Test;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 没有Spring 环境的测试工具类
@@ -25,27 +30,6 @@ import org.junit.Test;
  */
 @Slf4j
 public class NoBootTest {
-
-    private static Field getField(Class<?> clazz, String fieldName) {
-        if (clazz == null) {
-            return null;
-        }
-        try {
-            Field declaredField = clazz.getDeclaredField(fieldName);
-            if (declaredField != null) {
-                return declaredField;
-            }
-
-        } catch (NoSuchFieldException e) {
-            Class<?> superclass = clazz.getSuperclass();
-            if (superclass != null) {
-                return getField(superclass, fieldName);
-            }
-        }
-
-        return null;
-    }
-
     public static void main(String[] args) {
 //        String field = "name";
 //        System.out.println(getField(MenuTreeDTO.class, field));
@@ -53,7 +37,7 @@ public class NoBootTest {
 //        System.out.println(ReflectUtil.getField(MenuTreeDTO.class, field));
 
 
-        String sql ="       SELECT u.id, account, name, mobile, sex\n" +
+        String sql = "       SELECT u.id, account, name, mobile, sex\n" +
                 "FROM c_auth_user\n" +
                 "u\n" +
                 "WHERE 1=1\n" +
@@ -86,6 +70,73 @@ public class NoBootTest {
                 ") ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '资源' ROW_FORMAT = Dynamic;";
         TableNameParser tableNameParser = new TableNameParser(sql);
         tableNameParser.tables().forEach(System.out::println);
+    }
+
+    @Test
+    public void testBuildTree() {
+        List<Area> list = new ArrayList<>();
+
+        Area a1 = Area.builder().id(1L).parentId(0L).build();
+        Area a2 = Area.builder().id(2L).parentId(1L).build();
+        Area a3 = Area.builder().id(3L).parentId(2L).build();
+        Area a4 = Area.builder().id(4L).parentId(3L).build();
+        Area a5 = Area.builder().id(5L).parentId(2L).build();
+        Area a6 = Area.builder().id(6L).parentId(0L).build();
+        Area a7 = Area.builder().id(7L).parentId(6L).build();
+        Area a8 = Area.builder().id(8L).parentId(7L).build();
+
+        list.add(a1);
+        list.add(a2);
+        list.add(a3);
+        list.add(a4);
+        list.add(a5);
+        list.add(a6);
+        list.add(a7);
+        list.add(a8);
+
+        List<Area> tree = TreeUtil.buildTree(list);
+        System.out.println(tree);
+    }
+
+
+    private static Field getField(Class<?> clazz, String fieldName) {
+        if (clazz == null) {
+            return null;
+        }
+        try {
+            Field declaredField = clazz.getDeclaredField(fieldName);
+            if (declaredField != null) {
+                return declaredField;
+            }
+
+        } catch (NoSuchFieldException e) {
+            Class<?> superclass = clazz.getSuperclass();
+            if (superclass != null) {
+                return getField(superclass, fieldName);
+            }
+        }
+
+        return null;
+    }
+
+    @Test
+    public void test2222() {
+        Map<RemoteFieldPo, String> map = new HashedMap();
+
+        RemoteFieldPo a = new RemoteFieldPo();
+        a.setApi("aa");
+        a.setMethod("bb");
+        a.setKey("vv");
+
+        RemoteFieldPo b = new RemoteFieldPo();
+        b.setApi("aa");
+        b.setMethod("bb");
+        b.setKey("aaaa");
+
+        map.put(a, "1");
+        map.put(b, "2");
+
+        System.out.println(map);
     }
 
     @Test

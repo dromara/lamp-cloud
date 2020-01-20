@@ -2,7 +2,10 @@ package com.github.zuihou.authority.entity.common;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.base.entity.Entity;
+import com.github.zuihou.base.entity.TreeEntity;
+import com.github.zuihou.common.constant.RemoteDataConstants;
+import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.remotedata.annonation.RemoteField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -32,18 +35,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Accessors(chain = true)
 @TableName("c_common_area")
 @ApiModel(value = "Area", description = "地区表")
-public class Area extends Entity<Long> {
+public class Area extends TreeEntity<Area, Long> {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 名称
-     */
-    @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
-    @TableField(value = "name", condition = LIKE)
-    private String name;
 
     /**
      * 编码
@@ -63,13 +57,6 @@ public class Area extends Entity<Long> {
     private String fullName;
 
     /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序")
-    @TableField("sort_value")
-    private Integer sortValue;
-
-    /**
      * 经度
      */
     @ApiModelProperty(value = "经度")
@@ -85,47 +72,38 @@ public class Area extends Entity<Long> {
     @TableField(value = "latitude", condition = LIKE)
     private String latitude;
 
+    @ApiModelProperty(value = "数据来源")
+    @Length(max = 255, message = "数据来源长度不能超过255")
+    @TableField(value = "source_", condition = LIKE)
+    private String source;
+
     /**
      * 行政区级
      */
     @ApiModelProperty(value = "行政区级")
     @NotNull(message = "行政区级不能为空")
     @TableField("level")
-    private Integer level;
-
-    /**
-     * 父CODE
-     */
-    @ApiModelProperty(value = "父CODE")
-    @Length(max = 64, message = "父CODE长度不能超过64")
-    @TableField(value = "parent_code", condition = LIKE)
-    private String parentCode;
-
-    /**
-     * 父ID
-     */
-    @ApiModelProperty(value = "父ID")
-    @TableField("parent_id")
-    private Long parentId;
+    @RemoteField(api = RemoteDataConstants.DICTIONARY_ITEM_CLASS, method = RemoteDataConstants.DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> level;
 
 
     @Builder
     public Area(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                String name, String code, String fullName, Integer sortValue, String longitude,
-                String latitude, Integer level, String parentCode, Long parentId) {
+                String label, String code, String fullName, Integer sortValue, String longitude,
+                String latitude, String source, RemoteData<String, String> level, Long parentId) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
         this.updateTime = updateTime;
         this.updateUser = updateUser;
-        this.name = name;
+        this.label = label;
         this.code = code;
         this.fullName = fullName;
         this.sortValue = sortValue;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.source = source;
         this.level = level;
-        this.parentCode = parentCode;
         this.parentId = parentId;
     }
 

@@ -62,6 +62,11 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-remote-data-starter</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-config</artifactId>
                 <version>${commons.version}</version>
             </dependency>

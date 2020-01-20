@@ -1,15 +1,11 @@
 package com.github.zuihou;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.dao.auth.UserMapper;
+import com.github.zuihou.authority.dao.common.AreaMapper;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.OptLog;
@@ -23,7 +19,6 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.utils.NumberHelper;
-
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +26,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 测试类
@@ -61,6 +61,8 @@ public class TestResource {
     private UserService userService;
     @Autowired
     private DozerUtils dozer;
+    @Autowired
+    private AreaMapper areaMapper;
 
     @Before
     public void setTenant() {
@@ -174,4 +176,6 @@ public class TestResource {
 
         log.info("{}", list.size());
     }
+
+
 }
