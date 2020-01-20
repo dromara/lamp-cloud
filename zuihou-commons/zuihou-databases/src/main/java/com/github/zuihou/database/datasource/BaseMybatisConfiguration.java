@@ -10,6 +10,7 @@ import com.github.zuihou.base.id.SnowflakeIdGenerate;
 import com.github.zuihou.database.mybatis.WriteInterceptor;
 import com.github.zuihou.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.LeftLikeTypeHandler;
+import com.github.zuihou.database.mybatis.typehandler.RemoteDataTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.RightLikeTypeHandler;
 import com.github.zuihou.database.parsers.DynamicTableNameParser;
 import com.github.zuihou.database.parsers.TenantWebMvcConfigurer;
@@ -106,7 +107,7 @@ public abstract class BaseMybatisConfiguration {
     }
 
     /**
-     * Mybatis 自定义的类型处理器
+     * Mybatis 自定义的类型处理器： 处理XML中  #{name,typeHandler=leftLike} 类型的参数
      * 用于左模糊查询时使用
      * <p>
      * eg：
@@ -120,7 +121,7 @@ public abstract class BaseMybatisConfiguration {
     }
 
     /**
-     * Mybatis 自定义的类型处理器
+     * Mybatis 自定义的类型处理器： 处理XML中  #{name,typeHandler=rightLike} 类型的参数
      * 用于右模糊查询时使用
      * <p>
      * eg：
@@ -134,7 +135,7 @@ public abstract class BaseMybatisConfiguration {
     }
 
     /**
-     * Mybatis 自定义的类型处理器
+     * Mybatis 自定义的类型处理器： 处理XML中  #{name,typeHandler=fullLike} 类型的参数
      * 用于全模糊查询时使用
      * <p>
      * eg：
@@ -146,4 +147,15 @@ public abstract class BaseMybatisConfiguration {
     public FullLikeTypeHandler getFullLikeTypeHandler() {
         return new FullLikeTypeHandler();
     }
+
+    /**
+     * Mybatis 类型处理器： 处理 RemoteData 类型的字段
+     *
+     * @return
+     */
+    @Bean
+    public RemoteDataTypeHandler getRemoteDataTypeHandler() {
+        return new RemoteDataTypeHandler();
+    }
+
 }

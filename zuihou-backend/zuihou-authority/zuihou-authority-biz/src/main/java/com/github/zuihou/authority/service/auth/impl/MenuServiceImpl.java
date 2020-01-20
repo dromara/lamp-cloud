@@ -1,20 +1,13 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
 import com.github.zuihou.authority.service.auth.ResourceService;
-import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.utils.NumberHelper;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
@@ -22,6 +15,11 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
 
@@ -42,8 +40,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     private ResourceService resourceService;
     @Autowired
     private CacheChannel cache;
-    @Autowired
-    private CodeGenerate codeGenerate;
 
     /**
      * 查询用户可用菜单
@@ -88,7 +84,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
-
     public boolean removeByIdWithCache(List<Long> ids) {
         if (ids.isEmpty()) {
             return true;

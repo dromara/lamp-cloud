@@ -1,12 +1,12 @@
 package com.github.zuihou.dozer;
 
+import com.github.dozermapper.core.Mapper;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.github.dozermapper.core.Mapper;
 
 
 /**
@@ -112,7 +112,7 @@ public class DozerUtils {
         if (sourceList == null || sourceList.isEmpty() || destinationClass == null) {
             return Collections.emptyList();
         }
-        List<T> destinationList = sourceList.stream()
+        List<T> destinationList = sourceList.parallelStream()
                 .filter(item -> item != null)
                 .map((sourceObject) -> mapper.map(sourceObject, destinationClass))
                 .collect(Collectors.toList());
@@ -124,6 +124,6 @@ public class DozerUtils {
         if (sourceList == null || sourceList.isEmpty() || destinationClass == null) {
             return Collections.emptySet();
         }
-        return sourceList.stream().map((sourceObject) -> mapper.map(sourceObject, destinationClass)).collect(Collectors.toSet());
+        return sourceList.parallelStream().map((sourceObject) -> mapper.map(sourceObject, destinationClass)).collect(Collectors.toSet());
     }
 }

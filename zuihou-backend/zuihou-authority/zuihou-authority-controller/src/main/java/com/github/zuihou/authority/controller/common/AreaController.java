@@ -1,8 +1,8 @@
 package com.github.zuihou.authority.controller.common;
 
 
-import java.util.List;
-
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TimeInterval;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.common.AreaSaveDTO;
 import com.github.zuihou.authority.dto.common.AreaUpdateDTO;
@@ -15,7 +15,7 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
+import com.github.zuihou.utils.TreeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,14 +23,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -84,7 +79,7 @@ public class AreaController extends BaseController {
     @GetMapping("/{id}")
     @SysLog("查询地区表")
     public R<Area> get(@PathVariable Long id) {
-        return success(areaService.getById(id));
+        return success(areaService.getByIdWithCache(id));
     }
 
     /**
@@ -98,7 +93,7 @@ public class AreaController extends BaseController {
     @SysLog("新增地区表")
     public R<Area> save(@RequestBody @Validated AreaSaveDTO data) {
         Area area = dozer.map(data, Area.class);
-        areaService.save(area);
+        areaService.saveWithCache(area);
         return success(area);
     }
 
@@ -113,21 +108,21 @@ public class AreaController extends BaseController {
     @SysLog("修改地区表")
     public R<Area> update(@RequestBody @Validated(SuperEntity.Update.class) AreaUpdateDTO data) {
         Area area = dozer.map(data, Area.class);
-        areaService.updateById(area);
+        areaService.updateWithCache(area);
         return success(area);
     }
 
     /**
      * 删除地区表
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除地区表", notes = "根据id物理删除地区表")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除地区表")
-    public R<Boolean> delete(@PathVariable Long id) {
-        areaService.removeById(id);
+    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+        areaService.removeByIdWithCache(ids);
         return success(true);
     }
 
@@ -141,7 +136,41 @@ public class AreaController extends BaseController {
     @GetMapping
     @SysLog("级联查询地区")
     public R<List<Area>> list(Area data) {
+        if (data == null) {
+            data = new Area();
+        }
+        if (data.getParentId() == null) {
+            data.setParentId(0L);
+        }
         LbqWrapper<Area> query = Wraps.lbQ(data).orderByAsc(Area::getSortValue);
         return success(areaService.list(query));
+    }
+
+    /**
+     * 查询树形地区
+     * <p>
+     * 该方法，第一次查询时 性能很差！待优化
+     *
+     * @return 查询结果
+     */
+    @ApiOperation(value = "查询树形地区", notes = "查询树形地区")
+    @GetMapping("/tree")
+    @Deprecated
+    @SysLog("查询树形地区")
+    public R<List<Area>> tree() {
+        TimeInterval timer = DateUtil.timer();
+        List<Area> list = areaService.findAll();
+        long find = timer.interval();
+
+        timer = DateUtil.timer();
+        List<Area> areas = dozer.mapList(list, Area.class);
+        long map = timer.interval();
+
+        timer = DateUtil.timer();
+        List<Area> tree = TreeUtil.buildTree(areas);
+        long build = timer.interval();
+
+        log.info("查询={}, map={}, build={}", find, map, build);
+        return success(tree);
     }
 }

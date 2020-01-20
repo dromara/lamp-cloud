@@ -1,6 +1,10 @@
 package com.github.zuihou.authority.dto.common;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.common.constant.RemoteDataConstants;
+import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.remotedata.annonation.RemoteField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -10,6 +14,8 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
 /**
  * <p>
@@ -42,7 +48,7 @@ public class AreaUpdateDTO implements Serializable {
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 255, message = "名称长度不能超过255")
-    private String name;
+    private String label;
     /**
      * 编码
      */
@@ -73,12 +79,21 @@ public class AreaUpdateDTO implements Serializable {
     @ApiModelProperty(value = "维度")
     @Length(max = 255, message = "维度长度不能超过255")
     private String latitude;
+
+    @ApiModelProperty(value = "数据来源")
+    @Length(max = 255, message = "数据来源长度不能超过255")
+    @TableField(value = "source_", condition = LIKE)
+    private String source;
+
     /**
      * 行政区级
      */
     @ApiModelProperty(value = "行政区级")
     @NotNull(message = "行政区级不能为空")
-    private Integer level;
+    @TableField("level")
+    @RemoteField(api = RemoteDataConstants.DICTIONARY_ITEM_CLASS, method = RemoteDataConstants.DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> level;
+
     /**
      * 父CODE
      */

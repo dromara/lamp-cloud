@@ -1,9 +1,11 @@
 package com.github.zuihou.authority.service.common;
 
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.common.DictionaryItem;
+
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -22,4 +24,6 @@ public interface DictionaryItemService extends IService<DictionaryItem> {
      * @return
      */
     Map<String, Map<String, String>> map(String[] codes);
+
+    Map<Serializable, Object> findDictionaryItem(Set<Serializable> codes);
 }
