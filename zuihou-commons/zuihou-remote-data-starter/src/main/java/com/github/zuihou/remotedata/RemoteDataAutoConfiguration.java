@@ -46,7 +46,8 @@ public class RemoteDataAutoConfiguration {
     }
 
     @Bean
-//    @ConditionalOnProperty(name = "zuihou.remote.aopEnabled", havingValue = "true")
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(name = "zuihou.remote.aopEnabled", havingValue = "true")
     public RemoteAspect getRemoteAspect(InjectionCore injectionCore) {
         return new RemoteAspect(injectionCore);
     }
