@@ -1,15 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.UserMapper;
@@ -33,12 +24,17 @@ import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.BizAssert;
-
-import cn.hutool.core.util.StrUtil;
+import com.github.zuihou.utils.MapHelper;
+import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -214,5 +210,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .in(UserRole::getUserId, ids)
         );
         return super.removeByIds(ids);
+    }
+
+    @Override
+    public Map<Serializable, Object> findUser(Set<Serializable> ids) {
+
+        LbqWrapper<User> query = Wraps.<User>lbQ()
+                .in(User::getId, ids)
+                .eq(User::getStatus, true);
+        List<User> list = super.list(query);
+
+        //key 是字典编码
+        ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, User::getId, (user) -> user);
+        return typeMap;
     }
 }
