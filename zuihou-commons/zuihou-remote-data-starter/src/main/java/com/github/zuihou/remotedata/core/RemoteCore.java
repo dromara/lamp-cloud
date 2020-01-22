@@ -26,10 +26,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ace
- * @create 2018/2/2.
+ * 注入远程数据的 核心类
+ *
+ * @author zuihou
+ * @create 2020年01月21日13:47:07
  */
 @Slf4j
+@Deprecated
 public class RemoteCore {
 
     private Map<String, RemoteField> remoteFieldMap;
