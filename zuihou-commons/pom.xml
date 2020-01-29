@@ -33,7 +33,7 @@
         <module>zuihou-config</module>
         <module>zuihou-scan-starter</module>
         <module>zuihou-mq-starter</module>
-        <module>zuihou-remote-data-starter</module>
+        <module>zuihou-injection-starter</module>
     </modules>
 
 

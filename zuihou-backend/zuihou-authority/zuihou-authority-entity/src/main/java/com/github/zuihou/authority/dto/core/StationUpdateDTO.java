@@ -1,21 +1,15 @@
 package com.github.zuihou.authority.dto.core;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-
 import com.github.zuihou.base.entity.SuperEntity;
-
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -53,7 +47,7 @@ public class StationUpdateDTO implements Serializable {
      * #c_core_org
      */
     @ApiModelProperty(value = "组织ID")
-    private Long orgId;
+    private RemoteData orgId;
     /**
      * 状态
      */

@@ -25,8 +25,8 @@
 //import com.github.zuihou.dozer.DozerUtils;
 //import com.github.zuihou.log.entity.OptLogDTO;
 //import com.github.zuihou.model.RemoteData;
-//import com.github.zuihou.remotedata.core.InjectionCore;
-//import com.github.zuihou.remotedata.core.RemoteCore;
+//import com.github.zuihou.injection.core.InjectionCore;
+//import com.github.zuihou.injection.core.;
 //import com.github.zuihou.utils.NumberHelper;
 //import lombok.extern.slf4j.Slf4j;
 //import org.junit.Before;
