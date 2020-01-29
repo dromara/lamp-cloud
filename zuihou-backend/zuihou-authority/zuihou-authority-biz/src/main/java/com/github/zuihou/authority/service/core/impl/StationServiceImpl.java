@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.core.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,7 +12,7 @@ import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
-
+import com.github.zuihou.injection.annonation.InjectionResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,15 +34,18 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
     private DozerUtils dozer;
 
     @Override
+    // 启用属性自动注入
+    @InjectionResult
     public IPage<Station> findStationPage(Page page, StationPageDTO data) {
         Station station = dozer.map(data, Station.class);
+
         //Wraps.lbQ(station); 这种写法值 不能和  ${ew.customSqlSegment} 一起使用
         LbqWrapper<Station> wrapper = Wraps.lbQ();
 
         // ${ew.customSqlSegment} 语法一定要手动eq like 等
         wrapper.like(Station::getName, station.getName())
                 .like(Station::getDescribe, station.getDescribe())
-                .eq(Station::getOrgId, station.getOrgId())
+                .eq(station.getOrgId() != null && ObjectUtil.isNotEmpty(station.getOrgId().getKey()), Station::getOrgId, station.getOrgId())
                 .eq(Station::getStatus, station.getStatus())
                 .geHeader(Station::getCreateTime, data.getStartCreateTime())
                 .leFooter(Station::getCreateTime, data.getEndCreateTime())

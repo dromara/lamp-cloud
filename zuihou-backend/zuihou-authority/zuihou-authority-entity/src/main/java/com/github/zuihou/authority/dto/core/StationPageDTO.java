@@ -1,18 +1,13 @@
 package com.github.zuihou.authority.dto.core;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>

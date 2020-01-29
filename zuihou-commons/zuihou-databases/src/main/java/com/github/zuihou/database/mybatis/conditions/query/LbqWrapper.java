@@ -27,6 +27,8 @@ import java.util.function.Predicate;
 
 
 /**
+ * 类似 LambdaQueryWrapper 的增强 Wrapper
+ *
  * @author zuihou
  * @date Created on 2019/5/27 17:11
  * @description 查询构造器
@@ -48,7 +50,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(entity)
      */
     public LbqWrapper() {
-        this(null);
+        this((T) null);
     }
 
     /**
@@ -59,11 +61,11 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
             T cloneT = (T) ((SuperEntity) entity).clone();
             super.setEntity(cloneT);
             super.initNeed();
-            this.entity = (T) replace(cloneT);
+            this.setEntity((T) replace(cloneT));
         } else {
             super.setEntity(entity);
             super.initNeed();
-            this.entity = (T) replace(entity);
+            this.setEntity((T) replace(entity));
         }
     }
 
@@ -72,15 +74,31 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      */
     private LbqWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
                        Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments,
-                       SharedString lastSql, SharedString sqlComment) {
+                       SharedString lastSql, SharedString sqlComment, SharedString sqlFirst) {
         super.setEntity(entity);
+        super.setEntityClass(entityClass);
         this.paramNameSeq = paramNameSeq;
         this.paramNameValuePairs = paramNameValuePairs;
         this.expression = mergeSegments;
         this.sqlSelect = sqlSelect;
-        this.entityClass = entityClass;
         this.lastSql = lastSql;
         this.sqlComment = sqlComment;
+        this.sqlFirst = sqlFirst;
+    }
+
+
+    /**
+     * SELECT 部分 SQL 设置
+     *
+     * @param columns 查询字段
+     */
+    @SafeVarargs
+    @Override
+    public final LbqWrapper<T> select(SFunction<T, ?>... columns) {
+        if (ArrayUtils.isNotEmpty(columns)) {
+            this.sqlSelect.setStringValue(this.columnsToString(false, columns));
+        }
+        return this.typedThis;
     }
 
     /**
@@ -160,6 +178,11 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return obj;
     }
 
+    @Override
+    public String getSqlSelect() {
+        return this.sqlSelect.getStringValue();
+    }
+
     /**
      * 根据属性类型赋值
      *
@@ -218,58 +241,6 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
             }
         }
         return target;
-    }
-
-    /**
-     * SELECT 部分 SQL 设置
-     *
-     * @param columns 查询字段
-     */
-    @SafeVarargs
-    @Override
-    public final LbqWrapper<T> select(SFunction<T, ?>... columns) {
-        if (ArrayUtils.isNotEmpty(columns)) {
-            this.sqlSelect.setStringValue(this.columnsToString(false, columns));
-        }
-        return this.typedThis;
-    }
-
-    @Override
-    public LbqWrapper<T> select(Predicate<TableFieldInfo> predicate) {
-        return this.select(this.entityClass, predicate);
-    }
-
-    /**
-     * 过滤查询的字段信息(主键除外!)
-     * <p>例1: 只要 java 字段名以 "test" 开头的             -> select(i -&gt; i.getProperty().startsWith("test"))</p>
-     * <p>例2: 只要 java 字段属性是 CharSequence 类型的     -> select(TableFieldInfo::isCharSequence)</p>
-     * <p>例3: 只要 java 字段没有填充策略的                 -> select(i -&gt; i.getFieldFill() == FieldFill.DEFAULT)</p>
-     * <p>例4: 要全部字段                                   -> select(i -&gt; true)</p>
-     * <p>例5: 只要主键字段                                 -> select(i -&gt; false)</p>
-     *
-     * @param predicate 过滤方式
-     * @return this
-     */
-    @Override
-    public LbqWrapper<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
-        this.entityClass = entityClass;
-        this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(this.getCheckEntityClass()).chooseSelect(predicate));
-        return this.typedThis;
-    }
-
-    @Override
-    public String getSqlSelect() {
-        return this.sqlSelect.getStringValue();
-    }
-
-    /**
-     * 用于生成嵌套 sql
-     * <p>故 sqlSelect 不向下传递</p>
-     */
-    @Override
-    protected LbqWrapper<T> instance() {
-        return new LbqWrapper<>(this.entity, this.entityClass, null, this.paramNameSeq, this.paramNameValuePairs,
-                new MergeSegments(), SharedString.emptyString(), SharedString.emptyString());
     }
 
     @Override
@@ -349,18 +320,9 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return super.like(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
     }
 
-    /**
-     * 忽略实体中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
-     * 再次可以进行忽略
-     *
-     * @param <A>       这个是传入的待忽略字段的set方法
-     * @param setColumn
-     * @return
-     */
-
     @Override
-    public LbqWrapper<T> notLike(SFunction<T, ?> column, Object val) {
-        return super.notLike(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+    public LbqWrapper<T> select(Predicate<TableFieldInfo> predicate) {
+        return this.select(this.getEntityClass(), predicate);
     }
 
     /**
@@ -384,32 +346,31 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     }
 
     /**
-     * 空值校验
-     * 传入空字符串("")时， 视为： 字段名 = ""
+     * 过滤查询的字段信息(主键除外!)
+     * <p>例1: 只要 java 字段名以 "test" 开头的             -> select(i -&gt; i.getProperty().startsWith("test"))</p>
+     * <p>例2: 只要 java 字段属性是 CharSequence 类型的     -> select(TableFieldInfo::isCharSequence)</p>
+     * <p>例3: 只要 java 字段没有填充策略的                 -> select(i -&gt; i.getFieldFill() == FieldFill.DEFAULT)</p>
+     * <p>例4: 要全部字段                                   -> select(i -&gt; true)</p>
+     * <p>例5: 只要主键字段                                 -> select(i -&gt; false)</p>
      *
-     * @param val 参数值
+     * @param predicate 过滤方式
+     * @return this
      */
-    private boolean checkCondition(Object val) {
-        if (val instanceof String && this.skipEmpty) {
-            return StringUtils.isNotEmpty((String) val);
-        }
-        if (val instanceof Collection && this.skipEmpty) {
-            return !((Collection) val).isEmpty();
-        }
-        return val != null;
+    @Override
+    public LbqWrapper<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
+        super.setEntityClass(entityClass);
+        this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate));
+        return this.typedThis;
     }
 
     /**
-     * 忽略实体中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
-     * 再次可以进行忽略
-     *
-     * @param <A>       这个是传入的待忽略字段的set方法
-     * @param setColumn
-     * @return
+     * 用于生成嵌套 sql
+     * <p>故 sqlSelect 不向下传递</p>
      */
-    public <A extends Object> LbqWrapper<T> ignore(BiFunction<T, A, ?> setColumn) {
-        setColumn.apply(this.entity, null);
-        return this;
+    @Override
+    protected LbqWrapper<T> instance() {
+        return new LbqWrapper<>(getEntity(), getEntityClass(), null, paramNameSeq, paramNameValuePairs,
+                new MergeSegments(), SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString());
     }
 
 
@@ -439,4 +400,52 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         BigDecimal
     }
 
+    @Override
+    public void clear() {
+        super.clear();
+        sqlSelect.toNull();
+    }
+
+    /**
+     * 忽略实体中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
+     * 再次可以进行忽略
+     *
+     * @param <A>    这个是传入的待忽略字段的set方法
+     * @param column
+     * @return
+     */
+
+    @Override
+    public LbqWrapper<T> notLike(SFunction<T, ?> column, Object val) {
+        return super.notLike(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+    }
+
+    /**
+     * 空值校验
+     * 传入空字符串("")时， 视为： 字段名 = ""
+     *
+     * @param val 参数值
+     */
+    private boolean checkCondition(Object val) {
+        if (val instanceof String && this.skipEmpty) {
+            return StringUtils.isNotBlank((String) val);
+        }
+        if (val instanceof Collection && this.skipEmpty) {
+            return !((Collection) val).isEmpty();
+        }
+        return val != null;
+    }
+
+    /**
+     * 忽略实体中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
+     * 再次可以进行忽略
+     *
+     * @param <A>       这个是传入的待忽略字段的set方法
+     * @param setColumn
+     * @return
+     */
+    public <A extends Object> LbqWrapper<T> ignore(BiFunction<T, A, ?> setColumn) {
+        setColumn.apply(this.getEntity(), null);
+        return this;
+    }
 }

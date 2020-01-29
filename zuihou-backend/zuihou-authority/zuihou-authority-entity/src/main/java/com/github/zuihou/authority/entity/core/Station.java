@@ -1,23 +1,19 @@
 package com.github.zuihou.authority.entity.core;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
-
+import com.github.zuihou.common.constant.InjectionFieldConstants;
+import com.github.zuihou.injection.annonation.InjectionField;
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -57,7 +53,8 @@ public class Station extends Entity<Long> {
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    private Long orgId;
+    @InjectionField(api = InjectionFieldConstants.ORG_ID_CLASS, method = InjectionFieldConstants.ORG_ID_METHOD)
+    private RemoteData orgId;
 
 
     /**
@@ -78,7 +75,7 @@ public class Station extends Entity<Long> {
 
     @Builder
     public Station(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                   String name, Long orgId, Boolean status, String describe) {
+                   String name, RemoteData orgId, Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -90,4 +87,11 @@ public class Station extends Entity<Long> {
         this.describe = describe;
     }
 
+    public RemoteData getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(RemoteData orgId) {
+        this.orgId = orgId;
+    }
 }

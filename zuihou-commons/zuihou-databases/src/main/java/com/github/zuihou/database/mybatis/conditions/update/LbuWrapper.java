@@ -88,7 +88,7 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
 
     @Override
     protected LbuWrapper<T> instance() {
-        return new LbuWrapper<>(this.entity, this.sqlSet, this.paramNameSeq, this.paramNameValuePairs, new MergeSegments(),
+        return new LbuWrapper<>(this.getEntity(), this.sqlSet, this.paramNameSeq, this.paramNameValuePairs, new MergeSegments(),
                 SharedString.emptyString(), SharedString.emptyString());
     }
 
