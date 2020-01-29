@@ -7,7 +7,7 @@ import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.entity.common.Area;
 import com.github.zuihou.database.parsers.TableNameParser;
-import com.github.zuihou.remotedata.core.RemoteFieldPo;
+import com.github.zuihou.injection.core.InjectionFieldPo;
 import com.github.zuihou.utils.TreeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.map.HashedMap;
@@ -121,14 +121,14 @@ public class NoBootTest {
 
     @Test
     public void test2222() {
-        Map<RemoteFieldPo, String> map = new HashedMap();
+        Map<InjectionFieldPo, String> map = new HashedMap();
 
-        RemoteFieldPo a = new RemoteFieldPo();
+        InjectionFieldPo a = new InjectionFieldPo();
         a.setApi("aa");
         a.setMethod("bb");
         a.setKey("vv");
 
-        RemoteFieldPo b = new RemoteFieldPo();
+        InjectionFieldPo b = new InjectionFieldPo();
         b.setApi("aa");
         b.setMethod("bb");
         b.setKey("aaaa");

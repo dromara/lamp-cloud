@@ -62,7 +62,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-remote-data-starter</artifactId>
+                <artifactId>zuihou-injection-starter</artifactId>
                 <version>${commons.version}</version>
             </dependency>
             <dependency>

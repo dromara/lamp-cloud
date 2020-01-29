@@ -1,9 +1,9 @@
 package com.github.zuihou.authority.dto.common;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.github.zuihou.common.constant.RemoteDataConstants;
+import com.github.zuihou.common.constant.InjectionFieldConstants;
+import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
-import com.github.zuihou.remotedata.annonation.RemoteField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -86,7 +86,7 @@ public class AreaSaveDTO implements Serializable {
     @ApiModelProperty(value = "行政区级")
     @NotNull(message = "行政区级不能为空")
     @TableField("level")
-    @RemoteField(api = RemoteDataConstants.DICTIONARY_ITEM_CLASS, method = RemoteDataConstants.DICTIONARY_ITEM_METHOD)
+    @InjectionField(api = InjectionFieldConstants.DICTIONARY_ITEM_CLASS, method = InjectionFieldConstants.DICTIONARY_ITEM_METHOD)
     private RemoteData<String, String> level;
     /**
      * 父CODE
