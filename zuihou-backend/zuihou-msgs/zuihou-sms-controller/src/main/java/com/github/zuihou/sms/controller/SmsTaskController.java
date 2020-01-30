@@ -1,8 +1,6 @@
 package com.github.zuihou.sms.controller;
 
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -15,10 +13,11 @@ import com.github.zuihou.sms.dto.SmsSendTaskDTO;
 import com.github.zuihou.sms.dto.SmsTaskPageDTO;
 import com.github.zuihou.sms.dto.SmsTaskSaveDTO;
 import com.github.zuihou.sms.dto.SmsTaskUpdateDTO;
+import com.github.zuihou.sms.entity.SmsSendStatus;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.enumeration.SourceType;
+import com.github.zuihou.sms.service.SmsSendStatusService;
 import com.github.zuihou.sms.service.SmsTaskService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,16 +25,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -57,6 +49,8 @@ public class SmsTaskController extends BaseController {
 
     @Autowired
     private SmsTaskService smsTaskService;
+    @Autowired
+    private SmsSendStatusService smsSendStatusService;
 
     @Autowired
     private DozerUtils dozer;
@@ -153,6 +147,8 @@ public class SmsTaskController extends BaseController {
     @SysLog("删除发送任务")
     public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
         smsTaskService.removeByIds(ids);
+
+        smsSendStatusService.remove(Wraps.<SmsSendStatus>lbQ().in(SmsSendStatus::getTaskId, ids));
         return success(true);
     }
 

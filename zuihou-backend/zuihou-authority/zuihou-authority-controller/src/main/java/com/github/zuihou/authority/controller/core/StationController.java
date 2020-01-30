@@ -55,7 +55,7 @@ public class StationController extends BaseController {
             @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
-//    @SysLog("分页查询岗位")
+    @SysLog("分页查询岗位")
     public R<IPage<Station>> page(StationPageDTO data) {
 
         Page<Station> page = getPage();

@@ -12,6 +12,12 @@ zuihou:
         parameterType: header
         required: true
         defaultValue: "0000"
+  injection:
+    # 是否启用 远程数据 手动注入
+    enabled: true
+    # 是否启用 远程数据 注解注入
+    aop-enabled: true
+
 
 server:
   undertow: # jetty  undertow
