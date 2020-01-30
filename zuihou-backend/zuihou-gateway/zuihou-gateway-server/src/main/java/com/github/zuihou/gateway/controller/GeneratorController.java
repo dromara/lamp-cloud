@@ -1,12 +1,6 @@
 package com.github.zuihou.gateway.controller;
 
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.authority.api.AuthorityGeneralApi;
 import com.github.zuihou.authority.api.DictionaryItemApi;
 import com.github.zuihou.base.R;
@@ -15,9 +9,8 @@ import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.file.api.FileGeneralApi;
 import com.github.zuihou.msgs.api.MsgsGeneralApi;
-
-import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.result.view.Rendering;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import javax.annotation.Resource;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -45,6 +44,9 @@ public class GeneratorController {
     @Resource
     private DictionaryItemApi dictionaryItemApi;
 
+    @Value("${server.servlet.context-path:}")
+    private String contextPath;
+
     /**
      * 解决swagger-bootstrap-ui的一个bug
      * <p>
@@ -58,6 +60,7 @@ public class GeneratorController {
      */
     @ApiOperation(value = "获取指定服务的swagger", notes = "获取当前系统所有数据字典和枚举")
     @GetMapping("${server.servlet.context-path:}/{service}/v2/{ext}")
+    @Deprecated
     public Rendering apiDocs(@PathVariable String service, @PathVariable String ext, String group) throws Exception {
         if (group == null) {
             group = "default";
@@ -66,7 +69,21 @@ public class GeneratorController {
         if (group.contains("-")) {
             newGroup = StrUtil.subSuf(group, group.indexOf("-") + 1);
         }
-        return Rendering.redirectTo("/api/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8")).build();
+
+        String uri = String.format("%s/%s/v2/%s?group=%s", contextPath, service, ext, URLEncoder.encode(newGroup, "UTF-8"));
+        return Rendering.redirectTo(uri).build();
+    }
+
+    /**
+     * 兼容zuul
+     *
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/gate/doc.html")
+    public Rendering doc() throws Exception {
+        String uri = String.format("%s/doc.html", contextPath);
+        return Rendering.redirectTo(uri).build();
     }
 
 
