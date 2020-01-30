@@ -8,6 +8,8 @@ import java.sql.*;
 
 /**
  * 远程数据 类型转换器
+ * <p>
+ * 借鉴Hibernate的外键字段的思想，自定义一个类型处理器，将
  *
  * @author zuihou
  * @date 2020年01月18日17:20:34

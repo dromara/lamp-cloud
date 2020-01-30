@@ -1,11 +1,7 @@
 
 package com.github.zuihou.gateway.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.fastjson.JSONArray;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  * 资源配置
@@ -65,7 +64,8 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                                             if (!list.isEmpty()) {
                                                 for (int i = 0; i < list.size(); i++) {
                                                     SwaggerResource sr = list.getObject(i, SwaggerResource.class);
-                                                    resources.add(swaggerResource(route.getId() + "-" + sr.getName(), contextPath + "/" + route.getId() + sr.getUrl()));
+                                                    resources.add(swaggerResource(route.getId() + "-" + sr.getName(), "/" + route.getId() + sr.getUrl()));
+//                                                    resources.add(swaggerResource(route.getId() + "-" + sr.getName(), contextPath + "/" + route.getId() + sr.getUrl()));
                                                 }
                                             }
                                         } catch (Exception e) {
