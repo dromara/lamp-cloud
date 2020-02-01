@@ -1,9 +1,12 @@
 package com.github.zuihou.authority.controller.common;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.common.AreaPageDTO;
 import com.github.zuihou.authority.dto.common.AreaSaveDTO;
 import com.github.zuihou.authority.dto.common.AreaUpdateDTO;
 import com.github.zuihou.authority.entity.common.Area;
@@ -13,8 +16,9 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.TreeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,8 +49,6 @@ public class AreaController extends BaseController {
 
     @Autowired
     private AreaService areaService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询地区表
@@ -61,10 +63,19 @@ public class AreaController extends BaseController {
     })
     @GetMapping("/page")
     @SysLog("分页查询地区表")
-    public R<IPage<Area>> page(Area data) {
+    public R<IPage<Area>> page(AreaPageDTO data) {
+        Area area = BeanUtil.toBean(data, Area.class);
+
+        if (StrUtil.isNotEmpty(data.getLevel())) {
+            area.setLevel(new RemoteData<>(data.getLevel()));
+        }
+
         IPage<Area> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<Area> query = Wraps.lbQ(data);
+        LbqWrapper<Area> query = Wraps.lbQ(area)
+                .leFooter(Area::getCreateTime, data.getEndCreateTime())
+                .geHeader(Area::getCreateTime, data.getStartCreateTime())
+                .orderByDesc(Area::getCreateTime);
         areaService.page(page, query);
         return success(page);
     }
@@ -92,7 +103,7 @@ public class AreaController extends BaseController {
     @PostMapping
     @SysLog("新增地区表")
     public R<Area> save(@RequestBody @Validated AreaSaveDTO data) {
-        Area area = dozer.map(data, Area.class);
+        Area area = BeanUtil.toBean(data, Area.class);
         areaService.saveWithCache(area);
         return success(area);
     }
@@ -107,7 +118,7 @@ public class AreaController extends BaseController {
     @PutMapping
     @SysLog("修改地区表")
     public R<Area> update(@RequestBody @Validated(SuperEntity.Update.class) AreaUpdateDTO data) {
-        Area area = dozer.map(data, Area.class);
+        Area area = BeanUtil.toBean(data, Area.class);
         areaService.updateWithCache(area);
         return success(area);
     }
@@ -163,7 +174,7 @@ public class AreaController extends BaseController {
         long find = timer.interval();
 
         timer = DateUtil.timer();
-        List<Area> areas = dozer.mapList(list, Area.class);
+        List<Area> areas = BeanPlusUtil.toBeanList(list, Area.class);
         long map = timer.interval();
 
         timer = DateUtil.timer();
