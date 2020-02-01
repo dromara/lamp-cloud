@@ -29,4 +29,14 @@ public abstract class InjectionFieldConstants {
      * 组织 api查询方法
      */
     public static final String ORG_ID_METHOD = "findOrgByIds";
+    /**
+     * 组织 api查询类
+     * 注意，如果是想要使用 Feign
+     */
+    public static final String STATION_ID_CLASS = "stationController";
+
+    /**
+     * 组织 api查询方法
+     */
+    public static final String STATION_ID_METHOD = "findStationByIds";
 }

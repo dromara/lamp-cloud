@@ -1,22 +1,18 @@
 package com.github.zuihou.authority.dto.auth;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
+import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
-
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 用户
@@ -59,14 +55,14 @@ public class UserDTO implements Serializable {
      * #c_core_org
      */
     @ApiModelProperty(value = "组织ID")
-    private Long orgId;
+    private RemoteData<Long, Org> org;
 
     /**
      * 岗位ID
      * #c_core_station
      */
     @ApiModelProperty(value = "岗位ID")
-    private Long stationId;
+    private RemoteData<Long, Station> station;
 
     /**
      * 邮箱

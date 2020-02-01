@@ -10,7 +10,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
+        <result column="org_id" jdbcType="BIGINT" property="org"/>
         <result column="status" jdbcType="BIT" property="status"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
     </resultMap>

@@ -26,20 +26,32 @@ public @interface InjectionField {
     String key() default "";
 
     /**
-     * 目标类
+     * 执行查询任务的类
+     * <p/>
+     * api()  和 feign() 任选其一,  使用 api时，请填写实现类， 使用feign时，填写接口即可
+     * 如： @InjectionField(api="userServiceImpl") 等价于 @InjectionField(feign=UserService.class)
+     * 如： @InjectionField(api="userController") 等价于 @InjectionField(feign=UserApi.class)
      * <p>
-     * api() 其实改造成 Class<? extends Object> api() default Object.class;  更友好一些！
-     * 但由于本项目为了entity模块是最底层的依赖，故而只能是 String 类型。
      *
      * @return
      */
     String api() default "";
 
+    /**
+     * 执行查询任务的类
+     * <p/>
+     * api()  和 feign() 任选其一,  使用 api时，请填写实现类， 使用feign时，填写接口即可
+     * 如： @InjectionField(api="userServiceImpl") 等价于 @InjectionField(feign=UserService.class)
+     * 如： @InjectionField(api="userController") 等价于 @InjectionField(feign=UserApi.class)
+     *
+     * @return
+     */
+    Class<? extends Object> feign() default Object.class;
 
     /**
      * 目标类中的调用方法
      * <p>
-     * 若 找不到 api + method，则忽略该字段
+     * 若 找不到 api(feign) + method，则忽略该字段
      *
      * @return
      */

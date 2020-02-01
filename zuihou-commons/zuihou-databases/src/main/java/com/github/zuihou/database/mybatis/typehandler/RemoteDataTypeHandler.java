@@ -30,12 +30,12 @@ public class RemoteDataTypeHandler extends BaseTypeHandler<RemoteData> {
         if (parameter != null && parameter.getKey() != null) {
             if (parameter.getKey() instanceof String) {
                 ps.setString(i, (String) parameter.getKey());
-            }
-            if (parameter.getKey() instanceof Long) {
+            } else if (parameter.getKey() instanceof Long) {
                 ps.setLong(i, (Long) parameter.getKey());
-            }
-            if (parameter.getKey() instanceof Integer) {
+            } else if (parameter.getKey() instanceof Integer) {
                 ps.setInt(i, (Integer) parameter.getKey());
+            } else {
+                ps.setObject(i, parameter.getKey());
             }
         } else {
             ps.setNull(i, Types.BIGINT);

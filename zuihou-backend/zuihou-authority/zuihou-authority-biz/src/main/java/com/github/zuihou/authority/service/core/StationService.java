@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.core.Station;
 
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * <p>
  * 业务接口
@@ -24,4 +28,12 @@ public interface StationService extends IService<Station> {
      * @return
      */
     IPage<Station> findStationPage(Page page, StationPageDTO data);
+
+    /**
+     * 根据id 查询
+     *
+     * @param ids
+     * @return
+     */
+    Map<Serializable, Object> findStationByIds(Set<Serializable> ids);
 }
