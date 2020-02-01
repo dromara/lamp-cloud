@@ -36,43 +36,53 @@ public class InjectionCore {
      * @param obj 需要注入的对象、集合、IPage
      * @throws Exception
      */
-    public void injection(Object obj) throws Exception {
-        // key 为远程查询的对象
-        // value 为 待查询的数据
-        Map<InjectionFieldPo, Map<Serializable, Object>> typeMap = new HashMap();
-        //解析待查询的数据
-        long parseStart = System.currentTimeMillis();
-        parse(obj, typeMap, 1, MAX_DEPTH);
-        long parseEnd = System.currentTimeMillis();
+    public void injection(Object obj) {
+        try {
+            // key 为远程查询的对象
+            // value 为 待查询的数据
+            Map<InjectionFieldPo, Map<Serializable, Object>> typeMap = new HashMap();
+            //解析待查询的数据
+            long parseStart = System.currentTimeMillis();
+            parse(obj, typeMap, 1, MAX_DEPTH);
+            long parseEnd = System.currentTimeMillis();
 
-        log.info("解析耗时={} ms", (parseEnd - parseStart));
-        if (typeMap.isEmpty()) {
-            return;
-        }
-
-        // 批量查询
-        for (Map.Entry<InjectionFieldPo, Map<Serializable, Object>> entries : typeMap.entrySet()) {
-            InjectionFieldPo type = entries.getKey();
-            Map<Serializable, Object> valueMap = entries.getValue();
-            Set<Serializable> keys = valueMap.keySet();
-            try {
-                Object bean = SpringUtils.getBean(type.getApi());
-                log.info("建议在方法： [{}.{}]，上加入缓存，加速查询", type.getApi(), type.getMethod());
-                Map<Serializable, Object> value = ReflectUtil.invoke(bean, type.getMethod(), keys);
-                typeMap.put(type, value);
-            } catch (UtilException | BeansException e) {
-                log.error("远程调用方法 [{}.{}] 失败， 请确保系统存在该方法", type.getApi(), type.getMethod(), e);
+            log.info("解析耗时={} ms", (parseEnd - parseStart));
+            if (typeMap.isEmpty()) {
+                return;
             }
+
+            // 批量查询
+            for (Map.Entry<InjectionFieldPo, Map<Serializable, Object>> entries : typeMap.entrySet()) {
+                InjectionFieldPo type = entries.getKey();
+                Map<Serializable, Object> valueMap = entries.getValue();
+                Set<Serializable> keys = valueMap.keySet();
+                try {
+                    Object bean = null;
+                    if (StrUtil.isNotEmpty(type.getApi())) {
+                        bean = SpringUtils.getBean(type.getApi());
+                        log.info("建议在方法： [{}.{}]，上加入缓存，加速查询", type.getApi(), type.getMethod());
+                    } else {
+                        bean = SpringUtils.getBean(type.getFeign());
+                        log.info("建议在方法： [{}.{}]，上加入缓存，加速查询", type.getFeign().toString(), type.getMethod());
+                    }
+                    Map<Serializable, Object> value = ReflectUtil.invoke(bean, type.getMethod(), keys);
+                    typeMap.put(type, value);
+                } catch (UtilException | BeansException e) {
+                    log.error("远程调用方法 [{}({}).{}] 失败， 请确保系统存在该方法", type.getApi(), type.getFeign().toString(), type.getMethod(), e);
+                }
+            }
+
+            long injectionStart = System.currentTimeMillis();
+            log.info("批量查询耗时={} ms", (injectionStart - parseEnd));
+
+            // 注入
+            injection(obj, typeMap, 1, MAX_DEPTH);
+            long injectionEnd = System.currentTimeMillis();
+
+            log.info("注入耗时={} ms", (injectionEnd - injectionStart));
+        } catch (Exception e) {
+            log.warn("注入失败", e);
         }
-
-        long injectionStart = System.currentTimeMillis();
-        log.info("批量查询耗时={} ms", (injectionStart - parseEnd));
-
-        // 注入
-        injection(obj, typeMap, 1, MAX_DEPTH);
-        long injectionEnd = System.currentTimeMillis();
-
-        log.info("注入耗时={} ms", (injectionEnd - injectionStart));
     }
 
     /**
@@ -86,30 +96,6 @@ public class InjectionCore {
     public Object injection(ProceedingJoinPoint pjp, InjectionResult anno) throws Throwable {
         Object proceed = pjp.proceed();
         try {
-//            MethodSignature signature = (MethodSignature) pjp.getSignature();
-////            Method method = signature.getMethod();
-////            if (method.getGenericReturnType() instanceof ParameterizedType) {
-////                ParameterizedType parameterizedType = (ParameterizedType) method.getGenericReturnType();
-////                Type rawType = parameterizedType.getRawType();
-////                List<?> result = null;
-////                // 获取当前方法的返回值
-////                Type[] types = parameterizedType.getActualTypeArguments();
-////                Class clazz = ((Class) types[0]);
-////                // 非list直接返回
-////                if (anno.resultParser().equals(DefaultRemoteResultParser.class) && ((Class) rawType).isAssignableFrom(List.class)) {
-////                    result = (List<?>) proceed;
-////                    injection(result);
-////                    return result;
-////                } else {
-////                    RemoteResultParser bean = SpringUtils.getBean(anno.resultParser());
-////                    result = bean.parser(proceed);
-////                    injection(result);
-////                    return proceed;
-////                }
-////            } else {
-////                injection(proceed);
-////                return proceed;
-////            }
             injection(proceed);
             return proceed;
         } catch (Exception e) {
@@ -191,7 +177,9 @@ public class InjectionCore {
             }
 
             String api = anno.api();
-            if (StrUtil.isEmpty(api)) {
+            Class<?> feign = anno.feign();
+
+            if (StrUtil.isEmpty(api) && Object.class.equals(feign)) {
                 log.warn("忽略注入字段: {}.{}", field.getType(), field.getName());
                 continue;
             }
@@ -238,7 +226,7 @@ public class InjectionCore {
      * @param typeMap
      * @throws Exception
      */
-    public void parseList(Collection list, Map typeMap, int depth, int maxDepth) throws Exception {
+    private void parseList(Collection list, Map typeMap, int depth, int maxDepth) throws Exception {
         for (Object item : list) {
             parse(item, typeMap, depth, maxDepth);
         }
@@ -291,7 +279,9 @@ public class InjectionCore {
             }
 
             String api = anno.api();
-            if (StrUtil.isEmpty(api)) {
+            Class<?> feign = anno.feign();
+
+            if (StrUtil.isEmpty(api) && Object.class.equals(feign)) {
                 log.warn("忽略注入字段: {}.{}", field.getType(), field.getName());
                 continue;
             }

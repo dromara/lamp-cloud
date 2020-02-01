@@ -11,8 +11,8 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="account" jdbcType="VARCHAR" property="account"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
-        <result column="station_id" jdbcType="BIGINT" property="stationId"/>
+        <result column="org_id" jdbcType="BIGINT" property="org"/>
+        <result column="station_id" jdbcType="BIGINT" property="station"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
@@ -28,7 +28,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
+        id, create_user, create_time, update_user, update_time,
         account, name, org_id, station_id, email, mobile, sex, status, avatar, work_describe, password_error_last_time, password_error_num, password_expire_time, password, last_login_time
     </sql>
 

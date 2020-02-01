@@ -42,6 +42,8 @@ public class StationPageDTO implements Serializable {
      */
     @ApiModelProperty(value = "组织ID")
     private Long orgId;
+    // 前端传递 过来的参数，key会变成 String 类型
+//    private RemoteData<Long, Org> orgId;
     /**
      * 状态
      */
@@ -58,4 +60,6 @@ public class StationPageDTO implements Serializable {
     private LocalDateTime startCreateTime;
     @ApiModelProperty(value = "截止创建时间")
     private LocalDateTime endCreateTime;
+
+
 }

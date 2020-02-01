@@ -2,7 +2,6 @@ package com.github.zuihou.authority.enumeration.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
  * </p>
  *
  * @author zuihou
- * @date 2019-11-04
+ * @date 2020-01-31
  */
 @Getter
 @AllArgsConstructor

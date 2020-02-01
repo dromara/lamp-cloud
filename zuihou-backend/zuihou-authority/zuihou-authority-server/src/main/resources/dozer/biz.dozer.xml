@@ -3,14 +3,14 @@
           xmlns="http://dozermapper.github.io/schema/bean-mapping"
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
 
-    <mapping date-format="yyyy-MM-dd HH:mm:ss">
-        <class-a>com.github.zuihou.authority.dto.core.StationPageDTO</class-a>
-        <class-b>com.github.zuihou.authority.entity.core.Station</class-b>
-        <field>
-            <a>orgId</a>
-            <b>orgId.key</b>
-        </field>
-    </mapping>
+    <!--    <mapping date-format="yyyy-MM-dd HH:mm:ss">-->
+    <!--        <class-a>com.github.zuihou.authority.dto.core.StationPageDTO</class-a>-->
+    <!--        <class-b>com.github.zuihou.authority.entity.core.Station</class-b>-->
+    <!--        <field>-->
+    <!--            <a>orgId</a>-->
+    <!--            <b>orgId.key</b>-->
+    <!--        </field>-->
+    <!--    </mapping>-->
 
 
     <mapping date-format="yyyy-MM-dd HH:mm:ss">

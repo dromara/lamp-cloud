@@ -1,13 +1,27 @@
 package com.github.zuihou;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TimeInterval;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import cn.hutool.log.StaticLog;
 import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
+import com.github.zuihou.authority.dto.auth.VueRouter;
+import com.github.zuihou.authority.dto.core.StationPageDTO;
+import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.entity.common.Area;
+import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.database.parsers.TableNameParser;
+import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.core.InjectionFieldPo;
+import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.utils.TreeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.map.HashedMap;
@@ -18,6 +32,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +45,117 @@ import java.util.Map;
  */
 @Slf4j
 public class NoBootTest {
+
+    @Test
+    public void test() {
+        D obj = new D();
+        obj.setAsss(new RemoteData<>(101L));
+        obj.setStatId(new RemoteData<>(101L));
+
+        Field[] fields = ReflectUtil.getFields(obj.getClass());
+        for (Field field : fields) {
+            InjectionField anno = field.getDeclaredAnnotation(InjectionField.class);
+            if (anno == null) {
+                continue;
+            }
+            field.setAccessible(true);
+
+            String api = anno.api();
+            Class<?> feign = anno.feign();
+
+            if (StrUtil.isEmpty(api) && Object.class.equals(feign)) {
+                log.warn("忽略注入字段: {}.{}", field.getType(), field.getName());
+                continue;
+            }
+
+
+        }
+    }
+
+
+    @Test
+
+    public void testFan() {
+        StationPageDTO data = StationPageDTO.builder()
+//                .orgId(new RemoteData<>(123L, Org.builder().id(123L).build()))
+//                .orgId(123L)
+                .name("123").describe("ad")
+                .build();
+        Station station = BeanUtil.toBean(data, Station.class);
+        System.out.println(station);
+    }
+
+    @Test
+    public void testBeanUtil() {
+
+        //10000 - 511
+        //50000 - 719
+        //100000 - 812
+        //1000000 - 2303
+
+        TimeInterval timer = DateUtil.timer();
+        for (int i = 0; i <= 1000000; i++) {
+            Org org = Org.builder()
+                    .name("string")
+                    .id(123L + i)
+                    .createTime(LocalDateTime.now())
+                    .build();
+            Station station = Station.builder().id(1L + i).name("nihaoa").createTime(LocalDateTime.now()).orgId(new RemoteData(12L, org)).build();
+
+            StationPageDTO stationPageDTO = new StationPageDTO();
+
+            BeanUtil.copyProperties(station, stationPageDTO);
+        }
+
+        long interval = timer.interval();// 花费毫秒数
+        long intervalMinute = timer.intervalMinute();// 花费分钟数
+        StaticLog.info("本次程序执行 花费毫秒数: {} ,   花费分钟数:{} . ", interval, intervalMinute);
+    }
+
+    @Test
+    public void testBeanUtilToBean() {
+        Menu menu = Menu.builder()
+                .id(123L)
+                .name("menu")
+                .group("group")
+                .createTime(LocalDateTime.MAX)
+                .icon("aicon")
+                .build();
+
+//        VueRouter vueRouter = BeanUtil.toBean(menu, VueRouter.class);
+
+        Map<String, String> map = new HashedMap();
+        map.put("name", "path");
+//        VueRouter vueRouter = BeanUtil.toBean(VueRouter.class, new ValueProvider<String>(){
+//            @Override
+//            public Object value(String key, Type valueType) {
+//                return "1";
+//            }
+//
+//            @Override
+//            public boolean containsKey(String key) {
+//                return true;
+//            }
+//        }, CopyOptions.create().setFieldMapping(map));
+
+        VueRouter vueRouter = new VueRouter();
+        BeanUtil.copyProperties(menu, vueRouter, CopyOptions.create().setFieldMapping(map));
+
+
+        System.out.println(vueRouter);
+    }
+
+
+    @Test
+    public void testFanxin() {
+        Org org = Org.builder().name("ahaha").build();
+        Station station = Station.builder().id(1L).orgId(new RemoteData(12L, org)).build();
+
+        RemoteData orgId = station.getOrg();
+
+        System.out.println(((Org) orgId.getData()).getName());
+    }
+
     public static void main(String[] args) {
 //        String field = "name";
 //        System.out.println(getField(MenuTreeDTO.class, field));

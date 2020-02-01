@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.dto.core;
 
+import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -41,7 +42,7 @@ public class StationSaveDTO implements Serializable {
      * #c_core_org
      */
     @ApiModelProperty(value = "组织ID")
-    private RemoteData orgId;
+    private RemoteData<Long, Org> org;
     /**
      * 状态
      */
