@@ -7,4 +7,6 @@
         <include refid="Base_Column_List"/>
         FROM c_core_station s ${ew.customSqlSegment}
     </select>
+
+
 </mapper>

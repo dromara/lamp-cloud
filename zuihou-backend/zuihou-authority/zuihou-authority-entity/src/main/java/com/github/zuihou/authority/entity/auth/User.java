@@ -1,26 +1,22 @@
 package com.github.zuihou.authority.entity.auth;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.Entity;
-
+import com.github.zuihou.injection.annonation.InjectionField;
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.*;
 
 /**
  * <p>
@@ -29,16 +25,16 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-11-04
+ * @since 2020-01-30
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_auth_user")
 @ApiModel(value = "User", description = "用户")
+@AllArgsConstructor
 public class User extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -64,18 +60,24 @@ public class User extends Entity<Long> {
     /**
      * 组织ID
      * #c_core_org
+     *
+     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    private Long orgId;
+    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD)
+    private RemoteData<Long, com.github.zuihou.authority.entity.core.Org> org;
 
     /**
      * 岗位ID
      * #c_core_station
+     *
+     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Station>
      */
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
-    private Long stationId;
+    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD)
+    private RemoteData<Long, com.github.zuihou.authority.entity.core.Station> station;
 
     /**
      * 邮箱
@@ -165,7 +167,7 @@ public class User extends Entity<Long> {
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String account, String name, Long orgId, Long stationId, String email,
+                String account, String name, RemoteData<Long, com.github.zuihou.authority.entity.core.Org> orgId, RemoteData<Long, com.github.zuihou.authority.entity.core.Station> stationId, String email,
                 String mobile, Sex sex, Boolean status, String avatar, String workDescribe, LocalDateTime passwordErrorLastTime,
                 Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password, LocalDateTime lastLoginTime) {
         this.id = id;
@@ -175,8 +177,8 @@ public class User extends Entity<Long> {
         this.updateTime = updateTime;
         this.account = account;
         this.name = name;
-        this.orgId = orgId;
-        this.stationId = stationId;
+        this.org = orgId;
+        this.station = stationId;
         this.email = email;
         this.mobile = mobile;
         this.sex = sex;

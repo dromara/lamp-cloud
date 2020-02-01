@@ -24,6 +24,7 @@ import com.github.zuihou.database.properties.DatabaseProperties;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
+import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.NumberHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +89,7 @@ public class AuthManager {
         log.info("token={}", token.getToken());
 
         UserDTO dto = this.dozer.map(user, UserDTO.class);
-        dto.setStatus(true).setOrgId(0L).setStationId(0L).setAvatar("").setSex(Sex.M).setWorkDescribe("心情很美丽");
+        dto.setStatus(true).setOrg(new RemoteData<>(0L)).setStation(new RemoteData<>(0L)).setAvatar("").setSex(Sex.M).setWorkDescribe("心情很美丽");
         return R.success(LoginDTO.builder().user(dto).token(token).build());
     }
 
@@ -170,7 +171,10 @@ public class AuthManager {
     }
 
     private Token getToken(User user) {
-        JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), user.getOrgId(), user.getStationId());
+        Long orgId = RemoteData.getKey(user.getOrg());
+        Long stationId = RemoteData.getKey(user.getStation());
+
+        JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), orgId, stationId);
 
         Token token = this.jwtTokenServerUtils.generateUserToken(userInfo, null);
         log.info("token={}", token.getToken());

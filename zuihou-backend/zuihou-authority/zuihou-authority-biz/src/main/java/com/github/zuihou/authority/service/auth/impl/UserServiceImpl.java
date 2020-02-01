@@ -23,6 +23,8 @@ import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.injection.annonation.InjectionResult;
+import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
@@ -61,6 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private TenantService tenantService;
 
     @Override
+    @InjectionResult
     public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
         return baseMapper.findPage(page, wrapper, new DataScope());
     }
@@ -116,12 +119,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             } else if (DataScopeType.THIS_LEVEL.eq(dsType)) {
                 User user = super.getById(userId);
                 if (user != null) {
-                    orgIds.add(user.getOrgId());
+                    Long orgId = RemoteData.getKey(user.getOrg());
+                    orgIds.add(orgId);
                 }
             } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(dsType)) {
                 User user = super.getById(userId);
                 if (user != null) {
-                    List<Org> orgList = orgService.findChildren(Arrays.asList(user.getOrgId()));
+                    Long orgId = RemoteData.getKey(user.getOrg());
+                    List<Org> orgList = orgService.findChildren(Arrays.asList(orgId));
                     orgIds = orgList.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
                 }
             }
