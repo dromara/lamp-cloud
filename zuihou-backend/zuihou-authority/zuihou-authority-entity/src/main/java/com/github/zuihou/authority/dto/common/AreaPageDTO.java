@@ -1,8 +1,5 @@
 package com.github.zuihou.authority.dto.common;
 
-import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.injection.annonation.InjectionField;
-import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -10,11 +7,8 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -32,14 +26,10 @@ import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONA
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "AreaUpdateDTO", description = "地区表")
-public class AreaUpdateDTO implements Serializable {
+@ApiModel(value = "AreaPageDTO", description = "地区表")
+public class AreaPageDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty(value = "主键")
-    @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
-    private Long id;
 
     /**
      * 编码
@@ -72,14 +62,19 @@ public class AreaUpdateDTO implements Serializable {
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "行政区级")
-//    @Length(max = 10, message = "行政区级长度不能超过10")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
-    private RemoteData<String, String> level;
+    @Length(max = 10, message = "行政区级长度不能超过10")
+    private String level;
     /**
      * 数据来源
      */
     @ApiModelProperty(value = "数据来源")
     @Length(max = 255, message = "数据来源长度不能超过255")
     private String source;
+
+    @ApiModelProperty(value = "开始时间")
+    private LocalDateTime startCreateTime;
+
+    @ApiModelProperty(value = "截止时间")
+    private LocalDateTime endCreateTime;
 
 }
