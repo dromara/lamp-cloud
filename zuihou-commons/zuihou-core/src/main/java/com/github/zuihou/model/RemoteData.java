@@ -1,5 +1,6 @@
 package com.github.zuihou.model;
 
+import com.github.zuihou.base.validation.IValidatable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,14 @@ import java.io.Serializable;
  *
  * @param <K> ID或者code 等唯一键
  * @param <D> 根据key 远程查询出的数据
+ * @author zuihou
+ * @date 2020年02月02日21:16:22
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RemoteData<K, D> implements Serializable {
+public class RemoteData<K, D> implements Serializable, IValidatable {
     private K key;
     private D data;
 
@@ -47,5 +50,10 @@ public class RemoteData<K, D> implements Serializable {
      */
     public static <K, D> D getData(RemoteData<K, D> remoteData) {
         return remoteData != null ? remoteData.getData() : null;
+    }
+
+    @Override
+    public Object value() {
+        return this.key;
     }
 }

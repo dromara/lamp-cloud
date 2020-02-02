@@ -21,7 +21,7 @@ import java.util.*;
  * 遍历obj中的所有字段，
  * 将标注了Sys注解的字段值设置为： type类型的fieldName字段的值。 取值从value中查
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/11/13
  */
 

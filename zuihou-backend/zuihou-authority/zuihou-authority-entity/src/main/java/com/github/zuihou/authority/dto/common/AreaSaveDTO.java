@@ -1,28 +1,18 @@
 package com.github.zuihou.authority.dto.common;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.injection.annonation.InjectionField;
-import com.github.zuihou.base.entity.TreeEntity;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import lombok.Data;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
 
 /**
  * <p>
@@ -72,12 +62,11 @@ public class AreaSaveDTO implements Serializable {
     private String latitude;
     /**
      * 行政区级
+     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
-     *
-     *
      */
     @ApiModelProperty(value = "行政区级")
-//    @Length(max = 10, message = "行政区级长度不能超过10")
+    @Length(max = 10, message = "行政区级长度不能超过10")
     @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
     private RemoteData<String, String> level;
     /**
