@@ -1,20 +1,29 @@
 package com.github.zuihou.authority.dto.common;
 
-import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.injection.annonation.InjectionField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.injection.annonation.InjectionField;
+import com.github.zuihou.base.entity.TreeEntity;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+import com.github.zuihou.base.entity.SuperEntity;
+import lombok.Data;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import java.io.Serializable;
-
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
 
 /**
  * <p>
@@ -23,7 +32,7 @@ import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONA
  * </p>
  *
  * @author zuihou
- * @since 2020-02-01
+ * @since 2020-02-02
  */
 @Data
 @NoArgsConstructor
@@ -68,8 +77,9 @@ public class AreaUpdateDTO implements Serializable {
     private String latitude;
     /**
      * 行政区级
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
+     *
+     *
      */
     @ApiModelProperty(value = "行政区级")
 //    @Length(max = 10, message = "行政区级长度不能超过10")
@@ -81,5 +91,14 @@ public class AreaUpdateDTO implements Serializable {
     @ApiModelProperty(value = "数据来源")
     @Length(max = 255, message = "数据来源长度不能超过255")
     private String source;
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 255, message = "名称长度不能超过255")
+    protected String label;
 
+    @ApiModelProperty(value = "父ID")
+    protected Long parentId;
+
+    @ApiModelProperty(value = "排序号")
+    protected Integer sortValue;
 }
