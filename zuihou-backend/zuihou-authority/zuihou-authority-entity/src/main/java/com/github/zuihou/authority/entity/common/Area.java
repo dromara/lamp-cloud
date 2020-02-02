@@ -1,22 +1,30 @@
 package com.github.zuihou.authority.entity.common;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.base.entity.TreeEntity;
-import com.github.zuihou.injection.annonation.InjectionField;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.injection.annonation.InjectionField;
+import com.github.zuihou.base.entity.TreeEntity;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
 
 /**
  * <p>
@@ -25,7 +33,7 @@ import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONA
  * </p>
  *
  * @author zuihou
- * @since 2020-02-01
+ * @since 2020-02-02
  */
 @Data
 @NoArgsConstructor
@@ -74,8 +82,9 @@ public class Area extends TreeEntity<Area, Long> {
 
     /**
      * 行政区级
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
+     * 
+     * 
      */
     @ApiModelProperty(value = "行政区级")
     @Length(max = 10, message = "行政区级长度不能超过10")
@@ -93,8 +102,8 @@ public class Area extends TreeEntity<Area, Long> {
 
 
     @Builder
-    public Area(Long id, String label, Integer sortValue, Long parentId, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                String code, String fullName, String longitude, String latitude, RemoteData<String, String> level, String source) {
+    public Area(Long id, String label, Integer sortValue, Long parentId, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser, 
+                    String code, String fullName, String longitude, String latitude, RemoteData<String, String> level, String source) {
         this.id = id;
         this.label = label;
         this.sortValue = sortValue;
