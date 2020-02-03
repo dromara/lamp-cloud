@@ -2,14 +2,12 @@ package com.github.zuihou.sms.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.sms.entity.SmsSendStatus;
 import com.github.zuihou.sms.service.SmsSendStatusService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +40,7 @@ public class SmsSendStatusController extends BaseController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
     public R<IPage<SmsSendStatus>> page(SmsSendStatus data) {
-        Page<SmsSendStatus> page = getPage();
+        IPage<SmsSendStatus> page = getPage();
         LbqWrapper<SmsSendStatus> query = Wraps.lbQ(data)
                 .orderByDesc(SmsSendStatus::getCreateTime);
         smsSendStatusService.page(page, query);

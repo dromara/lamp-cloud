@@ -2,7 +2,6 @@ package com.github.zuihou.authority.controller.core;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.dto.core.StationSaveDTO;
 import com.github.zuihou.authority.dto.core.StationUpdateDTO;
@@ -59,7 +58,7 @@ public class StationController extends BaseController {
     @GetMapping("/page")
     @SysLog("分页查询岗位")
     public R<IPage<Station>> page(StationPageDTO data) {
-        Page<Station> page = getPage();
+        IPage<Station> page = getPage();
         stationService.findStationPage(page, data);
         return success(page);
     }

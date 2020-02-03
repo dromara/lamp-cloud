@@ -44,6 +44,12 @@ public class DatabaseProperties {
      * 事务超时时间
      */
     private int txTimeout = 60 * 60;
+
+    /**
+     * Id 生成策略
+     */
+    private Id id = new Id();
+
     /**
      * 统一管理事务的方法名
      */
@@ -57,4 +63,15 @@ public class DatabaseProperties {
      */
     private String transactionScanPackage = "com.github.zuihou";
 
+    @Data
+    public static class Id {
+        /**
+         * 终端ID (0-31)      单机配置0 即可。 集群部署，根据情况每个实例自增即可。
+         */
+        private Long workerId = 0L;
+        /**
+         * 数据中心ID (0-31)   单机配置0 即可。 集群部署，根据情况每个实例自增即可。
+         */
+        private Long dataCenterId = 0L;
+    }
 }

@@ -1,23 +1,14 @@
 package com.github.zuihou.file.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.database.properties.DatabaseProperties;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.file.biz.FileBiz;
@@ -34,13 +25,20 @@ import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.service.AttachmentService;
 import com.github.zuihou.file.strategy.FileStrategy;
 import com.github.zuihou.utils.DateUtils;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -55,7 +53,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachment> implements AttachmentService {
     @Autowired
-    private IdGenerate<Long> idGenerate;
+    private DatabaseProperties databaseProperties;
     @Autowired
     private DozerUtils dozer;
     @Resource
@@ -66,7 +64,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
     private FileBiz fileBiz;
 
     @Override
-    public IPage<Attachment> page(Page<Attachment> page, FilePageReqDTO data) {
+    public IPage<Attachment> page(IPage<Attachment> page, FilePageReqDTO data) {
         Attachment attachment = dozer.map(data, Attachment.class);
 
         // ${ew.customSqlSegment} 语法一定要手动eq like 等 不能用lbQ!
@@ -83,7 +81,8 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
     public AttachmentDTO upload(MultipartFile multipartFile, String tenant, Long id, String bizType, String bizId, Boolean isSingle) {
         //根据业务类型来判断是否生成业务id
         if (StringUtils.isNotEmpty(bizType) && StringUtils.isEmpty(bizId)) {
-            bizId = String.valueOf(idGenerate.generate());
+            DatabaseProperties.Id idPro = databaseProperties.getId();
+            bizId = IdUtil.getSnowflake(idPro.getWorkerId(), idPro.getDataCenterId()).nextIdStr();
         }
         File file = fileStrategy.upload(multipartFile);
 
