@@ -1,12 +1,8 @@
 package com.github.zuihou.base;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
@@ -14,7 +10,11 @@ import com.github.zuihou.exception.code.BaseExceptionCode;
 import com.github.zuihou.utils.AntiSqlFilter;
 import com.github.zuihou.utils.NumberHelper;
 
-import cn.hutool.core.util.StrUtil;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
@@ -141,15 +141,15 @@ public abstract class BaseController {
      *
      * @return
      */
-    protected <T> Page<T> getPage() {
+    protected <T> IPage<T> getPage() {
         return getPage(false);
     }
 
-    protected Integer getPageNo() {
+    protected Integer getCurrent() {
         return NumberHelper.intValueOf(request.getParameter(CURRENT), 1);
     }
 
-    protected Integer getPageSize() {
+    protected Integer getSize() {
         return NumberHelper.intValueOf(request.getParameter(SIZE), DEFAULT_LIMIT);
     }
 
@@ -159,22 +159,22 @@ public abstract class BaseController {
      * @param openSort
      * @return
      */
-    protected <T> Page<T> getPage(boolean openSort) {
+    protected <T> IPage<T> getPage(boolean openSort) {
         // 页数
-        Integer pageNo = getPageNo();
+        Integer pageNo = getCurrent();
         // 分页大小
-        Integer pageSize = getPageSize();
+        Integer pageSize = getSize();
         // 是否查询分页
         return buildPage(openSort, pageNo, pageSize);
     }
 
-    private <T> Page<T> buildPage(boolean openSort, long pageNo, long pageSize) {
+    private <T> Page<T> buildPage(boolean openSort, long current, long size) {
         // 是否查询分页
-        pageSize = pageSize > MAX_LIMIT ? MAX_LIMIT : pageSize;
-        Page<T> page = new Page<>(pageNo, pageSize);
+        size = size > MAX_LIMIT ? MAX_LIMIT : size;
+        Page<T> page = new Page<>(current, size);
         if (openSort) {
-            page.setAsc(getParameterSafeValues(PAGE_ASCS));
-            page.setDesc(getParameterSafeValues(PAGE_DESCS));
+            page.addOrder(OrderItem.ascs(getParameterSafeValues(PAGE_ASCS)));
+            page.addOrder(OrderItem.descs(getParameterSafeValues(PAGE_DESCS)));
         }
         return page;
     }

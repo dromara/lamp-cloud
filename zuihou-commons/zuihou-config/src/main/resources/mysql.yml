@@ -12,6 +12,8 @@ zuihou:
   database:
     isMultiTenant: true   # 是否启用多租户
     isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
+    worker-id: 0
+    data-center-id: 0
 
 # mysql 通用配置
 spring:

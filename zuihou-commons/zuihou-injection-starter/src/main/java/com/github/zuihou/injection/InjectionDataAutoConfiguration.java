@@ -5,6 +5,7 @@ import com.github.zuihou.injection.configuration.InjectionProperties;
 import com.github.zuihou.injection.core.InjectionCore;
 import com.github.zuihou.injection.core.RemoteCore;
 import com.github.zuihou.injection.facade.DefaultRemoteResultParser;
+import com.github.zuihou.injection.mybatis.typehandler.RemoteDataTypeHandler;
 import com.github.zuihou.utils.SpringUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,7 @@ public class InjectionDataAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = {"zuihou.injection.aop-enabled"}, havingValue = "true")
+    @ConditionalOnProperty(name = {"zuihou.injection.aop-enabled"}, havingValue = "true", matchIfMissing = true)
     public InjectionResultAspect getRemoteAspect(InjectionCore injectionCore) {
         return new InjectionResultAspect(injectionCore);
     }
@@ -58,4 +59,15 @@ public class InjectionDataAutoConfiguration {
         return new InjectionCore();
     }
 
+    /**
+     * Mybatis 类型处理器： 处理 RemoteData 类型的字段
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public RemoteDataTypeHandler getRemoteDataTypeHandler() {
+        return new RemoteDataTypeHandler();
+    }
 }
+

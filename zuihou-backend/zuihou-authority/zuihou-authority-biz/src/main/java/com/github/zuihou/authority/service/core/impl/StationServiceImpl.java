@@ -3,7 +3,6 @@ package com.github.zuihou.authority.service.core.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.core.StationMapper;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
@@ -40,7 +39,7 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
     @Override
     // 启用属性自动注入
     @InjectionResult
-    public IPage<Station> findStationPage(Page page, StationPageDTO data) {
+    public IPage<Station> findStationPage(IPage page, StationPageDTO data) {
         Station station = BeanUtil.toBean(data, Station.class);
 
         if (data != null && data.getOrgId() != null) {

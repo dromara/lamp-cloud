@@ -3,7 +3,6 @@ package com.github.zuihou.msgs.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.authority.api.RoleApi;
 import com.github.zuihou.authority.api.UserApi;
 import com.github.zuihou.base.BaseController;
@@ -77,7 +76,7 @@ public class MsgsCenterInfoController extends BaseController {
     @GetMapping("/page")
     @SysLog("分页查询消息中心")
     public R<IPage<MsgsCenterInfoPageResultDTO>> page(MsgsCenterInfoQueryDTO data) {
-        Page<MsgsCenterInfoPageResultDTO> page = getPage();
+        IPage<MsgsCenterInfoPageResultDTO> page = getPage();
 
         if (data.getStartCreateTime() != null) {
             data.setStartCreateTime(LocalDateTime.of(data.getStartCreateTime().toLocalDate(), LocalTime.MIN));

@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author zuihou
  * @date 2019/06/12
  */
+@Deprecated
 public abstract class AbstractIdGenerate<T extends Serializable> implements IdGenerate<T> {
 
     private final static int MAX_MACHINE_CODE = 31;
