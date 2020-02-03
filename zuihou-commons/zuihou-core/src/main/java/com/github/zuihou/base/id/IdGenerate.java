@@ -13,6 +13,7 @@ import java.io.Serializable;
  * @since
  */
 @FunctionalInterface
+@Deprecated
 public interface IdGenerate<T extends Serializable> {
     /**
      * id 生成器

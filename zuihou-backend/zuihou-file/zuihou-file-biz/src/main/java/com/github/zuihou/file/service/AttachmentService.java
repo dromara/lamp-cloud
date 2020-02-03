@@ -1,19 +1,16 @@
 package com.github.zuihou.file.service;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.file.dto.AttachmentDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.entity.Attachment;
-
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * <p>
@@ -101,5 +98,5 @@ public interface AttachmentService extends IService<Attachment> {
      * @param data
      * @return
      */
-    IPage<Attachment> page(Page<Attachment> page, FilePageReqDTO data);
+    IPage<Attachment> page(IPage<Attachment> page, FilePageReqDTO data);
 }

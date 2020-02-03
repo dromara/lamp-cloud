@@ -1,18 +1,16 @@
 package com.github.zuihou.file.dao;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
 import com.github.zuihou.file.entity.Attachment;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -52,5 +50,5 @@ public interface AttachmentMapper extends BaseMapper<Attachment> {
      * @param dataScope
      * @return
      */
-    IPage<Attachment> page(Page<Attachment> page, @Param(Constants.WRAPPER) Wrapper<Attachment> wrapper, DataScope dataScope);
+    IPage<Attachment> page(IPage<Attachment> page, @Param(Constants.WRAPPER) Wrapper<Attachment> wrapper, DataScope dataScope);
 }

@@ -1,8 +1,7 @@
 package com.github.zuihou.database.datasource;
 
-import java.lang.reflect.Field;
-import java.time.LocalDateTime;
-
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -11,11 +10,12 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.github.zuihou.base.entity.Entity;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.base.id.IdGenerate;
 import com.github.zuihou.context.BaseContextHandler;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+
+import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 
 /**
  * MyBatis Plus 元数据处理类
@@ -31,14 +31,14 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
      * id类型判断符
      */
     private final static String ID_TYPE = "java.lang.String";
-    /**
-     * 实体类型判断符
-     */
-    private final IdGenerate<Long> idGenerator;
 
-    public MyMetaObjectHandler(IdGenerate<Long> idGenerator) {
+    private long workerId;
+    private long dataCenterId;
+
+    public MyMetaObjectHandler(long workerId, long dataCenterId) {
         super();
-        this.idGenerator = idGenerator;
+        this.workerId = workerId;
+        this.dataCenterId = dataCenterId;
     }
 
     /**
@@ -84,7 +84,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         if (!flag) {
             return;
         }
-        Long id = idGenerator.generate();
+        Snowflake snowflake = IdUtil.getSnowflake(workerId, dataCenterId);
+        Long id = snowflake.nextId();
         if (metaObject.hasGetter(SuperEntity.FIELD_ID)) {
             Object idVal = ID_TYPE.equals(metaObject.getGetterType(SuperEntity.FIELD_ID).getName()) ? String.valueOf(id) : id;
             this.setFieldValByName(SuperEntity.FIELD_ID, idVal, metaObject);

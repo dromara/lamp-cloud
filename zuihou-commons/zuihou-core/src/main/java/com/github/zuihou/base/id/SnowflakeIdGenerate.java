@@ -12,6 +12,7 @@ package com.github.zuihou.base.id;
  *
  * @author zuihou
  */
+@Deprecated
 public class SnowflakeIdGenerate extends AbstractIdGenerate<Long> {
 
     public SnowflakeIdGenerate(final long machineCode) {

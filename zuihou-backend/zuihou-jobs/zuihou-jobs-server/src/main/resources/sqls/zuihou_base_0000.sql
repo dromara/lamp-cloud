@@ -109,8 +109,8 @@ INSERT INTO `c_auth_menu` VALUES (605078463069552993, '地区信息维护', '', 
 INSERT INTO `c_auth_menu` VALUES (605078538881597857, '应用管理', '', b'0', '/developer/application', 'zuihou/developer/application/Index', b'1', 0, '', '', 104, 1, '2019-07-28 16:46:06', 3, '2019-12-25 16:19:43');
 INSERT INTO `c_auth_menu` VALUES (605078672772170209, '操作日志', '', b'0', '/developer/optLog', 'zuihou/developer/optLog/Index', b'1', 3, '', '', 104, 1, '2019-07-28 16:46:38', 3, '2019-11-11 14:35:14');
 INSERT INTO `c_auth_menu` VALUES (605078979149300257, '数据库监控', '', b'0', '/developer/db', 'zuihou/developer/db/Index', b'1', 2, '', '', 104, 1, '2019-07-28 16:47:51', 3, '2019-11-16 16:35:50');
-INSERT INTO `c_auth_menu` VALUES (605079239015793249, '接口文档', '', b'0', 'http://localhost:8760/api/gate/doc.html?showMenuApi=1&showDes=1&plus=1&cache=1&cacheApi=1&lang=zh', 'Layout', b'1', 5, '', '', 104, 1, '2019-07-28 16:48:53', 3, '2019-11-16 10:55:03');
-INSERT INTO `c_auth_menu` VALUES (605079411338773153, '注册&配置中心', '', b'0', 'http://localhost:8848/nacos', 'Layout', b'1', 6, '', '', 104, 1, '2019-07-28 16:49:34', 3, '2019-11-16 10:55:06');
+INSERT INTO `c_auth_menu` VALUES (605079239015793249, '接口文档', '', b'0', 'http://tangyh.top:10000/api/gate/doc.html', 'Layout', b'1', 5, '', '', 104, 1, '2019-07-28 16:48:53', 3, '2019-11-16 10:55:03');
+INSERT INTO `c_auth_menu` VALUES (605079411338773153, '注册&配置中心', '', b'0', 'http://tangyh.top:10000/nacos', 'Layout', b'1', 6, '', '', 104, 1, '2019-07-28 16:49:34', 3, '2019-11-16 10:55:06');
 INSERT INTO `c_auth_menu` VALUES (605079545585861345, '缓存监控', '', b'0', 'http://www.baidu.com', 'Layout', b'1', 7, '', '', 104, 1, '2019-07-28 16:50:06', 3, '2019-11-16 10:55:08');
 INSERT INTO `c_auth_menu` VALUES (605079658416833313, '服务器监控', '', b'0', 'http://127.0.0.1:8762/zuihou-monitor', 'Layout', b'1', 8, '', '', 104, 1, '2019-07-28 16:50:33', 3, '2019-11-16 10:55:15');
 INSERT INTO `c_auth_menu` VALUES (605079751035454305, '消息推送', '', b'0', '/msgs/sendMsgs', 'zuihou/msgs/sendMsgs/Index', b'1', 0, '', '', 105, 1, '2019-07-28 16:50:55', 3, '2019-11-11 14:28:30');
@@ -118,15 +118,15 @@ INSERT INTO `c_auth_menu` VALUES (605080023753294753, '我的消息', '', b'0', 
 INSERT INTO `c_auth_menu` VALUES (605080107379327969, '账号配置', '', b'0', '/sms/template', 'zuihou/sms/template/Index', b'1', 1, '', '', 106, 1, '2019-07-28 16:52:20', 3, '2019-11-21 19:53:17');
 INSERT INTO `c_auth_menu` VALUES (605080359394083937, '短信管理', '', b'0', '/sms/manage', 'zuihou/sms/manage/Index', b'1', 0, '', '', 106, 1, '2019-07-28 16:53:20', 3, '2019-11-21 19:53:09');
 INSERT INTO `c_auth_menu` VALUES (605080648767505601, '附件列表', '', b'0', '/file/attachment', 'zuihou/file/attachment/Index', b'1', 0, '', '', 107, 1, '2019-07-28 16:54:29', 3, '2019-11-11 14:28:07');
-INSERT INTO `c_auth_menu` VALUES (605080816296396097, '定时调度中心', '', b'0', 'http://127.0.0.1:8767/zuihou-jobs-server', 'Layout', b'1', 9, '', '', 104, 1, '2019-07-28 16:55:09', 3, '2019-11-16 10:55:18');
+INSERT INTO `c_auth_menu` VALUES (605080816296396097, '定时调度中心', '', b'0', 'http://42.202.130.216:10000/zuihou-jobs-server', 'Layout', b'1', 9, '', '', 104, 1, '2019-07-28 16:55:09', 3, '2019-11-16 10:55:18');
 INSERT INTO `c_auth_menu` VALUES (605424535633666945, '接口查询', '', b'0', '/developer/systemApi', 'zuihou/developer/systemApi/Index', b'1', 1, '', '', 104, 1, '2019-07-29 15:40:58', 3, '2019-12-24 14:40:47');
 INSERT INTO `c_auth_menu` VALUES (643464272629728001, '务必详看', '', b'1', '/doc', 'zuihou/doc/Index', b'1', 0, 'el-icon-notebook-1', '', 0, 3, '2019-11-11 14:57:18', 3, '2019-11-11 15:01:31');
 INSERT INTO `c_auth_menu` VALUES (643464392888812545, '后端代码', '', b'1', 'https://github.com/zuihou/zuihou-admin-cloud', 'Layout', b'1', 1, '', '', 643464272629728001, 3, '2019-11-11 14:57:46', 3, '2019-11-11 15:00:05');
 INSERT INTO `c_auth_menu` VALUES (643464517879071841, '租户平台-前端代码', '', b'1', 'https://github.com/zuihou/zuihou-ui', 'Layout', b'1', 2, '', '', 643464272629728001, 3, '2019-11-11 14:58:16', 3, '2019-11-11 15:00:09');
 INSERT INTO `c_auth_menu` VALUES (643464706228487361, '运营平台-前端代码', '', b'1', 'https://github.com/zuihou/zuihou-admin-ui', 'Layout', b'1', 3, '', '', 643464272629728001, 3, '2019-11-11 14:59:01', 3, '2019-11-11 15:00:11');
 INSERT INTO `c_auth_menu` VALUES (643464953478514081, '在线文档', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud', 'Layout', b'1', 0, '', '', 643464272629728001, 3, '2019-11-11 15:00:00', 3, '2019-11-11 15:01:36');
-INSERT INTO `c_auth_menu` VALUES (643874916004790785, '运营平台演示地址', NULL, b'1', 'http://localhost:8081/zuihou-admin-ui', 'Layout', b'1', 4, NULL, NULL, 643464272629728001, 3, '2019-11-12 18:09:03', 641577229343523041, '2019-12-04 16:20:13');
-INSERT INTO `c_auth_menu` VALUES (644111530555611361, '链路调用监控', '', b'0', 'http://127.0.0.1:8772/zipkin', 'Layout', b'1', 10, '', '', 104, 3, '2019-11-13 09:49:16', 3, '2019-11-13 09:56:51');
+INSERT INTO `c_auth_menu` VALUES (643874916004790785, '运营平台演示地址', NULL, b'1', 'http://42.202.130.216:10000/zuihou-admin-ui', 'Layout', b'1', 4, NULL, NULL, 643464272629728001, 3, '2019-11-12 18:09:03', 641577229343523041, '2019-12-04 16:20:13');
+INSERT INTO `c_auth_menu` VALUES (644111530555611361, '链路调用监控', '', b'0', 'http://tangyh.top:10000/zipkin/', 'Layout', b'1', 10, '', '', 104, 3, '2019-11-13 09:49:16', 3, '2019-11-13 09:56:51');
 INSERT INTO `c_auth_menu` VALUES (645215230518909025, '登录日志', '', b'0', '/developer/loginLog', 'zuihou/developer/loginLog/Index', b'1', 4, '', '', 104, 3, '2019-11-16 10:54:59', 3, '2019-11-16 10:54:59');
 COMMIT;
 

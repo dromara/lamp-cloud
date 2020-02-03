@@ -1,15 +1,12 @@
 package com.github.zuihou.authority.controller.common;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import cn.hutool.core.util.IdUtil;
 import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.id.IdGenerate;
+import com.github.zuihou.database.properties.DatabaseProperties;
 import com.github.zuihou.user.annotation.LoginUser;
 import com.github.zuihou.user.model.SysUser;
-
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -36,7 +36,7 @@ public class DashboardController extends BaseController {
     @Autowired
     private LoginLogService loginLogService;
     @Autowired
-    private IdGenerate<Long> idGenerate;
+    private DatabaseProperties databaseProperties;
 
     /**
      * 最近10天访问记录
@@ -67,6 +67,7 @@ public class DashboardController extends BaseController {
      */
     @GetMapping("/common/generateId")
     public R<Long> generate() {
-        return success(idGenerate.generate());
+        DatabaseProperties.Id id = databaseProperties.getId();
+        return success(IdUtil.getSnowflake(id.getWorkerId(), id.getDataCenterId()).nextId());
     }
 }
