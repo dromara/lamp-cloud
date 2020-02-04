@@ -1,5 +1,6 @@
 package com.github.zuihou.database.parsers;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObject;
 import com.alibaba.druid.sql.ast.SQLStatement;
@@ -8,6 +9,7 @@ import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlDeleteStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
+import com.github.zuihou.context.BaseContextHandler;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -36,39 +38,8 @@ import java.util.Properties;
 )
 public class MultiTenantInterceptor implements Interceptor {
 
-    private static final String SCHEMA_NAME_PREFIX = "erp_";
-
-    private static final String DEFAULT_SCHEMA_NAME = "common";
     private static Logger logger = LoggerFactory.getLogger(MultiTenantInterceptor.class);
     private String schemaName;
-
-    public static void main(String[] args) {
-        MultiTenantInterceptor multiTenantInterceptor = new MultiTenantInterceptor();
-        multiTenantInterceptor.schemaName = "erp_szzj";
-        String sql = "select\n" +
-                "t1.*,\n" +
-                "t2.customer_name,t2.dye_factory_name,t2.fabric_ch,t2.create_time as header_create_time,t2.create_user as header_create_user,\n" +
-                "t3.ld_detail_record_id,t3.dye_color_code,t3.dye_color_name,t3.dye_deliver_date,t3.customer_choice,t3.comment_date,t3.comment_remark,t3.deliver_num as record_deliver_num\n" +
-                "from ld_order_detail t1\n" +
-                "left join ld_order_header t2 on t1.ld_order_header_id = t2.ld_order_header_id\n" +
-                "left join ld_detail_record t3 on t3.ld_order_detail_id = t1.ld_order_detail_id and t3.deliver_num = (select MAX(deliver_num) FROM ld_detail_record t3)";
-        sql = "CREATE TABLE `aaa_ba`  (\n" +
-                "  `id` bigint(20) NOT NULL COMMENT 'ID',\n" +
-                "  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '资源编码\\n规则：\\n链接：\\n数据列：\\n按钮：',\n" +
-                "  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '接口名称',\n" +
-                "  `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID\\n#c_auth_menu',\n" +
-                "  `describe_` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '接口描述',\n" +
-                "  `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人id',\n" +
-                "  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',\n" +
-                "  `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人id',\n" +
-                "  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',\n" +
-                "  PRIMARY KEY (`id`) USING BTREE,\n" +
-                "  UNIQUE INDEX `UN_CODE`(`code`) USING BTREE COMMENT '编码唯一'\n" +
-                ") ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '资源' ROW_FORMAT = Dynamic;";
-        sql = "";
-        String newSql = multiTenantInterceptor.processSqlByInterceptor(sql);
-        System.out.println(newSql);
-    }
 
     @Override
     public Object plugin(Object target) {
@@ -82,34 +53,19 @@ public class MultiTenantInterceptor implements Interceptor {
     void setSchemaName(String schemaName) {
         this.schemaName = schemaName;
     }
-
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         Object[] args = invocation.getArgs();
         MappedStatement mappedStatement = (MappedStatement) args[0];
         Object parameter = args[1];
-        schemaName = SCHEMA_NAME_PREFIX + getCurrentSchemaName(mappedStatement);
+
+        String tenantCode = BaseContextHandler.getTenant();
+        if (StrUtil.isEmpty(tenantCode)) {
+            return invocation.proceed();
+        }
+        this.setSchemaName(BaseContextHandler.getDatabase(tenantCode));
         args[0] = getNewMappedStatement(parameter, mappedStatement);
         return invocation.proceed();
-    }
-
-    private String getCurrentSchemaName(MappedStatement mappedStatement) {
-//        if (EXCLUDE_MAPPER_ID.equals(mappedStatement.getId())) return DEFAULT_SCHEMA_NAME;
-//
-//        String tenantId = QBStringUtil.isEmptyString(OPOrganization.getTargetOrgCode()) ? OPOrganization.getOrgCode() : OPOrganization.getTargetOrgCode();
-//
-//        SingleEntryResult<String> schemaNameByTenantIdResult = jedisClient.get(ERP_SCHEMA_NAME_BY_TENANT_ID + tenantId);
-//        if (schemaNameByTenantIdResult.getSuccessful() && QBStringUtil.isNotEmptyString(schemaNameByTenantIdResult.getResult())) {
-//            return schemaNameByTenantIdResult.getResult();
-//        }
-//
-//        SingleEntryResult<TenantInfoDTO> tenantInfoResult = tenantInfoBizService.selectByTenantId(tenantId);
-//        if (tenantInfoResult.getSuccessful() && null != tenantInfoResult.getResult()) {
-//            jedisClient.set(ERP_SCHEMA_NAME_BY_TENANT_ID + tenantId, tenantInfoResult.getResult().getSchemeName(), 60 * 60 * 24 * 7);
-//            return tenantInfoResult.getResult().getSchemeName();
-//        }
-
-        return DEFAULT_SCHEMA_NAME;
     }
 
     private MappedStatement getNewMappedStatement(Object parameter, MappedStatement mappedStatement) {
@@ -133,6 +89,7 @@ public class MultiTenantInterceptor implements Interceptor {
         builder.cache(mappedStatement.getCache());
         builder.flushCacheRequired(mappedStatement.isFlushCacheRequired());
         builder.useCache(mappedStatement.isUseCache());
+
         for (ParameterMapping mapping : boundSql.getParameterMappings()) {
             String prop = mapping.getProperty();
             if (boundSql.hasAdditionalParameter(prop)) {
@@ -293,19 +250,4 @@ public class MultiTenantInterceptor implements Interceptor {
         }
     }
 
-//    public static JedisClient getJedisClient() {
-//        return jedisClient;
-//    }
-//
-//    public static void setJedisClient(JedisClient jedisClient) {
-//        MultiTenantInterceptor.jedisClient = jedisClient;
-//    }
-//
-//    public static TenantInfoBizService getTenantInfoBizService() {
-//        return tenantInfoBizService;
-//    }
-//
-//    public static void setTenantInfoBizService(TenantInfoBizService tenantInfoBizService) {
-//        MultiTenantInterceptor.tenantInfoBizService = tenantInfoBizService;
-//    }
 }

@@ -63,6 +63,7 @@ mybatis-plus:
     - classpath*:mapper_**/**/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.github.zuihou.*.entity;com.github.zuihou.database.mybatis.typehandler
+  typeEnumsPackage: com.github.zuihou.*.enumeration
   global-config:
     db-config:
       id-type: INPUT

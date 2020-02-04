@@ -5,10 +5,13 @@ import java.util.function.Function;
 
 /**
  * 数字类型 帮助类
+ * <p>
+ * 请使用 Convert.toXxx()
  *
  * @author zuihou
  * @date 2018/11/20
  */
+@Deprecated
 public class NumberHelper {
 
     private static <T, R> R valueOfDef(T t, Function<T, R> function, R def) {

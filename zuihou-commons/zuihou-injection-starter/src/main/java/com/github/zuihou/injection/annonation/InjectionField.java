@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.METHOD, ElementType.TYPE, ElementType.FIELD})
 public @interface InjectionField {
     /**
-     * 查询值
+     * 固定查询值
      *
      * @return
      */
