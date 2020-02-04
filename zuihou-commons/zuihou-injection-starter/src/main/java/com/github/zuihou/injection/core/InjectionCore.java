@@ -7,8 +7,15 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.annonation.InjectionResult;
+import com.github.zuihou.injection.configuration.InjectionProperties;
 import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.utils.SpringUtils;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.beans.BeansException;
@@ -16,19 +23,69 @@ import org.springframework.beans.BeansException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * 遍历obj中的所有字段，
- * 将标注了Sys注解的字段值设置为： type类型的fieldName字段的值。 取值从value中查
+ * 字典数据注入工具类
+ * 1. 通过反射将obj的字段上标记了@InjectionFiled注解的字段解析出来
+ * 2. 依次查询待注入的数据
+ * 3. 将查询出来结果注入到obj的 @InjectionFiled注解的字段中
  *
  * @author zuihou
  * @date 2019/11/13
  */
-
 @Slf4j
 public class InjectionCore {
 
     private static int MAX_DEPTH = 2;
+
+
+    private final InjectionProperties ips;
+    private ListeningExecutorService backgroundRefreshPools;
+    private LoadingCache<InjectionFieldExtPo, Map<Serializable, Object>> caches;
+
+    public InjectionCore(InjectionProperties ips) {
+        this.ips = ips;
+        InjectionProperties.GuavaCache guavaCache = ips.getGuavaCache();
+        if (guavaCache.getEnabled()) {
+            this.backgroundRefreshPools = MoreExecutors.listeningDecorator(
+                    new ThreadPoolExecutor(guavaCache.getRefreshThreadPoolSize(), guavaCache.getRefreshThreadPoolSize(),
+                            0L, TimeUnit.MILLISECONDS,
+                            new LinkedBlockingQueue<Runnable>())
+            );
+            this.caches = CacheBuilder.newBuilder()
+                    .maximumSize(guavaCache.getMaximumSize())
+                    .refreshAfterWrite(guavaCache.getRefreshWriteTime(), TimeUnit.MINUTES)
+                    .build(new CacheLoader<InjectionFieldExtPo, Map<Serializable, Object>>() {
+                        @Override
+                        public Map<Serializable, Object> load(InjectionFieldExtPo type) throws Exception {
+                            log.info("首次读取缓存: " + type);
+                            return loadMap(type);
+                        }
+
+                        // 自动刷新缓存，防止脏数据
+                        @Override
+                        public ListenableFuture<Map<Serializable, Object>> reload(final InjectionFieldExtPo key, Map<Serializable, Object> oldValue) throws Exception {
+                            return backgroundRefreshPools.submit(() -> load(key));
+                        }
+                    });
+        }
+    }
+
+    private Map<Serializable, Object> loadMap(InjectionFieldExtPo type) {
+        Object bean = null;
+        if (StrUtil.isNotEmpty(type.getApi())) {
+            bean = SpringUtils.getBean(type.getApi());
+            log.info("建议在方法： [{}.{}]，上加入缓存，加速查询", type.getApi(), type.getMethod());
+        } else {
+            bean = SpringUtils.getBean(type.getFeign());
+            log.info("建议在方法： [{}.{}]，上加入缓存，加速查询", type.getFeign().toString(), type.getMethod());
+        }
+        Map<Serializable, Object> value = ReflectUtil.invoke(bean, type.getMethod(), type.getKeys());
+        return value;
+    }
 
     /**
      * 手动注入
@@ -41,8 +98,9 @@ public class InjectionCore {
             // key 为远程查询的对象
             // value 为 待查询的数据
             Map<InjectionFieldPo, Map<Serializable, Object>> typeMap = new HashMap();
-            //解析待查询的数据
+
             long parseStart = System.currentTimeMillis();
+            //1. 通过反射将obj的字段上标记了@InjectionFiled注解的字段解析出来
             parse(obj, typeMap, 1, MAX_DEPTH);
             long parseEnd = System.currentTimeMillis();
 
@@ -51,21 +109,15 @@ public class InjectionCore {
                 return;
             }
 
-            // 批量查询
+            // 2. 依次查询待注入的数据
             for (Map.Entry<InjectionFieldPo, Map<Serializable, Object>> entries : typeMap.entrySet()) {
                 InjectionFieldPo type = entries.getKey();
                 Map<Serializable, Object> valueMap = entries.getValue();
                 Set<Serializable> keys = valueMap.keySet();
                 try {
-                    Object bean = null;
-                    if (StrUtil.isNotEmpty(type.getApi())) {
-                        bean = SpringUtils.getBean(type.getApi());
-                        log.info("建议在方法： [{}.{}]，上加入缓存，加速查询", type.getApi(), type.getMethod());
-                    } else {
-                        bean = SpringUtils.getBean(type.getFeign());
-                        log.info("建议在方法： [{}.{}]，上加入缓存，加速查询", type.getFeign().toString(), type.getMethod());
-                    }
-                    Map<Serializable, Object> value = ReflectUtil.invoke(bean, type.getMethod(), keys);
+                    InjectionFieldExtPo extPo = new InjectionFieldExtPo(type, keys);
+                    // 根据是否启用guava缓存 决定从那里调用
+                    Map<Serializable, Object> value = ips.getGuavaCache().getEnabled() ? caches.get(extPo) : loadMap(extPo);
                     typeMap.put(type, value);
                 } catch (UtilException | BeansException e) {
                     log.error("远程调用方法 [{}({}).{}] 失败， 请确保系统存在该方法", type.getApi(), type.getFeign().toString(), type.getMethod(), e);
@@ -75,7 +127,7 @@ public class InjectionCore {
             long injectionStart = System.currentTimeMillis();
             log.info("批量查询耗时={} ms", (injectionStart - parseEnd));
 
-            // 注入
+            // 3. 将查询出来结果注入到obj的 @InjectionFiled注解的字段中
             injection(obj, typeMap, 1, MAX_DEPTH);
             long injectionEnd = System.currentTimeMillis();
 
