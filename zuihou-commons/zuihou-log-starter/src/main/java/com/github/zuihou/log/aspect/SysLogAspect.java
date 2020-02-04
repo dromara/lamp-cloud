@@ -2,6 +2,7 @@ package com.github.zuihou.log.aspect;
 
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
@@ -167,6 +168,8 @@ public class SysLogAspect {
         THREAD_LOCAL.remove();
     }
 
+    public static final int MAX_LENGTH = 65535;
+
     /**
      * 异常通知
      *
@@ -179,9 +182,11 @@ public class SysLogAspect {
             sysLog.setType("EX");
 
             // 异常对象
-            sysLog.setExDetail(LogUtil.getStackTrace(e));
+//            sysLog.setExDetail(LogUtil.getStackTrace(e));
+            sysLog.setExDetail(ExceptionUtil.stacktraceToString(e, MAX_LENGTH));
             // 异常信息
-            sysLog.setExDesc(e.getMessage());
+//            sysLog.setExDesc(e.getMessage());
+            sysLog.setExDesc(ExceptionUtil.stacktraceToString(e, MAX_LENGTH));
 
             publishEvent(sysLog);
         });

@@ -53,12 +53,16 @@ public class DynamicTableNameParser implements ISqlParser {
             //    }
             //}
 
+            // 本项目所有服务连接的默认数据库都是zuihou_defaults， 不执行以下代码，将在默认库中执行sql
+
+            // 想要 执行sql时， 不切换到 zuihou_base_{TENANT} 库, 请直接返回null
             String tenantCode = BaseContextHandler.getTenant();
             if (StrUtil.isEmpty(tenantCode)) {
                 return null;
             }
 
             MultiTenantInterceptor multiTenantInterceptor = new MultiTenantInterceptor();
+            // 想要 执行sql时， 切换到 切换到自己指定的库， 直接修改 setSchemaName
             multiTenantInterceptor.setSchemaName(BaseContextHandler.getDatabase(tenantCode));
             String parsedSql = multiTenantInterceptor.processSqlByInterceptor(sql);
             return SqlInfo.newInstance().setSql(parsedSql);

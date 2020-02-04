@@ -1,21 +1,25 @@
 package com.github.zuihou.injection.core;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.injection.annonation.InjectionField;
+import com.google.common.base.Objects;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author zuihou
+ * @date 2020年02月03日18:48:29
+ */
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"key"})
 public class InjectionFieldPo {
 
     /**
-     * 查询值
+     * 固定的查询值
      *
      * @return
      */
-    private String key;
+    protected String key;
 
     /**
      * 执行查询任务的类
@@ -26,7 +30,7 @@ public class InjectionFieldPo {
      *
      * @return
      */
-    private String api;
+    protected String api;
 
     /**
      * 执行查询任务的类
@@ -35,19 +39,45 @@ public class InjectionFieldPo {
      * 如： @InjectionField(api="userServiceImpl") 等价于 @InjectionField(feign=UserService.class)
      * 如： @InjectionField(api="userController") 等价于 @InjectionField(feign=UserApi.class)
      */
-    private Class<? extends Object> feign;
+    protected Class<? extends Object> feign;
 
     /**
      * 调用方法
      *
      * @return
      */
-    private String method;
+    protected String method;
 
     public InjectionFieldPo(InjectionField rf) {
         this.api = rf.api();
         this.feign = rf.feign();
         this.key = rf.key();
         this.method = rf.method();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        InjectionFieldPo that = (InjectionFieldPo) o;
+
+        boolean isEquals = Objects.equal(method, that.method);
+
+        if (StrUtil.isNotEmpty(api)) {
+            isEquals = isEquals && Objects.equal(api, that.api);
+        } else {
+            isEquals = isEquals && Objects.equal(feign, that.feign);
+        }
+
+        return isEquals;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(api, feign, method);
     }
 }

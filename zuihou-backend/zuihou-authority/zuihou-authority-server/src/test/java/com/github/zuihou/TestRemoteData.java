@@ -10,7 +10,6 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.update.LbuWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.injection.core.InjectionCore;
-import com.github.zuihou.injection.core.RemoteCore;
 import com.github.zuihou.model.RemoteData;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -41,8 +40,6 @@ public class TestRemoteData {
     private DozerUtils dozer;
     @Autowired
     private AreaMapper areaMapper;
-    @Autowired
-    private RemoteCore remoteCore;
     @Autowired
     private InjectionCore injectionComponent;
     @Autowired
@@ -114,9 +111,18 @@ public class TestRemoteData {
                 .code("bb")
                 .label("ddd")
                 .build();
-        area.setLevel(new RemoteData<>("AREA_LEVEL"));
+        area.setLevel(new RemoteData<>("COLLEGE"));
 
         injectionComponent.injection(area);
+
+        Area area2 = Area.builder()
+                .id(668136559643459617L)
+                .code("bb")
+                .label("ddd")
+                .build();
+        area2.setLevel(new RemoteData<>("COLLEGE"));
+
+        injectionComponent.injection(area2);
 
         log.info("area={}", area);
     }

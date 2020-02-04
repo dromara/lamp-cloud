@@ -3,8 +3,6 @@ package com.github.zuihou.injection;
 import com.github.zuihou.injection.aspect.InjectionResultAspect;
 import com.github.zuihou.injection.configuration.InjectionProperties;
 import com.github.zuihou.injection.core.InjectionCore;
-import com.github.zuihou.injection.core.RemoteCore;
-import com.github.zuihou.injection.facade.DefaultRemoteResultParser;
 import com.github.zuihou.injection.mybatis.typehandler.RemoteDataTypeHandler;
 import com.github.zuihou.utils.SpringUtils;
 import lombok.AllArgsConstructor;
@@ -16,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * zipkin 客服端自定义配置
+ * 关联字段数据注入工具 自动配置类
  *
  * @author zuihou
  * @date 2019/09/20
@@ -29,21 +27,15 @@ import org.springframework.context.annotation.Configuration;
 public class InjectionDataAutoConfiguration {
     private InjectionProperties remoteProperties;
 
+    /**
+     * Spring 工具类
+     *
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean
     public SpringUtils beanFactoryUtils() {
         return new SpringUtils();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public RemoteCore mergeCore() {
-        return new RemoteCore(remoteProperties);
-    }
-
-    @Bean
-    public DefaultRemoteResultParser getDefaultRemoteResultParser() {
-        return new DefaultRemoteResultParser();
     }
 
     @Bean
@@ -56,7 +48,7 @@ public class InjectionDataAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public InjectionCore getInjectionCore() {
-        return new InjectionCore();
+        return new InjectionCore(remoteProperties);
     }
 
     /**
