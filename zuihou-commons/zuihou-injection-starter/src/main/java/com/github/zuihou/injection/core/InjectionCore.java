@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.annonation.InjectionResult;
 import com.github.zuihou.injection.configuration.InjectionProperties;
@@ -68,7 +69,11 @@ public class InjectionCore {
                         // 自动刷新缓存，防止脏数据
                         @Override
                         public ListenableFuture<Map<Serializable, Object>> reload(final InjectionFieldExtPo key, Map<Serializable, Object> oldValue) throws Exception {
-                            return backgroundRefreshPools.submit(() -> load(key));
+                            return backgroundRefreshPools.submit(() -> {
+                                BaseContextHandler.setTenant(key.getTenant());
+                                BaseContextHandler.setDatabase(key.getDatabase());
+                                return load(key);
+                            });
                         }
                     });
         }
