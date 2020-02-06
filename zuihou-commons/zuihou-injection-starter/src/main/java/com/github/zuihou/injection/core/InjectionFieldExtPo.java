@@ -1,6 +1,7 @@
 package com.github.zuihou.injection.core;
 
 import cn.hutool.core.util.StrUtil;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.google.common.base.Objects;
 import lombok.Data;
@@ -23,6 +24,9 @@ public class InjectionFieldExtPo extends InjectionFieldPo {
      */
     private Set<Serializable> keys = new HashSet<>();
 
+    private String tenant;
+    private String database;
+
     public InjectionFieldExtPo(InjectionField rf) {
         super(rf);
     }
@@ -33,6 +37,8 @@ public class InjectionFieldExtPo extends InjectionFieldPo {
         this.key = po.getKey();
         this.method = po.getMethod();
         this.keys = keys;
+        this.tenant = BaseContextHandler.getTenant();
+        this.database = BaseContextHandler.getDatabase();
     }
 
     public InjectionFieldExtPo(InjectionField rf, Set<Serializable> keys) {
