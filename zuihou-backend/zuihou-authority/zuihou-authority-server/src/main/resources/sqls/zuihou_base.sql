@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 20/01/2020 23:28:59
+ Date: 06/02/2020 16:43:08
 */
 
 SET NAMES utf8mb4;
@@ -181,8 +181,8 @@ CREATE TABLE `c_auth_user` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `account` varchar(30) NOT NULL COMMENT '账号',
   `name` varchar(50) NOT NULL COMMENT '姓名',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org',
-  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>',
+  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station\n@InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Station>',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT 'N' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
@@ -228,7 +228,7 @@ CREATE TABLE `c_common_area` (
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `longitude` varchar(255) DEFAULT '' COMMENT '经度',
   `latitude` varchar(255) DEFAULT '' COMMENT '维度',
-  `level` varchar(10) DEFAULT '' COMMENT '行政区级',
+  `level` varchar(10) DEFAULT '' COMMENT '行政区级\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>\n\n',
   `source_` varchar(255) DEFAULT NULL COMMENT '数据来源',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -331,6 +331,25 @@ CREATE TABLE `c_common_opt_log` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_type` (`type`) USING BTREE COMMENT '日志类型'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
+
+-- ----------------------------
+-- Table structure for c_common_parameter
+-- ----------------------------
+DROP TABLE IF EXISTS `c_common_parameter`;
+CREATE TABLE `c_common_parameter` (
+  `id` bigint(20) NOT NULL,
+  `key_` varchar(255) NOT NULL DEFAULT '' COMMENT '参数键',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '参数名称',
+  `value` varchar(255) NOT NULL COMMENT '参数值',
+  `describe_` varchar(200) DEFAULT '' COMMENT '描述',
+  `status_` bit(1) DEFAULT b'1' COMMENT '状态',
+  `readonly_` bit(1) DEFAULT NULL COMMENT '只读',
+  `create_user` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数配置';
 
 -- ----------------------------
 -- Table structure for c_core_org
@@ -462,6 +481,16 @@ CREATE TABLE `m_product` (
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
+  `test1` text,
+  `test2` longtext,
+  `test3` bit(1) DEFAULT NULL,
+  `test4` tinyint(10) DEFAULT NULL,
+  `test5` date DEFAULT NULL COMMENT '时间',
+  `test6` datetime DEFAULT NULL COMMENT '日期',
+  `parent_id` bigint(20) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `sort_value` int(11) DEFAULT NULL,
+  `test7` char(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品(用于测试)';
 
