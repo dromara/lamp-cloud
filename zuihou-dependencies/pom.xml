@@ -161,7 +161,7 @@
         <bce-java-sdk.version>0.10.21</bce-java-sdk.version>
 
 
-        <hutool.version>5.1.0</hutool.version>
+        <hutool.version>5.1.2</hutool.version>
         <antisamy.version>1.5.7</antisamy.version>
         <caffeine.version>2.8.0</caffeine.version>
         <ip2region.version>1.7.2</ip2region.version>
