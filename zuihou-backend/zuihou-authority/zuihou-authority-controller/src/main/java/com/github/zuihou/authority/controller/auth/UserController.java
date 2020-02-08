@@ -40,9 +40,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.github.zuihou.common.constant.BizConstant.DEMO_ORG_ID;
@@ -316,5 +318,11 @@ public class UserController extends BaseController {
         return this.success(LoginDTO.builder().user(BeanUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList).token(null).build());
     }
 
+
+    @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
+    @GetMapping("/findUserByIds")
+    public Map<Serializable, Object> findUserByIds(@RequestParam Set<Serializable> codes) {
+        return this.userService.findUserByIds(codes);
+    }
 
 }

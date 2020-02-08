@@ -4,10 +4,8 @@ import com.github.zuihou.authority.api.UserApi;
 import com.github.zuihou.base.R;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * 用户API熔断
@@ -28,5 +26,10 @@ public class UserApiFallback implements UserApi {
     @Override
     public R<List<Long>> findAllUserId() {
         return R.timeout();
+    }
+
+    @Override
+    public Map<Serializable, Object> findUserByIds(Set<Serializable> codes) {
+        return new HashMap<>(1);
     }
 }

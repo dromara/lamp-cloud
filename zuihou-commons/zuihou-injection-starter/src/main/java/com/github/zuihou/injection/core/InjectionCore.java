@@ -369,13 +369,16 @@ public class InjectionCore {
                 continue;
             }
 
-            Object newVal = valueMap.get(queryKey);
             Object curField = ReflectUtil.getFieldValue(obj, field);
             if (curField == null) {
                 log.debug("字段[{}]为空,跳过", field.getName());
                 continue;
             }
 
+            Object newVal = valueMap.get(queryKey);
+            if (ObjectUtil.isNull(newVal) && ObjectUtil.isNotEmpty(queryKey)) {
+                newVal = valueMap.get(queryKey.toString());
+            }
             if (curField instanceof RemoteData) {
                 RemoteData remoteData = (RemoteData) curField;
 
