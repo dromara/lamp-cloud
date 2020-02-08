@@ -15,7 +15,8 @@ import java.util.Set;
  * @author zuihou
  * @date 2019/08/02
  */
-@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", path = "/station", fallback = StationApiFallback.class)
+@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", path = "/station",
+        qualifier = "stationApi", fallback = StationApiFallback.class)
 public interface StationApi {
 
     /**

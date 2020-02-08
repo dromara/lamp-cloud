@@ -3,7 +3,6 @@ package com.github.zuihou.authority.api;
 import com.github.zuihou.authority.api.hystrix.LogApiHystrix;
 import com.github.zuihou.base.R;
 import com.github.zuihou.log.entity.OptLogDTO;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author zuihou
  * @date 2019/07/02
  */
-@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = LogApiHystrix.class)
+@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = LogApiHystrix.class, qualifier = "logApi")
 public interface LogApi {
     /**
      * 保存日志

@@ -133,5 +133,5 @@ public interface UserService extends IService<User> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findUser(Set<Serializable> ids);
+    Map<Serializable, Object> findUserByIds(Set<Serializable> ids);
 }

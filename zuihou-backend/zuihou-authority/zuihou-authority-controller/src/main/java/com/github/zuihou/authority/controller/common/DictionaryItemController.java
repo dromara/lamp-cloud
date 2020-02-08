@@ -22,9 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -182,6 +184,13 @@ public class DictionaryItemController extends BaseController {
     public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
         this.dictionaryItemService.removeByIds(ids);
         return this.success(true);
+    }
+
+
+    @ApiOperation(value = "查询字典项", notes = "根据id查询字典项")
+    @GetMapping("/findDictionaryItem")
+    public Map<Serializable, Object> findDictionaryItem(@RequestParam Set<Serializable> codes) {
+        return this.dictionaryItemService.findDictionaryItem(codes);
     }
 
 
