@@ -218,7 +218,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Map<Serializable, Object> findUser(Set<Serializable> ids) {
+    public Map<Serializable, Object> findUserByIds(Set<Serializable> ids) {
 
         LbqWrapper<User> query = Wraps.<User>lbQ()
                 .in(User::getId, ids)

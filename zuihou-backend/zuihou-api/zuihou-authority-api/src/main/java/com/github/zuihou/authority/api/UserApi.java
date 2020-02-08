@@ -3,12 +3,12 @@ package com.github.zuihou.authority.api;
 import com.github.zuihou.authority.api.hystrix.UserApiFallback;
 import com.github.zuihou.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 用户
@@ -16,7 +16,8 @@ import java.util.Map;
  * @author zuihou
  * @date 2019/07/02
  */
-@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = UserApiFallback.class, path = "/user")
+@FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", fallback = UserApiFallback.class
+        , path = "/user", qualifier = "userApi")
 public interface UserApi {
     /**
      * 刷新token
@@ -34,4 +35,13 @@ public interface UserApi {
      */
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     R<List<Long>> findAllUserId();
+
+    /**
+     * 根据id查询用户
+     *
+     * @param codes
+     * @return
+     */
+    @GetMapping("/findUserByIds")
+    Map<Serializable, Object> findUserByIds(@RequestParam Set<Serializable> codes);
 }
