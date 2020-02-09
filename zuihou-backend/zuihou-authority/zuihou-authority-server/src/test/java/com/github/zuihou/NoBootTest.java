@@ -48,9 +48,9 @@ public class NoBootTest {
 
     @Test
     public void test() {
-        D obj = new D();
-        obj.setAsss(new RemoteData<>(101L));
-        obj.setStatId(new RemoteData<>(101L));
+        TestModel obj = new TestModel();
+        obj.setStation(new RemoteData<>(101L));
+        obj.setOrg2(new RemoteData<>(101L));
 
         Field[] fields = ReflectUtil.getFields(obj.getClass());
         for (Field field : fields) {

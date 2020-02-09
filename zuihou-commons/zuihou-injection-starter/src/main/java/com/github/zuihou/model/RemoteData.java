@@ -24,6 +24,7 @@ public class RemoteData<K, D> implements Serializable, IValidatable {
     private K key;
     private D data;
 
+
     public RemoteData(K key) {
         this.key = key;
     }
@@ -52,6 +53,11 @@ public class RemoteData<K, D> implements Serializable, IValidatable {
         return remoteData != null ? remoteData.getData() : null;
     }
 
+    /**
+     * 用于Hibernate-Validator 自定义校验规则
+     *
+     * @return
+     */
     @Override
     public Object value() {
         return this.key;

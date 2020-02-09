@@ -1,17 +1,17 @@
 package com.github.zuihou;
 
+import com.github.zuihou.authority.api.OrgApi;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.dao.common.AreaMapper;
 import com.github.zuihou.authority.dao.core.StationMapper;
-import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
+import com.github.zuihou.authority.service.core.impl.StationServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.injection.core.InjectionCore;
@@ -23,10 +23,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-@SpringBootTest
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+@SpringBootTest(classes = AuthorityApplication.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Slf4j
+@WebAppConfiguration
 public class RemoteDataMybatisTest {
     @Autowired
     ResourceService resourceService;
@@ -50,12 +57,23 @@ public class RemoteDataMybatisTest {
     @Autowired
     private StationMapper stationMapper;
     @Autowired
+    private StationServiceImpl stationServiceImpl;
+    @Autowired
     private InjectionCore injectionCore;
+    @Autowired
+    private OrgApi orgApi;
 
     @Before
     public void setTenant() {
         BaseContextHandler.setTenant("0000");
         BaseContextHandler.setDatabase("zuihou_base");
+    }
+
+    @Test
+    public void testFeign() {
+        Set<Serializable> ids = new HashSet<>();
+        Map<Serializable, Object> orgByIds = orgApi.findOrgByIds(ids);
+        System.out.println(orgByIds.size());
     }
 
     @Test
@@ -70,19 +88,35 @@ public class RemoteDataMybatisTest {
 
     @Test
     public void test345() {
-        User user = new User().builder().orgId(new RemoteData<>(101L)).build();
-        Org byId = orgService.getById(user.getOrg());
-        System.out.println(byId);
+        RemoteData<Long, Station> stationData = new RemoteData<>(101L);
+
+        Station station = stationMapper.selectById(stationData);
+        System.out.println(station);
+
+
+//        Station station2 = stationMapper.selectById(100L);
+        Station station2 = stationServiceImpl.getById2(100L);
+        System.out.println(station2);
+
+//        injectionCore.injection(station2);
+//        System.out.println(station2);
     }
 
+
     @Test
-    public void test4() {
-        D obj = new D();
-        obj.setStationId(new RemoteData<>(101L));
-        obj.setAsss(new RemoteData<>(101L));
-        obj.setStatId(new RemoteData<>(101L));
+    public void test343() {
+        TestModel obj = new TestModel();
+
+        obj.setEducation(new RemoteData<>("COLLEGE"));
+        obj.setEducation2("BOSHI");
+
+        obj.setStation(new RemoteData<>(101L));
+        obj.setError(new RemoteData<>(101L));
 
         injectionCore.injection(obj);
         System.out.println(obj);
     }
+
+
+
 }

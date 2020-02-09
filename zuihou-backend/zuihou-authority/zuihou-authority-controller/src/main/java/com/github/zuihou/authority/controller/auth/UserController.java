@@ -325,4 +325,10 @@ public class UserController extends BaseController {
         return this.userService.findUserByIds(codes);
     }
 
+    @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
+    @GetMapping("/findUserNameByIds")
+    public Map<Serializable, Object> findUserNameByIds(@RequestParam Set<Serializable> codes) {
+        return this.userService.findUserNameByIds(codes);
+    }
+
 }

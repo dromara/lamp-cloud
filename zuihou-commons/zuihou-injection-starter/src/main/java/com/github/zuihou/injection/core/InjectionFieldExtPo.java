@@ -6,6 +6,7 @@ import com.github.zuihou.injection.annonation.InjectionField;
 import com.google.common.base.Objects;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Set;
  */
 @Data
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class InjectionFieldExtPo extends InjectionFieldPo {
 
     /**
