@@ -74,4 +74,22 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         return typeMap;
     }
 
+    /**
+     * TODO 这里应该做缓存
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids) {
+        LbqWrapper<Org> query = Wraps.<Org>lbQ()
+                .in(Org::getId, ids)
+                .eq(Org::getStatus, true);
+        List<Org> list = super.list(query);
+
+        //key 是 组织id， value 是org 对象
+        ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, Org::getId, Org::getName);
+        return typeMap;
+    }
+
 }

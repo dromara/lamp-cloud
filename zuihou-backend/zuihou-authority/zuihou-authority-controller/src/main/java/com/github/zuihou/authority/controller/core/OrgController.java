@@ -25,7 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
 import static com.github.zuihou.utils.StrPool.DEF_ROOT_PATH;
@@ -157,5 +160,14 @@ public class OrgController extends BaseController {
         return this.success(TreeUtil.build(treeList));
     }
 
+    @GetMapping("/findOrgByIds")
+    public Map<Serializable, Object> findOrgByIds(@RequestParam("ids") Set<Serializable> ids) {
+        return orgService.findOrgByIds(ids);
+    }
+
+    @GetMapping("/findOrgNameByIds")
+    public Map<Serializable, Object> findOrgNameByIds(@RequestParam("ids") Set<Serializable> ids) {
+        return orgService.findOrgNameByIds(ids);
+    }
 
 }

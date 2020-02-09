@@ -41,4 +41,12 @@ public interface OrgService extends IService<Org> {
      * @return
      */
     Map<Serializable, Object> findOrgByIds(Set<Serializable> ids);
+
+    /**
+     * 根据 id 查询名称，并转换成Map结构
+     *
+     * @param ids
+     * @return
+     */
+    Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids);
 }

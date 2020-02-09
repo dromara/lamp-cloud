@@ -1,6 +1,6 @@
 package com.github.zuihou.authority.api.hystrix;
 
-import com.github.zuihou.authority.api.StationApi;
+import com.github.zuihou.authority.api.OrgApi;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -15,14 +15,14 @@ import java.util.Set;
  * @date 2020年02月09日11:24:23
  */
 @Component
-public class StationApiFallback implements StationApi {
+public class OrgApiFallback implements OrgApi {
     @Override
-    public Map<Serializable, Object> findStationByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findOrgByIds(Set<Serializable> ids) {
         return Collections.emptyMap();
     }
 
     @Override
-    public Map<Serializable, Object> findStationNameByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids) {
         return Collections.emptyMap();
     }
 }

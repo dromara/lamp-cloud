@@ -1,6 +1,5 @@
 package com.github.zuihou.injection.core;
 
-import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -19,7 +18,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.springframework.beans.BeansException;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -95,10 +93,11 @@ public class InjectionCore {
     /**
      * 手动注入
      *
-     * @param obj 需要注入的对象、集合、IPage
+     * @param obj        需要注入的对象、集合、IPage
+     * @param isUseCache 是否使用guava缓存
      * @throws Exception
      */
-    public void injection(Object obj) {
+    public void injection(Object obj, boolean isUseCache) {
         try {
             // key 为远程查询的对象
             // value 为 待查询的数据
@@ -122,9 +121,9 @@ public class InjectionCore {
                 try {
                     InjectionFieldExtPo extPo = new InjectionFieldExtPo(type, keys);
                     // 根据是否启用guava缓存 决定从那里调用
-                    Map<Serializable, Object> value = ips.getGuavaCache().getEnabled() ? caches.get(extPo) : loadMap(extPo);
+                    Map<Serializable, Object> value = ips.getGuavaCache().getEnabled() && isUseCache ? caches.get(extPo) : loadMap(extPo);
                     typeMap.put(type, value);
-                } catch (UtilException | BeansException e) {
+                } catch (Exception e) {
                     log.error("远程调用方法 [{}({}).{}] 失败， 请确保系统存在该方法", type.getApi(), type.getFeign().toString(), type.getMethod(), e);
                 }
             }
@@ -140,6 +139,10 @@ public class InjectionCore {
         } catch (Exception e) {
             log.warn("注入失败", e);
         }
+    }
+
+    public void injection(Object obj) {
+        injection(obj, true);
     }
 
     /**
@@ -237,7 +240,7 @@ public class InjectionCore {
             Class<?> feign = anno.feign();
 
             if (StrUtil.isEmpty(api) && Object.class.equals(feign)) {
-                log.warn("忽略注入字段: {}.{}", field.getType(), field.getName());
+                log.warn("忽略解析字段: {}.{}", field.getType(), field.getName());
                 continue;
             }
 

@@ -205,7 +205,7 @@ public class TestResource {
 
     @Test
     public void dozer2Test() {
-        D d = new D();
+        TestModel d = new TestModel();
         d.setD2(new Date());
         d.setDate(LocalDateTime.now());
         D2 opt = dozer.map(d, D2.class);

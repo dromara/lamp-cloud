@@ -30,6 +30,11 @@ public class UserApiFallback implements UserApi {
 
     @Override
     public Map<Serializable, Object> findUserByIds(Set<Serializable> codes) {
-        return new HashMap<>(1);
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public Map<Serializable, Object> findUserNameByIds(Set<Serializable> codes) {
+        return Collections.emptyMap();
     }
 }
