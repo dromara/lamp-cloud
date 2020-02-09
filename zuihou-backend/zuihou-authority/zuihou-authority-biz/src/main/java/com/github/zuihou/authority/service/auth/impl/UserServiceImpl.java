@@ -229,4 +229,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, User::getId, (user) -> user);
         return typeMap;
     }
+
+    @Override
+    public Map<Serializable, Object> findUserNameByIds(Set<Serializable> ids) {
+
+        LbqWrapper<User> query = Wraps.<User>lbQ()
+                .in(User::getId, ids)
+                .eq(User::getStatus, true);
+        List<User> list = super.list(query);
+
+        //key 是字典编码
+        ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, User::getId, User::getName);
+        return typeMap;
+    }
 }

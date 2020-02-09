@@ -51,7 +51,7 @@ public class TreeEntity<E, T extends Serializable> extends Entity<T> {
     protected Integer sortValue;
 
 
-    @ApiModelProperty(value = "子节点")
+    @ApiModelProperty(value = "子节点", hidden = true)
     @TableField(exist = false)
     protected List<E> children;
 

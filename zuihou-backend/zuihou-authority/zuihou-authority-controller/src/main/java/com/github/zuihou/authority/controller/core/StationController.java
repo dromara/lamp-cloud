@@ -125,4 +125,9 @@ public class StationController extends BaseController {
         return stationService.findStationByIds(ids);
     }
 
+    @GetMapping("/findStationNameByIds")
+    public Map<Serializable, Object> findStationNameByIds(@RequestParam("ids") Set<Serializable> ids) {
+        return stationService.findStationNameByIds(ids);
+    }
+
 }

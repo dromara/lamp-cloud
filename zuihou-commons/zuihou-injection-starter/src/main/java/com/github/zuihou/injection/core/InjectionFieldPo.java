@@ -5,6 +5,7 @@ import com.github.zuihou.injection.annonation.InjectionField;
 import com.google.common.base.Objects;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author zuihou
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@ToString
 public class InjectionFieldPo {
 
     /**

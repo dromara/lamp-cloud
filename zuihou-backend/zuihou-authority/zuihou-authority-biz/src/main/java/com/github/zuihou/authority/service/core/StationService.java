@@ -35,4 +35,12 @@ public interface StationService extends IService<Station> {
      * @return
      */
     Map<Serializable, Object> findStationByIds(Set<Serializable> ids);
+
+    /**
+     * 根据id 查询 岗位名称
+     *
+     * @param ids
+     * @return
+     */
+    Map<Serializable, Object> findStationNameByIds(Set<Serializable> ids);
 }

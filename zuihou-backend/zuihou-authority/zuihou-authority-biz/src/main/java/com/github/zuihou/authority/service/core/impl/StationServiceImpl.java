@@ -79,4 +79,33 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
         ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, Station::getId, (station) -> station);
         return typeMap;
     }
+
+    /**
+     * TODO 这里应该做缓存
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public Map<Serializable, Object> findStationNameByIds(Set<Serializable> ids) {
+        LbqWrapper<Station> query = Wraps.<Station>lbQ()
+                .in(Station::getId, ids)
+                .eq(Station::getStatus, true);
+        List<Station> list = super.list(query);
+
+        //key 是 组织id， value 是org 对象
+        ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, Station::getId, Station::getName);
+        return typeMap;
+    }
+
+    /**
+     * 测试类
+     *
+     * @param id
+     * @return
+     */
+    @InjectionResult
+    public Station getById2(Serializable id) {
+        return baseMapper.selectById(id);
+    }
 }

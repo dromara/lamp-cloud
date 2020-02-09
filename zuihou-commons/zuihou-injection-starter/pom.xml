@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zuihou-injection-starter</artifactId>
+    <description>关联数据自动注入器</description>
 
     <dependencies>
         <dependency>

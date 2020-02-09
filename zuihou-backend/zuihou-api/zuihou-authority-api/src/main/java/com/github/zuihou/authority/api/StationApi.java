@@ -27,4 +27,13 @@ public interface StationApi {
      */
     @GetMapping("/findStationByIds")
     Map<Serializable, Object> findStationByIds(@RequestParam(value = "ids") Set<Serializable> ids);
+
+    /**
+     * 根据id查询 岗位名称
+     *
+     * @param ids
+     * @return
+     */
+    @GetMapping("/findStationNameByIds")
+    Map<Serializable, Object> findStationNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 }

@@ -44,4 +44,13 @@ public interface UserApi {
      */
     @GetMapping("/findUserByIds")
     Map<Serializable, Object> findUserByIds(@RequestParam Set<Serializable> codes);
+
+    /**
+     * 根据id查询用户名称
+     *
+     * @param codes
+     * @return
+     */
+    @GetMapping("/findUserNameByIds")
+    Map<Serializable, Object> findUserNameByIds(@RequestParam Set<Serializable> codes);
 }
