@@ -92,7 +92,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "size", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
-    @SysLog("分页查询用户")
+    @SysLog("'分页查询用户:' + #userPage.name")
     public R<IPage<User>> page(UserPageDTO userPage) {
         IPage<User> page = getPage();
 
@@ -126,7 +126,7 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "查询用户", notes = "查询用户")
     @GetMapping("/{id}")
-    @SysLog("查询用户")
+    @SysLog("'查询用户:' + #id")
     public R<User> get(@PathVariable Long id) {
         return success(userService.getById(id));
     }
@@ -148,7 +148,7 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "新增用户", notes = "新增用户不为空的字段")
     @PostMapping
-    @SysLog("新增用户")
+    @SysLog("'新增用户:' + #data.name")
     public R<User> save(@RequestBody @Validated UserSaveDTO data) {
         User user = BeanUtil.toBean(data, User.class);
         userService.saveUser(user);

@@ -13,12 +13,19 @@ import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.log.event.SysLogEvent;
 import com.github.zuihou.log.util.LogUtil;
+import com.github.zuihou.utils.StrPool;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.DefaultParameterNameDiscoverer;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -63,65 +70,10 @@ public class SysLogAspect {
         return sysLog;
     }
 
-    @Before(value = "sysLogAspect()")
-    public void recordLog(JoinPoint joinPoint) throws Throwable {
-        tryCatch((val) -> {
-            // 开始时间
-            OptLogDTO sysLog = get();
-            sysLog.setCreateUser(BaseContextHandler.getUserId());
-            sysLog.setUserName(BaseContextHandler.getName());
-            String controllerDescription = "";
-            Api api = joinPoint.getTarget().getClass().getAnnotation(Api.class);
-            if (api != null) {
-                String[] tags = api.tags();
-                if (tags != null && tags.length > 0) {
-                    controllerDescription = tags[0];
-                }
-            }
-
-            String controllerMethodDescription = LogUtil.getControllerMethodDescription(joinPoint);
-            if (StrUtil.isEmpty(controllerDescription)) {
-                sysLog.setDescription(controllerMethodDescription);
-            } else {
-                sysLog.setDescription(controllerDescription + "-" + controllerMethodDescription);
-            }
-
-            // 类名
-            sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
-            //获取执行的方法名
-            sysLog.setActionMethod(joinPoint.getSignature().getName());
-
-
-            // 参数
-            Object[] args = joinPoint.getArgs();
-
-            String strArgs = "";
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            try {
-                if (!request.getContentType().contains("multipart/form-data")) {
-                    strArgs = JSONObject.toJSONString(args);
-                }
-            } catch (Exception e) {
-                try {
-                    strArgs = Arrays.toString(args);
-                } catch (Exception ex) {
-                    log.warn("解析参数异常", ex);
-                }
-            }
-            sysLog.setParams(getText(strArgs));
-
-            if (request != null) {
-                sysLog.setRequestIp(ServletUtil.getClientIP(request));
-                sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-                sysLog.setHttpMethod(request.getMethod());
-                sysLog.setUa(StrUtil.sub(request.getHeader("user-agent"), 0, 500));
-                sysLog.setTenantCode(request.getHeader(BaseContextConstants.TENANT));
-            }
-            sysLog.setStartTime(LocalDateTime.now());
-
-            THREAD_LOCAL.set(sysLog);
-        });
-    }
+    /**
+     * 用于SpEL表达式解析.
+     */
+    private SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
 
 
     private void tryCatch(Consumer<String> consumer) {
@@ -202,60 +154,103 @@ public class SysLogAspect {
         return StrUtil.sub(val, 0, 65535);
     }
 
-//    @Around("@annotation(sLog)")
-//    @SneakyThrows
-//    public Object around(ProceedingJoinPoint point, SysLog sLog) {
-//        log.info("当前线程id={}", Thread.currentThread().getId());
-//
-//        String strClassName = point.getTarget().getClass().getName();
-//        String strMethodName = point.getSignature().getName();
-//
-//        log.info("[类名]:{},[方法]:{}", strClassName, strMethodName);
-//        Log sysLog = Log.builder().build();
-//
-//        // 开始时间
-//        Long startTime = Instant.now().toEpochMilli();
-//        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-//        BaseContextHandler.getAccount();
-//        sysLog.setCreateUser(BaseContextHandler.getUserId());
-//        sysLog.setRequestIp(ServletUtil.getClientIP(request));
-//        sysLog.setUserName(BaseContextHandler.getNickName());
-//        sysLog.setDescription(LogUtil.getControllerMethodDescription(point));
-//
-//        // 类名
-//        sysLog.setClassPath(point.getTarget().getClass().getName());
-//        //获取执行的方法名
-//        sysLog.setActionMethod(point.getSignature().getName());
-//        sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-//        sysLog.setHttpMethod(HttpMethod.get(request.getMethod()));
-//        // 参数
-//        Object[] args = point.getArgs();
-//        sysLog.setParams(getText(JSONObject.toJSONString(args)));
-//
-//        sysLog.setStartTime(LocalDateTime.now());
-//        sysLog.setUa(request.getHeader("user-agent"));
-//
-//        // 发送异步日志事件
-//        Object obj = point.proceed();
-//
-//        R r = Convert.convert(R.class, obj);
-//        if (r.getIsSuccess()) {
-//            sysLog.setType(LogType.OPT);
-//        } else {
-//            sysLog.setType(LogType.EX);
-//            sysLog.setExDetail(r.getMsg());
-//        }
-//        if (r != null) {
-//            sysLog.setResult(getText(r.toString()));
-//        }
-//
-//        sysLog.setFinishTime(LocalDateTime.now());
-//        long endTime = Instant.now().toEpochMilli();
-//        sysLog.setConsumingTime(endTime - startTime);
-//
-//        applicationContext.publishEvent(new SysLogEvent(sysLog));
-//        return obj;
-//    }
+    /**
+     * 用于获取方法参数定义名字.
+     */
+    private DefaultParameterNameDiscoverer nameDiscoverer = new DefaultParameterNameDiscoverer();
+
+    @Before(value = "sysLogAspect()")
+    public void recordLog(JoinPoint joinPoint) throws Throwable {
+        tryCatch((val) -> {
+            // 开始时间
+            OptLogDTO sysLog = get();
+            sysLog.setCreateUser(BaseContextHandler.getUserId());
+            sysLog.setUserName(BaseContextHandler.getName());
+            String controllerDescription = "";
+            Api api = joinPoint.getTarget().getClass().getAnnotation(Api.class);
+            if (api != null) {
+                String[] tags = api.tags();
+                if (tags != null && tags.length > 0) {
+                    controllerDescription = tags[0];
+                }
+            }
+
+
+            String controllerMethodDescription = LogUtil.getControllerMethodDescription(joinPoint);
+
+            if (StrUtil.isNotEmpty(controllerMethodDescription) && StrUtil.contains(controllerMethodDescription, StrPool.HASH)) {
+                //获取方法参数值
+                Object[] args = joinPoint.getArgs();
+
+                MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+                controllerMethodDescription = getValBySpEL(controllerMethodDescription, methodSignature, args);
+            }
+
+            if (StrUtil.isEmpty(controllerDescription)) {
+                sysLog.setDescription(controllerMethodDescription);
+            } else {
+                sysLog.setDescription(controllerDescription + "-" + controllerMethodDescription);
+            }
+
+            // 类名
+            sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
+            //获取执行的方法名
+            sysLog.setActionMethod(joinPoint.getSignature().getName());
+
+
+            // 参数
+            Object[] args = joinPoint.getArgs();
+
+            String strArgs = "";
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+            try {
+                if (!request.getContentType().contains("multipart/form-data")) {
+                    strArgs = JSONObject.toJSONString(args);
+                }
+            } catch (Exception e) {
+                try {
+                    strArgs = Arrays.toString(args);
+                } catch (Exception ex) {
+                    log.warn("解析参数异常", ex);
+                }
+            }
+            sysLog.setParams(getText(strArgs));
+
+            if (request != null) {
+                sysLog.setRequestIp(ServletUtil.getClientIP(request));
+                sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
+                sysLog.setHttpMethod(request.getMethod());
+                sysLog.setUa(StrUtil.sub(request.getHeader("user-agent"), 0, 500));
+                sysLog.setTenantCode(request.getHeader(BaseContextConstants.TENANT));
+            }
+            sysLog.setStartTime(LocalDateTime.now());
+
+            THREAD_LOCAL.set(sysLog);
+        });
+    }
+
+    /**
+     * 解析spEL表达式
+     */
+    private String getValBySpEL(String spEL, MethodSignature methodSignature, Object[] args) {
+        try {
+            //获取方法形参名数组
+            String[] paramNames = nameDiscoverer.getParameterNames(methodSignature.getMethod());
+            if (paramNames != null && paramNames.length > 0) {
+                Expression expression = spelExpressionParser.parseExpression(spEL);
+                // spring的表达式上下文对象
+                EvaluationContext context = new StandardEvaluationContext();
+                // 给上下文赋值
+                for (int i = 0; i < args.length; i++) {
+                    context.setVariable(paramNames[i], args[i]);
+                }
+                return expression.getValue(context).toString();
+            }
+        } catch (Exception e) {
+            log.warn("解析操作日志的el表达式出错", e);
+        }
+        return spEL;
+    }
 
 
 }
