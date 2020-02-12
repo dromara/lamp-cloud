@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
@@ -7,7 +8,6 @@ import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.common.constant.CacheKey;
-import com.github.zuihou.utils.NumberHelper;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -43,6 +44,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     /**
      * 查询用户可用菜单
+     * 1，查询缓存中存放的当前用户拥有的所有菜单列表 [menuId,menuId...]
+     * 2，缓存&DB为空则返回
+     * 3，缓存总用户菜单列表 为空，但db存在，则将list便利set到缓存，并直接返回
+     * 4，缓存存在用户菜单列表，则根据菜单id遍历去缓存查询菜单。
+     * 5，过滤group后，返回
+     *
      * <p>
      * 注意：什么地方需要清除 USER_MENU 缓存
      * 给用户重新分配角色时， 角色重新分配资源/菜单时
@@ -54,13 +61,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public List<Menu> findVisibleMenu(String group, Long userId) {
         String key = CacheKey.buildKey(userId);
+        List<Menu> visibleMenu = new ArrayList<>();
         CacheObject cacheObject = cache.get(CacheKey.USER_MENU, key, (k) -> {
-            List<Menu> visibleMenu = baseMapper.findVisibleMenu(group, userId);
+            visibleMenu.addAll(baseMapper.findVisibleMenu(userId));
             return visibleMenu.stream().mapToLong(Menu::getId).boxed().collect(Collectors.toList());
         });
 
         if (cacheObject.getValue() == null) {
             return Collections.emptyList();
+        }
+
+        if (!visibleMenu.isEmpty()) {
+            visibleMenu.forEach((menu) -> {
+                String menuKey = CacheKey.buildKey(menu.getId());
+                cache.set(CacheKey.MENU, menuKey, menu);
+            });
+
+            return menuListFilterGroup(group, visibleMenu);
         }
 
         List<Long> list = (List<Long>) cacheObject.getValue();
@@ -70,12 +87,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<Menu> menuList = list.stream().map(((MenuService) AopContext.currentProxy())::getByIdWithCache)
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
-        if (StrUtil.isEmpty(group)) {
-            return menuList;
-        }
-
-        return menuList.stream().filter((menu) -> group.equals(menu.getGroup())).collect(Collectors.toList());
+        return menuListFilterGroup(group, menuList);
     }
+
+    private List<Menu> menuListFilterGroup(String group, List<Menu> visibleMenu) {
+        if (StrUtil.isEmpty(group)) {
+            return visibleMenu;
+        }
+        return visibleMenu.stream().filter((menu) -> group.equals(menu.getGroup())).collect(Collectors.toList());
+    }
+
 
     @Override
     @Cacheable(value = CacheKey.MENU, key = "#id")
@@ -111,10 +132,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public boolean saveWithCache(Menu menu) {
-
-        menu.setIsEnable(NumberHelper.getOrDef(menu.getIsEnable(), true));
-        menu.setIsPublic(NumberHelper.getOrDef(menu.getIsPublic(), false));
-        menu.setParentId(NumberHelper.getOrDef(menu.getParentId(), DEF_PARENT_ID));
+        menu.setIsEnable(Convert.toBool(menu.getIsEnable(), true));
+        menu.setIsPublic(Convert.toBool(menu.getIsPublic(), false));
+        menu.setParentId(Convert.toLong(menu.getParentId(), DEF_PARENT_ID));
 
         super.save(menu);
 

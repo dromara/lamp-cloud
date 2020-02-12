@@ -5,6 +5,7 @@ import com.alibaba.fastjson.parser.Feature;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.common.constant.BizConstant;
+import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.exception.BizException;
@@ -124,7 +125,7 @@ public class SmsTaskServiceImpl extends ServiceImpl<SmsTaskMapper, SmsTask> impl
 
         // 验证定时发送的时间，至少大于（当前时间+5分钟） ，是为了防止 定时调度或者是保存数据跟不上
         if (smsTask.getSendTime() != null) {
-            boolean flag = LocalDateTime.now().plusMinutes(5).isBefore(smsTask.getSendTime());
+            boolean flag = LocalDateTime.now().plusMinutes(4).isBefore(smsTask.getSendTime());
             BizAssert.isTrue(flag, BASE_VALID_PARAM.build("定时发送时间至少在当前时间的5分钟之后"));
         }
 
@@ -185,8 +186,8 @@ public class SmsTaskServiceImpl extends ServiceImpl<SmsTaskMapper, SmsTask> impl
         } else {
             JSONObject param = new JSONObject();
             param.put("id", smsTask.getId());
-            param.put("tenant", BaseContextHandler.getTenant());
-            param.put("database", BaseContextHandler.getDatabase());
+            param.put(BaseContextConstants.TENANT, BaseContextHandler.getTenant());
+            param.put(BaseContextConstants.DATABASE_NAME, BaseContextHandler.getDatabase());
             //推送定时任务
             jobsTimingApi.addTimingTask(
                     XxlJobInfo.build(BizConstant.DEF_JOB_GROUP_NAME,

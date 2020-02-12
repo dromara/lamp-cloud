@@ -12,8 +12,7 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
-
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,15 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -49,8 +40,6 @@ public class GlobalUserController extends BaseController {
 
     @Autowired
     private GlobalUserService globalUserService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询全局账号
@@ -65,7 +54,7 @@ public class GlobalUserController extends BaseController {
     })
     @GetMapping("/page")
     public R<IPage<GlobalUser>> page(GlobalUserPageDTO data) {
-        GlobalUser user = dozer.map(data, GlobalUser.class);
+        GlobalUser user = BeanPlusUtil.toBean(data, GlobalUser.class);
         IPage<GlobalUser> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<GlobalUser> query = Wraps.<GlobalUser>lbQ(user)

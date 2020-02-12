@@ -1,8 +1,5 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
@@ -15,15 +12,17 @@ import com.github.zuihou.authority.strategy.DataScopeContext;
 import com.github.zuihou.base.id.CodeGenerate;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.dozer.DozerUtils;
+import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.StrHelper;
-
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -40,9 +39,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Autowired
     private CacheChannel cache;
-
-    @Autowired
-    private DozerUtils dozer;
     @Autowired
     private RoleOrgService roleOrgService;
     @Autowired
@@ -96,7 +92,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public void saveRole(RoleSaveDTO data, Long userId) {
-        Role role = dozer.map(data, Role.class);
+        Role role = BeanPlusUtil.toBean(data, Role.class);
         role.setCode(StrHelper.getOrDef(data.getCode(), codeGenerate.next()));
         role.setReadonly(false);
         super.save(role);
@@ -109,7 +105,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     @CacheEvict(value = CacheKey.ROLE, key = "#data.id")
     public void updateRole(RoleUpdateDTO data, Long userId) {
-        Role role = dozer.map(data, Role.class);
+        Role role = BeanPlusUtil.toBean(data, Role.class);
         super.updateById(role);
 
         roleOrgService.remove(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, data.getId()));

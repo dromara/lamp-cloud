@@ -93,6 +93,15 @@ public class AreaController extends BaseController {
         return success(areaService.getByIdWithCache(id));
     }
 
+
+    @ApiOperation(value = "检测地区编码是否重复", notes = "检测地区编码是否重复")
+    @GetMapping("/check/{code}")
+    @SysLog("检测地区编码是否重复")
+    public R<Boolean> check(@RequestParam(required = false) Long id, @PathVariable String code) {
+        int count = areaService.count(Wraps.<Area>lbQ().eq(Area::getCode, code).ne(Area::getId, id));
+        return success(count > 0);
+    }
+
     /**
      * 新增地区表
      *
@@ -134,6 +143,8 @@ public class AreaController extends BaseController {
     @SysLog("删除地区表")
     public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
         areaService.removeByIdWithCache(ids);
+
+        //TODO 递归删除
         return success(true);
     }
 

@@ -1,15 +1,15 @@
 package com.xxl.job.core.thread;
 
-import java.util.concurrent.TimeUnit;
-
+import cn.hutool.core.convert.Convert;
 import com.xxl.job.core.biz.AdminBiz;
 import com.xxl.job.core.biz.model.RegistryParam;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
 import com.xxl.job.core.executor.XxlJobExecutor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by xuxueli on 17/3/2.
@@ -25,7 +25,9 @@ public class ExecutorRegistryThread /*extends Thread*/ {
         return instance;
     }
 
-    public void start(final String appName, final String address) {
+    private static long REGISTRY_LAZY = 10000;
+
+    public void start(final String appName, final String address, final String registryLazy) {
 
         // valid
         if (appName == null || appName.trim().length() == 0) {
@@ -37,9 +39,22 @@ public class ExecutorRegistryThread /*extends Thread*/ {
             return;
         }
 
+        REGISTRY_LAZY = Convert.toLong(registryLazy, 10000L);
+
         registryThread = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                // 首次主次延迟 REGISTRY_LAZY 毫秒， 防止尚未启动完成时，注册失败
+                if (REGISTRY_LAZY > 0) {
+                    try {
+                        Thread.sleep(REGISTRY_LAZY);
+                    } catch (InterruptedException e) {
+                        logger.error(">>>>>>>>>>> xxl-job 首次注册延迟失败, appName:{}, address:{}", new Object[]{appName, address});
+                    } finally {
+                        REGISTRY_LAZY = 0;
+                    }
+                }
 
                 // registry
                 while (!toStop) {

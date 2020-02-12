@@ -1,10 +1,10 @@
 package com.github.zuihou.authority.utils;
 
+import cn.hutool.core.convert.Convert;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
-import com.github.zuihou.utils.NumberHelper;
 
 /**
  * This is a Description
@@ -26,7 +26,7 @@ public class TimeUtils {
         if (time.length() == 1) {
             unit = 'd';
         }
-        Long lastTime = NumberHelper.longValueOf0(time.substring(0, time.length() - 1));
+        Long lastTime = Convert.toLong(time.substring(0, time.length() - 1));
 
         LocalDateTime passwordErrorLastTime = LocalDateTime.MAX;
         switch (unit) {

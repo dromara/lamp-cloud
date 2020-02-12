@@ -1,14 +1,8 @@
 package com.github.zuihou.file.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.dto.FileUpdateDTO;
 import com.github.zuihou.file.dto.FolderDTO;
@@ -17,26 +11,19 @@ import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.manager.FileRestManager;
 import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.log.annotation.SysLog;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.github.zuihou.utils.BeanPlusUtil;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -56,8 +43,6 @@ public class FileController extends BaseController {
     private FileService fileService;
     @Autowired
     private FileRestManager fileRestManager;
-    @Autowired
-    private DozerUtils dozerUtils;
 
     /**
      * 查询单个文件信息
@@ -171,7 +156,7 @@ public class FileController extends BaseController {
                 fileUpdateDTO.setSubmittedFileName(fileUpdateDTO.getSubmittedFileName() + "." + oldFile.getExt());
             }
         }
-        File file = dozerUtils.map2(fileUpdateDTO, File.class);
+        File file = BeanPlusUtil.toBean(fileUpdateDTO, File.class);
 
         fileService.updateById(file);
         return success(true);

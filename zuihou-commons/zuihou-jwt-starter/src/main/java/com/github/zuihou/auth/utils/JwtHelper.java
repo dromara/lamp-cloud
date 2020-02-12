@@ -1,25 +1,20 @@
 package com.github.zuihou.auth.utils;
 
+import cn.hutool.core.convert.Convert;
+import com.github.zuihou.context.BaseContextConstants;
+import com.github.zuihou.exception.BizException;
+import com.github.zuihou.exception.code.ExceptionCode;
+import com.github.zuihou.utils.DateUtils;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDateTime;
 
-import com.github.zuihou.context.BaseContextConstants;
-import com.github.zuihou.exception.BizException;
-import com.github.zuihou.exception.code.ExceptionCode;
-import com.github.zuihou.utils.DateUtils;
-import com.github.zuihou.utils.NumberHelper;
-import com.github.zuihou.utils.StrHelper;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import lombok.extern.slf4j.Slf4j;
+import static com.github.zuihou.utils.StrPool.EMPTY;
+import static com.github.zuihou.utils.StrPool.ZERO;
 
 /**
  * Created by ace on 2017/9/10.
@@ -64,15 +59,15 @@ public class JwtHelper {
         Jws<Claims> claimsJws = parserToken(token, pubKeyPath);
         Claims body = claimsJws.getBody();
         String strUserId = body.getSubject();
-        String account = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ACCOUNT));
-        String name = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_NAME));
+        String account = Convert.toStr(body.get(BaseContextConstants.JWT_KEY_ACCOUNT), EMPTY);
+        String name = Convert.toStr(body.get(BaseContextConstants.JWT_KEY_NAME), EMPTY);
 
-        String strOrgId = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_ORG_ID));
-        String strDepartmentId = StrHelper.getObjectValue(body.get(BaseContextConstants.JWT_KEY_STATION_ID));
-        Long userId = NumberHelper.longValueOf0(strUserId);
-        Long orgId = NumberHelper.longValueOf0(strOrgId);
-        Long departmentId = NumberHelper.longValueOf0(strDepartmentId);
-        return new JwtUserInfo(userId, account, name, orgId, departmentId);
+        String strOrgId = Convert.toStr(body.get(BaseContextConstants.JWT_KEY_ORG_ID), ZERO);
+        String strStationId = Convert.toStr(body.get(BaseContextConstants.JWT_KEY_STATION_ID), ZERO);
+        Long userId = Convert.toLong(strUserId, 0L);
+        Long orgId = Convert.toLong(strOrgId, 0L);
+        Long stationId = Convert.toLong(strStationId, 0L);
+        return new JwtUserInfo(userId, account, name, orgId, stationId);
     }
 
 

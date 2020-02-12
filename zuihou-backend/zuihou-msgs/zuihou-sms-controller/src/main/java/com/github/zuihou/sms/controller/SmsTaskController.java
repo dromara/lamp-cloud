@@ -7,7 +7,6 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.sms.dto.SmsSendTaskDTO;
 import com.github.zuihou.sms.dto.SmsTaskPageDTO;
@@ -18,6 +17,7 @@ import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.enumeration.SourceType;
 import com.github.zuihou.sms.service.SmsSendStatusService;
 import com.github.zuihou.sms.service.SmsTaskService;
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,13 +52,11 @@ public class SmsTaskController extends BaseController {
     @Autowired
     private SmsSendStatusService smsSendStatusService;
 
-    @Autowired
-    private DozerUtils dozer;
 
     @ApiOperation(value = "发送短信", notes = "短信发送，需要先在短信系统，或者短信数据库中进行配置供应商和模板")
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public R<SmsTask> save(@RequestBody SmsSendTaskDTO smsTaskDTO) {
-        SmsTask smsTask = dozer.map2(smsTaskDTO, SmsTask.class);
+        SmsTask smsTask = BeanPlusUtil.toBean(smsTaskDTO, SmsTask.class);
         smsTask.setSourceType(SourceType.SERVICE);
         smsTask.setTemplateParams(smsTaskDTO.getTemplateParam().toString());
         smsTaskService.saveTask(smsTask, smsTaskDTO.getCustomCode());
@@ -75,7 +73,7 @@ public class SmsTaskController extends BaseController {
     @PostMapping
     @SysLog("新增发送任务")
     public R<SmsTask> save(@RequestBody @Validated SmsTaskSaveDTO data) {
-        SmsTask smsTask = dozer.map(data, SmsTask.class);
+        SmsTask smsTask = BeanPlusUtil.toBean(data, SmsTask.class);
         smsTask.setSourceType(SourceType.APP);
         smsTask.setTemplateParams(data.getTemplateParam().toString());
         smsTaskService.saveTask(smsTask, null);
@@ -97,7 +95,7 @@ public class SmsTaskController extends BaseController {
     @SysLog("分页查询发送任务")
     public R<IPage<SmsTask>> page(SmsTaskPageDTO data) {
         IPage<SmsTask> page = getPage();
-        SmsTask task = dozer.map(data, SmsTask.class);
+        SmsTask task = BeanPlusUtil.toBean(data, SmsTask.class);
         // 构建值不为null的查询条件
         LbqWrapper<SmsTask> query = Wraps.lbQ(task)
                 .orderByDesc(SmsTask::getCreateTime);
@@ -129,7 +127,7 @@ public class SmsTaskController extends BaseController {
     @PutMapping
     @SysLog("修改发送任务")
     public R<SmsTask> update(@RequestBody @Validated(SuperEntity.Update.class) SmsTaskUpdateDTO data) {
-        SmsTask smsTask = dozer.map(data, SmsTask.class);
+        SmsTask smsTask = BeanPlusUtil.toBean(data, SmsTask.class);
         smsTask.setSourceType(SourceType.APP);
         smsTask.setTemplateParams(data.getTemplateParam().toString());
         smsTaskService.update(smsTask);

@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-import java.util.List;
-
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.SystemApiMapper;
 import com.github.zuihou.authority.dto.auth.SystemApiSaveDTO;
@@ -10,12 +9,11 @@ import com.github.zuihou.authority.entity.auth.SystemApi;
 import com.github.zuihou.authority.service.auth.SystemApiService;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
-
-import cn.hutool.core.collection.CollUtil;
+import com.github.zuihou.utils.BeanPlusUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -29,8 +27,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class SystemApiServiceImpl extends ServiceImpl<SystemApiMapper, SystemApi> implements SystemApiService {
-    @Autowired
-    private DozerUtils dozer;
 
     @Override
     public Boolean batchSave(SystemApiScanSaveDTO data) {
@@ -41,7 +37,7 @@ public class SystemApiServiceImpl extends ServiceImpl<SystemApiMapper, SystemApi
 
         list.forEach((dto) -> {
             try {
-                SystemApi systemApi = dozer.map(dto, SystemApi.class);
+                SystemApi systemApi = BeanPlusUtil.toBean(dto, SystemApi.class);
                 SystemApi save = this.getApi(dto.getCode());
                 if (save == null) {
                     systemApi.setIsOpen(false);

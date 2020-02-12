@@ -1,7 +1,9 @@
 package com.github.zuihou.authority.dto.auth;
 
 import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
+import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,6 +14,8 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+import static com.github.zuihou.common.constant.InjectionFieldConstants.*;
+
 /**
  * <p>
  * 实体类
@@ -19,7 +23,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author zuihou
- * @since 2019-11-04
+ * @since 2020-02-12
  */
 @Data
 @NoArgsConstructor
@@ -33,8 +37,6 @@ public class UserSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键")
-    private Long id;
     /**
      * 账号
      */
@@ -52,15 +54,21 @@ public class UserSaveDTO implements Serializable {
     /**
      * 组织ID
      * #c_core_org
+     *
+     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
      */
     @ApiModelProperty(value = "组织ID")
+    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD)
     private RemoteData<Long, Org> org;
     /**
      * 岗位ID
      * #c_core_station
+     *
+     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Station>
      */
     @ApiModelProperty(value = "岗位ID")
-    private RemoteData<Long, com.github.zuihou.authority.entity.core.Station> station;
+    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD)
+    private RemoteData<Long, Station> station;
     /**
      * 邮箱
      */
@@ -80,9 +88,10 @@ public class UserSaveDTO implements Serializable {
     @ApiModelProperty(value = "性别")
     private Sex sex;
     /**
-     * 启用状态 1启用 0禁用
+     * 状态
+     * 1启用 0禁用
      */
-    @ApiModelProperty(value = "启用状态 1启用 0禁用")
+    @ApiModelProperty(value = "状态")
     private Boolean status;
     /**
      * 头像
@@ -90,6 +99,33 @@ public class UserSaveDTO implements Serializable {
     @ApiModelProperty(value = "头像")
     @Length(max = 255, message = "头像长度不能超过255")
     private String avatar;
+    /**
+     * 民族
+     *
+     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
+     */
+    @ApiModelProperty(value = "民族")
+    @Length(max = 20, message = "民族长度不能超过20")
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> nation;
+    /**
+     * 学历
+     *
+     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
+     */
+    @ApiModelProperty(value = "学历")
+    @Length(max = 20, message = "学历长度不能超过20")
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> education;
+    /**
+     * 职位状态
+     *
+     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
+     */
+    @ApiModelProperty(value = "职位状态")
+    @Length(max = 20, message = "职位状态长度不能超过20")
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> positionStatus;
     /**
      * 工作描述
      * 比如：  市长、管理员、局长等等   用于登陆展示

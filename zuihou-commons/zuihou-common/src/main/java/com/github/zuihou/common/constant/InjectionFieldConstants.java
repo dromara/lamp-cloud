@@ -56,6 +56,7 @@ public abstract class InjectionFieldConstants {
      * 用户 查询方法
      */
     public static final String USER_ID_METHOD = "findUserByIds";
+    public static final String USER_ID_NAME_METHOD = "findUserNameByIds";
 
 
     /**

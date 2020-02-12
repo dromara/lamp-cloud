@@ -13,8 +13,8 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -45,8 +45,6 @@ public class SystemApiController extends BaseController {
 
     @Autowired
     private SystemApiService systemApiService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询API接口
@@ -107,7 +105,7 @@ public class SystemApiController extends BaseController {
     @PostMapping
     @SysLog("新增API接口")
     public R<SystemApi> save(@RequestBody @Validated SystemApiSaveDTO data) {
-        SystemApi systemApi = dozer.map(data, SystemApi.class);
+        SystemApi systemApi = BeanPlusUtil.toBean(data, SystemApi.class);
         systemApi.setIsPersist(false);
         if (StrUtil.isEmpty(systemApi.getCode())) {
             systemApi.setCode(DigestUtils.md5Hex(systemApi.getServiceId() + systemApi.getPath()));
@@ -127,7 +125,7 @@ public class SystemApiController extends BaseController {
     @PutMapping
     @SysLog("修改API接口")
     public R<SystemApi> update(@RequestBody @Validated(SuperEntity.Update.class) SystemApiUpdateDTO data) {
-        SystemApi systemApi = dozer.map(data, SystemApi.class);
+        SystemApi systemApi = BeanPlusUtil.toBean(data, SystemApi.class);
         systemApiService.updateById(systemApi);
         return success(systemApi);
     }
