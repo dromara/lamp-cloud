@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * 租户信息解析器
  * 用于将请求头中的租户编码和数据库名 封装到当前请求的线程变量中
  *
- * @author tyh
+ * @author zuihou
  * @date 2019-06-20 22:22
  */
 @Slf4j
