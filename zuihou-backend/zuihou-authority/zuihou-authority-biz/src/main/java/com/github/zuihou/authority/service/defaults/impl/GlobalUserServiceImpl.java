@@ -1,8 +1,6 @@
 package com.github.zuihou.authority.service.defaults.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.defaults.GlobalUserMapper;
 import com.github.zuihou.authority.dto.defaults.GlobalUserSaveDTO;
@@ -15,15 +13,16 @@ import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.defaults.GlobalUserService;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.dozer.DozerUtils;
+import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.StrHelper;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.github.zuihou.utils.BizAssert.isTrue;
 
@@ -44,8 +43,6 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
     private UserService userService;
     @Autowired
     private UserRoleService userRoleService;
-    @Autowired
-    private DozerUtils dozer;
 
     @Override
     public Boolean check(String tenantCode, String account) {
@@ -71,13 +68,13 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
         isTrue(check(data.getTenantCode(), data.getAccount()), "账号已经存在");
 
         String md5Password = DigestUtils.md5Hex(data.getPassword());
-        GlobalUser globalAccount = dozer.map(data, GlobalUser.class);
+        GlobalUser globalAccount = BeanPlusUtil.toBean(data, GlobalUser.class);
         // defaults 库
         globalAccount.setPassword(md5Password);
         save(globalAccount);
 
         // 1，保存租户用户 // 租户库
-        User user = dozer.map(data, User.class);
+        User user = BeanPlusUtil.toBean(data, User.class);
         user.setId(globalAccount.getId());
         user.setPassword(md5Password)
                 .setName(StrHelper.getOrDef(data.getName(), data.getAccount()))
@@ -108,8 +105,8 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
             BizAssert.equals(data.getPassword(), data.getConfirmPassword(), "2次输入的密码不一致");
         }
 
-        GlobalUser globalUser = dozer.map(data, GlobalUser.class);
-        User user = dozer.map(data, User.class);
+        GlobalUser globalUser = BeanPlusUtil.toBean(data, GlobalUser.class);
+        User user = BeanPlusUtil.toBean(data, User.class);
         if (StrUtil.isNotBlank(data.getPassword())) {
             String md5Password = DigestUtils.md5Hex(data.getPassword());
             globalUser.setPassword(md5Password);

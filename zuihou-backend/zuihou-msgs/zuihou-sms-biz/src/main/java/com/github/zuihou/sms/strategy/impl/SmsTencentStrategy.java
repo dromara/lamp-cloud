@@ -1,10 +1,6 @@
 package com.github.zuihou.sms.strategy.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+import cn.hutool.core.convert.Convert;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.qcloudsms.SmsSingleSender;
@@ -12,10 +8,13 @@ import com.github.qcloudsms.SmsSingleSenderResult;
 import com.github.zuihou.sms.enumeration.ProviderType;
 import com.github.zuihou.sms.strategy.domain.SmsDO;
 import com.github.zuihou.sms.strategy.domain.SmsResult;
-import com.github.zuihou.utils.NumberHelper;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 腾讯发送短信实现类
@@ -71,7 +70,7 @@ public class SmsTencentStrategy extends AbstractSmsStrategy {
     protected SmsResult send(SmsDO smsDO) {
         try {
             //初始化单发
-            SmsSingleSender singleSender = new SmsSingleSender(NumberHelper.intValueOf0(smsDO.getAppId()), smsDO.getAppSecret());
+            SmsSingleSender singleSender = new SmsSingleSender(Convert.toInt(smsDO.getAppId(), 0), smsDO.getAppSecret());
 
             String paramStr = smsDO.getTemplateParams();
 
@@ -85,7 +84,7 @@ public class SmsTencentStrategy extends AbstractSmsStrategy {
             }
 
             SmsSingleSenderResult singleSenderResult = singleSender.sendWithParam("86", smsDO.getPhone(),
-                    NumberHelper.intValueOf0(smsDO.getTemplateCode()), paramList, smsDO.getSignName(), "", "");
+                    Convert.toInt(smsDO.getTemplateCode()), paramList, smsDO.getSignName(), "", "");
             log.info("tencent result={}", singleSenderResult.toString());
             return SmsResult.build(ProviderType.TENCENT, String.valueOf(singleSenderResult.result),
                     singleSenderResult.sid, singleSenderResult.ext,

@@ -1,14 +1,13 @@
 package com.github.zuihou;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.zuihou.utils.NumberHelper;
-
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is a Description
@@ -37,7 +36,7 @@ public class NoBootTest {
         list.add(com.github.zuihou.file.entity.File.builder().id(2L).build());
         list.add(com.github.zuihou.file.entity.File.builder().id(5L).build());
 
-        list.sort((f1, f2) -> NumberHelper.intValueOf0(f2.getId()) - NumberHelper.intValueOf0(f1.getId()));
+        list.sort((f1, f2) -> Convert.toInt(f2.getId()) - Convert.toInt(f1.getId()));
 
 
         list.forEach(System.out::println);

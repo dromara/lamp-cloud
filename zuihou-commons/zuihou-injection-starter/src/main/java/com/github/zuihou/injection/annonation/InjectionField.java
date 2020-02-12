@@ -32,6 +32,7 @@ public @interface InjectionField {
      * 如： @InjectionField(api="userServiceImpl") 等价于 @InjectionField(feign=UserService.class)
      * 如： @InjectionField(api="userController") 等价于 @InjectionField(feign=UserApi.class)
      * <p>
+     * 注意：若使用feignclient调用， 则一定要加上 @FeignClient(qualifier = "xxxApi"), 否则会注入失败
      *
      * @return
      */
@@ -43,6 +44,8 @@ public @interface InjectionField {
      * api()  和 feign() 任选其一,  使用 api时，请填写实现类， 使用feign时，填写接口即可
      * 如： @InjectionField(api="userServiceImpl") 等价于 @InjectionField(feign=UserService.class)
      * 如： @InjectionField(api="userController") 等价于 @InjectionField(feign=UserApi.class)
+     * <p>
+     * 注意： 本系统中，最好不要使用feign 方式调用，否则 entity 会依赖 api 模块，造成依赖冲突！
      *
      * @return
      */

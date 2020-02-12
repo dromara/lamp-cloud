@@ -1,9 +1,9 @@
 package com.github.zuihou.database.parsers;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
-import com.github.zuihou.utils.StrHelper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
@@ -44,7 +44,7 @@ public class TenantContextHandlerInterceptor extends HandlerInterceptorAdapter {
         if (StrUtil.isEmpty(value)) {
             return StrUtil.EMPTY;
         }
-        return StrHelper.decode(value);
+        return URLUtil.decode(value);
     }
 
     @Override

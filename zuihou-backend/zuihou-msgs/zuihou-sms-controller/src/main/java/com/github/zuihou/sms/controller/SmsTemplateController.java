@@ -1,21 +1,18 @@
 package com.github.zuihou.sms.controller;
 
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.sms.dto.SmsTemplateSaveDTO;
 import com.github.zuihou.sms.dto.SmsTemplateUpdateDTO;
 import com.github.zuihou.sms.entity.SmsTemplate;
 import com.github.zuihou.sms.service.SmsTemplateService;
-
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,15 +20,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -51,8 +42,6 @@ public class SmsTemplateController extends BaseController {
 
     @Autowired
     private SmsTemplateService smsTemplateService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询短信模板
@@ -99,7 +88,7 @@ public class SmsTemplateController extends BaseController {
     @PostMapping
     @SysLog("新增短信模板")
     public R<SmsTemplate> save(@RequestBody @Validated SmsTemplateSaveDTO data) {
-        SmsTemplate smsTemplate = dozer.map(data, SmsTemplate.class);
+        SmsTemplate smsTemplate = BeanPlusUtil.toBean(data, SmsTemplate.class);
         smsTemplateService.saveTemplate(smsTemplate);
         return success(smsTemplate);
     }
@@ -114,7 +103,7 @@ public class SmsTemplateController extends BaseController {
     @PutMapping
     @SysLog("修改短信模板")
     public R<SmsTemplate> update(@RequestBody @Validated(SuperEntity.Update.class) SmsTemplateUpdateDTO data) {
-        SmsTemplate smsTemplate = dozer.map(data, SmsTemplate.class);
+        SmsTemplate smsTemplate = BeanPlusUtil.toBean(data, SmsTemplate.class);
         smsTemplateService.updateTemplate(smsTemplate);
         return success(smsTemplate);
     }

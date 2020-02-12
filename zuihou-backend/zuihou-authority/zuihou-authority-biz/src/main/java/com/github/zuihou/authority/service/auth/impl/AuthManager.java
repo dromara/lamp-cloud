@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.auth.server.utils.JwtTokenServerUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
@@ -21,12 +22,11 @@ import com.github.zuihou.authority.utils.TimeUtils;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.properties.DatabaseProperties;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
 import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
-import com.github.zuihou.utils.NumberHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +55,6 @@ public class AuthManager {
     private ResourceService resourceService;
     @Autowired
     private TenantService tenantService;
-    @Autowired
-    private DozerUtils dozer;
     @Autowired
     private DatabaseProperties databaseProperties;
 
@@ -88,7 +86,7 @@ public class AuthManager {
         Token token = this.jwtTokenServerUtils.generateUserToken(userInfo, null);
         log.info("token={}", token.getToken());
 
-        UserDTO dto = this.dozer.map(user, UserDTO.class);
+        UserDTO dto = BeanPlusUtil.toBean(user, UserDTO.class);
         dto.setStatus(true).setOrg(new RemoteData<>(0L)).setStation(new RemoteData<>(0L)).setAvatar("").setSex(Sex.M).setWorkDescribe("心情很美丽");
         return R.success(LoginDTO.builder().user(dto).token(token).build());
     }
@@ -125,7 +123,7 @@ public class AuthManager {
         List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
 
         log.info("account={}", account);
-        return R.success(LoginDTO.builder().user(this.dozer.map(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
+        return R.success(LoginDTO.builder().user(BeanPlusUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
     }
 
     /**
@@ -150,7 +148,7 @@ public class AuthManager {
         List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
 
         log.info("account={}", account);
-        return R.success(LoginDTO.builder().user(this.dozer.map(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
+        return R.success(LoginDTO.builder().user(BeanPlusUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
     }
 
     /**
@@ -206,8 +204,8 @@ public class AuthManager {
         isTrue(user.getStatus(), "用户被禁用，请联系管理员！");
 
         // 用户锁定
-        Integer maxPasswordErrorNum = NumberHelper.getOrDef(tenant.getPasswordErrorNum(), 0);
-        Integer passwordErrorNum = NumberHelper.getOrDef(user.getPasswordErrorNum(), 0);
+        Integer maxPasswordErrorNum = Convert.toInt(tenant.getPasswordErrorNum(), 0);
+        Integer passwordErrorNum = Convert.toInt(user.getPasswordErrorNum(), 0);
         if (maxPasswordErrorNum > 0 && passwordErrorNum > maxPasswordErrorNum) {
             log.info("当前错误次数{}, 最大次数:{}", passwordErrorNum, maxPasswordErrorNum);
 

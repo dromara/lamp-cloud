@@ -1,7 +1,7 @@
 package com.github.zuihou.zuul.filter.pre;
 
-import javax.servlet.http.HttpServletRequest;
-
+import cn.hutool.core.util.URLUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import com.github.zuihou.auth.client.properties.AuthClientProperties;
 import com.github.zuihou.auth.client.utils.JwtTokenClientUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
@@ -9,16 +9,15 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.filter.BaseFilter;
-import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.context.RequestContext;
-
-import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
@@ -137,7 +136,7 @@ public class TokenContextFilter extends BaseFilter {
             return;
         }
         String valueStr = value.toString();
-        String valueEncode = StrHelper.encode(valueStr);
+        String valueEncode = URLUtil.encode(valueStr);
         ctx.addZuulRequestHeader(name, valueEncode);
     }
 

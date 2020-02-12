@@ -7,13 +7,12 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.order.dto.OrderSaveDTO;
 import com.github.zuihou.order.dto.OrderUpdateDTO;
 import com.github.zuihou.order.entity.Order;
 import com.github.zuihou.order.service.OrderService;
-
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,14 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -48,8 +40,6 @@ public class OrderController extends BaseController {
 
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询订单
@@ -95,7 +85,7 @@ public class OrderController extends BaseController {
     @PostMapping
     @SysLog("新增订单")
     public R<Order> save(@RequestBody @Validated OrderSaveDTO data) {
-        Order order = dozer.map(data, Order.class);
+        Order order = BeanPlusUtil.toBean(data, Order.class);
         orderService.save(order);
         return success(order);
     }
@@ -110,7 +100,7 @@ public class OrderController extends BaseController {
     @PutMapping
     @SysLog("修改订单")
     public R<Order> update(@RequestBody @Validated(SuperEntity.Update.class) OrderUpdateDTO data) {
-        Order order = dozer.map(data, Order.class);
+        Order order = BeanPlusUtil.toBean(data, Order.class);
         orderService.updateById(order);
         return success(order);
     }

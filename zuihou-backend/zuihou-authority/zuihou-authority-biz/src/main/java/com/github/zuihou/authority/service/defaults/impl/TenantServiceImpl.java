@@ -15,10 +15,9 @@ import com.github.zuihou.authority.service.defaults.InitSystemService;
 import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.dozer.DozerUtils;
+import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.StrHelper;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +38,6 @@ import static com.github.zuihou.utils.BizAssert.isFalse;
 @Service
 public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> implements TenantService {
 
-    @Autowired
-    private DozerUtils dozer;
     @Autowired
     private GlobalUserService globalUserService;
     @Autowired
@@ -64,14 +61,14 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         isFalse(userService.check(data.getAccount()), "账号已经存在");
 
         // 1， 保存租户 (默认库)
-        Tenant tenant = dozer.map(data, Tenant.class);
+        Tenant tenant = BeanPlusUtil.toBean(data, Tenant.class);
         tenant.setStatus(TenantStatusEnum.NORMAL);
         tenant.setType(TenantTypeEnum.CREATE);
         // defaults 库
         super.save(tenant);
 
         // 2， 保存全局数据(默认库)
-        GlobalUser globalAccount = dozer.map(data, GlobalUser.class);
+        GlobalUser globalAccount = BeanPlusUtil.toBean(data, GlobalUser.class);
         globalAccount.setTenantCode(tenant.getCode());
         // defaults 库
         globalUserService.save(globalAccount);
@@ -80,7 +77,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         initSystemService.init(tenant.getCode());
 
         // 4，保存租户用户 // 租户库
-        User user = dozer.map(data, User.class);
+        User user = BeanPlusUtil.toBean(data, User.class);
         user.setId(globalAccount.getId());
         user.setPassword(DigestUtils.md5Hex(data.getPassword()));
 //            user.setPasswordExpireTime(LocalDateTime.now().plusDays(authorityServerProperties.getPasswordExpire()));
@@ -98,7 +95,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         isFalse(check(data.getCode()), "编码重复，请重新输入");
 
         // 1， 保存租户 (默认库)
-        Tenant tenant = dozer.map(data, Tenant.class);
+        Tenant tenant = BeanPlusUtil.toBean(data, Tenant.class);
         tenant.setStatus(TenantStatusEnum.NORMAL);
         tenant.setType(TenantTypeEnum.CREATE);
         // defaults 库

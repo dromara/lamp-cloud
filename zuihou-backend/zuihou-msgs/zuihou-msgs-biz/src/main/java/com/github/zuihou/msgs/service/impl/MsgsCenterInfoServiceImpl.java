@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.msgs.dao.MsgsCenterInfoMapper;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoPageResultDTO;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoQueryDTO;
@@ -14,6 +13,7 @@ import com.github.zuihou.msgs.entity.MsgsCenterInfo;
 import com.github.zuihou.msgs.entity.MsgsCenterInfoReceive;
 import com.github.zuihou.msgs.service.MsgsCenterInfoReceiveService;
 import com.github.zuihou.msgs.service.MsgsCenterInfoService;
+import com.github.zuihou.utils.BeanPlusUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,6 @@ import static com.github.zuihou.utils.StrHelper.getOrDef;
 @Service
 public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper, MsgsCenterInfo> implements MsgsCenterInfoService {
     @Autowired
-    private DozerUtils dozer;
-    @Autowired
     private MsgsCenterInfoReceiveService msgsCenterInfoReceiveService;
 
     @Override
@@ -49,7 +47,7 @@ public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper,
 
     @Override
     public MsgsCenterInfo saveMsgs(MsgsCenterInfoSaveDTO data) {
-        MsgsCenterInfo info = dozer.map(data.getMsgsCenterInfoDTO(), MsgsCenterInfo.class);
+        MsgsCenterInfo info = BeanPlusUtil.toBean(data.getMsgsCenterInfoDTO(), MsgsCenterInfo.class);
         info.setTitle(getOrDef(info.getTitle(), info.getContent()));
         info.setAuthor(getOrDef(info.getAuthor(), BaseContextHandler.getName()));
         super.save(info);

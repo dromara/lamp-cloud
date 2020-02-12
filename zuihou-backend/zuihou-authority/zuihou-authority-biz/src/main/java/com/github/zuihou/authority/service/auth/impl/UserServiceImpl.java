@@ -148,7 +148,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void updateLoginTime(String account) {
-//        baseMapper.update(User.builder().lastLoginTime(LocalDateTime.now()).build(), Wraps.<User>lbQ().eq(User::getAccount, account));
         baseMapper.updateLastLoginTime(account, LocalDateTime.now());
     }
 

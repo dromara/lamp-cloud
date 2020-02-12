@@ -18,6 +18,9 @@
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
         <result column="status" jdbcType="BIT" property="status"/>
         <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="nation" jdbcType="VARCHAR" property="nation"/>
+        <result column="education" jdbcType="VARCHAR" property="education"/>
+        <result column="position_status" jdbcType="VARCHAR" property="positionStatus"/>
         <result column="work_describe" jdbcType="VARCHAR" property="workDescribe"/>
         <result column="password_error_last_time" jdbcType="TIMESTAMP" property="passwordErrorLastTime"/>
         <result column="password_error_num" jdbcType="INTEGER" property="passwordErrorNum"/>
@@ -28,8 +31,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time,
-        account, name, org_id, station_id, email, mobile, sex, status, avatar, work_describe, password_error_last_time, password_error_num, password_expire_time, password, last_login_time
+        id, create_user, create_time, update_user, update_time, 
+        account, name, org_id, station_id, email, mobile, sex, status, avatar, nation, education, position_status, work_describe, password_error_last_time, password_error_num, password_expire_time, password, last_login_time
     </sql>
 
 </mapper>

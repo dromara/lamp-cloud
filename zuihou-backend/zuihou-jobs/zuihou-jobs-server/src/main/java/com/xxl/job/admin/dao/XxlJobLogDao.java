@@ -1,20 +1,20 @@
 package com.xxl.job.admin.dao;
 
+import com.baomidou.mybatisplus.annotation.SqlParser;
+import com.xxl.job.admin.core.model.XxlJobLog;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import com.xxl.job.admin.core.model.XxlJobLog;
-
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * job log
  *
  * @author xuxueli 2016-1-12 18:03:06
  */
-//@Mapper
+@SqlParser(filter = true)
 @Repository
 public interface XxlJobLogDao {
 

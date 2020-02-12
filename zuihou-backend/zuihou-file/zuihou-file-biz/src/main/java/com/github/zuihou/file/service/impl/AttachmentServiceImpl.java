@@ -9,7 +9,6 @@ import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.properties.DatabaseProperties;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.file.biz.FileBiz;
 import com.github.zuihou.file.dao.AttachmentMapper;
@@ -24,6 +23,7 @@ import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.service.AttachmentService;
 import com.github.zuihou.file.strategy.FileStrategy;
+import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -54,8 +54,6 @@ import java.util.stream.Collectors;
 public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachment> implements AttachmentService {
     @Autowired
     private DatabaseProperties databaseProperties;
-    @Autowired
-    private DozerUtils dozer;
     @Resource
     private FileStrategy fileStrategy;
     @Autowired
@@ -65,7 +63,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
 
     @Override
     public IPage<Attachment> page(IPage<Attachment> page, FilePageReqDTO data) {
-        Attachment attachment = dozer.map(data, Attachment.class);
+        Attachment attachment = BeanPlusUtil.toBean(data, Attachment.class);
 
         // ${ew.customSqlSegment} 语法一定要手动eq like 等 不能用lbQ!
         LbqWrapper<Attachment> wrapper = Wraps.<Attachment>lbQ()
@@ -86,7 +84,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
         }
         File file = fileStrategy.upload(multipartFile);
 
-        Attachment attachment = dozer.map2(file, Attachment.class);
+        Attachment attachment = BeanPlusUtil.toBean(file, Attachment.class);
 
         attachment.setOrgId(BaseContextHandler.getOrgId());
         attachment.setBizId(bizId);
@@ -105,7 +103,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
             super.save(attachment);
         }
 
-        AttachmentDTO dto = dozer.map2(attachment, AttachmentDTO.class);
+        AttachmentDTO dto = BeanPlusUtil.toBean(attachment, AttachmentDTO.class);
         dto.setDownloadUrlByBizId(fileProperties.getDownByBizId(bizId));
         dto.setDownloadUrlById(fileProperties.getDownById(file.getId()));
         dto.setDownloadUrlByUrl(fileProperties.getDownByUrl(file.getUrl(), file.getSubmittedFileName()));

@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.api.hystrix;
 
 import com.github.zuihou.authority.api.DictionaryItemApi;
-import com.github.zuihou.base.R;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -17,10 +16,10 @@ import java.util.Set;
  */
 @Component
 public class DictionaryItemApiFallback implements DictionaryItemApi {
-    @Override
-    public R<Map<String, Map<String, String>>> map(String[] codes) {
-        return R.timeout();
-    }
+//    @Override
+//    public R<Map<String, Map<String, String>>> map(String[] codes) {
+//        return R.timeout();
+//    }
 
     @Override
     public Map<Serializable, Object> findDictionaryItem(Set<Serializable> codes) {

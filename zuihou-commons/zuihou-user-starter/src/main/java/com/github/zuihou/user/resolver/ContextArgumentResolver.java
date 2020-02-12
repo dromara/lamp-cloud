@@ -1,13 +1,12 @@
 package com.github.zuihou.user.resolver;
 
+import cn.hutool.core.convert.Convert;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.user.annotation.LoginUser;
 import com.github.zuihou.user.feign.UserQuery;
 import com.github.zuihou.user.feign.UserResolveApi;
 import com.github.zuihou.user.model.SysUser;
-import com.github.zuihou.utils.NumberHelper;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -73,7 +72,7 @@ public class ContextArgumentResolver implements HandlerMethodArgumentResolver {
             boolean isFull = loginUser.isFull();
 
             if (isFull || loginUser.isStation() || loginUser.isOrg() || loginUser.isRoles()) {
-                R<SysUser> result = userResolveApi.getById(NumberHelper.longValueOf0(userId),
+                R<SysUser> result = userResolveApi.getById(Convert.toLong(userId),
                         UserQuery.builder()
                                 .full(isFull)
                                 .org(loginUser.isOrg())
