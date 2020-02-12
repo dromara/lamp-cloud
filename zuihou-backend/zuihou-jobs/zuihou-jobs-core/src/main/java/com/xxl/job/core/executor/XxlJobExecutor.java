@@ -1,12 +1,5 @@
 package com.xxl.job.core.executor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.xxl.job.core.biz.AdminBiz;
 import com.xxl.job.core.biz.ExecutorBiz;
 import com.xxl.job.core.biz.impl.ExecutorBizImpl;
@@ -25,9 +18,11 @@ import com.xxl.rpc.remoting.provider.XxlRpcProviderFactory;
 import com.xxl.rpc.serialize.Serializer;
 import com.xxl.rpc.util.IpUtil;
 import com.xxl.rpc.util.NetUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 执行器
@@ -47,6 +42,7 @@ public class XxlJobExecutor {
     private String appName;
     private String ip;
     private int port;
+    private long registryLazy;
     private String accessToken;
     private String logPath;
     private int logRetentionDays;
@@ -110,6 +106,10 @@ public class XxlJobExecutor {
         this.port = port;
     }
 
+    public void setRegistryLazy(long registryLazy) {
+        this.registryLazy = registryLazy;
+    }
+
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
@@ -141,7 +141,7 @@ public class XxlJobExecutor {
         // init executor-server
         port = port > 0 ? port : NetUtil.findAvailablePort(9999);
         ip = (ip != null && ip.trim().length() > 0) ? ip : IpUtil.getIp();
-        initRpcProvider(ip, port, appName, accessToken);
+        initRpcProvider(ip, port, appName, accessToken, registryLazy);
     }
 
     public void destroy() {
@@ -189,7 +189,7 @@ public class XxlJobExecutor {
         }
     }
 
-    private void initRpcProvider(String ip, int port, String appName, String accessToken) throws Exception {
+    private void initRpcProvider(String ip, int port, String appName, String accessToken, long registryLazy) throws Exception {
         // init invoker factory
         xxlRpcInvokerFactory = new XxlRpcInvokerFactory();
 
@@ -198,6 +198,7 @@ public class XxlJobExecutor {
         Map<String, String> serviceRegistryParam = new HashMap<String, String>();
         serviceRegistryParam.put("appName", appName);
         serviceRegistryParam.put("address", address);
+        serviceRegistryParam.put("registryLazy", String.valueOf(registryLazy));
 
         xxlRpcProviderFactory = new XxlRpcProviderFactory();
         xxlRpcProviderFactory.initConfig(NetEnum.JETTY, Serializer.SerializeEnum.HESSIAN.getSerializer(), ip, port, accessToken, ExecutorServiceRegistry.class, serviceRegistryParam);
@@ -230,7 +231,7 @@ public class XxlJobExecutor {
         @Override
         public void start(Map<String, String> param) {
             // start registry
-            ExecutorRegistryThread.getInstance().start(param.get("appName"), param.get("address"));
+            ExecutorRegistryThread.getInstance().start(param.get("appName"), param.get("address"), param.get("registryLazy"));
         }
 
         @Override

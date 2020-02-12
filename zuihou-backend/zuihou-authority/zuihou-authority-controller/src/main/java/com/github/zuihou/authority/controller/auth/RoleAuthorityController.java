@@ -1,16 +1,12 @@
 package com.github.zuihou.authority.controller.auth;
 
 
-import java.util.List;
-
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -41,8 +39,6 @@ public class RoleAuthorityController extends BaseController {
 
     @Autowired
     private RoleAuthorityService roleAuthorityService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 查询指定角色关联的菜单和资源

@@ -1,10 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.RoleAuthorityMapper;
 import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
@@ -17,12 +13,15 @@ import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.utils.NumberHelper;
-
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -106,7 +105,7 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
 
         // 清理
         List<Long> userIdList = userRoleService.listObjs(Wraps.<UserRole>lbQ().select(UserRole::getUserId).eq(UserRole::getRoleId, dto.getRoleId()),
-                (userId) -> NumberHelper.longValueOf0(userId));
+                (userId) -> Convert.toLong(userId, 0L));
         userIdList.stream().collect(Collectors.toSet()).forEach((userId) -> {
             log.info("清理了 {} 的菜单/资源", userId);
             cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));

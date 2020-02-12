@@ -1,8 +1,7 @@
 package com.github.zuihou.context;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.github.zuihou.utils.NumberHelper;
-import com.github.zuihou.utils.StrHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class BaseContextHandler {
 
     public static Boolean isBoot() {
         Object value = get(BaseContextConstants.IS_BOOT);
-        return NumberHelper.boolValueOf0(value);
+        return Convert.toBool(value);
     }
 
     /**
@@ -74,7 +73,7 @@ public class BaseContextHandler {
      */
     public static Long getUserId() {
         Object value = get(BaseContextConstants.JWT_KEY_USER_ID);
-        return NumberHelper.longValueOf0(value);
+        return Convert.toLong(value, 0L);
     }
 
     /**
@@ -87,7 +86,7 @@ public class BaseContextHandler {
     }
 
     public static void setUserId(String userId) {
-        setUserId(NumberHelper.longValueOf0(userId));
+        setUserId(Convert.toLong(userId, 0L));
     }
 
     /**
@@ -136,7 +135,7 @@ public class BaseContextHandler {
      */
     public static String getToken() {
         Object value = get(BaseContextConstants.TOKEN_NAME);
-        return StrHelper.getObjectValue(value);
+        return Convert.toStr(value);
     }
 
     public static void setToken(String token) {
@@ -145,7 +144,7 @@ public class BaseContextHandler {
 
     public static Long getOrgId() {
         Object value = get(BaseContextConstants.JWT_KEY_ORG_ID);
-        return NumberHelper.longValueOf0(value);
+        return Convert.toLong(value, 0L);
     }
 
     public static void setOrgId(String val) {
@@ -158,7 +157,7 @@ public class BaseContextHandler {
 
     public static Long getStationId() {
         Object value = get(BaseContextConstants.JWT_KEY_STATION_ID);
-        return NumberHelper.longValueOf0(value);
+        return Convert.toLong(value, 0L);
     }
 
     public static void setStationId(String val) {
@@ -171,7 +170,7 @@ public class BaseContextHandler {
 
     public static String getTenant() {
         Object value = get(BaseContextConstants.TENANT);
-        return StrHelper.getObjectValue(value);
+        return Convert.toStr(value);
     }
 
     public static void setTenant(String val) {
@@ -180,13 +179,13 @@ public class BaseContextHandler {
 
     public static String getDatabase(String tenant) {
         Object value = get(BaseContextConstants.DATABASE_NAME);
-        String objectValue = StrHelper.getObjectValue(value);
+        String objectValue = Convert.toStr(value);
         return objectValue + StrUtil.UNDERLINE + tenant;
     }
 
     public static String getDatabase() {
         Object value = get(BaseContextConstants.DATABASE_NAME);
-        return StrHelper.getObjectValue(value);
+        return Convert.toStr(value);
     }
 
     public static void setDatabase(String val) {

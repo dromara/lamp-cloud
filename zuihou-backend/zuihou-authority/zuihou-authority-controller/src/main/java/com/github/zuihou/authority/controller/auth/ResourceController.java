@@ -1,7 +1,5 @@
 package com.github.zuihou.authority.controller.auth;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.dto.auth.ResourceSaveDTO;
@@ -13,9 +11,8 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,15 +20,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -51,8 +42,6 @@ public class ResourceController extends BaseController {
 
     @Autowired
     private ResourceService resourceService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询资源
@@ -98,7 +87,7 @@ public class ResourceController extends BaseController {
     @PostMapping
     @SysLog("新增资源")
     public R<Resource> save(@RequestBody @Validated ResourceSaveDTO data) {
-        Resource resource = dozer.map(data, Resource.class);
+        Resource resource = BeanPlusUtil.toBean(data, Resource.class);
         resourceService.saveWithCache(resource);
         return success(resource);
     }
@@ -113,7 +102,7 @@ public class ResourceController extends BaseController {
     @PutMapping
     @SysLog("修改资源")
     public R<Resource> update(@RequestBody @Validated(SuperEntity.Update.class) ResourceUpdateDTO data) {
-        Resource resource = dozer.map(data, Resource.class);
+        Resource resource = BeanPlusUtil.toBean(data, Resource.class);
         resourceService.updateWithCache(resource);
         return success(resource);
     }

@@ -13,8 +13,8 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -46,8 +46,6 @@ public class DictionaryController extends BaseController {
     private DictionaryService dictionaryService;
     @Autowired
     private DictionaryItemService dictionaryItemService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询字典目录
@@ -93,7 +91,7 @@ public class DictionaryController extends BaseController {
     @PostMapping
     @SysLog("新增字典目录")
     public R<Dictionary> save(@RequestBody @Validated DictionarySaveDTO data) {
-        Dictionary dictionary = this.dozer.map(data, Dictionary.class);
+        Dictionary dictionary = BeanPlusUtil.toBean(data, Dictionary.class);
         this.dictionaryService.save(dictionary);
         return this.success(dictionary);
     }
@@ -108,7 +106,7 @@ public class DictionaryController extends BaseController {
     @PutMapping
     @SysLog("修改字典目录")
     public R<Dictionary> update(@RequestBody @Validated(SuperEntity.Update.class) DictionaryUpdateDTO data) {
-        Dictionary dictionary = this.dozer.map(data, Dictionary.class);
+        Dictionary dictionary = BeanPlusUtil.toBean(data, Dictionary.class);
         this.dictionaryService.updateById(dictionary);
         return this.success(dictionary);
     }

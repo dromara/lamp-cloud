@@ -8,12 +8,9 @@ import com.github.zuihou.scan.feign.SystemApiApiFallback;
 import com.github.zuihou.scan.model.SystemApiScanSaveDTO;
 import com.github.zuihou.scan.service.SystemApiScanService;
 import com.github.zuihou.utils.SpringUtils;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -45,10 +42,8 @@ public class ScanConfiguration {
     }
 
     @Configuration
-    //    @ConditionalOnProperty(name = "zuihou.scan.type", havingValue = "FEIGN", matchIfMissing = true)
     @ConditionalOnProperty(prefix = "zuihou.rabbitmq", name = "enabled", havingValue = "false", matchIfMissing = true)
     @EnableFeignClients(basePackageClasses = SystemApiApi.class)
-    @EnableAutoConfiguration(exclude = {RabbitAutoConfiguration.class})
     public static class ScanFeignConfiguration {
 
 
@@ -80,9 +75,7 @@ public class ScanConfiguration {
     /**
      * 使用队列时，消费者需要自行实现
      */
-//    @ConditionalOnProperty(name = "zuihou.scan.type", havingValue = "RABBIT")
     @ConditionalOnProperty(prefix = "zuihou.rabbitmq", name = "enabled", havingValue = "true")
-//    @ImportAutoConfiguration(value = {RabbitAutoConfiguration.class})
     public static class ScanRabbitConfiguration {
 
         @Bean("systemApiService")

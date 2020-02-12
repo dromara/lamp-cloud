@@ -1,5 +1,6 @@
 package com.github.zuihou.base;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -8,7 +9,6 @@ import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
 import com.github.zuihou.utils.AntiSqlFilter;
-import com.github.zuihou.utils.NumberHelper;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -146,11 +146,11 @@ public abstract class BaseController {
     }
 
     protected Integer getCurrent() {
-        return NumberHelper.intValueOf(request.getParameter(CURRENT), 1);
+        return Convert.toInt(request.getParameter(CURRENT), 1);
     }
 
     protected Integer getSize() {
-        return NumberHelper.intValueOf(request.getParameter(SIZE), DEFAULT_LIMIT);
+        return Convert.toInt(request.getParameter(SIZE), DEFAULT_LIMIT);
     }
 
     /**

@@ -11,8 +11,8 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,13 +23,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
 
 /**
  * <p>
@@ -49,61 +45,46 @@ public class DictionaryItemController extends BaseController {
 
     @Autowired
     private DictionaryItemService dictionaryItemService;
-    @Autowired
-    private DozerUtils dozer;
 
-    /**
-     * 根据字典编码查询字典条目的map集合
-     * <p>
-     * 将 List 转成 Map<String, Map<String, String>>
-     * key 是字典编码  value 是字典编码下的所有 字典条目。  字典条目的 key是条目编码， value是条目名称
-     * <p>
-     * eg:
-     * <p>
-     * list:
-     * <pre>
-     * dictionaryCode   dictionaryItemCode  name
-     * DIC_ZGXL         COLLEGE             本科
-     * DIC_ZGXL         BOSHI               博士
-     * ONLING_STATUS    WORKING             在职
-     * ONLING_STATUS    LEAVE               离职
-     * </pre>
-     * <p>
-     * 转成map：
-     * {
-     * "DIC_ZGXL": {
-     * "COLLEGE", "本科",
-     * "BOSHI", "博士",
-     * }
-     * "ONLING_STATUS": {
-     * "WORKING", "在职",
-     * "LEAVE", "离职",
-     * }
-     * }
-     *
-     * </p>
-     *
-     * @param codes 字典类型
-     * @return 查询结果
-     */
-    @ApiOperation(value = "根据字典编码查询字典条目的map集合", notes = "根据字典编码查询字典条目的map集合")
-    @GetMapping("/codes")
-    public R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes) {
-        return this.success(this.dictionaryItemService.map(codes));
-    }
-
-    @ApiOperation(value = "根据字典编码查询字典条目", notes = "根据字典编码查询字典条目")
-    @GetMapping
-    public R<Map<String, List<DictionaryItem>>> list(@RequestParam("codes[]") String[] codes) {
-        LbqWrapper<DictionaryItem> wrapper = Wraps.<DictionaryItem>lbQ()
-                .in(DictionaryItem::getDictionaryCode, codes).eq(DictionaryItem::getStatus, true)
-                .orderByAsc(DictionaryItem::getSortValue);
-        List<DictionaryItem> list = dictionaryItemService.list(wrapper);
-
-        //key 是字典编码
-        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
-        return this.success(typeMap);
-    }
+    //    /**
+//     * 根据字典编码查询字典条目的map集合
+//     * <p>
+//     * 将 List 转成 Map<String, Map<String, String>>
+//     * key 是字典编码  value 是字典编码下的所有 字典条目。  字典条目的 key是条目编码， value是条目名称
+//     * <p>
+//     * eg:
+//     * <p>
+//     * list:
+//     * <pre>
+//     * dictionaryCode   dictionaryItemCode  name
+//     * DIC_ZGXL         COLLEGE             本科
+//     * DIC_ZGXL         BOSHI               博士
+//     * ONLING_STATUS    WORKING             在职
+//     * ONLING_STATUS    LEAVE               离职
+//     * </pre>
+//     * <p>
+//     * 转成map：
+//     * {
+//     * "DIC_ZGXL": {
+//     * "COLLEGE", "本科",
+//     * "BOSHI", "博士",
+//     * }
+//     * "ONLING_STATUS": {
+//     * "WORKING", "在职",
+//     * "LEAVE", "离职",
+//     * }
+//     * }
+//     *
+//     * </p>
+//     *
+//     * @param codes 字典类型
+//     * @return 查询结果
+//     */
+//    @ApiOperation(value = "根据字典编码查询字典条目的map集合", notes = "根据字典编码查询字典条目的map集合")
+//    @GetMapping("/codes")
+//    public R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes) {
+//        return this.success(this.dictionaryItemService.map(codes));
+//    }
 
     /**
      * 分页查询字典项
@@ -152,7 +133,7 @@ public class DictionaryItemController extends BaseController {
     @PostMapping
     @SysLog("新增字典项")
     public R<DictionaryItem> save(@RequestBody @Validated DictionaryItemSaveDTO data) {
-        DictionaryItem dictionaryItem = this.dozer.map(data, DictionaryItem.class);
+        DictionaryItem dictionaryItem = BeanPlusUtil.toBean(data, DictionaryItem.class);
         this.dictionaryItemService.save(dictionaryItem);
         return this.success(dictionaryItem);
     }
@@ -167,7 +148,7 @@ public class DictionaryItemController extends BaseController {
     @PutMapping
     @SysLog("修改字典项")
     public R<DictionaryItem> update(@RequestBody @Validated(SuperEntity.Update.class) DictionaryItemUpdateDTO data) {
-        DictionaryItem dictionaryItem = this.dozer.map(data, DictionaryItem.class);
+        DictionaryItem dictionaryItem = BeanPlusUtil.toBean(data, DictionaryItem.class);
         this.dictionaryItemService.updateById(dictionaryItem);
         return this.success(dictionaryItem);
     }
@@ -193,5 +174,18 @@ public class DictionaryItemController extends BaseController {
         return this.dictionaryItemService.findDictionaryItem(codes);
     }
 
+    @ApiOperation(value = "根据字典编码查询字典条目", notes = "根据字典编码查询字典条目")
+    @GetMapping
+    public R<Map<String, Map<String, String>>> list(@RequestParam("codes[]") String[] codes) {
+//        LbqWrapper<DictionaryItem> wrapper = Wraps.<DictionaryItem>lbQ()
+//                .in(DictionaryItem::getDictionaryCode, codes).eq(DictionaryItem::getStatus, true)
+//                .orderByAsc(DictionaryItem::getSortValue);
+//        List<DictionaryItem> list = dictionaryItemService.list(wrapper);
+//
+//        //key 是字典编码
+//        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
+//        return this.success(typeMap);
+        return this.success(this.dictionaryItemService.map(codes));
+    }
 
 }

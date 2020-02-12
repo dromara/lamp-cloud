@@ -96,11 +96,7 @@ public class UserController extends BaseController {
     public R<IPage<User>> page(UserPageDTO userPage) {
         IPage<User> page = getPage();
 
-        User user = BeanUtil.toBean(userPage, User.class);
-//        if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
-//            user.setOrg(null);
-//        }
-        LbqWrapper<User> wrapper = Wraps.lbQ(user);
+        LbqWrapper<User> wrapper = Wraps.lbQ();
         if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
             List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrgId()));
             wrapper.in(User::getOrg, children.stream().map((org) -> new RemoteData(org.getId())).collect(Collectors.toList()));
@@ -111,6 +107,10 @@ public class UserController extends BaseController {
                 .like(User::getAccount, userPage.getAccount())
                 .like(User::getEmail, userPage.getEmail())
                 .like(User::getMobile, userPage.getMobile())
+                .eq(User::getStation, userPage.getStationId())
+                .eq(User::getPositionStatus, userPage.getPositionStatus())
+                .eq(User::getEducation, userPage.getEducation())
+                .eq(User::getNation, userPage.getNation())
                 .eq(User::getSex, userPage.getSex())
                 .eq(User::getStatus, userPage.getStatus())
                 .orderByDesc(User::getId);

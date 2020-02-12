@@ -1,8 +1,8 @@
 package com.github.zuihou.user.interceptor;
 
+import cn.hutool.core.util.URLUtil;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
-import com.github.zuihou.utils.StrHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -55,7 +55,7 @@ public class ContextHandlerInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
-        return StrHelper.decode(value);
+        return URLUtil.decode(value);
     }
 
     @Override

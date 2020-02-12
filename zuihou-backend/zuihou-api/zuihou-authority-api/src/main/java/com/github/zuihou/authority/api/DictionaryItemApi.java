@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.api;
 
 import com.github.zuihou.authority.api.hystrix.DictionaryItemApiFallback;
-import com.github.zuihou.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,14 +19,14 @@ import java.util.Set;
         qualifier = "dictionaryItemApi", fallback = DictionaryItemApiFallback.class)
 public interface DictionaryItemApi {
 
-    /**
-     * 根据字典编码查询字典条目的map集合
-     *
-     * @param codes
-     * @return
-     */
-    @GetMapping("/codes")
-    R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes);
+//    /**
+//     * 根据字典编码查询字典条目的map集合
+//     *
+//     * @param codes
+//     * @return
+//     */
+//    @GetMapping("/codes")
+//    R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes);
 
     /**
      * 根据 code 查询字典

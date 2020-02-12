@@ -1,6 +1,7 @@
 package com.github.zuihou;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.log.StaticLog;
@@ -26,7 +27,6 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.model.RemoteData;
-import com.github.zuihou.utils.NumberHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -175,7 +175,7 @@ public class TestResource {
     @Test
     public void testObjlist() {
         for (int i = 0; i < 20; i++) {
-            List<Long> list = orgService.listObjs(NumberHelper::longValueOf0);
+            List<Long> list = orgService.listObjs(Convert::toLong);
             log.info("listsize={}", list.size());
         }
         log.info("endendendendend");

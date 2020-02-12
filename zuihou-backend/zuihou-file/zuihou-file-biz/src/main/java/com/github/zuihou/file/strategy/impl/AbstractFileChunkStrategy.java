@@ -1,13 +1,6 @@
 package com.github.zuihou.file.strategy.impl;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.base.R;
 import com.github.zuihou.file.domain.FileAttrDO;
@@ -20,12 +13,19 @@ import com.github.zuihou.file.strategy.FileChunkStrategy;
 import com.github.zuihou.file.strategy.FileLock;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
 import com.github.zuihou.utils.DateUtils;
-import com.github.zuihou.utils.NumberHelper;
 import com.github.zuihou.utils.StrPool;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 
 /**
@@ -156,7 +156,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                     //按照名称排序文件，这里分片都是按照数字命名的
 
                     //这里存放的文件名一定是数字
-                    files.sort((f1, f2) -> NumberHelper.intValueOf0(f1.getName()) - NumberHelper.intValueOf0(f2.getName()));
+                    files.sort(Comparator.comparingInt(f -> Convert.toInt(f.getName(), 0)));
 
                     R<File> result = merge(files, path, fileName, info);
                     files = null;

@@ -63,9 +63,8 @@
 
         <!-- 使用rabbitmq时，需要自行排除 spring-cloud-starter-openfeign , 并手动引入该jar -->
         <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-            <scope>provided</scope>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-mq-starter</artifactId>
         </dependency>
 
         <!-- 必须有这个jar 才能提示 -->

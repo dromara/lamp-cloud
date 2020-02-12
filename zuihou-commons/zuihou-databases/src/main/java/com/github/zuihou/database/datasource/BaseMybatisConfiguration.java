@@ -14,12 +14,16 @@ import com.github.zuihou.database.parsers.TenantWebMvcConfigurer;
 import com.github.zuihou.database.properties.DatabaseProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Mybatis 常用重用拦截器
+ * <p>
+ * 拦截器执行一定是：
+ * WriteInterceptor > DataScopeInterceptor > PaginationInterceptor
  *
  * @author zuihou
  * @date 2018/10/24
@@ -37,6 +41,7 @@ public abstract class BaseMybatisConfiguration {
      * @return
      */
     @Bean
+    @Order(15)
     @ConditionalOnProperty(name = "zuihou.database.isNotWrite", havingValue = "true")
     public WriteInterceptor getWriteInterceptor() {
         return new WriteInterceptor();
@@ -47,6 +52,7 @@ public abstract class BaseMybatisConfiguration {
      * 分页插件，自动识别数据库类型
      * 多租户，请参考官网【插件扩展】
      */
+    @Order(5)
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
@@ -78,17 +84,6 @@ public abstract class BaseMybatisConfiguration {
         DatabaseProperties.Id id = databaseProperties.getId();
         return new MyMetaObjectHandler(id.getWorkerId(), id.getDataCenterId());
     }
-
-//    /**
-//     * id生成 机器码， 单机配置1即可。 集群部署，每个实例自增1即可。
-//     *
-//     * @param machineCode
-//     * @return
-//     */
-//    @Bean("snowflakeIdGenerate")
-//    public IdGenerate getIdGenerate(@Value("${id-generator.machine-code:1}") Long machineCode) {
-//        return new SnowflakeIdGenerate(machineCode);
-//    }
 
     /**
      * 租户信息拦截器
@@ -142,15 +137,5 @@ public abstract class BaseMybatisConfiguration {
     public FullLikeTypeHandler getFullLikeTypeHandler() {
         return new FullLikeTypeHandler();
     }
-
-//    /**
-//     * Mybatis 类型处理器： 处理 RemoteData 类型的字段
-//     *
-//     * @return
-//     */
-//    @Bean
-//    public RemoteDataTypeHandler getRemoteDataTypeHandler() {
-//        return new RemoteDataTypeHandler();
-//    }
 
 }

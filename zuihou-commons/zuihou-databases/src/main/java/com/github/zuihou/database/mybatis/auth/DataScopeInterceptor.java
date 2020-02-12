@@ -1,17 +1,10 @@
 package com.github.zuihou.database.mybatis.auth;
 
-import java.sql.Connection;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.function.Function;
-
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import com.github.zuihou.context.BaseContextHandler;
-
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +12,15 @@ import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+
+import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.function.Function;
 
 
 /**

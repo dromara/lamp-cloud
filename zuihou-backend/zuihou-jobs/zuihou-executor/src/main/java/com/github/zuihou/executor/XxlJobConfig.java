@@ -1,7 +1,6 @@
 package com.github.zuihou.executor;
 
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +26,8 @@ public class XxlJobConfig {
 
     @Value("${xxl.job.executor.port}")
     private int port;
+    @Value("${xxl.job.executor.registryLazy}")
+    private long registryLazy;
 
     @Value("${xxl.job.accessToken}")
     private String accessToken;
@@ -67,6 +68,7 @@ public class XxlJobConfig {
         xxlJobSpringExecutor.setAppName(appName);
         xxlJobSpringExecutor.setIp(ip);
         xxlJobSpringExecutor.setPort(port);
+        xxlJobSpringExecutor.setRegistryLazy(registryLazy);
         xxlJobSpringExecutor.setAccessToken(accessToken);
         xxlJobSpringExecutor.setLogPath(logPath);
         xxlJobSpringExecutor.setLogRetentionDays(logRetentionDays);

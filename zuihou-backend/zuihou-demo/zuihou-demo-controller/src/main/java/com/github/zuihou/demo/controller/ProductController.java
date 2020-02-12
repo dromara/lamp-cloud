@@ -11,9 +11,8 @@ import com.github.zuihou.demo.dto.ProductSaveDTO;
 import com.github.zuihou.demo.dto.ProductUpdateDTO;
 import com.github.zuihou.demo.entity.Product;
 import com.github.zuihou.demo.service.ProductService;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,14 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -48,8 +40,6 @@ public class ProductController extends BaseController {
 
     @Autowired
     private ProductService productService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询商品
@@ -95,7 +85,7 @@ public class ProductController extends BaseController {
     @PostMapping
     @SysLog("新增商品")
     public R<Product> save(@RequestBody @Validated ProductSaveDTO data) {
-        Product product = dozer.map(data, Product.class);
+        Product product = BeanPlusUtil.toBean(data, Product.class);
         productService.save(product);
         return success(product);
     }
@@ -110,7 +100,7 @@ public class ProductController extends BaseController {
     @PutMapping
     @SysLog("修改商品")
     public R<Product> update(@RequestBody @Validated(SuperEntity.Update.class) ProductUpdateDTO data) {
-        Product product = dozer.map(data, Product.class);
+        Product product = BeanPlusUtil.toBean(data, Product.class);
         productService.updateById(product);
         return success(product);
     }

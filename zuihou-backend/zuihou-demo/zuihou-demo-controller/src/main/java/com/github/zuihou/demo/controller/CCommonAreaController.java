@@ -1,6 +1,7 @@
 package com.github.zuihou.demo.controller;
 
 
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
@@ -12,10 +13,8 @@ import com.github.zuihou.demo.dto.CCommonAreaSaveDTO;
 import com.github.zuihou.demo.dto.CCommonAreaUpdateDTO;
 import com.github.zuihou.demo.entity.CCommonArea;
 import com.github.zuihou.demo.service.CCommonAreaService;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
-import cn.hutool.core.util.RandomUtil;
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,15 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -53,8 +44,6 @@ public class CCommonAreaController extends BaseController {
     private CCommonAreaService cCommonAreaService;
     @Autowired
     private CCommonAreaMapper cCommonAreaMapper;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询地区表
@@ -100,7 +89,7 @@ public class CCommonAreaController extends BaseController {
     @PostMapping
     @SysLog("新增地区表")
     public R<CCommonArea> save(@RequestBody @Validated CCommonAreaSaveDTO data) {
-        CCommonArea cCommonArea = dozer.map(data, CCommonArea.class);
+        CCommonArea cCommonArea = BeanPlusUtil.toBean(data, CCommonArea.class);
         cCommonAreaService.save(cCommonArea);
 //        int i = 1/0;
         return success(cCommonArea);
@@ -116,7 +105,7 @@ public class CCommonAreaController extends BaseController {
     @PutMapping
     @SysLog("修改地区表")
     public R<CCommonArea> update(@RequestBody @Validated(SuperEntity.Update.class) CCommonAreaUpdateDTO data) {
-        CCommonArea cCommonArea = dozer.map(data, CCommonArea.class);
+        CCommonArea cCommonArea = BeanPlusUtil.toBean(data, CCommonArea.class);
         cCommonAreaService.updateById(cCommonArea);
         return success(cCommonArea);
     }
@@ -222,7 +211,7 @@ public class CCommonAreaController extends BaseController {
 
     @PostMapping("/save")
     public R<CCommonArea> save2(@RequestBody @Validated CCommonAreaSaveDTO data) {
-        CCommonArea cCommonArea = dozer.map(data, CCommonArea.class);
+        CCommonArea cCommonArea = BeanPlusUtil.toBean(data, CCommonArea.class);
         cCommonAreaService.save(cCommonArea);
         cCommonAreaMapper.save(cCommonArea);
         int i = 1 / 0;

@@ -1,11 +1,11 @@
 package com.xxl.job.admin.dao;
 
-import java.util.List;
-
+import com.baomidou.mybatisplus.annotation.SqlParser;
 import com.xxl.job.admin.core.model.XxlJobInfo;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 /**
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author xuxueli 2016-1-12 18:03:45
  */
-//@Mapper
 @Repository
+@SqlParser(filter = true)
 public interface XxlJobInfoDao {
 
     public List<XxlJobInfo> pageList(@Param("offset") Integer offset,

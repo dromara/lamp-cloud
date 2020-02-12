@@ -1,8 +1,6 @@
 package com.github.zuihou.authority.controller.auth;
 
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.ApplicationSystemApiSaveDTO;
 import com.github.zuihou.authority.dto.auth.ApplicationSystemApiUpdateDTO;
@@ -13,9 +11,8 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,15 +20,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -51,8 +42,6 @@ public class ApplicationSystemApiController extends BaseController {
 
     @Autowired
     private ApplicationSystemApiService applicationSystemApiService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询应用接口
@@ -98,7 +87,7 @@ public class ApplicationSystemApiController extends BaseController {
     @PostMapping
     @SysLog("新增应用接口")
     public R<ApplicationSystemApi> save(@RequestBody @Validated ApplicationSystemApiSaveDTO data) {
-        ApplicationSystemApi applicationSystemApi = dozer.map(data, ApplicationSystemApi.class);
+        ApplicationSystemApi applicationSystemApi = BeanPlusUtil.toBean(data, ApplicationSystemApi.class);
         applicationSystemApiService.save(applicationSystemApi);
         return success(applicationSystemApi);
     }
@@ -113,7 +102,7 @@ public class ApplicationSystemApiController extends BaseController {
     @PutMapping
     @SysLog("修改应用接口")
     public R<ApplicationSystemApi> update(@RequestBody @Validated(SuperEntity.Update.class) ApplicationSystemApiUpdateDTO data) {
-        ApplicationSystemApi applicationSystemApi = dozer.map(data, ApplicationSystemApi.class);
+        ApplicationSystemApi applicationSystemApi = BeanPlusUtil.toBean(data, ApplicationSystemApi.class);
         applicationSystemApiService.updateById(applicationSystemApi);
         return success(applicationSystemApi);
     }

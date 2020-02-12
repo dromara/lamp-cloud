@@ -47,6 +47,7 @@ xxl.job:
     appname: ${spring.application.name}
     ip: ${zuihou.ip.executor}
     port: ${zuihou.port.executor:8771}
+    registryLazy: 10000  # 延迟10秒注册，防止首次启动报错
     logpath: ${logging.file.path}/${spring.application.name}/
     logretentiondays: -1
 

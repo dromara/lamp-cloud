@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 06/02/2020 16:43:08
+ Date: 12/02/2020 16:52:10
 */
 
 SET NAMES utf8mb4;
@@ -186,8 +186,11 @@ CREATE TABLE `c_auth_user` (
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT 'N' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
-  `status` bit(1) DEFAULT b'0' COMMENT '启用状态 1启用 0禁用',
+  `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
   `avatar` varchar(255) DEFAULT '' COMMENT '头像',
+  `nation` varchar(20) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
+  `education` varchar(20) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
+  `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
   `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
   `password_error_num` int(11) DEFAULT '0' COMMENT '密码错误次数',
@@ -475,22 +478,25 @@ CREATE TABLE `m_order` (
 DROP TABLE IF EXISTS `m_product`;
 CREATE TABLE `m_product` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `name` varchar(255) NOT NULL COMMENT '名称',
   `stock` int(11) DEFAULT NULL COMMENT '库存',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  `test1` text,
-  `test2` longtext,
-  `test3` bit(1) DEFAULT NULL,
+  `type_` text COMMENT '商品类型\n#ProductType{ordinary:普通;gift:赠品;}',
+  `type2` longtext COMMENT '商品类型2\n#{ordinary:普通;gift:赠品;}',
+  `type3` varchar(255) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>\n',
+  `status` bit(1) DEFAULT NULL COMMENT '状态',
   `test4` tinyint(10) DEFAULT NULL,
   `test5` date DEFAULT NULL COMMENT '时间',
   `test6` datetime DEFAULT NULL COMMENT '日期',
   `parent_id` bigint(20) DEFAULT NULL,
-  `label` varchar(255) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL COMMENT '名称',
   `sort_value` int(11) DEFAULT NULL,
   `test7` char(10) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户\n@InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.auth.User>',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品(用于测试)';
 

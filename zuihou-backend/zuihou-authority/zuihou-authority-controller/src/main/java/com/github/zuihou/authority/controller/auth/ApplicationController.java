@@ -12,8 +12,8 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,8 +43,6 @@ public class ApplicationController extends BaseController {
 
     @Autowired
     private ApplicationService applicationService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询应用
@@ -91,7 +89,7 @@ public class ApplicationController extends BaseController {
     @PostMapping
     @SysLog("新增应用")
     public R<Application> save(@RequestBody @Validated ApplicationSaveDTO data) {
-        Application application = dozer.map(data, Application.class);
+        Application application = BeanPlusUtil.toBean(data, Application.class);
         application.setAppKey(RandomUtil.randomString(24));
         application.setAppSecret(RandomUtil.randomString(32));
         applicationService.save(application);
@@ -108,7 +106,7 @@ public class ApplicationController extends BaseController {
     @PutMapping
     @SysLog("修改应用")
     public R<Application> update(@RequestBody @Validated(SuperEntity.Update.class) ApplicationUpdateDTO data) {
-        Application application = dozer.map(data, Application.class);
+        Application application = BeanPlusUtil.toBean(data, Application.class);
         applicationService.updateById(application);
         return success(application);
     }

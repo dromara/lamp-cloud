@@ -1,18 +1,18 @@
 package com.xxl.job.admin.dao;
 
-import java.util.List;
-
+import com.baomidou.mybatisplus.annotation.SqlParser;
 import com.xxl.job.admin.core.model.XxlJobLogGlue;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * job log for glue
  *
  * @author xuxueli 2016-5-19 18:04:56
  */
-//@Mapper
+@SqlParser(filter = true)
 @Repository
 public interface XxlJobLogGlueDao {
 

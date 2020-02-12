@@ -1,24 +1,22 @@
 package com.github.zuihou.file.biz;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.file.domain.FileDO;
 import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.properties.FileServerProperties;
 import com.github.zuihou.file.utils.ZipUtils;
-import com.github.zuihou.utils.NumberHelper;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 文件和附件的一些公共方法
@@ -42,13 +40,12 @@ public class FileBiz {
         String innerUriPrefix = fileProperties.getInnerUriPrefix();
         String remoteUriPrefix = fileProperties.getUriPrefix();
         log.info("内网前缀地址 innerUriPrefix={}", innerUriPrefix);
-        int fileSize = list.stream().filter((file) -> file != null && !DataType.DIR.eq(file.getDataType()) && StringUtils.isNotEmpty(file.getUrl()))
-                .mapToInt((file) -> NumberHelper.intValueOf0(file.getSize())).sum();
+        long fileSize = list.stream().filter((file) -> file != null && !DataType.DIR.eq(file.getDataType()) && StringUtils.isNotEmpty(file.getUrl()))
+                .mapToLong((file) -> Convert.toLong(file.getSize(), 0L)).sum();
         String extName = list.get(0).getSubmittedFileName();
         if (list.size() > 1) {
             extName = StringUtils.substring(extName, 0, StringUtils.lastIndexOf(extName, ".")) + "等.zip";
         }
-
 
         Map<String, String> map = new LinkedHashMap<>(list.size());
         Map<String, Integer> duplicateFile = new HashMap<>(list.size());

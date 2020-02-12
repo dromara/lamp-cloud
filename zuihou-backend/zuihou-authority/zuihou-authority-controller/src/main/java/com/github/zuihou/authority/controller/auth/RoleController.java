@@ -1,15 +1,7 @@
 package com.github.zuihou.authority.controller.auth;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
-import com.github.zuihou.authority.dto.auth.RolePageDTO;
-import com.github.zuihou.authority.dto.auth.RoleQueryDTO;
-import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
-import com.github.zuihou.authority.dto.auth.RoleUpdateDTO;
-import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
+import com.github.zuihou.authority.dto.auth.*;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.entity.auth.UserRole;
@@ -24,9 +16,8 @@ import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
-
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,15 +25,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -68,8 +54,6 @@ public class RoleController extends BaseController {
     private RoleOrgService roleOrgService;
     @Autowired
     private UserRoleService userRoleService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询角色
@@ -86,7 +70,7 @@ public class RoleController extends BaseController {
     @SysLog("分页查询角色")
     public R<IPage<Role>> page(RolePageDTO param) {
         IPage<Role> page = getPage();
-        Role role = dozer.map(param, Role.class);
+        Role role = BeanPlusUtil.toBean(param, Role.class);
         // 构建值不为null的查询条件
         LbqWrapper<Role> query = Wraps.lbQ(role)
                 .geHeader(Role::getCreateTime, param.getStartCreateTime())
@@ -107,8 +91,7 @@ public class RoleController extends BaseController {
     @SysLog("查询角色")
     public R<RoleQueryDTO> get(@PathVariable Long id) {
         Role role = roleService.getByIdWithCache(id);
-
-        RoleQueryDTO query = dozer.map(role, RoleQueryDTO.class);
+        RoleQueryDTO query = BeanPlusUtil.toBean(role, RoleQueryDTO.class);
         if (query.getDsType() != null && DataScopeType.CUSTOMIZE.eq(query.getDsType())) {
             List<Long> orgList = roleOrgService.listOrgByRoleId(role.getId());
             query.setOrgList(orgList);

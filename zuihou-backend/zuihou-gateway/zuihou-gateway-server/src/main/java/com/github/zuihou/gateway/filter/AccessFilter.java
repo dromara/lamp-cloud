@@ -1,7 +1,7 @@
 package com.github.zuihou.gateway.filter;
 
-import java.util.List;
-
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.github.zuihou.auth.client.properties.AuthClientProperties;
 import com.github.zuihou.auth.client.utils.JwtTokenClientUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
@@ -9,10 +9,7 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.common.adapter.IgnoreTokenConfig;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.exception.BizException;
-import com.github.zuihou.utils.StrHelper;
 import com.github.zuihou.utils.StrPool;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +25,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * 过滤器
@@ -137,7 +136,7 @@ public class AccessFilter implements GlobalFilter {
             return;
         }
         String valueStr = value.toString();
-        String valueEncode = StrHelper.encode(valueStr);
+        String valueEncode = URLUtil.encode(valueStr);
         mutate.header(name, valueEncode);
     }
 
