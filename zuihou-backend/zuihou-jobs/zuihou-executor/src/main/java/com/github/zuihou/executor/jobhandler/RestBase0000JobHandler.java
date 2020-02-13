@@ -32,7 +32,7 @@ public class RestBase0000JobHandler extends IJobHandler {
     private final static String SQL_RESOURCE_PATH = "sqls/%s.sql";
     @Autowired
     private InitSystemService initSystemService;
-    @Value("${zuihou.mysql.biz-database:zuihou_base}")
+    @Value("${zuihou.database.bizDatabase:zuihou_base}")
     private String database;
 
     @Override

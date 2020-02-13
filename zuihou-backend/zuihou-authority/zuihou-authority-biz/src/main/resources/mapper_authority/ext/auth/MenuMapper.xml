@@ -3,7 +3,7 @@
 <mapper namespace="com.github.zuihou.authority.dao.auth.MenuMapper">
     <!-- 通用查询结果列 -->
     <sql id="V_Column_List">
-        id,  name, path, component, is_enable, sort_value, icon, group_, parent_id
+        id,  label, path, component, is_enable, sort_value, icon, group_, parent_id
     </sql>
 
     <select id="findVisibleMenu" parameterType="map"

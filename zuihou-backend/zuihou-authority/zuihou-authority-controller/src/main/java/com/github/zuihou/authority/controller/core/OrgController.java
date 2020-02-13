@@ -2,7 +2,6 @@ package com.github.zuihou.authority.controller.core;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.core.OrgSaveDTO;
-import com.github.zuihou.authority.dto.core.OrgTreeDTO;
 import com.github.zuihou.authority.dto.core.OrgUpdateDTO;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.core.OrgService;
@@ -150,12 +149,11 @@ public class OrgController extends BaseController {
     @ApiOperation(value = "查询系统所有的组织树", notes = "查询系统所有的组织树")
     @GetMapping("/tree")
     @SysLog("查询系统所有的组织树")
-    public R<List<OrgTreeDTO>> tree(@RequestParam(value = "name", required = false) String name,
-                                    @RequestParam(value = "status", required = false) Boolean status) {
-        List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getName, name)
+    public R<List<Org>> tree(@RequestParam(value = "name", required = false) String name,
+                             @RequestParam(value = "status", required = false) Boolean status) {
+        List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getLabel, name)
                 .eq(Org::getStatus, status).orderByAsc(Org::getSortValue));
-        List<OrgTreeDTO> treeList = BeanPlusUtil.toBeanList(list, OrgTreeDTO.class);
-        return this.success(TreeUtil.build(treeList));
+        return this.success(TreeUtil.buildTree(list));
     }
 
     @GetMapping("/findOrgByIds")

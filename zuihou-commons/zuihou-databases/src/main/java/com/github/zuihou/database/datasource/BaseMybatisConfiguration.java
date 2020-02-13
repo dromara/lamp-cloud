@@ -93,7 +93,7 @@ public abstract class BaseMybatisConfiguration {
     @Bean
     @ConditionalOnProperty(name = "zuihou.database.isMultiTenant", havingValue = "true", matchIfMissing = true)
     public TenantWebMvcConfigurer getTenantWebMvcConfigurer() {
-        return new TenantWebMvcConfigurer();
+        return new TenantWebMvcConfigurer(databaseProperties.getBizDatabase(), null, null);
     }
 
     /**

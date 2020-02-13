@@ -1,10 +1,6 @@
 package com.github.zuihou.user.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * <p>
@@ -27,7 +23,7 @@ public class SysOrg {
     /**
      * 名称
      */
-    private String name;
+    private String label;
 
     /**
      * 简称

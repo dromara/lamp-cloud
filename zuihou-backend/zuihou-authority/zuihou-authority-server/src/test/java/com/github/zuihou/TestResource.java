@@ -94,7 +94,7 @@ public class TestResource {
     @Test
     public void testDozer3333() {
         Org org = Org.builder()
-                .name("string")
+                .label("string")
                 .id(123L)
                 .build();
         Station station = Station.builder().id(1L).orgId(new RemoteData(12L, org)).build();
@@ -118,7 +118,7 @@ public class TestResource {
         TimeInterval timer = DateUtil.timer();
         for (int i = 0; i <= 1000000; i++) {
             Org org = Org.builder()
-                    .name("string")
+                    .label("string")
                     .id(123L + i)
                     .createTime(LocalDateTime.now())
                     .build();

@@ -45,6 +45,8 @@ public class DatabaseProperties {
      */
     private int txTimeout = 60 * 60;
 
+    private String bizDatabase = "zuihou_base";
+
     /**
      * Id 生成策略
      */

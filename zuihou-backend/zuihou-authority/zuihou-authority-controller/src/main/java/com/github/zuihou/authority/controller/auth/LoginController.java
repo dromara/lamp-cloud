@@ -84,7 +84,7 @@ public class LoginController extends BaseController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "仅供测试使用", notes = "仅供测试使用")
+    @ApiOperation(value = "仅供测试使用的登录方法", notes = "仅供测试使用的登录方法")
     @GetMapping(value = "/token")
     @Deprecated
     public R<LoginDTO> tokenTx(

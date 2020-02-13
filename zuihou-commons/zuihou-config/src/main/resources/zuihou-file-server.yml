@@ -1,6 +1,6 @@
 zuihou:
-  mysql:
-    biz-database: zuihou_base
+  database:
+    bizDatabase: zuihou_base
   nginx:
     ip: ${spring.cloud.client.ip-address}   # 正式环境需要将该ip设置成nginx对应的 公网ip
     port: 10000                             # 正式环境需要将该ip设置成nginx对应的 公网端口

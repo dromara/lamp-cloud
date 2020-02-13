@@ -9,7 +9,7 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="VARCHAR" property="label"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="is_public" jdbcType="BIT" property="isPublic"/>
         <result column="path" jdbcType="VARCHAR" property="path"/>
@@ -23,8 +23,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
-        name, describe_, is_public, path, component, is_enable, sort_value, icon, group_, parent_id
+        id, create_user, create_time, update_user, update_time,
+        label, describe_, is_public, path, component, is_enable, sort_value, icon, group_, parent_id
     </sql>
 
 </mapper>

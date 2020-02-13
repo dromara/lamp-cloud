@@ -1,6 +1,6 @@
 zuihou:
-  mysql:
-    biz-database: zuihou_base
+  database:
+    bizDatabase: zuihou_base
   swagger:
     enabled: true
     docket:

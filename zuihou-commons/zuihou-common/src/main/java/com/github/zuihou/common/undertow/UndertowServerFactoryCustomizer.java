@@ -1,7 +1,5 @@
 package com.github.zuihou.common.undertow;
 
-import java.io.IOException;
-
 import io.undertow.connector.ByteBufferPool;
 import io.undertow.server.DefaultByteBufferPool;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
@@ -13,9 +11,11 @@ import org.xnio.Options;
 import org.xnio.Xnio;
 import org.xnio.XnioWorker;
 
+import java.io.IOException;
+
 /**
  * 设置Undertow服务器 XnioWorker Buffers
- *
+ * <p>
  * 解决启动时警告：[io.undertow.websockets.jsr.handleDeployment:68] --> UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
  *
  * @author zuihou

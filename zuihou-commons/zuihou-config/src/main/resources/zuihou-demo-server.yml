@@ -1,8 +1,7 @@
 zuihou:
   database:
     isMultiTenant: false
-  mysql:
-    biz-database: zuihou_base
+    bizDatabase: zuihou_base
   swagger:
     docket:
       demo:
