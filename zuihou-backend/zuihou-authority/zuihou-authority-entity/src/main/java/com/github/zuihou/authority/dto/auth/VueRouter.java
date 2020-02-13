@@ -1,12 +1,8 @@
 package com.github.zuihou.authority.dto.auth;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.github.zuihou.model.ITreeNode;
-
+import com.github.zuihou.base.entity.TreeEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -18,21 +14,27 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
+public class VueRouter extends TreeEntity<VueRouter, Long> {
+//public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
 
     private static final long serialVersionUID = -3327478146308500708L;
 
+    @Override
     @JsonIgnore
-    private Long id;
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
     @JsonIgnore
-    private Long parentId;
+    public Long getParentId() {
+        return this.parentId;
+    }
 
     @ApiModelProperty(value = "路径")
     private String path;
     @ApiModelProperty(value = "菜单名称")
     private String name;
-    //    @ApiModelProperty(value = "功能描述")
-//    private String describe;
     @ApiModelProperty(value = "组件")
     private String component;
     @ApiModelProperty(value = "重定向")
@@ -44,20 +46,14 @@ public class VueRouter implements ITreeNode<VueRouter, Long>, Serializable {
     private Boolean hidden = false;
     @ApiModelProperty(value = "总是显示")
     private Boolean alwaysShow = false;
-    @ApiModelProperty(value = "子路由")
-    private List<VueRouter> children;
 
-//    @JsonIgnore
-//    private Boolean hasParent = false;
+//    @ApiModelProperty(value = "子路由")
+//    private List<VueRouter> children;
 //
-//    @JsonIgnore
-//    private Boolean hasChildren = false;
-
-
-    @Override
-    public List<VueRouter> getChildren() {
-        return this.children;
-    }
+//    @Override
+//    public List<VueRouter> getChildren() {
+//        return this.children;
+//    }
 
     public Boolean getAlwaysShow() {
         return getChildren() != null && !getChildren().isEmpty();

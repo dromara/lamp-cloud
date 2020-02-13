@@ -1,7 +1,7 @@
 package com.github.zuihou;
 
 import cn.hutool.core.io.FileUtil;
-import com.github.zuihou.database.parsers.TableNameParser;
+import com.baomidou.mybatisplus.core.toolkit.TableNameParser;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 

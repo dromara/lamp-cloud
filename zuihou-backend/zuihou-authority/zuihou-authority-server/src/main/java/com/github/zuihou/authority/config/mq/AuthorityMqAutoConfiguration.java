@@ -25,7 +25,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 @Slf4j
 @ConditionalOnProperty(prefix = "zuihou.rabbitmq", name = "enabled", havingValue = "true")
 public class AuthorityMqAutoConfiguration {
-    @Value("${zuihou.mysql.biz-database:zuihou_default}")
+    @Value("${zuihou.database.bizDatabase:zuihou_default}")
     private String databaseName;
     @Autowired
     private SystemApiService systemApiService;

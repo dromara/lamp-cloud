@@ -1,23 +1,15 @@
 package com.github.zuihou.authority.entity.auth;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.base.entity.Entity;
-
+import com.github.zuihou.base.entity.TreeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -38,18 +30,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Accessors(chain = true)
 @TableName("c_auth_menu")
 @ApiModel(value = "Menu", description = "菜单")
-public class Menu extends Entity<Long> {
+public class Menu extends TreeEntity<Menu, Long> {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 菜单名称
-     */
-    @ApiModelProperty(value = "菜单名称")
-    @NotEmpty(message = "菜单名称不能为空")
-    @Length(max = 20, message = "菜单名称长度不能超过20")
-    @TableField(value = "name", condition = LIKE)
-    private String name;
 
     /**
      * 功能描述
@@ -91,13 +74,6 @@ public class Menu extends Entity<Long> {
     private Boolean isEnable;
 
     /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序")
-    @TableField("sort_value")
-    private Integer sortValue;
-
-    /**
      * 菜单图标
      */
     @ApiModelProperty(value = "菜单图标")
@@ -113,24 +89,16 @@ public class Menu extends Entity<Long> {
     @TableField(value = "group_", condition = LIKE)
     private String group;
 
-    /**
-     * 父级菜单id
-     */
-    @ApiModelProperty(value = "父级菜单id")
-    @TableField("parent_id")
-    private Long parentId;
-
-
     @Builder
     public Menu(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String describe, Boolean isPublic, String path, String component,
+                String label, String describe, Boolean isPublic, String path, String component,
                 Boolean isEnable, Integer sortValue, String icon, String group, Long parentId) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
-        this.name = name;
+        this.label = label;
         this.describe = describe;
         this.isPublic = isPublic;
         this.path = path;

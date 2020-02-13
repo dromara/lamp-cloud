@@ -48,7 +48,7 @@ public class SeataTxController extends BaseController {
         this.seataTestApi.save(data);
         Order entity = Order.builder()
                 .code(data.getAbbreviation())
-                .name(data.getName())
+                .name(data.getLabel())
                 .build();
         this.orderService.save(entity);
         return this.success(data);
@@ -67,7 +67,7 @@ public class SeataTxController extends BaseController {
         int i = 1 / 0;
         Order entity = Order.builder()
                 .code(data.getAbbreviation())
-                .name(data.getName())
+                .name(data.getLabel())
                 .build();
         this.orderService.save(entity);
         return this.success(data);
@@ -89,7 +89,7 @@ public class SeataTxController extends BaseController {
     @GlobalTransactional
     public Boolean placeOrderRollback() {
         Org data = Org.builder()
-                .name("你的名字")
+                .label("你的名字")
                 .abbreviation("aa")
                 .build();
         log.info("data={}", data);
@@ -100,7 +100,7 @@ public class SeataTxController extends BaseController {
         int i = 1 / 0;
         Order entity = Order.builder()
                 .code(data.getAbbreviation())
-                .name(data.getName())
+                .name(data.getLabel())
                 .build();
         this.orderService.save(entity);
 
@@ -121,7 +121,7 @@ public class SeataTxController extends BaseController {
 
         Order entity = Order.builder()
                 .code(data.getAbbreviation())
-                .name(data.getName())
+                .name(data.getLabel())
                 .build();
         this.orderService.save(entity);
         return this.success(data);

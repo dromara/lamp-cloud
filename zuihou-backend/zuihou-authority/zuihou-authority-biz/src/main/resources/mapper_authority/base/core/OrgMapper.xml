@@ -9,7 +9,7 @@
         <result column="create_user" jdbcType="BIGINT" property="createUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="VARCHAR" property="label"/>
         <result column="abbreviation" jdbcType="VARCHAR" property="abbreviation"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
         <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
@@ -21,7 +21,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_time, create_user, update_time, update_user,
-        name, abbreviation, parent_id, tree_path, sort_value, status, describe_
+        label, abbreviation, parent_id, tree_path, sort_value, status, describe_
     </sql>
 
 </mapper>

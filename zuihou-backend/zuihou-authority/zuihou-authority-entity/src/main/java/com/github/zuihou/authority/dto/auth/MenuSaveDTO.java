@@ -1,19 +1,13 @@
 package com.github.zuihou.authority.dto.auth;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotEmpty;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -42,7 +36,7 @@ public class MenuSaveDTO implements Serializable {
     @ApiModelProperty(value = "菜单名称")
     @NotEmpty(message = "菜单名称不能为空")
     @Length(max = 20, message = "菜单名称长度不能超过20")
-    private String name;
+    private String label;
     /**
      * 功能描述
      */

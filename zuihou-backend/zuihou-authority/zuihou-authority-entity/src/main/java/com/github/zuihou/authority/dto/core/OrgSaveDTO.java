@@ -1,17 +1,12 @@
 package com.github.zuihou.authority.dto.core;
 
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -39,7 +34,7 @@ public class OrgSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "名称")
     @Length(max = 255, message = "名称长度不能超过255")
-    private String name;
+    private String label;
     /**
      * 简称
      */

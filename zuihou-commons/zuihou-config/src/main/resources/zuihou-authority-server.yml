@@ -1,7 +1,8 @@
 # 在这里配置 权限服务 所有环境都能使用的配置
 zuihou:
-  mysql:
-    biz-database: zuihou_base
+  database:
+    bizDatabase: zuihou_base
+  #  mysql:
   #    ip: 127.0.0.1
   #    port: 3306
   #    driverClassName: com.mysql.cj.jdbc.Driver

@@ -1,12 +1,9 @@
 package com.github.zuihou.zuul.filter.pre;
 
-import java.util.List;
-
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.filter.BaseFilter;
 import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.context.RequestContext;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -14,23 +11,22 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.stereotype.Component;
 
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_DECORATION_FILTER_ORDER;
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.REQUEST_URI_KEY;
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SERVICE_ID_HEADER;
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SERVICE_ID_KEY;
+import java.util.List;
+
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.*;
 
 /**
  * 使得网关支持同一服务的多版本化。
  * 诞生背景：
  * 本地开发环境，每次开发测试都需要启动整个项目，对于开发环境的电脑配置有很大的要求,
  * 如果能想要调试那个服务，就只启动那个服务，跟测试环境共用一套eureka，并且能将每个请求准确路由到自己的服务就完美了。
- *
+ * <p>
  * 使用场景:
  * 用户zuihou，在启动 zuihou-authority-server 时， 将改成 spring.application.name: zuihou-authority-server-zuihou ，
  * 通过在请求每个请求头中增加 serviceSuffix=zuihou , 请求就能通过网关路由到 zuihou 的机器上
- *
+ * <p>
  * 该过滤器请勿使用在正式环境
+ *
  * @author zuihou
  */
 @Component
@@ -73,12 +69,7 @@ public class MultiVersionServerSupportFilter extends BaseFilter {
 
     @Override
     public boolean shouldFilter() {
-//        RequestContext ctx = RequestContext.getCurrentContext();
-        boolean flag =
-//                !ctx.containsKey(FilterConstants.FORWARD_TO_KEY) &&
-//                        !ctx.containsKey(SERVICE_ID_KEY) &&
-                        !StrPool.PROD.equalsIgnoreCase(profiles);
-        return flag;
+        return !StrPool.PROD.equalsIgnoreCase(profiles);
     }
 
     @Override

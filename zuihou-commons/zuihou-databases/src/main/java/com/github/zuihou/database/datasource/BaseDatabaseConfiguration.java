@@ -108,26 +108,6 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
         requiredTx.setTimeout(this.databaseProperties.getTxTimeout());
         Map<String, TransactionAttribute> txMap = new HashMap<>(this.databaseProperties.getTransactionAttributeList().size() + 5);
         this.databaseProperties.getTransactionAttributeList().forEach((key) -> txMap.put(key, requiredTx));
-//        txMap.put("add*", requiredTx);
-//        txMap.put("save*", requiredTx);
-//        txMap.put("insert*", requiredTx);
-//        txMap.put("create*", requiredTx);
-//        txMap.put("update*", requiredTx);
-//        txMap.put("edit*", requiredTx);
-//        txMap.put("upload*", requiredTx);
-//        txMap.put("delete*", requiredTx);
-//        txMap.put("remove*", requiredTx);
-//        txMap.put("clean*", requiredTx);
-//        txMap.put("recycle*", requiredTx);
-//        txMap.put("batch*", requiredTx);
-//        txMap.put("mark*", requiredTx);
-//        txMap.put("disable*", requiredTx);
-//        txMap.put("enable*", requiredTx);
-//        txMap.put("handle*", requiredTx);
-//        txMap.put("syn*", requiredTx);
-//        txMap.put("reg*", requiredTx);
-//        txMap.put("gen*", requiredTx);
-//        txMap.put("*Tx", requiredTx);
 
         RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
         readOnlyTx.setReadOnly(true);

@@ -17,11 +17,11 @@
         <class-a>com.github.zuihou.authority.entity.auth.Menu</class-a>
         <class-b>com.github.zuihou.authority.dto.auth.VueRouter</class-b>
         <field>
-            <a>name</a>
+            <a>label</a>
             <b>meta.title</b>
         </field>
         <field>
-            <a>name</a>
+            <a>label</a>
             <b>name</b>
         </field>
         <field>

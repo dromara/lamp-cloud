@@ -1,6 +1,6 @@
 package com.github.zuihou.database.parsers;
 
-import org.springframework.beans.factory.annotation.Value;
+import cn.hutool.core.util.ArrayUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,8 +13,49 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 public class TenantWebMvcConfigurer implements WebMvcConfigurer {
 
-    @Value("${zuihou.mysql.biz-database:zuihou_default}")
-    private String databaseName;
+
+    private static final String[] DEF_URLS = {
+            "/error",
+            "/login",
+            "/v2/api-docs",
+            "/v2/api-docs-ext",
+            "/swagger-resources/**",
+            "/webjars/**",
+
+            "/",
+            "/csrf",
+
+            "/META-INF/resources/**",
+            "/resources/**",
+            "/static/**",
+            "/public/**",
+            "classpath:/META-INF/resources/**",
+            "classpath:/resources/**",
+            "classpath:/static/**",
+            "classpath:/public/**",
+
+            "/cache/**",
+            "/swagger-ui.html**",
+            "/doc.html**"
+    };
+
+    private final String databaseName;
+
+    private String[] exclude;
+    private Integer order;
+
+    public TenantWebMvcConfigurer(String databaseName, String[] exclude, Integer order) {
+        this.databaseName = databaseName;
+        this.exclude = exclude;
+        this.order = order;
+        if (ArrayUtil.isEmpty(this.exclude)) {
+            this.exclude = DEF_URLS;
+        }
+        if (this.order == null) {
+            this.order = 9;
+        }
+    }
+
 
     /**
      * 注册 拦截器
@@ -24,11 +65,10 @@ public class TenantWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         if (getHandlerInterceptor() != null) {
-            String[] commonPathPatterns = getExcludeCommonPathPatterns();
             registry.addInterceptor(getHandlerInterceptor())
                     .addPathPatterns("/**")
-                    .order(9)
-                    .excludePathPatterns(commonPathPatterns);
+                    .order(order)
+                    .excludePathPatterns(exclude);
             WebMvcConfigurer.super.addInterceptors(registry);
         }
     }
@@ -37,36 +77,4 @@ public class TenantWebMvcConfigurer implements WebMvcConfigurer {
         return new TenantContextHandlerInterceptor(databaseName);
     }
 
-    /**
-     * auth-client 中的拦截器需要排除拦截的地址
-     *
-     * @return
-     */
-    protected String[] getExcludeCommonPathPatterns() {
-        String[] urls = {
-                "/error",
-                "/login",
-                "/v2/api-docs",
-                "/v2/api-docs-ext",
-                "/swagger-resources/**",
-                "/webjars/**",
-
-                "/",
-                "/csrf",
-
-                "/META-INF/resources/**",
-                "/resources/**",
-                "/static/**",
-                "/public/**",
-                "classpath:/META-INF/resources/**",
-                "classpath:/resources/**",
-                "classpath:/static/**",
-                "classpath:/public/**",
-
-                "/cache/**",
-                "/swagger-ui.html**",
-                "/doc.html**"
-        };
-        return urls;
-    }
 }

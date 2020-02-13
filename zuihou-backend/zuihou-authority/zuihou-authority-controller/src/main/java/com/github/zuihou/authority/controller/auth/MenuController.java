@@ -1,7 +1,10 @@
 package com.github.zuihou.authority.controller.auth;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.dto.auth.*;
+import com.github.zuihou.authority.dto.auth.MenuSaveDTO;
+import com.github.zuihou.authority.dto.auth.MenuUpdateDTO;
+import com.github.zuihou.authority.dto.auth.RouterMeta;
+import com.github.zuihou.authority.dto.auth.VueRouter;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
 import com.github.zuihou.base.BaseController;
@@ -109,7 +112,6 @@ public class MenuController extends BaseController {
     @SysLog("修改菜单")
     public R<Menu> update(@RequestBody @Validated(SuperEntity.Update.class) MenuUpdateDTO data) {
         Menu menu = BeanPlusUtil.toBean(data, Menu.class);
-
         menuService.updateWithCache(menu);
         return success(menu);
     }
@@ -141,19 +143,37 @@ public class MenuController extends BaseController {
     })
     @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
     @GetMapping
-    @Deprecated
-    public R<List<MenuTreeDTO>> myMenus(@RequestParam(value = "group", required = false) String group,
-                                        @RequestParam(value = "userId", required = false) Long userId) {
+    public R<List<Menu>> myMenus(@RequestParam(value = "group", required = false) String group,
+                                 @RequestParam(value = "userId", required = false) Long userId) {
         if (userId == null || userId <= 0) {
             userId = getUserId();
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
-        List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
-
-        List<MenuTreeDTO> tree = TreeUtil.build(treeList);
+        List<Menu> tree = TreeUtil.buildTree(list);
         return success(tree);
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "group", value = "菜单组", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
+    })
+    @ApiOperation(value = "查询用户可用的所有菜单路由树", notes = "查询用户可用的所有菜单路由树")
+    @GetMapping("/router")
+    public R<List<VueRouter>> myRouter(@RequestParam(value = "group", required = false) String group,
+                                       @RequestParam(value = "userId", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            userId = getUserId();
+        }
+        List<Menu> list = menuService.findVisibleMenu(group, userId);
+        List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
+        return success(TreeUtil.buildTree(treeList));
+    }
+
+    @ApiOperation(value = "查询超管菜单路由树", notes = "查询超管菜单路由树")
+    @GetMapping("/admin/router")
+    public R<List<VueRouter>> adminRouter() {
+        return success(buildSuperAdminRouter());
+    }
 
     private List<VueRouter> buildSuperAdminRouter() {
         List<VueRouter> tree = new ArrayList<>();
@@ -196,28 +216,6 @@ public class MenuController extends BaseController {
         return tree;
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "group", value = "菜单组", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
-    })
-    @ApiOperation(value = "查询用户可用的所有菜单路由树", notes = "查询用户可用的所有菜单路由树")
-    @GetMapping("/router")
-    public R<List<VueRouter>> myRouter(@RequestParam(value = "group", required = false) String group,
-                                       @RequestParam(value = "userId", required = false) Long userId) {
-        if (userId == null || userId <= 0) {
-            userId = getUserId();
-        }
-        List<Menu> list = menuService.findVisibleMenu(group, userId);
-        List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
-        return success(TreeUtil.build(treeList));
-    }
-
-    @ApiOperation(value = "查询超管菜单路由树", notes = "查询超管菜单路由树")
-    @GetMapping("/admin/router")
-    public R<List<VueRouter>> adminRouter() {
-        return success(buildSuperAdminRouter());
-    }
-
     /**
      * 查询系统中所有的的菜单树结构， 不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
      *
@@ -226,9 +224,8 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "查询系统所有的菜单", notes = "查询系统所有的菜单")
     @GetMapping("/tree")
     @SysLog("查询系统所有的菜单")
-    public R<List<MenuTreeDTO>> allTree() {
+    public R<List<Menu>> allTree() {
         List<Menu> list = menuService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortValue));
-        List<MenuTreeDTO> treeList = BeanPlusUtil.toBeanList(list, MenuTreeDTO.class);
-        return success(TreeUtil.build(treeList));
+        return success(TreeUtil.buildTree(list));
     }
 }
