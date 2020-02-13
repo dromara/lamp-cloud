@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -38,16 +39,28 @@ public class AreaServiceImpl extends ServiceImpl<AreaMapper, Area> implements Ar
     @Override
     public List<Area> findAll() {
         String tenantKey = CacheKey.buildTenantKey();
+
+        List<Area> dbList = new ArrayList<>();
         CacheObject cacheObject = cache.get(CacheKey.AREA_ALL, tenantKey, (k) -> {
             LbqWrapper<Area> query = Wraps.<Area>lbQ().orderByAsc(Area::getSortValue);
-            List<Area> list = super.list(query);
-            return list.stream().mapToLong(Area::getId).boxed().collect(Collectors.toList());
+            dbList.addAll(super.list(query));
+            return dbList.stream().mapToLong(Area::getId).boxed().collect(Collectors.toList());
         });
 
         if (cacheObject.getValue() == null) {
             return Collections.emptyList();
         }
 
+        if (!dbList.isEmpty()) {
+            // TODO 异步性能 更加
+            dbList.forEach((area) -> {
+                String areaKey = CacheKey.buildKey(area.getId());
+                cache.set(CacheKey.AREA, areaKey, area);
+            });
+            return dbList;
+        }
+
+        // 数据量比较大时，建议定时同步数据到缓存，否则请直接根据ids 查询db， 否则for查询遇到缓存穿透 性能很差！
         List<Long> list = (List<Long>) cacheObject.getValue();
 
         List<Area> menuList = list.stream().map(((AreaService) AopContext.currentProxy())::getByIdWithCache)

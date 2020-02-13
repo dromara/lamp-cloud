@@ -1,23 +1,15 @@
 package com.github.zuihou.authority.entity.core;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.zuihou.base.entity.Entity;
-
+import com.github.zuihou.base.entity.TreeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -38,18 +30,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Accessors(chain = true)
 @TableName("c_core_org")
 @ApiModel(value = "Org", description = "组织")
-public class Org extends Entity<Long> {
+public class Org extends TreeEntity<Org, Long> {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 名称
-     */
-    @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
-    @TableField(value = "name", condition = LIKE)
-    private String name;
 
     /**
      * 简称
@@ -59,12 +42,6 @@ public class Org extends Entity<Long> {
     @TableField(value = "abbreviation", condition = LIKE)
     private String abbreviation;
 
-    /**
-     * 父ID
-     */
-    @ApiModelProperty(value = "父ID")
-    @TableField("parent_id")
-    private Long parentId;
 
     /**
      * 树结构
@@ -73,13 +50,6 @@ public class Org extends Entity<Long> {
     @Length(max = 255, message = "树结构长度不能超过255")
     @TableField(value = "tree_path", condition = LIKE)
     private String treePath;
-
-    /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序")
-    @TableField("sort_value")
-    private Integer sortValue;
 
     /**
      * 状态
@@ -99,14 +69,14 @@ public class Org extends Entity<Long> {
 
     @Builder
     public Org(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-               String name, String abbreviation, Long parentId, String treePath, Integer sortValue,
+               String label, String abbreviation, Long parentId, String treePath, Integer sortValue,
                Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
         this.updateTime = updateTime;
         this.updateUser = updateUser;
-        this.name = name;
+        this.label = label;
         this.abbreviation = abbreviation;
         this.parentId = parentId;
         this.treePath = treePath;

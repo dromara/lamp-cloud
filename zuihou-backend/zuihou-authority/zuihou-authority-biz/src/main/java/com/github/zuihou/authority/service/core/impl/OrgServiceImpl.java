@@ -88,7 +88,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         List<Org> list = super.list(query);
 
         //key 是 组织id， value 是org 对象
-        ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, Org::getId, Org::getName);
+        ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, Org::getId, Org::getLabel);
         return typeMap;
     }
 

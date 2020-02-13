@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FileWebConfiguration extends BaseConfig {
-    @Value("${zuihou.mysql.biz-database:zuihou_defaults}")
+    @Value("${zuihou.database.bizDatabase:zuihou_defaults}")
     private String database;
 
     @Bean

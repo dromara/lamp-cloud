@@ -72,6 +72,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         }
 
         if (!visibleMenu.isEmpty()) {
+            // TODO 异步性能 更加
             visibleMenu.forEach((menu) -> {
                 String menuKey = CacheKey.buildKey(menu.getId());
                 cache.set(CacheKey.MENU, menuKey, menu);

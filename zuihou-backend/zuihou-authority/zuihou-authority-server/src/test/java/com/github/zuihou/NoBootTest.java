@@ -9,6 +9,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import cn.hutool.log.StaticLog;
+import com.baomidou.mybatisplus.core.toolkit.TableNameParser;
 import com.github.zuihou.auth.utils.JwtHelper;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.auth.utils.Token;
@@ -18,7 +19,6 @@ import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.entity.common.Area;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
-import com.github.zuihou.database.parsers.TableNameParser;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.core.InjectionFieldPo;
 import com.github.zuihou.model.RemoteData;
@@ -96,7 +96,7 @@ public class NoBootTest {
         TimeInterval timer = DateUtil.timer();
         for (int i = 0; i <= 1000000; i++) {
             Org org = Org.builder()
-                    .name("string")
+                    .label("string")
                     .id(123L + i)
                     .createTime(LocalDateTime.now())
                     .build();
@@ -116,7 +116,7 @@ public class NoBootTest {
     public void testBeanUtilToBean() {
         Menu menu = Menu.builder()
                 .id(123L)
-                .name("menu")
+                .label("menu")
                 .group("group")
                 .createTime(LocalDateTime.MAX)
                 .icon("aicon")
@@ -148,12 +148,12 @@ public class NoBootTest {
 
     @Test
     public void testFanxin() {
-        Org org = Org.builder().name("ahaha").build();
+        Org org = Org.builder().label("ahaha").build();
         Station station = Station.builder().id(1L).orgId(new RemoteData(12L, org)).build();
 
         RemoteData orgId = station.getOrg();
 
-        System.out.println(((Org) orgId.getData()).getName());
+        System.out.println(((Org) orgId.getData()).getLabel());
     }
 
     public static void main(String[] args) {

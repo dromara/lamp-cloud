@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 12/02/2020 17:02:08
+ Date: 13/02/2020 11:12:58
 */
 
 SET NAMES utf8mb4;
@@ -60,7 +60,7 @@ CREATE TABLE `c_auth_application_system_api` (
 DROP TABLE IF EXISTS `c_auth_menu`;
 CREATE TABLE `c_auth_menu` (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `label` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
   `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
   `is_public` bit(1) DEFAULT b'0' COMMENT '是否公开菜单\r\n就是无需分配就可以访问的。所有人可见',
   `path` varchar(255) DEFAULT '' COMMENT '对应路由path',
@@ -116,7 +116,7 @@ INSERT INTO `c_auth_menu` VALUES (643464517879071841, '租户平台-前端代码
 INSERT INTO `c_auth_menu` VALUES (643464706228487361, '运营平台-前端代码', '', b'1', 'https://github.com/zuihou/zuihou-admin-ui', 'Layout', b'1', 3, '', '', 643464272629728001, 3, '2019-11-11 14:59:01', 3, '2019-11-11 15:00:11');
 INSERT INTO `c_auth_menu` VALUES (643464953478514081, '在线文档', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud', 'Layout', b'1', 0, '', '', 643464272629728001, 3, '2019-11-11 15:00:00', 3, '2019-11-11 15:01:36');
 INSERT INTO `c_auth_menu` VALUES (643874916004790785, '运营平台演示地址', NULL, b'1', 'http://42.202.130.216:10000/zuihou-admin-ui', 'Layout', b'1', 4, NULL, NULL, 643464272629728001, 3, '2019-11-12 18:09:03', 641577229343523041, '2019-12-04 16:20:13');
-INSERT INTO `c_auth_menu` VALUES (644111530555611361, '链路调用监控', '', b'0', 'http://tangyh.top:10000/zipkin/', 'Layout', b'1', 10, '', '', 104, 3, '2019-11-13 09:49:16', 3, '2019-11-13 09:56:51');
+INSERT INTO `c_auth_menu` VALUES (644111530555611361, '链路调用监控', '', b'0', 'http://tangyh.top:10000/zipkin', 'Layout', b'1', 10, '', '', 104, 3, '2019-11-13 09:49:16', 3, '2019-11-13 09:56:51');
 INSERT INTO `c_auth_menu` VALUES (645215230518909025, '登录日志', '', b'0', '/developer/loginLog', 'zuihou/developer/loginLog/Index', b'1', 4, '', '', 104, 3, '2019-11-16 10:54:59', 3, '2019-11-16 10:54:59');
 INSERT INTO `c_auth_menu` VALUES (1225042542827929600, '参数配置', '', b'0', '/base/parameter', 'zuihou/base/parameter/Index', b'1', 3, '', '', 103, 3, '2020-02-05 21:04:37', 3, '2020-02-05 21:04:37');
 INSERT INTO `c_auth_menu` VALUES (1225984177602560000, '测试菜单', '', b'0', '/base/product', 'zuihou/base/product/Index', b'1', 4, '', '', 103, 3, '2020-02-08 11:26:20', 3, '2020-02-09 15:37:01');
@@ -266,7 +266,7 @@ CREATE TABLE `c_auth_role` (
 -- Records of c_auth_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_auth_role` VALUES (100, '平台管理员', 'PT_ADMIN', '平台内置管理员', b'1', b'1', 'THIS_LEVEL', 1, '2019-10-25 13:46:00', 3, '2020-02-12 15:05:17');
+INSERT INTO `c_auth_role` VALUES (100, '平台管理员', 'PT_ADMIN', '平台内置管理员', b'1', b'1', 'ALL', 1, '2019-10-25 13:46:00', 3, '2020-02-13 11:05:28');
 INSERT INTO `c_auth_role` VALUES (643779012732130273, '普通员工', 'BASE_USER', '只有最基本的权限', b'1', b'0', 'SELF', 3, '2019-11-12 11:47:58', 3, '2019-11-16 09:47:11');
 INSERT INTO `c_auth_role` VALUES (645198153556958497, '部门经理', 'DEPT_MANAGER', '管理本级以及子级用户', b'1', b'0', 'THIS_LEVEL_CHILDREN', 3, '2019-11-16 09:47:07', 3, '2019-11-26 11:06:58');
 COMMIT;
@@ -502,7 +502,20 @@ INSERT INTO `c_auth_role_org` VALUES (648842347890609665, 645198153556958497, 64
 INSERT INTO `c_auth_role_org` VALUES (648842347890609697, 645198153556958497, 643776668917305985, '2019-11-26 11:07:51', 3);
 INSERT INTO `c_auth_role_org` VALUES (648842347894804033, 645198153556958497, 643776713909605089, '2019-11-26 11:07:51', 3);
 INSERT INTO `c_auth_role_org` VALUES (648842347894804065, 645198153556958497, 643776757199016769, '2019-11-26 11:07:51', 3);
-INSERT INTO `c_auth_role_org` VALUES (1227488828499951616, 100, 100, '2020-02-12 15:05:17', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863468331008, 100, 100, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863493496832, 100, 101, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863497691136, 100, 102, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863497691137, 100, 643775612976106881, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863501885440, 100, 643775664683486689, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863501885441, 100, 643775904077582049, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863506079744, 100, 643776324342648929, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863506079745, 100, 643776407691858113, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863510274048, 100, 643776508795556193, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863514468352, 100, 643776594376135105, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863514468353, 100, 643776633823564321, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863514468354, 100, 643776668917305985, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863518662656, 100, 643776713909605089, '2020-02-13 11:05:28', 3);
+INSERT INTO `c_auth_role_org` VALUES (1227790863518662657, 100, 643776757199016769, '2020-02-13 11:05:28', 3);
 COMMIT;
 
 -- ----------------------------
@@ -570,7 +583,7 @@ CREATE TABLE `c_auth_user` (
 -- Records of c_auth_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_auth_user` VALUES (3, 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869992', 'W', b'1', 'BiazfanxmamNRoxxVxka.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班3~', '2020-02-12 13:35:35', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-12 13:35:36', 1, '2019-09-02 11:32:02', 3, '2019-12-11 18:00:25');
+INSERT INTO `c_auth_user` VALUES (3, 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869992', 'W', b'1', 'BiazfanxmamNRoxxVxka.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班3~', '2020-02-13 11:04:16', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-13 11:04:18', 1, '2019-09-02 11:32:02', 3, '2019-12-11 18:00:25');
 INSERT INTO `c_auth_user` VALUES (641577229343523041, 'test', '总经理', 102, 100, '', '', 'N', b'1', 'http://127.0.0.1:10000/file/0000/2019/11/c8df3238-ebca-42b3-baeb-37896468f028.png', 'mz_zz', 'COLLEGE', 'WORKING', '', '2019-12-21 16:45:13', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-12-21 16:45:14', 3, '2019-11-06 09:58:56', 3, '2019-11-26 11:02:42');
 INSERT INTO `c_auth_user` VALUES (641590096981656001, 'manong', '码农', 643776594376135105, 642032719487828225, '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2019-11-15 20:56:40', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-11-16 09:28:22', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
 INSERT INTO `c_auth_user` VALUES (1227487801205850112, '11', '111', 101, 645199319300842081, '123@qq.com', '15218876600', 'N', b'1', '', 'mz_miaoz', 'SUOSHI', 'LEAVE', '123', NULL, 0, NULL, 'e10adc3949ba59abbe56e057f20f883e', NULL, 3, '2020-02-12 15:01:12', 3, '2020-02-12 15:01:12');
@@ -826,7 +839,6 @@ CREATE TABLE `c_common_parameter` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_common_parameter` VALUES (1225343234796945408, 'logo', '产品logo', 'http://localhost:8080/#/base/parameter', '', b'1', b'1', 3, '2020-02-06 16:59:28', 3, '2020-02-06 17:01:13');
-INSERT INTO `c_common_parameter` VALUES (1227171215089598464, '12', '2', '2', '2', b'1', b'1', 3, '2020-02-11 18:03:12', 3, '2020-02-11 18:03:12');
 COMMIT;
 
 -- ----------------------------
@@ -835,7 +847,7 @@ COMMIT;
 DROP TABLE IF EXISTS `c_core_org`;
 CREATE TABLE `c_core_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `tree_path` varchar(255) DEFAULT ',' COMMENT '树结构',
@@ -1036,7 +1048,7 @@ CREATE TABLE `m_product` (
   `parent_id` bigint(20) DEFAULT NULL,
   `label` varchar(255) DEFAULT NULL COMMENT '名称',
   `sort_value` int(11) DEFAULT NULL,
-  `test7` char(10) DEFAULT NULL,
+  `test7` char(10) DEFAULT NULL COMMENT 'xxx\n@InjectionField(feign = com.xxx.UserApi.class, method = USER_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.auth.User>',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户\n@InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.auth.User>',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>',
   PRIMARY KEY (`id`)

@@ -18,7 +18,6 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.model.RemoteData;
-import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.TreeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -177,7 +176,6 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "查询树形地区", notes = "查询树形地区")
     @GetMapping("/tree")
-    @Deprecated
     @SysLog("查询树形地区")
     public R<List<Area>> tree() {
         TimeInterval timer = DateUtil.timer();
@@ -185,14 +183,10 @@ public class AreaController extends BaseController {
         long find = timer.interval();
 
         timer = DateUtil.timer();
-        List<Area> areas = BeanPlusUtil.toBeanList(list, Area.class);
-        long map = timer.interval();
-
-        timer = DateUtil.timer();
-        List<Area> tree = TreeUtil.buildTree(areas);
+        List<Area> tree = TreeUtil.buildTree(list);
         long build = timer.interval();
 
-        log.info("查询={}, map={}, build={}", find, map, build);
+        log.info("查询={},  build={}", find, build);
         return success(tree);
     }
 }

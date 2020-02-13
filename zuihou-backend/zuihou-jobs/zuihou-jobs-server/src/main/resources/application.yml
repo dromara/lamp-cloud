@@ -3,16 +3,7 @@ zuihou:
     mysql: ${MYSQL_IP:127.0.0.1}
     executor: ${EXECUTOR_IP:127.0.0.1}
   mysql:
-    #    authority:
-    #      database: zuihou_base_0000
-    #      host: ${zuihou.ip.mysql}
-    #      port: ${zuihou.mysql.port}
-    #    msgs:
-    #      database: zuihou_base_0000
-    #      host: ${zuihou.ip.mysql}
-    #      port: ${zuihou.mysql.port}
     database: zuihou_defaults
-    biz-database: zuihou_base
     host: ${zuihou.ip.mysql}
     username: root
     password: root
@@ -25,6 +16,7 @@ zuihou:
   database:
     isBlockAttack: false
     isMultiTenant: true
+    bizDatabase: zuihou_base
 
 ### xxl-job email
 xxl.job:

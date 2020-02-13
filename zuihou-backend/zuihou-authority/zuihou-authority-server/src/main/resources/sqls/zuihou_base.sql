@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 12/02/2020 16:52:10
+ Date: 13/02/2020 11:13:37
 */
 
 SET NAMES utf8mb4;
@@ -60,7 +60,7 @@ CREATE TABLE `c_auth_application_system_api` (
 DROP TABLE IF EXISTS `c_auth_menu`;
 CREATE TABLE `c_auth_menu` (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `label` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
   `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
   `is_public` bit(1) DEFAULT b'0' COMMENT '是否公开菜单\r\n就是无需分配就可以访问的。所有人可见',
   `path` varchar(255) DEFAULT '' COMMENT '对应路由path',
@@ -360,7 +360,7 @@ CREATE TABLE `c_common_parameter` (
 DROP TABLE IF EXISTS `c_core_org`;
 CREATE TABLE `c_core_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `tree_path` varchar(255) DEFAULT ',' COMMENT '树结构',
@@ -494,7 +494,7 @@ CREATE TABLE `m_product` (
   `parent_id` bigint(20) DEFAULT NULL,
   `label` varchar(255) DEFAULT NULL COMMENT '名称',
   `sort_value` int(11) DEFAULT NULL,
-  `test7` char(10) DEFAULT NULL,
+  `test7` char(10) DEFAULT NULL COMMENT 'xxx\n@InjectionField(feign = com.xxx.UserApi.class, method = USER_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.auth.User>',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户\n@InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.auth.User>',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>',
   PRIMARY KEY (`id`)

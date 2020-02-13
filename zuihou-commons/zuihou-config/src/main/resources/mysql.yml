@@ -6,10 +6,10 @@ zuihou:
     port: 3306
     driverClassName: com.mysql.cj.jdbc.Driver
     database: zuihou_defaults
-    biz-database: zuihou_defaults
     username: root
     password: root
   database:
+    bizDatabase: zuihou_base
     isMultiTenant: true   # 是否启用多租户
     isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
     worker-id: 0

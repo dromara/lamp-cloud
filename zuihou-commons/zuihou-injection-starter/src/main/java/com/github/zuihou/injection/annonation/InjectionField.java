@@ -61,14 +61,6 @@ public @interface InjectionField {
     String method() default "findByRemote";
 
     /**
-     * 是否以属性值合并作为查询值
-     *
-     * @return
-     */
-    @Deprecated
-    boolean isValueNeedMerge() default false;
-
-    /**
      * 最大递归深度
      * 防止 A、B对象 互相注入出现死循环
      * 默认值 3 (事不过三~)

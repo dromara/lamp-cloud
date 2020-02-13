@@ -1,17 +1,12 @@
 package com.github.zuihou.zuul.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.github.zuihou.authority.api.AuthorityGeneralApi;
-import com.github.zuihou.authority.api.DictionaryItemApi;
-import com.github.zuihou.file.api.FileGeneralApi;
-import com.github.zuihou.msgs.api.MsgsGeneralApi;
 import com.github.zuihou.utils.StrPool;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.annotation.Resource;
 import java.net.URLEncoder;
 
 /**
@@ -22,15 +17,6 @@ import java.net.URLEncoder;
  */
 @Controller
 public class GeneratorController {
-
-    @Resource
-    private AuthorityGeneralApi authorityGeneralApi;
-    @Resource
-    private FileGeneralApi fileGeneralApi;
-    @Resource
-    private MsgsGeneralApi msgsGeneralApi;
-    @Resource
-    private DictionaryItemApi dictionaryItemApi;
 
     /**
      * 解决swagger-bootstrap-ui的一个bug：
@@ -61,60 +47,5 @@ public class GeneratorController {
         }
         return "redirect:/" + service + "/v2/" + ext + "?group=" + URLEncoder.encode(newGroup, "UTF-8");
     }
-
-//    /**
-//     * 获取当前系统所有数据字典和枚举
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "获取当前系统所有数据字典和枚举", notes = "获取当前系统所有数据字典和枚举")
-//    @GetMapping("/dictionary/enums")
-//    @ResponseBody
-//    public R<Map<String, Map<String, String>>> dictionaryAndEnum(HttpServletRequest request) {
-//        BaseContextHandler.setTenant(request.getHeader(BaseContextConstants.TENANT));
-//        Map<String, Map<String, String>> map = new HashMap<>(4);
-//
-//        map.putAll(enums());
-//
-//        //整个系统的数据字典
-//        R<Map<String, Map<String, String>>> itemMap = dictionaryItemApi.map(DictionaryCode.ALL);
-//        if (itemMap.getIsSuccess()) {
-//            map.putAll(itemMap.getData());
-//        }
-//        return R.success(map);
-//    }
-//
-//    private Map enums() {
-//        Map<String, Map<String, String>> map = new HashMap<>(3);
-//        //权限服务的枚举
-//        R<Map<String, Map<String, String>>> authorityResult = authorityGeneralApi.enums();
-//        if (authorityResult.getIsSuccess()) {
-//            map.putAll(authorityResult.getData());
-//        }
-//
-//        //文件服务的枚举
-//        R<Map<String, Map<String, String>>> fileResult = fileGeneralApi.enums();
-//        if (fileResult.getIsSuccess()) {
-//            map.putAll(fileResult.getData());
-//        }
-//
-//        R<Map<String, Map<String, String>>> msgsResult = msgsGeneralApi.enums();
-//        if (msgsResult.getIsSuccess()) {
-//            map.putAll(msgsResult.getData());
-//        }
-//        return map;
-//    }
-//
-//    /**
-//     * 获取当前系统所有数据字典和枚举
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "获取当前系统所有枚举", notes = "获取当前系统所有枚举")
-//    @GetMapping("/enums")
-//    @ResponseBody
-//    public R<Map<String, Map<String, String>>> enums(HttpServletRequest request) {
-//        return R.success(enums());
-//    }
 
 }
