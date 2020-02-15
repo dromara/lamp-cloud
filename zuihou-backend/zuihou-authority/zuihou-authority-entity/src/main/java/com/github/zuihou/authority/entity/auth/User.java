@@ -3,7 +3,6 @@ package com.github.zuihou.authority.entity.auth;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.entity.core.Org;
-import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.Entity;
 import com.github.zuihou.injection.annonation.InjectionField;
@@ -27,7 +26,7 @@ import static com.github.zuihou.common.constant.InjectionFieldConstants.*;
  * </p>
  *
  * @author zuihou
- * @since 2020-02-12
+ * @since 2020-02-14
  */
 @Data
 @NoArgsConstructor
@@ -63,23 +62,23 @@ public class User extends Entity<Long> {
      * 组织ID
      * #c_core_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
+     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD)
+    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class)
     private RemoteData<Long, Org> org;
 
     /**
      * 岗位ID
      * #c_core_station
      *
-     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Station>
+     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
-    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD)
-    private RemoteData<Long, Station> station;
+    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD)
+    private RemoteData<Long, String> station;
 
     /**
      * 邮箱
@@ -123,7 +122,6 @@ public class User extends Entity<Long> {
 
     /**
      * 民族
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "民族")
@@ -134,7 +132,6 @@ public class User extends Entity<Long> {
 
     /**
      * 学历
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
@@ -145,7 +142,6 @@ public class User extends Entity<Long> {
 
     /**
      * 职位状态
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "职位状态")
@@ -203,7 +199,7 @@ public class User extends Entity<Long> {
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String account, String name, RemoteData<Long, Org> orgId, RemoteData<Long, Station> stationId, String email,
+                String account, String name, RemoteData<Long, Org> orgId, RemoteData<Long, String> stationId, String email,
                 String mobile, Sex sex, Boolean status, String avatar, RemoteData<String, String> nation, RemoteData<String, String> education,
                 RemoteData<String, String> positionStatus, String workDescribe, LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password, LocalDateTime lastLoginTime) {
         this.id = id;

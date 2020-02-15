@@ -69,7 +69,7 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
      * @return
      */
     @Override
-    public Map<Serializable, Object> findStationByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findStationByIds(Set<Long> ids) {
         LbqWrapper<Station> query = Wraps.<Station>lbQ()
                 .in(Station::getId, ids)
                 .eq(Station::getStatus, true);
@@ -87,7 +87,7 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
      * @return
      */
     @Override
-    public Map<Serializable, Object> findStationNameByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findStationNameByIds(Set<Long> ids) {
         LbqWrapper<Station> query = Wraps.<Station>lbQ()
                 .in(Station::getId, ids)
                 .eq(Station::getStatus, true);

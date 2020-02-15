@@ -1,5 +1,6 @@
 package com.github.zuihou.injection;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zuihou.injection.aspect.InjectionResultAspect;
 import com.github.zuihou.injection.configuration.InjectionProperties;
 import com.github.zuihou.injection.core.InjectionCore;
@@ -47,8 +48,8 @@ public class InjectionDataAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public InjectionCore getInjectionCore() {
-        return new InjectionCore(remoteProperties);
+    public InjectionCore getInjectionCore(ObjectMapper mapper) {
+        return new InjectionCore(mapper, remoteProperties);
     }
 
     /**

@@ -1,16 +1,16 @@
 package com.github.zuihou.base;
 
-import java.util.Map;
-
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.BaseExceptionCode;
 import com.google.common.collect.Maps;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.util.Map;
 
 
 /**
@@ -37,6 +37,12 @@ public class R<T> {
      */
     @ApiModelProperty(value = "响应编码:0/200-请求处理成功")
     private int code;
+
+    /**
+     * 时候执行默认操作
+     */
+    @JsonIgnore
+    private Boolean defExec = true;
 
     /**
      * 调用结果
@@ -72,6 +78,14 @@ public class R<T> {
         this.code = code;
         this.data = data;
         this.msg = msg;
+        this.defExec = false;
+    }
+
+    public R(int code, T data, String msg, boolean defExec) {
+        this.code = code;
+        this.data = data;
+        this.msg = msg;
+        this.defExec = defExec;
     }
 
     public static <E> R<E> result(int code, E data, String msg) {
@@ -88,8 +102,16 @@ public class R<T> {
         return new R<>(SUCCESS_CODE, data, "ok");
     }
 
+    public static <E> R<E> success(E data, boolean defExec) {
+        return new R<>(SUCCESS_CODE, data, "ok", defExec);
+    }
+
     public static R<Boolean> success() {
         return new R<>(SUCCESS_CODE, true, "ok");
+    }
+
+    public static <T> R<T> success(boolean defExec) {
+        return new R<>(SUCCESS_CODE, null, "ok", defExec);
     }
 
     /**

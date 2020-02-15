@@ -17,8 +17,15 @@ spring:
         server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
         file-extension: yml
         namespace: ${zuihou.nacos.namespace}
-        shared-dataids: common.yml,redis.yml,mysql.yml,rabbitmq.yml
-        refreshable-dataids: common.yml
+        shared-configs:
+          - dataId: common.yml
+            refresh: true
+          - dataId: redis.yml
+            refresh: false
+          - dataId: mysql.yml
+            refresh: false
+          - dataId: rabbitmq.yml
+            refresh: false
         enabled: true
       discovery:
         server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}

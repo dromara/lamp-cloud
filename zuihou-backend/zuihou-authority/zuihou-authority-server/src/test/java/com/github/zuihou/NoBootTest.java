@@ -46,6 +46,7 @@ import java.util.Map;
 @Slf4j
 public class NoBootTest {
 
+
     @Test
     public void test() {
         TestModel obj = new TestModel();

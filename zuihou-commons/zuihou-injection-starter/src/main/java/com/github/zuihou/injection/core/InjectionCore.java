@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.annonation.InjectionResult;
@@ -44,9 +45,11 @@ public class InjectionCore {
     private final InjectionProperties ips;
     private ListeningExecutorService backgroundRefreshPools;
     private LoadingCache<InjectionFieldExtPo, Map<Serializable, Object>> caches;
+    private final ObjectMapper mapper;
 
-    public InjectionCore(InjectionProperties ips) {
+    public InjectionCore(ObjectMapper mapper, InjectionProperties ips) {
         this.ips = ips;
+        this.mapper = mapper;
         InjectionProperties.GuavaCache guavaCache = ips.getGuavaCache();
         if (guavaCache.getEnabled()) {
             this.backgroundRefreshPools = MoreExecutors.listeningDecorator(
@@ -352,17 +355,12 @@ public class InjectionCore {
             if (StrUtil.isNotEmpty(key)) {
                 queryKey = key;
             } else {
-                try {
-                    Object curField = ReflectUtil.getFieldValue(obj, field);
-                    if (curField instanceof RemoteData) {
-                        RemoteData remoteData = (RemoteData) curField;
-                        queryKey = (Serializable) remoteData.getKey();
-                    } else {
-                        queryKey = (Serializable) curField;
-                    }
-                } catch (Exception e) {
-                    log.warn("类型装换失败忽略注入字段: {}.{}", field.getType(), field.getName());
-                    continue;
+                Object curField = ReflectUtil.getFieldValue(obj, field);
+                if (curField instanceof RemoteData) {
+                    RemoteData remoteData = (RemoteData) curField;
+                    queryKey = (Serializable) remoteData.getKey();
+                } else {
+                    queryKey = (Serializable) curField;
                 }
             }
 
@@ -384,6 +382,14 @@ public class InjectionCore {
             }
             if (curField instanceof RemoteData) {
                 RemoteData remoteData = (RemoteData) curField;
+
+                // feign 接口序列化 丢失类型
+                if (newVal != null && newVal instanceof Map && !Object.class.equals(type.getBeanClass())) {
+                    //BeanUtil 无法转换 枚举类型
+//                    newVal = BeanUtil.mapToBean((Map<?, ?>) newVal, type.getBeanClass(), true);
+                    String s = mapper.writeValueAsString(newVal);
+                    newVal = mapper.readValue(s, type.getBeanClass());
+                }
 
                 remoteData.setData(newVal);
             } else {

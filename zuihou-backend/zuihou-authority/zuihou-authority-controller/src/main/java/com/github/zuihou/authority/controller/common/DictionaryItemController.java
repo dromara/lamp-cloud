@@ -46,46 +46,6 @@ public class DictionaryItemController extends BaseController {
     @Autowired
     private DictionaryItemService dictionaryItemService;
 
-    //    /**
-//     * 根据字典编码查询字典条目的map集合
-//     * <p>
-//     * 将 List 转成 Map<String, Map<String, String>>
-//     * key 是字典编码  value 是字典编码下的所有 字典条目。  字典条目的 key是条目编码， value是条目名称
-//     * <p>
-//     * eg:
-//     * <p>
-//     * list:
-//     * <pre>
-//     * dictionaryCode   dictionaryItemCode  name
-//     * DIC_ZGXL         COLLEGE             本科
-//     * DIC_ZGXL         BOSHI               博士
-//     * ONLING_STATUS    WORKING             在职
-//     * ONLING_STATUS    LEAVE               离职
-//     * </pre>
-//     * <p>
-//     * 转成map：
-//     * {
-//     * "DIC_ZGXL": {
-//     * "COLLEGE", "本科",
-//     * "BOSHI", "博士",
-//     * }
-//     * "ONLING_STATUS": {
-//     * "WORKING", "在职",
-//     * "LEAVE", "离职",
-//     * }
-//     * }
-//     *
-//     * </p>
-//     *
-//     * @param codes 字典类型
-//     * @return 查询结果
-//     */
-//    @ApiOperation(value = "根据字典编码查询字典条目的map集合", notes = "根据字典编码查询字典条目的map集合")
-//    @GetMapping("/codes")
-//    public R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes) {
-//        return this.success(this.dictionaryItemService.map(codes));
-//    }
-
     /**
      * 分页查询字典项
      *
@@ -168,6 +128,16 @@ public class DictionaryItemController extends BaseController {
     }
 
 
+    /**
+     * 由于字典编码本身就是String 类型，所以不会出现mysql 的隐式转换问题，所以无需转换
+     *
+     * <p>
+     * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
+     * {@link com.github.zuihou.authority.api.DictionaryItemApi#findDictionaryItem} 方法的实现类
+     *
+     * @param codes 字典项编码
+     * @return
+     */
     @ApiOperation(value = "查询字典项", notes = "根据id查询字典项")
     @GetMapping("/findDictionaryItem")
     public Map<Serializable, Object> findDictionaryItem(@RequestParam Set<Serializable> codes) {
@@ -177,14 +147,6 @@ public class DictionaryItemController extends BaseController {
     @ApiOperation(value = "根据字典编码查询字典条目", notes = "根据字典编码查询字典条目")
     @GetMapping
     public R<Map<String, Map<String, String>>> list(@RequestParam("codes[]") String[] codes) {
-//        LbqWrapper<DictionaryItem> wrapper = Wraps.<DictionaryItem>lbQ()
-//                .in(DictionaryItem::getDictionaryCode, codes).eq(DictionaryItem::getStatus, true)
-//                .orderByAsc(DictionaryItem::getSortValue);
-//        List<DictionaryItem> list = dictionaryItemService.list(wrapper);
-//
-//        //key 是字典编码
-//        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
-//        return this.success(typeMap);
         return this.success(this.dictionaryItemService.map(codes));
     }
 

@@ -1,9 +1,9 @@
 package com.github.zuihou.utils;
 
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 
 
 /**
@@ -33,8 +33,7 @@ import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 public class AntiSqlFilter {
 
     private static final String[] KEY_WORDS = {";", "\"", "\'", "/*", "*/", "--", "exec",
-            "select", "update", "delete", "insert",
-            "alter", "drop", "create", "shutdown"};
+            "select", "update", "delete", "insert", "alter", "drop", "create", "shutdown"};
 
     public static Map<String, String[]> getSafeParameterMap(Map<String, String[]> parameterMap) {
         Map<String, String[]> map = new HashMap<>(parameterMap.size());
@@ -70,7 +69,7 @@ public class AntiSqlFilter {
                     lowerCase = sb.toString().toLowerCase();
                     continue;
                 }
-                sb.deleteCharAt(x + 1);
+                sb.delete(x, x + keyWord.length());
                 lowerCase = sb.toString().toLowerCase();
             }
         }

@@ -1,23 +1,18 @@
 package com.github.zuihou.utils;
 
+import com.github.zuihou.exception.BizException;
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
-
-import com.github.zuihou.exception.BizException;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 描述：日期工具类
@@ -220,6 +215,20 @@ public class DateUtils {
             log.info("DateUtils error {} ", e);
         }
         return date;
+    }
+
+    /**
+     * 获取当月最后一天
+     *
+     * @param date
+     * @return
+     */
+    public static Date getLastDateOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        return calendar.getTime();
     }
 
     /**

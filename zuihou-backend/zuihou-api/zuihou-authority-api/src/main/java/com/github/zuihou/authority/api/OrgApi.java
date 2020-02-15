@@ -36,4 +36,5 @@ public interface OrgApi {
      */
     @GetMapping("/findOrgNameByIds")
     Map<Serializable, Object> findOrgNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
+
 }

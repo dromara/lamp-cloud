@@ -52,19 +52,20 @@ public class BaseContextHandler {
         return map.getOrDefault(key, "");
     }
 
-    public static Boolean isBoot() {
-        Object value = get(BaseContextConstants.IS_BOOT);
-        return Convert.toBool(value);
-    }
+
+//    public static Boolean isBoot() {
+//        Object value = get(BaseContextConstants.IS_BOOT);
+//        return Convert.toBool(value);
+//    }
 
     /**
      * 账号id
      *
      * @param val
      */
-    public static void setBoot(Boolean val) {
-        set(BaseContextConstants.IS_BOOT, val);
-    }
+//    public static void setBoot(Boolean val) {
+//        set(BaseContextConstants.IS_BOOT, val);
+//    }
 
     /**
      * 账号id
@@ -142,28 +143,34 @@ public class BaseContextHandler {
         set(BaseContextConstants.TOKEN_NAME, token);
     }
 
+    @Deprecated
     public static Long getOrgId() {
         Object value = get(BaseContextConstants.JWT_KEY_ORG_ID);
         return Convert.toLong(value, 0L);
     }
 
+    @Deprecated
     public static void setOrgId(String val) {
         set(BaseContextConstants.JWT_KEY_ORG_ID, val);
     }
 
+    @Deprecated
     public static void setOrgId(Long val) {
         set(BaseContextConstants.JWT_KEY_ORG_ID, val);
     }
 
+    @Deprecated
     public static Long getStationId() {
         Object value = get(BaseContextConstants.JWT_KEY_STATION_ID);
         return Convert.toLong(value, 0L);
     }
 
+    @Deprecated
     public static void setStationId(String val) {
         set(BaseContextConstants.JWT_KEY_STATION_ID, val);
     }
 
+    @Deprecated
     public static void setStationId(Long val) {
         set(BaseContextConstants.JWT_KEY_STATION_ID, val);
     }
@@ -190,6 +197,15 @@ public class BaseContextHandler {
 
     public static void setDatabase(String val) {
         set(BaseContextConstants.DATABASE_NAME, val);
+    }
+
+    public static String getGrayVersion() {
+        Object value = get(BaseContextConstants.GRAY_VERSION);
+        return Convert.toStr(value);
+    }
+
+    public static void setGrayVersion(String val) {
+        set(BaseContextConstants.GRAY_VERSION, val);
     }
 
 

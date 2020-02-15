@@ -217,7 +217,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Map<Serializable, Object> findUserByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findUserByIds(Set<Long> ids) {
 
         LbqWrapper<User> query = Wraps.<User>lbQ()
                 .in(User::getId, ids)
@@ -230,7 +230,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Map<Serializable, Object> findUserNameByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findUserNameByIds(Set<Long> ids) {
 
         LbqWrapper<User> query = Wraps.<User>lbQ()
                 .in(User::getId, ids)

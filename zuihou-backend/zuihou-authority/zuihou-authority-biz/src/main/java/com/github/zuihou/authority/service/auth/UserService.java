@@ -133,7 +133,7 @@ public interface UserService extends IService<User> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findUserByIds(Set<Serializable> ids);
+    Map<Serializable, Object> findUserByIds(Set<Long> ids);
 
     /**
      * 根据 id 查询用户名称
@@ -141,5 +141,5 @@ public interface UserService extends IService<User> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findUserNameByIds(Set<Serializable> ids);
+    Map<Serializable, Object> findUserNameByIds(Set<Long> ids);
 }
