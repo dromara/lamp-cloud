@@ -1,7 +1,6 @@
 package com.github.zuihou.zuul.config;
 
-import com.github.zuihou.common.config.BaseConfig;
-
+import com.github.zuihou.boot.config.BaseConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;

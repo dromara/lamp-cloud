@@ -1,4 +1,4 @@
-package com.github.zuihou.openfeign.http;
+package com.github.zuihou.cloud.http;
 
 import okhttp3.*;
 import okhttp3.internal.http.HttpHeaders;

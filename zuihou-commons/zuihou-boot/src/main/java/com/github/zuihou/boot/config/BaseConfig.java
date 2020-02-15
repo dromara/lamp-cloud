@@ -1,4 +1,4 @@
-package com.github.zuihou.common.config;
+package com.github.zuihou.boot.config;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.github.zuihou.common.undertow.UndertowServerFactoryCustomizer;
+import com.github.zuihou.boot.undertow.UndertowServerFactoryCustomizer;
 import com.github.zuihou.converter.*;
 import com.github.zuihou.utils.CodeGenerate;
 import com.github.zuihou.utils.SpringUtils;

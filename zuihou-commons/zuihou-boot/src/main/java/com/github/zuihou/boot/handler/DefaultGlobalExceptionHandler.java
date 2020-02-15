@@ -1,4 +1,4 @@
-package com.github.zuihou.common.handler;
+package com.github.zuihou.boot.handler;
 
 import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.base.R;

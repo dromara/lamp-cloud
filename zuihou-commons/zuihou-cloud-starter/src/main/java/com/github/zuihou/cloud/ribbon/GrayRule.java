@@ -1,4 +1,4 @@
-package com.github.zuihou.openfeign.ribbon;
+package com.github.zuihou.cloud.ribbon;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
