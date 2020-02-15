@@ -1,5 +1,9 @@
 package com.github.zuihou.openfeign;
 
+import org.springframework.cloud.openfeign.FeignFormatterRegistrar;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.FormatterRegistry;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,13 +11,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.springframework.cloud.openfeign.FeignFormatterRegistrar;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.format.FormatterRegistry;
-
-import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_FORMAT;
-import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
-import static com.github.zuihou.utils.DateUtils.DEFAULT_TIME_FORMAT;
+import static com.github.zuihou.utils.DateUtils.*;
 
 /**
  * 在feign调用方配置， 解决入参和出参是 date 类型.

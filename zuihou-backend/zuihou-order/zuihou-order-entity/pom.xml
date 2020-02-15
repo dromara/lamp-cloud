@@ -15,10 +15,10 @@
     <description>订单服务实体模块</description>
 
     <dependencies>
-        <!-- 整个项目都会依赖 zuihou-common + zuihou-core -->
+        <!-- 整个项目都会依赖 zuihou-boot + zuihou-core -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-common</artifactId>
+            <artifactId>zuihou-boot</artifactId>
         </dependency>
 
         <!-- 实体类上的注解需要使用swagger + mybatis plus相关的依赖 -->

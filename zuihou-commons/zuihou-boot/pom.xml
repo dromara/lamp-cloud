@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zuihou</groupId>
-    <artifactId>zuihou-common</artifactId>
+    <artifactId>zuihou-boot</artifactId>
     <name>${project.artifactId}</name>
     <description>公共模块</description>
 

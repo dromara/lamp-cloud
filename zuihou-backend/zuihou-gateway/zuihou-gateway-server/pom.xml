@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-common</artifactId>
+            <artifactId>zuihou-boot</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-openfeign-starter</artifactId>
+            <artifactId>zuihou-cloud-starter</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>

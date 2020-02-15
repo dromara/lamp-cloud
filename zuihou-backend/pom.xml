@@ -42,7 +42,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-common</artifactId>
+                <artifactId>zuihou-boot</artifactId>
                 <version>${commons.version}</version>
             </dependency>
             <dependency>
@@ -112,7 +112,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-openfeign-starter</artifactId>
+                <artifactId>zuihou-cloud-starter</artifactId>
                 <version>${commons.version}</version>
             </dependency>
             <dependency>

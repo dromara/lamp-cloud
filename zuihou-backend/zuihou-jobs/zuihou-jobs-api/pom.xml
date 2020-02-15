@@ -40,7 +40,7 @@
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-core</artifactId>
+            <artifactId>zuihou-boot</artifactId>
             <version>${project.version}</version>
         </dependency>
 
