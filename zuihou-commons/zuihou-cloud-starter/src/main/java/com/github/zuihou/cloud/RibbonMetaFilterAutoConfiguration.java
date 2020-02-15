@@ -1,7 +1,7 @@
-package com.github.zuihou.openfeign;
+package com.github.zuihou.cloud;
 
 
-import com.github.zuihou.openfeign.ribbon.GrayRule;
+import com.github.zuihou.cloud.ribbon.GrayRule;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

@@ -1,4 +1,4 @@
-package com.github.zuihou.openfeign.http;
+package com.github.zuihou.cloud.http;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

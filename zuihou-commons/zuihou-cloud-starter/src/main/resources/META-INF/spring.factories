@@ -1,3 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.github.zuihou.openfeign.OpenFeignAutoConfiguration , \
-    com.github.zuihou.openfeign.RibbonMetaFilterAutoConfiguration
+    com.github.zuihou.cloud.OpenFeignAutoConfiguration , \
+    com.github.zuihou.cloud.RibbonMetaFilterAutoConfiguration

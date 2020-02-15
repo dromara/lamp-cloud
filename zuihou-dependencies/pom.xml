@@ -118,11 +118,10 @@
         <spring-boot-admin.version>2.2.0</spring-boot-admin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <mybatis.version>3.5.2</mybatis.version>
+        <mybatis-spring.version>2.0.3</mybatis-spring.version>
         <mybatis.typehandlers.version>1.0.2</mybatis.typehandlers.version>
         <mybatisplus.version>3.3.1</mybatisplus.version>
         <p6spy.version>3.8.7</p6spy.version>
-        <!--        <mybatis.dynamic.version>2.5.4</mybatis.dynamic.version>-->
-        <!--        <mybatis.spring.version>2.0.3</mybatis.spring.version>-->
         <fastjson.version>1.2.62</fastjson.version>
         <druid.version>1.1.21</druid.version>
         <mysql.version>6.0.6</mysql.version>
@@ -229,15 +228,25 @@
                 <version>${mybatisplus.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-typehandlers-jsr310</artifactId>
                 <version>${mybatis.typehandlers.version}</version>
             </dependency>
-            <!--            <dependency>-->
-            <!--                <groupId>com.alibaba</groupId>-->
-            <!--                <artifactId>druid</artifactId>-->
-            <!--                <version>${druid.version}</version>-->
-            <!--            </dependency>-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>

@@ -1,6 +1,6 @@
 package com.github.zuihou.order.config;
 
-import com.github.zuihou.common.handler.DefaultGlobalExceptionHandler;
+import com.github.zuihou.boot.handler.DefaultGlobalExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;

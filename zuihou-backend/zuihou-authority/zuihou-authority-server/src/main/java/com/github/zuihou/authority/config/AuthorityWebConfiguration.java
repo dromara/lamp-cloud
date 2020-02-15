@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.config;
 
 import com.github.zuihou.authority.service.common.OptLogService;
-import com.github.zuihou.common.config.BaseConfig;
+import com.github.zuihou.boot.config.BaseConfig;
 import com.github.zuihou.log.event.SysLogListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

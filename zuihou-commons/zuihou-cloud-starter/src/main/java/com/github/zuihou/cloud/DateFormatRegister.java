@@ -1,4 +1,4 @@
-package com.github.zuihou.openfeign;
+package com.github.zuihou.cloud;
 
 import org.springframework.cloud.openfeign.FeignFormatterRegistrar;
 import org.springframework.core.convert.converter.Converter;
