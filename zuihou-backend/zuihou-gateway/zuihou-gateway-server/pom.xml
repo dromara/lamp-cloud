@@ -15,7 +15,10 @@
     <description>网关服务启动模块</description>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-common</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-jwt-starter</artifactId>

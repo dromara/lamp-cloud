@@ -19,6 +19,12 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-boot</artifactId>
         </dependency>
+        <!-- 使用rabbitmq时，需要自行排除 spring-cloud-starter-openfeign , 并手动引入该jar -->
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-mq-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -61,11 +67,6 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <!-- 使用rabbitmq时，需要自行排除 spring-cloud-starter-openfeign , 并手动引入该jar -->
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-mq-starter</artifactId>
-        </dependency>
 
         <!-- 必须有这个jar 才能提示 -->
         <dependency>
