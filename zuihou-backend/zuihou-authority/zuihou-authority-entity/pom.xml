@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-log-starter</artifactId>
         </dependency>
         <dependency>

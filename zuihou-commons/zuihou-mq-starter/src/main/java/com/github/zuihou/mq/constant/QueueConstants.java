@@ -1,4 +1,4 @@
-package com.github.zuihou.common.constant;
+package com.github.zuihou.mq.constant;
 
 /**
  * 队列名常量

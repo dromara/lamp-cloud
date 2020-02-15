@@ -2,7 +2,7 @@ package com.github.zuihou.scan;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.constant.QueueConstants;
+import com.github.zuihou.mq.constant.QueueConstants;
 import com.github.zuihou.scan.feign.SystemApiApi;
 import com.github.zuihou.scan.feign.SystemApiApiFallback;
 import com.github.zuihou.scan.model.SystemApiScanSaveDTO;
