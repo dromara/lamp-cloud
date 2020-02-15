@@ -15,6 +15,10 @@
     <description>订单服务实体模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-common</artifactId>
+        </dependency>
         <!-- 整个项目都会依赖 zuihou-boot + zuihou-core -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
