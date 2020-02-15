@@ -2,7 +2,6 @@ package com.github.zuihou.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

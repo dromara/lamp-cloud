@@ -16,7 +16,7 @@
 
     <modules>
         <module>zuihou-core</module>
-        <module>zuihou-common</module>
+        <module>zuihou-boot</module>
         <module>zuihou-databases</module>
         <module>zuihou-log-starter</module>
         <module>zuihou-swagger2-starter</module>
@@ -26,7 +26,7 @@
         <module>zuihou-jwt-starter</module>
         <module>zuihou-dozer-starter</module>
         <module>zuihou-xss-starter</module>
-        <module>zuihou-openfeign-starter</module>
+        <module>zuihou-cloud-starter</module>
         <module>zuihou-j2cache-starter</module>
         <module>zuihou-cache-starter</module>
         <module>zuihou-zipkin-client-starter</module>
@@ -46,7 +46,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-common</artifactId>
+                <artifactId>zuihou-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

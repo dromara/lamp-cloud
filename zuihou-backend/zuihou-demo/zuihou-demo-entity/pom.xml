@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-common</artifactId>
+            <artifactId>zuihou-boot</artifactId>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
