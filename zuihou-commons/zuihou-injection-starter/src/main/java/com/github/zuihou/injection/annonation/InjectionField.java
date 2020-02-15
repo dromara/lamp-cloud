@@ -52,13 +52,20 @@ public @interface InjectionField {
     Class<? extends Object> feign() default Object.class;
 
     /**
+     * 标记实体类的具体类型，用于强转
+     *
+     * @return
+     */
+    Class<? extends Object> beanClass() default Object.class;
+
+    /**
      * 目标类中的调用方法
      * <p>
      * 若 找不到 api(feign) + method，则忽略该字段
      *
      * @return
      */
-    String method() default "findByRemote";
+    String method() default "findByIds";
 
     /**
      * 最大递归深度

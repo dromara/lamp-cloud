@@ -38,6 +38,7 @@ public class InjectionFieldExtPo extends InjectionFieldPo {
         this.feign = po.getFeign();
         this.key = po.getKey();
         this.method = po.getMethod();
+        this.beanClass = po.getBeanClass();
         this.keys = keys;
         this.tenant = BaseContextHandler.getTenant();
         this.database = BaseContextHandler.getDatabase();

@@ -13,7 +13,6 @@ import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.impl.StationServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.injection.core.InjectionCore;
 import com.github.zuihou.model.RemoteData;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +49,6 @@ public class RemoteDataMybatisTest {
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
-    @Autowired
-    private DozerUtils dozer;
     @Autowired
     private AreaMapper areaMapper;
     @Autowired

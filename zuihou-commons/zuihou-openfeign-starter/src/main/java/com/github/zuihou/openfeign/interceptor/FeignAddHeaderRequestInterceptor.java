@@ -24,7 +24,7 @@ public class FeignAddHeaderRequestInterceptor implements RequestInterceptor {
 
     private static final List<String> HEADER_NAME_LIST = Arrays.asList(
             BaseContextConstants.TENANT, BaseContextConstants.JWT_KEY_USER_ID,
-            BaseContextConstants.JWT_KEY_ACCOUNT, BaseContextConstants.JWT_KEY_NAME,
+            BaseContextConstants.JWT_KEY_ACCOUNT, BaseContextConstants.JWT_KEY_NAME, BaseContextConstants.GRAY_VERSION,
             BaseContextConstants.JWT_KEY_STATION_ID, BaseContextConstants.JWT_KEY_ORG_ID
     );
 

@@ -1,14 +1,11 @@
 package com.github.zuihou.filter;
 
-import javax.servlet.http.HttpServletRequest;
-
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.adapter.IgnoreTokenConfig;
 import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
 import org.springframework.web.util.UrlPathHelper;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 基础 网关过滤器
@@ -69,7 +68,7 @@ public abstract class BaseFilter extends ZuulFilter {
         return IgnoreTokenConfig.isIgnoreToken(getUri());
     }
 
-    protected String getTokenFromRequest(String headerName, HttpServletRequest request) {
+    protected String getHeader(String headerName, HttpServletRequest request) {
         String token = request.getHeader(headerName);
         if (StringUtils.isBlank(token)) {
             token = request.getParameter(headerName);

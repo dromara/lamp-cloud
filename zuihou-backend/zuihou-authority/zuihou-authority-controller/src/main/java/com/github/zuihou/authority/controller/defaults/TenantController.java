@@ -14,7 +14,6 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -47,8 +46,6 @@ public class TenantController extends BaseController {
 
     @Autowired
     private TenantService tenantService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询企业

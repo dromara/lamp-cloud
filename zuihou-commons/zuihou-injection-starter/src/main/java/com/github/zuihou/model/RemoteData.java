@@ -1,5 +1,6 @@
 package com.github.zuihou.model;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.github.zuihou.base.validation.IValidatable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,10 @@ public class RemoteData<K, D> implements Serializable, IValidatable {
      */
     public static <K, D> K getKey(RemoteData<K, D> remoteData) {
         return remoteData != null ? remoteData.getKey() : null;
+    }
+
+    public static <K, D> K getKey(RemoteData<K, D> remoteData, K def) {
+        return remoteData != null && ObjectUtil.isNotEmpty(remoteData.getKey()) ? remoteData.getKey() : def;
     }
 
     /**

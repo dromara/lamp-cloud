@@ -46,6 +46,17 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!-- jdk8 Time-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-parameter-names</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 </project>

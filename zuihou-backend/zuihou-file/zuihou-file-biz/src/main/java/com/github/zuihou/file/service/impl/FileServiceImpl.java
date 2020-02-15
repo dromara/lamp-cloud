@@ -1,24 +1,9 @@
 package com.github.zuihou.file.service.impl;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.update.LbuWrapper;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.file.biz.FileBiz;
 import com.github.zuihou.file.dao.FileMapper;
 import com.github.zuihou.file.domain.FileAttrDO;
@@ -34,9 +19,9 @@ import com.github.zuihou.file.enumeration.DataType;
 import com.github.zuihou.file.enumeration.IconType;
 import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.file.strategy.FileStrategy;
+import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.DateUtils;
-
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -44,6 +29,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
 import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
@@ -62,9 +60,6 @@ import static java.util.stream.Collectors.groupingBy;
 @Slf4j
 @Service
 public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements FileService {
-
-    @Autowired
-    private DozerUtils dozerUtils;
 
     @Autowired
     private FileBiz fileBiz;
@@ -109,7 +104,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     @Override
     public FolderDTO saveFolder(FolderSaveDTO folderSaveDto) {
-        File folder = dozerUtils.map2(folderSaveDto, File.class);
+        File folder = BeanPlusUtil.toBean(folderSaveDto, File.class);
         if (folderSaveDto.getFolderId() == null || folderSaveDto.getFolderId() <= 0) {
             folder.setFolderId(DEF_PARENT_ID);
             folder.setTreePath(DEF_ROOT_PATH);
@@ -132,7 +127,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         folder.setIcon(IconType.DIR.getIcon());
         setDate(folder);
         super.save(folder);
-        return dozerUtils.map2(folder, FolderDTO.class);
+        return BeanPlusUtil.toBean(folder, FolderDTO.class);
     }
 
     private void setDate(File file) {

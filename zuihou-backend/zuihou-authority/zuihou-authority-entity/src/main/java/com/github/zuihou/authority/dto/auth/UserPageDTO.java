@@ -1,6 +1,9 @@
 package com.github.zuihou.authority.dto.auth;
 
+import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.enumeration.auth.Sex;
+import com.github.zuihou.injection.annonation.InjectionField;
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -11,6 +14,8 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import static com.github.zuihou.common.constant.InjectionFieldConstants.*;
+
 /**
  * <p>
  * 实体类
@@ -18,7 +23,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zuihou
- * @since 2020-02-12
+ * @since 2020-02-14
  */
 @Data
 @NoArgsConstructor
@@ -50,18 +55,21 @@ public class UserPageDTO implements Serializable {
      * 组织ID
      * #c_core_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
+     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
      */
     @ApiModelProperty(value = "组织ID")
-    private Long orgId;
+    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class)
+    private RemoteData<Long, Org> org;
     /**
      * 岗位ID
      * #c_core_station
      *
-     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Station>
+     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "岗位ID")
-    private Long stationId;
+    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD)
+    private RemoteData<Long, String> station;
+
     /**
      * 邮箱
      */
@@ -99,7 +107,8 @@ public class UserPageDTO implements Serializable {
      */
     @ApiModelProperty(value = "民族")
     @Length(max = 20, message = "民族长度不能超过20")
-    private String nation;
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> nation;
     /**
      * 学历
      *
@@ -107,7 +116,8 @@ public class UserPageDTO implements Serializable {
      */
     @ApiModelProperty(value = "学历")
     @Length(max = 20, message = "学历长度不能超过20")
-    private String education;
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> education;
     /**
      * 职位状态
      *
@@ -115,7 +125,8 @@ public class UserPageDTO implements Serializable {
      */
     @ApiModelProperty(value = "职位状态")
     @Length(max = 20, message = "职位状态长度不能超过20")
-    private String positionStatus;
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    private RemoteData<String, String> positionStatus;
     /**
      * 工作描述
      * 比如：  市长、管理员、局长等等   用于登陆展示
@@ -151,10 +162,10 @@ public class UserPageDTO implements Serializable {
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime lastLoginTime;
 
-    @ApiModelProperty(value = "开始时间")
-    private LocalDateTime startCreateTime;
-
-    @ApiModelProperty(value = "截止时间")
-    private LocalDateTime endCreateTime;
+//    @ApiModelProperty(value = "开始时间")
+//    private LocalDateTime startCreateTime;
+//
+//    @ApiModelProperty(value = "截止时间")
+//    private LocalDateTime endCreateTime;
 
 }

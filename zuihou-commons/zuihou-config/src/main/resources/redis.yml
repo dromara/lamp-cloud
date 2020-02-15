@@ -38,14 +38,14 @@ caffeine:
   properties: /j2cache/caffeine.properties   # 这个配置文件需要放在项目中
 lettuce:
   mode: single
-  namespace:
+  namespace: ''
   storage: generic
   channel: j2cache
   scheme: redis
   hosts: ${zuihou.redis.ip}:${zuihou.redis.port}
   password: ${zuihou.redis.password}
   database: ${zuihou.redis.database}
-  sentinelMasterId:
+  sentinelMasterId: ''
   maxTotal: 100
   maxIdle: 10
   minIdle: 10

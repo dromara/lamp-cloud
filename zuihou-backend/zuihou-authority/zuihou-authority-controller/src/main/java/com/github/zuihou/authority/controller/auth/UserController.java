@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.controller.auth;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.*;
 import com.github.zuihou.authority.entity.auth.Role;
@@ -12,9 +13,10 @@ import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
-import com.github.zuihou.base.BaseController;
+import com.github.zuihou.base.BaseController2;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.base.request.RequestParams;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.exception.BizException;
@@ -30,8 +32,6 @@ import com.github.zuihou.user.model.SysStation;
 import com.github.zuihou.user.model.SysUser;
 import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -64,8 +64,7 @@ import static com.github.zuihou.common.constant.BizConstant.DEMO_STATION_ID;
 @RestController
 @RequestMapping("/user")
 @Api(value = "User", tags = "用户")
-public class UserController extends BaseController {
-
+public class UserController extends BaseController2<UserService, Long, User, UserPageDTO, UserSaveDTO, UserUpdateDTO> {
     @Autowired
     private UserService userService;
     @Autowired
@@ -76,41 +75,39 @@ public class UserController extends BaseController {
     private StationService stationService;
     @Resource
     private SmsApi smsApi;
-
     @Autowired
     private ResourceService resourceService;
+
 
     /**
      * 分页查询用户
      *
-     * @param userPage 分页查询对象
+     * @param params 分页查询对象
      * @return 查询结果
      */
-    @ApiOperation(value = "分页查询用户", notes = "分页查询用户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping("/page")
-    @SysLog("'分页查询用户:' + #userPage.name")
-    public R<IPage<User>> page(UserPageDTO userPage) {
-        IPage<User> page = getPage();
+    @Override
+    @SysLog("'分页查询用户:' + #params.model.name")
+    public R<IPage<User>> page(@RequestBody @Validated RequestParams<UserPageDTO> params) {
+        IPage<User> page = params.getPage();
+
+        UserPageDTO userPage = params.getModel();
 
         LbqWrapper<User> wrapper = Wraps.lbQ();
-        if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
-            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrgId()));
+        if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {
+            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrg().getKey()));
             wrapper.in(User::getOrg, children.stream().map((org) -> new RemoteData(org.getId())).collect(Collectors.toList()));
         }
-        wrapper.geHeader(User::getCreateTime, userPage.getStartCreateTime())
-                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
+        wrapper
+//                .geHeader(User::getCreateTime, userPage.getStartCreateTime())
+//                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
                 .like(User::getName, userPage.getName())
                 .like(User::getAccount, userPage.getAccount())
                 .like(User::getEmail, userPage.getEmail())
                 .like(User::getMobile, userPage.getMobile())
-                .eq(User::getStation, userPage.getStationId())
+                .eq(User::getStation, userPage.getStation())
                 .eq(User::getPositionStatus, userPage.getPositionStatus())
                 .eq(User::getEducation, userPage.getEducation())
-                .eq(User::getNation, userPage.getNation())
+                .eq(userPage.getNation() != null && StrUtil.isNotEmpty(userPage.getNation().getKey()), User::getNation, userPage.getNation())
                 .eq(User::getSex, userPage.getSex())
                 .eq(User::getStatus, userPage.getStatus())
                 .orderByDesc(User::getId);
@@ -124,8 +121,9 @@ public class UserController extends BaseController {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询用户", notes = "查询用户")
-    @GetMapping("/{id}")
+//    @ApiOperation(value = "查询用户", notes = "查询用户")
+//    @GetMapping("/{id}")
+    @Override
     @SysLog("'查询用户:' + #id")
     public R<User> get(@PathVariable Long id) {
         return success(userService.getById(id));
@@ -146,8 +144,9 @@ public class UserController extends BaseController {
      * @param data 新增对象
      * @return 新增结果
      */
-    @ApiOperation(value = "新增用户", notes = "新增用户不为空的字段")
-    @PostMapping
+//    @ApiOperation(value = "新增用户", notes = "新增用户不为空的字段")
+//    @PostMapping
+    @Override
     @SysLog("'新增用户:' + #data.name")
     public R<User> save(@RequestBody @Validated UserSaveDTO data) {
         User user = BeanUtil.toBean(data, User.class);
@@ -161,8 +160,9 @@ public class UserController extends BaseController {
      * @param data 修改对象
      * @return 修改结果
      */
-    @ApiOperation(value = "修改用户", notes = "修改用户不为空的字段")
-    @PutMapping
+//    @ApiOperation(value = "修改用户", notes = "修改用户不为空的字段")
+//    @PutMapping
+    @Override
     @SysLog("修改用户")
     public R<User> update(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateDTO data) {
         User user = BeanUtil.toBean(data, User.class);
@@ -200,8 +200,9 @@ public class UserController extends BaseController {
      * @param ids 主键id
      * @return 删除结果
      */
-    @ApiOperation(value = "删除用户", notes = "根据id物理删除用户")
-    @DeleteMapping
+//    @ApiOperation(value = "删除用户", notes = "根据id物理删除用户")
+//    @DeleteMapping
+    @Override
     @SysLog("删除用户")
     public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
         userService.remove(ids);
@@ -319,15 +320,41 @@ public class UserController extends BaseController {
     }
 
 
+    /**
+     * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
+     * 问题如下： select * from org where id in ('100');
+     * <p>
+     * 强制转换成Long后，sql就能正常执行： select * from org where id in (100);
+     *
+     * <p>
+     * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
+     * {@link com.github.zuihou.authority.api.UserApi#findUserByIds} 方法的实现类
+     *
+     * @param codes id
+     * @return
+     */
     @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
     @GetMapping("/findUserByIds")
-    public Map<Serializable, Object> findUserByIds(@RequestParam Set<Serializable> codes) {
+    public Map<Serializable, Object> findUserByIds(@RequestParam Set<Long> codes) {
         return this.userService.findUserByIds(codes);
     }
 
+    /**
+     * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
+     * 问题如下： select * from org where id in ('100');
+     * <p>
+     * 强制转换成Long后，sql就能正常执行： select * from org where id in (100);
+     *
+     * <p>
+     * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
+     * {@link com.github.zuihou.authority.api.UserApi#findUserNameByIds} 方法的实现类
+     *
+     * @param codes id
+     * @return
+     */
     @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
     @GetMapping("/findUserNameByIds")
-    public Map<Serializable, Object> findUserNameByIds(@RequestParam Set<Serializable> codes) {
+    public Map<Serializable, Object> findUserNameByIds(@RequestParam Set<Long> codes) {
         return this.userService.findUserNameByIds(codes);
     }
 

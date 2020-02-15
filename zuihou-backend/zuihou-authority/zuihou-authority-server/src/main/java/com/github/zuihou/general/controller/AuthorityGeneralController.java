@@ -14,11 +14,16 @@ import com.github.zuihou.common.enums.HttpMethod;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,4 +67,20 @@ public class AuthorityGeneralController extends BaseController {
         return success(map);
     }
 
+
+    @Value("${lettuce.namespace:aaa}")
+    private String port;
+    @Value("${lettuce.storage:ccc}")
+    private String storage;
+
+    @Autowired
+    private Environment e;
+
+    @GetMapping("/test")
+    @SneakyThrows
+    public R<Object> test(@RequestParam(value = "millis", defaultValue = "29") Long millis, HttpServletRequest request) {
+
+        return R.success("--port=" + this.port + ", storage=" + storage);
+    }
 }
+

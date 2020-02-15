@@ -120,13 +120,39 @@ public class StationController extends BaseController {
         return success();
     }
 
+    /**
+     * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
+     * 问题如下： select * from org where id in ('100');
+     * <p>
+     * 强制转换成Long后，sql就能正常执行： select * from org where id in (100);
+     *
+     * <p>
+     * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
+     * {@link com.github.zuihou.authority.api.StationApi#findStationByIds} 方法的实现类
+     *
+     * @param codes id
+     * @return
+     */
     @GetMapping("/findStationByIds")
-    public Map<Serializable, Object> findStationByIds(@RequestParam("ids") Set<Serializable> ids) {
+    public Map<Serializable, Object> findStationByIds(@RequestParam("ids") Set<Long> ids) {
         return stationService.findStationByIds(ids);
     }
 
+    /**
+     * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
+     * 问题如下： select * from org where id in ('100');
+     * <p>
+     * 强制转换成Long后，sql就能正常执行： select * from org where id in (100);
+     *
+     * <p>
+     * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
+     * {@link com.github.zuihou.authority.api.StationApi#findStationNameByIds} 方法的实现类
+     *
+     * @param codes id
+     * @return
+     */
     @GetMapping("/findStationNameByIds")
-    public Map<Serializable, Object> findStationNameByIds(@RequestParam("ids") Set<Serializable> ids) {
+    public Map<Serializable, Object> findStationNameByIds(@RequestParam("ids") Set<Long> ids) {
         return stationService.findStationNameByIds(ids);
     }
 

@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.dto.auth;
 
 import com.github.zuihou.authority.entity.core.Org;
-import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
@@ -13,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import static com.github.zuihou.common.constant.InjectionFieldConstants.*;
 
@@ -23,7 +23,7 @@ import static com.github.zuihou.common.constant.InjectionFieldConstants.*;
  * </p>
  *
  * @author zuihou
- * @since 2020-02-12
+ * @since 2020-02-14
  */
 @Data
 @NoArgsConstructor
@@ -55,20 +55,20 @@ public class UserSaveDTO implements Serializable {
      * 组织ID
      * #c_core_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
+     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>
      */
     @ApiModelProperty(value = "组织ID")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD)
+    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class)
     private RemoteData<Long, Org> org;
     /**
      * 岗位ID
      * #c_core_station
      *
-     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Station>
+     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "岗位ID")
-    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD)
-    private RemoteData<Long, Station> station;
+    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD)
+    private RemoteData<Long, String> station;
     /**
      * 邮箱
      */
@@ -101,7 +101,6 @@ public class UserSaveDTO implements Serializable {
     private String avatar;
     /**
      * 民族
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "民族")
@@ -110,7 +109,6 @@ public class UserSaveDTO implements Serializable {
     private RemoteData<String, String> nation;
     /**
      * 学历
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
@@ -119,7 +117,6 @@ public class UserSaveDTO implements Serializable {
     private RemoteData<String, String> education;
     /**
      * 职位状态
-     *
      * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "职位状态")
@@ -134,11 +131,31 @@ public class UserSaveDTO implements Serializable {
     @Length(max = 255, message = "工作描述长度不能超过255")
     private String workDescribe;
     /**
+     * 最后一次输错密码时间
+     */
+    @ApiModelProperty(value = "最后一次输错密码时间")
+    private LocalDateTime passwordErrorLastTime;
+    /**
+     * 密码错误次数
+     */
+    @ApiModelProperty(value = "密码错误次数")
+    private Integer passwordErrorNum;
+    /**
+     * 密码过期时间
+     */
+    @ApiModelProperty(value = "密码过期时间")
+    private LocalDateTime passwordExpireTime;
+    /**
      * 密码
      */
     @ApiModelProperty(value = "密码")
     @NotEmpty(message = "密码不能为空")
     @Length(max = 64, message = "密码长度不能超过64")
     private String password;
+    /**
+     * 最后登录时间
+     */
+    @ApiModelProperty(value = "最后登录时间")
+    private LocalDateTime lastLoginTime;
 
 }
