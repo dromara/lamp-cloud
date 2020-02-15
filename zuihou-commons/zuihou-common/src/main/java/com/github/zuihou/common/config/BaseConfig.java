@@ -1,17 +1,7 @@
 package com.github.zuihou.common.config;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -23,15 +13,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.github.zuihou.base.id.CodeGenerate;
-import com.github.zuihou.common.converter.EnumDeserializer;
-import com.github.zuihou.common.converter.String2DateConverter;
-import com.github.zuihou.common.converter.String2LocalDateConverter;
-import com.github.zuihou.common.converter.String2LocalDateTimeConverter;
-import com.github.zuihou.common.converter.String2LocalTimeConverter;
 import com.github.zuihou.common.undertow.UndertowServerFactoryCustomizer;
+import com.github.zuihou.converter.*;
+import com.github.zuihou.utils.CodeGenerate;
 import com.github.zuihou.utils.SpringUtils;
-
 import io.undertow.Undertow;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -43,9 +28,18 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_FORMAT;
-import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
-import static com.github.zuihou.utils.DateUtils.DEFAULT_TIME_FORMAT;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import static com.github.zuihou.utils.DateUtils.*;
 
 /**
  * 基础配置类
@@ -53,6 +47,7 @@ import static com.github.zuihou.utils.DateUtils.DEFAULT_TIME_FORMAT;
  * @author zuihou
  * @date 2019-06-22 22:53
  */
+//@AutoConfigureBefore(JacksonAutoConfiguration.class)
 public abstract class BaseConfig {
 
     /**
@@ -71,6 +66,7 @@ public abstract class BaseConfig {
      */
     @Bean
     @Primary
+    @ConditionalOnClass(ObjectMapper.class)
     @ConditionalOnMissingBean
     public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
         builder.simpleDateFormat(DEFAULT_DATE_TIME_FORMAT);
@@ -85,9 +81,13 @@ public abstract class BaseConfig {
                 //忽略未知字段
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 //该特性决定parser是否允许JSON字符串包含非引号控制字符（值小于32的ASCII字符，包含制表符和换行符）。 如果该属性关闭，则如果遇到这些字符，则会抛出异常。JSON标准说明书要求所有控制符必须使用引号，因此这是一个非标准的特性
-                .configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
+//                .configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
+                .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true)
+
                 // 忽略不能转移的字符
-                .configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)
+//                .configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)
+                .configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true)
+
                 //单引号处理
                 .configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
                 //日期格式
@@ -195,8 +195,5 @@ public abstract class BaseConfig {
     public UndertowServerFactoryCustomizer getUndertowServerFactoryCustomizer() {
         return new UndertowServerFactoryCustomizer();
     }
-
-    /////////////////////////////////////////////以下是拦截器配置///////////////////////////////////////////////////////
-
 
 }

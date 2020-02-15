@@ -6,6 +6,15 @@ import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.StandardEnvironment;
 
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * 读取 j2cache 配置
+ *
+ * @author zuihou
+ * @date 2020年02月15日15:14:28
+ */
 public class SpringJ2CacheConfigUtil {
 
     /**
@@ -26,56 +35,43 @@ public class SpringJ2CacheConfigUtil {
         String l2_section = l2_config_section;
         //配置在 application.yml 或者 j2cache.properties 中时，这里能正常读取
         environment.getPropertySources().forEach(a -> {
+            String[] propertyNames = new String[]{};
             if (a instanceof MapPropertySource) {
                 MapPropertySource c = (MapPropertySource) a;
-                c.getSource().forEach((k, v) -> {
-                    String key = k;
-                    if (key.startsWith(config.getBroadcast() + ".")) {
-                        config.getBroadcastProperties().setProperty(key.substring((config.getBroadcast() + ".").length()),
-                                environment.getProperty(key));
-                    }
-                    if (key.startsWith(config.getL1CacheName() + ".")) {
-                        config.getL1CacheProperties().setProperty(key.substring((config.getL1CacheName() + ".").length()),
-                                environment.getProperty(key));
-                    }
-                    if (key.startsWith(l2_section + ".")) {
-                        config.getL2CacheProperties().setProperty(key.substring((l2_section + ".").length()),
-                                environment.getProperty(key));
-                    }
-                });
+                Map<String, Object> source = c.getSource();
+                if (source != null && !source.isEmpty()) {
+                    Set<String> strings = source.keySet();
+                    propertyNames = strings.stream().toArray(String[]::new);
+                }
+            } else if (a instanceof CompositePropertySource) {
+                CompositePropertySource cps = (CompositePropertySource) a;
+                propertyNames = cps.getPropertyNames();
+            } else if (a instanceof EnumerablePropertySource) {
+                EnumerablePropertySource eps = (EnumerablePropertySource) a;
+                propertyNames = eps.getPropertyNames();
             }
+            setProperty(config, environment, l2_section, propertyNames);
         });
 
-        //配置在 nacos 中时，上面那段代码无法获取配置
-        if (config.getL1CacheProperties().isEmpty() || config.getL2CacheProperties().isEmpty() || config.getBroadcastProperties().isEmpty()) {
-            environment.getPropertySources().forEach(ps -> {
-                String[] propertyNames = new String[]{};
-                if (ps instanceof CompositePropertySource) {
-                    CompositePropertySource cps = (CompositePropertySource) ps;
-                    propertyNames = cps.getPropertyNames();
-                } else if (ps instanceof EnumerablePropertySource) {
-                    EnumerablePropertySource eps = (EnumerablePropertySource) ps;
-                    propertyNames = eps.getPropertyNames();
-                }
-                setProperty(config, environment, l2_section, propertyNames);
-            });
-        }
         return config;
     }
 
     private static void setProperty(J2CacheConfig config, StandardEnvironment environment, String l2_section, String[] propertyNames) {
         for (String key : propertyNames) {
             if (key.startsWith(config.getBroadcast() + ".")) {
-                config.getBroadcastProperties().setProperty(key.substring((config.getBroadcast() + ".").length()),
-                        environment.getProperty(key));
+                String k = key.substring((config.getBroadcast() + ".").length());
+                String v = environment.getProperty(key);
+                config.getBroadcastProperties().setProperty(k, v);
             }
             if (key.startsWith(config.getL1CacheName() + ".")) {
-                config.getL1CacheProperties().setProperty(key.substring((config.getL1CacheName() + ".").length()),
-                        environment.getProperty(key));
+                String k = key.substring((config.getL1CacheName() + ".").length());
+                String v = environment.getProperty(key, "");
+                config.getL1CacheProperties().setProperty(k, v);
             }
             if (key.startsWith(l2_section + ".")) {
-                config.getL2CacheProperties().setProperty(key.substring((l2_section + ".").length()),
-                        environment.getProperty(key));
+                String k = key.substring((l2_section + ".").length());
+                String v = environment.getProperty(key, "");
+                config.getL2CacheProperties().setProperty(k, v);
             }
         }
 

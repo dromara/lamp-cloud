@@ -1,4 +1,4 @@
-package com.github.zuihou.base.id;
+package com.github.zuihou.utils;
 
 import java.util.concurrent.atomic.AtomicLong;
 

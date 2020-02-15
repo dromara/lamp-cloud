@@ -17,12 +17,17 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-common</artifactId>
+            <artifactId>zuihou-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 

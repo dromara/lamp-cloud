@@ -39,8 +39,6 @@ import static com.github.zuihou.utils.StrPool.EMPTY;
  * @author zuihou
  * @createTime 2017-12-13 17:04
  */
-//@ControllerAdvice(annotations = {RestController.class, Controller.class})
-//@ResponseBody
 @Slf4j
 public abstract class DefaultGlobalExceptionHandler {
     @ExceptionHandler(BizException.class)

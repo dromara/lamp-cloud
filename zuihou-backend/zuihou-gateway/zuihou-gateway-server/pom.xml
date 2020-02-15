@@ -24,6 +24,16 @@
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-webmvc</artifactId>
                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-undertow</artifactId>
@@ -46,7 +56,6 @@
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-webmvc</artifactId>
                 </exclusion>
-
             </exclusions>
         </dependency>
 
@@ -116,13 +125,6 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-ui</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.xiaoymin</groupId>-->
-        <!--            <artifactId>swagger-bootstrap-ui</artifactId>-->
-        <!--            <scope>compile</scope>-->
-        <!--        </dependency>-->
-
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>

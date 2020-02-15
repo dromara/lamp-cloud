@@ -7,6 +7,7 @@ import com.github.zuihou.auth.client.utils.JwtTokenClientUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.filter.BaseFilter;
 import com.github.zuihou.utils.StrPool;
@@ -89,6 +90,8 @@ public class TokenContextFilter extends BaseFilter {
         String clientIP = ServletUtil.getClientIP(request);
         log.info("clientIP={}", clientIP);
 
+        BaseContextHandler.setGrayVersion(getHeader(BaseContextConstants.GRAY_VERSION, request));
+
         // 不进行拦截的地址
         if (isIgnoreToken()) {
             log.debug("access filter not execute");
@@ -96,7 +99,7 @@ public class TokenContextFilter extends BaseFilter {
         }
         //获取token， 解析，然后想信息放入 heade
         //1, 获取token
-        String userToken = getTokenFromRequest(authClientProperties.getUser().getHeaderName(), request);
+        String userToken = getHeader(authClientProperties.getUser().getHeaderName(), request);
 
         //2, 解析token
         JwtUserInfo userInfo = null;

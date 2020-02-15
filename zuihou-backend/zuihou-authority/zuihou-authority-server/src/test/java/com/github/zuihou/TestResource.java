@@ -6,6 +6,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.log.StaticLog;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dao.auth.RoleMapper;
@@ -18,6 +19,7 @@ import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
@@ -39,6 +41,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 测试类
@@ -74,11 +77,24 @@ public class TestResource {
     @Autowired
     private StationMapper stationMapper;
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Before
     public void setTenant() {
         BaseContextHandler.setTenant("0000");
         BaseContextHandler.setDatabase("zuihou_base");
+    }
+
+    @Test
+    public void testJson() throws Exception {
+        User u = new User().setSex(Sex.M).setName("123");
+        User user = BeanUtil.toBean(u, User.class);
+
+        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(u);
+        String s = objectMapper.writeValueAsString(u);
+        User user1 = objectMapper.readValue(s, User.class);
+        System.out.println(user);
     }
 
     @Test

@@ -1,11 +1,11 @@
-package com.github.zuihou.common.converter;
+package com.github.zuihou.converter;
+
+import org.springframework.core.convert.converter.Converter;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.springframework.core.convert.converter.Converter;
 
 import static com.github.zuihou.utils.DateUtils.DEFAULT_TIME_FORMAT;
 

@@ -41,6 +41,7 @@ public abstract class InjectionFieldConstants {
      * 组织 查询方法
      */
     public static final String ORG_ID_METHOD = "findOrgByIds";
+    public static final String ORG_ID_NAME_METHOD = "findOrgNameByIds";
 
 
     /**
@@ -72,4 +73,5 @@ public abstract class InjectionFieldConstants {
      * 组织 查询方法
      */
     public static final String STATION_ID_METHOD = "findStationByIds";
+    public static final String STATION_ID_NAME_METHOD = "findStationNameByIds";
 }

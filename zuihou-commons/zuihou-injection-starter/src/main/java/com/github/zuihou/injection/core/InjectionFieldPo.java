@@ -43,6 +43,8 @@ public class InjectionFieldPo {
      */
     protected Class<? extends Object> feign;
 
+    protected Class<? extends Object> beanClass;
+
     /**
      * 调用方法
      *
@@ -55,6 +57,7 @@ public class InjectionFieldPo {
         this.feign = rf.feign();
         this.key = rf.key();
         this.method = rf.method();
+        this.beanClass = rf.beanClass();
     }
 
     @Override

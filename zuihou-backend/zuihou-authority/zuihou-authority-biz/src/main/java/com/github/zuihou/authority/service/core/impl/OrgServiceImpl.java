@@ -63,7 +63,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
      * @return
      */
     @Override
-    public Map<Serializable, Object> findOrgByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findOrgByIds(Set<Long> ids) {
         LbqWrapper<Org> query = Wraps.<Org>lbQ()
                 .in(Org::getId, ids)
                 .eq(Org::getStatus, true);
@@ -81,7 +81,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
      * @return
      */
     @Override
-    public Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findOrgNameByIds(Set<Long> ids) {
         LbqWrapper<Org> query = Wraps.<Org>lbQ()
                 .in(Org::getId, ids)
                 .eq(Org::getStatus, true);

@@ -8,6 +8,7 @@ import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.adapter.IgnoreTokenConfig;
 import com.github.zuihou.context.BaseContextConstants;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.utils.StrPool;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,8 +38,7 @@ import java.util.List;
  */
 @Component
 @Slf4j
-//@Order(0)
-public class AccessFilter implements GlobalFilter {
+public class AccessFilter implements GlobalFilter, Ordered {
     @Value("${spring.profiles.active:dev}")
     protected String profiles;
     @Autowired
@@ -49,6 +50,11 @@ public class AccessFilter implements GlobalFilter {
         return !StrPool.PROD.equalsIgnoreCase(profiles);
     }
 
+    @Override
+    public int getOrder() {
+        return -1000;
+    }
+
     /**
      * 忽略应用级token
      *
@@ -58,7 +64,7 @@ public class AccessFilter implements GlobalFilter {
         return IgnoreTokenConfig.isIgnoreToken(uri);
     }
 
-    protected String getTokenFromRequest(String headerName, ServerHttpRequest request) {
+    protected String getHeader(String headerName, ServerHttpRequest request) {
         HttpHeaders headers = request.getHeaders();
         String token = StrUtil.EMPTY;
         if (headers == null || headers.isEmpty()) {
@@ -87,6 +93,8 @@ public class AccessFilter implements GlobalFilter {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
+        BaseContextHandler.setGrayVersion(getHeader(BaseContextConstants.GRAY_VERSION, request));
+
         // 不进行拦截的地址
         if (isIgnoreToken(request.getPath().toString())) {
             log.debug("access filter not execute");
@@ -96,7 +104,7 @@ public class AccessFilter implements GlobalFilter {
         //获取token， 解析，然后想信息放入 heade
         //1, 获取token
 
-        String userToken = getTokenFromRequest(authClientProperties.getUser().getHeaderName(), request);
+        String userToken = getHeader(authClientProperties.getUser().getHeaderName(), request);
 
         //2, 解析token
         JwtUserInfo userInfo = null;
