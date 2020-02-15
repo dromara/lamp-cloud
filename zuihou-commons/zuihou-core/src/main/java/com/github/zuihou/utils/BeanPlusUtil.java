@@ -1,9 +1,6 @@
 package com.github.zuihou.utils;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -41,32 +38,32 @@ public class BeanPlusUtil extends BeanUtil {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 转化Page 对象
-     *
-     * @param page
-     * @param destinationClass
-     * @param <T>
-     * @param <E>
-     * @return
-     */
-    public static <T, E> IPage<T> toBeanPage(IPage<E> page, Class<T> destinationClass) {
-        if (page == null || destinationClass == null) {
-            return null;
-        }
-        IPage<T> newPage = new Page<>(page.getCurrent(), page.getSize());
-        newPage.setPages(page.getPages());
-        newPage.setTotal(page.getTotal());
-
-        List<E> list = page.getRecords();
-        if (CollUtil.isEmpty(list)) {
-            return newPage;
-        }
-
-        List<T> destinationList = toBeanList(list, destinationClass);
-
-        newPage.setRecords(destinationList);
-        return newPage;
-    }
+//    /**
+//     * 转化Page 对象
+//     *
+//     * @param page
+//     * @param destinationClass
+//     * @param <T>
+//     * @param <E>
+//     * @return
+//     */
+//    public static <T, E> IPage<T> toBeanPage(IPage<E> page, Class<T> destinationClass) {
+//        if (page == null || destinationClass == null) {
+//            return null;
+//        }
+//        IPage<T> newPage = new Page<>(page.getCurrent(), page.getSize());
+//        newPage.setPages(page.getPages());
+//        newPage.setTotal(page.getTotal());
+//
+//        List<E> list = page.getRecords();
+//        if (CollUtil.isEmpty(list)) {
+//            return newPage;
+//        }
+//
+//        List<T> destinationList = toBeanList(list, destinationClass);
+//
+//        newPage.setRecords(destinationList);
+//        return newPage;
+//    }
 
 }

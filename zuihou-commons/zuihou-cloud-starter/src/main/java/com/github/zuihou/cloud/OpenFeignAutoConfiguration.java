@@ -1,7 +1,7 @@
-package com.github.zuihou.openfeign;
+package com.github.zuihou.cloud;
 
-import com.github.zuihou.openfeign.hystrix.ThreadLocalHystrixConcurrencyStrategy;
-import com.github.zuihou.openfeign.interceptor.FeignAddHeaderRequestInterceptor;
+import com.github.zuihou.cloud.hystrix.ThreadLocalHystrixConcurrencyStrategy;
+import com.github.zuihou.cloud.interceptor.FeignAddHeaderRequestInterceptor;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 import org.springframework.beans.factory.ObjectFactory;

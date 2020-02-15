@@ -1,4 +1,4 @@
-package com.github.zuihou.openfeign.http;
+package com.github.zuihou.cloud.http;
 
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;

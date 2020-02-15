@@ -1,7 +1,7 @@
 package com.github.zuihou.msgs.config;
 
 import com.github.zuihou.authority.api.LogApi;
-import com.github.zuihou.common.config.BaseConfig;
+import com.github.zuihou.boot.config.BaseConfig;
 import com.github.zuihou.log.event.SysLogListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

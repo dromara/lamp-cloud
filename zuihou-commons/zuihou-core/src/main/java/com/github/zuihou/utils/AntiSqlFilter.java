@@ -1,6 +1,6 @@
 package com.github.zuihou.utils;
 
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
+import cn.hutool.core.util.ArrayUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class AntiSqlFilter {
     }
 
     public static String[] getSafeValues(String[] oldValues) {
-        if (ArrayUtils.isNotEmpty(oldValues)) {
+        if (ArrayUtil.isNotEmpty(oldValues)) {
             String[] newValues = new String[oldValues.length];
             for (int i = 0; i < oldValues.length; i++) {
                 newValues[i] = getSafeValue(oldValues[i]);

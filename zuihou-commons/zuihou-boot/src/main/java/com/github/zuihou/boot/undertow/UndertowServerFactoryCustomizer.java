@@ -1,4 +1,4 @@
-package com.github.zuihou.common.undertow;
+package com.github.zuihou.boot.undertow;
 
 import io.undertow.connector.ByteBufferPool;
 import io.undertow.server.DefaultByteBufferPool;

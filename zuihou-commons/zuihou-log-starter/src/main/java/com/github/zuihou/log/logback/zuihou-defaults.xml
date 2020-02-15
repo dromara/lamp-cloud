@@ -214,7 +214,7 @@
         <logger name="com.github.zuihou" additivity="true" level="${log.level.console}">
             <appender-ref ref="ASYNC_PROJECT_APPENDER"/>
         </logger>
-        <logger name="com.github.zuihou.common.handler" additivity="true" level="${log.level.console}">
+        <logger name="com.github.zuihou.boot.handler" additivity="true" level="${log.level.console}">
             <appender-ref ref="ASYNC_EXCEPTION_APPENDER"/>
         </logger>
 
@@ -239,7 +239,7 @@
         <logger name="com.github.zuihou" additivity="true" level="${log.level.console}">
             <appender-ref ref="PROJECT_APPENDER"/>
         </logger>
-        <logger name="com.github.zuihou.common.handler" additivity="true" level="${log.level.console}">
+        <logger name="com.github.zuihou.boot.handler" additivity="true" level="${log.level.console}">
             <appender-ref ref="EXCEPTION_APPENDER"/>
         </logger>
 

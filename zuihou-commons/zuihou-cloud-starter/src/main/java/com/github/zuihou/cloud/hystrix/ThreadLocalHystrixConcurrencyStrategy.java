@@ -1,4 +1,4 @@
-package com.github.zuihou.openfeign.hystrix;
+package com.github.zuihou.cloud.hystrix;
 
 import com.github.zuihou.context.BaseContextHandler;
 import com.netflix.hystrix.HystrixThreadPoolKey;

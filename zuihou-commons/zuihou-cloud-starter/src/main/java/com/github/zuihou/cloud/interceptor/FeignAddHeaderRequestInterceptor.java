@@ -1,4 +1,4 @@
-package com.github.zuihou.openfeign.interceptor;
+package com.github.zuihou.cloud.interceptor;
 
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
