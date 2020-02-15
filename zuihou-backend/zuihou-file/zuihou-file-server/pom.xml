@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-openfeign-starter</artifactId>
+            <artifactId>zuihou-cloud-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
