@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class AuthorityWebConfiguration extends BaseConfig {
-    @Value("${zuihou.database.bizDatabase:zuihou_defaults}")
+    @Value("${zuihou.database.bizDatabase:zuihou_base}")
     private String database;
 
     @Bean
