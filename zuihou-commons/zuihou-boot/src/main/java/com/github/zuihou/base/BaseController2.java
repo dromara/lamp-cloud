@@ -1,5 +1,14 @@
 package com.github.zuihou.base;
 
+import cn.afterturn.easypoi.entity.vo.NormalExcelConstants;
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.ExcelXorHtmlUtil;
+import cn.afterturn.easypoi.excel.entity.ExcelToHtmlParams;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import cn.afterturn.easypoi.view.PoiBaseView;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReflectUtil;
@@ -17,15 +26,21 @@ import com.github.zuihou.exception.code.BaseExceptionCode;
 import com.github.zuihou.utils.DateUtils;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +51,9 @@ import java.util.Map;
  */
 public abstract class BaseController2<S extends IService<Entity>, Id extends Serializable, Entity, PageDTO, SaveDTO, UpdateDTO> {
 
-    Class<Entity> entityClass = null;
+    protected Class<Entity> entityClass = null;
     @Autowired
-    private S baseService;
+    protected S baseService;
 
     protected BaseController2() {
         entityClass = (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[2];
@@ -51,6 +66,7 @@ public abstract class BaseController2<S extends IService<Entity>, Id extends Ser
     protected Class<Entity> getEntityClass() {
         return entityClass;
     }
+
 
     /**
      * 成功返回
@@ -210,24 +226,14 @@ public abstract class BaseController2<S extends IService<Entity>, Id extends Ser
                 }
                 if (key.endsWith("_st")) {
                     String beanField = StrUtil.subBefore(key, "_st", true);
-                    wrapper.ge(getDbField(beanField, entityClass), getStartTime(value));
+                    wrapper.ge(getDbField(beanField, getEntityClass()), getStartTime(value));
                 }
                 if (key.endsWith("_ed")) {
                     String beanField = StrUtil.subBefore(key, "_ed", true);
-                    wrapper.le(getDbField(beanField, entityClass), getEndTime(value));
+                    wrapper.le(getDbField(beanField, getEntityClass()), getEndTime(value));
                 }
             }
         }
-//        Class<?> clazz = null;
-//        if (params.getModel() == null) {
-//            try {
-//                clazz = params.getClass().getSuperclass().getDeclaredField("model").getDeclaringClass();
-//            } catch (NoSuchFieldException e) {
-//                throw new BizException(BASE_VALID_PARAM, "参数不对");
-//            }
-//        } else {
-//            clazz = params.getModel().getClass();
-//        }
 
         handlerQuery(wrapper, params);
     }
@@ -245,12 +251,15 @@ public abstract class BaseController2<S extends IService<Entity>, Id extends Ser
     @ApiOperation(value = "查询分页列表")
     @PostMapping(value = "/page")
     public R<IPage<Entity>> page(@RequestBody @Validated RequestParams<PageDTO> params) {
+        // 处理参数
         IPage<Entity> page = params.getPage();
-        Entity model = BeanUtil.toBean(params.getModel(), entityClass);
+        Entity model = BeanUtil.toBean(params.getModel(), getEntityClass());
         QueryWrapper<Entity> wrapper = Wrappers.query(model);
 
+        //处理条件
         handlerWrapper(wrapper, params.getMap(), params);
         baseService.page(page, wrapper);
+        // 处理结果
         handlerResult(page);
         return success(page);
     }
@@ -269,7 +278,7 @@ public abstract class BaseController2<S extends IService<Entity>, Id extends Ser
     public R<Entity> save(@RequestBody @Valid SaveDTO saveDTO) {
         R<Entity> result = handlerSave(saveDTO);
         if (result.getDefExec()) {
-            Entity model = BeanUtil.toBean(saveDTO, entityClass);
+            Entity model = BeanUtil.toBean(saveDTO, getEntityClass());
             baseService.save(model);
             result.setData(model);
         }
@@ -311,7 +320,7 @@ public abstract class BaseController2<S extends IService<Entity>, Id extends Ser
     public R<Entity> update(@RequestBody UpdateDTO updateDTO) {
         R<Entity> result = handlerUpdate(updateDTO);
         if (result.getDefExec()) {
-            Entity model = BeanUtil.toBean(updateDTO, entityClass);
+            Entity model = BeanUtil.toBean(updateDTO, getEntityClass());
             baseService.updateById(model);
             result.setData(model);
         }
@@ -339,5 +348,79 @@ public abstract class BaseController2<S extends IService<Entity>, Id extends Ser
     public R<Entity> get(@PathVariable Id id) {
         return success(baseService.getById(id));
     }
+
+
+    @ApiOperation(value = "导出Excel")
+    @RequestMapping(value = "/export", method = RequestMethod.POST, produces = "application/octet-stream")
+    public void exportExcel(@RequestBody @Validated RequestParams<PageDTO> params, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        IPage<Entity> page = params.getPage();
+        page.setSize(Integer.MAX_VALUE);
+
+        Entity model = BeanUtil.toBean(params.getModel(), getEntityClass());
+        QueryWrapper wrapper = new QueryWrapper<>(model);
+        handlerWrapper(wrapper, params.getMap(), params);
+        baseService.page(page, wrapper);
+
+        String fileName = params.getMap().getOrDefault(NormalExcelConstants.FILE_NAME, "临时文件");
+        String title = params.getMap().get("title");
+        String type = params.getMap().getOrDefault("type", "XSSF");
+
+        ExcelType excelType = "XSSF".equals(type) ? ExcelType.XSSF : ExcelType.HSSF;
+
+        ExportParams exportParams = new ExportParams(title, fileName, excelType);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(NormalExcelConstants.DATA_LIST, page.getRecords());
+        map.put(NormalExcelConstants.CLASS, getEntityClass());
+        map.put(NormalExcelConstants.PARAMS, exportParams);
+        PoiBaseView.render(map, request, response, NormalExcelConstants.EASYPOI_EXCEL_VIEW);
+    }
+
+    @ApiOperation(value = "预览Excel")
+    @RequestMapping(value = "/preview", method = RequestMethod.POST)
+    public R<String> preview(@RequestBody @Validated RequestParams<PageDTO> params, HttpServletRequest request) {
+        IPage<Entity> page = params.getPage();
+        page.setSize(Integer.MAX_VALUE);
+        Entity model = BeanUtil.toBean(params.getModel(), getEntityClass());
+        QueryWrapper wrapper = new QueryWrapper<>(model);
+        handlerWrapper(wrapper, params.getMap(), params);
+        baseService.page(page, wrapper);
+
+        String fileName = params.getMap().getOrDefault(NormalExcelConstants.FILE_NAME, "临时文件");
+        String title = params.getMap().get("title");
+        String type = params.getMap().getOrDefault("type", "XSSF");
+
+        ExcelType excelType = "XSSF".equals(type) ? ExcelType.XSSF : ExcelType.HSSF;
+        ExportParams exportParams = new ExportParams(title, fileName, excelType);
+        Workbook workbook = ExcelExportUtil.exportExcel(exportParams, getEntityClass(), page.getRecords());
+        return success(ExcelXorHtmlUtil.excelToHtml(new ExcelToHtmlParams(workbook)));
+    }
+
+    /**
+     * 使用自动生成的实体+注解方式导入 对RemoteData 类型的字段不支持，
+     * 建议自建实体使用
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "导入Excel")
+    @PostMapping(value = "/import")
+    public R<Boolean> importExcel(@RequestParam(value = "file") MultipartFile simpleFile, HttpServletRequest request) throws Exception {
+        ImportParams params = new ImportParams();
+        params.setTitleRows(0);
+        params.setHeadRows(1);
+        List<Map<String, String>> list = ExcelImportUtil.importExcel(simpleFile.getInputStream(), Map.class, params);
+
+        if (list != null && !list.isEmpty()) {
+            handlerImport(list);
+        }
+        return success();
+    }
+
+    protected void handlerImport(List<Map<String, String>> list) {
+
+    }
+
 
 }

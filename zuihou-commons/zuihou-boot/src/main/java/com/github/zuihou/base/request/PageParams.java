@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import java.util.List;
 @ApiModel("分页参数")
 public class PageParams<T> {
 
+    @NotNull(message = "查询对象model不能为空")
     @ApiModelProperty(value = "查询参数", required = true)
     private T model;
 

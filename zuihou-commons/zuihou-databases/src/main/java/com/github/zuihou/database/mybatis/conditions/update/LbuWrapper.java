@@ -15,6 +15,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+
+import static com.baomidou.mybatisplus.core.enums.WrapperKeyword.BRACKET;
 
 /**
  * @author zuihou
@@ -100,6 +103,16 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
      */
     private static boolean checkCondition(Object val) {
         return val != null;
+    }
+
+    @Override
+    public LbuWrapper<T> nested(Consumer<LbuWrapper<T>> consumer) {
+        final LbuWrapper<T> instance = instance();
+        consumer.accept(instance);
+        if (!instance.isEmptyOfWhere()) {
+            return doIt(true, BRACKET, instance);
+        }
+        return this;
     }
 
     @Override

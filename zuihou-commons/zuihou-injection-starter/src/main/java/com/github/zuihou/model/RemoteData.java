@@ -22,6 +22,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ToString
 public class RemoteData<K, D> implements Serializable, IValidatable {
+
     private K key;
     private D data;
 
@@ -57,6 +58,16 @@ public class RemoteData<K, D> implements Serializable, IValidatable {
     public static <K, D> D getData(RemoteData<K, D> remoteData) {
         return remoteData != null ? remoteData.getData() : null;
     }
+
+    @Override
+    public String toString() {
+        String toString = key == null ? "" : String.valueOf(key);
+        if (ObjectUtil.isNotEmpty(this.data) && this.data instanceof String) {
+            toString = String.valueOf(data);
+        }
+        return toString;
+    }
+
 
     /**
      * 用于Hibernate-Validator 自定义校验规则

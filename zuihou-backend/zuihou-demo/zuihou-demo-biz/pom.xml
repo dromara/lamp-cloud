@@ -18,6 +18,7 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-demo-entity</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-databases</artifactId>
@@ -26,10 +27,18 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-dozer-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-boot</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
@@ -37,7 +46,7 @@
 
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <artifactId>mybatis-plus</artifactId>
         </dependency>
 
     </dependencies>

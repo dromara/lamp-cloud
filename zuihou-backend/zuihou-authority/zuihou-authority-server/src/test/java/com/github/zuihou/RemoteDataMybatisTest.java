@@ -7,12 +7,15 @@ import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.dao.common.AreaMapper;
 import com.github.zuihou.authority.dao.core.StationMapper;
+import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.impl.StationServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.injection.core.InjectionCore;
 import com.github.zuihou.model.RemoteData;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,6 +68,25 @@ public class RemoteDataMybatisTest {
     public void setTenant() {
         BaseContextHandler.setTenant("0000");
         BaseContextHandler.setDatabase("zuihou_base");
+    }
+
+    @Test
+    public void testGet() {
+        User user = new User();
+//        user.setSex(Sex.W);
+        LbqWrapper<User> wrapper = Wraps.lbQ(user);
+        wrapper
+//                .geHeader(User::getCreateTime, LocalDateTime.MIN)
+//                .leFooter(User::getCreateTime, LocalDateTime.MAX)
+                .like(User::getAccount, "zuihou")
+                .nested(i -> i.like(User::getName, "")
+                        .or().like(User::getMobile, "")
+                ).orderByDesc(User::getCreateTime);
+
+        List<User> list = userService.list(wrapper);
+
+        System.out.println(list);
+
     }
 
     @Test
@@ -113,7 +136,6 @@ public class RemoteDataMybatisTest {
         injectionCore.injection(obj);
         System.out.println(obj);
     }
-
 
 
 }

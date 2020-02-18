@@ -25,8 +25,27 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-j2cache-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-dozer-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-boot</artifactId>
+        </dependency>
+        <!-- jwt 只有权限服务需要使用 -->
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-jwt-starter</artifactId>
+        </dependency>
+        <!-- log 只有权限服务biz模块引用，其他服务都在controller模块 -->
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-log-starter</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,14 +54,14 @@
 
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <artifactId>mybatis-plus</artifactId>
         </dependency>
 
         <!-- 获取注册中心的数据会用到 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-commons</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-commons</artifactId>-->
+        <!--        </dependency>-->
 
         <!-- @RefreshScope 需要使用 -->
         <dependency>
@@ -51,15 +70,10 @@
         </dependency>
 
         <!-- md5 工具类 -->
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-j2cache-starter</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>commons-codec</groupId>-->
+        <!--            <artifactId>commons-codec</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>com.github.whvcse</groupId>
