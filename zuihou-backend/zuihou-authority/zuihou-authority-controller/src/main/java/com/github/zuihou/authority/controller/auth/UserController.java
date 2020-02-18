@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.controller.auth;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.*;
@@ -8,6 +9,7 @@ import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.service.auth.UserService;
@@ -17,6 +19,7 @@ import com.github.zuihou.base.BaseController2;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.request.RequestParams;
+import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.exception.BizException;
@@ -31,6 +34,7 @@ import com.github.zuihou.user.model.SysRole;
 import com.github.zuihou.user.model.SysStation;
 import com.github.zuihou.user.model.SysUser;
 import com.github.zuihou.utils.BeanPlusUtil;
+import com.github.zuihou.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +44,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -358,4 +367,80 @@ public class UserController extends BaseController2<UserService, Long, User, Use
         return this.userService.findUserNameByIds(codes);
     }
 
+    @Override
+    public void exportExcel(@RequestBody @Validated RequestParams<UserPageDTO> params, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        UserPageDTO model = params.getModel();
+        if (model != null) {
+            if (model.getOrg() != null && model.getOrg().getKey() == null) {
+                model.setOrg(null);
+            }
+            if (model.getStation() != null && model.getStation().getKey() == null) {
+                model.setStation(null);
+            }
+            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
+                model.setEducation(null);
+            }
+            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
+                model.setNation(null);
+            }
+            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
+                model.setPositionStatus(null);
+            }
+        }
+
+        super.exportExcel(params, request, response);
+    }
+
+    @Override
+    protected void handlerImport(List<Map<String, String>> list) {
+
+        List<User> userList = list.stream().map((map) -> {
+            User user = new User();
+            user.setAccount(map.getOrDefault("账号", ""));
+            user.setName(map.getOrDefault("姓名", ""));
+            user.setOrg(new RemoteData<>(Convert.toLong(map.getOrDefault("组织", ""))));
+            user.setStation(new RemoteData<>(Convert.toLong(map.getOrDefault("岗位", ""))));
+            user.setEmail(map.getOrDefault("邮箱", ""));
+            user.setMobile(map.getOrDefault("手机", ""));
+            user.setSex(Sex.match(map.getOrDefault("性别", ""), Sex.N));
+            user.setStatus(Convert.toBool(map.getOrDefault("状态", "")));
+            user.setAvatar(map.getOrDefault("头像", ""));
+            user.setNation(new RemoteData<>(map.getOrDefault("民族", "")));
+            user.setEducation(new RemoteData<>(map.getOrDefault("学历", "")));
+            user.setPositionStatus(new RemoteData<>(map.getOrDefault("职位状态", "")));
+            user.setWorkDescribe(map.getOrDefault("工作描述", ""));
+            user.setPassword(DigestUtils.md5Hex(BizConstant.DEF_PASSWORD));
+            String lastLoginTimeStr = map.getOrDefault("最后登录时间", "");
+            if (StrUtil.isNotBlank(lastLoginTimeStr)) {
+                LocalDateTime lastLoginTime = LocalDateTime.parse(lastLoginTimeStr, DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_TIME_FORMAT));
+                user.setLastLoginTime(lastLoginTime);
+            }
+            return user;
+        }).collect(Collectors.toList());
+
+        baseService.saveBatch(userList);
+    }
+
+    @Override
+    public R<String> preview(@RequestBody @Validated RequestParams<UserPageDTO> params, HttpServletRequest request) {
+        UserPageDTO model = params.getModel();
+        if (model != null) {
+            if (model.getOrg() != null && model.getOrg().getKey() == null) {
+                model.setOrg(null);
+            }
+            if (model.getStation() != null && model.getStation().getKey() == null) {
+                model.setStation(null);
+            }
+            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
+                model.setEducation(null);
+            }
+            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
+                model.setNation(null);
+            }
+            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
+                model.setPositionStatus(null);
+            }
+        }
+        return super.preview(params, request);
+    }
 }

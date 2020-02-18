@@ -23,7 +23,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import static com.baomidou.mybatisplus.core.enums.WrapperKeyword.BRACKET;
 
 
 /**
@@ -241,6 +244,16 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
             }
         }
         return target;
+    }
+
+    @Override
+    public LbqWrapper<T> nested(Consumer<LbqWrapper<T>> consumer) {
+        final LbqWrapper<T> instance = instance();
+        consumer.accept(instance);
+        if (!instance.isEmptyOfWhere()) {
+            return doIt(true, BRACKET, instance);
+        }
+        return this;
     }
 
     @Override

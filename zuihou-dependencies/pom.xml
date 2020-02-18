@@ -132,6 +132,7 @@
         <dozer.version>6.5.0</dozer.version>
         <lombok.version>1.18.10</lombok.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
+        <easypoi.version>4.1.3</easypoi.version>
         <guava.version>20.0</guava.version>
         <tobato-fastdfs-client.version>1.26.6</tobato-fastdfs-client.version>
         <qiniu-java-sdk>7.2.18</qiniu-java-sdk>
@@ -165,6 +166,8 @@
         <caffeine.version>2.8.0</caffeine.version>
         <ip2region.version>1.7.2</ip2region.version>
         <bitwalker.version>1.21</bitwalker.version>
+        <gson.version>2.8.2</gson.version>
+        <jsoup.version>1.11.3</jsoup.version>
 
         <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
         <!--私有镜像仓库-->
@@ -202,6 +205,16 @@
                 <groupId>io.seata</groupId>
                 <artifactId>seata-all</artifactId>
                 <version>${seata.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>druid</artifactId>
+                        <groupId>com.alibaba</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.alibaba</groupId>
+                        <artifactId>fastjson</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -339,11 +352,6 @@
                 <artifactId>springfox-core</artifactId>
                 <version>${springfox.swagger2.version}</version>
             </dependency>
-            <!--            <dependency>-->
-            <!--                <groupId>com.github.xiaoymin</groupId>-->
-            <!--                <artifactId>swagger-bootstrap-ui</artifactId>-->
-            <!--                <version>${sbu.version}</version>-->
-            <!--            </dependency>-->
 
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -447,6 +455,56 @@
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${easy-captcha.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-spring-boot-starter</artifactId>
+                <version>${easypoi.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-web</artifactId>
+                <version>${easypoi.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-core</artifactId>
+                <version>${easypoi.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-annotation</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
             </dependency>
 
         </dependencies>

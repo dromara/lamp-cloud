@@ -17,6 +17,15 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-order-controller</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-scan-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>
         </dependency>
         <dependency>
@@ -37,10 +46,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-order-controller</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
             <exclusions>
@@ -54,7 +59,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
@@ -99,11 +103,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-json</artifactId>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
         </dependency>
+
 
         <!-- 测试 -->
         <dependency>
@@ -111,11 +120,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.zuihou</groupId>-->
-        <!--            <artifactId>zuihou-generator</artifactId>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
     </dependencies>
 
     <build>

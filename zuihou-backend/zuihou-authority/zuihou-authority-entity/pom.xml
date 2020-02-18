@@ -16,30 +16,10 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-log-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-jwt-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-injection-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus</artifactId>
-        </dependency>
 
-        <!-- Role 中字段的类型需要使用 DataScopeType -->
+        <!-- databases 只有权限服务需要引用， 其他服务放在server模块 -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-databases</artifactId>
@@ -47,6 +27,20 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-injection-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+        </dependency>
 
     </dependencies>
 

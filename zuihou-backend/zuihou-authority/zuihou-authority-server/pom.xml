@@ -28,7 +28,6 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-scan-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>
@@ -83,11 +82,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>${asm.version}</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,29 +110,32 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <scope>test</scope>
-            <version>2.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <scope>test</scope>
-            <version>1.11.3</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.zuihou</groupId>-->
-        <!--            <artifactId>zuihou-generator</artifactId>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
+
     </dependencies>
 
     <build>

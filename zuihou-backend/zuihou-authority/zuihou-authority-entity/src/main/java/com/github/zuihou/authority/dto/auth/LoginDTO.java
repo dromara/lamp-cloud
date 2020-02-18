@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.dto.auth;
 
-import com.github.zuihou.auth.utils.Token;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -27,8 +26,16 @@ public class LoginDTO implements Serializable {
     private static final long serialVersionUID = -3124612657759050173L;
     @ApiModelProperty(value = "用户信息")
     private UserDTO user;
+    /**
+     * token
+     */
     @ApiModelProperty(value = "token")
-    private Token token;
+    private String token;
+    /**
+     * 有效时间：单位：秒
+     */
+    @ApiModelProperty(value = "有效期")
+    private Integer expire;
     @ApiModelProperty(value = "权限列表")
     private List<String> permissionsList;
 }
