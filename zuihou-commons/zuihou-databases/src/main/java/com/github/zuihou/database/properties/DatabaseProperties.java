@@ -29,6 +29,10 @@ public class DatabaseProperties {
      */
     public Boolean isBlockAttack = false;
     /**
+     * 是否启用 seata
+     */
+    public Boolean isSeata = false;
+    /**
      * 是否 启用多租户
      */
     private Boolean isMultiTenant = true;

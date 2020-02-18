@@ -50,10 +50,6 @@ spring:
     enabled: ${zuihou.zipkin.enabled}
     sampler:
       probability: 1.0   # 采集率 1.0表示所有请求都采集， 生产线一般不会设置成1.0，影响效率
-  cloud:
-    alibaba:
-      seata:
-        tx-service-group: zuihou_admin_seata_tx_group
   http:
     encoding:
       charset: UTF-8
