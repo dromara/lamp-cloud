@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.service.defaults.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.defaults.GlobalUserMapper;
 import com.github.zuihou.authority.dto.defaults.GlobalUserSaveDTO;
@@ -17,7 +18,6 @@ import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.StrHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +67,7 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
         BaseContextHandler.setTenant(data.getTenantCode());
         isTrue(check(data.getTenantCode(), data.getAccount()), "账号已经存在");
 
-        String md5Password = DigestUtils.md5Hex(data.getPassword());
+        String md5Password = SecureUtil.md5(data.getPassword());
         GlobalUser globalAccount = BeanPlusUtil.toBean(data, GlobalUser.class);
         // defaults 库
         globalAccount.setPassword(md5Password);
@@ -108,7 +108,7 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
         GlobalUser globalUser = BeanPlusUtil.toBean(data, GlobalUser.class);
         User user = BeanPlusUtil.toBean(data, User.class);
         if (StrUtil.isNotBlank(data.getPassword())) {
-            String md5Password = DigestUtils.md5Hex(data.getPassword());
+            String md5Password = SecureUtil.md5(data.getPassword());
             globalUser.setPassword(md5Password);
 
             user.setPassword(md5Password);

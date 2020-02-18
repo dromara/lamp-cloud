@@ -55,20 +55,7 @@
             <groupId>io.seata</groupId>
             <artifactId>seata-all</artifactId>
             <version>${seata.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>druid</artifactId>
-                    <groupId>com.alibaba</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>fastjson</artifactId>
-                    <groupId>com.alibaba</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>asm</artifactId>
-                    <groupId>org.ow2.asm</groupId>
-                </exclusion>
-            </exclusions>
+
         </dependency>
 
 

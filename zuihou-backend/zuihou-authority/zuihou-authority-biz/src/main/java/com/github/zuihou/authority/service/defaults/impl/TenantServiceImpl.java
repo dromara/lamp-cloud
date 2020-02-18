@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.defaults.impl;
 
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.defaults.TenantMapper;
 import com.github.zuihou.authority.dto.defaults.TenantSaveDTO;
@@ -19,7 +20,6 @@ import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.StrHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +79,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         // 4，保存租户用户 // 租户库
         User user = BeanPlusUtil.toBean(data, User.class);
         user.setId(globalAccount.getId());
-        user.setPassword(DigestUtils.md5Hex(data.getPassword()));
+        user.setPassword(SecureUtil.md5(data.getPassword()));
 //            user.setPasswordExpireTime(LocalDateTime.now().plusDays(authorityServerProperties.getPasswordExpire()));
         user.setName(StrHelper.getOrDef(data.getName(), data.getAccount()));
         userService.save(user);

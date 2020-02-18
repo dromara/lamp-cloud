@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.UserMapper;
@@ -29,7 +30,6 @@ import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         User user = getById(data.getId());
         BizAssert.notNull(user, "用户不存在");
-        String oldPassword = DigestUtils.md5Hex(data.getOldPassword());
+        String oldPassword = SecureUtil.md5(data.getOldPassword());
         BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
         User build = User.builder().password(data.getPassword()).id(data.getId()).build();
@@ -163,7 +163,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
         }
 
-        user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+        user.setPassword(SecureUtil.md5(user.getPassword()));
         user.setPasswordErrorNum(0);
         super.save(user);
         return user;
@@ -202,7 +202,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         if (StrUtil.isNotEmpty(user.getPassword())) {
-            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+            user.setPassword(SecureUtil.md5(user.getPassword()));
         }
         super.updateById(user);
         return user;

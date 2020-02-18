@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Map;
 public class RequestParams<T> extends PageParams<T> {
 
     @ApiModelProperty("扩展参数")
-    private Map<String, String> map;
+    private Map<String, String> map = new HashMap<>(1);
 
     public RequestParams() {
 

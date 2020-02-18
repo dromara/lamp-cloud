@@ -21,6 +21,11 @@
             <artifactId>zuihou-authority-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-log-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

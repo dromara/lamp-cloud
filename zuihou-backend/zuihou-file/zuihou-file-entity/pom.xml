@@ -18,19 +18,19 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-boot</artifactId>
+            <artifactId>zuihou-injection-starter</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-core</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus</artifactId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
         </dependency>
     </dependencies>
 </project>

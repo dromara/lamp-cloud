@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.auth.server.utils.JwtTokenServerUtils;
 import com.github.zuihou.auth.utils.JwtUserInfo;
@@ -28,7 +29,6 @@ import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,7 +76,7 @@ public class AuthManager {
             throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
         }
 
-        String passwordMd5 = DigestUtils.md5Hex(password);
+        String passwordMd5 = SecureUtil.md5(password);
         if (!user.getPassword().equalsIgnoreCase(passwordMd5)) {
             this.userService.updatePasswordErrorNumById(user.getId());
             return R.fail("用户名或密码错误!");
@@ -88,7 +88,7 @@ public class AuthManager {
 
         UserDTO dto = BeanPlusUtil.toBean(user, UserDTO.class);
         dto.setStatus(true).setOrg(new RemoteData<>(0L)).setStation(new RemoteData<>(0L)).setAvatar("").setSex(Sex.M).setWorkDescribe("心情很美丽");
-        return R.success(LoginDTO.builder().user(dto).token(token).build());
+        return R.success(LoginDTO.builder().user(dto).token(token.getToken()).expire(token.getExpire()).build());
     }
 
     /**
@@ -123,7 +123,12 @@ public class AuthManager {
         List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
 
         log.info("account={}", account);
-        return R.success(LoginDTO.builder().user(BeanPlusUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
+        return R.success(LoginDTO.builder()
+                .user(BeanPlusUtil.toBean(user, UserDTO.class))
+                .permissionsList(permissionsList)
+                .token(token.getToken())
+                .expire(token.getExpire())
+                .build());
     }
 
     /**
@@ -148,7 +153,8 @@ public class AuthManager {
         List<String> permissionsList = resourceList.stream().map(Resource::getCode).collect(Collectors.toList());
 
         log.info("account={}", account);
-        return R.success(LoginDTO.builder().user(BeanPlusUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList).token(token).build());
+        return R.success(LoginDTO.builder().user(BeanPlusUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList)
+                .token(token.getToken()).expire(token.getExpire()).build());
     }
 
     /**
@@ -183,7 +189,7 @@ public class AuthManager {
         User user = this.userService.getOne(Wrappers.<User>lambdaQuery()
                 .eq(User::getAccount, account));
         // 密码错误
-        String passwordMd5 = DigestUtils.md5Hex(password);
+        String passwordMd5 = SecureUtil.md5(password);
         if (user == null) {
 //            throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
             return R.fail(ExceptionCode.JWT_USER_INVALID);
