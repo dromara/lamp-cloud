@@ -22,11 +22,13 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
@@ -99,6 +101,7 @@ public class DemoDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
      *
      * @return
      */
+    @Primary
     @Bean(name = DATABASE_PREFIX + "DruidDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource druidDataSource() {
@@ -106,6 +109,7 @@ public class DemoDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
     }
 
     @Bean(name = DATABASE_PREFIX + "DataSource")
+    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "false")
     public DataSource dataSource(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
         if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
             return new P6DataSource(dataSource);
@@ -114,8 +118,19 @@ public class DemoDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
         }
     }
 
+    @Bean(name = DATABASE_PREFIX + "p6DataSource")
+    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "true")
+    public DataSource dataSourceP6(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
+        if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
+            return new P6DataSource(dataSource);
+        } else {
+            return dataSource;
+        }
+    }
+
+    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "true")
     @Bean(DATABASE_PREFIX + "DataSource")
-    public DataSourceProxy dataSourceProxy(@Qualifier(DATABASE_PREFIX + "DataSource") DataSource dataSource) {
+    public DataSourceProxy dataSourceProxy(@Qualifier(DATABASE_PREFIX + "p6DataSource") DataSource dataSource) {
         return new DataSourceProxy(dataSource);
     }
 
