@@ -7,23 +7,17 @@ import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.enumeration.common.LogType;
 import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
 import com.github.zuihou.authority.enumeration.defaults.TenantTypeEnum;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.BaseEnum;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.enums.HttpMethod;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +30,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @Api(value = "Common", tags = "通用Controller")
-public class AuthorityGeneralController extends BaseController {
+public class AuthorityGeneralController {
 
     private final static Map<String, Map<String, String>> ENUM_MAP = new HashMap<>(8);
 
@@ -55,32 +49,18 @@ public class AuthorityGeneralController extends BaseController {
     @GetMapping("/enums")
     public R<Map<String, Map<String, String>>> enums(@RequestParam(value = "codes[]", required = false) String[] codes) {
         if (ArrayUtil.isEmpty(codes)) {
-            return success(ENUM_MAP);
+            return R.success(ENUM_MAP);
         }
 
         Map<String, Map<String, String>> map = new HashMap<>(codes.length);
+
         for (String code : codes) {
             if (ENUM_MAP.containsKey(code)) {
                 map.put(code, ENUM_MAP.get(code));
             }
         }
-        return success(map);
+        return R.success(map);
     }
 
-
-    @Value("${lettuce.namespace:aaa}")
-    private String port;
-    @Value("${lettuce.storage:ccc}")
-    private String storage;
-
-    @Autowired
-    private Environment e;
-
-    @GetMapping("/test")
-    @SneakyThrows
-    public R<Object> test(@RequestParam(value = "millis", defaultValue = "29") Long millis, HttpServletRequest request) {
-
-        return R.success("--port=" + this.port + ", storage=" + storage);
-    }
 }
 
