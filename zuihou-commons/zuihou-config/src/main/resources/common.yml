@@ -96,8 +96,6 @@ ribbon:
     enabled: false
   okhttp:
     enabled: true
-  eureka:
-    enabled: true
   ReadTimeout: 30000     #
   ConnectTimeout: 30000  # [ribbon超时时间]大于[熔断超时],那么会先走熔断，相当于你配的ribbon超时就不生效了  ribbon和hystrix是同时生效的，哪个值小哪个生效
   MaxAutoRetries: 0             # 最大自动重试

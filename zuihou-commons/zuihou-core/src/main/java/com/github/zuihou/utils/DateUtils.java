@@ -655,4 +655,50 @@ public class DateUtils {
 
 //----------//----------//----------//----------//----------//----------//----------//----------//----------//----------//----------
 
+    /**
+     * 计算开始时间
+     *
+     * @param time
+     * @return
+     */
+    public static LocalDateTime getStartTime(String time) {
+        String startTime = time;
+        if (time.matches("^\\d{4}-\\d{1,2}$")) {
+            startTime = time + "-01 00:00:00";
+        } else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+            startTime = time + " 00:00:00";
+        } else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+            startTime = time + ":00";
+        } else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}T{1}\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{3}Z$")) {
+            String str = time.replace("T", " ").substring(0, time.indexOf("."));
+            startTime = str;
+        }
+        return LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
+    }
+
+    /**
+     * 计算结束时间
+     *
+     * @param time
+     * @return
+     */
+    public static LocalDateTime getEndTime(String time) {
+        String startTime = time;
+        if (time.matches("^\\d{4}-\\d{1,2}$")) {
+            Date date = DateUtils.parse(time, "yyyy-MM");
+            date = DateUtils.getLastDateOfMonth(date);
+            startTime = DateUtils.formatAsDate(date) + " 23:59:59";
+        } else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+            startTime = time + " 23:59:59";
+        } else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+            startTime = time + ":59";
+        } else if (time.matches("^\\d{4}-\\d{1,2}-\\d{1,2}T{1}\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{3}Z$")) {
+            time = time.replace("T", " ").substring(0, time.indexOf("."));
+            if (time.endsWith("00:00:00")) {
+                time = time.replace("00:00:00", "23:59:59");
+            }
+            startTime = time;
+        }
+        return LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
+    }
 }

@@ -38,10 +38,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 测试类
@@ -82,6 +79,7 @@ public class TestResource {
 
     @Before
     public void setTenant() {
+        BaseContextHandler.setUserId(3L);
         BaseContextHandler.setTenant("0000");
         BaseContextHandler.setDatabase("zuihou_base");
     }
@@ -262,5 +260,76 @@ public class TestResource {
         log.info("{}", list.size());
     }
 
+    @Test
+    public void testUpdateAllById() {
+        User user = new User();
+        user.setId(1229973087429066752L);
+        user.setName("nihao");
+        user.setPassword("123");
+        user.setAccount("ahaha");
+
+//        userMapper.updateAllById(user);
+    }
+
+    @Test
+    public void testAlwaysUpdateSomeColumnById() {
+        User user = new User();
+        user.setId(1229973087429066752L);
+        user.setName("nihao");
+        user.setPassword("123");
+        user.setAccount("ahaha");
+        user.setOrg(new RemoteData(100L));
+
+//        userMapper.updateAllById(user);
+    }
+
+    @Test
+    public void testUpdate() {
+        User user = new User();
+        user.setId(1229973087429066752L);
+        user.setName("nihao");
+        user.setPassword("123");
+        user.setAccount("ahaha");
+        user.setMobile("");
+        user.setOrg(new RemoteData<>(100L));
+
+        userMapper.updateById(user);
+    }
+
+    @Test
+    public void testGet() {
+        User user = new User();
+        user.setEmail("nihao");
+        user.setMobile("nihao");
+        user.setStation(new RemoteData<>((Long) null));
+        user.setEducation(new RemoteData<>(null));
+        user.setPositionStatus(new RemoteData<>("12%3"));
+
+        List<User> users = userMapper.selectList(Wraps.<User>lbQ()
+                .eq(User::getOrg, user.getOrg()).eq(User::getStation, user.getStation())
+                .like(User::getEducation, user.getEducation()).like(User::getPositionStatus, user.getPositionStatus())
+        );
+        System.out.println(users.size());
+    }
+
+    @Test
+    public void testInserBacth() {
+        List<User> list = new ArrayList<>();
+        User user = new User();
+        user.setName("nihao");
+        user.setAccount("111");
+        user.setPassword("123");
+
+        list.add(user);
+        user = new User();
+        user.setName("haha");
+        user.setAccount("222");
+        user.setPassword("123");
+        list.add(user);
+//        userMapper.insertBatch(list);
+//        userMapper.insertBatchSomeColumn(list);
+
+        list.forEach(ur -> System.out.println(ur.getId()));
+    }
 
 }

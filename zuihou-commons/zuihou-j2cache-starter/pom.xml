@@ -56,13 +56,15 @@
         <dependency>
             <artifactId>javassist</artifactId>
             <groupId>org.javassist</groupId>
-            <version>3.25.0-GA</version>
         </dependency>
 
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jgroups</groupId>
+            <artifactId>jgroups</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -95,11 +97,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.jgroups</groupId>
-            <artifactId>jgroups</artifactId>
-            <version>3.6.15.Final</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

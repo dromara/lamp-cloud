@@ -1,12 +1,12 @@
 package com.github.zuihou.log.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Method;
-
+import cn.hutool.core.util.ReflectUtil;
 import com.github.zuihou.log.annotation.SysLog;
-
+import com.github.zuihou.utils.StrPool;
 import org.aspectj.lang.JoinPoint;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * 日志工具类
@@ -21,46 +21,49 @@ public class LogUtil {
      * @param point
      * @return
      */
-    public static String getControllerMethodDescription(JoinPoint point) {
+    public static String getDescribe(JoinPoint point) {
+        SysLog annotation = getTargetAnno(point);
+        if (annotation == null) {
+            return StrPool.EMPTY;
+        }
+        return annotation.value();
+    }
+
+    public static String getDescribe(SysLog annotation) {
+        if (annotation == null) {
+            return StrPool.EMPTY;
+        }
+        return annotation.value();
+    }
+
+    /**
+     * 先从子类上获取 @SysLog ，没有则从父类获取
+     *
+     * @param point
+     * @return
+     */
+    public static SysLog getTargetAnno(JoinPoint point) {
         try {
-            // 获取连接点目标类名
-            String targetName = point.getTarget().getClass().getName();
             // 获取连接点签名的方法名
             String methodName = point.getSignature().getName();
             //获取连接点参数
             Object[] args = point.getArgs();
-            //根据连接点类的名字获取指定类
-            Class targetClass = Class.forName(targetName);
-            //获取类里面的方法
-            Method[] methods = targetClass.getMethods();
-            String description = "";
-            for (Method method : methods) {
-                if (method.getName().equals(methodName)) {
-                    Class[] clazzs = method.getParameterTypes();
-                    if (clazzs.length == args.length) {
-                        description = method.getAnnotation(SysLog.class).value();
-                        break;
-                    }
-                }
+            Method method = ReflectUtil.getMethodOfObj(point.getTarget(), methodName, args);
+            Method parentMethod = null;
+            Class[] classes = Arrays.stream(args).map((arg) -> arg.getClass()).toArray(Class[]::new);
+            parentMethod = ReflectUtil.getMethod(point.getTarget().getClass().getSuperclass(), methodName, classes);
+            SysLog annotation = null;
+            if (method != null) {
+                annotation = method.getAnnotation(SysLog.class);
             }
-            return description;
+
+            if (annotation == null && parentMethod != null) {
+                annotation = parentMethod.getAnnotation(SysLog.class);
+            }
+            return annotation;
         } catch (Exception e) {
-            return "";
+            return null;
         }
     }
 
-
-    /**
-     * 获取堆栈信息
-     *
-     * @param throwable
-     * @return
-     */
-    public static String getStackTrace(Throwable throwable) {
-        StringWriter sw = new StringWriter();
-        try (PrintWriter pw = new PrintWriter(sw)) {
-            throwable.printStackTrace(pw);
-            return sw.toString();
-        }
-    }
 }

@@ -24,6 +24,7 @@ import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
  *
  * @author Caratacus
  */
+@Deprecated
 public abstract class BaseController {
     /**
      * 当前页

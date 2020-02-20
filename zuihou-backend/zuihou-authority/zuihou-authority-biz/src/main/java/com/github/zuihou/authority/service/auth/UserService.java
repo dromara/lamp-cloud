@@ -1,9 +1,9 @@
 package com.github.zuihou.authority.service.auth;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 
 import java.io.Serializable;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface UserService extends IService<User> {
+public interface UserService extends SuperService<User> {
 
     /**
      * 根据用户id 查询数据范围
@@ -142,4 +142,5 @@ public interface UserService extends IService<User> {
      * @return
      */
     Map<Serializable, Object> findUserNameByIds(Set<Long> ids);
+
 }
