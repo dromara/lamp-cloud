@@ -292,6 +292,8 @@ public abstract class SuperController<S extends SuperService<Entity>, Id extends
         map.put(NormalExcelConstants.DATA_LIST, page.getRecords());
         map.put(NormalExcelConstants.CLASS, getEntityClass());
         map.put(NormalExcelConstants.PARAMS, exportParams);
+        String fileName = params.getMap().getOrDefault(NormalExcelConstants.FILE_NAME, "临时文件");
+        map.put(NormalExcelConstants.FILE_NAME, fileName);
         PoiBaseView.render(map, request, response, NormalExcelConstants.EASYPOI_EXCEL_VIEW);
     }
 
@@ -309,12 +311,12 @@ public abstract class SuperController<S extends SuperService<Entity>, Id extends
     protected ExportParams getExportParams(PageParams<PageDTO> params, IPage<Entity> page) {
         query(params, page, params.getSize() == -1 ? Convert.toLong(Integer.MAX_VALUE) : params.getSize());
 
-        String fileName = params.getMap().getOrDefault(NormalExcelConstants.FILE_NAME, "临时文件");
         String title = params.getMap().get("title");
         String type = params.getMap().getOrDefault("type", ExcelType.XSSF.name());
+        String sheetName = params.getMap().getOrDefault("sheetName", "SheetName");
 
         ExcelType excelType = ExcelType.XSSF.name().equals(type) ? ExcelType.XSSF : ExcelType.HSSF;
-        return new ExportParams(title, fileName, excelType);
+        return new ExportParams(title, sheetName, excelType);
     }
 
     /**

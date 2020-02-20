@@ -20,6 +20,8 @@ import java.util.Collection;
 /**
  * 基于SpringCache + J2Cache 实现的 缓存实现
  * key规则： CacheConfig#cacheNames:root.targetClass.simpleName:id
+ * <p>
+ * CacheConfig#cacheNames 会先从子类获取，子类没设置，就从SuperServiceCacheImpl类获取
  *
  * @param <M>
  * @param <T>

@@ -14,6 +14,8 @@ import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,8 +31,10 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
+@RefreshScope
 @Api(value = "Common", tags = "通用Controller")
 public class AuthorityGeneralController {
+
 
     private final static Map<String, Map<String, String>> ENUM_MAP = new HashMap<>(8);
 
@@ -60,6 +64,15 @@ public class AuthorityGeneralController {
             }
         }
         return R.success(map);
+    }
+
+    @Value("${zuihou.database.isNotWrite:false}")
+    private Boolean isNotWrite;
+
+
+    @GetMapping("/aaaa")
+    public R<Object> test() {
+        return R.success(isNotWrite);
     }
 
 }
