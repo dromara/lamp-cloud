@@ -6,7 +6,8 @@ import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
-import lombok.AllArgsConstructor;
+import com.github.zuihou.utils.SpringUtils;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -32,13 +33,19 @@ import static org.apache.ibatis.mapping.SqlCommandType.*;
  * @date 2019/2/1
  */
 @Slf4j
-@AllArgsConstructor
+@NoArgsConstructor
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class WriteInterceptor extends AbstractSqlParserHandler implements Interceptor {
+
 
     @Override
     @SneakyThrows
     public Object intercept(Invocation invocation) {
+        // 为什么在拦截器里使用 @RefreshScope 无效？
+        if (!SpringUtils.getApplicationContext().getEnvironment().getProperty("zuihou.database.isNotWrite", Boolean.class, false)) {
+            return invocation.proceed();
+        }
+
         StatementHandler statementHandler = (StatementHandler) PluginUtils.realTarget(invocation.getTarget());
         MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
         sqlParser(metaObject);
