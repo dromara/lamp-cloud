@@ -102,16 +102,17 @@ public class R<T> {
         return new R<>(SUCCESS_CODE, data, "ok");
     }
 
-    public static <E> R<E> success(E data, boolean defExec) {
-        return new R<>(SUCCESS_CODE, data, "ok", defExec);
-    }
-
     public static R<Boolean> success() {
         return new R<>(SUCCESS_CODE, true, "ok");
     }
 
-    public static <T> R<T> success(boolean defExec) {
-        return new R<>(SUCCESS_CODE, null, "ok", defExec);
+
+    public static <E> R<E> successDef(E data) {
+        return new R<>(SUCCESS_CODE, data, "ok", true);
+    }
+
+    public static <E> R<E> successDef() {
+        return new R<>(SUCCESS_CODE, null, "ok", true);
     }
 
     /**

@@ -1,22 +1,15 @@
 package com.github.zuihou.authority.dto.auth;
 
-import java.io.Serializable;
+import com.github.zuihou.base.entity.SuperEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import com.github.zuihou.base.entity.SuperEntity;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -34,7 +27,7 @@ import org.hibernate.validator.constraints.Length;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "UserUpdateDTO", description = "用户")
+@ApiModel(value = "UserUpdatePasswordDTO", description = "用户")
 public class UserUpdatePasswordDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

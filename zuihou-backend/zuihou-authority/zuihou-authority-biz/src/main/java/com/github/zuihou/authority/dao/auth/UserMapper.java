@@ -1,17 +1,16 @@
 package com.github.zuihou.authority.dao.auth;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.base.mapper.SuperMapper;
 import com.github.zuihou.database.mybatis.auth.DataScope;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Repository;
  * @date 2019-07-03
  */
 @Repository
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends SuperMapper<User> {
 
     /**
      * 根据角色id，查询已关联用户
@@ -68,4 +67,5 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     int updateLastLoginTime(@Param("account") String account, @Param("now") LocalDateTime now);
+
 }

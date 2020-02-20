@@ -1,6 +1,12 @@
 package com.github.zuihou.swagger2;
 
+import com.github.xiaoymin.knife4j.spring.filter.ProductionSecurityFilter;
+import com.github.xiaoymin.knife4j.spring.filter.SecurityBasicAuthFilter;
+import com.github.xiaoymin.knife4j.spring.model.MarkdownFiles;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -46,30 +52,30 @@ public class Swagger2Configuration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-//    @Slf4j
-//    public static class ZhSecurityConfiguration {
-//
-//        @Bean
-//        @ConditionalOnMissingBean
-//        @ConditionalOnProperty(name = "zuihou.swagger.production", havingValue = "true")
-//        public ProductionSecurityFilter productionSecurityFilter(SwaggerProperties swaggerProperties) {
-//            return new ProductionSecurityFilter(swaggerProperties.getProduction());
-//        }
-//
-//        @Bean
-//        @ConditionalOnMissingBean
-//        @ConditionalOnProperty(name = "zuihou.swagger.basic.enable", havingValue = "true")
-//        public SecurityBasicAuthFilter securityBasicAuthFilter(SwaggerProperties swaggerProperties) {
-//            SwaggerProperties.Basic basic = swaggerProperties.getBasic();
-//            return new SecurityBasicAuthFilter(basic.getEnable(), basic.getUsername(), basic.getPassword());
-//        }
-//
-//        @Bean(initMethod = "init")
-//        @ConditionalOnMissingBean
-//        @ConditionalOnProperty(name = "zuihou.swagger.markdown.enable", havingValue = "true")
-//        public MarkdownFiles markdownFiles(SwaggerProperties swaggerProperties) {
-//            return new MarkdownFiles(swaggerProperties.getMarkdown().getBasePath());
-//        }
-//    }
+    @Slf4j
+    public static class ZhSecurityConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        @ConditionalOnProperty(name = "zuihou.swagger.production", havingValue = "true")
+        public ProductionSecurityFilter productionSecurityFilter(SwaggerProperties swaggerProperties) {
+            return new ProductionSecurityFilter(swaggerProperties.getProduction());
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        @ConditionalOnProperty(name = "zuihou.swagger.basic.enable", havingValue = "true")
+        public SecurityBasicAuthFilter securityBasicAuthFilter(SwaggerProperties swaggerProperties) {
+            SwaggerProperties.Basic basic = swaggerProperties.getBasic();
+            return new SecurityBasicAuthFilter(basic.getEnable(), basic.getUsername(), basic.getPassword());
+        }
+
+        @Bean(initMethod = "init")
+        @ConditionalOnMissingBean
+        @ConditionalOnProperty(name = "zuihou.swagger.markdown.enable", havingValue = "true")
+        public MarkdownFiles markdownFiles(SwaggerProperties swaggerProperties) {
+            return new MarkdownFiles(swaggerProperties.getMarkdown().getBasePath());
+        }
+    }
 
 }

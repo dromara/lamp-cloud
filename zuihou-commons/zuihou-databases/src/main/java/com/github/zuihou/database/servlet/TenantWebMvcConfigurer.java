@@ -1,4 +1,4 @@
-package com.github.zuihou.database.parsers;
+package com.github.zuihou.database.servlet;
 
 import cn.hutool.core.util.ArrayUtil;
 import org.springframework.web.servlet.HandlerInterceptor;

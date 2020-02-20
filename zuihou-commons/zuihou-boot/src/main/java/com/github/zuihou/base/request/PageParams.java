@@ -14,7 +14,9 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分页参数
@@ -23,7 +25,7 @@ import java.util.List;
  * @date 2020年02月14日16:19:36
  */
 @Data
-@ApiModel("分页参数")
+@ApiModel(value = "PageParams", description = "分页参数")
 public class PageParams<T> {
 
     @NotNull(message = "查询对象model不能为空")
@@ -41,6 +43,9 @@ public class PageParams<T> {
 
     @ApiModelProperty(value = "排序规则,asc||desc ,默认desc", example = "desc")
     private String order = "desc";
+
+    @ApiModelProperty("扩展参数")
+    private Map<String, String> map = new HashMap<>(1);
 
     @JsonIgnore
     public IPage getPage() {

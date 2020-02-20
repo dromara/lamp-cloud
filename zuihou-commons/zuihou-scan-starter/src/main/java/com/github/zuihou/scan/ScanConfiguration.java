@@ -47,7 +47,7 @@ public class ScanConfiguration {
     public static class ScanFeignConfiguration {
 
 
-        @Bean("systemApiService")
+        @Bean("systemApiScanService")
         @ConditionalOnMissingBean(SystemApiScanService.class)
         public SystemApiScanService getSystemApiService() {
             return new SystemApiFeignServiceImpl();
@@ -78,7 +78,7 @@ public class ScanConfiguration {
     @ConditionalOnProperty(prefix = "zuihou.rabbitmq", name = "enabled", havingValue = "true")
     public static class ScanRabbitConfiguration {
 
-        @Bean("systemApiService")
+        @Bean("systemApiScanService")
         @ConditionalOnMissingBean(SystemApiScanService.class)
         public SystemApiScanService getSystemApiService() {
             return new SystemApiRabbitServiceImpl();

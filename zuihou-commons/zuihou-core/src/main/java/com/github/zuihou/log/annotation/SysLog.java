@@ -1,10 +1,6 @@
 package com.github.zuihou.log.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 操作日志注解
@@ -29,12 +25,19 @@ public @interface SysLog {
      *
      * @return
      */
-    boolean recordRequestParam() default true;
+    boolean request() default true;
+
+    /**
+     * 当 request = false时， 需要方法报错是否记录请求参数
+     *
+     * @return
+     */
+    boolean requestByError() default true;
 
     /**
      * 记录返回参数
      *
      * @return
      */
-    boolean recordResponseParam() default true;
+    boolean response() default true;
 }

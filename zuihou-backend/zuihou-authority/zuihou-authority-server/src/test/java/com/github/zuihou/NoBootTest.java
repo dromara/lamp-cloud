@@ -16,9 +16,12 @@ import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.VueRouter;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.auth.Menu;
+import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.Area;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.authority.enumeration.auth.Sex;
+import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.core.InjectionFieldPo;
 import com.github.zuihou.model.RemoteData;
@@ -46,6 +49,25 @@ import java.util.Map;
 @Slf4j
 public class NoBootTest {
 
+
+    @Test
+    public void testRep() {
+        User user = User.builder()
+                .id(123L)
+                .name("asdf%adf")
+                .mobile("阿富汗接_口")
+                .education(new RemoteData<>("fcvgbhn_jkm%l"))
+                .orgId(new RemoteData<>(1123L))
+                .createTime(LocalDateTime.now())
+                .sex(Sex.M)
+                .status(true)
+                .build();
+
+        User o = Wraps.replace(user);
+
+        System.out.println(o);
+
+    }
 
     @Test
     public void test() {

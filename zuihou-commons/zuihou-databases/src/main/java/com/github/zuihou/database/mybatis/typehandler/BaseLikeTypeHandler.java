@@ -1,13 +1,14 @@
 package com.github.zuihou.database.mybatis.typehandler;
 
+import cn.hutool.core.util.StrUtil;
+import com.github.zuihou.model.RemoteData;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import cn.hutool.core.util.StrUtil;
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
 
 /**
  * 仅仅用于like查询
@@ -48,11 +49,17 @@ public class BaseLikeTypeHandler extends BaseTypeHandler<CharSequence> {
         }
     }
 
-    public static String likeConvert(Object value) {
+    public static Object likeConvert(Object value) {
         if (value instanceof String) {
             return likeConvert(String.valueOf(value));
         }
-        return "";
+        if (value instanceof RemoteData) {
+            if (((RemoteData) value).getKey() != null) {
+                ((RemoteData) value).setKey(likeConvert(String.valueOf(((RemoteData) value).getKey())));
+            }
+            return value;
+        }
+        return value;
     }
 
     private String convert(String value) {

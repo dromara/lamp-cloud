@@ -15,10 +15,10 @@ import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
-import com.github.zuihou.base.BaseController2;
 import com.github.zuihou.base.R;
+import com.github.zuihou.base.SuperController;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.base.request.RequestParams;
+import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
@@ -44,9 +44,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -73,9 +70,7 @@ import static com.github.zuihou.common.constant.BizConstant.DEMO_STATION_ID;
 @RestController
 @RequestMapping("/user")
 @Api(value = "User", tags = "用户")
-public class UserController extends BaseController2<UserService, Long, User, UserPageDTO, UserSaveDTO, UserUpdateDTO> {
-    @Autowired
-    private UserService userService;
+public class UserController extends SuperController<UserService, Long, User, UserPageDTO, UserSaveDTO, UserUpdateDTO> {
     @Autowired
     private OrgService orgService;
     @Autowired
@@ -88,78 +83,54 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     private ResourceService resourceService;
 
 
-    /**
-     * 分页查询用户
-     *
-     * @param params 分页查询对象
-     * @return 查询结果
-     */
+//    /**
+//     * 新增用户
+//     *
+//     * @param data 新增对象
+//     * @return 新增结果
+//     */
+//    @Override
+//    @SysLog("'新增用户:' + #data.name")
+//    public R<User> save(@RequestBody @Validated UserSaveDTO data) {
+//        User user = BeanUtil.toBean(data, User.class);
+//        baseService.saveUser(user);
+//        return success(user);
+//    }
+
     @Override
-    @SysLog("'分页查询用户:' + #params.model.name")
-    public R<IPage<User>> page(@RequestBody @Validated RequestParams<UserPageDTO> params) {
-        IPage<User> page = params.getPage();
-
-        UserPageDTO userPage = params.getModel();
-
-        LbqWrapper<User> wrapper = Wraps.lbQ();
-        if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {
-            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrg().getKey()));
-            wrapper.in(User::getOrg, children.stream().map((org) -> new RemoteData(org.getId())).collect(Collectors.toList()));
-        }
-        wrapper
-//                .geHeader(User::getCreateTime, userPage.getStartCreateTime())
-//                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
-                .like(User::getName, userPage.getName())
-                .like(User::getAccount, userPage.getAccount())
-                .like(User::getEmail, userPage.getEmail())
-                .like(User::getMobile, userPage.getMobile())
-                .eq(User::getStation, userPage.getStation())
-                .eq(User::getPositionStatus, userPage.getPositionStatus())
-                .eq(User::getEducation, userPage.getEducation())
-                .eq(userPage.getNation() != null && StrUtil.isNotEmpty(userPage.getNation().getKey()), User::getNation, userPage.getNation())
-                .eq(User::getSex, userPage.getSex())
-                .eq(User::getStatus, userPage.getStatus())
-                .orderByDesc(User::getId);
-        userService.findPage(page, wrapper);
-        return success(page);
-    }
-
-    /**
-     * 查询用户
-     *
-     * @param id 主键id
-     * @return 查询结果
-     */
-//    @ApiOperation(value = "查询用户", notes = "查询用户")
-//    @GetMapping("/{id}")
-    @Override
-    @SysLog("'查询用户:' + #id")
-    public R<User> get(@PathVariable Long id) {
-        return success(userService.getById(id));
-    }
-
-
-    @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
-    @GetMapping("/find")
-    @SysLog("查询所有用户")
-    public R<List<Long>> findAllUserId() {
-        return success(userService.list().stream().mapToLong(User::getId).boxed().collect(Collectors.toList()));
-    }
-
-
-    /**
-     * 新增用户
-     *
-     * @param data 新增对象
-     * @return 新增结果
-     */
-//    @ApiOperation(value = "新增用户", notes = "新增用户不为空的字段")
-//    @PostMapping
-    @Override
-    @SysLog("'新增用户:' + #data.name")
-    public R<User> save(@RequestBody @Validated UserSaveDTO data) {
+    protected R<User> handlerSave(UserSaveDTO data) {
         User user = BeanUtil.toBean(data, User.class);
-        userService.saveUser(user);
+        baseService.saveUser(user);
+        return success(user);
+    }
+
+
+//    /**
+//     * 删除用户
+//     *
+//     * @param ids 主键id
+//     * @return 删除结果
+//     */
+//    @ApiOperation(value = "删除用户", notes = "根据id物理删除用户")
+//    @DeleteMapping
+//    @Override
+//    @SysLog("删除用户")
+//    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
+//        baseService.remove(ids);
+//        return success(true);
+//    }
+//    ￿
+
+    @Override
+    protected R<Boolean> handlerDelete(List<Long> ids) {
+        baseService.remove(ids);
+        return success(true);
+    }
+
+    @Override
+    protected R<User> handlerUpdate(UserUpdateDTO data) {
+        User user = BeanUtil.toBean(data, User.class);
+        baseService.updateUser(user);
         return success(user);
     }
 
@@ -171,53 +142,36 @@ public class UserController extends BaseController2<UserService, Long, User, Use
      */
 //    @ApiOperation(value = "修改用户", notes = "修改用户不为空的字段")
 //    @PutMapping
-    @Override
-    @SysLog("修改用户")
-    public R<User> update(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateDTO data) {
-        User user = BeanUtil.toBean(data, User.class);
-        userService.updateUser(user);
-        return success(user);
-    }
-
+//    @Override
+//    @SysLog("修改用户")
+//    public R<User> update(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateDTO data) {
+//        User user = BeanUtil.toBean(data, User.class);
+//        baseService.updateUser(user);
+//        return success(user);
+//    }
     @ApiOperation(value = "修改头像", notes = "修改头像")
     @PutMapping("/avatar")
-    @SysLog("修改头像")
+    @SysLog("'修改头像:' + #p0.id")
     public R<User> avatar(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateAvatarDTO data) {
         User user = BeanUtil.toBean(data, User.class);
-        userService.updateUser(user);
+        baseService.updateById(user);
         return success(user);
     }
 
     @ApiOperation(value = "修改密码", notes = "修改密码")
     @PutMapping("/password")
-    @SysLog("修改密码")
-    public R<Boolean> updatePassword(@RequestBody UserUpdatePasswordDTO data) {
-        return success(userService.updatePassword(data));
+    @SysLog("'修改密码:' + #p0.id")
+    public R<Boolean> updatePassword(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO data) {
+        return success(baseService.updatePassword(data));
     }
 
     @ApiOperation(value = "重置密码", notes = "重置密码")
     @GetMapping("/reset")
-    @SysLog("重置密码")
+    @SysLog("'重置密码:' + #ids")
     public R<Boolean> resetTx(@RequestParam("ids[]") List<Long> ids) {
-        userService.reset(ids);
+        baseService.reset(ids);
         return success();
     }
-
-    /**
-     * 删除用户
-     *
-     * @param ids 主键id
-     * @return 删除结果
-     */
-//    @ApiOperation(value = "删除用户", notes = "根据id物理删除用户")
-//    @DeleteMapping
-    @Override
-    @SysLog("删除用户")
-    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        userService.remove(ids);
-        return success(true);
-    }
-
 
     /**
      * 单体查询用户
@@ -228,7 +182,7 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     @ApiOperation(value = "查询用户详细", notes = "查询用户详细")
     @PostMapping(value = "/anno/id/{id}")
     public R<SysUser> getById(@PathVariable Long id, @RequestBody UserQuery query) {
-        User user = userService.getById(id);
+        User user = baseService.getByIdCache(id);
         if (user == null) {
             return success(null);
         }
@@ -242,9 +196,11 @@ public class UserController extends BaseController2<UserService, Long, User, Use
         }
         if (query.getFull() || query.getStation()) {
             Station station = stationService.getById(user.getStation());
-            SysStation sysStation = BeanUtil.toBean(station, SysStation.class);
-            sysStation.setOrgId(RemoteData.getKey(station.getOrg()));
-            sysUser.setStation(sysStation);
+            if (station != null) {
+                SysStation sysStation = BeanUtil.toBean(station, SysStation.class);
+                sysStation.setOrgId(RemoteData.getKey(station.getOrg()));
+                sysUser.setStation(sysStation);
+            }
         }
 
         if (query.getFull() || query.getRoles()) {
@@ -264,7 +220,7 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     @ApiOperation(value = "查询用户权限范围", notes = "根据用户id，查询用户权限范围")
     @GetMapping(value = "/ds/{id}")
     public Map<String, Object> getDataScopeById(@PathVariable("id") Long id) {
-        return userService.getDataScopeById(id);
+        return baseService.getDataScopeById(id);
     }
 
     /**
@@ -277,7 +233,7 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     @ApiOperation(value = "查询角色的已关联用户", notes = "查询角色的已关联用户")
     @GetMapping(value = "/role/{roleId}")
     public R<UserRoleDTO> findUserByRoleId(@PathVariable("roleId") Long roleId, @RequestParam(value = "keyword", required = false) String keyword) {
-        List<User> list = userService.findUserByRoleId(roleId, keyword);
+        List<User> list = baseService.findUserByRoleId(roleId, keyword);
         List<Long> idList = list.stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
         return success(UserRoleDTO.builder().idList(idList).userList(list).build());
     }
@@ -309,7 +265,7 @@ public class UserController extends BaseController2<UserService, Long, User, Use
                 .mobile(data.getMobile())
                 .password(DigestUtils.md5Hex(data.getPassword()))
                 .build();
-        return success(userService.save(user));
+        return success(baseService.save(user));
     }
 
 
@@ -317,7 +273,7 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     @ApiOperation(value = "清除缓存并重新加载数据", notes = "清除缓存并重新加载数据")
     @PostMapping(value = "/reload")
     public R<LoginDTO> reload(@RequestParam Long userId) throws BizException {
-        User user = userService.getById(userId);
+        User user = baseService.getByIdCache(userId);
         if (user == null) {
             return R.fail("用户不存在");
         }
@@ -328,12 +284,18 @@ public class UserController extends BaseController2<UserService, Long, User, Use
         return this.success(LoginDTO.builder().user(BeanUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList).token(null).build());
     }
 
+    @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
+    @GetMapping("/find")
+    @SysLog("查询所有用户")
+    public R<List<Long>> findAllUserId() {
+        return success(baseService.list().stream().mapToLong(User::getId).boxed().collect(Collectors.toList()));
+    }
 
     /**
      * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
-     * 问题如下： select * from org where id in ('100');
+     * 问题如下: select * from org where id in ('100');
      * <p>
-     * 强制转换成Long后，sql就能正常执行： select * from org where id in (100);
+     * 强制转换成Long后，sql就能正常执行: select * from org where id in (100);
      *
      * <p>
      * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
@@ -345,14 +307,14 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
     @GetMapping("/findUserByIds")
     public Map<Serializable, Object> findUserByIds(@RequestParam Set<Long> codes) {
-        return this.userService.findUserByIds(codes);
+        return this.baseService.findUserByIds(codes);
     }
 
     /**
      * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
-     * 问题如下： select * from org where id in ('100');
+     * 问题如下: select * from org where id in ('100');
      * <p>
-     * 强制转换成Long后，sql就能正常执行： select * from org where id in (100);
+     * 强制转换成Long后，sql就能正常执行: select * from org where id in (100);
      *
      * <p>
      * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
@@ -364,32 +326,9 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
     @GetMapping("/findUserNameByIds")
     public Map<Serializable, Object> findUserNameByIds(@RequestParam Set<Long> codes) {
-        return this.userService.findUserNameByIds(codes);
+        return this.baseService.findUserNameByIds(codes);
     }
 
-    @Override
-    public void exportExcel(@RequestBody @Validated RequestParams<UserPageDTO> params, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        UserPageDTO model = params.getModel();
-        if (model != null) {
-            if (model.getOrg() != null && model.getOrg().getKey() == null) {
-                model.setOrg(null);
-            }
-            if (model.getStation() != null && model.getStation().getKey() == null) {
-                model.setStation(null);
-            }
-            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
-                model.setEducation(null);
-            }
-            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
-                model.setNation(null);
-            }
-            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
-                model.setPositionStatus(null);
-            }
-        }
-
-        super.exportExcel(params, request, response);
-    }
 
     @Override
     protected void handlerImport(List<Map<String, String>> list) {
@@ -422,25 +361,111 @@ public class UserController extends BaseController2<UserService, Long, User, Use
     }
 
     @Override
-    public R<String> preview(@RequestBody @Validated RequestParams<UserPageDTO> params, HttpServletRequest request) {
-        UserPageDTO model = params.getModel();
-        if (model != null) {
-            if (model.getOrg() != null && model.getOrg().getKey() == null) {
-                model.setOrg(null);
-            }
-            if (model.getStation() != null && model.getStation().getKey() == null) {
-                model.setStation(null);
-            }
-            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
-                model.setEducation(null);
-            }
-            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
-                model.setNation(null);
-            }
-            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
-                model.setPositionStatus(null);
-            }
+    protected void query(PageParams<UserPageDTO> params, IPage<User> page, Long defSize) {
+        UserPageDTO userPage = params.getModel();
+
+        LbqWrapper<User> wrapper = Wraps.lbQ();
+        if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {
+            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrg().getKey()));
+            wrapper.in(User::getOrg, children.stream().map((org) -> new RemoteData(org.getId())).collect(Collectors.toList()));
         }
-        return super.preview(params, request);
+        wrapper
+//                .geHeader(User::getCreateTime, userPage.getStartCreateTime())
+//                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
+                .like(User::getName, userPage.getName())
+                .like(User::getAccount, userPage.getAccount())
+                .like(User::getEmail, userPage.getEmail())
+                .like(User::getMobile, userPage.getMobile())
+                .eq(User::getStation, userPage.getStation())
+                .eq(User::getPositionStatus, userPage.getPositionStatus())
+                .eq(User::getEducation, userPage.getEducation())
+                .eq(userPage.getNation() != null && StrUtil.isNotEmpty(userPage.getNation().getKey()), User::getNation, userPage.getNation())
+                .eq(User::getSex, userPage.getSex())
+                .eq(User::getStatus, userPage.getStatus())
+                .orderByDesc(User::getId);
+        baseService.findPage(page, wrapper);
     }
+
+    /**
+     * 重写 分页查询用户
+     *
+     * @param params 分页查询对象
+     * @return 查询结果
+     */
+//    @Override
+//    public R<IPage<User>> page(@RequestBody @Validated PageParams<UserPageDTO> params) {
+//        IPage<User> page = params.getPage();
+//
+//        UserPageDTO userPage = params.getModel();
+//
+//        LbqWrapper<User> wrapper = Wraps.lbQ();
+//        if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {
+//            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrg().getKey()));
+//            wrapper.in(User::getOrg, children.stream().map((org) -> new RemoteData(org.getId())).collect(Collectors.toList()));
+//        }
+//        wrapper
+////                .geHeader(User::getCreateTime, userPage.getStartCreateTime())
+////                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
+//                .like(User::getName, userPage.getName())
+//                .like(User::getAccount, userPage.getAccount())
+//                .like(User::getEmail, userPage.getEmail())
+//                .like(User::getMobile, userPage.getMobile())
+//                .eq(User::getStation, userPage.getStation())
+//                .eq(User::getPositionStatus, userPage.getPositionStatus())
+//                .eq(User::getEducation, userPage.getEducation())
+//                .eq(userPage.getNation() != null && StrUtil.isNotEmpty(userPage.getNation().getKey()), User::getNation, userPage.getNation())
+//                .eq(User::getSex, userPage.getSex())
+//                .eq(User::getStatus, userPage.getStatus())
+//                .orderByDesc(User::getId);
+//        baseService.findPage(page, wrapper);
+//        return success(page);
+//    }
+
+//    @Override
+//    public void exportExcel(@RequestBody @Validated PageParams<UserPageDTO> params, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        UserPageDTO model = params.getModel();
+//        if (model != null) {
+//            if (model.getOrg() != null && model.getOrg().getKey() == null) {
+//                model.setOrg(null);
+//            }
+//            if (model.getStation() != null && model.getStation().getKey() == null) {
+//                model.setStation(null);
+//            }
+//            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
+//                model.setEducation(null);
+//            }
+//            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
+//                model.setNation(null);
+//            }
+//            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
+//                model.setPositionStatus(null);
+//            }
+//        }
+//
+//        super.exportExcel(params, request, response);
+//    }
+//
+//    @Override
+//    public R<String> preview(@RequestBody @Validated PageParams<UserPageDTO> params, HttpServletRequest request) {
+//        UserPageDTO model = params.getModel();
+//        if (model != null) {
+//            if (model.getOrg() != null && model.getOrg().getKey() == null) {
+//                model.setOrg(null);
+//            }
+//            if (model.getStation() != null && model.getStation().getKey() == null) {
+//                model.setStation(null);
+//            }
+//            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
+//                model.setEducation(null);
+//            }
+//            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
+//                model.setNation(null);
+//            }
+//            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
+//                model.setPositionStatus(null);
+//            }
+//        }
+//        return super.preview(params, request);
+//    }
+
 }

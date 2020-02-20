@@ -15,6 +15,7 @@
     <description>优雅bean转换模块</description>
 
     <dependencies>
+        <!-- 官方的starter 有bug，不支持 * 号匹配 -->
         <!--        <dependency>-->
         <!--            <groupId>com.github.dozermapper</groupId>-->
         <!--            <artifactId>dozer-spring-boot-starter</artifactId>-->
