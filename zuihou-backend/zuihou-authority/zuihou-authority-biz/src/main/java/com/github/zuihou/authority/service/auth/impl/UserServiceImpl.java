@@ -3,7 +3,6 @@ package com.github.zuihou.authority.service.auth.impl;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.Role;
@@ -18,7 +17,9 @@ import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.defaults.TenantService;
+import com.github.zuihou.base.service.SuperServiceCacheImpl;
 import com.github.zuihou.common.constant.BizConstant;
+import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
@@ -30,7 +31,10 @@ import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -49,7 +53,28 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+@CacheConfig(cacheNames = CacheKey.USER)
+public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> implements UserService {
+
+    private String classTypeName = "";
+
+    public UserServiceImpl() {
+        this.classTypeName = this.getClass().getSimpleName();
+    }
+
+    @Override
+    protected String getRegion() {
+        return CacheKey.USER;
+    }
+
+    @Override
+    protected String getClassTypeName() {
+        return classTypeName;
+    }
+
+    protected UserService currentProxy() {
+        return ((UserService) AopContext.currentProxy());
+    }
 
     @Autowired
     private RoleService roleService;
@@ -83,13 +108,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
         User build = User.builder().password(data.getPassword()).id(data.getId()).build();
-        this.updateUser(build);
+        currentProxy().updateById(build);
         return true;
     }
 
     @Override
     public User getByAccount(String account) {
-        //TODO 缓存
         return super.getOne(Wraps.<User>lbQ().eq(User::getAccount, account));
     }
 
@@ -117,13 +141,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
                 orgIds = roleOrgList.stream().mapToLong(RoleOrg::getOrgId).boxed().collect(Collectors.toList());
             } else if (DataScopeType.THIS_LEVEL.eq(dsType)) {
-                User user = super.getById(userId);
+                User user = currentProxy().getByIdCache(userId);
                 if (user != null) {
                     Long orgId = RemoteData.getKey(user.getOrg());
                     orgIds.add(orgId);
                 }
             } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(dsType)) {
-                User user = super.getById(userId);
+                User user = currentProxy().getByIdCache(userId);
                 if (user != null) {
                     Long orgId = RemoteData.getKey(user.getOrg());
                     List<Org> orgList = orgService.findChildren(Arrays.asList(orgId));
@@ -142,13 +166,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @CacheEvict(key = "#root.targetClass.typeName + ':'+#p0.id")
     public void updatePasswordErrorNumById(Long id) {
         baseMapper.incrPasswordErrorNumById(id);
     }
 
     @Override
     public void updateLoginTime(String account) {
+        User user = getByAccount(account);
+        if (user == null) {
+            return;
+        }
+
         baseMapper.updateLastLoginTime(account, LocalDateTime.now());
+
+        String key = key(user.getId());
+        cacheChannel.evict(getRegion(), key);
     }
 
     @Override
@@ -171,6 +204,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean reset(List<Long> ids) {
+        if (ids.isEmpty()) {
+            return true;
+        }
         Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
         BizAssert.notNull(tenant, "租户不存在，请联系管理员");
 
@@ -187,6 +223,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .set(User::getPasswordExpireTime, passwordExpireTime)
                 .in(User::getId, ids)
         );
+        String[] keys = ids.stream().map((id) -> key(id)).toArray(String[]::new);
+        cacheChannel.evict(getRegion(), keys);
+
         return true;
     }
 
@@ -204,7 +243,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (StrUtil.isNotEmpty(user.getPassword())) {
             user.setPassword(SecureUtil.md5(user.getPassword()));
         }
-        super.updateById(user);
+        currentProxy().updateById(user);
         return user;
     }
 
@@ -213,32 +252,48 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userRoleService.remove(Wraps.<UserRole>lbQ()
                 .in(UserRole::getUserId, ids)
         );
-        return super.removeByIds(ids);
+        return currentProxy().removeByIds(ids);
     }
 
     @Override
     public Map<Serializable, Object> findUserByIds(Set<Long> ids) {
+        List<User> list = findUser(ids);
 
-        LbqWrapper<User> query = Wraps.<User>lbQ()
-                .in(User::getId, ids)
-                .eq(User::getStatus, true);
-        List<User> list = super.list(query);
-
-        //key 是字典编码
+        //key 是 用户id
         ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, User::getId, (user) -> user);
         return typeMap;
     }
 
+    private List<User> findUser(Set<Long> ids) {
+        List<User> list = null;
+        if (ids.size() > 100) {
+            LbqWrapper<User> query = Wraps.<User>lbQ()
+                    .in(User::getId, ids)
+                    .eq(User::getStatus, true);
+            list = super.list(query);
+
+            if (!list.isEmpty()) {
+                list.forEach(user -> {
+                    String menuKey = key(user.getId());
+                    cacheChannel.set(getRegion(), menuKey, user);
+                });
+            }
+
+        } else {
+            list = ids.stream().map(currentProxy()::getByIdCache)
+                    .filter(Objects::nonNull).collect(Collectors.toList());
+        }
+        return list;
+    }
+
     @Override
     public Map<Serializable, Object> findUserNameByIds(Set<Long> ids) {
+        List<User> list = findUser(ids);
 
-        LbqWrapper<User> query = Wraps.<User>lbQ()
-                .in(User::getId, ids)
-                .eq(User::getStatus, true);
-        List<User> list = super.list(query);
-
-        //key 是字典编码
+        //key 是 用户id
         ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, User::getId, User::getName);
         return typeMap;
     }
+
+
 }

@@ -65,6 +65,9 @@ public enum ExceptionCode implements BaseExceptionCode {
     //系统相关 end
 
     REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),
+
+    DATA_SAVE_ERROR(2000, "新增数据失败"),
+    DATA_UPDATE_ERROR(2001, "修改数据失败"),
     //jwt token 相关 start
 
     JWT_TOKEN_EXPIRED(40001, "会话超时，请重新登录"),

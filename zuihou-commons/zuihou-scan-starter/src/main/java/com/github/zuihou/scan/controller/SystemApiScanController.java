@@ -1,13 +1,11 @@
 package com.github.zuihou.scan.controller;
 
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.scan.model.SystemApiScanSaveDTO;
 import com.github.zuihou.scan.service.SystemApiScanService;
 import com.github.zuihou.scan.utils.RequestMappingScanUtils;
 import com.github.zuihou.utils.SpringUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -30,13 +28,13 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Slf4j
 @RequestMapping("/systemApiScan")
 @Api(value = "SystemApiScan", tags = "系统api")
-public class SystemApiScanController extends BaseController {
+public class SystemApiScanController {
 
     private final SystemApiScanService systemApiService;
 
 
     @Autowired
-    public SystemApiScanController(@Qualifier("systemApiService") SystemApiScanService systemApiService) {
+    public SystemApiScanController(@Qualifier("systemApiScanService") SystemApiScanService systemApiService) {
         this.systemApiService = systemApiService;
     }
 

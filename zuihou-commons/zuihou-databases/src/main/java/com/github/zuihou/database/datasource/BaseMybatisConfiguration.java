@@ -5,13 +5,14 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.github.zuihou.database.injector.ZuihouSqlInjector;
 import com.github.zuihou.database.mybatis.WriteInterceptor;
 import com.github.zuihou.database.mybatis.typehandler.FullLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.LeftLikeTypeHandler;
 import com.github.zuihou.database.mybatis.typehandler.RightLikeTypeHandler;
 import com.github.zuihou.database.parsers.DynamicTableNameParser;
-import com.github.zuihou.database.parsers.TenantWebMvcConfigurer;
 import com.github.zuihou.database.properties.DatabaseProperties;
+import com.github.zuihou.database.servlet.TenantWebMvcConfigurer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
@@ -138,4 +139,9 @@ public abstract class BaseMybatisConfiguration {
         return new FullLikeTypeHandler();
     }
 
+
+    @Bean
+    public ZuihouSqlInjector getZuihouSqlInjector() {
+        return new ZuihouSqlInjector();
+    }
 }

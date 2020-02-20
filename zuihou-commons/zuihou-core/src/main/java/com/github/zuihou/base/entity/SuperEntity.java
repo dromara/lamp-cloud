@@ -29,7 +29,10 @@ import java.time.LocalDateTime;
 public class SuperEntity<T> implements Serializable, Cloneable {
     public static final String FIELD_ID = "id";
     public static final String CREATE_TIME = "createTime";
+    public static final String CREATE_TIME_COLUMN = "create_time";
     public static final String CREATE_USER = "createUser";
+    public static final String CREATE_USER_COLUMN = "create_user";
+
     private static final long serialVersionUID = -4603650115461757622L;
 
     @TableId(value = "id", type = IdType.INPUT)

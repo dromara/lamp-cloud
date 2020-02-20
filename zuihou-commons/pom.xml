@@ -51,6 +51,16 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-injection-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-j2cache-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-databases</artifactId>
                 <version>${project.version}</version>
             </dependency>

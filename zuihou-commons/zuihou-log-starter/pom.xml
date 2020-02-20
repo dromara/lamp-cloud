@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-boot</artifactId>
+            <artifactId>zuihou-core</artifactId>
         </dependency>
 
         <dependency>

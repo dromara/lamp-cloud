@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.log.event.SysLogEvent;
 import com.github.zuihou.log.util.LogUtil;
@@ -57,7 +58,8 @@ public class SysLogAspect {
     /***
      * 定义controller切入点拦截规则，拦截SysLog注解的方法
      */
-    @Pointcut("@annotation(com.github.zuihou.log.annotation.SysLog)")
+//        @Before("@within(auditLog) || @annotation(auditLog)")
+    @Pointcut("execution(public * com.github.zuihou.base.SuperController.*(..)) || @annotation(com.github.zuihou.log.annotation.SysLog)")
     public void sysLogAspect() {
 
     }
@@ -92,12 +94,20 @@ public class SysLogAspect {
      * @throws Throwable
      */
     @AfterReturning(returning = "ret", pointcut = "sysLogAspect()")
-    public void doAfterReturning(Object ret) {
+    public void doAfterReturning(JoinPoint joinPoint, Object ret) {
         tryCatch((aaa) -> {
+            SysLog sysLogAnno = LogUtil.getTargetAnno(joinPoint);
+            if (sysLogAnno == null) {
+                return;
+            }
+
             R r = Convert.convert(R.class, ret);
             OptLogDTO sysLog = get();
             if (r == null) {
                 sysLog.setType("OPT");
+                if (sysLogAnno.response()) {
+                    sysLog.setResult(getText(String.valueOf(ret == null ? StrPool.EMPTY : ret)));
+                }
             } else {
                 if (r.getIsSuccess()) {
                     sysLog.setType("OPT");
@@ -105,7 +115,9 @@ public class SysLogAspect {
                     sysLog.setType("EX");
                     sysLog.setExDetail(r.getMsg());
                 }
-                sysLog.setResult(getText(r.toString()));
+                if (sysLogAnno.response()) {
+                    sysLog.setResult(getText(r.toString()));
+                }
             }
 
             publishEvent(sysLog);
@@ -128,16 +140,26 @@ public class SysLogAspect {
      * @param e
      */
     @AfterThrowing(pointcut = "sysLogAspect()", throwing = "e")
-    public void doAfterThrowable(Throwable e) {
+    public void doAfterThrowable(JoinPoint joinPoint, Throwable e) {
         tryCatch((aaa) -> {
+            SysLog sysLogAnno = LogUtil.getTargetAnno(joinPoint);
+            if (sysLogAnno == null) {
+                return;
+            }
             OptLogDTO sysLog = get();
             sysLog.setType("EX");
 
+            // 遇到错误时，请求参数若为空，则记录
+            if (!sysLogAnno.request() && sysLogAnno.requestByError() && StrUtil.isEmpty(sysLog.getParams())) {
+                Object[] args = joinPoint.getArgs();
+                HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+                String strArgs = getArgs(sysLogAnno, args, request);
+                sysLog.setParams(getText(strArgs));
+            }
+
             // 异常对象
-//            sysLog.setExDetail(LogUtil.getStackTrace(e));
             sysLog.setExDetail(ExceptionUtil.stacktraceToString(e, MAX_LENGTH));
             // 异常信息
-//            sysLog.setExDesc(e.getMessage());
             sysLog.setExDesc(ExceptionUtil.stacktraceToString(e, MAX_LENGTH));
 
             publishEvent(sysLog);
@@ -162,6 +184,10 @@ public class SysLogAspect {
     @Before(value = "sysLogAspect()")
     public void recordLog(JoinPoint joinPoint) throws Throwable {
         tryCatch((val) -> {
+            SysLog sysLogAnno = LogUtil.getTargetAnno(joinPoint);
+            if (sysLogAnno == null) {
+                return;
+            }
             // 开始时间
             OptLogDTO sysLog = get();
             sysLog.setCreateUser(BaseContextHandler.getUserId());
@@ -175,8 +201,7 @@ public class SysLogAspect {
                 }
             }
 
-
-            String controllerMethodDescription = LogUtil.getControllerMethodDescription(joinPoint);
+            String controllerMethodDescription = LogUtil.getDescribe(sysLogAnno);
 
             if (StrUtil.isNotEmpty(controllerMethodDescription) && StrUtil.contains(controllerMethodDescription, StrPool.HASH)) {
                 //获取方法参数值
@@ -197,23 +222,11 @@ public class SysLogAspect {
             //获取执行的方法名
             sysLog.setActionMethod(joinPoint.getSignature().getName());
 
-
             // 参数
             Object[] args = joinPoint.getArgs();
 
-            String strArgs = "";
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            try {
-                if (!request.getContentType().contains("multipart/form-data")) {
-                    strArgs = JSONObject.toJSONString(args);
-                }
-            } catch (Exception e) {
-                try {
-                    strArgs = Arrays.toString(args);
-                } catch (Exception ex) {
-                    log.warn("解析参数异常", ex);
-                }
-            }
+            String strArgs = getArgs(sysLogAnno, args, request);
             sysLog.setParams(getText(strArgs));
 
             if (request != null) {
@@ -227,6 +240,24 @@ public class SysLogAspect {
 
             THREAD_LOCAL.set(sysLog);
         });
+    }
+
+    private String getArgs(SysLog sysLogAnno, Object[] args, HttpServletRequest request) {
+        String strArgs = StrPool.EMPTY;
+        if (sysLogAnno.request()) {
+            try {
+                if (!request.getContentType().contains("multipart/form-data")) {
+                    strArgs = JSONObject.toJSONString(args);
+                }
+            } catch (Exception e) {
+                try {
+                    strArgs = Arrays.toString(args);
+                } catch (Exception ex) {
+                    log.warn("解析参数异常", ex);
+                }
+            }
+        }
+        return strArgs;
     }
 
     /**
@@ -243,6 +274,7 @@ public class SysLogAspect {
                 // 给上下文赋值
                 for (int i = 0; i < args.length; i++) {
                     context.setVariable(paramNames[i], args[i]);
+                    context.setVariable("p" + i, args[i]);
                 }
                 return expression.getValue(context).toString();
             }

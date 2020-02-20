@@ -56,6 +56,12 @@ public interface CacheKey {
     String ROLE_ORG = "role_org";
 
     /**
+     * 用户 前缀
+     * 完整key: user:classTypeName:{USER_ID} -> [ROLE_ID, ...]
+     */
+    String USER = "user";
+
+    /**
      * 用户拥有那些角色 前缀
      * 完整key: user_role:{USER_ID} -> [ROLE_ID, ...]
      */
