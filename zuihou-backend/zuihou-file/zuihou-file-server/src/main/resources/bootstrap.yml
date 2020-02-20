@@ -24,7 +24,7 @@ spring:
           - dataId: redis.yml
             refresh: false
           - dataId: mysql.yml
-            refresh: false
+            refresh: true
           - dataId: rabbitmq.yml
             refresh: false
         enabled: true

@@ -22,6 +22,7 @@ import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.model.RemoteData;
@@ -82,21 +83,12 @@ public class UserController extends SuperController<UserService, Long, User, Use
     @Autowired
     private ResourceService resourceService;
 
-
-//    /**
-//     * 新增用户
-//     *
-//     * @param data 新增对象
-//     * @return 新增结果
-//     */
-//    @Override
-//    @SysLog("'新增用户:' + #data.name")
-//    public R<User> save(@RequestBody @Validated UserSaveDTO data) {
-//        User user = BeanUtil.toBean(data, User.class);
-//        baseService.saveUser(user);
-//        return success(user);
-//    }
-
+    /**
+     * 重写保存逻辑
+     *
+     * @param data
+     * @return
+     */
     @Override
     protected R<User> handlerSave(UserSaveDTO data) {
         User user = BeanUtil.toBean(data, User.class);
@@ -104,29 +96,24 @@ public class UserController extends SuperController<UserService, Long, User, Use
         return success(user);
     }
 
-
-//    /**
-//     * 删除用户
-//     *
-//     * @param ids 主键id
-//     * @return 删除结果
-//     */
-//    @ApiOperation(value = "删除用户", notes = "根据id物理删除用户")
-//    @DeleteMapping
-//    @Override
-//    @SysLog("删除用户")
-//    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-//        baseService.remove(ids);
-//        return success(true);
-//    }
-//    ￿
-
+    /**
+     * 重写删除逻辑
+     *
+     * @param ids
+     * @return
+     */
     @Override
     protected R<Boolean> handlerDelete(List<Long> ids) {
         baseService.remove(ids);
         return success(true);
     }
 
+    /**
+     * 重写修改逻辑
+     *
+     * @param data
+     * @return
+     */
     @Override
     protected R<User> handlerUpdate(UserUpdateDTO data) {
         User user = BeanUtil.toBean(data, User.class);
@@ -135,20 +122,11 @@ public class UserController extends SuperController<UserService, Long, User, Use
     }
 
     /**
-     * 修改用户
+     * 修改头像
      *
-     * @param data 修改对象
-     * @return 修改结果
+     * @param data
+     * @return
      */
-//    @ApiOperation(value = "修改用户", notes = "修改用户不为空的字段")
-//    @PutMapping
-//    @Override
-//    @SysLog("修改用户")
-//    public R<User> update(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateDTO data) {
-//        User user = BeanUtil.toBean(data, User.class);
-//        baseService.updateUser(user);
-//        return success(user);
-//    }
     @ApiOperation(value = "修改头像", notes = "修改头像")
     @PutMapping("/avatar")
     @SysLog("'修改头像:' + #p0.id")
@@ -158,6 +136,12 @@ public class UserController extends SuperController<UserService, Long, User, Use
         return success(user);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param data 修改实体
+     * @return
+     */
     @ApiOperation(value = "修改密码", notes = "修改密码")
     @PutMapping("/password")
     @SysLog("'修改密码:' + #p0.id")
@@ -165,6 +149,12 @@ public class UserController extends SuperController<UserService, Long, User, Use
         return success(baseService.updatePassword(data));
     }
 
+    /**
+     * 重置密码
+     *
+     * @param ids 用户ID
+     * @return
+     */
     @ApiOperation(value = "重置密码", notes = "重置密码")
     @GetMapping("/reset")
     @SysLog("'重置密码:' + #ids")
@@ -268,7 +258,13 @@ public class UserController extends SuperController<UserService, Long, User, Use
         return success(baseService.save(user));
     }
 
-
+    /**
+     * 清除缓存并重新加载数据
+     *
+     * @param userId 用户id
+     * @return
+     * @throws BizException
+     */
     @SysLog("清除缓存并重新加载数据")
     @ApiOperation(value = "清除缓存并重新加载数据", notes = "清除缓存并重新加载数据")
     @PostMapping(value = "/reload")
@@ -330,9 +326,13 @@ public class UserController extends SuperController<UserService, Long, User, Use
     }
 
 
+    /**
+     * 用户导入
+     *
+     * @param list
+     */
     @Override
     protected void handlerImport(List<Map<String, String>> list) {
-
         List<User> userList = list.stream().map((map) -> {
             User user = new User();
             user.setAccount(map.getOrDefault("账号", ""));
@@ -360,19 +360,26 @@ public class UserController extends SuperController<UserService, Long, User, Use
         baseService.saveBatch(userList);
     }
 
+    /**
+     * 分页、导出、导出预览 方法的共用查询条件
+     *
+     * @param params
+     * @param page
+     * @param defSize
+     */
     @Override
     protected void query(PageParams<UserPageDTO> params, IPage<User> page, Long defSize) {
         UserPageDTO userPage = params.getModel();
 
-        LbqWrapper<User> wrapper = Wraps.lbQ();
+        QueryWrap<User> wrap = Wraps.q();
+        handlerWrapper(wrap, params);
+
+        LbqWrapper<User> wrapper = wrap.lambda();
         if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {
             List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrg().getKey()));
             wrapper.in(User::getOrg, children.stream().map((org) -> new RemoteData(org.getId())).collect(Collectors.toList()));
         }
-        wrapper
-//                .geHeader(User::getCreateTime, userPage.getStartCreateTime())
-//                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
-                .like(User::getName, userPage.getName())
+        wrapper.like(User::getName, userPage.getName())
                 .like(User::getAccount, userPage.getAccount())
                 .like(User::getEmail, userPage.getEmail())
                 .like(User::getMobile, userPage.getMobile())
@@ -385,87 +392,4 @@ public class UserController extends SuperController<UserService, Long, User, Use
                 .orderByDesc(User::getId);
         baseService.findPage(page, wrapper);
     }
-
-    /**
-     * 重写 分页查询用户
-     *
-     * @param params 分页查询对象
-     * @return 查询结果
-     */
-//    @Override
-//    public R<IPage<User>> page(@RequestBody @Validated PageParams<UserPageDTO> params) {
-//        IPage<User> page = params.getPage();
-//
-//        UserPageDTO userPage = params.getModel();
-//
-//        LbqWrapper<User> wrapper = Wraps.lbQ();
-//        if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {
-//            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrg().getKey()));
-//            wrapper.in(User::getOrg, children.stream().map((org) -> new RemoteData(org.getId())).collect(Collectors.toList()));
-//        }
-//        wrapper
-////                .geHeader(User::getCreateTime, userPage.getStartCreateTime())
-////                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
-//                .like(User::getName, userPage.getName())
-//                .like(User::getAccount, userPage.getAccount())
-//                .like(User::getEmail, userPage.getEmail())
-//                .like(User::getMobile, userPage.getMobile())
-//                .eq(User::getStation, userPage.getStation())
-//                .eq(User::getPositionStatus, userPage.getPositionStatus())
-//                .eq(User::getEducation, userPage.getEducation())
-//                .eq(userPage.getNation() != null && StrUtil.isNotEmpty(userPage.getNation().getKey()), User::getNation, userPage.getNation())
-//                .eq(User::getSex, userPage.getSex())
-//                .eq(User::getStatus, userPage.getStatus())
-//                .orderByDesc(User::getId);
-//        baseService.findPage(page, wrapper);
-//        return success(page);
-//    }
-
-//    @Override
-//    public void exportExcel(@RequestBody @Validated PageParams<UserPageDTO> params, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        UserPageDTO model = params.getModel();
-//        if (model != null) {
-//            if (model.getOrg() != null && model.getOrg().getKey() == null) {
-//                model.setOrg(null);
-//            }
-//            if (model.getStation() != null && model.getStation().getKey() == null) {
-//                model.setStation(null);
-//            }
-//            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
-//                model.setEducation(null);
-//            }
-//            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
-//                model.setNation(null);
-//            }
-//            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
-//                model.setPositionStatus(null);
-//            }
-//        }
-//
-//        super.exportExcel(params, request, response);
-//    }
-//
-//    @Override
-//    public R<String> preview(@RequestBody @Validated PageParams<UserPageDTO> params, HttpServletRequest request) {
-//        UserPageDTO model = params.getModel();
-//        if (model != null) {
-//            if (model.getOrg() != null && model.getOrg().getKey() == null) {
-//                model.setOrg(null);
-//            }
-//            if (model.getStation() != null && model.getStation().getKey() == null) {
-//                model.setStation(null);
-//            }
-//            if (model.getEducation() != null && StrUtil.isEmpty(model.getEducation().getKey())) {
-//                model.setEducation(null);
-//            }
-//            if (model.getNation() != null && StrUtil.isEmpty(model.getNation().getKey())) {
-//                model.setNation(null);
-//            }
-//            if (model.getPositionStatus() != null && StrUtil.isEmpty(model.getPositionStatus().getKey())) {
-//                model.setPositionStatus(null);
-//            }
-//        }
-//        return super.preview(params, request);
-//    }
-
 }
