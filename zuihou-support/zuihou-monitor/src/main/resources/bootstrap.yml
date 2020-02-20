@@ -22,7 +22,7 @@ spring:
           - dataId: common.yml
             refresh: true
           - dataId: mysql.yml
-            refresh: false
+            refresh: true
           - dataId: rabbitmq.yml
             refresh: false
       discovery:
