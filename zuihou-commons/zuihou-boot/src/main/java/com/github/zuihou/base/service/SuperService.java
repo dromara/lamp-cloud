@@ -26,6 +26,9 @@ public interface SuperService<T> extends IService<T> {
      * @return
      */
     default boolean saveBatchSomeColumn(List<T> entityList) {
+        if(entityList.isEmpty()){
+            return true;
+        }
         return SqlHelper.retBool(((SuperMapper) getBaseMapper()).insertBatchSomeColumn(entityList));
     }
 
