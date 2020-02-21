@@ -205,7 +205,7 @@ public abstract class SuperController<S extends SuperService<Entity>, Id extends
      * @return 返回SUCCESS_RESPONSE, 调用默认更新, 返回其他不调用默认更新
      */
     protected R<Boolean> handlerDelete(List<Id> ids) {
-        return R.successDef();
+        return R.successDef(true);
     }
 
     @ApiOperation(value = "修改")

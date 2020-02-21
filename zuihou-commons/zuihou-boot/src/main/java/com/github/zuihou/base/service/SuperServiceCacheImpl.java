@@ -17,11 +17,19 @@ import org.springframework.cache.annotation.Cacheable;
 import java.io.Serializable;
 import java.util.Collection;
 
+import static com.github.zuihou.exception.code.ExceptionCode.SERVICE_MAPPER_ERROR;
+
 /**
  * 基于SpringCache + J2Cache 实现的 缓存实现
  * key规则： CacheConfig#cacheNames:root.targetClass.simpleName:id
  * <p>
  * CacheConfig#cacheNames 会先从子类获取，子类没设置，就从SuperServiceCacheImpl类获取
+ * <p>
+ * 1，getByIdCache：新增的方法： 先查缓存，在查db
+ * 2，removeById：重写 ServiceImpl 类的方法，删除db后，淘汰缓存
+ * 3，removeByIds：重写 ServiceImpl 类的方法，删除db后，淘汰缓存
+ * 4，updateAllById： 新增的方法： 修改数据（所有字段）后，淘汰缓存
+ * 5，updateById：重写 ServiceImpl 类的方法，修改db后，淘汰缓存
  *
  * @param <M>
  * @param <T>
@@ -33,6 +41,13 @@ public class SuperServiceCacheImpl<M extends SuperMapper<T>, T> extends ServiceI
 
     @Autowired
     protected CacheChannel cacheChannel;
+
+    public SuperMapper getSuperMapper() {
+        if (baseMapper instanceof SuperMapper) {
+            return baseMapper;
+        }
+        throw BizException.wrap(SERVICE_MAPPER_ERROR);
+    }
 
     /**
      * 构建没有租户信息的key
@@ -103,19 +118,19 @@ public class SuperServiceCacheImpl<M extends SuperMapper<T>, T> extends ServiceI
 
 
     @Override
-    @Cacheable(key = "#root.targetClass.typeName + ':'+#id")
+    @Cacheable(key = "#root.targetClass.simpleName + ':'+#id")
     public T getByIdCache(Serializable id) {
         return super.getById(id);
     }
 
     @Override
-    @CacheEvict(key = "#root.targetClass.typeName + ':'+#id")
+    @CacheEvict(key = "#root.targetClass.simpleName + ':'+#id")
     public boolean removeById(Serializable id) {
         return super.removeById(id);
     }
 
     @Override
-    public boolean removeByIdsCache(Collection<? extends Serializable> idList) {
+    public boolean removeByIds(Collection<? extends Serializable> idList) {
         if (CollUtil.isEmpty(idList)) {
             return true;
         }
@@ -128,9 +143,9 @@ public class SuperServiceCacheImpl<M extends SuperMapper<T>, T> extends ServiceI
 
 
     @Override
-    @CacheEvict(key = "#root.targetClass.typeName + ':'+#p0.id")
+    @CacheEvict(key = "#root.targetClass.simpleName + ':'+#p0.id")
     public boolean updateAllById(T model) {
-        boolean bool = SqlHelper.retBool(((SuperMapper) getBaseMapper()).updateAllById(model));
+        boolean bool = SqlHelper.retBool(getSuperMapper().updateAllById(model));
 
         if (bool) {
             if (!handlerUpdateAllById(model)) {
@@ -141,7 +156,7 @@ public class SuperServiceCacheImpl<M extends SuperMapper<T>, T> extends ServiceI
     }
 
     @Override
-    @CacheEvict(key = "#root.targetClass.typeName + ':'+#p0.id")
+    @CacheEvict(key = "#root.targetClass.simpleName + ':'+#p0.id")
     public boolean updateById(T model) {
         boolean bool = super.updateById(model);
         if (bool) {

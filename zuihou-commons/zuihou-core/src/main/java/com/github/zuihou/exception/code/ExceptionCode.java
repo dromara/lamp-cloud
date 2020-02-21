@@ -40,6 +40,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     LOAD_RESOURCES_ERROR(-8, "加载资源出错"),
     BASE_VALID_PARAM(-9, "统一验证参数异常"),
     OPERATION_EX(-10, "操作异常"),
+    SERVICE_MAPPER_ERROR(-11, "Mapper类转换异常"),
 
 
     OK(200, "OK"),
