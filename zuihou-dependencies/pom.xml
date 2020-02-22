@@ -171,6 +171,7 @@
         <javassist.version>3.25.0-GA</javassist.version>
         <objenesis.version>2.6</objenesis.version>
         <jgroups.version>3.6.15.Final</jgroups.version>
+        <JustAuth.version>1.13.2</JustAuth.version>
 
         <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
         <!--私有镜像仓库-->
@@ -531,6 +532,12 @@
                 <version>${jgroups.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>me.zhyd.oauth</groupId>
+                <artifactId>JustAuth</artifactId>
+                <version>${JustAuth.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -564,6 +571,7 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
+
 
 
     </dependencies>
