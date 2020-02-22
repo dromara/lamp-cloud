@@ -186,15 +186,12 @@ public class AuthManager {
     }
 
     private R<User> getUser(Tenant tenant, String account, String password) {
-        User user = this.userService.getOne(Wrappers.<User>lambdaQuery()
-                .eq(User::getAccount, account));
+        User user = this.userService.getByAccount(account);
         // 密码错误
         String passwordMd5 = SecureUtil.md5(password);
         if (user == null) {
-//            throw new BizException(ExceptionCode.JWT_USER_INVALID.getCode(), ExceptionCode.JWT_USER_INVALID.getMsg());
             return R.fail(ExceptionCode.JWT_USER_INVALID);
         }
-
 
         if (!user.getPassword().equalsIgnoreCase(passwordMd5)) {
             this.userService.updatePasswordErrorNumById(user.getId());
