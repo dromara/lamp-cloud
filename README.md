@@ -9,30 +9,6 @@
 [![fork](https://gitee.com/zuihou111/zuihou-admin-cloud/badge/fork.svg?theme=white)](https://gitee.com/zuihou111/zuihou-admin-cloud/members)
 
 
-
-~~~
-
-├─zuihou-admin-cloud
-│  │  
-│  ├─docs-------------------------------------文档
-│  │  
-│  ├─third-party-----------------------------第三方组件
-│  │  
-│  ├─zuihou-backend---------------------------后端服务
-│  |  ├─zuihou-api----------------------------全部Feign API
-│  |  ├─zuihou-entity-------------------------全量实体
-│  |  ├─zuihou-authority----------------------权限服务[正在开发]
-│  |  |  ├─zuihou-authority-biz---------------权限服务业务模块
-│  |  |  ├─zuihou-authority-controller--------权限服务接口模块
-│  |  |  ├─zuihou-authority-server------------权限服务启动模块
-│  |  ├─zuihou-order--------------------------订单服务
-│  |  |  ├─zuihou-order-biz-------------------订单服务业务模块
-│  |  |  ├─zuihou-order-controller------------订单服务接口模块
-│  |  |  ├─zuihou-order-server----------------订单服务启动模块
-│  │ 
-│  │-...
-~~~
-
 ## 简介：
 基于`SpringCloud(Hoxton.SR1)`  + `SpringBoot(2.2.4.RELEASE)` 的 SaaS型微服务脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。核心技术采用Nacos、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Seata、Nacos、Sentinel、
