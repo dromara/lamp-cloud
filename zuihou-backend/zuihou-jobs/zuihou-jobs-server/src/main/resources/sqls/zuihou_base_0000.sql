@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 13/02/2020 11:12:58
+ Date: 24/02/2020 16:20:23
 */
 
 SET NAMES utf8mb4;
@@ -82,13 +82,13 @@ CREATE TABLE `c_auth_menu` (
 -- Records of c_auth_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_auth_menu` VALUES (101, '用户中心', '用户组织机构', b'0', '/user', 'Layout', b'1', 0, 'el-icon-user-solid', '', 0, 1, '2019-07-25 15:35:12', 3, '2019-11-11 14:32:02');
-INSERT INTO `c_auth_menu` VALUES (102, '权限管理', '管理权限相关', b'0', '/auth', 'Layout', b'1', 1, 'el-icon-lock', '', 0, 1, '2019-07-27 11:48:49', 3, '2019-11-11 14:35:39');
-INSERT INTO `c_auth_menu` VALUES (103, '基础配置', '基础的配置', b'0', '/base', 'Layout', b'1', 2, 'el-icon-set-up', '', 0, 1, '2019-11-11 14:38:29', 3, '2019-11-11 14:35:42');
-INSERT INTO `c_auth_menu` VALUES (104, '开发者管理', '开发者', b'0', '/developer', 'Layout', b'1', 3, 'el-icon-user-solid', '', 0, 1, '2019-11-11 14:38:34', 3, '2019-11-11 14:35:44');
-INSERT INTO `c_auth_menu` VALUES (105, '消息中心', '站内信', b'0', '/msgs', 'Layout', b'1', 4, 'el-icon-chat-line-square', '', 0, 1, '2019-11-11 14:38:32', 3, '2019-11-11 14:35:47');
-INSERT INTO `c_auth_menu` VALUES (106, '短信中心', '短信接口', b'0', '/sms', 'Layout', b'1', 5, 'el-icon-chat-line-round', '', 0, 1, '2019-11-11 14:38:36', 3, '2019-11-11 14:35:49');
-INSERT INTO `c_auth_menu` VALUES (107, '文件中心', '附件接口', b'0', '/file', 'Layout', b'1', 6, 'el-icon-folder-add', '', 0, 1, '2019-11-11 14:38:38', 3, '2019-11-11 14:35:51');
+INSERT INTO `c_auth_menu` VALUES (101, '用户中心', '用户组织机构', b'0', '/user', 'Layout', b'1', 1, 'el-icon-user-solid', '', 0, 1, '2019-07-25 15:35:12', 3, '2019-11-11 14:32:02');
+INSERT INTO `c_auth_menu` VALUES (102, '权限管理', '管理权限相关', b'0', '/auth', 'Layout', b'1', 2, 'el-icon-lock', '', 0, 1, '2019-07-27 11:48:49', 3, '2019-11-11 14:35:39');
+INSERT INTO `c_auth_menu` VALUES (103, '基础配置', '基础的配置', b'0', '/base', 'Layout', b'1', 3, 'el-icon-set-up', '', 0, 1, '2019-11-11 14:38:29', 3, '2019-11-11 14:35:42');
+INSERT INTO `c_auth_menu` VALUES (104, '开发者管理', '开发者', b'0', '/developer', 'Layout', b'1', 4, 'el-icon-user-solid', '', 0, 1, '2019-11-11 14:38:34', 3, '2019-11-11 14:35:44');
+INSERT INTO `c_auth_menu` VALUES (105, '消息中心', '站内信', b'0', '/msgs', 'Layout', b'1', 5, 'el-icon-chat-line-square', '', 0, 1, '2019-11-11 14:38:32', 3, '2019-11-11 14:35:47');
+INSERT INTO `c_auth_menu` VALUES (106, '短信中心', '短信接口', b'0', '/sms', 'Layout', b'1', 6, 'el-icon-chat-line-round', '', 0, 1, '2019-11-11 14:38:36', 3, '2019-11-11 14:35:49');
+INSERT INTO `c_auth_menu` VALUES (107, '文件中心', '附件接口', b'0', '/file', 'Layout', b'1', 7, 'el-icon-folder-add', '', 0, 1, '2019-11-11 14:38:38', 3, '2019-11-11 14:35:51');
 INSERT INTO `c_auth_menu` VALUES (603976297063910529, '菜单配置', '', b'0', '/auth/menu', 'zuihou/auth/menu/Index', b'1', 0, '', '', 102, 1, '2019-07-25 15:46:11', 3, '2019-11-11 14:31:52');
 INSERT INTO `c_auth_menu` VALUES (603981723864141121, '角色管理', '', b'0', '/auth/role', 'zuihou/auth/role/Index', b'1', 1, '', '', 102, 1, '2019-07-25 16:07:45', 3, '2019-11-11 14:31:57');
 INSERT INTO `c_auth_menu` VALUES (603982542332235201, '组织管理', '', b'0', '/user/org', 'zuihou/user/org/Index', b'1', 0, '', '', 101, 1, '2019-07-25 16:11:00', 3, '2019-11-11 14:28:40');
@@ -524,19 +524,19 @@ COMMIT;
 DROP TABLE IF EXISTS `c_auth_system_api`;
 CREATE TABLE `c_auth_system_api` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `code` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '接口编码',
-  `name` varchar(100) CHARACTER SET utf8mb4 NOT NULL COMMENT '接口名称',
-  `describe_` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源描述',
-  `request_method` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '请求方式',
-  `content_type` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '响应类型',
-  `service_id` varchar(50) CHARACTER SET utf8mb4 NOT NULL COMMENT '服务ID',
-  `path` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '请求路径',
+  `code` varchar(255) DEFAULT NULL COMMENT '接口编码',
+  `name` varchar(100) NOT NULL COMMENT '接口名称',
+  `describe_` varchar(100) DEFAULT NULL COMMENT '资源描述',
+  `request_method` varchar(255) DEFAULT NULL COMMENT '请求方式',
+  `content_type` varchar(255) DEFAULT NULL COMMENT '响应类型',
+  `service_id` varchar(50) NOT NULL COMMENT '服务ID',
+  `path` varchar(255) DEFAULT NULL COMMENT '请求路径',
   `status` bit(1) DEFAULT b'1' COMMENT '状态\n:0-无效 1-有效',
   `is_persist` bit(1) DEFAULT b'0' COMMENT '保留数据 \n0-否 1-是 系统内资数据,不允许删除',
   `is_auth` bit(1) DEFAULT b'1' COMMENT '是否需要认证\n: 0-无认证 1-身份认证 默认:1',
   `is_open` bit(1) DEFAULT b'0' COMMENT '是否公开\n: 0-内部的 1-公开的',
-  `class_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '类名',
-  `method_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '方法名',
+  `class_name` varchar(255) DEFAULT NULL COMMENT '类名',
+  `method_name` varchar(255) DEFAULT NULL COMMENT '方法名',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
@@ -545,7 +545,7 @@ CREATE TABLE `c_auth_system_api` (
   UNIQUE KEY `UNX_ID` (`id`) USING BTREE,
   UNIQUE KEY `UNX_CODE` (`code`(100)) USING BTREE,
   KEY `service_id` (`service_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT COMMENT='API接口';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='API接口';
 
 -- ----------------------------
 -- Table structure for c_auth_user
@@ -555,8 +555,8 @@ CREATE TABLE `c_auth_user` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `account` varchar(30) NOT NULL COMMENT '账号',
   `name` varchar(50) NOT NULL COMMENT '姓名',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>',
-  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station\n@InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.core.Station>',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>',
+  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station\n@InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT 'N' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
@@ -583,11 +583,9 @@ CREATE TABLE `c_auth_user` (
 -- Records of c_auth_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_auth_user` VALUES (3, 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869992', 'W', b'1', 'BiazfanxmamNRoxxVxka.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班3~', '2020-02-13 11:04:16', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-13 11:04:18', 1, '2019-09-02 11:32:02', 3, '2019-12-11 18:00:25');
+INSERT INTO `c_auth_user` VALUES (3, 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869992', 'W', b'1', 'BiazfanxmamNRoxxVxka.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班3~', '2020-02-24 15:24:09', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-24 15:24:11', 1, '2019-09-02 11:32:02', 3, '2019-12-11 18:00:25');
 INSERT INTO `c_auth_user` VALUES (641577229343523041, 'test', '总经理', 102, 100, '', '', 'N', b'1', 'http://127.0.0.1:10000/file/0000/2019/11/c8df3238-ebca-42b3-baeb-37896468f028.png', 'mz_zz', 'COLLEGE', 'WORKING', '', '2019-12-21 16:45:13', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-12-21 16:45:14', 3, '2019-11-06 09:58:56', 3, '2019-11-26 11:02:42');
-INSERT INTO `c_auth_user` VALUES (641590096981656001, 'manong', '码农', 643776594376135105, 642032719487828225, '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2019-11-15 20:56:40', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-11-16 09:28:22', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
-INSERT INTO `c_auth_user` VALUES (1227487801205850112, '11', '111', 101, 645199319300842081, '123@qq.com', '15218876600', 'N', b'1', '', 'mz_miaoz', 'SUOSHI', 'LEAVE', '123', NULL, 0, NULL, 'e10adc3949ba59abbe56e057f20f883e', NULL, 3, '2020-02-12 15:01:12', 3, '2020-02-12 15:01:12');
-INSERT INTO `c_auth_user` VALUES (1227488984712609792, '12', 'demoAdmin', 100, NULL, '', '', 'N', b'1', '', '', '', '', '', NULL, 0, NULL, 'e10adc3949ba59abbe56e057f20f883e', NULL, 3, '2020-02-12 15:05:54', 3, '2020-02-12 15:05:54');
+INSERT INTO `c_auth_user` VALUES (641590096981656001, 'manong', '码农', 643776594376135105, 642032719487828225, '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2020-02-22 12:32:35', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-22 12:32:35', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
 COMMIT;
 
 -- ----------------------------
@@ -968,6 +966,7 @@ INSERT INTO `f_attachment` VALUES (662724113101488737, '662723691150311969', 'US
 INSERT INTO `f_attachment` VALUES (662724826359661217, '648841103860041025', 'USER_AVATAR', 'IMAGE', '111x.png', '', '', '0000/2020/01', 'http://192.168.1.34:10000/file/0000/2020/01/e36deac6-ceca-4816-80f9-d6892dac127c.png', NULL, 'image/png', 'e36deac6-ceca-4816-80f9-d6892dac127c.png', 'png', 215675, 100, 'el-icon-picture', '2020年01月', '2020年01周', '2020年01月03日', '2020-01-03 18:31:52', 3, '2020-01-03 18:31:52', 3);
 INSERT INTO `f_attachment` VALUES (664490768831873089, '664490768693461025', '123', 'IMAGE', '2.jpg', '', '', '0000/2020/01', 'http://192.168.1.34:10000/file/0000/2020/01/ddc3b3cd-43e6-4d2b-962a-2eadb556eada.jpg', NULL, 'image/jpeg', 'ddc3b3cd-43e6-4d2b-962a-2eadb556eada.jpg', 'jpg', 7973, 100, 'el-icon-picture', '2020年01月', '2020年02周', '2020年01月08日', '2020-01-08 15:29:05', 3, '2020-01-08 15:29:05', 3);
 INSERT INTO `f_attachment` VALUES (667653459616464929, 'null', '111', 'DOC', 'zuihou-admin-cloud微服务SaaS脚手架开发手册-01160939.pdf', '', '', '0000/2020/01', 'http://192.168.1.34:10000/file/0000/2020/01/dc76ace8-0708-4f33-ae5e-e8023a19ee17.pdf', NULL, 'application/pdf', 'dc76ace8-0708-4f33-ae5e-e8023a19ee17.pdf', 'pdf', 37063890, 0, 'el-icon-question', '2020年01月', '2020年03周', '2020年01月17日', '2020-01-17 08:56:29', 0, '2020-01-17 08:56:29', 0);
+INSERT INTO `f_attachment` VALUES (1229255169942749184, '1229255169569456128', 'undefined', 'DOC', 'User.xlsx', '', '', '0000/2020/02', 'http://192.168.2.178:10000/file/0000/2020/02/bb3d0e7b-ae51-43b6-99df-60b07a5c7ce4.xlsx', NULL, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'bb3d0e7b-ae51-43b6-99df-60b07a5c7ce4.xlsx', 'xlsx', 13433, 100, 'el-icon-question', '2020年02月', '2020年08周', '2020年02月17日', '2020-02-17 12:04:06', 3, '2020-02-17 12:04:06', 3);
 COMMIT;
 
 -- ----------------------------
@@ -1020,25 +1019,18 @@ CREATE TABLE `m_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单(用于测试)';
 
 -- ----------------------------
--- Records of m_order
--- ----------------------------
-BEGIN;
-INSERT INTO `m_order` VALUES (663793429196570657, '123', '12', '2020-01-06 17:18:06', 0, '2020-01-06 17:18:06', 0);
-COMMIT;
-
--- ----------------------------
 -- Table structure for m_product
 -- ----------------------------
 DROP TABLE IF EXISTS `m_product`;
 CREATE TABLE `m_product` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(255) NOT NULL COMMENT '名称',
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `stock` int(11) DEFAULT NULL COMMENT '库存',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  `type_` text COMMENT '商品类型\n#ProductType{ordinary:普通;gift:赠品;}',
+  `type_` text COMMENT '商品类型\n#ProductType{ordinary:普通;gift:赠品}',
   `type2` longtext COMMENT '商品类型2\n#{ordinary:普通;gift:赠品;}',
   `type3` varchar(255) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>\n',
   `status` bit(1) DEFAULT NULL COMMENT '状态',
@@ -1048,18 +1040,11 @@ CREATE TABLE `m_product` (
   `parent_id` bigint(20) DEFAULT NULL,
   `label` varchar(255) DEFAULT NULL COMMENT '名称',
   `sort_value` int(11) DEFAULT NULL,
-  `test7` char(10) DEFAULT NULL COMMENT 'xxx\n@InjectionField(feign = com.xxx.UserApi.class, method = USER_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.auth.User>',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户\n@InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_METHOD) RemoteData<Long, com.github.zuihou.authority.entity.auth.User>',
+  `test7` char(10) DEFAULT NULL COMMENT 'xxx\n@InjectionField(api = “userApi”, method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户\n@InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品(用于测试)';
-
--- ----------------------------
--- Records of m_product
--- ----------------------------
-BEGIN;
-INSERT INTO `m_product` VALUES (1226409913698222080, 'name', 23, '2020-02-09 15:38:04', 3, '2020-02-09 15:38:04', 3, 'ORDINARY', 'GIFT', 'COLLEGE', b'1', NULL, NULL, NULL, NULL, '', 2, '', 3, 100);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for mail_provider
@@ -1157,6 +1142,16 @@ INSERT INTO `msgs_center_info` VALUES (660150352108060705, '', 'USER_LOCK', 'PUB
 INSERT INTO `msgs_center_info` VALUES (660171417777602593, '123', 'USER_REG', 'NOTIFY', '123', '<p>123</p>', '123', '123', '', b'1', '2019-12-27 17:25:32', 3, '2019-12-27 17:25:32', 3);
 INSERT INTO `msgs_center_info` VALUES (662356073251864609, '', 'USER_LOCK', 'PUBLICITY', '1231', '<p>123</p>', '平台超管', '', '', b'1', '2020-01-02 18:06:34', 3, '2020-01-02 18:06:34', 3);
 INSERT INTO `msgs_center_info` VALUES (1227172486542524416, '12', 'USER_LOCK', 'WAIT', '12', '<p>12</p>', '12', '12', '', b'1', '2020-02-11 18:08:15', 3, '2020-02-11 18:08:15', 3);
+INSERT INTO `msgs_center_info` VALUES (1230806241610039296, '1', 'USER_LOCK', 'WAIT', '您有一个加班申请待审批！您有一个加班申请待审批！您有一个加班申请待审批！', '<p>123</p>', '平台超管', '1', '', b'1', '2020-02-21 18:47:30', 3, '2020-02-21 18:47:30', 3);
+INSERT INTO `msgs_center_info` VALUES (1230854978122285056, '', 'USER_REG', 'NOTIFY', '通知，明天不上班', '<p>通知，明天不上班通知，明天不上班</p>', '平台超管', '', '', b'1', '2020-02-21 22:01:10', 3, '2020-02-21 22:01:10', 3);
+INSERT INTO `msgs_center_info` VALUES (1230855757402996736, '', NULL, 'PUBLICITY', '2020年02月28日22:00:00-2020年02月29日08:00:00 系统维护升级', '<p>2020年02月28日22:00:00-2020年02月29日08:00:00 系统维护升级</p>', '平台超管', '', '', b'1', '2020-02-21 22:04:15', 3, '2020-02-21 22:04:15', 3);
+INSERT INTO `msgs_center_info` VALUES (1230855929092636672, '', 'USER_REG', 'WARN', '磁盘空间满了，请及时处理', '<p>磁盘空间满了，请及时处理</p>', '平台超管', '', '', b'1', '2020-02-21 22:04:56', 3, '2020-02-21 22:04:56', 3);
+INSERT INTO `msgs_center_info` VALUES (1231063445625896960, '', NULL, 'WAIT', '待办', '<p>11111</p>', '平台超管', '', '', b'1', '2020-02-22 11:49:32', 3, '2020-02-22 11:49:32', 3);
+INSERT INTO `msgs_center_info` VALUES (1231063580397273088, '', 'USER_REG', 'WAIT', '1', '<p>111</p>', '平台超管', '', '', b'1', '2020-02-22 11:50:04', 3, '2020-02-22 11:50:04', 3);
+INSERT INTO `msgs_center_info` VALUES (1231063717580374016, '', 'WORK_APPROVAL', 'PUBLICITY', '111', '<p>1111</p>', '平台超管', '', '', b'1', '2020-02-22 11:50:37', 3, '2020-02-22 11:50:37', 3);
+INSERT INTO `msgs_center_info` VALUES (1231064932611522560, '', NULL, 'PUBLICITY', '2', '<p>2</p>', '2', '', '', b'1', '2020-02-22 11:55:27', 3, '2020-02-22 11:55:27', 3);
+INSERT INTO `msgs_center_info` VALUES (1231074143621873664, '', NULL, 'PUBLICITY', '公告', '<p>1公告公告公告公告</p>', '1', '', '', b'1', '2020-02-22 12:32:03', 3, '2020-02-22 12:32:03', 3);
+INSERT INTO `msgs_center_info` VALUES (1231074416511680512, '', NULL, 'WAIT', 'manong manong', '<p>manongmanongmanong</p>', '平台超管', '', '', b'1', '2020-02-22 12:33:08', 3, '2020-02-22 12:33:08', 3);
 COMMIT;
 
 -- ----------------------------
@@ -1203,6 +1198,33 @@ INSERT INTO `msgs_center_info_receive` VALUES (662356073348333633, 6623560732518
 INSERT INTO `msgs_center_info_receive` VALUES (662356073377693825, 662356073251864609, 648841103860041025, b'0', '2020-01-02 18:06:34', 3, 3, '2020-01-02 18:06:34');
 INSERT INTO `msgs_center_info_receive` VALUES (662356073381888161, 662356073251864609, 641590096981656001, b'0', '2020-01-02 18:06:34', 3, 3, '2020-01-02 18:06:34');
 INSERT INTO `msgs_center_info_receive` VALUES (1227172486651576320, 1227172486542524416, 641590096981656001, b'0', '2020-02-11 18:08:15', 3, 3, '2020-02-11 18:08:15');
+INSERT INTO `msgs_center_info_receive` VALUES (1230806241719091200, 1230806241610039296, -1, b'0', '2020-02-21 18:47:30', 3, 3, '2020-02-21 18:47:30');
+INSERT INTO `msgs_center_info_receive` VALUES (1230806241744257024, 1230806241610039296, 641577229343523041, b'0', '2020-02-21 18:47:30', 3, 3, '2020-02-21 18:47:30');
+INSERT INTO `msgs_center_info_receive` VALUES (1230806241748451328, 1230806241610039296, 3, b'0', '2020-02-21 18:47:30', 3, 3, '2020-02-21 18:47:30');
+INSERT INTO `msgs_center_info_receive` VALUES (1230806241756839936, 1230806241610039296, 641590096981656001, b'0', '2020-02-21 18:47:30', 3, 3, '2020-02-21 18:47:30');
+INSERT INTO `msgs_center_info_receive` VALUES (1230854978151645184, 1230854978122285056, -1, b'0', '2020-02-21 22:01:10', 3, 3, '2020-02-21 22:01:10');
+INSERT INTO `msgs_center_info_receive` VALUES (1230854978164228096, 1230854978122285056, 641577229343523041, b'0', '2020-02-21 22:01:10', 3, 3, '2020-02-21 22:01:10');
+INSERT INTO `msgs_center_info_receive` VALUES (1230854978168422400, 1230854978122285056, 3, b'0', '2020-02-21 22:01:10', 3, 3, '2020-02-21 22:01:10');
+INSERT INTO `msgs_center_info_receive` VALUES (1230854978172616704, 1230854978122285056, 641590096981656001, b'0', '2020-02-21 22:01:10', 3, 3, '2020-02-21 22:01:10');
+INSERT INTO `msgs_center_info_receive` VALUES (1230855757428162560, 1230855757402996736, 641577229343523041, b'0', '2020-02-21 22:04:15', 3, 3, '2020-02-21 22:04:15');
+INSERT INTO `msgs_center_info_receive` VALUES (1230855757440745472, 1230855757402996736, 3, b'1', '2020-02-21 22:04:15', 3, 3, '2020-02-22 11:43:39');
+INSERT INTO `msgs_center_info_receive` VALUES (1230855757440745473, 1230855757402996736, 641590096981656001, b'0', '2020-02-21 22:04:15', 3, 3, '2020-02-21 22:04:15');
+INSERT INTO `msgs_center_info_receive` VALUES (1230855929113608192, 1230855929092636672, 3, b'1', '2020-02-21 22:04:56', 3, 3, '2020-02-22 11:44:37');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063445655257088, 1231063445625896960, 3, b'1', '2020-02-22 11:49:32', 3, 3, '2020-02-22 11:50:14');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063580422438912, 1231063580397273088, -1, b'0', '2020-02-22 11:50:04', 3, 3, '2020-02-22 11:50:04');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063580435021824, 1231063580397273088, 641577229343523041, b'0', '2020-02-22 11:50:04', 3, 3, '2020-02-22 11:50:04');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063580439216128, 1231063580397273088, 3, b'0', '2020-02-22 11:50:04', 3, 3, '2020-02-22 11:50:04');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063580443410432, 1231063580397273088, 641590096981656001, b'0', '2020-02-22 11:50:04', 3, 3, '2020-02-22 11:50:04');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063717592956928, 1231063717580374016, 641577229343523041, b'0', '2020-02-22 11:50:37', 3, 3, '2020-02-22 11:50:37');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063717601345536, 1231063717580374016, 3, b'0', '2020-02-22 11:50:37', 3, 3, '2020-02-22 11:50:37');
+INSERT INTO `msgs_center_info_receive` VALUES (1231063717605539840, 1231063717580374016, 641590096981656001, b'0', '2020-02-22 11:50:37', 3, 3, '2020-02-22 11:50:37');
+INSERT INTO `msgs_center_info_receive` VALUES (1231064932636688384, 1231064932611522560, 641577229343523041, b'0', '2020-02-22 11:55:27', 3, 3, '2020-02-22 11:55:27');
+INSERT INTO `msgs_center_info_receive` VALUES (1231064932645076992, 1231064932611522560, 3, b'0', '2020-02-22 11:55:27', 3, 3, '2020-02-22 11:55:27');
+INSERT INTO `msgs_center_info_receive` VALUES (1231064932649271296, 1231064932611522560, 641590096981656001, b'0', '2020-02-22 11:55:27', 3, 3, '2020-02-22 11:55:27');
+INSERT INTO `msgs_center_info_receive` VALUES (1231074143651233792, 1231074143621873664, 641577229343523041, b'0', '2020-02-22 12:32:03', 3, 3, '2020-02-22 12:32:03');
+INSERT INTO `msgs_center_info_receive` VALUES (1231074143659622400, 1231074143621873664, 3, b'0', '2020-02-22 12:32:03', 3, 3, '2020-02-22 12:32:03');
+INSERT INTO `msgs_center_info_receive` VALUES (1231074143663816704, 1231074143621873664, 641590096981656001, b'0', '2020-02-22 12:32:03', 3, 3, '2020-02-22 12:32:03');
+INSERT INTO `msgs_center_info_receive` VALUES (1231074416528457728, 1231074416511680512, 641590096981656001, b'0', '2020-02-22 12:33:08', 3, 3, '2020-02-22 12:33:08');
 COMMIT;
 
 -- ----------------------------
