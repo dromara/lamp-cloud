@@ -56,9 +56,10 @@ public class RestTenantJobHandler extends IJobHandler {
         // DROP DATABASE IF EXISTS test_db_del;
 
         //删除租户表
-        tenantService.remove(Wraps.<Tenant>lbQ().in(Tenant::getCode, tenantCodeList));
-
-        tenantCodeList.forEach((tenant) -> initDbMapper.dropDatabase(database + StrUtil.UNDERLINE + tenant));
+        if (!tenantCodeList.isEmpty()) {
+            tenantService.remove(Wraps.<Tenant>lbQ().in(Tenant::getCode, tenantCodeList));
+            tenantCodeList.forEach((tenant) -> initDbMapper.dropDatabase(database + StrUtil.UNDERLINE + tenant));
+        }
 
         //删除全局用户
         globalUserService.remove(Wraps.<GlobalUser>lbQ().notIn(GlobalUser::getTenantCode, DEF_TENANT, ADMIN_TENANT));
