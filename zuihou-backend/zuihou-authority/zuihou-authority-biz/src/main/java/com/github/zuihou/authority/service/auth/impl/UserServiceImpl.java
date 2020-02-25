@@ -56,10 +56,10 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = CacheKey.USER)
 public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> implements UserService {
 
-    private String classTypeName = "";
+    private String classsimpleName = "";
 
     public UserServiceImpl() {
-        this.classTypeName = this.getClass().getSimpleName();
+        this.classsimpleName = this.getClass().getSimpleName();
     }
 
     @Override
@@ -68,8 +68,8 @@ public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> imp
     }
 
     @Override
-    protected String getClassTypeName() {
-        return classTypeName;
+    protected String getClassSimpleName() {
+        return classsimpleName;
     }
 
     protected UserService currentProxy() {
@@ -166,7 +166,7 @@ public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> imp
     }
 
     @Override
-    @CacheEvict(key = "#root.targetClass.typeName + ':'+#p0.id")
+    @CacheEvict(key = "#root.targetClass.simpleName + ':'+#id")
     public void updatePasswordErrorNumById(Long id) {
         baseMapper.incrPasswordErrorNumById(id);
     }

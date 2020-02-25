@@ -81,7 +81,7 @@ public class SuperServiceCacheImpl<M extends SuperMapper<T>, T> extends ServiceI
      *
      * @return
      */
-    protected String getClassTypeName() {
+    protected String getClassSimpleName() {
         return SuperServiceCacheImpl.class.getSimpleName();
     }
 
@@ -92,7 +92,7 @@ public class SuperServiceCacheImpl<M extends SuperMapper<T>, T> extends ServiceI
      * @return
      */
     protected String key(Object... args) {
-        return buildKey(getClassTypeName(), args);
+        return buildKey(getClassSimpleName(), args);
     }
 
     @Override
