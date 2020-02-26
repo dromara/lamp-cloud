@@ -412,5 +412,20 @@ public abstract class SuperController<S extends SuperService<Entity>, Id extends
         return StrUtil.EMPTY;
     }
 
+    /**
+     * 批量查询
+     *
+     * @param data 批量查询
+     * @return 查询结果
+     */
+    @ApiOperation(value = "批量查询", notes = "批量查询")
+    @GetMapping
+    @SysLog("批量查询")
+    public R<List<Entity>> list(Entity data) {
+        if (data == null) {
+        }
+        QueryWrap<Entity> wrapper = Wraps.q(data);
+        return success(baseService.list(wrapper));
+    }
 
 }
