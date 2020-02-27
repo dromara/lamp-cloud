@@ -388,8 +388,7 @@ public class UserController extends SuperController<UserService, Long, User, Use
                 .eq(User::getEducation, userPage.getEducation())
                 .eq(userPage.getNation() != null && StrUtil.isNotEmpty(userPage.getNation().getKey()), User::getNation, userPage.getNation())
                 .eq(User::getSex, userPage.getSex())
-                .eq(User::getStatus, userPage.getStatus())
-                .orderByDesc(User::getId);
+                .eq(User::getStatus, userPage.getStatus());
         baseService.findPage(page, wrapper);
     }
 }
