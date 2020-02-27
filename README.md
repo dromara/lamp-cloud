@@ -30,8 +30,8 @@ http://doc.tangyh.top/zuihou-admin-cloud
     ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 备注邮箱，可得开发文档一份（支持后续更新） （比看云的价格便宜哦）
 
 
-## 交流群： 63202894
-![qq群.png](docs/image/qq群.png) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+## 交流群： 1067207959（群2）、 63202894（满）
+![qq群.png](docs/image/qq群.png) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5v2UzRb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流2" title="zuihou-admin-cloud 交流2"></a>
 
     加群前请先将下方项目点star，支持下群主，谢谢😘
 
