@@ -109,7 +109,7 @@ public class DemoDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
     }
 
     @Bean(name = DATABASE_PREFIX + "DataSource")
-    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "false")
+    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "false", matchIfMissing = true)
     public DataSource dataSource(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
         if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
             return new P6DataSource(dataSource);
