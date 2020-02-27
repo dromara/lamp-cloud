@@ -422,8 +422,6 @@ public abstract class SuperController<S extends SuperService<Entity>, Id extends
     @GetMapping
     @SysLog("批量查询")
     public R<List<Entity>> list(Entity data) {
-        if (data == null) {
-        }
         QueryWrap<Entity> wrapper = Wraps.q(data);
         return success(baseService.list(wrapper));
     }

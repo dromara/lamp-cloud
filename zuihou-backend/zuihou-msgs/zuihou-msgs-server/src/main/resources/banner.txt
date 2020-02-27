@@ -7,4 +7,5 @@ __________ __|__|  |__   ____  __ __          _____     __| _/_____ |__| ____   
       \/             \/                            \/      \/     \/        \/               \/                       \/
 Application Version: @project.description@ - @project.version@
 Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
+Spring Cloud Version: @spring.cloud.version@
 ${AnsiColor.DEFAULT}
