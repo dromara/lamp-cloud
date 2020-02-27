@@ -78,7 +78,7 @@ public class AuthManager {
 
         String passwordMd5 = SecureUtil.md5(password);
         if (!user.getPassword().equalsIgnoreCase(passwordMd5)) {
-            this.userService.updatePasswordErrorNumById(user.getId());
+//            this.userService.updatePasswordErrorNumById(user.getId());
             return R.fail("用户名或密码错误!");
         }
         JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName(), 0L, 0L);
