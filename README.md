@@ -31,7 +31,7 @@ http://doc.tangyh.top/zuihou-admin-cloud
 
 
 ## 交流群： 1067207959（群2）、 63202894（满）
-![qq群.png](docs/image/qq群.png) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5v2UzRb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流2" title="zuihou-admin-cloud 交流2"></a>
+![qq群.png](docs/image/qq群.png) <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=24d000f2bf3627f260507f1a00c97de082d133f2647897deb555ebba590a371d"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud交流2" title="zuihou-admin-cloud交流2"></a>
 
     加群前请先将下方项目点star，支持下群主，谢谢😘
 
