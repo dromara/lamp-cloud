@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.file.dao.FileMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.file.entity.File">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="data_type" jdbcType="VARCHAR" property="dataType"/>
+        <result column="submitted_file_name" jdbcType="VARCHAR" property="submittedFileName"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
+        <result column="is_delete" jdbcType="BIT" property="isDelete"/>
+        <result column="folder_id" jdbcType="BIGINT" property="folderId"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="size" jdbcType="BIGINT" property="size"/>
+        <result column="folder_name" jdbcType="VARCHAR" property="folderName"/>
+        <result column="group_" jdbcType="VARCHAR" property="group"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="relative_path" jdbcType="VARCHAR" property="relativePath"/>
+        <result column="file_md5" jdbcType="VARCHAR" property="fileMd5"/>
+        <result column="context_type" jdbcType="VARCHAR" property="contextType"/>
+        <result column="filename" jdbcType="VARCHAR" property="filename"/>
+        <result column="ext" jdbcType="VARCHAR" property="ext"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="create_month" jdbcType="VARCHAR" property="createMonth"/>
+        <result column="create_week" jdbcType="VARCHAR" property="createWeek"/>
+        <result column="create_day" jdbcType="VARCHAR" property="createDay"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, create_user, update_time, update_user, 
+        data_type, submitted_file_name, tree_path, grade, is_delete, folder_id, url, size, folder_name, group_, path, relative_path, file_md5, context_type, filename, ext, icon, create_month, create_week, create_day
+    </sql>
+
+</mapper>

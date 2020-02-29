@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="com/github/zuihou/log/logback/zuihou-defaults.xml"/>
+
+    <springProfile name="test,docker,prod">
+        <logger name="com.xxl.job.admin" additivity="true" level="WARN">
+            <appender-ref ref="ASYNC_PROJECT_APPENDER"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="dev">
+        <logger name="com.xxl.job.admin" additivity="true" level="WARN">
+            <appender-ref ref="PROJECT_APPENDER"/>
+        </logger>
+    </springProfile>
+
+</configuration>

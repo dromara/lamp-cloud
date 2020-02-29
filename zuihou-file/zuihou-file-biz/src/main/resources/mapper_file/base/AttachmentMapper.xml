@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.file.dao.AttachmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.file.entity.Attachment">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="biz_id" jdbcType="VARCHAR" property="bizId"/>
+        <result column="biz_type" jdbcType="VARCHAR" property="bizType"/>
+        <result column="data_type" jdbcType="VARCHAR" property="dataType"/>
+        <result column="submitted_file_name" jdbcType="VARCHAR" property="submittedFileName"/>
+        <result column="group_" jdbcType="VARCHAR" property="group"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="relative_path" jdbcType="VARCHAR" property="relativePath"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="file_md5" jdbcType="VARCHAR" property="fileMd5"/>
+        <result column="context_type" jdbcType="VARCHAR" property="contextType"/>
+        <result column="filename" jdbcType="VARCHAR" property="filename"/>
+        <result column="ext" jdbcType="VARCHAR" property="ext"/>
+        <result column="size" jdbcType="BIGINT" property="size"/>
+        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="create_month" jdbcType="VARCHAR" property="createMonth"/>
+        <result column="create_week" jdbcType="VARCHAR" property="createWeek"/>
+        <result column="create_day" jdbcType="VARCHAR" property="createDay"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, create_user, update_time, update_user,
+        biz_id, biz_type, data_type, submitted_file_name,  group_, path, relative_path, url,
+        file_md5, context_type, filename, ext, size, org_id, icon, create_month, create_week, create_day
+    </sql>
+
+</mapper>
