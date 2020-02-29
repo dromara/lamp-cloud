@@ -43,7 +43,7 @@ public interface UserApi {
      * @return
      */
     @GetMapping("/findUserByIds")
-    Map<Serializable, Object> findUserByIds(@RequestParam Set<Serializable> codes);
+    Map<Serializable, Object> findUserByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 
     /**
      * 根据id查询用户名称
@@ -52,5 +52,5 @@ public interface UserApi {
      * @return
      */
     @GetMapping("/findUserNameByIds")
-    Map<Serializable, Object> findUserNameByIds(@RequestParam Set<Serializable> codes);
+    Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 }
