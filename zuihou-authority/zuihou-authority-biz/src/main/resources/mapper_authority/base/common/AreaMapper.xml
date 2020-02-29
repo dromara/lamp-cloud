@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.authority.dao.common.AreaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.authority.entity.common.Area">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="label" jdbcType="VARCHAR" property="label"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="full_name" jdbcType="VARCHAR" property="fullName"/>
+        <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+        <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="source_" jdbcType="VARCHAR" property="source"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, label, sort_value, parent_id, create_time, create_user, update_time, update_user, 
+        code, full_name, longitude, latitude, level, source_
+    </sql>
+
+</mapper>
