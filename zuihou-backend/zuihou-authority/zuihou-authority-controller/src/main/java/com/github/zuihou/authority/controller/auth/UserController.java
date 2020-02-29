@@ -297,13 +297,13 @@ public class UserController extends SuperController<UserService, Long, User, Use
      * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
      * {@link com.github.zuihou.authority.api.UserApi#findUserByIds} 方法的实现类
      *
-     * @param codes id
+     * @param ids id
      * @return
      */
     @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
     @GetMapping("/findUserByIds")
-    public Map<Serializable, Object> findUserByIds(@RequestParam Set<Long> codes) {
-        return this.baseService.findUserByIds(codes);
+    public Map<Serializable, Object> findUserByIds(@RequestParam(value = "ids") Set<Long> ids) {
+        return this.baseService.findUserByIds(ids);
     }
 
     /**
@@ -316,13 +316,13 @@ public class UserController extends SuperController<UserService, Long, User, Use
      * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
      * {@link com.github.zuihou.authority.api.UserApi#findUserNameByIds} 方法的实现类
      *
-     * @param codes id
+     * @param ids id
      * @return
      */
     @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
     @GetMapping("/findUserNameByIds")
-    public Map<Serializable, Object> findUserNameByIds(@RequestParam Set<Long> codes) {
-        return this.baseService.findUserNameByIds(codes);
+    public Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Long> ids) {
+        return this.baseService.findUserNameByIds(ids);
     }
 
 
