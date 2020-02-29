@@ -5,10 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>c.2.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath/>
+    </parent>
     <url>https://gitee.com/zuihou111/zuihou-admin-cloud</url>
     <name>${project.artifactId}</name>
-    <description>zuihou-admin-cloud父pom, 对jar版本，仓库进行管理</description>
+    <description>zuihou-admin-cloud</description>
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -17,14 +24,6 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
-
-    <modules>
-        <module>zuihou-dependencies</module>
-        <module>zuihou-commons</module>
-        <module>zuihou-backend</module>
-        <module>zuihou-support</module>
-    </modules>
-    <packaging>pom</packaging>
     <developers>
         <developer>
             <name>zuihou</name>
@@ -32,4 +31,265 @@
         </developer>
     </developers>
 
+    <modules>
+        <module>zuihou-common</module>
+        <module>zuihou-authority</module>
+        <module>zuihou-msgs</module>
+        <module>zuihou-file</module>
+        <module>zuihou-jobs</module>
+        <module>zuihou-gateway</module>
+        <!-- 以下两个模块为测试模块 -->
+        <module>zuihou-demo</module>
+        <module>zuihou-order</module>
+        <module>zuihou-support</module>
+    </modules>
+
+    <properties>
+        <zuihou-commons.version>2.0-SNAPSHOT</zuihou-commons.version>
+        <cloud.project.version>c.2.0-SNAPSHOT</cloud.project.version>
+        <seata.version>1.0.0</seata.version>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <docker.image.prefix>zuihou</docker.image.prefix>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
+        <spring-boot-maven-plugin.version>2.2.4.RELEASE</spring-boot-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-dependencies</artifactId>
+                <version>${zuihou-commons.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-boot</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-cache-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-core</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-databases</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-dozer-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-injection-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-j2cache-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-jwt-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-log-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-mq-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-scan-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-swagger2-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-user-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-validator-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-xss-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-cloud-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-config</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-zipkin-client-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+
+
+            <!--            <dependency>-->
+            <!--                <groupId>io.seata</groupId>-->
+            <!--                <artifactId>seata-all</artifactId>-->
+            <!--                <version>${seata.version}</version>-->
+            <!--                <exclusions>-->
+            <!--                    <exclusion>-->
+            <!--                        <artifactId>druid</artifactId>-->
+            <!--                        <groupId>com.alibaba</groupId>-->
+            <!--                    </exclusion>-->
+            <!--                    <exclusion>-->
+            <!--                        <groupId>com.alibaba</groupId>-->
+            <!--                        <artifactId>fastjson</artifactId>-->
+            <!--                    </exclusion>-->
+            <!--                </exclusions>-->
+            <!--            </dependency>-->
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <!-- 开发环境 -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <!-- 生产环境-->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <env>prod</env>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <!-- resources资源插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <!-- 后缀为pem、pfx的证书文件 -->
+                        <nonFilteredFileExtensions>
+                            <nonFilteredFileExtension>pem</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>p12</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>key</nonFilteredFileExtension>
+                        </nonFilteredFileExtensions>
+                    </configuration>
+                </plugin>
+                <!-- java文档插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

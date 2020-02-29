@@ -1,5 +1,4 @@
 zuihou:
-  local-ip: ${LOCAL_IP:${spring.cloud.client.ip-address}}
   nacos:
     ip: ${NACOS_IP:@pom.nacos.ip@}
     port: ${NACOS_PORT:@pom.nacos.port@}
