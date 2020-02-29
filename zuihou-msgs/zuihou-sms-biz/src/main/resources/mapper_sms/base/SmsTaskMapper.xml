@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.sms.dao.SmsTaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.sms.entity.SmsTask">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="template_id" jdbcType="BIGINT" property="templateId"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="source_type" jdbcType="VARCHAR" property="sourceType"/>
+        <result column="receiver" jdbcType="LONGVARCHAR" property="receiver"/>
+        <result column="topic" jdbcType="VARCHAR" property="topic"/>
+        <result column="template_params" jdbcType="VARCHAR" property="templateParams"/>
+        <result column="send_time" jdbcType="TIMESTAMP" property="sendTime"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="draft" jdbcType="BIT" property="draft"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_user, create_time, update_user, update_time,
+        template_id, status, source_type, receiver, topic, template_params, send_time, content,draft
+    </sql>
+
+</mapper>

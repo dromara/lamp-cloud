@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.sms.dao.SmsTemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.sms.entity.SmsTemplate">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="provider_type" jdbcType="VARCHAR" property="providerType"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="custom_code" jdbcType="VARCHAR" property="customCode"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="template_params" jdbcType="VARCHAR" property="templateParams"/>
+        <result column="template_code" jdbcType="VARCHAR" property="templateCode"/>
+        <result column="sign_name" jdbcType="VARCHAR" property="signName"/>
+        <result column="template_describe" jdbcType="VARCHAR" property="templateDescribe"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_user, create_time, update_user, update_time, 
+        provider_type, app_id, app_secret, url, custom_code, name, content, template_params, template_code, sign_name, template_describe
+    </sql>
+
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.file.dao.FileMapper">
+
+
+    <resultMap id="FileQueryResult" type="com.github.zuihou.file.domain.FileQueryDO" extends="BaseResultMap">
+        <association property="parent" select="com.github.zuihou.file.dao.FileMapper.getById"
+                     column="{id=folder_id}"></association>
+    </resultMap>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from f_file where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="findByIds" resultMap="FileQueryResult" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from f_file where id in
+        <foreach close=")" collection="ids" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+        and create_user = #{userId, jdbcType=BIGINT}
+    </select>
+
+    <resultMap id="fsdoResultMap" type="com.github.zuihou.file.domain.FileStatisticsDO">
+        <result column="data_type" jdbcType="VARCHAR" property="dataType"/>
+        <result column="date_type" jdbcType="VARCHAR" property="dateType"/>
+        <result column="size" jdbcType="VARCHAR" property="size"/>
+        <result column="num" jdbcType="BIGINT" property="num"/>
+    </resultMap>
+
+    <select id="findNumAndSizeByUserId" resultMap="fsdoResultMap">
+        SELECT
+        <!--<if test="dataType != null and dataType != ''">-->
+        max(data_type) data_type,
+        <!--</if>-->
+        <if test="dateType == null or dateType == ''">
+            max(t.create_month) `date_type`,
+        </if>
+        <if test="dateType == 'MONTH'">
+            t.create_month `date_type`,
+        </if>
+        <if test="dateType == 'WEEK'">
+            t.create_week `date_type`,
+        </if>
+        <if test="dateType == 'DAY'">
+            t.create_day `date_type`,
+        </if>
+        count(id) num, sum(size) size
+        from f_file t
+        where is_delete = 0
+        <if test="userId != null and userId != ''">
+            and create_user = #{userId, jdbcType=BIGINT}
+        </if>
+        <if test="dataType !=null and dataType != '' and dataType != 'ALL'">
+            and data_type = #{dataType,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime != null">
+            and t.create_time >= #{startTime, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null">
+            and t.create_time <![CDATA[ <= ]]> #{endTime, jdbcType=TIMESTAMP}
+        </if>
+
+        <if test="dataType !=null and dataType != ''">
+            GROUP BY data_type
+            <if test="dateType == 'MONTH'">
+                ,t.create_month
+            </if>
+            <if test="dateType == 'WEEK'">
+                , t.create_week
+            </if>
+            <if test="dateType == 'DAY'">
+                , t.create_day
+            </if>
+
+            <if test="dateType == 'MONTH'">
+                order by t.create_month asc , data_type asc
+            </if>
+            <if test="dateType == 'WEEK'">
+                order by t.create_week asc , data_type asc
+            </if>
+            <if test="dateType == 'DAY'">
+                order by t.create_day asc , data_type asc
+            </if>
+
+        </if>
+        <if test="dataType==null or dataType == ''">
+            GROUP BY
+            <if test="dateType == 'MONTH'">
+                t.create_month
+            </if>
+            <if test="dateType == 'WEEK'">
+                t.create_week
+            </if>
+            <if test="dateType == 'DAY'">
+                t.create_day
+            </if>
+            <if test="dateType == 'MONTH'">
+                order by t.create_month asc
+            </if>
+            <if test="dateType == 'WEEK'">
+                order by t.create_week asc
+            </if>
+            <if test="dateType == 'DAY'">
+                order by t.create_day asc
+            </if>
+        </if>
+    </select>
+
+
+    <select id="findDownTop20" resultMap="fsdoResultMap">
+        SELECT f.submitted_file_name date_type, count(IFNULL(ds.id, 0)) AS num
+        FROM f_file f  LEFT JOIN  f_down_water ds ON ds.file_id = f.id
+        where f.create_user =  #{userId, jdbcType=BIGINT} and ds.id is not null
+        group by f.id
+        ORDER BY num DESC, f.create_time desc
+        LIMIT 20
+    </select>
+
+
+    <select id="findDownSizeByDate" resultType="com.github.zuihou.file.domain.FileStatisticsDO">
+        select
+        <if test="dateType == 'MONTH'">
+            water.create_month
+        </if>
+        <if test="dateType == 'WEEK'">
+            water.create_week
+        </if>
+        <if test="dateType == 'DAY'">
+            water.create_day
+        </if>
+        AS dateType,
+        sum(f.size) AS size, count(water.id) AS num
+        from f_down_water water LEFT JOIN f_file f ON water.file_id = f.id
+        where 1=1
+        <if test="startTime != null">
+            and water.create_time >= #{startTime, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null">
+            and water.create_time <![CDATA[ <= ]]> #{endTime, jdbcType=TIMESTAMP}
+        </if>
+        and f.create_user=1
+        group by
+        <if test="dateType == 'MONTH'">
+            water.create_month
+        </if>
+        <if test="dateType == 'WEEK'">
+            water.create_week
+        </if>
+        <if test="dateType == 'DAY'">
+            water.create_day
+        </if>
+    </select>
+</mapper>

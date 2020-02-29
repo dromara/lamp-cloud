@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.msgs.dao.MsgsCenterInfoMapper">
+
+    <resultMap id="PageResultMap" type="com.github.zuihou.msgs.dto.MsgsCenterInfoPageResultDTO"
+               extends="BaseResultMap">
+        <result column="receive_id" jdbcType="BIGINT" property="receiveId"/>
+        <result column="read_time" jdbcType="TIMESTAMP" property="readTime"/>
+        <result column="is_read" jdbcType="BIT" property="isRead"/>
+    </resultMap>
+
+    <!--
+     分页查询消息数据， 消息有4种类型： 代办、预警、通知、公告
+
+     公告消息： 保存时只存主表，表示所有人都查看，  但标记已读时，需要在receive表中记录指定用户的一条记录
+
+     代办、预警、通知： 保存是，既要存主表，也要存receive表
+     -->
+    <select id="page" parameterType="java.util.Map" resultMap="PageResultMap">
+        select rece.id receive_id,
+        CASE WHEN (rece.is_read is null ) then 0 else rece.is_read end as is_read,
+        rece.update_time read_time,
+        info.id, info.create_time, info.create_user, info.update_time, info.update_user,
+        info.biz_id, info.biz_type, info.msgs_center_type, info.title, info.content, info.author,
+        info.handler_url, info.handler_params, info.is_single_handle
+        FROM msgs_center_info info LEFT JOIN msgs_center_info_receive rece on info.id = rece.msgs_center_id
+        <if test="data.userId != null">
+            and rece.user_id = #{data.userId, jdbcType=BIGINT}
+        </if>
+        where 1=1
+        <if test="data.userId != null">
+            and rece.user_id = #{data.userId, jdbcType=BIGINT}
+        </if>
+        <if test="data.isRead == true">
+            and rece.is_read = true
+        </if>
+        <if test="data.isRead == false">
+            and rece.is_read = false
+        </if>
+        <if test="data.msgsCenterType != null">
+            and info.msgs_center_type = #{data.msgsCenterType, jdbcType=VARCHAR}
+        </if>
+        <if test="data.bizType != null">
+            and info.biz_type = #{data.bizType, jdbcType=VARCHAR}
+        </if>
+        <if test="data.title != null and data.title != ''">
+            and info.title like #{data.title, typeHandler=fullLike}
+        </if>
+        <if test="data.content != null and data.content != ''">
+            and info.content like #{data.content, typeHandler=fullLike}
+        </if>
+        <if test="data.startCreateTime != null">
+            and info.create_time >= #{data.startCreateTime, jdbcType=VARCHAR}
+        </if>
+        <if test="data.endCreateTime != null">
+            and info.create_time <![CDATA[ <= ]]>  #{data.endCreateTime, jdbcType=VARCHAR}
+        </if>
+        ORDER BY is_read asc , info.create_time desc
+    </select>
+
+</mapper>
