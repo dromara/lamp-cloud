@@ -61,6 +61,5 @@ public class TenantTest {
         userMapper.selectList(query);
     }
 
-    //TODO insert into select 语句
 
 }
