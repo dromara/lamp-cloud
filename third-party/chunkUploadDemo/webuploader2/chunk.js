@@ -197,7 +197,7 @@ $("#theList").on("click", ".itemStop", function () {
     $(this).hide();
     $(".itemUpload").show();
 });
-//todo 如果要删除的文件正在上传（包括暂停），则需要发送给后端一个请求用来清除服务器端的缓存文件
+// 如果要删除的文件正在上传（包括暂停），则需要发送给后端一个请求用来清除服务器端的缓存文件
 $("#theList").on("click", ".itemDel", function () {
     uploader.removeFile($(this).parent().attr("id"));	//从上传文件列表中删除
     $(this).parent().remove();	//从上传列表dom中删除

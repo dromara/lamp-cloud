@@ -70,7 +70,7 @@ public class ExecutorBizImpl implements ExecutorBiz {
     @Override
     public ReturnT<String> run(TriggerParam triggerParam) {
         // load old：jobHandler + jobThread
-        //TODO 测试一下 jobThread 和 jobHandler 是什么时候注册进来的， 什么时候开始运行的
+        // 测试一下 jobThread 和 jobHandler 是什么时候注册进来的， 什么时候开始运行的
         JobThread jobThread = XxlJobExecutor.loadJobThread(triggerParam.getJobId());
         IJobHandler jobHandler = jobThread != null ? jobThread.getHandler() : null;
         String removeOldReason = null;
