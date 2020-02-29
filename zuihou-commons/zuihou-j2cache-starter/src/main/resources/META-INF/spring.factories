@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.github.zuihou.j2cache.MyCacheConfig,  \
-    net.oschina.j2cache.autoconfigure.J2CacheAutoConfiguration,   \
-    net.oschina.j2cache.autoconfigure.J2CacheSpringCacheAutoConfiguration,  \
-    net.oschina.j2cache.autoconfigure.J2CacheSpringRedisAutoConfiguration

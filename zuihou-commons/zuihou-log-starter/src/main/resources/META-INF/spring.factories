@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.github.zuihou.log.LogAutoConfiguration
-org.springframework.context.ApplicationContextInitializer=\
-    com.github.zuihou.log.init.ApplicationLoggerInitializer
