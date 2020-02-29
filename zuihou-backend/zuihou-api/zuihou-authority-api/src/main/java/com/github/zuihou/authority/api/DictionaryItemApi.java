@@ -35,5 +35,5 @@ public interface DictionaryItemApi {
      * @return
      */
     @GetMapping("/findDictionaryItem")
-    Map<Serializable, Object> findDictionaryItem(@RequestParam Set<Serializable> codes);
+    Map<Serializable, Object> findDictionaryItem(@RequestParam(value = "codes") Set<Serializable> codes);
 }
