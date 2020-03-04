@@ -21,7 +21,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
  * @date 2019/08/13
  */
 @Component
-public class ZuihouXForwardedHeadersFilter implements HttpHeadersFilter, Ordered {
+public class MySwaggerXForwardedHeadersFilter implements HttpHeadersFilter, Ordered {
     @Value("${server.servlet.context-path:/api}")
     private String contextPath;
 
