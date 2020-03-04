@@ -65,7 +65,6 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = CacheKey.USER)
 public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> implements UserService {
 
-    private String classsimpleName = "";
     @Autowired
     private StationService stationService;
     @Autowired
@@ -79,8 +78,10 @@ public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> imp
     @Autowired
     private TenantService tenantService;
 
+    private String classSimpleName = "";
+
     public UserServiceImpl() {
-        this.classsimpleName = this.getClass().getSimpleName();
+        this.classSimpleName = this.getClass().getSimpleName();
     }
 
     @Override
@@ -90,7 +91,7 @@ public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> imp
 
     @Override
     protected String getClassSimpleName() {
-        return classsimpleName;
+        return classSimpleName;
     }
 
     protected UserService currentProxy() {
