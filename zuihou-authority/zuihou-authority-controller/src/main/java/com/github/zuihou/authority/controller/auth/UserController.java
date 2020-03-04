@@ -12,7 +12,7 @@ import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.SuperController;
+import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.common.constant.BizConstant;
@@ -63,7 +63,7 @@ import static com.github.zuihou.common.constant.BizConstant.DEMO_STATION_ID;
 @RestController
 @RequestMapping("/user")
 @Api(value = "User", tags = "用户")
-public class UserController extends SuperController<UserService, Long, User, UserPageDTO, UserSaveDTO, UserUpdateDTO> {
+public class UserController extends SuperCacheController<UserService, Long, User, UserPageDTO, UserSaveDTO, UserUpdateDTO> {
     @Autowired
     private OrgService orgService;
     @Resource
