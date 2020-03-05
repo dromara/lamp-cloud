@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.dao.auth;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.entity.auth.Application;
+import com.github.zuihou.base.mapper.SuperMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019-12-15
  */
 @Repository
-public interface ApplicationMapper extends BaseMapper<Application> {
+public interface ApplicationMapper extends SuperMapper<Application> {
 
 }

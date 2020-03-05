@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.Menu;
+import com.github.zuihou.base.service.SuperCacheService;
 
 import java.util.List;
 
@@ -14,15 +14,7 @@ import java.util.List;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface MenuService extends IService<Menu> {
-
-    /**
-     * 根据ID查菜单
-     *
-     * @param id 主键
-     * @return
-     */
-    Menu getByIdWithCache(Long id);
+public interface MenuService extends SuperCacheService<Menu> {
 
     /**
      * 根据ID删除

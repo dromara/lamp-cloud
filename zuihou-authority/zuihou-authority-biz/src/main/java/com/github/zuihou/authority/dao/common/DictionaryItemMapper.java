@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.dao.common;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.entity.common.DictionaryItem;
+import com.github.zuihou.base.mapper.SuperMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019-07-02
  */
 @Repository
-public interface DictionaryItemMapper extends BaseMapper<DictionaryItem> {
+public interface DictionaryItemMapper extends SuperMapper<DictionaryItem> {
 
 }

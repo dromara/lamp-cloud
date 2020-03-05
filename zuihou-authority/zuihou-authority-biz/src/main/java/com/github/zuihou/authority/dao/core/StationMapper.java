@@ -1,10 +1,10 @@
 package com.github.zuihou.authority.dao.core;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.base.mapper.SuperMapper;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  * @date 2019-07-22
  */
 @Repository
-public interface StationMapper extends BaseMapper<Station> {
+public interface StationMapper extends SuperMapper<Station> {
     /**
      * 分页查询岗位信息（含角色）
      *

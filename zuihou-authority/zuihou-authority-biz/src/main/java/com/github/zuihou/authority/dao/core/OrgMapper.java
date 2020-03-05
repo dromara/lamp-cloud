@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.dao.core;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.base.mapper.SuperMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019-07-22
  */
 @Repository
-public interface OrgMapper extends BaseMapper<Org> {
+public interface OrgMapper extends SuperMapper<Org> {
 
 }

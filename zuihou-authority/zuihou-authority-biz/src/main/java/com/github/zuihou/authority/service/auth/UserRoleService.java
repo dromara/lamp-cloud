@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.UserRole;
+import com.github.zuihou.base.service.SuperService;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import com.github.zuihou.authority.entity.auth.UserRole;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface UserRoleService extends IService<UserRole> {
+public interface UserRoleService extends SuperService<UserRole> {
     /**
      * 初始化超级管理员角色 权限
      *

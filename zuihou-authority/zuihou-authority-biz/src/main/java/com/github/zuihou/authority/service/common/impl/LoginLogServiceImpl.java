@@ -1,12 +1,12 @@
 package com.github.zuihou.authority.service.common.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.common.LoginLogMapper;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.common.LoginLogService;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.common.constant.CacheKey;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
@@ -32,17 +32,18 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
+public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private CacheChannel cache;
+
     private final static String[] BROWSER = new String[]{
             "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
     };
     private final static String[] OPERATING_SYSTEM = new String[]{
             "Android", "Linux", "Mac OS X", "Ubuntu", "Windows 10", "Windows 8", "Windows 7", "Windows XP", "Windows Vista"
     };
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CacheChannel cache;
 
     private static String simplifyOperatingSystem(String operatingSystem) {
         for (String b : OPERATING_SYSTEM) {
@@ -81,7 +82,6 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
         }
 
         super.save(loginLog);
-
 
         LocalDate now = LocalDate.now();
         LocalDate tenDays = now.plusDays(-9);

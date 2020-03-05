@@ -3,7 +3,6 @@ package com.github.zuihou.authority.controller.auth;
 
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.log.annotation.SysLog;
@@ -35,7 +34,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/roleAuthority")
 @Api(value = "RoleAuthority", tags = "角色的资源")
-public class RoleAuthorityController extends BaseController {
+public class RoleAuthorityController {
 
     @Autowired
     private RoleAuthorityService roleAuthorityService;
@@ -54,7 +53,7 @@ public class RoleAuthorityController extends BaseController {
     @GetMapping("/{roleId}")
     @SysLog("查询指定角色关联的菜单和资源")
     public R<List<RoleAuthority>> page(@PathVariable Long roleId) {
-        return success(roleAuthorityService.list(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleId)));
+        return R.success(roleAuthorityService.list(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleId)));
     }
 
 

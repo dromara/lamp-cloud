@@ -77,6 +77,14 @@ public interface CacheKey {
      */
     String USER_RESOURCE = "user_resource";
 
+
+    /**
+     * 系统URI 前缀
+     * <p>
+     * 完整key: system_api:{id} -> [ID, ...]
+     */
+    String SYSTEM_API = "system_api";
+
     /**
      * 登录总次数
      * login_log_total:{TENANT} -> Long

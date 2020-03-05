@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.dao.common;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.entity.common.LoginLog;
+import com.github.zuihou.base.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2019-10-20
  */
 @Repository
-public interface LoginLogMapper extends BaseMapper<LoginLog> {
+public interface LoginLogMapper extends SuperMapper<LoginLog> {
     /**
      * 获取系统总访问次数
      *

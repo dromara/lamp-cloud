@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.RoleOrg;
+import com.github.zuihou.base.service.SuperService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface RoleOrgService extends IService<RoleOrg> {
+public interface RoleOrgService extends SuperService<RoleOrg> {
 
     /**
      * 根据角色id查询

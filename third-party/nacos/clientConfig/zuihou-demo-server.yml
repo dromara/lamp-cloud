@@ -1,0 +1,35 @@
+zuihou:
+  database:
+    isSeata: false
+    isMultiTenant: false
+  swagger:
+    docket:
+      demo:
+        title: 演示服务
+        base-package: com.github.zuihou.demo.controller
+
+server:
+  port: 8770
+
+
+seata:
+  enabled: ${zuihou.database.isSeata}
+  tx-service-group: zuihou_admin_seata_tx_group
+  registry:
+    type: nacos
+    nacos:
+      server-addr: localhost
+  config:
+    type: nacos
+    nacos:
+      server-addr: localhost
+  service:
+    grouplist: 127.0.0.1:8091
+    vgroup-mapping: default
+    disable-global-transaction: false
+  client:
+    support:
+      spring:
+        datasource-autoproxy: false
+    rm-report-success-enable: false
+

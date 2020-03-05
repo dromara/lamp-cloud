@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.controller.auth;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.*;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
@@ -10,17 +9,13 @@ import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.service.auth.UserRoleService;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +39,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/role")
 @Api(value = "Role", tags = "角色")
-public class RoleController extends BaseController {
+public class RoleController extends SuperCacheController<RoleService, Long, Role, RolePageDTO, RoleSaveDTO, RoleUpdateDTO> {
 
-    @Autowired
-    private RoleService roleService;
     @Autowired
     private RoleAuthorityService roleAuthorityService;
     @Autowired
@@ -55,30 +48,6 @@ public class RoleController extends BaseController {
     @Autowired
     private UserRoleService userRoleService;
 
-    /**
-     * 分页查询角色
-     *
-     * @param param 分页查询对象
-     * @return 查询结果
-     */
-    @ApiOperation(value = "分页查询角色", notes = "分页查询角色")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping("/page")
-    @SysLog("分页查询角色")
-    public R<IPage<Role>> page(RolePageDTO param) {
-        IPage<Role> page = getPage();
-        Role role = BeanPlusUtil.toBean(param, Role.class);
-        // 构建值不为null的查询条件
-        LbqWrapper<Role> query = Wraps.lbQ(role)
-                .geHeader(Role::getCreateTime, param.getStartCreateTime())
-                .leFooter(Role::getCreateTime, param.getEndCreateTime())
-                .orderByDesc(Role::getId);
-        roleService.page(page, query);
-        return success(page);
-    }
 
     /**
      * 查询角色
@@ -87,10 +56,10 @@ public class RoleController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "查询角色", notes = "查询角色")
-    @GetMapping("/{id}")
+    @GetMapping("/details/{id}")
     @SysLog("查询角色")
-    public R<RoleQueryDTO> get(@PathVariable Long id) {
-        Role role = roleService.getByIdWithCache(id);
+    public R<RoleQueryDTO> getDetails(@PathVariable Long id) {
+        Role role = baseService.getByIdCache(id);
         RoleQueryDTO query = BeanPlusUtil.toBean(role, RoleQueryDTO.class);
         if (query.getDsType() != null && DataScopeType.CUSTOMIZE.eq(query.getDsType())) {
             List<Long> orgList = roleOrgService.listOrgByRoleId(role.getId());
@@ -103,49 +72,25 @@ public class RoleController extends BaseController {
     @GetMapping("/check/{code}")
     @SysLog("新增角色")
     public R<Boolean> check(@PathVariable String code) {
-        return success(roleService.check(code));
+        return success(baseService.check(code));
     }
 
-    /**
-     * 新增角色
-     *
-     * @param data 新增对象
-     * @return 新增结果
-     */
-    @ApiOperation(value = "新增角色", notes = "新增角色不为空的字段")
-    @PostMapping
-    @SysLog("新增角色")
-    public R<RoleSaveDTO> save(@RequestBody @Validated RoleSaveDTO data) {
-        roleService.saveRole(data, getUserId());
-        return success(data);
+
+    @Override
+    protected R<Role> handlerSave(RoleSaveDTO data) {
+        baseService.saveRole(data, getUserId());
+        return success(BeanPlusUtil.toBean(data, Role.class));
     }
 
-    /**
-     * 修改角色
-     *
-     * @param data 修改对象
-     * @return 修改结果
-     */
-    @ApiOperation(value = "修改角色", notes = "修改角色不为空的字段")
-    @PutMapping
-    @SysLog("修改角色")
-    public R<RoleUpdateDTO> update(@RequestBody @Validated(SuperEntity.Update.class) RoleUpdateDTO data) {
-        roleService.updateRole(data, getUserId());
-        return success(data);
+    @Override
+    protected R<Role> handlerUpdate(RoleUpdateDTO data) {
+        baseService.updateRole(data, getUserId());
+        return success(BeanPlusUtil.toBean(data, Role.class));
     }
 
-    /**
-     * 删除角色
-     *
-     * @param ids 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除角色", notes = "根据id物理删除角色")
-    @DeleteMapping
-    @SysLog("删除角色")
-    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        roleService.removeByIdWithCache(ids);
-        return success(true);
+    @Override
+    protected R<Boolean> handlerDelete(List<Long> ids) {
+        return success(baseService.removeByIdWithCache(ids));
     }
 
     /**
@@ -219,7 +164,7 @@ public class RoleController extends BaseController {
     @GetMapping("/codes")
     @SysLog("根据角色编码查询用户ID")
     public R<List<Long>> findUserIdByCode(@RequestParam(value = "codes") String[] codes) {
-        return success(roleService.findUserIdByCode(codes));
+        return success(baseService.findUserIdByCode(codes));
     }
 
 }

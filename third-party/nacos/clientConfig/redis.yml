@@ -1,0 +1,52 @@
+# redis 通用配置， 不同的环境，需要配置不同的链接信息，只需要将这段信息复制到具体环境的配置文件中进行修改即可
+# 如：复制到zuihou-authority-server-dev.yml中将数据库名和ip改掉
+zuihou:
+  redis:
+    ip: 127.0.0.1
+    port: 16379
+    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
+    database: 0
+
+spring:
+  cache:
+    type: GENERIC
+  redis:
+    host: ${zuihou.redis.ip}
+    password: ${zuihou.redis.password}
+    port: ${zuihou.redis.port}
+    database: ${zuihou.redis.database}
+
+j2cache:
+  #  config-location: /j2cache.properties
+  open-spring-cache: true
+  cache-clean-mode: passive
+  allow-null-values: true
+  redis-client: lettuce
+  l2-cache-open: true
+  # l2-cache-open: false     # 关闭二级缓存
+  broadcast: net.oschina.j2cache.cache.support.redis.SpringRedisPubSubPolicy
+  #  broadcast: jgroups       # 关闭二级缓存
+  L1:
+    provider_class: caffeine
+  L2:
+    provider_class: net.oschina.j2cache.cache.support.redis.SpringRedisProvider
+    config_section: lettuce
+  sync_ttl_to_redis: true
+  default_cache_null_object: false
+  serialization: fst
+caffeine:
+  properties: /j2cache/caffeine.properties   # 这个配置文件需要放在项目中
+lettuce:
+  mode: single
+  namespace: ''
+  storage: generic
+  channel: j2cache
+  scheme: redis
+  hosts: ${zuihou.redis.ip}:${zuihou.redis.port}
+  password: ${zuihou.redis.password}
+  database: ${zuihou.redis.database}
+  sentinelMasterId: ''
+  maxTotal: 100
+  maxIdle: 10
+  minIdle: 10
+  timeout: 10000
