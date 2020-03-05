@@ -1,9 +1,9 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.ApplicationSystemApiMapper;
 import com.github.zuihou.authority.entity.auth.ApplicationSystemApi;
 import com.github.zuihou.authority.service.auth.ApplicationSystemApiService;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class ApplicationSystemApiServiceImpl extends ServiceImpl<ApplicationSystemApiMapper, ApplicationSystemApi> implements ApplicationSystemApiService {
+public class ApplicationSystemApiServiceImpl extends SuperServiceImpl<ApplicationSystemApiMapper, ApplicationSystemApi> implements ApplicationSystemApiService {
 
 
 }

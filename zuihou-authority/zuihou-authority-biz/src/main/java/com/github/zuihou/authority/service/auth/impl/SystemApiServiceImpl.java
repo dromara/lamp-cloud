@@ -1,19 +1,22 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.SystemApiMapper;
 import com.github.zuihou.authority.dto.auth.SystemApiSaveDTO;
 import com.github.zuihou.authority.dto.auth.SystemApiScanSaveDTO;
 import com.github.zuihou.authority.entity.auth.SystemApi;
 import com.github.zuihou.authority.service.auth.SystemApiService;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.BeanPlusUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.github.zuihou.common.constant.CacheKey.SYSTEM_API;
 
 /**
  * <p>
@@ -26,7 +29,12 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class SystemApiServiceImpl extends ServiceImpl<SystemApiMapper, SystemApi> implements SystemApiService {
+@CacheConfig(cacheNames = SYSTEM_API)
+public class SystemApiServiceImpl extends SuperCacheServiceImpl<SystemApiMapper, SystemApi> implements SystemApiService {
+    @Override
+    protected String getRegion() {
+        return SYSTEM_API;
+    }
 
     @Override
     public Boolean batchSave(SystemApiScanSaveDTO data) {
@@ -43,7 +51,6 @@ public class SystemApiServiceImpl extends ServiceImpl<SystemApiMapper, SystemApi
                     systemApi.setIsOpen(false);
                     systemApi.setIsPersist(true);
                     super.save(systemApi);
-
                 } else {
                     systemApi.setId(save.getId());
                     super.updateById(systemApi);

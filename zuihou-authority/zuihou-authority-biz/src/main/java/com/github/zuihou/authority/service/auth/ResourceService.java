@@ -1,8 +1,8 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.base.service.SuperCacheService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface ResourceService extends IService<Resource> {
+public interface ResourceService extends SuperCacheService<Resource> {
 
     /**
      * 查询 拥有的资源
@@ -26,28 +26,12 @@ public interface ResourceService extends IService<Resource> {
     List<Resource> findVisibleResource(ResourceQueryDTO resource);
 
     /**
-     * 根据ID查
-     *
-     * @param id 主键
-     * @return
-     */
-    Resource getByIdWithCache(Long id);
-
-    /**
      * 根据ID删除
      *
      * @param ids
      * @return
      */
     boolean removeByIdWithCache(List<Long> ids);
-
-    /**
-     * 修改
-     *
-     * @param resource
-     * @return
-     */
-    boolean updateWithCache(Resource resource);
 
     /**
      * 保存

@@ -7,7 +7,6 @@ import com.github.zuihou.authority.dto.auth.LoginDTO;
 import com.github.zuihou.authority.dto.auth.LoginParamDTO;
 import com.github.zuihou.authority.service.auth.ValidateCodeService;
 import com.github.zuihou.authority.service.auth.impl.AuthManager;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
@@ -33,7 +32,7 @@ import java.io.IOException;
 @RequestMapping("/anno")
 @Api(value = "UserAuthController", tags = "登录")
 @Slf4j
-public class LoginController extends BaseController {
+public class LoginController {
 
     @Autowired
     private AuthManager authManager;
@@ -54,7 +53,7 @@ public class LoginController extends BaseController {
         if (this.validateCodeService.check(login.getKey(), login.getCode())) {
             return this.authManager.adminLogin(login.getAccount(), login.getPassword());
         }
-        return this.success(null);
+        return R.success(null);
     }
 
 
@@ -75,7 +74,7 @@ public class LoginController extends BaseController {
         if (this.validateCodeService.check(login.getKey(), login.getCode())) {
             return this.authManager.login(login.getTenant(), login.getAccount(), login.getPassword());
         }
-        return this.success(null);
+        return R.success(null);
     }
 
     /**
@@ -108,7 +107,7 @@ public class LoginController extends BaseController {
     @ApiOperation(value = "验证token", notes = "验证token")
     @GetMapping(value = "/verify")
     public R<JwtUserInfo> verify(@RequestParam(value = "token") String token) throws BizException {
-        return this.success(this.authManager.validateUserToken(token));
+        return R.success(this.authManager.validateUserToken(token));
     }
 
     /**
@@ -122,7 +121,7 @@ public class LoginController extends BaseController {
     @ApiOperation(value = "验证验证码", notes = "验证验证码")
     @GetMapping(value = "/check")
     public R<Boolean> check(@RequestParam(value = "key") String key, @RequestParam(value = "code") String code) throws BizException {
-        return this.success(this.validateCodeService.check(key, code));
+        return R.success(this.validateCodeService.check(key, code));
     }
 
     @ApiOperation(value = "验证码", notes = "验证码")

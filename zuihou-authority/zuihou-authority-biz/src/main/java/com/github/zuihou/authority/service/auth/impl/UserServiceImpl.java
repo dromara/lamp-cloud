@@ -20,7 +20,7 @@ import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
 import com.github.zuihou.authority.service.defaults.TenantService;
-import com.github.zuihou.base.service.SuperServiceCacheImpl;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.context.BaseContextHandler;
@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @CacheConfig(cacheNames = CacheKey.USER)
-public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
     private StationService stationService;
@@ -78,21 +78,11 @@ public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> imp
     @Autowired
     private TenantService tenantService;
 
-    private String classSimpleName = "";
-
-    public UserServiceImpl() {
-        this.classSimpleName = this.getClass().getSimpleName();
-    }
-
     @Override
     protected String getRegion() {
         return CacheKey.USER;
     }
 
-    @Override
-    protected String getClassSimpleName() {
-        return classSimpleName;
-    }
 
     protected UserService currentProxy() {
         return ((UserService) AopContext.currentProxy());
@@ -177,7 +167,7 @@ public class UserServiceImpl extends SuperServiceCacheImpl<UserMapper, User> imp
     }
 
     @Override
-    @CacheEvict(key = "#root.targetClass.simpleName + ':'+#id")
+    @CacheEvict(key = "#id")
     public void updatePasswordErrorNumById(Long id) {
         baseMapper.incrPasswordErrorNumById(id);
     }

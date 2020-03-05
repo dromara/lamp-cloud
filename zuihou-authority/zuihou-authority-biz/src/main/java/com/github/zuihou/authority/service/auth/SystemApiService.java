@@ -1,8 +1,8 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.auth.SystemApiScanSaveDTO;
 import com.github.zuihou.authority.entity.auth.SystemApi;
+import com.github.zuihou.base.service.SuperCacheService;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import com.github.zuihou.authority.entity.auth.SystemApi;
  * @author zuihou
  * @date 2019-12-15
  */
-public interface SystemApiService extends IService<SystemApi> {
+public interface SystemApiService extends SuperCacheService<SystemApi> {
     /**
      * 批量保存
      *

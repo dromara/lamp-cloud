@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import cn.hutool.core.convert.Convert;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.RoleAuthorityMapper;
 import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
 import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
@@ -11,6 +10,7 @@ import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.authority.service.auth.UserRoleService;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, RoleAuthority> implements RoleAuthorityService {
+public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapper, RoleAuthority> implements RoleAuthorityService {
 
     @Autowired
     private UserRoleService userRoleService;
@@ -57,7 +57,7 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
 
         //清除 用户拥有的菜单和资源列表
         userRole.getUserIdList().forEach((userId) -> {
-            String key = CacheKey.buildKey(userId);
+            String key = key(userId);
             cache.evict(CacheKey.USER_RESOURCE, key);
             cache.evict(CacheKey.USER_MENU, key);
         });

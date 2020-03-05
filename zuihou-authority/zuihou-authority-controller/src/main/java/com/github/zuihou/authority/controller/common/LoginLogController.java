@@ -3,27 +3,25 @@ package com.github.zuihou.authority.controller.common;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.common.LoginLogUpdateDTO;
 import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.common.LoginLogService;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.base.controller.SuperController;
+import com.github.zuihou.base.request.PageParams;
+import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.log.util.AddressUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 /**
  * <p>
@@ -39,51 +37,32 @@ import java.util.List;
 @RestController
 @RequestMapping("/loginLog")
 @Api(value = "LoginLog", tags = "登录日志")
-public class LoginLogController extends BaseController {
+public class LoginLogController extends SuperController<LoginLogService, Long, LoginLog, LoginLog, LoginLog, LoginLogUpdateDTO> {
 
-    @Autowired
-    private LoginLogService loginLogService;
     @Autowired
     private UserService userService;
 
     /**
      * 分页查询登录日志
      *
-     * @param data 分页查询对象
+     * @param wrapper 分页查询条件
+     * @param params  分页查询参数
      * @return 查询结果
      */
-    @ApiOperation(value = "分页查询登录日志", notes = "分页查询登录日志")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping("/page")
-    public R<IPage<LoginLog>> page(LoginLog data) {
-        IPage<LoginLog> page = this.getPage();
-        // 构建值不为null的查询条件
-        LbqWrapper<LoginLog> query = Wraps.<LoginLog>lbQ()
-                .eq(LoginLog::getUserId, data.getUserId())
-                .likeRight(LoginLog::getAccount, data.getAccount())
-                .likeRight(LoginLog::getRequestIp, data.getRequestIp())
-                .like(LoginLog::getLocation, data.getLocation())
-                .leFooter(LoginLog::getCreateTime, this.getEndCreateTime())
-                .geHeader(LoginLog::getCreateTime, this.getStartCreateTime())
-                .orderByDesc(LoginLog::getId);
-        this.loginLogService.page(page, query);
-        return this.success(page);
+    @Override
+    protected void handlerWrapper(QueryWrap<LoginLog> wrapper, PageParams<LoginLog> params) {
+        super.handlerWrapper(wrapper, params);
+        LoginLog model = params.getModel();
+
+        wrapper.lambda()
+                // 忽略 Wraps.q(model); 时， account  和 requestIp 字段的默认查询规则，
+                .ignore(LoginLog::setAccount)
+                .ignore(LoginLog::setRequestIp)
+                // 使用 自定义的查询规则
+                .likeRight(LoginLog::getAccount, model.getAccount())
+                .likeRight(LoginLog::getRequestIp, model.getRequestIp());
     }
 
-    /**
-     * 查询登录日志
-     *
-     * @param id 主键id
-     * @return 查询结果
-     */
-    @ApiOperation(value = "查询登录日志", notes = "查询登录日志")
-    @GetMapping("/{id}")
-    public R<LoginLog> get(@PathVariable Long id) {
-        return this.success(this.loginLogService.getById(id));
-    }
 
     /**
      * 新增登录日志
@@ -93,28 +72,17 @@ public class LoginLogController extends BaseController {
      */
     @ApiOperation(value = "新增登录日志", notes = "新增登录日志不为空的字段")
     @GetMapping("/anno/login/{account}")
-    public R<LoginLog> save(@NotBlank(message = "用户名不能为为空") @PathVariable String account, @RequestParam(required = false, defaultValue = "登陆成功") String description) {
-        String ua = StrUtil.sub(this.request.getHeader("user-agent"), 0, 500);
-        String ip = ServletUtil.getClientIP(this.request);
+    public R<LoginLog> save(@NotBlank(message = "用户名不能为为空") @PathVariable String account,
+                            @RequestParam(required = false, defaultValue = "登陆成功") String description,
+                            @ApiIgnore HttpServletRequest request) {
+        String ua = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
+        String ip = ServletUtil.getClientIP(request);
         String location = AddressUtil.getRegion(ip);
         // update last login time
         this.userService.updateLoginTime(account);
-        LoginLog loginLog = this.loginLogService.save(account, ua, ip, location, description);
+        LoginLog loginLog = baseService.save(account, ua, ip, location, description);
         return this.success(loginLog);
     }
 
 
-    /**
-     * 删除系统日志
-     *
-     * @param ids 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除日志", notes = "根据id物理删除系统日志")
-    @DeleteMapping
-    @SysLog("删除登录日志")
-    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        this.loginLogService.removeByIds(ids);
-        return this.success(true);
-    }
 }

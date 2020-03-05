@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.dao.common;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.entity.common.Parameter;
+import com.github.zuihou.base.mapper.SuperMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @date 2020-02-05
  */
 @Repository
-public interface ParameterMapper extends BaseMapper<Parameter> {
+public interface ParameterMapper extends SuperMapper<Parameter> {
 
 }
