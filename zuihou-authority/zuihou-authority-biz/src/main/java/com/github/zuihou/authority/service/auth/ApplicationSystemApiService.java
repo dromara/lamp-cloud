@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.auth.ApplicationSystemApi;
+import com.github.zuihou.base.service.SuperService;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.github.zuihou.authority.entity.auth.ApplicationSystemApi;
  * @author zuihou
  * @date 2019-12-15
  */
-public interface ApplicationSystemApiService extends IService<ApplicationSystemApi> {
+public interface ApplicationSystemApiService extends SuperService<ApplicationSystemApi> {
 
 }

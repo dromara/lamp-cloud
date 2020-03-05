@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.common;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.common.LoginLog;
+import com.github.zuihou.base.service.SuperService;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @author zuihou
  * @date 2019-10-20
  */
-public interface LoginLogService extends IService<LoginLog> {
+public interface LoginLogService extends SuperService<LoginLog> {
 
     /**
      * 记录登录日志

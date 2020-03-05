@@ -5,7 +5,9 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.log.StaticLog;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
@@ -16,16 +18,19 @@ import com.github.zuihou.authority.dao.core.StationMapper;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.entity.OptLogDTO;
 import com.github.zuihou.model.RemoteData;
@@ -52,6 +57,9 @@ import java.util.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Slf4j
 public class TestResource {
+    @Autowired
+    LoginLogService loginLogService;
+
     @Autowired
     ResourceService resourceService;
     @Autowired
@@ -81,6 +89,25 @@ public class TestResource {
     public void setTenant() {
         BaseContextHandler.setUserId(3L);
         BaseContextHandler.setTenant("0000");
+    }
+
+    @Test
+    public void testLoginLog() {
+        IPage<LoginLog> page = new Page<>(1, 20);
+        LoginLog model = LoginLog.builder()
+                .account("zuihou")
+                .requestIp("127.0.0")
+                .userName("127.0.0")
+                .userId(2L)
+                .build();
+        QueryWrap<LoginLog> wrapper = Wraps.<LoginLog>q(model);
+        wrapper.lambda()
+                .ignore(LoginLog::setAccount)
+                .ignore(LoginLog::setRequestIp)
+                .likeRight(LoginLog::getAccount, model.getAccount())
+                .likeRight(LoginLog::getRequestIp, model.getRequestIp());
+        loginLogService.page(page, wrapper);
+        System.out.println(page);
     }
 
     @Test

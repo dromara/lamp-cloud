@@ -2,18 +2,17 @@ package com.github.zuihou.authority.service.auth.impl;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
 import com.github.zuihou.authority.service.auth.ResourceService;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.common.constant.CacheKey;
 import lombok.extern.slf4j.Slf4j;
-import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.github.zuihou.common.constant.CacheKey.MENU;
 import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
 
 /**
@@ -35,12 +35,20 @@ import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
  */
 @Slf4j
 @Service
-public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
+@CacheConfig(cacheNames = MENU)
+public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> implements MenuService {
 
     @Autowired
     private ResourceService resourceService;
-    @Autowired
-    private CacheChannel cache;
+
+    @Override
+    protected String getRegion() {
+        return MENU;
+    }
+
+    protected MenuService currentProxy() {
+        return ((MenuService) AopContext.currentProxy());
+    }
 
     /**
      * 查询用户可用菜单
@@ -60,9 +68,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     public List<Menu> findVisibleMenu(String group, Long userId) {
-        String key = CacheKey.buildKey(userId);
+        String key = key(userId);
         List<Menu> visibleMenu = new ArrayList<>();
-        CacheObject cacheObject = cache.get(CacheKey.USER_MENU, key, (k) -> {
+        CacheObject cacheObject = cacheChannel.get(CacheKey.USER_MENU, key, (k) -> {
             visibleMenu.addAll(baseMapper.findVisibleMenu(userId));
             return visibleMenu.stream().mapToLong(Menu::getId).boxed().collect(Collectors.toList());
         });
@@ -74,8 +82,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         if (!visibleMenu.isEmpty()) {
             // TODO 异步性能 更加
             visibleMenu.forEach((menu) -> {
-                String menuKey = CacheKey.buildKey(menu.getId());
-                cache.set(CacheKey.MENU, menuKey, menu);
+                String menuKey = key(menu.getId());
+                cacheChannel.set(MENU, menuKey, menu);
             });
 
             return menuListFilterGroup(group, visibleMenu);
@@ -85,7 +93,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
         //使用 this::getByIdWithCache 会导致无法读取缓存
 //        List<Menu> menuList = list.stream().map(this::getByIdWithCache).collect(Collectors.toList());
-        List<Menu> menuList = list.stream().map(((MenuService) AopContext.currentProxy())::getByIdWithCache)
+        List<Menu> menuList = list.stream().map(currentProxy()::getByIdCache)
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
         return menuListFilterGroup(group, menuList);
@@ -100,33 +108,22 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
 
     @Override
-    @Cacheable(value = CacheKey.MENU, key = "#id")
-    public Menu getByIdWithCache(Long id) {
-        return super.getById(id);
-    }
-
-    @Override
     public boolean removeByIdWithCache(List<Long> ids) {
         if (ids.isEmpty()) {
             return true;
         }
-        boolean result = super.removeByIds(ids);
+        boolean result = currentProxy().removeByIds(ids);
         if (result) {
             resourceService.removeByMenuIdWithCache(ids);
-
-            String[] keys = ids.stream().map(CacheKey::buildKey).toArray(String[]::new);
-            cache.evict(CacheKey.MENU, keys);
         }
         return result;
     }
 
     @Override
     public boolean updateWithCache(Menu menu) {
-        boolean result = super.updateById(menu);
+        boolean result = currentProxy().updateById(menu);
         if (result) {
-            String menuKey = CacheKey.buildKey(menu.getId());
-            cache.evict(CacheKey.MENU, menuKey);
-            cache.clear(CacheKey.USER_MENU);
+            cacheChannel.clear(CacheKey.USER_MENU);
         }
         return result;
     }
@@ -137,12 +134,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         menu.setIsPublic(Convert.toBool(menu.getIsPublic(), false));
         menu.setParentId(Convert.toLong(menu.getParentId(), DEF_PARENT_ID));
 
-        super.save(menu);
+        currentProxy().save(menu);
 
-        String menuKey = CacheKey.buildKey(menu.getId());
-        cache.set(CacheKey.MENU, menuKey, menu);
+        String menuKey = key(menu.getId());
+        cacheChannel.set(CacheKey.MENU, menuKey, menu);
         if (menu.getIsPublic()) {
-            cache.evict(CacheKey.USER_MENU);
+            cacheChannel.evict(CacheKey.USER_MENU);
         }
 
         return true;

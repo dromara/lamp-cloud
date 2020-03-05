@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.common;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
  * <p>
@@ -36,11 +38,12 @@ public class LoginLog extends SuperEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 操作IP
+     * 登录IP
      */
-    @ApiModelProperty(value = "操作IP")
-    @Length(max = 50, message = "操作IP长度不能超过50")
+    @ApiModelProperty(value = "登录IP")
+    @Length(max = 50, message = "登录IP长度不能超过50")
     @TableField(value = "request_ip", condition = LIKE)
+    @Excel(name = "登录IP", width = 14)
     private String requestIp;
 
     /**
@@ -56,6 +59,7 @@ public class LoginLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "登录人姓名")
     @Length(max = 50, message = "登录人姓名长度不能超过50")
     @TableField(value = "user_name", condition = LIKE)
+    @Excel(name = "登录人姓名", width = 20)
     private String userName;
 
     /**
@@ -64,6 +68,7 @@ public class LoginLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "登录人账号")
     @Length(max = 30, message = "登录人账号长度不能超过30")
     @TableField(value = "account", condition = LIKE)
+    @Excel(name = "登录人账号", width = 20)
     private String account;
 
     /**
@@ -72,6 +77,7 @@ public class LoginLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "登录描述")
     @Length(max = 255, message = "登录描述长度不能超过255")
     @TableField(value = "description", condition = LIKE)
+    @Excel(name = "登录描述", width = 30)
     private String description;
 
     /**
@@ -79,6 +85,7 @@ public class LoginLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "登录时间")
     @TableField("login_date")
+    @Excel(name = "登录时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDate loginDate;
 
     /**
@@ -95,6 +102,7 @@ public class LoginLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "浏览器名称")
     @Length(max = 255, message = "浏览器名称长度不能超过255")
     @TableField(value = "browser", condition = LIKE)
+    @Excel(name = "浏览器名称", width = 30)
     private String browser;
 
     /**
@@ -111,6 +119,7 @@ public class LoginLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "操作系统")
     @Length(max = 255, message = "操作系统长度不能超过255")
     @TableField(value = "operating_system", condition = LIKE)
+    @Excel(name = "操作系统", width = 30)
     private String operatingSystem;
 
     /**
@@ -119,6 +128,7 @@ public class LoginLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "登录地点")
     @Length(max = 50, message = "登录地点长度不能超过50")
     @TableField(value = "location", condition = LIKE)
+    @Excel(name = "登录地点", width = 40)
     private String location;
 
 

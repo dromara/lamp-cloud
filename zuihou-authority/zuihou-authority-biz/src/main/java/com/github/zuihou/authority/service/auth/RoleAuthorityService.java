@@ -1,9 +1,9 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.auth.RoleAuthoritySaveDTO;
 import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
+import com.github.zuihou.base.service.SuperService;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import com.github.zuihou.authority.entity.auth.RoleAuthority;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface RoleAuthorityService extends IService<RoleAuthority> {
+public interface RoleAuthorityService extends SuperService<RoleAuthority> {
 
     /**
      * 给用户分配角色

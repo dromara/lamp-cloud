@@ -2,7 +2,6 @@ package com.github.zuihou.authority.controller.common;
 
 import cn.hutool.core.util.IdUtil;
 import com.github.zuihou.authority.service.common.LoginLogService;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.database.properties.DatabaseProperties;
 import com.github.zuihou.user.annotation.LoginUser;
@@ -31,7 +30,7 @@ import java.util.Map;
 @Validated
 @RestController
 @Api(value = "dashboard", tags = "首页")
-public class DashboardController extends BaseController {
+public class DashboardController {
 
     @Autowired
     private LoginLogService loginLogService;
@@ -57,7 +56,7 @@ public class DashboardController extends BaseController {
         data.put("browserCount", loginLogService.findByBrowser());
         data.put("operatingSystemCount", loginLogService.findByOperatingSystem());
 
-        return success(data);
+        return R.success(data);
     }
 
     /**
@@ -68,6 +67,6 @@ public class DashboardController extends BaseController {
     @GetMapping("/common/generateId")
     public R<Long> generate() {
         DatabaseProperties.Id id = databaseProperties.getId();
-        return success(IdUtil.getSnowflake(id.getWorkerId(), id.getDataCenterId()).nextId());
+        return R.success(IdUtil.getSnowflake(id.getWorkerId(), id.getDataCenterId()).nextId());
     }
 }

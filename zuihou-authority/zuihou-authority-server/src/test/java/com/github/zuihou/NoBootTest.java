@@ -6,8 +6,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
 import cn.hutool.log.StaticLog;
 import com.baomidou.mybatisplus.core.toolkit.TableNameParser;
 import com.github.zuihou.auth.utils.JwtHelper;
@@ -284,26 +282,6 @@ public class NoBootTest {
 
         System.out.println(map);
     }
-
-    @Test
-    public void testLog() {
-        try {
-            int i = 1 / 0;
-        } catch (Exception e) {
-            Log log = LogFactory.get();
-            log.error("我是错误消息", e);
-        }
-    }
-
-    @Test
-    public void testSlfLog() {
-        try {
-            int i = 1 / 0;
-        } catch (Exception e) {
-            log.error("我是slf错误消息", e);
-        }
-    }
-
 
     public Validator getValidator() {
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)

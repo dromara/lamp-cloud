@@ -1,9 +1,9 @@
 package com.github.zuihou.authority.service.auth;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.auth.RoleSaveDTO;
 import com.github.zuihou.authority.dto.auth.RoleUpdateDTO;
 import com.github.zuihou.authority.entity.auth.Role;
+import com.github.zuihou.base.service.SuperCacheService;
 
 import java.util.List;
 
@@ -16,15 +16,8 @@ import java.util.List;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface RoleService extends IService<Role> {
+public interface RoleService extends SuperCacheService<Role> {
 
-    /**
-     * 根据ID查
-     *
-     * @param id 主键
-     * @return
-     */
-    Role getByIdWithCache(Long id);
 
     /**
      * 根据ID删除

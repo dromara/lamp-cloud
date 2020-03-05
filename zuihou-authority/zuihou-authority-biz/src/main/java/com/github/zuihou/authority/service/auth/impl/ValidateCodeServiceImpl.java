@@ -59,15 +59,15 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     }
 
     private Captcha createCaptcha(String type) {
-        Captcha captcha = null;
+        Captcha captcha;
         if (StringUtils.equalsIgnoreCase(type, "gif")) {
             captcha = new GifCaptcha(115, 42, 4);
         } else if (StringUtils.equalsIgnoreCase(type, "png")) {
             captcha = new SpecCaptcha(115, 42, 4);
-        } else if (StringUtils.equalsIgnoreCase(type, "arithmetic")) {
-            captcha = new ArithmeticCaptcha(115, 42);
         } else if (StringUtils.equalsIgnoreCase(type, "chinese")) {
             captcha = new ChineseCaptcha(115, 42);
+        } else  /*if (StringUtils.equalsIgnoreCase(type, "arithmetic")) */ {
+            captcha = new ArithmeticCaptcha(115, 42);
         }
         captcha.setCharType(2);
         return captcha;

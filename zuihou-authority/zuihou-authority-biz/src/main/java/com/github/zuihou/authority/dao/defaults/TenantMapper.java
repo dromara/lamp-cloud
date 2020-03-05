@@ -1,8 +1,8 @@
 package com.github.zuihou.authority.dao.defaults;
 
 import com.baomidou.mybatisplus.annotation.SqlParser;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.entity.defaults.Tenant;
+import com.github.zuihou.base.mapper.SuperMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,6 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @SqlParser(filter = true)
-public interface TenantMapper extends BaseMapper<Tenant> {
+public interface TenantMapper extends SuperMapper<Tenant> {
 
 }

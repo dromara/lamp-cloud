@@ -1,17 +1,14 @@
 package com.github.zuihou.authority.controller.auth;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.MenuSaveDTO;
 import com.github.zuihou.authority.dto.auth.MenuUpdateDTO;
 import com.github.zuihou.authority.dto.auth.RouterMeta;
 import com.github.zuihou.authority.dto.auth.VueRouter;
 import com.github.zuihou.authority.entity.auth.Menu;
 import com.github.zuihou.authority.service.auth.MenuService;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BeanPlusUtil;
@@ -23,7 +20,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,91 +43,29 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 @Api(value = "Menu", tags = "菜单")
-public class MenuController extends BaseController {
+public class MenuController extends SuperCacheController<MenuService, Long, Menu, Menu, MenuSaveDTO, MenuUpdateDTO> {
 
-    @Autowired
-    private MenuService menuService;
     @Autowired
     private DozerUtils dozer;
 
-    /**
-     * 分页查询菜单
-     *
-     * @param data 分页查询对象
-     * @return 查询结果
-     */
-    @ApiOperation(value = "分页查询菜单", notes = "分页查询菜单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping("/page")
-    @SysLog("分页查询菜单")
-    public R<IPage<Menu>> page(Menu data) {
-        IPage<Menu> page = getPage();
-        // 构建值不为null的查询条件
-        LbqWrapper<Menu> query = Wraps.lbQ(data).orderByDesc(Menu::getUpdateTime);
-        menuService.page(page, query);
-        return success(page);
-    }
-
-    /**
-     * 查询菜单
-     *
-     * @param id 主键id
-     * @return 查询结果
-     */
-    @ApiOperation(value = "查询菜单", notes = "查询菜单")
-    @GetMapping("/{id}")
-    @SysLog("查询菜单")
-    public R<Menu> get(@PathVariable Long id) {
-        return success(menuService.getByIdWithCache(id));
-    }
-
-    /**
-     * 新增菜单
-     *
-     * @param data 新增对象
-     * @return 新增结果
-     */
-    @ApiOperation(value = "新增菜单", notes = "新增菜单不为空的字段")
-    @PostMapping
-    @SysLog("新增菜单")
-    public R<Menu> save(@RequestBody @Validated MenuSaveDTO data) {
-        Menu menu = BeanPlusUtil.toBean(data, Menu.class);
-
-        menuService.saveWithCache(menu);
+    @Override
+    protected R<Menu> handlerSave(MenuSaveDTO menuSaveDTO) {
+        Menu menu = BeanPlusUtil.toBean(menuSaveDTO, Menu.class);
+        baseService.saveWithCache(menu);
         return success(menu);
     }
 
-
-    /**
-     * 修改菜单
-     *
-     * @param data 修改对象
-     * @return 修改结果
-     */
-    @ApiOperation(value = "修改菜单", notes = "修改菜单不为空的字段")
-    @PutMapping
-    @SysLog("修改菜单")
-    public R<Menu> update(@RequestBody @Validated(SuperEntity.Update.class) MenuUpdateDTO data) {
-        Menu menu = BeanPlusUtil.toBean(data, Menu.class);
-        menuService.updateWithCache(menu);
+    @Override
+    protected R<Menu> handlerUpdate(MenuUpdateDTO model) {
+        Menu menu = BeanPlusUtil.toBean(model, Menu.class);
+        baseService.updateWithCache(menu);
         return success(menu);
     }
 
-    /**
-     * 删除菜单
-     *
-     * @param ids 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除菜单", notes = "根据id物理删除菜单")
-    @DeleteMapping
-    @SysLog("删除菜单")
-    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        menuService.removeByIdWithCache(ids);
-        return success(true);
+    @Override
+    protected R<Boolean> handlerDelete(List<Long> ids) {
+        baseService.removeByIdWithCache(ids);
+        return success();
     }
 
     /**
@@ -142,13 +80,13 @@ public class MenuController extends BaseController {
             @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
     })
     @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
-    @GetMapping
+    @GetMapping("/menus")
     public R<List<Menu>> myMenus(@RequestParam(value = "group", required = false) String group,
                                  @RequestParam(value = "userId", required = false) Long userId) {
         if (userId == null || userId <= 0) {
             userId = getUserId();
         }
-        List<Menu> list = menuService.findVisibleMenu(group, userId);
+        List<Menu> list = baseService.findVisibleMenu(group, userId);
         List<Menu> tree = TreeUtil.buildTree(list);
         return success(tree);
     }
@@ -164,7 +102,7 @@ public class MenuController extends BaseController {
         if (userId == null || userId <= 0) {
             userId = getUserId();
         }
-        List<Menu> list = menuService.findVisibleMenu(group, userId);
+        List<Menu> list = baseService.findVisibleMenu(group, userId);
         List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
         return success(TreeUtil.buildTree(treeList));
     }
@@ -225,7 +163,7 @@ public class MenuController extends BaseController {
     @GetMapping("/tree")
     @SysLog("查询系统所有的菜单")
     public R<List<Menu>> allTree() {
-        List<Menu> list = menuService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortValue));
+        List<Menu> list = baseService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortValue));
         return success(TreeUtil.buildTree(list));
     }
 }

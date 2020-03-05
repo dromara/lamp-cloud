@@ -1,8 +1,8 @@
 package com.github.zuihou.authority.dao.auth;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.base.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @date 2019-07-03
  */
 @Repository
-public interface ResourceMapper extends BaseMapper<Resource> {
+public interface ResourceMapper extends SuperMapper<Resource> {
     /**
      * 查询 拥有的资源
      *
