@@ -58,7 +58,7 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
     }
 
     @Override
-    protected R<Tenant> handlerSave(TenantSaveDTO model) {
+    public R<Tenant> handlerSave(TenantSaveDTO model) {
         Tenant tenant = baseService.save(model);
         return success(tenant);
     }
@@ -70,7 +70,7 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
     }
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         return success(baseService.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, TenantStatusEnum.FORBIDDEN).in(Tenant::getId, ids)));
     }
 }

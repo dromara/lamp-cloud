@@ -9,6 +9,8 @@ import com.github.zuihou.utils.BeanPlusUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 业务实现类
@@ -25,5 +27,10 @@ public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> im
     @Override
     public boolean save(OptLogDTO entity) {
         return super.save(BeanPlusUtil.toBean(entity, OptLog.class));
+    }
+
+    @Override
+    public boolean clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum) {
+        return baseMapper.clearLog(clearBeforeTime, clearBeforeNum);
     }
 }

@@ -52,7 +52,7 @@ public class SystemApiController extends SuperCacheController<SystemApiService, 
     }
 
     @Override
-    protected R<SystemApi> handlerSave(SystemApiSaveDTO data) {
+    public R<SystemApi> handlerSave(SystemApiSaveDTO data) {
         SystemApi systemApi = BeanPlusUtil.toBean(data, SystemApi.class);
         systemApi.setIsPersist(false);
         if (StrUtil.isEmpty(systemApi.getCode())) {

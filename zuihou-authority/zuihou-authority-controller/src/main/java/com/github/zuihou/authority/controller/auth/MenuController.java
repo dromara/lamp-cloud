@@ -49,21 +49,21 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
     private DozerUtils dozer;
 
     @Override
-    protected R<Menu> handlerSave(MenuSaveDTO menuSaveDTO) {
+    public R<Menu> handlerSave(MenuSaveDTO menuSaveDTO) {
         Menu menu = BeanPlusUtil.toBean(menuSaveDTO, Menu.class);
         baseService.saveWithCache(menu);
         return success(menu);
     }
 
     @Override
-    protected R<Menu> handlerUpdate(MenuUpdateDTO model) {
+    public R<Menu> handlerUpdate(MenuUpdateDTO model) {
         Menu menu = BeanPlusUtil.toBean(model, Menu.class);
         baseService.updateWithCache(menu);
         return success(menu);
     }
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         baseService.removeByIdWithCache(ids);
         return success();
     }

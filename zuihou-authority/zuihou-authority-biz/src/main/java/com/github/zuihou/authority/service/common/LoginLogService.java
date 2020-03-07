@@ -3,6 +3,7 @@ package com.github.zuihou.authority.service.common;
 import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.base.service.SuperService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -74,4 +75,13 @@ public interface LoginLogService extends SuperService<LoginLog> {
      * @return
      */
     List<Map<String, Object>> findByOperatingSystem();
+
+    /**
+     * 清理日志
+     *
+     * @param clearBeforeTime 多久之前的
+     * @param clearBeforeNum  多少条
+     * @return
+     */
+    boolean clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum);
 }

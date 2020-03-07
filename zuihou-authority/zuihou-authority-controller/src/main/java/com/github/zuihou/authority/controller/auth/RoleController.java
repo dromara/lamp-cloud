@@ -77,19 +77,19 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
 
 
     @Override
-    protected R<Role> handlerSave(RoleSaveDTO data) {
+    public R<Role> handlerSave(RoleSaveDTO data) {
         baseService.saveRole(data, getUserId());
         return success(BeanPlusUtil.toBean(data, Role.class));
     }
 
     @Override
-    protected R<Role> handlerUpdate(RoleUpdateDTO data) {
+    public R<Role> handlerUpdate(RoleUpdateDTO data) {
         baseService.updateRole(data, getUserId());
         return success(BeanPlusUtil.toBean(data, Role.class));
     }
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         return success(baseService.removeByIdWithCache(ids));
     }
 

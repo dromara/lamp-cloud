@@ -1,7 +1,6 @@
 package com.github.zuihou.general.controller;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.BaseEnum;
 import com.github.zuihou.base.R;
 import com.github.zuihou.msgs.enumeration.MsgsBizType;
@@ -29,7 +28,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @Api(value = "Common", tags = "公共Controller")
-public class MsgsGeneralController extends BaseController {
+public class MsgsGeneralController {
     private final static Map<String, Map<String, String>> ENUM_MAP = new HashMap<>(6);
 
     static {
@@ -45,7 +44,7 @@ public class MsgsGeneralController extends BaseController {
     @GetMapping("/enums")
     public R<Map<String, Map<String, String>>> enums(@RequestParam(value = "codes[]", required = false) String[] codes) {
         if (ArrayUtil.isEmpty(codes)) {
-            return success(ENUM_MAP);
+            return R.success(ENUM_MAP);
         }
 
         Map<String, Map<String, String>> map = new HashMap<>(codes.length);
@@ -54,7 +53,7 @@ public class MsgsGeneralController extends BaseController {
                 map.put(code, ENUM_MAP.get(code));
             }
         }
-        return success(map);
+        return R.success(map);
     }
 
 }

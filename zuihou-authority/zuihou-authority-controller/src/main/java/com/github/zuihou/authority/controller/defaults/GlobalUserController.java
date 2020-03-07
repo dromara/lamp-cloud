@@ -34,12 +34,12 @@ import java.util.List;
 @Api(value = "GlobalUser", tags = "全局账号")
 public class GlobalUserController extends SuperController<GlobalUserService, Long, GlobalUser, GlobalUserPageDTO, GlobalUserSaveDTO, GlobalUserUpdateDTO> {
     @Override
-    protected R<GlobalUser> handlerSave(GlobalUserSaveDTO model) {
+    public R<GlobalUser> handlerSave(GlobalUserSaveDTO model) {
         return success(baseService.save(model));
     }
 
     @Override
-    protected R<GlobalUser> handlerUpdate(GlobalUserUpdateDTO model) {
+    public R<GlobalUser> handlerUpdate(GlobalUserUpdateDTO model) {
         return success(baseService.update(model));
     }
 

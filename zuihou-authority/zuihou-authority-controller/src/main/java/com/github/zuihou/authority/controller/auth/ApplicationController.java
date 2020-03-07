@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApplicationController extends SuperController<ApplicationService, Long, Application, Application, ApplicationSaveDTO, ApplicationUpdateDTO> {
 
     @Override
-    protected R<Application> handlerSave(ApplicationSaveDTO applicationSaveDTO) {
+    public R<Application> handlerSave(ApplicationSaveDTO applicationSaveDTO) {
         applicationSaveDTO.setAppKey(RandomUtil.randomString(24));
         applicationSaveDTO.setAppSecret(RandomUtil.randomString(32));
         return super.handlerSave(applicationSaveDTO);

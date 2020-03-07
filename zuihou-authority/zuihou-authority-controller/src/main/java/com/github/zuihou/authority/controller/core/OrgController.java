@@ -46,7 +46,7 @@ import static com.github.zuihou.utils.StrPool.*;
 public class OrgController extends SuperCacheController<OrgService, Long, Org, Org, OrgSaveDTO, OrgUpdateDTO> {
 
     @Override
-    protected R<Org> handlerSave(OrgSaveDTO model) {
+    public R<Org> handlerSave(OrgSaveDTO model) {
         Org org = BeanPlusUtil.toBean(model, Org.class);
         fillOrg(org);
         this.baseService.save(org);
@@ -54,7 +54,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     }
 
     @Override
-    protected R<Org> handlerUpdate(OrgUpdateDTO model) {
+    public R<Org> handlerUpdate(OrgUpdateDTO model) {
         Org org = BeanPlusUtil.toBean(model, Org.class);
         fillOrg(org);
         this.baseService.updateAllById(org);
@@ -75,7 +75,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     }
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         return this.success(baseService.remove(ids));
     }
 
@@ -136,7 +136,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
 
 
     @Override
-    protected void handlerImport(List<Map<String, String>> list) {
+    public void handlerImport(List<Map<String, String>> list) {
         List<Org> userList = list.stream().map((map) -> {
             Org item = new Org();
             item.setDescribe(map.getOrDefault("描述", EMPTY));

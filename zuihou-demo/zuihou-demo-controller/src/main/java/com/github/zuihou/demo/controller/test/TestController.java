@@ -2,7 +2,6 @@ package com.github.zuihou.demo.controller.test;
 
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.demo.controller.test.model.EnumDTO;
 import com.github.zuihou.log.entity.OptLogDTO;
@@ -25,68 +24,68 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/test")
 @Api(value = "Test", tags = "测试类")
-public class TestController extends BaseController {
+public class TestController {
 
     @GetMapping("/{id}")
     public R<String> get(@PathVariable Long id, @ApiIgnore @LoginUser(isFull = true) SysUser user) {
-        return success("Id");
+        return R.success("Id");
     }
 
     @GetMapping("/get")
     public R<String> get2(@RequestParam("id") Long id, @ApiIgnore @LoginUser SysUser user) {
-        return success("Id");
+        return R.success("Id");
     }
 
     @PostMapping
     public R<OptLogDTO> save(@RequestBody OptLogDTO data) {
-        return success(data);
+        return R.success(data);
     }
 
     @PostMapping("post2")
     public R<OptLogDTO> post2(@RequestBody OptLogDTO data, @ApiIgnore @LoginUser(isOrg = true, isStation = true) SysUser user) {
-        return success(data);
+        return R.success(data);
     }
 
 
     @GetMapping("get3")
     public R<OptLogDTO> get3(OptLogDTO data, @ApiIgnore @LoginUser(isOrg = true, isStation = true) SysUser user) {
-        return success(data);
+        return R.success(data);
     }
 
     @PostMapping("post3")
     public R<EnumDTO> post3(@RequestBody EnumDTO data) {
-        return success(data);
+        return R.success(data);
     }
 
     @PostMapping("post4")
     public R<EnumDTO> post4(@RequestBody EnumDTO data) {
         int a = 1 / 0;
-        return success(data);
+        return R.success(data);
     }
 
     @PostMapping("post5")
     public R<EnumDTO> post5(@RequestBody EnumDTO data) throws Exception {
         new EnumDTO().testEx();
-        return success(data);
+        return R.success(data);
     }
 
     @PostMapping("post6")
     public R<EnumDTO> post6(@RequestBody EnumDTO data) throws Exception {
 
-        return success(data);
+        return R.success(data);
     }
 
 
     @PostMapping("post7")
     public R<User> post7(@RequestBody(required = false) User data) throws Exception {
 
-        return success(data);
+        return R.success(data);
     }
 
     @PostMapping("post8")
     public R<Resource> post8(@RequestBody(required = false) Resource data) throws Exception {
 
-        return success(data);
+        return R.success(data);
     }
 
 
