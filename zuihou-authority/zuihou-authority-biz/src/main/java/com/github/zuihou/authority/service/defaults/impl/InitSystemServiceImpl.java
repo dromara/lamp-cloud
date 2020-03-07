@@ -21,6 +21,8 @@ import java.sql.Connection;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.github.zuihou.common.constant.BizConstant.BASE_DATABASE;
+
 /**
  * 初始化系统
  *
@@ -35,10 +37,12 @@ public class InitSystemServiceImpl implements InitSystemService {
      * 需要初始化的sql文件在classpath中的路径
      */
     private final static String SQL_RESOURCE_PATH = "sqls/%s.sql";
+
     /**
      * 需要初始化的库
+     * 可能不同的服务，会连接不同的库
      */
-    private final static List<String> INIT_DATABASE_LIST = Arrays.asList("zuihou_base");
+    private final static List<String> INIT_DATABASE_LIST = Arrays.asList(BASE_DATABASE);
     @Resource(name = "masterDruidDataSource")
     private DataSource dataSource;
     @Autowired
