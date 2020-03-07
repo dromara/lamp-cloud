@@ -1,7 +1,7 @@
 package com.github.zuihou.msgs.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.base.mapper.SuperMapper;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoPageResultDTO;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoQueryDTO;
 import com.github.zuihou.msgs.entity.MsgsCenterInfo;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
  * @date 2019-08-01
  */
 @Repository
-public interface MsgsCenterInfoMapper extends BaseMapper<MsgsCenterInfo> {
+public interface MsgsCenterInfoMapper extends SuperMapper<MsgsCenterInfo> {
     /**
      * 查询消息中心分页数据
      *

@@ -1,6 +1,6 @@
 package com.github.zuihou.msgs.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.msgs.entity.MsgsCenterInfoReceive;
 
 /**
@@ -13,6 +13,6 @@ import com.github.zuihou.msgs.entity.MsgsCenterInfoReceive;
  * @author zuihou
  * @date 2019-08-01
  */
-public interface MsgsCenterInfoReceiveService extends IService<MsgsCenterInfoReceive> {
+public interface MsgsCenterInfoReceiveService extends SuperService<MsgsCenterInfoReceive> {
 
 }

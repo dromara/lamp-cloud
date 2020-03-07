@@ -1,6 +1,6 @@
 package com.github.zuihou.sms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.sms.entity.SmsTemplate;
 
 /**
@@ -12,7 +12,7 @@ import com.github.zuihou.sms.entity.SmsTemplate;
  * @author zuihou
  * @date 2019-08-01
  */
-public interface SmsTemplateService extends IService<SmsTemplate> {
+public interface SmsTemplateService extends SuperService<SmsTemplate> {
     /**
      * 保存模板，并且将模板内容解析成json格式
      *

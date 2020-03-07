@@ -1,6 +1,6 @@
 package com.github.zuihou.sms.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.zuihou.base.mapper.SuperMapper;
 import com.github.zuihou.sms.entity.SmsSendStatus;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019-08-01
  */
 @Repository
-public interface SmsSendStatusMapper extends BaseMapper<SmsSendStatus> {
+public interface SmsSendStatusMapper extends SuperMapper<SmsSendStatus> {
 
 }

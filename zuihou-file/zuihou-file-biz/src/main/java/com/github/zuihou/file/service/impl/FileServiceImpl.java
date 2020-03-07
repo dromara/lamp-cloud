@@ -1,7 +1,8 @@
 package com.github.zuihou.file.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.update.LbuWrapper;
 import com.github.zuihou.file.biz.FileBiz;
@@ -24,7 +25,6 @@ import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.DateUtils;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,7 @@ import static java.util.stream.Collectors.groupingBy;
  */
 @Slf4j
 @Service
-public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements FileService {
+public class FileServiceImpl extends SuperServiceImpl<FileMapper, File> implements FileService {
 
     @Autowired
     private FileBiz fileBiz;
@@ -148,15 +148,15 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     }
 
     @Override
-    public Boolean removeList(Long userId, Long[] ids) {
-        if (ArrayUtils.isEmpty(ids)) {
+    public Boolean removeList(Long userId, List<Long> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
             return Boolean.TRUE;
         }
         List<File> list = super.list(Wrappers.<File>lambdaQuery().in(File::getId, ids));
         if (list.isEmpty()) {
             return true;
         }
-        super.removeByIds(Arrays.asList(ids));
+        super.removeByIds(ids);
 
         fileStrategy.delete(list.stream().map((fi) -> FileDeleteDO.builder()
                 .relativePath(fi.getRelativePath())

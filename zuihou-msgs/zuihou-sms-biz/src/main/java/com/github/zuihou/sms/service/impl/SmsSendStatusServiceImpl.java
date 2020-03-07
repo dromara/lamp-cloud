@@ -1,6 +1,6 @@
 package com.github.zuihou.sms.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.sms.dao.SmsSendStatusMapper;
 import com.github.zuihou.sms.entity.SmsSendStatus;
 import com.github.zuihou.sms.service.SmsSendStatusService;
@@ -18,6 +18,6 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class SmsSendStatusServiceImpl extends ServiceImpl<SmsSendStatusMapper, SmsSendStatus> implements SmsSendStatusService {
+public class SmsSendStatusServiceImpl extends SuperServiceImpl<SmsSendStatusMapper, SmsSendStatus> implements SmsSendStatusService {
 
 }

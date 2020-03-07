@@ -1,8 +1,9 @@
 package com.github.zuihou.file.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
+import com.github.zuihou.base.controller.SuperController;
+import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.dto.FileUpdateDTO;
 import com.github.zuihou.file.dto.FolderDTO;
@@ -22,8 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -38,44 +39,19 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/file")
 @Slf4j
 @Api(value = "文件表", tags = "文件表")
-public class FileController extends BaseController {
-    @Autowired
-    private FileService fileService;
+public class FileController extends SuperController<FileService, Long, File, FilePageReqDTO, FolderSaveDTO, FileUpdateDTO> {
     @Autowired
     private FileRestManager fileRestManager;
 
-    /**
-     * 查询单个文件信息
-     *
-     * @param id
-     * @return
-     */
-    @ApiOperation(value = "查询文件", notes = "获取文件")
-    @GetMapping
-    @SysLog("查询文件详情")
-    public R<File> get(@RequestParam(value = "id") Long id) {
-        File file = fileService.getById(id);
-        if (file != null && file.getIsDelete()) {
-            return success(null);
-        }
-        return success(file);
+    @Override
+    protected void query(PageParams<FilePageReqDTO> params, IPage<File> page, Long defSize) {
+        fileRestManager.page(page, params.getModel());
     }
 
-    /**
-     * 获取文件分页
-     *
-     * @author zuihou
-     * @date 2019-05-06
-     */
-    @ApiOperation(value = "分页查询文件", notes = "获取文件分页")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping(value = "/page")
-    @SysLog("分页查询文件")
-    public R<IPage<File>> page(FilePageReqDTO data) {
-        return success(fileRestManager.page(getPage(), data));
+    @Override
+    protected R<File> handlerSave(FolderSaveDTO model) {
+        FolderDTO folder = baseService.saveFolder(model);
+        return success(BeanPlusUtil.toBean(folder, File.class));
     }
 
     /**
@@ -107,73 +83,31 @@ public class FileController extends BaseController {
             return fail("文件为空");
         }
 
-        File file = fileService.upload(simpleFile, folderId);
+        File file = baseService.upload(simpleFile, folderId);
 
         return success(file);
     }
 
 
-    /**
-     * 保存文件夹
-     *
-     * @param
-     * @return
-     * @author zuihou
-     * @date 2019-05-06 16:28
-     */
-    @ApiResponses({
-            @ApiResponse(code = 60000, message = "文件夹为空"),
-            @ApiResponse(code = 60001, message = "文件夹名称为空"),
-            @ApiResponse(code = 60002, message = "父文件夹为空"),
-    })
-    @ApiOperation(value = "新增文件夹", notes = "新增文件夹")
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    @SysLog("新增文件夹")
-    public R<FolderDTO> saveFolder(@Valid @RequestBody FolderSaveDTO folderSaveDto) {
-        //2，获取身份
-
-        FolderDTO folder = fileService.saveFolder(folderSaveDto);
-        return success(folder);
-    }
-
-    /**
-     * 修改文件、文件夹信息
-     *
-     * @param fileUpdateDTO
-     * @return
-     */
-    @ApiOperation(value = "修改文件/文件夹名称", notes = "修改文件/文件夹名称")
-    @ApiResponses({
-            @ApiResponse(code = 60100, message = "文件为空"),
-    })
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    @SysLog("修改文件/文件夹名称")
-    public R<Boolean> update(@Valid @RequestBody FileUpdateDTO fileUpdateDTO) {
+    @Override
+    protected R<File> handlerUpdate(FileUpdateDTO fileUpdateDTO) {
         // 判断文件名是否有 后缀
         if (StringUtils.isNotEmpty(fileUpdateDTO.getSubmittedFileName())) {
-            File oldFile = fileService.getById(fileUpdateDTO.getId());
+            File oldFile = baseService.getById(fileUpdateDTO.getId());
             if (oldFile.getExt() != null && !fileUpdateDTO.getSubmittedFileName().endsWith(oldFile.getExt())) {
                 fileUpdateDTO.setSubmittedFileName(fileUpdateDTO.getSubmittedFileName() + "." + oldFile.getExt());
             }
         }
         File file = BeanPlusUtil.toBean(fileUpdateDTO, File.class);
 
-        fileService.updateById(file);
-        return success(true);
+        baseService.updateById(file);
+        return success(file);
     }
 
-    /**
-     * 根据Ids进行文件删除
-     *
-     * @param ids
-     * @return
-     */
-    @ApiOperation(value = "根据Ids进行文件删除", notes = "根据Ids进行文件删除  ")
-    @DeleteMapping(value = "/ids")
-    @SysLog("删除文件/文件夹")
-    public R<Boolean> removeList(@RequestParam(value = "ids[]") Long[] ids) {
+    @Override
+    protected R<Boolean> handlerDelete(List<Long> ids) {
         Long userId = getUserId();
-        return success(fileService.removeList(userId, ids));
+        return success(baseService.removeList(userId, ids));
     }
 
     /**
@@ -192,6 +126,5 @@ public class FileController extends BaseController {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         fileRestManager.download(request, response, ids, null);
     }
-
 
 }
