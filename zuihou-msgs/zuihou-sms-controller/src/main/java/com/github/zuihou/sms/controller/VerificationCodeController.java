@@ -2,7 +2,6 @@ package com.github.zuihou.sms.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.cache.repository.CacheRepository;
@@ -11,7 +10,7 @@ import com.github.zuihou.sms.dto.VerificationCodeDTO;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.enumeration.SourceType;
 import com.github.zuihou.sms.enumeration.TemplateCodeType;
-import com.github.zuihou.sms.manager.SmsManager;
+import com.github.zuihou.sms.service.SmsTaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +32,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/verification")
 @Api(value = "VerificationCode", tags = "验证码")
-public class VerificationCodeController extends BaseController {
+public class VerificationCodeController {
 
     @Autowired
     private CacheRepository cacheRepository;
     @Autowired
-    private SmsManager smsManager;
+    private SmsTaskService smsTaskService;
 
     /**
      * 通用的发送验证码功能
@@ -59,11 +58,11 @@ public class VerificationCodeController extends BaseController {
         param.put("1", code);
         smsTask.setTemplateParams(param.toString());
         smsTask.setReceiver(data.getMobile());
-        smsManager.saveTask(smsTask, TemplateCodeType.ZUIHOU_COMMON);
+        smsTaskService.saveTask(smsTask, TemplateCodeType.ZUIHOU_COMMON);
 
         String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
         cacheRepository.setExpire(key, code, CacheRepository.DEF_TIMEOUT_5M);
-        return success();
+        return R.success();
     }
 
     /**
@@ -77,6 +76,6 @@ public class VerificationCodeController extends BaseController {
     public R<Boolean> verification(@Validated(SuperEntity.Update.class) @RequestBody VerificationCodeDTO data) {
         String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
         String code = cacheRepository.get(key);
-        return success(data.getCode().equals(code));
+        return R.success(data.getCode().equals(code));
     }
 }

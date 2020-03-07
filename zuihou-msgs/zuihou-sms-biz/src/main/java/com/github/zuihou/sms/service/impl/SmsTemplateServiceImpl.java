@@ -3,7 +3,7 @@ package com.github.zuihou.sms.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.sms.dao.SmsTemplateMapper;
 import com.github.zuihou.sms.entity.SmsTemplate;
@@ -30,7 +30,7 @@ import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
  */
 @Slf4j
 @Service
-public class SmsTemplateServiceImpl extends ServiceImpl<SmsTemplateMapper, SmsTemplate> implements SmsTemplateService {
+public class SmsTemplateServiceImpl extends SuperServiceImpl<SmsTemplateMapper, SmsTemplate> implements SmsTemplateService {
 
     @Autowired
     private CodeGenerate codeGenerate;

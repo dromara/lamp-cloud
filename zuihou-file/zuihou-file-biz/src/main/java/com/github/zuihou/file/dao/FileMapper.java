@@ -1,6 +1,6 @@
 package com.github.zuihou.file.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.zuihou.base.mapper.SuperMapper;
 import com.github.zuihou.file.domain.FileQueryDO;
 import com.github.zuihou.file.domain.FileStatisticsDO;
 import com.github.zuihou.file.entity.File;
@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2019-06-24
  */
 @Repository
-public interface FileMapper extends BaseMapper<File> {
+public interface FileMapper extends SuperMapper<File> {
     /**
      * 查询文件以及它的父类
      *

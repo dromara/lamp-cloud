@@ -1,7 +1,7 @@
 package com.github.zuihou.file.controller;
 
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.file.domain.FileAttrDO;
 import com.github.zuihou.file.dto.chunk.FileChunkCheckDTO;
 import com.github.zuihou.file.dto.chunk.FileChunksMergeDTO;
@@ -35,7 +35,7 @@ import java.nio.file.Paths;
 @Slf4j
 @RequestMapping("/chunk")
 @Api(value = "文件续传+秒传", tags = "文件续传+秒传功能，所有方法均需要webuploder.js插件进行配合使用， 且4个方法需要配合使用，单核接口没有意义")
-public class FileChunkController extends BaseController {
+public class FileChunkController {
     @Autowired
     private FileServerProperties fileProperties;
     @Autowired
@@ -59,9 +59,9 @@ public class FileChunkController extends BaseController {
     @ResponseBody
     public R<Boolean> saveMd5Check(@RequestParam(name = "md5") String md5,
                                    @RequestParam(name = "folderId", defaultValue = "0") Long folderId) {
-        Long accountId = getUserId();
+        Long accountId = BaseContextHandler.getUserId();
         File file = fileChunkStrategy.md5Check(md5, folderId, accountId);
-        return success(file != null ? true : false);
+        return R.success(file != null ? true : false);
     }
 
     /**
@@ -78,7 +78,7 @@ public class FileChunkController extends BaseController {
         String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
         //检查目标分片是否存在且完整
         boolean chunkCheck = wu.chunkCheck(Paths.get(uploadFolder, info.getName(), String.valueOf(info.getChunkIndex())).toString(), info.getSize());
-        return success(chunkCheck);
+        return R.success(chunkCheck);
     }
 
 
@@ -98,7 +98,7 @@ public class FileChunkController extends BaseController {
         //验证请求不会包含数据上传，所以避免NullPoint这里要检查一下file变量是否为null
         if (file == null || file.isEmpty()) {
             log.error("请求参数不完整");
-            return fail("请求参数不完整");
+            return R.fail("请求参数不完整");
         }
 
         log.info("info={}", info);
@@ -117,17 +117,17 @@ public class FileChunkController extends BaseController {
             upload.setGrade(fileAttrDO.getGrade());
             upload.setTreePath(fileAttrDO.getTreePath());
             fileService.save(upload);
-            return success(file.getOriginalFilename());
+            return R.success(file.getOriginalFilename());
         } else {
             //为上传的文件准备好对应的位置
             java.io.File target = wu.getReadySpace(info, uploadFolder);
             log.info("target={}", target.getAbsolutePath());
             if (target == null) {
-                return fail(wu.getErrorMsg());
+                return R.fail(wu.getErrorMsg());
             }
             //保存上传文件
             file.transferTo(target);
-            return success(target.getName());
+            return R.success(target.getName());
         }
 
 

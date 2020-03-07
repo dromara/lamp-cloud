@@ -1,6 +1,6 @@
 package com.github.zuihou.msgs.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.msgs.dao.MsgsCenterInfoReceiveMapper;
 import com.github.zuihou.msgs.entity.MsgsCenterInfoReceive;
 import com.github.zuihou.msgs.service.MsgsCenterInfoReceiveService;
@@ -19,6 +19,6 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class MsgsCenterInfoReceiveServiceImpl extends ServiceImpl<MsgsCenterInfoReceiveMapper, MsgsCenterInfoReceive> implements MsgsCenterInfoReceiveService {
+public class MsgsCenterInfoReceiveServiceImpl extends SuperServiceImpl<MsgsCenterInfoReceiveMapper, MsgsCenterInfoReceive> implements MsgsCenterInfoReceiveService {
 
 }

@@ -1,9 +1,9 @@
 package com.github.zuihou.file.dao;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.github.zuihou.base.mapper.SuperMapper;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
 import com.github.zuihou.file.entity.Attachment;
@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2019-06-24
  */
 @Repository
-public interface AttachmentMapper extends BaseMapper<Attachment> {
+public interface AttachmentMapper extends SuperMapper<Attachment> {
     /**
      * 根据业务类型和业务id， 按照分组查询附件
      *

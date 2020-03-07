@@ -3,7 +3,7 @@ package com.github.zuihou.file.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachment> implements AttachmentService {
+public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, Attachment> implements AttachmentService {
     @Autowired
     private DatabaseProperties databaseProperties;
     @Resource

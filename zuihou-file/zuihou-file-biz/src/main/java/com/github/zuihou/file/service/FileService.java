@@ -1,6 +1,6 @@
 package com.github.zuihou.file.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.file.domain.FileAttrDO;
 import com.github.zuihou.file.domain.FileStatisticsDO;
 import com.github.zuihou.file.dto.FileOverviewDTO;
@@ -24,7 +24,7 @@ import java.util.List;
  * @author zuihou
  * @date 2019-06-24
  */
-public interface FileService extends IService<File> {
+public interface FileService extends SuperService<File> {
     /**
      * 保存文件夹
      *
@@ -52,7 +52,7 @@ public interface FileService extends IService<File> {
      * @param ids    文件id集合
      * @return
      */
-    Boolean removeList(Long userId, Long[] ids);
+    Boolean removeList(Long userId, List<Long> ids);
 
     /**
      * 根据文件夹id查询

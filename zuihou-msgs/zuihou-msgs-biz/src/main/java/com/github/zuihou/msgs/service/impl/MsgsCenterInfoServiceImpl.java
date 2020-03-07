@@ -2,7 +2,7 @@ package com.github.zuihou.msgs.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.msgs.dao.MsgsCenterInfoMapper;
@@ -36,7 +36,7 @@ import static com.github.zuihou.utils.StrHelper.getOrDef;
  */
 @Slf4j
 @Service
-public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper, MsgsCenterInfo> implements MsgsCenterInfoService {
+public class MsgsCenterInfoServiceImpl extends SuperServiceImpl<MsgsCenterInfoMapper, MsgsCenterInfo> implements MsgsCenterInfoService {
     @Autowired
     private MsgsCenterInfoReceiveService msgsCenterInfoReceiveService;
 
@@ -66,7 +66,7 @@ public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper,
     }
 
     @Override
-    public boolean delete(Long[] ids, Long userId) {
+    public boolean delete(List<Long> ids, Long userId) {
         msgsCenterInfoReceiveService.remove(Wraps.<MsgsCenterInfoReceive>lbQ()
                 .eq(MsgsCenterInfoReceive::getUserId, userId)
                 .in(MsgsCenterInfoReceive::getMsgsCenterId, ids));
@@ -97,7 +97,7 @@ public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper,
         if (CollectionUtil.isEmpty(msgCenterIds) || userId == null) {
             return true;
         }
-        List<MsgsCenterInfo> list = (List<MsgsCenterInfo>) super.listByIds(msgCenterIds);
+        List<MsgsCenterInfo> list = super.listByIds(msgCenterIds);
 
         //其他类型的修改状态
         if (!list.isEmpty()) {
@@ -113,12 +113,4 @@ public class MsgsCenterInfoServiceImpl extends ServiceImpl<MsgsCenterInfoMapper,
         return true;
     }
 
-//    private boolean filter(MsgsCenterInfo info, Long userId, List<MsgsCenterInfoReceive> receiveList) {
-//        if (receiveList.isEmpty()) {
-//            return true;
-//        }
-//        return receiveList.stream().anyMatch((receive) ->
-//                !(receive.getMsgsCenterId().equals(info.getId()) && receive.getUserId().equals(userId))
-//        );
-//    }
 }

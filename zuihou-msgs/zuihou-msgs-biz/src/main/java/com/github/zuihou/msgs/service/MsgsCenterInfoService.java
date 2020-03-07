@@ -1,7 +1,7 @@
 package com.github.zuihou.msgs.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoPageResultDTO;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoQueryDTO;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoSaveDTO;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author zuihou
  * @date 2019-08-01
  */
-public interface MsgsCenterInfoService extends IService<MsgsCenterInfo> {
+public interface MsgsCenterInfoService extends SuperService<MsgsCenterInfo> {
 
     /**
      * 保存消息
@@ -35,7 +35,7 @@ public interface MsgsCenterInfoService extends IService<MsgsCenterInfo> {
      * @param userId
      * @return
      */
-    boolean delete(Long[] ids, Long userId);
+    boolean delete(List<Long> ids, Long userId);
 
     /**
      * 标记状态

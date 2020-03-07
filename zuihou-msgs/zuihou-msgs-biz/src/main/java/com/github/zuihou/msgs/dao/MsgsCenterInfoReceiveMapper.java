@@ -1,6 +1,6 @@
 package com.github.zuihou.msgs.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.zuihou.base.mapper.SuperMapper;
 import com.github.zuihou.msgs.entity.MsgsCenterInfoReceive;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019-08-01
  */
 @Repository
-public interface MsgsCenterInfoReceiveMapper extends BaseMapper<MsgsCenterInfoReceive> {
+public interface MsgsCenterInfoReceiveMapper extends SuperMapper<MsgsCenterInfoReceive> {
 
 }
