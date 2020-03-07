@@ -40,7 +40,7 @@ public interface AttachmentService extends SuperService<Attachment> {
      *
      * @param ids
      */
-    void remove(Long[] ids);
+    boolean remove(List<Long> ids);
 
     /**
      * 根据业务id和业务类型删除附件
@@ -48,7 +48,7 @@ public interface AttachmentService extends SuperService<Attachment> {
      * @param bizId
      * @param bizType
      */
-    void removeByBizIdAndBizType(String bizId, String bizType);
+    boolean removeByBizIdAndBizType(String bizId, String bizType);
 
     /**
      * 根据业务类型和业务id查询附件

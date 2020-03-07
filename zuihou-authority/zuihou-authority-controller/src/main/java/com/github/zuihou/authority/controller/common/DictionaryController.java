@@ -39,7 +39,7 @@ public class DictionaryController extends SuperController<DictionaryService, Lon
     private DictionaryItemService dictionaryItemService;
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         this.baseService.removeByIds(ids);
         this.dictionaryItemService.remove(Wraps.<DictionaryItem>lbQ().in(DictionaryItem::getDictionaryId, ids));
         return this.success(true);

@@ -78,7 +78,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @return
      */
     @Override
-    protected R<User> handlerSave(UserSaveDTO data) {
+    public R<User> handlerSave(UserSaveDTO data) {
         User user = BeanUtil.toBean(data, User.class);
         baseService.saveUser(user);
         return success(user);
@@ -91,7 +91,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @return
      */
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         baseService.remove(ids);
         return success(true);
     }
@@ -103,7 +103,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @return
      */
     @Override
-    protected R<User> handlerUpdate(UserUpdateDTO data) {
+    public R<User> handlerUpdate(UserUpdateDTO data) {
         User user = BeanUtil.toBean(data, User.class);
         baseService.updateUser(user);
         return success(user);
@@ -294,7 +294,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param list
      */
     @Override
-    protected void handlerImport(List<Map<String, String>> list) {
+    public void handlerImport(List<Map<String, String>> list) {
         List<User> userList = list.stream().map((map) -> {
             User user = new User();
             user.setAccount(map.getOrDefault("账号", ""));
@@ -330,7 +330,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param defSize
      */
     @Override
-    protected void query(PageParams<UserPageDTO> params, IPage<User> page, Long defSize) {
+    public void query(PageParams<UserPageDTO> params, IPage<User> page, Long defSize) {
         UserPageDTO userPage = params.getModel();
 
         QueryWrap<User> wrap = Wraps.q();

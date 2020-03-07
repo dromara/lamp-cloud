@@ -1,6 +1,5 @@
 package com.github.zuihou.demo.controller.test;
 
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.demo.entity.Product;
 import com.github.zuihou.demo.service.ProductService;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/seata")
 @Api(value = "SeataTxController", tags = "分布式事务测试类")
-public class SeataTxController extends BaseController {
+public class SeataTxController {
 
     @Autowired
     private ProductService productService;
@@ -34,7 +33,7 @@ public class SeataTxController extends BaseController {
     public R<Product> save(@RequestBody Product data) {
         log.info("data={}", data);
         productService.save(data);
-        return success(data);
+        return R.success(data);
     }
 
     @PostMapping("/saveEx")
@@ -42,6 +41,6 @@ public class SeataTxController extends BaseController {
         log.info("data={}", data);
         productService.save(data);
         int i = 1 / 0;
-        return success(data);
+        return R.success(data);
     }
 }

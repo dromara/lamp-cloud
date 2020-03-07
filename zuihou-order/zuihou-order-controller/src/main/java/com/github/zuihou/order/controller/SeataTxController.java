@@ -1,7 +1,6 @@
 package com.github.zuihou.order.controller;
 
 import com.github.zuihou.authority.entity.core.Org;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
 import com.github.zuihou.order.api.DemoTestApi;
 import com.github.zuihou.order.entity.Order;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/seata")
 @Api(value = "SeataTxController", tags = "分布式事务测试类")
-public class SeataTxController extends BaseController {
+public class SeataTxController {
 
     @Autowired
     private OrderService orderService;
@@ -51,7 +50,7 @@ public class SeataTxController extends BaseController {
                 .name(data.getLabel())
                 .build();
         this.orderService.save(entity);
-        return this.success(data);
+        return R.success(data);
     }
 
     /**
@@ -70,7 +69,7 @@ public class SeataTxController extends BaseController {
                 .name(data.getLabel())
                 .build();
         this.orderService.save(entity);
-        return this.success(data);
+        return R.success(data);
     }
 
     /**
@@ -124,6 +123,6 @@ public class SeataTxController extends BaseController {
                 .name(data.getLabel())
                 .build();
         this.orderService.save(entity);
-        return this.success(data);
+        return R.success(data);
     }
 }

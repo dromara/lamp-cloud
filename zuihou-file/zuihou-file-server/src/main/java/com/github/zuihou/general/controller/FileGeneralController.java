@@ -1,9 +1,7 @@
 package com.github.zuihou.general.controller;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.github.zuihou.authority.api.DictionaryItemApi;
 import com.github.zuihou.authority.api.OrgApi;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.BaseEnum;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.enums.HttpMethod;
@@ -33,7 +31,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @Api(value = "Common", tags = "公共Controller")
-public class FileGeneralController extends BaseController {
+public class FileGeneralController {
 
     private final static Map<String, Map<String, String>> ENUM_MAP = new HashMap<>(1);
 
@@ -44,15 +42,13 @@ public class FileGeneralController extends BaseController {
     @Autowired
     private OrgApi orgApi;
     @Autowired
-    private DictionaryItemApi dictionaryItemApi;
-    @Autowired
     private InjectionCore injectionCore;
 
     @ApiOperation(value = "获取当前系统指定枚举", notes = "获取当前系统指定枚举")
     @GetMapping("/enums")
     public R<Map<String, Map<String, String>>> enums(@RequestParam(value = "codes[]", required = false) String[] codes) {
         if (ArrayUtil.isEmpty(codes)) {
-            return success(ENUM_MAP);
+            return R.success(ENUM_MAP);
         }
 
         Map<String, Map<String, String>> map = new HashMap<>(codes.length);
@@ -61,7 +57,7 @@ public class FileGeneralController extends BaseController {
                 map.put(code, ENUM_MAP.get(code));
             }
         }
-        return success(map);
+        return R.success(map);
     }
 
     @GetMapping("/feign")
@@ -76,7 +72,7 @@ public class FileGeneralController extends BaseController {
 //        items.add("NATION");
 //        Map<Serializable, Object> map3 = dictionaryItemApi.findDictionaryItem(items);
 
-        return success(map1);
+        return R.success(map1);
     }
 
     @GetMapping("/feign2")
@@ -98,7 +94,7 @@ public class FileGeneralController extends BaseController {
 
         injectionCore.injection(haha, false);
 
-        return success(haha);
+        return R.success(haha);
     }
 
 
