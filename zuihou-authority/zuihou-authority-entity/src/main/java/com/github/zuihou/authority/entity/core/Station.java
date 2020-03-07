@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.entity.core;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -46,6 +48,7 @@ public class Station extends Entity<Long> {
     @NotEmpty(message = "名称不能为空")
     @Length(max = 255, message = "名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "名称")
     private String name;
 
     /**
@@ -55,6 +58,8 @@ public class Station extends Entity<Long> {
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
     @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD)
+    @Excel(name = "组织")
+    @ExcelEntity(name = "")
     private RemoteData<Long, com.github.zuihou.authority.entity.core.Org> org;
 
 
@@ -63,6 +68,7 @@ public class Station extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
     /**
@@ -71,6 +77,7 @@ public class Station extends Entity<Long> {
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "描述", width = 50)
     private String describe;
 
 

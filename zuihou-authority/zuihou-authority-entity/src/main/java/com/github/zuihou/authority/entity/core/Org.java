@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.core;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.TreeEntity;
@@ -34,12 +35,16 @@ public class Org extends TreeEntity<Org, Long> {
 
     private static final long serialVersionUID = 1L;
 
+    @Excel(name = "名称", width = 50)
+    protected String label;
+
     /**
      * 简称
      */
     @ApiModelProperty(value = "简称")
     @Length(max = 255, message = "简称长度不能超过255")
     @TableField(value = "abbreviation", condition = LIKE)
+    @Excel(name = "简称", width = 30)
     private String abbreviation;
 
 
@@ -56,6 +61,7 @@ public class Org extends TreeEntity<Org, Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
     /**
@@ -64,6 +70,7 @@ public class Org extends TreeEntity<Org, Long> {
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "描述", width = 50)
     private String describe;
 
 

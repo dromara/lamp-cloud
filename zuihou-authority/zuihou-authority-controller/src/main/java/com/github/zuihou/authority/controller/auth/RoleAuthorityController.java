@@ -7,8 +7,6 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.log.annotation.SysLog;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +44,9 @@ public class RoleAuthorityController {
      * @return 查询结果
      */
     @ApiOperation(value = "查询指定角色关联的菜单和资源", notes = "查询指定角色关联的菜单和资源")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
     @GetMapping("/{roleId}")
-    @SysLog("查询指定角色关联的菜单和资源")
-    public R<List<RoleAuthority>> page(@PathVariable Long roleId) {
+    @SysLog(value = "'查询指定角色关联的菜单和资源", response = false)
+    public R<List<RoleAuthority>> queryByRoleId(@PathVariable Long roleId) {
         return R.success(roleAuthorityService.list(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleId)));
     }
 

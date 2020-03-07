@@ -1,11 +1,15 @@
 package com.github.zuihou.authority.service.common.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.common.ParameterMapper;
 import com.github.zuihou.authority.entity.common.Parameter;
 import com.github.zuihou.authority.service.common.ParameterService;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+
+import static com.github.zuihou.common.constant.CacheKey.PARAMETER;
 
 /**
  * <p>
@@ -18,6 +22,15 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class ParameterServiceImpl extends ServiceImpl<ParameterMapper, Parameter> implements ParameterService {
+@CacheConfig(cacheNames = PARAMETER)
+public class ParameterServiceImpl extends SuperCacheServiceImpl<ParameterMapper, Parameter> implements ParameterService {
 
+    @Override
+    protected String getRegion() {
+        return PARAMETER;
+    }
+
+    protected ParameterService currentProxy() {
+        return ((ParameterService) AopContext.currentProxy());
+    }
 }

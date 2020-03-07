@@ -1,25 +1,20 @@
 package com.github.zuihou.authority.controller.common;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.common.OptLogUpdateDTO;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.service.common.OptLogService;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.base.controller.SuperController;
 import com.github.zuihou.log.entity.OptLogDTO;
+import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -35,45 +30,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/optLog")
 @Api(value = "OptLog", tags = "系统日志")
-public class OptLogController extends BaseController {
+public class OptLogController extends SuperController<OptLogService, Long, OptLog, OptLog, OptLogDTO, OptLogUpdateDTO> {
 
-    @Autowired
-    private OptLogService optLogService;
-
-    /**
-     * 分页查询系统日志
-     *
-     * @param data 分页查询对象
-     * @return 查询结果
-     */
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @ApiOperation(value = "分页查询系统日志", notes = "分页查询系统日志")
-    @GetMapping("/page")
-    public R<IPage<OptLog>> page(OptLog data) {
-        IPage<OptLog> page = getPage();
-        // 构建值不为null的查询条件
-        LbqWrapper<OptLog> query = Wraps.lbQ(data)
-                .leFooter(OptLog::getCreateTime, getEndCreateTime())
-                .geHeader(OptLog::getCreateTime, getStartCreateTime())
-                .orderByDesc(OptLog::getId);
-        optLogService.page(page, query);
-        return success(page);
-    }
-
-    /**
-     * 查询系统日志
-     *
-     * @param id 主键id
-     * @return 查询结果
-     */
-    @ApiOperation(value = "查询系统日志", notes = "查询系统日志")
-    @GetMapping("/{id}")
-    public R<OptLog> get(@PathVariable Long id) {
-        return success(optLogService.getById(id));
-    }
 
     /**
      * 保存系统日志
@@ -81,25 +39,11 @@ public class OptLogController extends BaseController {
      * @param data 保存对象
      * @return 保存结果
      */
+    @Override
     @ApiOperation(value = "保存系统日志", notes = "保存系统日志不为空的字段")
-    @PostMapping
-    public R<OptLogDTO> save(@RequestBody OptLogDTO data) {
-        optLogService.save(data);
-        return success(data);
-    }
-
-    /**
-     * 删除系统日志
-     *
-     * @param ids 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除系统日志", notes = "根据id物理删除系统日志")
-    @DeleteMapping
-    @SysLog("删除系统日志")
-    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        optLogService.removeByIds(ids);
-        return success(true);
+    public R<OptLog> save(@RequestBody OptLogDTO data) {
+        baseService.save(data);
+        return success(BeanPlusUtil.toBean(data, OptLog.class));
     }
 
 }

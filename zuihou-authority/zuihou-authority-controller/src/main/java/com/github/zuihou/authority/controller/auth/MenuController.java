@@ -121,6 +121,12 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
         tenant.setPath("/defaults/tenant");
         tenant.setComponent("zuihou/defaults/tenant/Index");
         tenant.setHidden(false);
+        // 没有name ，刷新页面后，切换菜单会报错：
+        // [Vue warn]: Error in nextTick: "TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))"
+        // found in
+        // <TagsView> at src/layout/components/TagsView/index.vue
+        tenant.setName("租户管理");
+        tenant.setAlwaysShow(true);
         tenant.setMeta(RouterMeta.builder()
                 .title("租户管理").breadcrumb(true).icon("")
                 .build());
@@ -131,6 +137,7 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
         VueRouter globalUser = new VueRouter();
         globalUser.setPath("/defaults/globaluser");
         globalUser.setComponent("zuihou/defaults/globaluser/Index");
+        globalUser.setName("全局用户");
         globalUser.setHidden(false);
         globalUser.setMeta(RouterMeta.builder()
                 .title("全局用户").breadcrumb(true).icon("")
@@ -143,6 +150,7 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
         defaults.setPath("/defaults");
         defaults.setComponent("Layout");
         defaults.setHidden(false);
+        defaults.setName("系统设置");
         defaults.setAlwaysShow(true);
         defaults.setMeta(RouterMeta.builder()
                 .title("系统设置").icon("el-icon-coin").breadcrumb(true)

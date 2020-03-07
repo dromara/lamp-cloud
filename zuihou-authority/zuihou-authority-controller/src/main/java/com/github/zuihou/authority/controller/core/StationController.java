@@ -1,29 +1,27 @@
 package com.github.zuihou.authority.controller.core;
 
-import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.dto.core.StationSaveDTO;
 import com.github.zuihou.authority.dto.core.StationUpdateDTO;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.service.core.StationService;
-import com.github.zuihou.base.BaseController;
-import com.github.zuihou.base.R;
-import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.base.controller.SuperCacheController;
+import com.github.zuihou.base.request.PageParams;
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -38,86 +36,11 @@ import java.util.Set;
 @RestController
 @RequestMapping("/station")
 @Api(value = "Station", tags = "岗位")
-public class StationController extends BaseController {
+public class StationController extends SuperCacheController<StationService, Long, Station, StationPageDTO, StationSaveDTO, StationUpdateDTO> {
 
-    @Autowired
-    private StationService stationService;
-
-
-    /**
-     * 分页查询岗位
-     *
-     * @param data 分页查询对象
-     * @return 查询结果
-     */
-    @ApiOperation(value = "分页查询岗位", notes = "分页查询岗位")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping("/page")
-    @SysLog("分页查询岗位")
-    public R<IPage<Station>> page(StationPageDTO data) {
-        IPage<Station> page = getPage();
-        stationService.findStationPage(page, data);
-        return success(page);
-    }
-
-    /**
-     * 查询岗位
-     *
-     * @param id 主键id
-     * @return 查询结果
-     */
-    @ApiOperation(value = "查询岗位", notes = "查询岗位")
-    @GetMapping("/{id}")
-    @SysLog("查询岗位")
-    public R<Station> get(@PathVariable Long id) {
-        return success(stationService.getById(id));
-    }
-
-    /**
-     * 新增岗位
-     *
-     * @param data 新增对象
-     * @return 新增结果
-     */
-    @ApiOperation(value = "新增岗位", notes = "新增岗位不为空的字段")
-    @PostMapping
-    @SysLog("新增岗位")
-    public R<Station> save(@RequestBody @Validated StationSaveDTO data) {
-        Station station = BeanUtil.toBean(data, Station.class);
-        stationService.save(station);
-        return success(station);
-    }
-
-    /**
-     * 修改岗位
-     *
-     * @param data 修改对象
-     * @return 修改结果
-     */
-    @ApiOperation(value = "修改岗位", notes = "修改岗位不为空的字段")
-    @PutMapping
-    @SysLog("修改岗位")
-    public R<Station> update(@RequestBody @Validated(SuperEntity.Update.class) StationUpdateDTO data) {
-        Station station = BeanUtil.toBean(data, Station.class);
-        stationService.updateById(station);
-        return success(station);
-    }
-
-    /**
-     * 删除岗位
-     *
-     * @param ids 主键id
-     * @return 删除结果
-     */
-    @ApiOperation(value = "删除岗位", notes = "根据id物理删除岗位")
-    @SysLog("删除岗位")
-    @DeleteMapping
-    public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        stationService.removeByIds(ids);
-        return success();
+    @Override
+    protected void query(PageParams<StationPageDTO> params, IPage<Station> page, Long defSize) {
+        baseService.findStationPage(page, params.getModel());
     }
 
     /**
@@ -130,12 +53,12 @@ public class StationController extends BaseController {
      * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
      * {@link com.github.zuihou.authority.api.StationApi#findStationByIds} 方法的实现类
      *
-     * @param codes id
+     * @param ids id
      * @return
      */
     @GetMapping("/findStationByIds")
-    public Map<Serializable, Object> findStationByIds(@RequestParam("ids") Set<Long> ids) {
-        return stationService.findStationByIds(ids);
+    public Map<Serializable, Object> findStationByIds(@RequestParam("ids") Set<Serializable> ids) {
+        return baseService.findStationByIds(ids);
     }
 
     /**
@@ -148,12 +71,38 @@ public class StationController extends BaseController {
      * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
      * {@link com.github.zuihou.authority.api.StationApi#findStationNameByIds} 方法的实现类
      *
-     * @param codes id
+     * @param ids id
      * @return
      */
     @GetMapping("/findStationNameByIds")
-    public Map<Serializable, Object> findStationNameByIds(@RequestParam("ids") Set<Long> ids) {
-        return stationService.findStationNameByIds(ids);
+    public Map<Serializable, Object> findStationNameByIds(@RequestParam("ids") Set<Serializable> ids) {
+        return baseService.findStationNameByIds(ids);
     }
 
+    @Override
+    protected void handlerImport(List<Map<String, String>> list) {
+        List<Station> userList = list.stream().map((map) -> {
+            Station item = new Station();
+            item.setDescribe(map.getOrDefault("描述", ""));
+            item.setName(map.getOrDefault("名称", ""));
+            item.setOrg(new RemoteData<>(Convert.toLong(map.getOrDefault("组织", ""))));
+            item.setStatus(Convert.toBool(map.getOrDefault("状态", "")));
+            return item;
+        }).collect(Collectors.toList());
+
+        baseService.saveBatch(userList);
+    }
+
+
+//    @Override
+//    public R<Boolean> importExcel(MultipartFile simpleFile) throws Exception {
+//        ImportParams params = new ImportParams();
+//        params.setTitleRows(0);
+//        params.setHeadRows(1);
+//        params.setNeedVerify(true);
+//
+//        List<Map<String, String>> list = ExcelImportUtil.importExcel(simpleFile.getInputStream(), Map.class, params);
+//
+//        return success();
+//    }
 }

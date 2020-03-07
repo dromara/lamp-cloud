@@ -51,6 +51,15 @@ public enum Sex implements BaseEnum {
         return def;
     }
 
+    public static Sex matchDesc(String val, Sex def) {
+        for (Sex enm : Sex.values()) {
+            if (enm.getDesc().equalsIgnoreCase(val)) {
+                return enm;
+            }
+        }
+        return def;
+    }
+
     public static Sex get(String val) {
         return match(val, null);
     }

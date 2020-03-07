@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.common;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.common.Area;
+import com.github.zuihou.base.service.SuperCacheService;
 
 import java.util.List;
 
@@ -14,25 +14,13 @@ import java.util.List;
  * @author zuihou
  * @date 2019-07-02
  */
-public interface AreaService extends IService<Area> {
-    /**
-     * 从缓存查
-     *
-     * @param id
-     * @return
-     */
-    Area getByIdWithCache(Long id);
+public interface AreaService extends SuperCacheService<Area> {
 
     /**
-     * 查询 所有的数据
+     * 递归删除
      *
+     * @param ids
      * @return
      */
-    List<Area> findAll();
-
-    boolean saveWithCache(Area area);
-
-    boolean updateWithCache(Area area);
-
-    boolean removeByIdWithCache(List<Long> ids);
+    boolean recursively(List<Long> ids);
 }

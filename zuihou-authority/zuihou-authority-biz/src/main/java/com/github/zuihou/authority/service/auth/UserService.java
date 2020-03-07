@@ -135,7 +135,7 @@ public interface UserService extends SuperCacheService<User> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findUserByIds(Set<Long> ids);
+    Map<Serializable, Object> findUserByIds(Set<Serializable> ids);
 
     /**
      * 根据 id 查询用户名称
@@ -143,7 +143,7 @@ public interface UserService extends SuperCacheService<User> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findUserNameByIds(Set<Long> ids);
+    Map<Serializable, Object> findUserNameByIds(Set<Serializable> ids);
 
     /**
      * 根据id 查询用户详情

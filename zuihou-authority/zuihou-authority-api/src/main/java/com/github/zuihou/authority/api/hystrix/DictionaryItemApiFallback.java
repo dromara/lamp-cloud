@@ -16,10 +16,6 @@ import java.util.Set;
  */
 @Component
 public class DictionaryItemApiFallback implements DictionaryItemApi {
-//    @Override
-//    public R<Map<String, Map<String, String>>> map(String[] codes) {
-//        return R.timeout();
-//    }
 
     @Override
     public Map<Serializable, Object> findDictionaryItem(Set<Serializable> codes) {

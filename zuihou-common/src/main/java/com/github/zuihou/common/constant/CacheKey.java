@@ -27,6 +27,16 @@ public interface CacheKey {
      * 完整key: menu:{menuId} -> obj
      */
     String MENU = "menu";
+    /**
+     * 组织 前缀
+     * 完整key: station:{stationId} -> obj
+     */
+    String ORG = "org";
+    /**
+     * 岗位 前缀
+     * 完整key: station:{stationId} -> obj
+     */
+    String STATION = "station";
 
     /**
      * 资源 前缀
@@ -127,6 +137,24 @@ public interface CacheKey {
      */
     String AREA_ALL = "area_all";
 
+    /**
+     * 字典 前缀
+     * 完整key: dictionary_item:{id} -> obj
+     */
+    String DICTIONARY_ITEM = "dictionary_item";
+
+    /**
+     * 参数 前缀
+     * 完整key: parameter:{id} -> obj
+     */
+    String PARAMETER = "parameter";
+
+
+    /**
+     * 租户 前缀
+     * 完整key: tenant:{id} -> obj
+     */
+    String TENANT = "tenant";
     // 权限系统缓存 end
 
 
