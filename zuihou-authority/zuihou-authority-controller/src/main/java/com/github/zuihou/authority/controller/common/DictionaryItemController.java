@@ -39,7 +39,7 @@ import java.util.Set;
 public class DictionaryItemController extends SuperCacheController<DictionaryItemService, Long, DictionaryItem, DictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO> {
 
     @Override
-    protected void handlerWrapper(QueryWrap<DictionaryItem> wrapper, PageParams<DictionaryItem> params) {
+    public void handlerWrapper(QueryWrap<DictionaryItem> wrapper, PageParams<DictionaryItem> params) {
         super.handlerWrapper(wrapper, params);
         DictionaryItem model = params.getModel();
         wrapper.lambda().ignore(DictionaryItem::setDictionaryCode)

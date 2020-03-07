@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -134,5 +135,10 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     public List<Map<String, Object>> findByOperatingSystem() {
         CacheObject cacheObject = this.cache.get(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.buildTenantKey(), (key) -> this.baseMapper.findByOperatingSystem());
         return (List<Map<String, Object>>) cacheObject.getValue();
+    }
+
+    @Override
+    public boolean clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum) {
+        return baseMapper.clearLog(clearBeforeTime, clearBeforeNum);
     }
 }

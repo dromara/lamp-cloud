@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 public class StationController extends SuperCacheController<StationService, Long, Station, StationPageDTO, StationSaveDTO, StationUpdateDTO> {
 
     @Override
-    protected void query(PageParams<StationPageDTO> params, IPage<Station> page, Long defSize) {
+    public void query(PageParams<StationPageDTO> params, IPage<Station> page, Long defSize) {
         baseService.findStationPage(page, params.getModel());
     }
 
@@ -80,7 +80,7 @@ public class StationController extends SuperCacheController<StationService, Long
     }
 
     @Override
-    protected void handlerImport(List<Map<String, String>> list) {
+    public void handlerImport(List<Map<String, String>> list) {
         List<Station> userList = list.stream().map((map) -> {
             Station item = new Station();
             item.setDescribe(map.getOrDefault("描述", ""));

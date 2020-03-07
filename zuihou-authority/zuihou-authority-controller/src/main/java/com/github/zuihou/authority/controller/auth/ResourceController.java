@@ -35,19 +35,19 @@ import java.util.List;
 @Api(value = "Resource", tags = "资源")
 public class ResourceController extends SuperCacheController<ResourceService, Long, Resource, Resource, ResourceSaveDTO, ResourceUpdateDTO> {
     @Override
-    protected R<Resource> handlerSave(ResourceSaveDTO data) {
+    public R<Resource> handlerSave(ResourceSaveDTO data) {
         Resource resource = BeanPlusUtil.toBean(data, Resource.class);
         baseService.saveWithCache(resource);
         return success(resource);
     }
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         return success(baseService.removeByIdWithCache(ids));
     }
 
     @Override
-    protected R<Resource> handlerUpdate(ResourceUpdateDTO data) {
+    public R<Resource> handlerUpdate(ResourceUpdateDTO data) {
         Resource resource = BeanPlusUtil.toBean(data, Resource.class);
         baseService.updateById(resource);
         return success(resource);

@@ -1,5 +1,6 @@
 package com.github.zuihou.file.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -25,7 +26,6 @@ import com.github.zuihou.file.strategy.FileStrategy;
 import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,18 +117,18 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
     }
 
     @Override
-    public void remove(Long[] ids) {
-        if (ArrayUtils.isEmpty(ids)) {
-            return;
+    public boolean remove(List<Long> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return false;
         }
 
         List<Attachment> list = super.list(Wrappers.<Attachment>lambdaQuery().in(Attachment::getId, ids));
         if (list.isEmpty()) {
-            return;
+            return false;
         }
-        super.removeByIds(Arrays.asList(ids));
+        boolean bool = super.removeByIds(ids);
 
-        fileStrategy.delete(list.stream().map((fi) -> FileDeleteDO.builder()
+        boolean boolDel = fileStrategy.delete(list.stream().map((fi) -> FileDeleteDO.builder()
                 .relativePath(fi.getRelativePath())
                 .fileName(fi.getFilename())
                 .group(fi.getGroup())
@@ -136,18 +136,19 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
                 .file(false)
                 .build())
                 .collect(Collectors.toList()));
+        return bool && boolDel;
     }
 
     @Override
-    public void removeByBizIdAndBizType(String bizId, String bizType) {
+    public boolean removeByBizIdAndBizType(String bizId, String bizType) {
         List<Attachment> list = super.list(
                 Wraps.<Attachment>lbQ()
                         .eq(Attachment::getBizId, bizId)
                         .eq(Attachment::getBizType, bizType));
         if (list.isEmpty()) {
-            return;
+            return false;
         }
-        remove(list.stream().mapToLong(Attachment::getId).boxed().toArray(Long[]::new));
+        return remove(list.stream().mapToLong(Attachment::getId).boxed().collect(Collectors.toList()));
     }
 
     @Override

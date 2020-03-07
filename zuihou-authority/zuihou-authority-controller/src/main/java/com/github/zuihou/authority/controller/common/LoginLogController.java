@@ -11,6 +11,7 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.log.util.AddressUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -50,7 +52,7 @@ public class LoginLogController extends SuperController<LoginLogService, Long, L
      * @return 查询结果
      */
     @Override
-    protected void handlerWrapper(QueryWrap<LoginLog> wrapper, PageParams<LoginLog> params) {
+    public void handlerWrapper(QueryWrap<LoginLog> wrapper, PageParams<LoginLog> params) {
         super.handlerWrapper(wrapper, params);
         LoginLog model = params.getModel();
 
@@ -85,4 +87,34 @@ public class LoginLogController extends SuperController<LoginLogService, Long, L
     }
 
 
+    @ApiOperation("清空日志")
+    @DeleteMapping("clear")
+    @SysLog("清空日志")
+    public R<Boolean> clear(@RequestParam(required = false, defaultValue = "1") Integer type) {
+        LocalDateTime clearBeforeTime = null;
+        Integer clearBeforeNum = null;
+        if (type == 1) {
+            clearBeforeTime = LocalDateTime.now().plusMonths(-1);
+        } else if (type == 2) {
+            clearBeforeTime = LocalDateTime.now().plusMonths(-3);
+        } else if (type == 3) {
+            clearBeforeTime = LocalDateTime.now().plusMonths(-6);
+        } else if (type == 4) {
+            clearBeforeTime = LocalDateTime.now().plusMonths(-12);
+        } else if (type == 5) {
+            clearBeforeNum = 1000;        // 清理一千条以前日志数据
+        } else if (type == 6) {
+            clearBeforeNum = 10000;        // 清理一万条以前日志数据
+        } else if (type == 7) {
+            clearBeforeNum = 30000;        // 清理三万条以前日志数据
+        } else if (type == 8) {
+            clearBeforeNum = 100000;    // 清理十万条以前日志数据
+        } else if (type == 9) {
+            clearBeforeNum = null;            // 清理所有日志数据
+        } else {
+            return R.validFail("参数错误");
+        }
+
+        return success(baseService.clearLog(clearBeforeTime, clearBeforeNum));
+    }
 }

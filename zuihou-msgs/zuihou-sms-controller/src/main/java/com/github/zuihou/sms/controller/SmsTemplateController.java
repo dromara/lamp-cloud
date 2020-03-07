@@ -36,14 +36,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class SmsTemplateController extends SuperController<SmsTemplateService, Long, SmsTemplate, SmsTemplate, SmsTemplateSaveDTO, SmsTemplateUpdateDTO> {
 
     @Override
-    protected R<SmsTemplate> handlerSave(SmsTemplateSaveDTO data) {
+    public R<SmsTemplate> handlerSave(SmsTemplateSaveDTO data) {
         SmsTemplate smsTemplate = BeanPlusUtil.toBean(data, SmsTemplate.class);
         baseService.saveTemplate(smsTemplate);
         return success(smsTemplate);
     }
 
     @Override
-    protected R<SmsTemplate> handlerUpdate(SmsTemplateUpdateDTO model) {
+    public R<SmsTemplate> handlerUpdate(SmsTemplateUpdateDTO model) {
         SmsTemplate smsTemplate = BeanPlusUtil.toBean(model, SmsTemplate.class);
         baseService.updateTemplate(smsTemplate);
         return success(smsTemplate);

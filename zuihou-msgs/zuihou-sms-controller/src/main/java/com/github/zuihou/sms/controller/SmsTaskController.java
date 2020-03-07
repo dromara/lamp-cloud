@@ -59,7 +59,7 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
     }
 
     @Override
-    protected R<SmsTask> handlerSave(SmsTaskSaveDTO data) {
+    public R<SmsTask> handlerSave(SmsTaskSaveDTO data) {
         SmsTask smsTask = BeanPlusUtil.toBean(data, SmsTask.class);
         smsTask.setSourceType(SourceType.APP);
         smsTask.setTemplateParams(data.getTemplateParam().toString());
@@ -68,7 +68,7 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
     }
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         boolean bool = baseService.removeByIds(ids);
 
         smsSendStatusService.remove(Wraps.<SmsSendStatus>lbQ().in(SmsSendStatus::getTaskId, ids));
@@ -76,7 +76,7 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
     }
 
     @Override
-    protected R<SmsTask> handlerUpdate(SmsTaskUpdateDTO data) {
+    public R<SmsTask> handlerUpdate(SmsTaskUpdateDTO data) {
         SmsTask smsTask = BeanPlusUtil.toBean(data, SmsTask.class);
         smsTask.setSourceType(SourceType.APP);
         smsTask.setTemplateParams(data.getTemplateParam().toString());

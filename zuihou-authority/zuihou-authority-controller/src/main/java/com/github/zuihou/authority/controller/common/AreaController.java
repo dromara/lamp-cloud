@@ -45,7 +45,7 @@ public class AreaController extends SuperCacheController<AreaService, Long, Area
 
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         //TODO 重点测试递归删除
         return R.success(baseService.recursively(ids));
     }

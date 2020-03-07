@@ -44,12 +44,12 @@ public class FileController extends SuperController<FileService, Long, File, Fil
     private FileRestManager fileRestManager;
 
     @Override
-    protected void query(PageParams<FilePageReqDTO> params, IPage<File> page, Long defSize) {
+    public void query(PageParams<FilePageReqDTO> params, IPage<File> page, Long defSize) {
         fileRestManager.page(page, params.getModel());
     }
 
     @Override
-    protected R<File> handlerSave(FolderSaveDTO model) {
+    public R<File> handlerSave(FolderSaveDTO model) {
         FolderDTO folder = baseService.saveFolder(model);
         return success(BeanPlusUtil.toBean(folder, File.class));
     }
@@ -90,7 +90,7 @@ public class FileController extends SuperController<FileService, Long, File, Fil
 
 
     @Override
-    protected R<File> handlerUpdate(FileUpdateDTO fileUpdateDTO) {
+    public R<File> handlerUpdate(FileUpdateDTO fileUpdateDTO) {
         // 判断文件名是否有 后缀
         if (StringUtils.isNotEmpty(fileUpdateDTO.getSubmittedFileName())) {
             File oldFile = baseService.getById(fileUpdateDTO.getId());
@@ -105,7 +105,7 @@ public class FileController extends SuperController<FileService, Long, File, Fil
     }
 
     @Override
-    protected R<Boolean> handlerDelete(List<Long> ids) {
+    public R<Boolean> handlerDelete(List<Long> ids) {
         Long userId = getUserId();
         return success(baseService.removeList(userId, ids));
     }
