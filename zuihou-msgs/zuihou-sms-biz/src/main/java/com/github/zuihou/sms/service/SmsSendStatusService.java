@@ -1,6 +1,6 @@
 package com.github.zuihou.sms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.sms.entity.SmsSendStatus;
 
 /**
@@ -12,6 +12,6 @@ import com.github.zuihou.sms.entity.SmsSendStatus;
  * @author zuihou
  * @date 2019-08-01
  */
-public interface SmsSendStatusService extends IService<SmsSendStatus> {
+public interface SmsSendStatusService extends SuperService<SmsSendStatus> {
 
 }

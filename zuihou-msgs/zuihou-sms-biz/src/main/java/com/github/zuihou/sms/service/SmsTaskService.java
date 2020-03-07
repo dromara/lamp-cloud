@@ -1,6 +1,6 @@
 package com.github.zuihou.sms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.enumeration.TemplateCodeType;
 
@@ -15,7 +15,7 @@ import com.github.zuihou.sms.enumeration.TemplateCodeType;
  * @author zuihou
  * @date 2019-08-01
  */
-public interface SmsTaskService extends IService<SmsTask> {
+public interface SmsTaskService extends SuperService<SmsTask> {
     /**
      * 保存任务
      *

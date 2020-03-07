@@ -1,7 +1,7 @@
 package com.github.zuihou.file.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.file.dto.AttachmentDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
 import com.github.zuihou.file.dto.FilePageReqDTO;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author zuihou
  * @date 2019-06-24
  */
-public interface AttachmentService extends IService<Attachment> {
+public interface AttachmentService extends SuperService<Attachment> {
     /**
      * 上传附件
      *

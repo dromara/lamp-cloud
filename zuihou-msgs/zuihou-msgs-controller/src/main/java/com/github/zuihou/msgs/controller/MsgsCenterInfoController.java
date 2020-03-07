@@ -5,8 +5,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.api.RoleApi;
 import com.github.zuihou.authority.api.UserApi;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
+import com.github.zuihou.base.request.PageParams;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoPageResultDTO;
 import com.github.zuihou.msgs.dto.MsgsCenterInfoQueryDTO;
@@ -15,8 +16,6 @@ import com.github.zuihou.msgs.entity.MsgsCenterInfo;
 import com.github.zuihou.msgs.enumeration.MsgsCenterType;
 import com.github.zuihou.msgs.service.MsgsCenterInfoService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,11 @@ import java.util.List;
  * @date 2019-08-01
  */
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/msgsCenterInfo")
 @Api(value = "MsgsCenterInfo", tags = "消息中心")
-public class MsgsCenterInfoController extends BaseController {
+@Validated
+public class MsgsCenterInfoController {
 
     @Autowired
     private MsgsCenterInfoService msgsCenterInfoService;
@@ -69,24 +68,21 @@ public class MsgsCenterInfoController extends BaseController {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询消息中心", notes = "分页查询消息中心")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping("/page")
-    @SysLog("分页查询消息中心")
-    public R<IPage<MsgsCenterInfoPageResultDTO>> page(MsgsCenterInfoQueryDTO data) {
-        IPage<MsgsCenterInfoPageResultDTO> page = getPage();
+    @PostMapping("/page")
+    @SysLog(value = "'分页列表查询:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
+    public R<IPage<MsgsCenterInfoPageResultDTO>> page(@RequestBody @Validated PageParams<MsgsCenterInfoQueryDTO> data) {
+        IPage<MsgsCenterInfoPageResultDTO> page = data.getPage();
 
-        if (data.getStartCreateTime() != null) {
-            data.setStartCreateTime(LocalDateTime.of(data.getStartCreateTime().toLocalDate(), LocalTime.MIN));
+        MsgsCenterInfoQueryDTO model = data.getModel();
+        if (model.getStartCreateTime() != null) {
+            model.setStartCreateTime(LocalDateTime.of(model.getStartCreateTime().toLocalDate(), LocalTime.MIN));
         }
-        if (data.getEndCreateTime() != null) {
-            data.setEndCreateTime(LocalDateTime.of(data.getEndCreateTime().toLocalDate(), LocalTime.MAX));
+        if (model.getEndCreateTime() != null) {
+            model.setEndCreateTime(LocalDateTime.of(model.getEndCreateTime().toLocalDate(), LocalTime.MAX));
         }
-        data.setUserId(getUserId());
-        msgsCenterInfoService.page(page, data);
-        return success(page);
+        model.setUserId(BaseContextHandler.getUserId());
+        msgsCenterInfoService.page(page, model);
+        return R.success(page);
     }
 
     /**
@@ -98,7 +94,7 @@ public class MsgsCenterInfoController extends BaseController {
     @ApiOperation(value = "标记消息为已读", notes = "标记消息为已读")
     @GetMapping(value = "/mark")
     public R<Boolean> mark(@RequestParam(value = "msgCenterIds[]") List<Long> msgCenterIds) {
-        return success(msgsCenterInfoService.mark(msgCenterIds, getUserId()));
+        return R.success(msgsCenterInfoService.mark(msgCenterIds, BaseContextHandler.getUserId()));
     }
 
     /**
@@ -111,7 +107,7 @@ public class MsgsCenterInfoController extends BaseController {
     @GetMapping("/{id}")
     @SysLog("查询消息中心")
     public R<MsgsCenterInfo> get(@PathVariable Long id) {
-        return success(msgsCenterInfoService.getById(id));
+        return R.success(msgsCenterInfoService.getById(id));
     }
 
     /**
@@ -128,7 +124,7 @@ public class MsgsCenterInfoController extends BaseController {
             R<List<Long>> result = roleApi.findUserIdByCode(data.getRoleCodeList().stream().toArray(String[]::new));
             if (result.getIsSuccess()) {
                 if (result.getData().isEmpty()) {
-                    return fail("已选角色下尚未分配任何用户");
+                    return R.fail("已选角色下尚未分配任何用户");
                 }
                 data.setUserIdList(new HashSet<>(result.getData()));
             }
@@ -140,7 +136,7 @@ public class MsgsCenterInfoController extends BaseController {
             }
         }
 
-        return success(msgsCenterInfoService.saveMsgs(data));
+        return R.success(msgsCenterInfoService.saveMsgs(data));
     }
 
     /**
@@ -152,8 +148,8 @@ public class MsgsCenterInfoController extends BaseController {
     @ApiOperation(value = "删除消息中心", notes = "根据id物理删除消息中心")
     @DeleteMapping
     @SysLog("删除消息中心")
-    public R<Boolean> delete(@RequestParam(value = "ids[]") Long[] ids) {
-        return success(msgsCenterInfoService.delete(ids, getUserId()));
+    public R<Boolean> delete(@RequestParam(value = "ids[]") List<Long> ids) {
+        return R.success(msgsCenterInfoService.delete(ids, BaseContextHandler.getUserId()));
     }
 
 }

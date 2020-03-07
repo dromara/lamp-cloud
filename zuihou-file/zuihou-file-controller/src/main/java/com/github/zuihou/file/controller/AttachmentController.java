@@ -4,8 +4,9 @@ package com.github.zuihou.file.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.github.zuihou.base.BaseController;
 import com.github.zuihou.base.R;
+import com.github.zuihou.base.request.PageParams;
+import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.file.dto.AttachmentDTO;
 import com.github.zuihou.file.dto.AttachmentRemoveDTO;
 import com.github.zuihou.file.dto.AttachmentResultDTO;
@@ -20,6 +21,7 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +45,8 @@ import static java.util.stream.Collectors.groupingBy;
 @RequestMapping("/attachment")
 @Slf4j
 @Api(value = "附件", tags = "附件")
-public class AttachmentController extends BaseController {
+@Validated
+public class AttachmentController {
 
     /**
      * 业务类型判断符
@@ -59,16 +62,12 @@ public class AttachmentController extends BaseController {
      * @date 2019-05-06
      */
     @ApiOperation(value = "分页查询附件", notes = "分页查询附件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
-    })
-    @GetMapping(value = "/page")
+    @PostMapping(value = "/page")
     @SysLog("分页查询附件")
-    public R<IPage<Attachment>> page(FilePageReqDTO data) {
-        IPage<Attachment> page = getPage();
-        attachmentService.page(page, data);
-        return success(page);
+    public R<IPage<Attachment>> page(@RequestBody @Validated PageParams<FilePageReqDTO> data) {
+        IPage<Attachment> page = data.getPage();
+        attachmentService.page(page, data.getModel());
+        return R.success(page);
     }
 
 
@@ -99,13 +98,13 @@ public class AttachmentController extends BaseController {
         BizAssert.notEmpty(bizType, BASE_VALID_PARAM.build("业务类型不能为空"));
         // 忽略路径字段,只处理文件类型
         if (file.isEmpty()) {
-            return fail(BASE_VALID_PARAM.build("请求中必须至少包含一个有效文件"));
+            return R.fail(BASE_VALID_PARAM.build("请求中必须至少包含一个有效文件"));
         }
-        String tenant = getTenant();
+        String tenant = BaseContextHandler.getTenant();
 
         AttachmentDTO attachment = attachmentService.upload(file, tenant, id, bizType, bizId, isSingle);
 
-        return success(attachment);
+        return R.success(attachment);
     }
 
     @ApiOperation(value = "删除文件", notes = "删除文件")
@@ -116,7 +115,7 @@ public class AttachmentController extends BaseController {
     @SysLog("删除附件")
     public R<Boolean> remove(@RequestParam(value = "ids[]") Long[] ids) {
         attachmentService.remove(ids);
-        return success(true);
+        return R.success(true);
     }
 
     @ApiOperation(value = "根据业务类型或业务id删除文件", notes = "根据业务类型或业务id删除文件")
@@ -124,7 +123,7 @@ public class AttachmentController extends BaseController {
     @SysLog("根据业务类型删除附件")
     public R<Boolean> removeByBizIdAndBizType(@RequestBody AttachmentRemoveDTO dto) {
         attachmentService.removeByBizIdAndBizType(dto.getBizId(), dto.getBizType());
-        return success(true);
+        return R.success(true);
     }
 
     @ApiOperation(value = "查询附件", notes = "查询附件")
@@ -137,7 +136,7 @@ public class AttachmentController extends BaseController {
                                                        @RequestParam(value = "bizIds", required = false) String[] bizIds) {
         //不能同时为空
         BizAssert.isTrue(!(ArrayUtils.isEmpty(bizTypes) && ArrayUtils.isEmpty(bizIds)), BASE_VALID_PARAM.build("业务类型不能为空"));
-        return success(attachmentService.find(bizTypes, bizIds));
+        return R.success(attachmentService.find(bizTypes, bizIds));
     }
 
     @ApiOperation(value = "根据业务类型或者业务id查询附件", notes = "根据业务类型或者业务id查询附件")
@@ -150,12 +149,12 @@ public class AttachmentController extends BaseController {
         }
         List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery().in(sf, biz).orderByAsc(Attachment::getCreateTime));
         if (list.isEmpty()) {
-            return success(MapUtils.EMPTY_MAP);
+            return R.success(MapUtils.EMPTY_MAP);
         }
         if (TYPE_BIZ_ID.equalsIgnoreCase(type)) {
-            return success(list.stream().collect(groupingBy(Attachment::getBizType)));
+            return R.success(list.stream().collect(groupingBy(Attachment::getBizType)));
         } else {
-            return success(list.stream().collect(groupingBy(Attachment::getBizId)));
+            return R.success(list.stream().collect(groupingBy(Attachment::getBizId)));
         }
     }
 
@@ -225,29 +224,4 @@ public class AttachmentController extends BaseController {
         attachmentService.downloadByUrl(request, response, url, filename);
     }
 
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "bizType", value = "业务类型", dataType = "string", paramType = "path"),
-//            @ApiImplicitParam(name = "bizId", value = "业务id", dataType = "string", paramType = "path"),
-//    })
-//    @ApiOperation(value = "获取图片", notes = "根据业务类型和业务id在前端img标签中回显图片附件， 但存在多个附件时，默认显示第一个图片")
-//    @GetMapping(value = "/download/{bizType}/{bizId}", produces = "image/png")
-//    @SysLog("获取图片")
-//    public void findAttachmentByBizId(@PathVariable String bizType, @PathVariable String bizId,
-//                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        List<Attachment> list = attachmentService.list(Wrappers.<Attachment>lambdaQuery()
-//                .eq(Attachment::getBizType, bizType).eq(Attachment::getBizId, bizId)
-//                .orderByDesc(Attachment::getCreateTime)
-//        );
-//        if (!list.isEmpty() && DataType.IMAGE.eq(list.get(0).getDataType())) {
-//            // 设置响应的类型格式为图片格式
-//            response.setContentType("image/jpeg");
-//            // 禁止图像缓存。
-//            response.setHeader("Pragma", "no-cache");
-//            response.setHeader("Cache-Control", "no-cache");
-//            response.setDateHeader("Expires", 0);
-//            //实例生成验证码对象
-//            //向页面输出验证码图片
-//            attachmentService.download(request, response, new Long[]{list.get(0).getId()});
-//        }
-//    }
 }
