@@ -1,5 +1,7 @@
 package com.github.zuihou.authority.dto.core;
 
+import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -41,9 +43,7 @@ public class StationPageDTO implements Serializable {
      * #c_core_org
      */
     @ApiModelProperty(value = "组织ID")
-    private Long orgId;
-    // 前端传递 过来的参数，key会变成 String 类型
-//    private RemoteData<Long, Org> orgId;
+    private RemoteData<Long, Org> orgId;
     /**
      * 状态
      */

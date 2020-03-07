@@ -1,14 +1,16 @@
 package com.github.zuihou.authority.service.common.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.common.DictionaryItemMapper;
 import com.github.zuihou.authority.entity.common.DictionaryItem;
 import com.github.zuihou.authority.service.common.DictionaryItemService;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.github.zuihou.common.constant.CacheKey.DICTIONARY_ITEM;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
@@ -31,7 +34,18 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 @Service
-public class DictionaryItemServiceImpl extends ServiceImpl<DictionaryItemMapper, DictionaryItem> implements DictionaryItemService {
+@CacheConfig(cacheNames = DICTIONARY_ITEM)
+public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryItemMapper, DictionaryItem> implements DictionaryItemService {
+
+    @Override
+    protected String getRegion() {
+        return DICTIONARY_ITEM;
+    }
+
+    protected DictionaryItemService currentProxy() {
+        return ((DictionaryItemService) AopContext.currentProxy());
+    }
+
     @Override
     public Map<String, Map<String, String>> map(String[] codes) {
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()

@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.common;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.common.Dictionary;
+import com.github.zuihou.base.service.SuperService;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.github.zuihou.authority.entity.common.Dictionary;
  * @author zuihou
  * @date 2019-07-02
  */
-public interface DictionaryService extends IService<Dictionary> {
+public interface DictionaryService extends SuperService<Dictionary> {
 
 }

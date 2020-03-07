@@ -2,7 +2,6 @@ package com.github.zuihou.authority.service.defaults.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.defaults.GlobalUserMapper;
 import com.github.zuihou.authority.dto.defaults.GlobalUserSaveDTO;
 import com.github.zuihou.authority.dto.defaults.GlobalUserUpdateDTO;
@@ -12,6 +11,7 @@ import com.github.zuihou.authority.entity.defaults.GlobalUser;
 import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.defaults.GlobalUserService;
+import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.utils.BeanPlusUtil;
@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.github.zuihou.utils.BizAssert.isTrue;
@@ -37,7 +36,7 @@ import static com.github.zuihou.utils.BizAssert.isTrue;
  */
 @Slf4j
 @Service
-public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalUser> implements GlobalUserService {
+public class GlobalUserServiceImpl extends SuperServiceImpl<GlobalUserMapper, GlobalUser> implements GlobalUserService {
 
     @Autowired
     private UserService userService;
@@ -86,17 +85,18 @@ public class GlobalUserServiceImpl extends ServiceImpl<GlobalUserMapper, GlobalU
     }
 
     @Override
-    public void removeByIds(String tenantCode, Long[] ids) {
-        List<Long> idList = Arrays.asList(ids);
-        super.removeByIds(idList);
+    public boolean removeByIds(String tenantCode, List<Long> ids) {
+        boolean flag = super.removeByIds(ids);
 
         BaseContextHandler.setTenant(tenantCode);
-        userService.removeByIds(idList);
+        userService.removeByIds(ids);
 
         // 关联数据
-        userRoleService.remove(Wraps.<UserRole>lbQ().in(UserRole::getUserId, idList));
+        userRoleService.remove(Wraps.<UserRole>lbQ().in(UserRole::getUserId, ids));
 
         //TODO 缓存 & T人下线
+
+        return flag;
     }
 
     @Override

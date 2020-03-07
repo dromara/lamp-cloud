@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <version>${cloud.project.version}</version>
+<!--    <version>${cloud.project.version}</version>-->
     <artifactId>zuihou-authority-server</artifactId>
     <name>${project.artifactId}</name>
     <description>权限认证服务启动模块</description>

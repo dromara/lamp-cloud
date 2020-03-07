@@ -264,7 +264,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      */
     @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
     @GetMapping("/findUserByIds")
-    public Map<Serializable, Object> findUserByIds(@RequestParam(value = "ids") Set<Long> ids) {
+    public Map<Serializable, Object> findUserByIds(@RequestParam(value = "ids") Set<Serializable> ids) {
         return this.baseService.findUserByIds(ids);
     }
 
@@ -283,7 +283,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      */
     @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
     @GetMapping("/findUserNameByIds")
-    public Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Long> ids) {
+    public Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Serializable> ids) {
         return this.baseService.findUserNameByIds(ids);
     }
 

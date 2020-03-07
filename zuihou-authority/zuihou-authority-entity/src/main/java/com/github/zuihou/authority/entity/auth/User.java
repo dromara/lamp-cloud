@@ -122,7 +122,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status")
-    @Excel(name = "状态", replace = {"是_true", "否_false", "_null"})
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
     /**

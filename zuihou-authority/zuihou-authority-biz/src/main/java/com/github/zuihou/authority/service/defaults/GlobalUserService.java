@@ -1,9 +1,11 @@
 package com.github.zuihou.authority.service.defaults;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.defaults.GlobalUserSaveDTO;
 import com.github.zuihou.authority.dto.defaults.GlobalUserUpdateDTO;
 import com.github.zuihou.authority.entity.defaults.GlobalUser;
+import com.github.zuihou.base.service.SuperService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,7 +16,7 @@ import com.github.zuihou.authority.entity.defaults.GlobalUser;
  * @author zuihou
  * @date 2019-10-25
  */
-public interface GlobalUserService extends IService<GlobalUser> {
+public interface GlobalUserService extends SuperService<GlobalUser> {
 
     /**
      * 检测账号是否可用
@@ -38,7 +40,7 @@ public interface GlobalUserService extends IService<GlobalUser> {
      *
      * @param ids
      */
-    void removeByIds(String tenantCode, Long[] ids);
+    boolean removeByIds(String tenantCode, List<Long> ids);
 
     /**
      * 修改

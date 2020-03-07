@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -63,16 +62,5 @@ public class GlobalUserPageDTO implements Serializable {
     @ApiModelProperty(value = "邮箱")
     @Length(max = 255, message = "邮箱长度不能超过255")
     private String email;
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value = "密码")
-    @Length(max = 64, message = "密码长度不能超过76")
-    private String password;
-
-    @ApiModelProperty(value = "开始时间")
-    private LocalDateTime startCreateTime;
-    @ApiModelProperty(value = "截止时间")
-    private LocalDateTime endCreateTime;
 
 }
