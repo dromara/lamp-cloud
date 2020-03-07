@@ -1,9 +1,9 @@
 package com.github.zuihou.authority.service.core;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.base.service.SuperCacheService;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -18,7 +18,7 @@ import java.util.Set;
  * @author zuihou
  * @date 2019-07-22
  */
-public interface StationService extends IService<Station> {
+public interface StationService extends SuperCacheService<Station> {
     /**
      * 按权限查询岗位的分页信息
      *
@@ -34,7 +34,7 @@ public interface StationService extends IService<Station> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findStationByIds(Set<Long> ids);
+    Map<Serializable, Object> findStationByIds(Set<Serializable> ids);
 
     /**
      * 根据id 查询 岗位名称
@@ -42,5 +42,5 @@ public interface StationService extends IService<Station> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findStationNameByIds(Set<Long> ids);
+    Map<Serializable, Object> findStationNameByIds(Set<Serializable> ids);
 }

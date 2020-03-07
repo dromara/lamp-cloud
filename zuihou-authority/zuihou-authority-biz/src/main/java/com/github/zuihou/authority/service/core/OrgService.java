@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.core;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.base.service.SuperCacheService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.Set;
  * @author zuihou
  * @date 2019-07-22
  */
-public interface OrgService extends IService<Org> {
+public interface OrgService extends SuperCacheService<Org> {
     /**
      * 查询指定id集合下的所有子集
      *
@@ -40,7 +40,7 @@ public interface OrgService extends IService<Org> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findOrgByIds(Set<Long> ids);
+    Map<Serializable, Object> findOrgByIds(Set<Serializable> ids);
 
     /**
      * 根据 id 查询名称，并转换成Map结构
@@ -48,5 +48,5 @@ public interface OrgService extends IService<Org> {
      * @param ids
      * @return
      */
-    Map<Serializable, Object> findOrgNameByIds(Set<Long> ids);
+    Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids);
 }

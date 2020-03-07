@@ -1,7 +1,7 @@
 package com.github.zuihou.authority.service.common;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.zuihou.authority.entity.common.Parameter;
+import com.github.zuihou.base.service.SuperCacheService;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.github.zuihou.authority.entity.common.Parameter;
  * @author zuihou
  * @date 2020-02-05
  */
-public interface ParameterService extends IService<Parameter> {
+public interface ParameterService extends SuperCacheService<Parameter> {
 
 }

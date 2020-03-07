@@ -1,26 +1,26 @@
 package com.github.zuihou.authority.service.core.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import cn.hutool.core.convert.Convert;
 import com.github.zuihou.authority.dao.core.OrgMapper;
 import com.github.zuihou.authority.entity.core.Org;
-import com.github.zuihou.authority.service.auth.RoleOrgService;
 import com.github.zuihou.authority.service.core.OrgService;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.github.zuihou.common.constant.CacheKey.ORG;
 
 /**
  * <p>
@@ -33,10 +33,16 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgService {
+@CacheConfig(cacheNames = ORG)
+public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implements OrgService {
+    @Override
+    protected String getRegion() {
+        return ORG;
+    }
 
-    @Autowired
-    private RoleOrgService roleOrgService;
+    protected OrgService currentProxy() {
+        return ((OrgService) AopContext.currentProxy());
+    }
 
     @Override
     public List<Org> findChildren(List<Long> ids) {
@@ -56,36 +62,43 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         return !idList.isEmpty() ? super.removeByIds(idList) : true;
     }
 
-    /**
-     * TODO 这里应该做缓存
-     *
-     * @param ids
-     * @return
-     */
     @Override
-    public Map<Serializable, Object> findOrgByIds(Set<Long> ids) {
-        LbqWrapper<Org> query = Wraps.<Org>lbQ()
-                .in(Org::getId, ids)
-                .eq(Org::getStatus, true);
-        List<Org> list = super.list(query);
+    public Map<Serializable, Object> findOrgByIds(Set<Serializable> ids) {
+        List<Org> list = getOrgs(ids);
 
         //key 是 组织id， value 是org 对象
         ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, Org::getId, (org) -> org);
         return typeMap;
     }
 
-    /**
-     * TODO 这里应该做缓存
-     *
-     * @param ids
-     * @return
-     */
+    private List<Org> getOrgs(Set<Serializable> ids) {
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Long> idList = ids.stream().mapToLong(Convert::toLong).boxed().collect(Collectors.toList());
+
+        List<Org> list = null;
+        if (idList.size() <= 1000) {
+            list = idList.stream().map(currentProxy()::getByIdCache).filter(Objects::nonNull).collect(Collectors.toList());
+        } else {
+            LbqWrapper<Org> query = Wraps.<Org>lbQ()
+                    .in(Org::getId, idList)
+                    .eq(Org::getStatus, true);
+            list = super.list(query);
+
+            if (!list.isEmpty()) {
+                list.forEach(item -> {
+                    String itemKey = key(item.getId());
+                    cacheChannel.set(getRegion(), itemKey, item);
+                });
+            }
+        }
+        return list;
+    }
+
     @Override
-    public Map<Serializable, Object> findOrgNameByIds(Set<Long> ids) {
-        LbqWrapper<Org> query = Wraps.<Org>lbQ()
-                .in(Org::getId, ids)
-                .eq(Org::getStatus, true);
-        List<Org> list = super.list(query);
+    public Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids) {
+        List<Org> list = getOrgs(ids);
 
         //key 是 组织id， value 是org 对象
         ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, Org::getId, Org::getLabel);

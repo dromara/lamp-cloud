@@ -113,9 +113,6 @@ public class RemoteDataMybatisTest {
         System.out.println(station);
 
 
-//        Station station2 = stationMapper.selectById(100L);
-        Station station2 = stationServiceImpl.getById2(100L);
-        System.out.println(station2);
 
 //        injectionCore.injection(station2);
 //        System.out.println(station2);

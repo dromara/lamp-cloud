@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.dto.common;
 
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -8,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -70,15 +70,11 @@ public class AreaPageDTO implements Serializable {
      */
     @ApiModelProperty(value = "行政区级")
     @Length(max = 10, message = "行政区级长度不能超过10")
-    private String level;
+    private RemoteData<String, String> level;
     /**
      * 数据来源
      */
     @ApiModelProperty(value = "数据来源")
     @Length(max = 255, message = "数据来源长度不能超过255")
     private String source;
-    @ApiModelProperty(value = "开始时间")
-    private LocalDateTime startCreateTime;
-    @ApiModelProperty(value = "截止时间")
-    private LocalDateTime endCreateTime;
 }

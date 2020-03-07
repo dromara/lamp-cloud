@@ -18,16 +18,6 @@ import java.util.Set;
 @FeignClient(name = "${zuihou.feign.authority-server:zuihou-authority-server}", path = "dictionaryItem",
         qualifier = "dictionaryItemApi", fallback = DictionaryItemApiFallback.class)
 public interface DictionaryItemApi {
-
-//    /**
-//     * 根据字典编码查询字典条目的map集合
-//     *
-//     * @param codes
-//     * @return
-//     */
-//    @GetMapping("/codes")
-//    R<Map<String, Map<String, String>>> map(@RequestParam("codes") String[] codes);
-
     /**
      * 根据 code 查询字典
      *

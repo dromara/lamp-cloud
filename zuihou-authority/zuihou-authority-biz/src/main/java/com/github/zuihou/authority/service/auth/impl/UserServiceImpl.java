@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.service.auth.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -257,7 +258,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
-    public Map<Serializable, Object> findUserByIds(Set<Long> ids) {
+    public Map<Serializable, Object> findUserByIds(Set<Serializable> ids) {
         List<User> list = findUser(ids);
 
         //key 是 用户id
@@ -265,11 +266,17 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         return typeMap;
     }
 
-    private List<User> findUser(Set<Long> ids) {
+    private List<User> findUser(Set<Serializable> ids) {
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Long> idList = ids.stream().mapToLong(Convert::toLong).boxed().collect(Collectors.toList());
+
+
         List<User> list = null;
-        if (ids.size() > 100) {
+        if (idList.size() > 100) {
             LbqWrapper<User> query = Wraps.<User>lbQ()
-                    .in(User::getId, ids)
+                    .in(User::getId, idList)
                     .eq(User::getStatus, true);
             list = super.list(query);
 
@@ -281,14 +288,14 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
             }
 
         } else {
-            list = ids.stream().map(currentProxy()::getByIdCache)
+            list = idList.stream().map(currentProxy()::getByIdCache)
                     .filter(Objects::nonNull).collect(Collectors.toList());
         }
         return list;
     }
 
     @Override
-    public Map<Serializable, Object> findUserNameByIds(Set<Long> ids) {
+    public Map<Serializable, Object> findUserNameByIds(Set<Serializable> ids) {
         List<User> list = findUser(ids);
 
         //key 是 用户id

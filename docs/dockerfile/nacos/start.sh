@@ -12,4 +12,4 @@ docker run -idt --name zuihou-nacos --restart=always \
         -p 8848:8848 \
         -v `pwd`/logs/:/home/nacos/logs \
         -v `pwd`/init.d/custom.properties:/home/nacos/init.d/custom.properties \
-        nacos/nacos-server:1.1.3
+        nacos/nacos-server:1.2.0

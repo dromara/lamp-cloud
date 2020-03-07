@@ -1,7 +1,6 @@
 package com.github.zuihou.authority.service.defaults.impl;
 
 import cn.hutool.crypto.SecureUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.authority.dao.defaults.TenantMapper;
 import com.github.zuihou.authority.dto.defaults.TenantSaveDTO;
 import com.github.zuihou.authority.dto.defaults.TenantSaveInitDTO;
@@ -14,15 +13,19 @@ import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.defaults.GlobalUserService;
 import com.github.zuihou.authority.service.defaults.InitSystemService;
 import com.github.zuihou.authority.service.defaults.TenantService;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.StrHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
+import static com.github.zuihou.common.constant.CacheKey.TENANT;
 import static com.github.zuihou.utils.BizAssert.isFalse;
 
 /**
@@ -36,13 +39,22 @@ import static com.github.zuihou.utils.BizAssert.isFalse;
  */
 @Slf4j
 @Service
-public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> implements TenantService {
+@CacheConfig(cacheNames = TENANT)
+public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenant> implements TenantService {
+
+    @Override
+    protected String getRegion() {
+        return TENANT;
+    }
+
+    protected TenantService currentProxy() {
+        return ((TenantService) AopContext.currentProxy());
+    }
 
     @Autowired
     private GlobalUserService globalUserService;
     @Autowired
     private UserService userService;
-
     @Autowired
     private InitSystemService initSystemService;
 
@@ -65,7 +77,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         tenant.setStatus(TenantStatusEnum.NORMAL);
         tenant.setType(TenantTypeEnum.CREATE);
         // defaults 库
-        super.save(tenant);
+        currentProxy().save(tenant);
 
         // 2， 保存全局数据(默认库)
         GlobalUser globalAccount = BeanPlusUtil.toBean(data, GlobalUser.class);
@@ -99,7 +111,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         tenant.setStatus(TenantStatusEnum.NORMAL);
         tenant.setType(TenantTypeEnum.CREATE);
         // defaults 库
-        super.save(tenant);
+        currentProxy().save(tenant);
 
         // 3, 初始化库，表, 数据  考虑异步完成 // 租户库
         initSystemService.init(tenant.getCode());
