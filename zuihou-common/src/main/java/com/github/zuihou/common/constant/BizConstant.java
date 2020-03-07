@@ -35,5 +35,9 @@ public interface BizConstant {
      */
     String SMS_SEND_JOB_HANDLER = "smsSendJobHandler";
 
+    /**
+     * 基础库
+     */
+    String BASE_DATABASE = "zuihou_base";
 
 }
