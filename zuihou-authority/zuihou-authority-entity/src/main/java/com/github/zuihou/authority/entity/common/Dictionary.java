@@ -17,7 +17,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 /**
  * <p>
  * 实体类
- * 字典目录
+ * 字典类型
  * </p>
  *
  * @author zuihou
@@ -30,7 +30,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_common_dictionary")
-@ApiModel(value = "Dictionary", description = "字典目录")
+@ApiModel(value = "Dictionary", description = "字典类型")
 public class Dictionary extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -39,11 +39,11 @@ public class Dictionary extends Entity<Long> {
      * 编码
      * 一颗树仅仅有一个统一的编码
      */
-    @ApiModelProperty(value = "编码")
-    @NotEmpty(message = "编码不能为空")
-    @Length(max = 64, message = "编码长度不能超过64")
-    @TableField(value = "code", condition = LIKE)
-    private String code;
+    @ApiModelProperty(value = "类型")
+    @NotEmpty(message = "类型不能为空")
+    @Length(max = 64, message = "类型长度不能超过64")
+    @TableField(value = "type_", condition = LIKE)
+    private String type;
 
     /**
      * 名称
@@ -72,13 +72,13 @@ public class Dictionary extends Entity<Long> {
 
     @Builder
     public Dictionary(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                      String code, String name, String describe, Boolean status) {
+                      String type, String name, String describe, Boolean status) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
-        this.code = code;
+        this.type = type;
         this.name = name;
         this.describe = describe;
         this.status = status;

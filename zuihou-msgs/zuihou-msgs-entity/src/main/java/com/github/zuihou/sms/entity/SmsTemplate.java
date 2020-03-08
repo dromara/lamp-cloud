@@ -1,5 +1,6 @@
 package com.github.zuihou.sms.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -44,6 +45,7 @@ public class SmsTemplate extends Entity<Long> {
     @ApiModelProperty(value = "供应商类型")
     @NotNull(message = "供应商类型不能为空")
     @TableField("provider_type")
+    @Excel(name = "供应商类型", replace = {"阿里云_ALI", "腾讯云_TENCENT", "百度云_BAIDU", "_null"})
     private ProviderType providerType;
 
     /**
@@ -53,6 +55,7 @@ public class SmsTemplate extends Entity<Long> {
     @NotEmpty(message = "应用ID不能为空")
     @Length(max = 255, message = "应用ID长度不能超过255")
     @TableField(value = "app_id", condition = LIKE)
+    @Excel(name = "应用ID")
     private String appId;
 
     /**
@@ -71,6 +74,7 @@ public class SmsTemplate extends Entity<Long> {
     @ApiModelProperty(value = "SMS服务域名")
     @Length(max = 255, message = "SMS服务域名长度不能超过255")
     @TableField(value = "url", condition = LIKE)
+    @Excel(name = "SMS服务域名")
     private String url;
 
     /**
@@ -80,6 +84,7 @@ public class SmsTemplate extends Entity<Long> {
     @ApiModelProperty(value = "模板编码")
     @Length(max = 20, message = "模板编码长度不能超过20")
     @TableField(value = "custom_code", condition = LIKE)
+    @Excel(name = "模板编码")
     private String customCode;
 
     /**
@@ -88,6 +93,7 @@ public class SmsTemplate extends Entity<Long> {
     @ApiModelProperty(value = "模板名称")
     @Length(max = 255, message = "模板名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "模板名称")
     private String name;
 
     /**
@@ -97,6 +103,7 @@ public class SmsTemplate extends Entity<Long> {
     @NotEmpty(message = "模板内容不能为空")
     @Length(max = 255, message = "模板内容长度不能超过255")
     @TableField(value = "content", condition = LIKE)
+    @Excel(name = "模板内容")
     private String content;
 
     /**
@@ -106,6 +113,7 @@ public class SmsTemplate extends Entity<Long> {
     @NotEmpty(message = "模板参数不能为空")
     @Length(max = 255, message = "模板参数长度不能超过255")
     @TableField(value = "template_params", condition = LIKE)
+    @Excel(name = "模板参数")
     private String templateParams;
 
     /**
@@ -115,6 +123,7 @@ public class SmsTemplate extends Entity<Long> {
     @NotEmpty(message = "模板CODE不能为空")
     @Length(max = 50, message = "模板CODE长度不能超过50")
     @TableField(value = "template_code", condition = LIKE)
+    @Excel(name = "模板CODE")
     private String templateCode;
 
     /**
@@ -123,6 +132,7 @@ public class SmsTemplate extends Entity<Long> {
     @ApiModelProperty(value = "模板签名名称")
     @Length(max = 100, message = "模板签名名称长度不能超过100")
     @TableField(value = "sign_name", condition = LIKE)
+    @Excel(name = "模板签名名称")
     private String signName;
 
     /**
@@ -131,6 +141,7 @@ public class SmsTemplate extends Entity<Long> {
     @ApiModelProperty(value = "模板描述")
     @Length(max = 255, message = "模板描述长度不能超过255")
     @TableField(value = "template_describe", condition = LIKE)
+    @Excel(name = "模板描述", width = 30)
     private String templateDescribe;
 
 

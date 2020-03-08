@@ -45,7 +45,6 @@
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-base</artifactId>
-            <version>4.1.3</version>
         </dependency>
 
     </dependencies>

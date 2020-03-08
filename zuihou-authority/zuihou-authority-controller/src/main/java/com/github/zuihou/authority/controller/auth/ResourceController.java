@@ -60,7 +60,7 @@ public class ResourceController extends SuperCacheController<ResourceService, Lo
      * @param resource <br>
      *                 appCode 应用code * <br>
      *                 type 类型 <br>
-     *                 group 菜单分组 <br>
+     *                 group 分组 <br>
      *                 resourceId 上级资源id <br>
      *                 accountId 当前登录人id
      * @return

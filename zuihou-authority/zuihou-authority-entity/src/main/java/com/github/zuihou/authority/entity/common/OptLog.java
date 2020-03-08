@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.common;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.common.LogType;
@@ -14,6 +15,7 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
  * <p>
@@ -42,6 +44,7 @@ public class OptLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "操作IP")
     @Length(max = 50, message = "操作IP长度不能超过50")
     @TableField(value = "request_ip", condition = LIKE)
+    @Excel(name = "操作IP", width = 20)
     private String requestIp;
 
     /**
@@ -50,6 +53,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "日志类型")
     @TableField("type")
+    @Excel(name = "日志类型", replace = {"正常_OPT", "异常_EX", "_null"})
     private LogType type;
 
     /**
@@ -58,6 +62,7 @@ public class OptLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "操作人")
     @Length(max = 50, message = "操作人长度不能超过50")
     @TableField(value = "user_name", condition = LIKE)
+    @Excel(name = "操作人", width = 20)
     private String userName;
 
     /**
@@ -66,6 +71,7 @@ public class OptLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "操作描述")
     @Length(max = 255, message = "操作描述长度不能超过255")
     @TableField(value = "description", condition = LIKE)
+    @Excel(name = "操作描述", width = 40)
     private String description;
 
     /**
@@ -74,6 +80,7 @@ public class OptLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "类路径")
     @Length(max = 255, message = "类路径长度不能超过255")
     @TableField(value = "class_path", condition = LIKE)
+    @Excel(name = "类路径", width = 40)
     private String classPath;
 
     /**
@@ -82,6 +89,7 @@ public class OptLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "请求方法")
     @Length(max = 50, message = "请求方法长度不能超过50")
     @TableField(value = "action_method", condition = LIKE)
+    @Excel(name = "请求方法", width = 10)
     private String actionMethod;
 
     /**
@@ -90,6 +98,7 @@ public class OptLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "请求地址")
     @Length(max = 50, message = "请求地址长度不能超过50")
     @TableField(value = "request_uri", condition = LIKE)
+    @Excel(name = "请求地址", width = 20)
     private String requestUri;
 
     /**
@@ -98,38 +107,39 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "请求类型")
     @TableField("http_method")
+    @Excel(name = "请求类型", width = 20)
     private HttpMethod httpMethod;
 
     /**
      * 请求参数
      */
     @ApiModelProperty(value = "请求参数")
-
     @TableField("params")
+    @Excel(name = "请求参数", width = 20)
     private String params;
 
     /**
      * 返回值
      */
     @ApiModelProperty(value = "返回值")
-
     @TableField("result")
+    @Excel(name = "返回值", width = 20)
     private String result;
 
     /**
      * 异常详情信息
      */
     @ApiModelProperty(value = "异常详情信息")
-
     @TableField("ex_desc")
+    @Excel(name = "异常详情信息", width = 20)
     private String exDesc;
 
     /**
      * 异常描述
      */
     @ApiModelProperty(value = "异常描述")
-
     @TableField("ex_detail")
+    @Excel(name = "异常描述", width = 20)
     private String exDetail;
 
     /**
@@ -137,6 +147,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "开始时间")
     @TableField("start_time")
+    @Excel(name = "开始时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime startTime;
 
     /**
@@ -144,6 +155,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "完成时间")
     @TableField("finish_time")
+    @Excel(name = "完成时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime finishTime;
 
     /**
@@ -151,6 +163,7 @@ public class OptLog extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "消耗时间")
     @TableField("consuming_time")
+    @Excel(name = "消耗时间", width = 20)
     private Long consumingTime;
 
     /**
@@ -159,6 +172,7 @@ public class OptLog extends SuperEntity<Long> {
     @ApiModelProperty(value = "浏览器")
     @Length(max = 500, message = "浏览器长度不能超过500")
     @TableField(value = "ua", condition = LIKE)
+    @Excel(name = "浏览器", width = 20)
     private String ua;
 
 

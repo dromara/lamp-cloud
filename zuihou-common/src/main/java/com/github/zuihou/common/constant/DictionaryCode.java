@@ -1,7 +1,7 @@
 package com.github.zuihou.common.constant;
 
 /**
- * 存放系统中常用的字典编码
+ * 存放系统中常用的类型
  *
  * @author zuihou
  * @date 2019/07/26

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * <p>
  * 前端控制器
- * 字典目录
+ * 字典类型
  * </p>
  *
  * @author zuihou
@@ -32,7 +32,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/dictionary")
-@Api(value = "Dictionary", tags = "字典目录")
+@Api(value = "Dictionary", tags = "字典类型")
 public class DictionaryController extends SuperController<DictionaryService, Long, Dictionary, Dictionary, DictionarySaveDTO, DictionaryUpdateDTO> {
 
     @Autowired

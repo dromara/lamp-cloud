@@ -10,7 +10,7 @@
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="dictionary_id" jdbcType="BIGINT" property="dictionaryId"/>
-        <result column="dictionary_code" jdbcType="VARCHAR" property="dictionaryCode"/>
+        <result column="dictionary_type" jdbcType="VARCHAR" property="dictionaryType"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="status_" jdbcType="BIT" property="status"/>
@@ -20,8 +20,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
-        dictionary_id, dictionary_code, code, name, status_, describe_, sort_value
+        id, create_user, create_time, update_user, update_time,
+        dictionary_id, dictionary_type, code, name, status_, describe_, sort_value
     </sql>
 
 </mapper>

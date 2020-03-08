@@ -37,18 +37,18 @@ public class DictionaryItemUpdateDTO implements Serializable {
     private Long id;
 
     /**
-     * 字典id
+     * 类型ID
      */
-    @ApiModelProperty(value = "字典id")
-    @NotNull(message = "字典id不能为空")
+    @ApiModelProperty(value = "类型ID")
+    @NotNull(message = "类型ID不能为空")
     private Long dictionaryId;
     /**
-     * 字典编码
+     * 类型
      */
-    @ApiModelProperty(value = "字典编码")
-    @NotEmpty(message = "字典编码不能为空")
-    @Length(max = 64, message = "字典编码长度不能超过64")
-    private String dictionaryCode;
+    @ApiModelProperty(value = "类型")
+    @NotEmpty(message = "类型不能为空")
+    @Length(max = 64, message = "类型长度不能超过64")
+    private String dictionaryType;
     /**
      * 编码
      */

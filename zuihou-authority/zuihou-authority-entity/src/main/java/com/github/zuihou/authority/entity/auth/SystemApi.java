@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.auth;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -36,28 +37,31 @@ public class SystemApi extends Entity<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 接口编码
+     * 编码
      */
-    @ApiModelProperty(value = "接口编码")
-    @Length(max = 255, message = "接口编码长度不能超过255")
+    @ApiModelProperty(value = "编码")
+    @Length(max = 255, message = "编码长度不能超过255")
     @TableField(value = "code", condition = LIKE)
+    @Excel(name = "编码", width = 20)
     private String code;
 
     /**
-     * 接口名称
+     * 名称
      */
-    @ApiModelProperty(value = "接口名称")
-    @NotEmpty(message = "接口名称不能为空")
-    @Length(max = 100, message = "接口名称长度不能超过100")
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 100, message = "名称长度不能超过100")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "名称", width = 20)
     private String name;
 
     /**
-     * 资源描述
+     * 描述
      */
-    @ApiModelProperty(value = "资源描述")
-    @Length(max = 100, message = "资源描述长度不能超过100")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 100, message = "描述长度不能超过100")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "描述", width = 40)
     private String describe;
 
     /**
@@ -66,6 +70,7 @@ public class SystemApi extends Entity<Long> {
     @ApiModelProperty(value = "请求方式")
     @Length(max = 255, message = "请求方式长度不能超过255")
     @TableField(value = "request_method", condition = LIKE)
+    @Excel(name = "请求方式")
     private String requestMethod;
 
     /**
@@ -74,6 +79,7 @@ public class SystemApi extends Entity<Long> {
     @ApiModelProperty(value = "响应类型")
     @Length(max = 255, message = "响应类型长度不能超过255")
     @TableField(value = "content_type", condition = LIKE)
+    @Excel(name = "响应类型", width = 20)
     private String contentType;
 
     /**
@@ -83,6 +89,7 @@ public class SystemApi extends Entity<Long> {
     @NotEmpty(message = "服务ID不能为空")
     @Length(max = 50, message = "服务ID长度不能超过50")
     @TableField(value = "service_id", condition = LIKE)
+    @Excel(name = "服务ID", width = 20)
     private String serviceId;
 
     /**
@@ -91,6 +98,7 @@ public class SystemApi extends Entity<Long> {
     @ApiModelProperty(value = "请求路径")
     @Length(max = 255, message = "请求路径长度不能超过255")
     @TableField(value = "path", condition = LIKE)
+    @Excel(name = "请求路径", width = 40)
     private String path;
 
     /**
@@ -99,6 +107,7 @@ public class SystemApi extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
     /**
@@ -107,6 +116,7 @@ public class SystemApi extends Entity<Long> {
      */
     @ApiModelProperty(value = "保留数据")
     @TableField("is_persist")
+    @Excel(name = "保留数据", replace = {"是_true", "否_false", "_null"})
     private Boolean isPersist;
 
     /**
@@ -115,6 +125,7 @@ public class SystemApi extends Entity<Long> {
      */
     @ApiModelProperty(value = "是否需要认证")
     @TableField("is_auth")
+    @Excel(name = "是否需要认证", replace = {"是_true", "否_false", "_null"})
     private Boolean isAuth;
 
     /**
@@ -123,6 +134,7 @@ public class SystemApi extends Entity<Long> {
      */
     @ApiModelProperty(value = "是否公开")
     @TableField("is_open")
+    @Excel(name = "是否公开", replace = {"是_true", "否_false", "_null"})
     private Boolean isOpen;
 
     /**
@@ -131,6 +143,7 @@ public class SystemApi extends Entity<Long> {
     @ApiModelProperty(value = "类名")
     @Length(max = 255, message = "类名长度不能超过255")
     @TableField(value = "class_name", condition = LIKE)
+    @Excel(name = "类名", width = 40)
     private String className;
 
     /**
@@ -139,6 +152,7 @@ public class SystemApi extends Entity<Long> {
     @ApiModelProperty(value = "方法名")
     @Length(max = 255, message = "方法名长度不能超过255")
     @TableField(value = "method_name", condition = LIKE)
+    @Excel(name = "方法名", width = 40)
     private String methodName;
 
 

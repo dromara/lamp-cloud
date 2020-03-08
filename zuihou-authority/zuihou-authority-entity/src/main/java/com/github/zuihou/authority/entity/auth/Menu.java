@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.auth;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.TreeEntity;
@@ -34,43 +35,50 @@ public class Menu extends TreeEntity<Menu, Long> {
 
     private static final long serialVersionUID = 1L;
 
+    @Excel(name = "名称", width = 20)
+    protected String label;
     /**
-     * 功能描述
+     * 描述
      */
-    @ApiModelProperty(value = "功能描述")
-    @Length(max = 200, message = "功能描述长度不能超过200")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 200, message = "描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "描述", width = 50)
     private String describe;
 
     /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见
      */
-    @ApiModelProperty(value = "是否公开菜单")
+    @ApiModelProperty(value = "公共菜单")
     @TableField("is_public")
+    @Excel(name = "公共菜单", replace = {"是_true", "否_false", "_null"})
     private Boolean isPublic;
 
     /**
-     * 对应路由path
+     * 路径
      */
-    @ApiModelProperty(value = "对应路由path")
-    @Length(max = 255, message = "对应路由path长度不能超过255")
+    @ApiModelProperty(value = "路径")
+    @Length(max = 255, message = "路径长度不能超过255")
     @TableField(value = "path", condition = LIKE)
+    @Excel(name = "路径", width = 20)
     private String path;
 
     /**
-     * 对应路由组件component
+     * 组件
      */
-    @ApiModelProperty(value = "对应路由组件component")
-    @Length(max = 255, message = "对应路由组件component长度不能超过255")
+    @ApiModelProperty(value = "组件")
+    @Length(max = 255, message = "组件长度不能超过255")
     @TableField(value = "component", condition = LIKE)
+    @Excel(name = "组件", width = 30)
     private String component;
 
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
+    @ApiModelProperty(value = "状态")
     @TableField("is_enable")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean isEnable;
 
     /**
@@ -82,11 +90,12 @@ public class Menu extends TreeEntity<Menu, Long> {
     private String icon;
 
     /**
-     * 菜单分组
+     * 分组
      */
-    @ApiModelProperty(value = "菜单分组")
-    @Length(max = 20, message = "菜单分组长度不能超过20")
+    @ApiModelProperty(value = "分组")
+    @Length(max = 20, message = "分组长度不能超过20")
     @TableField(value = "group_", condition = LIKE)
+    @Excel(name = "分组")
     private String group;
 
     @Builder

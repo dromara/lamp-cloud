@@ -76,9 +76,9 @@ public class NoBootTest {
         sql = "CREATE TABLE `aaa_ba`  (\n" +
                 "  `id` bigint(20) NOT NULL COMMENT 'ID',\n" +
                 "  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '资源编码\\n规则：\\n链接：\\n数据列：\\n按钮：',\n" +
-                "  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '接口名称',\n" +
+                "  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',\n" +
                 "  `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID\\n#c_auth_menu',\n" +
-                "  `describe_` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '接口描述',\n" +
+                "  `describe_` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '描述',\n" +
                 "  `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人id',\n" +
                 "  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',\n" +
                 "  `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人id',\n" +

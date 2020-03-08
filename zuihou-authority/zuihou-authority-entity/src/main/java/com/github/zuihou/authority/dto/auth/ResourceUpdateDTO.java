@@ -36,11 +36,11 @@ public class ResourceUpdateDTO implements Serializable {
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
     private Long id;
     /**
-     * 接口名称
+     * 名称
      */
-    @ApiModelProperty(value = "接口名称")
-    @NotEmpty(message = "接口名称不能为空")
-    @Length(max = 255, message = "接口名称长度不能超过255")
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 255, message = "名称长度不能超过255")
     private String name;
     /**
      * 菜单ID
@@ -49,10 +49,10 @@ public class ResourceUpdateDTO implements Serializable {
     @ApiModelProperty(value = "菜单ID")
     private Long menuId;
     /**
-     * 接口描述
+     * 描述
      */
-    @ApiModelProperty(value = "接口描述")
-    @Length(max = 255, message = "接口描述长度不能超过255")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 255, message = "描述长度不能超过255")
     private String describe;
 
 }

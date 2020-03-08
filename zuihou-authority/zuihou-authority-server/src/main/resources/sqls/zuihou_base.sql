@@ -30,7 +30,7 @@ CREATE TABLE `c_auth_application` (
   `icon` varchar(255) DEFAULT '' COMMENT '应用图标',
   `app_type` varchar(10) DEFAULT NULL COMMENT '类型\n#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}\n',
   `describe_` varchar(200) DEFAULT '' COMMENT '备注',
-  `status` bit(1) DEFAULT b'1' COMMENT '是否启用',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
@@ -61,14 +61,14 @@ DROP TABLE IF EXISTS `c_auth_menu`;
 CREATE TABLE `c_auth_menu` (
   `id` bigint(20) NOT NULL COMMENT '主键',
   `label` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
-  `describe_` varchar(200) DEFAULT '' COMMENT '功能描述',
+  `describe_` varchar(200) DEFAULT '' COMMENT '描述',
   `is_public` bit(1) DEFAULT b'0' COMMENT '是否公开菜单\r\n就是无需分配就可以访问的。所有人可见',
-  `path` varchar(255) DEFAULT '' COMMENT '对应路由path',
-  `component` varchar(255) DEFAULT NULL COMMENT '对应路由组件component',
+  `path` varchar(255) DEFAULT '' COMMENT '路径',
+  `component` varchar(255) DEFAULT NULL COMMENT '组件',
   `is_enable` bit(1) DEFAULT b'1' COMMENT '状态',
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
-  `group_` varchar(20) DEFAULT '' COMMENT '菜单分组',
+  `group_` varchar(20) DEFAULT '' COMMENT '分组',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父级菜单id',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -85,9 +85,9 @@ DROP TABLE IF EXISTS `c_auth_resource`;
 CREATE TABLE `c_auth_resource` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `code` varchar(255) DEFAULT '' COMMENT '资源编码\n规则：\n链接：\n数据列：\n按钮：',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '接口名称',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID\n#c_auth_menu',
-  `describe_` varchar(255) DEFAULT '' COMMENT '接口描述',
+  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
@@ -104,7 +104,7 @@ CREATE TABLE `c_auth_role` (
   `id` bigint(20) NOT NULL,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '角色名称',
   `code` varchar(20) DEFAULT '' COMMENT '角色编码',
-  `describe_` varchar(100) DEFAULT '' COMMENT '功能描述',
+  `describe_` varchar(100) DEFAULT '' COMMENT '描述',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly` bit(1) DEFAULT b'0' COMMENT '是否内置角色',
   `ds_type` varchar(20) NOT NULL DEFAULT 'SELF' COMMENT '数据权限类型\n#DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}',
@@ -150,9 +150,9 @@ CREATE TABLE `c_auth_role_org` (
 DROP TABLE IF EXISTS `c_auth_system_api`;
 CREATE TABLE `c_auth_system_api` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `code` varchar(255) DEFAULT NULL COMMENT '接口编码',
-  `name` varchar(100) NOT NULL COMMENT '接口名称',
-  `describe_` varchar(100) DEFAULT NULL COMMENT '资源描述',
+  `code` varchar(255) DEFAULT NULL COMMENT '编码',
+  `name` varchar(100) NOT NULL COMMENT '名称',
+  `describe_` varchar(100) DEFAULT NULL COMMENT '描述',
   `request_method` varchar(255) DEFAULT NULL COMMENT '请求方式',
   `content_type` varchar(255) DEFAULT NULL COMMENT '响应类型',
   `service_id` varchar(50) NOT NULL COMMENT '服务ID',
@@ -258,7 +258,7 @@ CREATE TABLE `c_common_dictionary` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典目录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典类型';
 
 -- ----------------------------
 -- Table structure for c_common_dictionary_item
@@ -266,8 +266,8 @@ CREATE TABLE `c_common_dictionary` (
 DROP TABLE IF EXISTS `c_common_dictionary_item`;
 CREATE TABLE `c_common_dictionary_item` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `dictionary_id` bigint(20) NOT NULL COMMENT '字典id',
-  `dictionary_code` varchar(64) NOT NULL COMMENT '字典编码',
+  `dictionary_id` bigint(20) NOT NULL COMMENT '类型ID',
+  `dictionary_code` varchar(64) NOT NULL COMMENT '类型',
   `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
   `status_` bit(1) DEFAULT b'1' COMMENT '状态',
@@ -278,7 +278,7 @@ CREATE TABLE `c_common_dictionary_item` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `dict_code_item_code_uniq` (`dictionary_code`,`code`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
+  KEY `dict_code_item_code_uniq` (`dictionary_code`,`code`) USING BTREE COMMENT '类型与字典项目编码联合唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
 
 -- ----------------------------
