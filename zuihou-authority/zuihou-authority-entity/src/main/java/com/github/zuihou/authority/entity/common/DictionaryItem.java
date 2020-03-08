@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.common;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -37,21 +38,22 @@ public class DictionaryItem extends Entity<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 字典id
+     * 类型ID
      */
-    @ApiModelProperty(value = "字典id")
-    @NotNull(message = "字典id不能为空")
+    @ApiModelProperty(value = "类型ID")
+    @NotNull(message = "类型ID不能为空")
     @TableField("dictionary_id")
     private Long dictionaryId;
 
     /**
-     * 字典编码
+     * 类型
      */
-    @ApiModelProperty(value = "字典编码")
-    @NotEmpty(message = "字典编码不能为空")
-    @Length(max = 64, message = "字典编码长度不能超过64")
-    @TableField(value = "dictionary_code", condition = LIKE)
-    private String dictionaryCode;
+    @ApiModelProperty(value = "类型")
+    @NotEmpty(message = "类型不能为空")
+    @Length(max = 64, message = "类型长度不能超过64")
+    @TableField(value = "dictionary_type", condition = LIKE)
+    @Excel(name = "类型", width = 20)
+    private String dictionaryType;
 
     /**
      * 编码
@@ -60,6 +62,7 @@ public class DictionaryItem extends Entity<Long> {
     @NotEmpty(message = "编码不能为空")
     @Length(max = 64, message = "编码长度不能超过64")
     @TableField(value = "code", condition = LIKE)
+    @Excel(name = "编码", width = 20)
     private String code;
 
     /**
@@ -69,6 +72,7 @@ public class DictionaryItem extends Entity<Long> {
     @NotEmpty(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过64")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "名称", width = 40)
     private String name;
 
     /**
@@ -76,6 +80,7 @@ public class DictionaryItem extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status_")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
     /**
@@ -84,6 +89,7 @@ public class DictionaryItem extends Entity<Long> {
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "描述", width = 50)
     private String describe;
 
     /**
@@ -91,12 +97,13 @@ public class DictionaryItem extends Entity<Long> {
      */
     @ApiModelProperty(value = "排序")
     @TableField("sort_value")
+    @Excel(name = "排序", width = 10)
     private Integer sortValue;
 
 
     @Builder
     public DictionaryItem(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                          Long dictionaryId, String dictionaryCode, String code, String name, Boolean status,
+                          Long dictionaryId, String dictionaryType, String code, String name, Boolean status,
                           String describe, Integer sortValue) {
         this.id = id;
         this.createUser = createUser;
@@ -104,7 +111,7 @@ public class DictionaryItem extends Entity<Long> {
         this.updateUser = updateUser;
         this.updateTime = updateTime;
         this.dictionaryId = dictionaryId;
-        this.dictionaryCode = dictionaryCode;
+        this.dictionaryType = dictionaryType;
         this.code = code;
         this.name = name;
         this.status = status;

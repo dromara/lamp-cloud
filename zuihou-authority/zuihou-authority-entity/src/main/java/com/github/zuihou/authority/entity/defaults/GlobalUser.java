@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.defaults;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,6 +44,7 @@ public class GlobalUser extends Entity<Long> {
     @NotEmpty(message = "租户编号不能为空")
     @Length(max = 10, message = "租户编号长度不能超过10")
     @TableField(value = "tenant_code", condition = LIKE)
+    @Excel(name = "租户编号")
     private String tenantCode;
 
     /**
@@ -52,6 +54,7 @@ public class GlobalUser extends Entity<Long> {
     @NotEmpty(message = "账号不能为空")
     @Length(max = 30, message = "账号长度不能超过30")
     @TableField(value = "account", condition = LIKE)
+    @Excel(name = "账号", width = 20)
     private String account;
 
     /**
@@ -63,6 +66,7 @@ public class GlobalUser extends Entity<Long> {
     private String mobile;
     @ApiModelProperty(value = "是否只读")
     @TableField(value = "readonly")
+    @Excel(name = "手机", width = 20)
     private Boolean readonly;
 
     /**
@@ -71,6 +75,7 @@ public class GlobalUser extends Entity<Long> {
     @ApiModelProperty(value = "姓名")
     @Length(max = 50, message = "姓名长度不能超过20")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "姓名", width = 20)
     private String name;
 
     /**
@@ -79,6 +84,7 @@ public class GlobalUser extends Entity<Long> {
     @ApiModelProperty(value = "邮箱")
     @Length(max = 255, message = "邮箱长度不能超过255")
     @TableField(value = "email", condition = LIKE)
+    @Excel(name = "邮箱", width = 20)
     private String email;
 
     @ApiModelProperty(value = "密码")

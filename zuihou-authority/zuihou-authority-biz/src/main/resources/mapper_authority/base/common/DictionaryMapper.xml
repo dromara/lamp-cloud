@@ -9,7 +9,7 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="type_" jdbcType="VARCHAR" property="type"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="status_" jdbcType="BIT" property="status"/>
@@ -17,8 +17,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
-        code, name, describe_, status_
+        id, create_user, create_time, update_user, update_time,
+        type_, name, describe_, status_
     </sql>
 
 </mapper>

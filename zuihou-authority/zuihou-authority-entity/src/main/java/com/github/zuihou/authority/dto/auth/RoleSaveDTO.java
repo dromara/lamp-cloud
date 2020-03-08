@@ -47,10 +47,10 @@ public class RoleSaveDTO implements Serializable {
     @Length(max = 20, message = "角色编码长度不能超过20")
     private String code;
     /**
-     * 功能描述
+     * 描述
      */
-    @ApiModelProperty(value = "功能描述")
-    @Length(max = 100, message = "功能描述长度不能超过100")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 100, message = "描述长度不能超过100")
     private String describe;
     /**
      * 状态

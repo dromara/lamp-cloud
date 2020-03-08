@@ -71,7 +71,7 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
     /**
      * 查询用户可用的所有资源
      *
-     * @param group  菜单分组 <br>
+     * @param group  分组 <br>
      * @param userId 指定用户id
      * @return
      */

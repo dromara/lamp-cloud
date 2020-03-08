@@ -49,13 +49,13 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
     @Override
     public Map<String, Map<String, String>> map(String[] codes) {
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
-                .in(DictionaryItem::getDictionaryCode, codes)
+                .in(DictionaryItem::getDictionaryType, codes)
                 .eq(DictionaryItem::getStatus, true)
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = super.list(query);
 
-        //key 是字典编码
-        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryCode, LinkedHashMap::new, toList()));
+        //key 是类型
+        Map<String, List<DictionaryItem>> typeMap = list.stream().collect(groupingBy(DictionaryItem::getDictionaryType, LinkedHashMap::new, toList()));
 
         //需要返回的map
         Map<String, Map<String, String>> typeCodeNameMap = new LinkedHashMap<>(typeMap.size());
@@ -75,7 +75,7 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = super.list(query);
 
-        //key 是字典编码
+        //key 是类型
         ImmutableMap<String, String> typeMap = MapHelper.uniqueIndex(list, DictionaryItem::getCode, DictionaryItem::getName);
 
         //需要返回的map

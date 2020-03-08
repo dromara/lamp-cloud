@@ -1,5 +1,6 @@
 package com.github.zuihou.sms.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
  * <p>
@@ -55,6 +57,7 @@ public class SmsTask extends Entity<Long> {
      */
     @ApiModelProperty(value = "执行状态")
     @TableField("status")
+    @Excel(name = "执行状态", replace = {"等待执行_WAITING", "执行成功_SUCCESS", "执行失败_FAIL", "_null"})
     private TaskStatus status;
 
     /**
@@ -75,6 +78,7 @@ public class SmsTask extends Entity<Long> {
     @ApiModelProperty(value = "接收者手机号")
     @Length(max = 65535, message = "接收者手机号长度不能超过65535")
     @TableField("receiver")
+    @Excel(name = "接收者手机号", width = 20)
     private String receiver;
 
     /**
@@ -83,6 +87,7 @@ public class SmsTask extends Entity<Long> {
     @ApiModelProperty(value = "主题")
     @Length(max = 255, message = "主题长度不能超过255")
     @TableField(value = "topic", condition = LIKE)
+    @Excel(name = "主题", width = 20)
     private String topic;
 
     /**
@@ -100,6 +105,7 @@ public class SmsTask extends Entity<Long> {
      */
     @ApiModelProperty(value = "发送时间")
     @TableField("send_time")
+    @Excel(name = "发送时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime sendTime;
 
     /**
@@ -109,10 +115,12 @@ public class SmsTask extends Entity<Long> {
     @ApiModelProperty(value = "发送内容")
     @Length(max = 500, message = "发送内容长度不能超过500")
     @TableField(value = "content", condition = LIKE)
+    @Excel(name = "发送内容", width = 20)
     private String content;
 
     @ApiModelProperty(value = "是否草稿")
     @TableField(value = "draft")
+    @Excel(name = "是否草稿", replace = {"是_true", "否_false", "_null"})
     private Boolean draft;
 
     @Builder

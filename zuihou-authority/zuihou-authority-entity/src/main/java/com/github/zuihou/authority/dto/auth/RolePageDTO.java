@@ -43,9 +43,9 @@ public class RolePageDTO implements Serializable {
     @ApiModelProperty(value = "角色编码")
     private String code;
     /**
-     * 功能描述
+     * 描述
      */
-    @ApiModelProperty(value = "功能描述")
+    @ApiModelProperty(value = "描述")
     private String describe;
     /**
      * 状态

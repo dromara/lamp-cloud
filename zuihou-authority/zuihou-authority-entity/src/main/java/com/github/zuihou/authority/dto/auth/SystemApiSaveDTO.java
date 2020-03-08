@@ -31,23 +31,23 @@ public class SystemApiSaveDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 接口编码
+     * 编码
      */
-    @ApiModelProperty(value = "接口编码")
-    @Length(max = 255, message = "接口编码长度不能超过255")
+    @ApiModelProperty(value = "编码")
+    @Length(max = 255, message = "编码长度不能超过255")
     private String code;
     /**
-     * 接口名称
+     * 名称
      */
-    @ApiModelProperty(value = "接口名称")
-    @NotEmpty(message = "接口名称不能为空")
-    @Length(max = 100, message = "接口名称长度不能超过100")
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 100, message = "名称长度不能超过100")
     private String name;
     /**
-     * 资源描述
+     * 描述
      */
-    @ApiModelProperty(value = "资源描述")
-    @Length(max = 100, message = "资源描述长度不能超过100")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 100, message = "描述长度不能超过100")
     private String describe;
     /**
      * 请求方式

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 /**
  * <p>
  * 业务实现类
- * 字典目录
+ * 字典类型
  * </p>
  *
  * @author zuihou

@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.common;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -42,6 +43,7 @@ public class Parameter extends Entity<Long> {
     @NotEmpty(message = "参数键不能为空")
     @Length(max = 255, message = "参数键长度不能超过255")
     @TableField(value = "key_", condition = LIKE)
+    @Excel(name = "参数键", width = 20)
     private String key;
 
     /**
@@ -51,6 +53,7 @@ public class Parameter extends Entity<Long> {
     @NotEmpty(message = "参数名称不能为空")
     @Length(max = 255, message = "参数名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "参数名称", width = 20)
     private String name;
 
     /**
@@ -60,6 +63,7 @@ public class Parameter extends Entity<Long> {
     @NotEmpty(message = "参数值不能为空")
     @Length(max = 255, message = "参数值长度不能超过255")
     @TableField(value = "value", condition = LIKE)
+    @Excel(name = "参数值", width = 20)
     private String value;
 
     /**
@@ -68,6 +72,7 @@ public class Parameter extends Entity<Long> {
     @ApiModelProperty(value = "描述")
     @Length(max = 200, message = "描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "描述", width = 40)
     private String describe;
 
     /**
@@ -75,6 +80,7 @@ public class Parameter extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status_")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
     /**
@@ -82,6 +88,7 @@ public class Parameter extends Entity<Long> {
      */
     @ApiModelProperty(value = "只读")
     @TableField("readonly_")
+    @Excel(name = "只读", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;
 
 

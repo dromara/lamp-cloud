@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * <p>
  * 实体类
- * 字典目录
+ * 字典类型
  * </p>
  *
  * @author zuihou
@@ -27,7 +27,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "DictionaryUpdateDTO", description = "字典目录")
+@ApiModel(value = "DictionaryUpdateDTO", description = "字典类型")
 public class DictionaryUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,10 +40,10 @@ public class DictionaryUpdateDTO implements Serializable {
      * 编码
      * 一颗树仅仅有一个统一的编码
      */
-    @ApiModelProperty(value = "编码")
-    @NotEmpty(message = "编码不能为空")
-    @Length(max = 64, message = "编码长度不能超过64")
-    private String code;
+    @ApiModelProperty(value = "类型")
+    @NotEmpty(message = "类型不能为空")
+    @Length(max = 64, message = "类型长度不能超过64")
+    private String type;
     /**
      * 名称
      */

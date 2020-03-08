@@ -42,13 +42,13 @@ public class DictionaryItemController extends SuperCacheController<DictionaryIte
     public void handlerWrapper(QueryWrap<DictionaryItem> wrapper, PageParams<DictionaryItem> params) {
         super.handlerWrapper(wrapper, params);
         DictionaryItem model = params.getModel();
-        wrapper.lambda().ignore(DictionaryItem::setDictionaryCode)
-                .eq(DictionaryItem::getDictionaryCode, model.getDictionaryCode());
+        wrapper.lambda().ignore(DictionaryItem::setDictionaryType)
+                .eq(DictionaryItem::getDictionaryType, model.getDictionaryType());
     }
 
 
     /**
-     * 由于字典编码本身就是String 类型，所以不会出现mysql 的隐式转换问题，所以无需转换
+     * 由于类型本身就是String 类型，所以不会出现mysql 的隐式转换问题，所以无需转换
      *
      * <p>
      * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
@@ -63,7 +63,7 @@ public class DictionaryItemController extends SuperCacheController<DictionaryIte
         return this.baseService.findDictionaryItem(codes);
     }
 
-    @ApiOperation(value = "根据字典编码查询字典条目", notes = "根据字典编码查询字典条目")
+    @ApiOperation(value = "根据类型查询字典条目", notes = "根据类型查询字典条目")
     @GetMapping("codes")
     public R<Map<String, Map<String, String>>> list(@RequestParam("codes[]") String[] codes) {
         return this.success(this.baseService.map(codes));
