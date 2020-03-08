@@ -1,21 +1,27 @@
 package com.github.zuihou.authority.controller.auth;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.controller.poi.ExcelUserVerifyHandlerImpl;
 import com.github.zuihou.authority.dto.auth.*;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.service.common.DictionaryItemService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.common.constant.BizConstant;
+import com.github.zuihou.common.constant.DictionaryCode;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
@@ -28,6 +34,8 @@ import com.github.zuihou.sms.enumeration.VerificationCodeType;
 import com.github.zuihou.user.feign.UserQuery;
 import com.github.zuihou.user.model.SysUser;
 import com.github.zuihou.utils.DateUtils;
+import com.github.zuihou.utils.MapHelper;
+import com.github.zuihou.utils.StrPool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +43,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.groups.Default;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -70,6 +82,10 @@ public class UserController extends SuperCacheController<UserService, Long, User
     private SmsApi smsApi;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
+    @Autowired
+    private DictionaryItemService dictionaryItemService;
 
     /**
      * 重写保存逻辑
@@ -321,6 +337,58 @@ public class UserController extends SuperCacheController<UserService, Long, User
 
         baseService.saveBatch(userList);
     }
+
+
+    @Override
+    public R<Boolean> importExcel(@RequestParam("file") MultipartFile simpleFile, HttpServletRequest request,
+                                  HttpServletResponse response) throws Exception {
+        ImportParams params = new ImportParams();
+        params.setTitleRows(0);
+        params.setHeadRows(1);
+        params.setNeedVerify(true);
+        params.setVerifyGroup(new Class[]{Default.class});
+        params.setVerifyHandler(excelUserVerifyHandler);
+        //用官方提供的DictHandler有性能问题
+//        params.setDictHandler();
+        ExcelImportResult<UserExcelVO> result = ExcelImportUtil.importExcelMore(simpleFile.getInputStream(), UserExcelVO.class, params);
+
+        if (result.isVerifyFail()) {
+            String errorMsgs = result.getFailList().stream().map((item) -> StrUtil.format("第{}行检验错误: {}", item.getRowNum(), item.getErrorMsg()))
+                    .collect(Collectors.joining("<br/>"));
+            return R.validFail(errorMsgs);
+        }
+
+        List<UserExcelVO> list = result.getList();
+        if (list.isEmpty()) {
+            return this.validFail("导入数据不能为空");
+        }
+        //数据转换
+        Map<String, Map<String, String>> dictMap = dictionaryItemService.map(new String[]{DictionaryCode.EDUCATION, DictionaryCode.NATION, DictionaryCode.POSITION_STATUS});
+
+        Map<String, String> educationMap = MapHelper.inverse(dictMap.get(DictionaryCode.EDUCATION));
+        Map<String, String> nationMap = MapHelper.inverse(dictMap.get(DictionaryCode.NATION));
+        Map<String, String> positionStatusMap = MapHelper.inverse(dictMap.get(DictionaryCode.POSITION_STATUS));
+
+        List<User> userList = list.stream().map((item) -> {
+            User user = new User();
+            String[] ignore = new String[]{
+                    "org", "station", "nation", "education", "positionStatus"
+            };
+            BeanUtil.copyProperties(item, user, ignore);
+            user.setOrg(new RemoteData<>(item.getOrg()));
+            user.setStation(new RemoteData<>(item.getStation()));
+            user.setEducation(new RemoteData<>(educationMap.getOrDefault(item.getEducation(), StrPool.EMPTY)));
+            user.setNation(new RemoteData<>(nationMap.getOrDefault(item.getNation(), StrPool.EMPTY)));
+            user.setPositionStatus(new RemoteData<>(positionStatusMap.getOrDefault(item.getPositionStatus(), StrPool.EMPTY)));
+            user.setPassword(DigestUtils.md5Hex(BizConstant.DEF_PASSWORD));
+            return user;
+        }).collect(Collectors.toList());
+
+        baseService.saveBatch(userList);
+
+        return this.success(true);
+    }
+
 
     /**
      * 分页、导出、导出预览 方法的共用查询条件
