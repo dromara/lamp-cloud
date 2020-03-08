@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.auth;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -44,6 +45,7 @@ public class Role extends Entity<Long> {
     @NotEmpty(message = "角色名称不能为空")
     @Length(max = 30, message = "角色名称长度不能超过30")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "角色名称", width = 40)
     private String name;
 
     /**
@@ -52,14 +54,16 @@ public class Role extends Entity<Long> {
     @ApiModelProperty(value = "角色编码")
     @Length(max = 20, message = "角色编码长度不能超过20")
     @TableField(value = "code", condition = LIKE)
+    @Excel(name = "角色编码", width = 30)
     private String code;
 
     /**
-     * 功能描述
+     * 描述
      */
-    @ApiModelProperty(value = "功能描述")
-    @Length(max = 100, message = "功能描述长度不能超过100")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 100, message = "描述长度不能超过100")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "描述", width = 50)
     private String describe;
 
     /**
@@ -67,6 +71,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
     /**
@@ -74,6 +79,7 @@ public class Role extends Entity<Long> {
      */
     @ApiModelProperty(value = "是否内置角色")
     @TableField("readonly")
+    @Excel(name = "是否内置角色", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;
 
     /**
@@ -83,6 +89,7 @@ public class Role extends Entity<Long> {
     @ApiModelProperty(value = "数据权限类型")
     @NotNull(message = "数据权限类型不能为空")
     @TableField("ds_type")
+    @Excel(name = "数据权限类型", replace = {"全部_ALL", "本级_THIS_LEVEL", "本级以及子级_THIS_LEVEL_CHILDREN", "自定义_CUSTOMIZE", "个人_SELF", "_null"})
     private DataScopeType dsType;
 
 

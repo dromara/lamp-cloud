@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public interface DictionaryItemService extends SuperCacheService<DictionaryItem> {
     /**
-     * 根据字典编码查询字典
+     * 根据类型查询字典
      *
      * @param codes
      * @return

@@ -81,9 +81,9 @@ public class ApplicationUpdateDTO implements Serializable {
     @Length(max = 200, message = "备注长度不能超过200")
     private String describe;
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
+    @ApiModelProperty(value = "状态")
     private Boolean status;
 
 }

@@ -33,38 +33,38 @@ public class MenuSaveDTO implements Serializable {
     /**
      * 菜单名称
      */
-    @ApiModelProperty(value = "菜单名称")
-    @NotEmpty(message = "菜单名称不能为空")
-    @Length(max = 20, message = "菜单名称长度不能超过20")
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 20, message = "名称长度不能超过20")
     private String label;
     /**
-     * 功能描述
+     * 描述
      */
-    @ApiModelProperty(value = "功能描述")
-    @Length(max = 200, message = "功能描述长度不能超过200")
+    @ApiModelProperty(value = "描述")
+    @Length(max = 200, message = "描述长度不能超过200")
     private String describe;
     /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见
      */
-    @ApiModelProperty(value = "是否公开菜单")
+    @ApiModelProperty(value = "公共菜单")
     private Boolean isPublic;
     /**
-     * 对应路由path
+     * 路径
      */
-    @ApiModelProperty(value = "对应路由path")
-    @Length(max = 255, message = "对应路由path长度不能超过255")
+    @ApiModelProperty(value = "路径")
+    @Length(max = 255, message = "路径长度不能超过255")
     private String path;
     /**
-     * 对应路由组件component
+     * 组件
      */
-    @ApiModelProperty(value = "对应路由组件component")
-    @Length(max = 255, message = "对应路由组件component长度不能超过255")
+    @ApiModelProperty(value = "组件")
+    @Length(max = 255, message = "组件长度不能超过255")
     private String component;
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
+    @ApiModelProperty(value = "状态")
     private Boolean isEnable;
     /**
      * 排序
@@ -78,10 +78,10 @@ public class MenuSaveDTO implements Serializable {
     @Length(max = 255, message = "菜单图标长度不能超过255")
     private String icon;
     /**
-     * 菜单分组
+     * 分组
      */
-    @ApiModelProperty(value = "菜单分组")
-    @Length(max = 20, message = "菜单分组长度不能超过20")
+    @ApiModelProperty(value = "分组")
+    @Length(max = 20, message = "分组长度不能超过20")
     private String group;
     /**
      * 父级菜单id

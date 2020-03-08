@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.defaults;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
@@ -14,6 +15,7 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
  * <p>
@@ -42,6 +44,7 @@ public class Tenant extends Entity<Long> {
     @ApiModelProperty(value = "企业编码")
     @Length(max = 20, message = "企业编码长度不能超过20")
     @TableField(value = "code", condition = LIKE)
+    @Excel(name = "企业编码", width = 20)
     private String code;
 
     /**
@@ -50,6 +53,7 @@ public class Tenant extends Entity<Long> {
     @ApiModelProperty(value = "企业名称")
     @Length(max = 255, message = "企业名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "企业名称", width = 20)
     private String name;
 
     /**
@@ -58,6 +62,7 @@ public class Tenant extends Entity<Long> {
      */
     @ApiModelProperty(value = "类型")
     @TableField("type")
+    @Excel(name = "类型", width = 20, replace = {"注册_REGISTER", "创建_CREATE", "_null"})
     private TenantTypeEnum type;
 
     /**
@@ -66,9 +71,12 @@ public class Tenant extends Entity<Long> {
      */
     @ApiModelProperty(value = "状态")
     @TableField("status")
+    @Excel(name = "状态", width = 20, replace = {"正常_NORMAL", "禁用_FORBIDDEN", "待审核_WAITING", "拒绝_REFUSE", "_null"})
     private TenantStatusEnum status;
+
     @ApiModelProperty(value = "只读")
     @TableField("readonly")
+    @Excel(name = "只读", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;
 
     /**
@@ -77,6 +85,7 @@ public class Tenant extends Entity<Long> {
     @ApiModelProperty(value = "责任人")
     @Length(max = 50, message = "责任人长度不能超过50")
     @TableField(value = "duty", condition = LIKE)
+    @Excel(name = "责任人")
     private String duty;
 
     /**
@@ -85,6 +94,7 @@ public class Tenant extends Entity<Long> {
      */
     @ApiModelProperty(value = "有效期")
     @TableField("expiration_time")
+    @Excel(name = "有效期", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime expirationTime;
 
     /**
@@ -101,6 +111,7 @@ public class Tenant extends Entity<Long> {
     @ApiModelProperty(value = "企业简介")
     @Length(max = 255, message = "企业简介长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "企业简介", width = 20)
     private String describe;
 
     /**

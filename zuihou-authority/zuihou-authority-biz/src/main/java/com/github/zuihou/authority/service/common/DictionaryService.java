@@ -6,7 +6,7 @@ import com.github.zuihou.base.service.SuperService;
 /**
  * <p>
  * 业务接口
- * 字典目录
+ * 字典类型
  * </p>
  *
  * @author zuihou

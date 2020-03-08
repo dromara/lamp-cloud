@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * <p>
  * Mapper 接口
- * 字典目录
+ * 字典类型
  * </p>
  *
  * @author zuihou

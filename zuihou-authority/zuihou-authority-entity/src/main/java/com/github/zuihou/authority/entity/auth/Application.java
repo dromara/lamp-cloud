@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.entity.auth;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.enumeration.auth.ApplicationAppTypeEnum;
@@ -42,6 +43,7 @@ public class Application extends Entity<Long> {
     @ApiModelProperty(value = "AppKey")
     @Length(max = 24, message = "AppKey长度不能超过100")
     @TableField(value = "app_key", condition = LIKE)
+    @Excel(name = "AppKey")
     private String appKey;
 
     /**
@@ -67,6 +69,7 @@ public class Application extends Entity<Long> {
     @NotEmpty(message = "应用名称不能为空")
     @Length(max = 255, message = "应用名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "应用名称", width = 20)
     private String name;
 
     /**
@@ -83,6 +86,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "类型")
     @TableField("app_type")
+    @Excel(name = "应用名称", replace = {"服务应用_SERVER", "手机应用_APP", "手机网页应用_WAP", "PC网页应用_PC", "_null"})
     private ApplicationAppTypeEnum appType;
 
     /**
@@ -91,13 +95,15 @@ public class Application extends Entity<Long> {
     @ApiModelProperty(value = "备注")
     @Length(max = 200, message = "备注长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
+    @Excel(name = "备注", width = 20)
     private String describe;
 
     /**
-     * 是否启用
+     * 状态
      */
-    @ApiModelProperty(value = "是否启用")
+    @ApiModelProperty(value = "状态")
     @TableField("status")
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean status;
 
 

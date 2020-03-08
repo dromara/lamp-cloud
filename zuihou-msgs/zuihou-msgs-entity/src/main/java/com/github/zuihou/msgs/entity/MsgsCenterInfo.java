@@ -1,5 +1,6 @@
 package com.github.zuihou.msgs.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.Entity;
@@ -61,6 +62,7 @@ public class MsgsCenterInfo extends Entity<Long> {
     @ApiModelProperty(value = "消息类型")
     @NotNull(message = "消息类型不能为空")
     @TableField("msgs_center_type")
+    @Excel(name = "消息类型", replace = {"待办_WAIT", "通知_NOTIFY", "公告_PUBLICITY", "预警_WARN", "_null"})
     private MsgsCenterType msgsCenterType;
 
     /**
@@ -69,6 +71,7 @@ public class MsgsCenterInfo extends Entity<Long> {
     @ApiModelProperty(value = "标题")
     @Length(max = 255, message = "标题长度不能超过255")
     @TableField(value = "title", condition = LIKE)
+    @Excel(name = "标题", width = 30)
     private String title;
 
     /**
@@ -77,14 +80,16 @@ public class MsgsCenterInfo extends Entity<Long> {
     @ApiModelProperty(value = "内容")
     @Length(max = 65535, message = "内容长度不能超过65535")
     @TableField("content")
+    @Excel(name = "内容", width = 50)
     private String content;
 
     /**
      * 作者
      */
-    @ApiModelProperty(value = "作者")
-    @Length(max = 50, message = "作者长度不能超过50")
+    @ApiModelProperty(value = "发布人")
+    @Length(max = 50, message = "发布人长度不能超过50")
     @TableField(value = "author", condition = LIKE)
+    @Excel(name = "发布人")
     private String author;
 
     /**
