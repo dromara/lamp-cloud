@@ -31,7 +31,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
+        id, create_user, create_time, update_user, update_time,
         account, name, org_id, station_id, email, mobile, sex, status, avatar, nation, education, position_status, work_describe, password_error_last_time, password_error_num, password_expire_time, password, last_login_time
     </sql>
 

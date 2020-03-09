@@ -55,7 +55,6 @@ public class DashboardController {
 
         data.put("browserCount", loginLogService.findByBrowser());
         data.put("operatingSystemCount", loginLogService.findByOperatingSystem());
-
         return R.success(data);
     }
 

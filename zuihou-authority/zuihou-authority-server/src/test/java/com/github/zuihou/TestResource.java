@@ -21,7 +21,6 @@ import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.entity.common.OptLog;
-import com.github.zuihou.authority.entity.common.Parameter;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
@@ -97,8 +96,15 @@ public class TestResource {
 
     @Test
     public void testParam() {
-        Parameter parameter = parameterMapper.selectById(1225343234796945408L);
-        System.out.println(parameter);
+//        Parameter parameter = parameterMapper.selectById(1225343234796945408L);
+//        System.out.println(parameter);
+
+
+        Collection<Org> list = new ArrayList<>();
+        list.add(Org.builder().label("111").build());
+        list.add(Org.builder().label("222").build());
+        orgService.saveBatch(list);
+        System.out.println(list);
     }
 
     @Test

@@ -65,6 +65,10 @@ public class FileGeneralController {
         Set<Serializable> orgIds = new HashSet<>();
         orgIds.add(100L);
         orgIds.add(101L);
+
+//        MDC.put(BaseContextConstants.TENANT, BaseContextHandler.getTenant());
+//        MDC.put(BaseContextConstants.JWT_KEY_USER_ID, String.valueOf(BaseContextHandler.getUserId()));
+
         Map<Serializable, Object> map1 = orgApi.findOrgByIds(orgIds);
 //        Map<Serializable, Object> map2 = orgApi.findOrgNameByIds(orgIds);
 //

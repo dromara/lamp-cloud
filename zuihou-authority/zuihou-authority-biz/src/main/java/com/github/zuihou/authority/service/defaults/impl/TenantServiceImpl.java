@@ -11,7 +11,7 @@ import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
 import com.github.zuihou.authority.enumeration.defaults.TenantTypeEnum;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.defaults.GlobalUserService;
-import com.github.zuihou.authority.service.defaults.InitSystemService;
+import com.github.zuihou.authority.service.defaults.InitSystemContext;
 import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
@@ -56,7 +56,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
     @Autowired
     private UserService userService;
     @Autowired
-    private InitSystemService initSystemService;
+    private InitSystemContext initSystemContext;
 
     @Override
     public Tenant getByCode(String tenant) {
@@ -86,7 +86,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         globalUserService.save(globalAccount);
 
         // 3, 初始化库，表, 数据  考虑异步完成 // 租户库
-        initSystemService.init(tenant.getCode());
+        initSystemContext.init(tenant.getCode());
 
         // 4，保存租户用户 // 租户库
         User user = BeanPlusUtil.toBean(data, User.class);
@@ -114,7 +114,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         currentProxy().save(tenant);
 
         // 3, 初始化库，表, 数据  考虑异步完成 // 租户库
-        initSystemService.init(tenant.getCode());
+        initSystemContext.init(tenant.getCode());
         return tenant;
     }
 
