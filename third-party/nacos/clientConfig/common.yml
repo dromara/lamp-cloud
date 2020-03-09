@@ -26,6 +26,9 @@ zuihou:
     type: FEIGN
   scan:
     type: FEIGN
+  log:
+    enabled: true
+    type: DB
 
 server:
   undertow: # jetty  undertow

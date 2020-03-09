@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50722
  Source Host           : 127.0.0.1:3306
- Source Schema         : zuihou_base_v2_0000
+ Source Schema         : zuihou_base_0000
 
  Target Server Type    : MySQL
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 07/03/2020 19:32:44
+ Date: 09/03/2020 23:42:19
 */
 
 SET NAMES utf8mb4;
@@ -23,6 +23,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `c_auth_application`;
 CREATE TABLE `c_auth_application` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `app_key` varchar(24) DEFAULT NULL COMMENT 'AppKey',
   `app_secret` varchar(32) DEFAULT NULL COMMENT 'AppSecret',
   `website` varchar(100) DEFAULT '' COMMENT '官网',
@@ -30,7 +31,7 @@ CREATE TABLE `c_auth_application` (
   `icon` varchar(255) DEFAULT '' COMMENT '应用图标',
   `app_type` varchar(10) DEFAULT NULL COMMENT '类型\n#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}\n',
   `describe_` varchar(200) DEFAULT '' COMMENT '备注',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `status` bit(1) DEFAULT b'1' COMMENT '是否启用',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
@@ -45,13 +46,14 @@ CREATE TABLE `c_auth_application` (
 DROP TABLE IF EXISTS `c_auth_application_system_api`;
 CREATE TABLE `c_auth_application_system_api` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `application_id` bigint(20) DEFAULT NULL COMMENT '应用id',
   `system_api_id` bigint(20) DEFAULT NULL COMMENT '资源id',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用接口';
 
 -- ----------------------------
@@ -60,16 +62,17 @@ CREATE TABLE `c_auth_application_system_api` (
 DROP TABLE IF EXISTS `c_auth_menu`;
 CREATE TABLE `c_auth_menu` (
   `id` bigint(20) NOT NULL COMMENT '主键',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `label` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
   `describe_` varchar(200) DEFAULT '' COMMENT '描述',
-  `is_public` bit(1) DEFAULT b'0' COMMENT '是否公开菜单\r\n就是无需分配就可以访问的。所有人可见',
+  `is_public` bit(1) DEFAULT b'0' COMMENT '公共菜单\nTrue是无需分配所有人就可以访问的',
   `path` varchar(255) DEFAULT '' COMMENT '路径',
   `component` varchar(255) DEFAULT NULL COMMENT '组件',
   `is_enable` bit(1) DEFAULT b'1' COMMENT '状态',
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
   `group_` varchar(20) DEFAULT '' COMMENT '分组',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父级菜单id',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父级菜单ID',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
@@ -84,7 +87,8 @@ CREATE TABLE `c_auth_menu` (
 DROP TABLE IF EXISTS `c_auth_resource`;
 CREATE TABLE `c_auth_resource` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `code` varchar(255) DEFAULT '' COMMENT '资源编码\n规则：\n链接：\n数据列：\n按钮：',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
+  `code` varchar(255) DEFAULT '' COMMENT '编码\n规则：\n链接：\n数据列：\n按钮：',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID\n#c_auth_menu',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
@@ -93,7 +97,7 @@ CREATE TABLE `c_auth_resource` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) USING BTREE COMMENT '编码唯一'
+  UNIQUE KEY `UN_CODE` (`code`) COMMENT '编码唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
 
 -- ----------------------------
@@ -102,8 +106,9 @@ CREATE TABLE `c_auth_resource` (
 DROP TABLE IF EXISTS `c_auth_role`;
 CREATE TABLE `c_auth_role` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '角色名称',
-  `code` varchar(20) DEFAULT '' COMMENT '角色编码',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
+  `code` varchar(20) DEFAULT '' COMMENT '编码',
   `describe_` varchar(100) DEFAULT '' COMMENT '描述',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly` bit(1) DEFAULT b'0' COMMENT '是否内置角色',
@@ -113,7 +118,7 @@ CREATE TABLE `c_auth_role` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) USING BTREE
+  UNIQUE KEY `UN_CODE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
@@ -122,13 +127,14 @@ CREATE TABLE `c_auth_role` (
 DROP TABLE IF EXISTS `c_auth_role_authority`;
 CREATE TABLE `c_auth_role_authority` (
   `id` bigint(20) NOT NULL COMMENT '主键',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `authority_id` bigint(20) NOT NULL COMMENT '资源id\n#c_auth_resource\n#c_auth_menu',
   `authority_type` varchar(10) NOT NULL DEFAULT 'MENU' COMMENT '权限类型\n#AuthorizeType{MENU:菜单;RESOURCE:资源;}',
   `role_id` bigint(20) NOT NULL COMMENT '角色id\n#c_auth_role',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `create_user` bigint(20) DEFAULT '0' COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `IDX_KEY` (`role_id`,`authority_type`,`authority_id`) USING BTREE
+  KEY `IDX_KEY` (`role_id`,`authority_type`,`authority_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色的资源';
 
 -- ----------------------------
@@ -137,11 +143,12 @@ CREATE TABLE `c_auth_role_authority` (
 DROP TABLE IF EXISTS `c_auth_role_org`;
 CREATE TABLE `c_auth_role_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID\n#c_auth_role',
   `org_id` bigint(20) DEFAULT NULL COMMENT '部门ID\n#c_core_org',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色组织关系';
 
 -- ----------------------------
@@ -150,6 +157,7 @@ CREATE TABLE `c_auth_role_org` (
 DROP TABLE IF EXISTS `c_auth_system_api`;
 CREATE TABLE `c_auth_system_api` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `code` varchar(255) DEFAULT NULL COMMENT '编码',
   `name` varchar(100) NOT NULL COMMENT '名称',
   `describe_` varchar(100) DEFAULT NULL COMMENT '描述',
@@ -171,7 +179,7 @@ CREATE TABLE `c_auth_system_api` (
   UNIQUE KEY `UNX_ID` (`id`) USING BTREE,
   UNIQUE KEY `UNX_CODE` (`code`(100)) USING BTREE,
   KEY `service_id` (`service_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='API接口';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='API接口';
 
 -- ----------------------------
 -- Table structure for c_auth_user
@@ -179,6 +187,7 @@ CREATE TABLE `c_auth_system_api` (
 DROP TABLE IF EXISTS `c_auth_user`;
 CREATE TABLE `c_auth_user` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `account` varchar(30) NOT NULL COMMENT '账号',
   `name` varchar(50) NOT NULL COMMENT '姓名',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>',
@@ -211,12 +220,13 @@ CREATE TABLE `c_auth_user` (
 DROP TABLE IF EXISTS `c_auth_user_role`;
 CREATE TABLE `c_auth_user_role` (
   `id` bigint(20) NOT NULL,
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `role_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '角色ID\n#c_auth_role',
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户ID\n#c_core_accou',
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `IDX_KEY` (`role_id`,`user_id`) USING BTREE
+  KEY `IDX_KEY` (`role_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色分配\r\n账号角色绑定';
 
 -- ----------------------------
@@ -225,6 +235,7 @@ CREATE TABLE `c_auth_user_role` (
 DROP TABLE IF EXISTS `c_common_area`;
 CREATE TABLE `c_common_area` (
   `id` bigint(20) NOT NULL COMMENT 'id',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
   `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `full_name` varchar(255) DEFAULT '' COMMENT '全名',
@@ -239,7 +250,7 @@ CREATE TABLE `c_common_area` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) USING BTREE,
+  UNIQUE KEY `UN_CODE` (`code`),
   KEY `IDX_PARENT_ID` (`parent_id`,`label`) USING BTREE COMMENT '查询'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
@@ -249,7 +260,8 @@ CREATE TABLE `c_common_area` (
 DROP TABLE IF EXISTS `c_common_dictionary`;
 CREATE TABLE `c_common_dictionary` (
   `id` bigint(20) NOT NULL,
-  `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
+  `type_` varchar(64) NOT NULL DEFAULT '' COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
   `describe_` varchar(200) DEFAULT '' COMMENT '描述',
   `status_` bit(1) DEFAULT b'1' COMMENT '状态',
@@ -266,8 +278,9 @@ CREATE TABLE `c_common_dictionary` (
 DROP TABLE IF EXISTS `c_common_dictionary_item`;
 CREATE TABLE `c_common_dictionary_item` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `dictionary_id` bigint(20) NOT NULL COMMENT '类型ID',
-  `dictionary_code` varchar(64) NOT NULL COMMENT '类型',
+  `dictionary_type` varchar(64) NOT NULL COMMENT '类型',
   `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
   `status_` bit(1) DEFAULT b'1' COMMENT '状态',
@@ -278,7 +291,7 @@ CREATE TABLE `c_common_dictionary_item` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `dict_code_item_code_uniq` (`dictionary_code`,`code`) USING BTREE COMMENT '类型与字典项目编码联合唯一'
+  KEY `dict_code_item_code_uniq` (`dictionary_type`,`code`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
 
 -- ----------------------------
@@ -287,6 +300,7 @@ CREATE TABLE `c_common_dictionary_item` (
 DROP TABLE IF EXISTS `c_common_login_log`;
 CREATE TABLE `c_common_login_log` (
   `id` bigint(20) NOT NULL COMMENT '主键',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `request_ip` varchar(50) DEFAULT '' COMMENT '登录IP',
   `user_id` bigint(20) DEFAULT NULL COMMENT '登录人ID',
   `user_name` varchar(50) DEFAULT NULL COMMENT '登录人姓名',
@@ -301,11 +315,11 @@ CREATE TABLE `c_common_login_log` (
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `IDX_BROWSER` (`browser`) USING BTREE,
-  KEY `IDX_OPERATING` (`operating_system`) USING BTREE,
+  KEY `IDX_BROWSER` (`browser`),
+  KEY `IDX_OPERATING` (`operating_system`),
   KEY `IDX_LOGIN_DATE` (`login_date`,`account`) USING BTREE,
   KEY `IDX_ACCOUNT_IP` (`account`,`request_ip`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='登录日志';
 
 -- ----------------------------
 -- Table structure for c_common_opt_log
@@ -313,6 +327,7 @@ CREATE TABLE `c_common_login_log` (
 DROP TABLE IF EXISTS `c_common_opt_log`;
 CREATE TABLE `c_common_opt_log` (
   `id` bigint(20) NOT NULL COMMENT '主键',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `request_ip` varchar(50) DEFAULT '' COMMENT '操作IP',
   `type` varchar(5) DEFAULT 'OPT' COMMENT '日志类型\n#LogType{OPT:操作类型;EX:异常类型}',
   `user_name` varchar(50) DEFAULT '' COMMENT '操作人',
@@ -333,7 +348,7 @@ CREATE TABLE `c_common_opt_log` (
   `create_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_type` (`type`) USING BTREE COMMENT '日志类型'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
 
 -- ----------------------------
 -- Table structure for c_common_parameter
@@ -341,6 +356,7 @@ CREATE TABLE `c_common_opt_log` (
 DROP TABLE IF EXISTS `c_common_parameter`;
 CREATE TABLE `c_common_parameter` (
   `id` bigint(20) NOT NULL,
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `key_` varchar(255) NOT NULL DEFAULT '' COMMENT '参数键',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '参数名称',
   `value` varchar(255) NOT NULL COMMENT '参数值',
@@ -360,6 +376,7 @@ CREATE TABLE `c_common_parameter` (
 DROP TABLE IF EXISTS `c_core_org`;
 CREATE TABLE `c_core_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
@@ -371,7 +388,7 @@ CREATE TABLE `c_core_org` (
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
+  PRIMARY KEY (`id`),
   FULLTEXT KEY `FU_PATH` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
@@ -381,6 +398,7 @@ CREATE TABLE `c_core_org` (
 DROP TABLE IF EXISTS `c_core_station`;
 CREATE TABLE `c_core_station` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `org_id` bigint(20) DEFAULT '0' COMMENT '组织ID\n#c_core_org',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
@@ -389,7 +407,7 @@ CREATE TABLE `c_core_station` (
   `create_user` bigint(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
@@ -398,6 +416,7 @@ CREATE TABLE `c_core_station` (
 DROP TABLE IF EXISTS `f_attachment`;
 CREATE TABLE `f_attachment` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `biz_id` varchar(64) DEFAULT NULL COMMENT '业务ID',
   `biz_type` varchar(255) DEFAULT NULL COMMENT '业务类型\n#AttachmentType',
   `data_type` varchar(255) DEFAULT 'IMAGE' COMMENT '数据类型\n#DataType{DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他}',
@@ -429,6 +448,7 @@ CREATE TABLE `f_attachment` (
 DROP TABLE IF EXISTS `f_file`;
 CREATE TABLE `f_file` (
   `id` bigint(20) NOT NULL COMMENT '主键',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `data_type` varchar(255) DEFAULT 'IMAGE' COMMENT '数据类型\n#DataType{DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他}',
   `submitted_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
   `tree_path` varchar(255) DEFAULT ',' COMMENT '父目录层级关系',
@@ -463,6 +483,7 @@ CREATE TABLE `f_file` (
 DROP TABLE IF EXISTS `m_order`;
 CREATE TABLE `m_order` (
   `id` bigint(20) NOT NULL,
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `code` varchar(255) DEFAULT NULL COMMENT '编号',
   `create_time` datetime DEFAULT NULL,
@@ -470,7 +491,7 @@ CREATE TABLE `m_order` (
   `update_time` datetime DEFAULT NULL,
   `update_user` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单(用于测试)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单(用于测试)';
 
 -- ----------------------------
 -- Table structure for m_product
@@ -478,6 +499,7 @@ CREATE TABLE `m_order` (
 DROP TABLE IF EXISTS `m_product`;
 CREATE TABLE `m_product` (
   `id` bigint(20) NOT NULL,
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `stock` int(11) DEFAULT NULL COMMENT '库存',
   `create_time` datetime DEFAULT NULL,
@@ -497,7 +519,7 @@ CREATE TABLE `m_product` (
   `test7` char(10) DEFAULT NULL COMMENT 'xxx\n@InjectionField(api = “userApi”, method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户\n@InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品(用于测试)';
 
 -- ----------------------------
@@ -506,6 +528,7 @@ CREATE TABLE `m_product` (
 DROP TABLE IF EXISTS `mail_provider`;
 CREATE TABLE `mail_provider` (
   `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `mail_type` varchar(10) DEFAULT 'TENCENT' COMMENT '邮箱类型\n#MailType{SINA:新浪;QQ:腾讯;WY163:网易}',
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱账号',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱授权码',
@@ -521,7 +544,7 @@ CREATE TABLE `mail_provider` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='邮件供应商';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='邮件供应商';
 
 -- ----------------------------
 -- Table structure for mail_send_status
@@ -529,6 +552,7 @@ CREATE TABLE `mail_provider` (
 DROP TABLE IF EXISTS `mail_send_status`;
 CREATE TABLE `mail_send_status` (
   `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `task_id` bigint(20) NOT NULL COMMENT '任务id\n#mail_task',
   `email` varchar(64) NOT NULL COMMENT '收件邮箱',
   `mail_status` varchar(255) NOT NULL DEFAULT 'UNREAD' COMMENT '邮件状态\r\n#MailStatus{UNREAD:未读;READ:已读;DELETED:已删除;ABNORMAL:异常;VIRUSES:病毒;TRASH:垃圾}',
@@ -537,7 +561,7 @@ CREATE TABLE `mail_send_status` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='邮件发送状态';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='邮件发送状态';
 
 -- ----------------------------
 -- Table structure for mail_task
@@ -545,6 +569,7 @@ CREATE TABLE `mail_send_status` (
 DROP TABLE IF EXISTS `mail_task`;
 CREATE TABLE `mail_task` (
   `id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `status` varchar(10) DEFAULT 'WAITING' COMMENT '执行状态\r\n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
   `provider_id` bigint(20) DEFAULT NULL COMMENT '发件人id\n#mail_provider',
   `to` varchar(500) DEFAULT '' COMMENT '收件人\n多个,号分割',
@@ -560,7 +585,7 @@ CREATE TABLE `mail_task` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='邮件任务';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='邮件任务';
 
 -- ----------------------------
 -- Table structure for msgs_center_info
@@ -568,12 +593,13 @@ CREATE TABLE `mail_task` (
 DROP TABLE IF EXISTS `msgs_center_info`;
 CREATE TABLE `msgs_center_info` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `biz_id` varchar(64) DEFAULT NULL COMMENT '业务ID\n业务表的唯一id',
   `biz_type` varchar(64) DEFAULT NULL COMMENT '业务类型\n#MsgsBizType{USER_LOCK:账号锁定;USER_REG:账号申请;WORK_APPROVAL:考勤审批;}',
   `msgs_center_type` varchar(20) NOT NULL DEFAULT 'NOTIFY' COMMENT '消息类型\n#MsgsCenterType{WAIT:待办;NOTIFY:通知;PUBLICITY:公告;WARN:预警;}',
   `title` varchar(255) DEFAULT '' COMMENT '标题',
   `content` text COMMENT '内容',
-  `author` varchar(50) DEFAULT '' COMMENT '作者',
+  `author` varchar(50) DEFAULT '' COMMENT '发布人',
   `handler_url` varchar(255) DEFAULT '' COMMENT '处理地址\n以http开头时直接跳转，否则与#c_application表拼接后跳转\nhttp可带参数',
   `handler_params` varchar(400) DEFAULT '' COMMENT '处理参数',
   `is_single_handle` bit(1) DEFAULT b'1' COMMENT '是否单人处理',
@@ -582,7 +608,7 @@ CREATE TABLE `msgs_center_info` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息中心表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息中心表';
 
 -- ----------------------------
 -- Table structure for msgs_center_info_receive
@@ -590,6 +616,7 @@ CREATE TABLE `msgs_center_info` (
 DROP TABLE IF EXISTS `msgs_center_info_receive`;
 CREATE TABLE `msgs_center_info_receive` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `msgs_center_id` bigint(20) NOT NULL COMMENT '消息中心ID\n#msgs_center_info',
   `user_id` bigint(20) NOT NULL COMMENT '接收人ID\n#c_user',
   `is_read` bit(1) DEFAULT b'0' COMMENT '是否已读\n#BooleanStatus',
@@ -598,7 +625,7 @@ CREATE TABLE `msgs_center_info_receive` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息中心接收表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息中心接收表';
 
 -- ----------------------------
 -- Table structure for sms_send_status
@@ -606,6 +633,7 @@ CREATE TABLE `msgs_center_info_receive` (
 DROP TABLE IF EXISTS `sms_send_status`;
 CREATE TABLE `sms_send_status` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `task_id` bigint(20) NOT NULL COMMENT '任务ID\n#sms_task',
   `send_status` varchar(10) NOT NULL DEFAULT 'WAITING' COMMENT '发送状态\n#SendStatus{WAITING:等待发送;SUCCESS:发送成功;FAIL:发送失败}',
   `receiver` varchar(20) NOT NULL COMMENT '接收者手机号\n单个手机号',
@@ -622,7 +650,7 @@ CREATE TABLE `sms_send_status` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信发送状态';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='短信发送状态';
 
 -- ----------------------------
 -- Table structure for sms_task
@@ -630,6 +658,7 @@ CREATE TABLE `sms_send_status` (
 DROP TABLE IF EXISTS `sms_task`;
 CREATE TABLE `sms_task` (
   `id` bigint(20) NOT NULL COMMENT '短信记录ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `template_id` bigint(20) NOT NULL COMMENT '模板ID\n#sms_template',
   `status` varchar(10) DEFAULT 'WAITING' COMMENT '执行状态\n(手机号具体发送状态看sms_send_status表) \n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
   `source_type` varchar(10) DEFAULT 'APP' COMMENT '来源类型\n#SourceType{APP:应用;SERVICE:服务}\n',
@@ -644,7 +673,7 @@ CREATE TABLE `sms_task` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='发送任务\n所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息，\n具体的发送状态查看发送状态（#sms_send_status）表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='发送任务\n所有的短息发送调用，都视为是一次短信任务，任务表只保存数据和执行状态等信息，\n具体的发送状态查看发送状态（#sms_send_status）表';
 
 -- ----------------------------
 -- Table structure for sms_template
@@ -652,6 +681,7 @@ CREATE TABLE `sms_task` (
 DROP TABLE IF EXISTS `sms_template`;
 CREATE TABLE `sms_template` (
   `id` bigint(20) NOT NULL COMMENT '模板ID',
+  `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `provider_type` varchar(10) NOT NULL COMMENT '供应商类型\n#ProviderType{ALI:OK,阿里云短信;TENCENT:0,腾讯云短信;BAIDU:1000,百度云短信}',
   `app_id` varchar(255) NOT NULL COMMENT '应用ID',
   `app_secret` varchar(255) NOT NULL COMMENT '应用密码',
@@ -669,7 +699,7 @@ CREATE TABLE `sms_template` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UN_CODE` (`custom_code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信模板';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='短信模板';
 
 -- ----------------------------
 -- Table structure for undo_log
@@ -684,8 +714,8 @@ CREATE TABLE `undo_log` (
   `log_status` int(11) NOT NULL COMMENT '0:normal status,1:defense status',
   `log_created` datetime NOT NULL COMMENT 'create datetime',
   `log_modified` datetime NOT NULL COMMENT 'modify datetime',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`) USING BTREE
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='AT transaction mode undo table';
 
 SET FOREIGN_KEY_CHECKS = 1;

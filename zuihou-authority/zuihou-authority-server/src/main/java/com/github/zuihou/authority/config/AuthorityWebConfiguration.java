@@ -3,6 +3,7 @@ package com.github.zuihou.authority.config;
 import com.github.zuihou.authority.service.common.OptLogService;
 import com.github.zuihou.boot.config.BaseConfig;
 import com.github.zuihou.log.event.SysLogListener;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +14,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AuthorityWebConfiguration extends BaseConfig {
 
+    /**
+     * zuihou.log.enabled = true 并且 zuihou.log.type=DB时实例该类
+     *
+     * @param optLogService
+     * @return
+     */
     @Bean
+    @ConditionalOnExpression("${zuihou.log.enabled:true} && 'DB'.equals('${zuihou.log.type:LOGGER}')")
     public SysLogListener sysLogListener(OptLogService optLogService) {
         return new SysLogListener((log) -> optLogService.save(log));
     }

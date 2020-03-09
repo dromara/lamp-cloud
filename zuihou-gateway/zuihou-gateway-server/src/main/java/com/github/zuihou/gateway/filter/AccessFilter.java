@@ -13,6 +13,7 @@ import com.github.zuihou.exception.BizException;
 import com.github.zuihou.utils.StrPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -130,8 +131,10 @@ public class AccessFilter implements GlobalFilter, Ordered {
             addHeader(mutate, BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount());
             addHeader(mutate, BaseContextConstants.JWT_KEY_USER_ID, userInfo.getUserId());
             addHeader(mutate, BaseContextConstants.JWT_KEY_NAME, userInfo.getName());
-
         }
+
+        MDC.put(BaseContextConstants.TENANT, BaseContextHandler.getTenant());
+        MDC.put(BaseContextConstants.JWT_KEY_USER_ID, String.valueOf(BaseContextHandler.getUserId()));
 
         ServerHttpRequest build = mutate.build();
         return chain.filter(exchange.mutate().request(build).build());

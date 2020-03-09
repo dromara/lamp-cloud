@@ -23,6 +23,7 @@ import com.github.zuihou.authority.utils.TimeUtils;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.properties.DatabaseProperties;
+import com.github.zuihou.database.properties.MultiTenantType;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.exception.code.ExceptionCode;
 import com.github.zuihou.model.RemoteData;
@@ -166,10 +167,10 @@ public class AuthManager {
      */
 
     public R<LoginDTO> login(String tenantCode, String account, String password) {
-        if (this.databaseProperties.getIsMultiTenant()) {
-            return this.tenantLogin(tenantCode, account, password);
-        } else {
+        if (MultiTenantType.NONE.eq(this.databaseProperties.getMultiTenantType())) {
             return this.simpleLogin(account, password);
+        } else {
+            return this.tenantLogin(tenantCode, account, password);
         }
     }
 
