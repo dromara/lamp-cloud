@@ -14,12 +14,14 @@ import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.dao.common.AreaMapper;
+import com.github.zuihou.authority.dao.common.ParameterMapper;
 import com.github.zuihou.authority.dao.core.StationMapper;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.entity.common.OptLog;
+import com.github.zuihou.authority.entity.common.Parameter;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
@@ -81,6 +83,8 @@ public class TestResource {
     private AreaMapper areaMapper;
     @Autowired
     private StationMapper stationMapper;
+    @Autowired
+    private ParameterMapper parameterMapper;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -89,6 +93,12 @@ public class TestResource {
     public void setTenant() {
         BaseContextHandler.setUserId(3L);
         BaseContextHandler.setTenant("0000");
+    }
+
+    @Test
+    public void testParam() {
+        Parameter parameter = parameterMapper.selectById(1225343234796945408L);
+        System.out.println(parameter);
     }
 
     @Test

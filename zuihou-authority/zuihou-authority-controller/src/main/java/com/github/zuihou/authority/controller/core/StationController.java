@@ -7,6 +7,7 @@ import com.github.zuihou.authority.dto.core.StationSaveDTO;
 import com.github.zuihou.authority.dto.core.StationUpdateDTO;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.service.core.StationService;
+import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.model.RemoteData;
@@ -80,8 +81,8 @@ public class StationController extends SuperCacheController<StationService, Long
     }
 
     @Override
-    public void handlerImport(List<Map<String, String>> list) {
-        List<Station> userList = list.stream().map((map) -> {
+    public R<Boolean> handlerImport(List<Map<String, String>> list) {
+        List<Station> stationList = list.stream().map((map) -> {
             Station item = new Station();
             item.setDescribe(map.getOrDefault("描述", ""));
             item.setName(map.getOrDefault("名称", ""));
@@ -90,7 +91,7 @@ public class StationController extends SuperCacheController<StationService, Long
             return item;
         }).collect(Collectors.toList());
 
-        baseService.saveBatch(userList);
+        return R.success(baseService.saveBatch(stationList));
     }
 
 

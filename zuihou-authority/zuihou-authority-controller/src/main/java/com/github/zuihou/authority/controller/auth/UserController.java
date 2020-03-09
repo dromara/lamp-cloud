@@ -310,7 +310,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param list
      */
     @Override
-    public void handlerImport(List<Map<String, String>> list) {
+    public R<Boolean> handlerImport(List<Map<String, String>> list) {
         List<User> userList = list.stream().map((map) -> {
             User user = new User();
             user.setAccount(map.getOrDefault("账号", ""));
@@ -335,7 +335,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
             return user;
         }).collect(Collectors.toList());
 
-        baseService.saveBatch(userList);
+        return R.success(baseService.saveBatch(userList));
     }
 
 

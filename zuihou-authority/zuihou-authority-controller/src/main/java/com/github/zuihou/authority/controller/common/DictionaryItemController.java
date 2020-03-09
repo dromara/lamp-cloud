@@ -37,7 +37,6 @@ import java.util.Set;
 @RequestMapping("/dictionaryItem")
 @Api(value = "DictionaryItem", tags = "字典项")
 public class DictionaryItemController extends SuperCacheController<DictionaryItemService, Long, DictionaryItem, DictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO> {
-
     @Override
     public void handlerWrapper(QueryWrap<DictionaryItem> wrapper, PageParams<DictionaryItem> params) {
         super.handlerWrapper(wrapper, params);
@@ -45,7 +44,6 @@ public class DictionaryItemController extends SuperCacheController<DictionaryIte
         wrapper.lambda().ignore(DictionaryItem::setDictionaryType)
                 .eq(DictionaryItem::getDictionaryType, model.getDictionaryType());
     }
-
 
     /**
      * 由于类型本身就是String 类型，所以不会出现mysql 的隐式转换问题，所以无需转换
