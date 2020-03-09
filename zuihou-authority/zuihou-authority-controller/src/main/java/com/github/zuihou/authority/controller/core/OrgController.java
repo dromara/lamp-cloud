@@ -136,7 +136,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
 
 
     @Override
-    public void handlerImport(List<Map<String, String>> list) {
+    public R<Boolean> handlerImport(List<Map<String, String>> list) {
         List<Org> userList = list.stream().map((map) -> {
             Org item = new Org();
             item.setDescribe(map.getOrDefault("描述", EMPTY));
@@ -146,7 +146,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
             return item;
         }).collect(Collectors.toList());
 
-        baseService.saveBatch(userList);
+        return R.success(baseService.saveBatch(userList));
     }
 
 }
