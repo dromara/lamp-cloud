@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 09/03/2020 23:47:41
+ Date: 10/03/2020 23:39:56
 */
 
 SET NAMES utf8mb4;
@@ -131,7 +131,7 @@ DROP TABLE IF EXISTS `c_auth_resource`;
 CREATE TABLE `c_auth_resource` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
-  `code` varchar(255) DEFAULT '' COMMENT '编码\n规则：\n链接：\n数据列：\n按钮：',
+  `code` varchar(50) DEFAULT '' COMMENT '编码\n规则：\n链接：\n数据列：\n按钮：',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID\n#c_auth_menu',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
@@ -140,7 +140,7 @@ CREATE TABLE `c_auth_resource` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) COMMENT '编码唯一'
+  UNIQUE KEY `UN_CODE` (`code`,`tenant_code`) USING BTREE COMMENT '编码唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
 
 -- ----------------------------
@@ -220,7 +220,6 @@ INSERT INTO `c_auth_resource` VALUES (643456884694593409, '0000', 'file:download
 INSERT INTO `c_auth_resource` VALUES (645288214990422241, '0000', 'optLog:delete', '删除', 605078672772170209, '', 3, '2019-11-16 15:45:00', 3, '2019-11-16 15:45:00');
 INSERT INTO `c_auth_resource` VALUES (645288283693121889, '0000', 'loginLog:delete', '删除', 645215230518909025, '', 3, '2019-11-16 15:45:16', 3, '2019-11-16 15:45:16');
 INSERT INTO `c_auth_resource` VALUES (645288375300915649, '0000', 'loginLog:export', '导出', 645215230518909025, '', 3, '2019-11-16 15:45:38', 3, '2019-11-16 15:45:38');
-INSERT INTO `c_auth_resource` VALUES (648846610591122721, '0000', 'sms:manage:copy', '复制', 605080359394083937, '', 3, '2019-11-26 11:24:47', 3, '2019-11-26 11:24:47');
 INSERT INTO `c_auth_resource` VALUES (658002570005972001, '0000', 'msgs:add', '新增', 605080023753294753, '', 3, '2019-12-21 17:47:18', 3, '2019-12-21 17:47:18');
 INSERT INTO `c_auth_resource` VALUES (658002632467547265, '0000', 'msgs:mark', '标记已读', 605080023753294753, '', 3, '2019-12-21 17:47:33', 3, '2019-12-21 17:47:33');
 INSERT INTO `c_auth_resource` VALUES (659045058871296641, '0000', 'systemApi:add', '新增', 605424535633666945, '', 3, '2019-12-24 14:49:47', 3, '2019-12-24 14:49:47');
@@ -235,7 +234,6 @@ INSERT INTO `c_auth_resource` VALUES (659702791312245313, '0000', 'application:v
 INSERT INTO `c_auth_resource` VALUES (659702853945787041, '0000', 'application:export', '导出', 605078538881597857, '', 3, '2019-12-26 10:23:37', 3, '2019-12-26 10:23:37');
 INSERT INTO `c_auth_resource` VALUES (1225042691843162112, '0000', 'parameter:add', '添加', 1225042542827929600, '', 3, '2020-02-05 21:05:13', 3, '2020-02-05 21:05:13');
 INSERT INTO `c_auth_resource` VALUES (1225042821497487360, '0000', 'parameter:update', '修改', 1225042542827929600, '', 3, '2020-02-05 21:05:43', 3, '2020-02-05 21:05:43');
-INSERT INTO `c_auth_resource` VALUES (1225042887989788672, '0000', 'parameter:copy', '复制', 1225042542827929600, '', 3, '2020-02-05 21:05:59', 3, '2020-02-05 21:05:59');
 INSERT INTO `c_auth_resource` VALUES (1225042949172101120, '0000', 'parameter:delete', '删除', 1225042542827929600, '', 3, '2020-02-05 21:06:14', 3, '2020-02-05 21:06:14');
 INSERT INTO `c_auth_resource` VALUES (1225043012455759872, '0000', 'parameter:export', '导出', 1225042542827929600, '', 3, '2020-02-05 21:06:29', 3, '2020-02-05 21:06:29');
 INSERT INTO `c_auth_resource` VALUES (1237035586045345792, '0000', 'parameter:import', '导入', 1225042542827929600, '', 3, '2020-03-09 23:20:41', 3, '2020-03-09 23:20:41');
@@ -260,7 +258,7 @@ CREATE TABLE `c_auth_role` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`)
+  UNIQUE KEY `UN_CODE` (`code`,`tenant_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
@@ -313,7 +311,6 @@ INSERT INTO `c_auth_role_authority` VALUES (1237036116738048000, '0000', 6434541
 INSERT INTO `c_auth_role_authority` VALUES (1237036116738048001, '0000', 643445016773002817, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116738048002, '0000', 659430164874134689, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116742242304, '0000', 643445162915137313, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
-INSERT INTO `c_auth_role_authority` VALUES (1237036116742242305, '0000', 1225042887989788672, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116746436608, '0000', 643445229575210977, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116750630912, '0000', 1225984389242945536, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116750630913, '0000', 643448369779315777, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
@@ -351,7 +348,6 @@ INSERT INTO `c_auth_role_authority` VALUES (1237036116796768257, '0000', 6434501
 INSERT INTO `c_auth_role_authority` VALUES (1237036116796768258, '0000', 643456761927315137, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116800962560, '0000', 643445477274028609, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116800962561, '0000', 1225984257483079680, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
-INSERT INTO `c_auth_role_authority` VALUES (1237036116805156864, '0000', 648846610591122721, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116805156865, '0000', 643445352703199521, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116809351168, '0000', 643445747320098145, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1237036116809351169, '0000', 643452571645650465, 'RESOURCE', 100, '2020-03-09 23:22:48', 3);
@@ -483,7 +479,7 @@ CREATE TABLE `c_auth_system_api` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UNX_ID` (`id`) USING BTREE,
-  UNIQUE KEY `UNX_CODE` (`code`(100)) USING BTREE,
+  UNIQUE KEY `UNX_CODE` (`code`(100),`tenant_code`) USING BTREE,
   KEY `service_id` (`service_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='API接口';
 
@@ -517,14 +513,14 @@ CREATE TABLE `c_auth_user` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_ACCOUNT` (`account`) USING BTREE
+  UNIQUE KEY `UN_ACCOUNT` (`account`,`tenant_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------
 -- Records of c_auth_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_auth_user` VALUES (3, '0000', 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869992', 'W', b'1', 'BiazfanxmamNRoxxVxka.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班3~', '2020-03-09 23:08:53', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-03-09 23:08:55', 1, '2019-09-02 11:32:02', 3, '2019-12-11 18:00:25');
+INSERT INTO `c_auth_user` VALUES (3, '0000', 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869992', 'W', b'1', 'BiazfanxmamNRoxxVxka.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班3~', '2020-03-10 22:13:08', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-03-10 22:13:09', 1, '2019-09-02 11:32:02', 3, '2019-12-11 18:00:25');
 INSERT INTO `c_auth_user` VALUES (641577229343523041, '0000', 'test', '总经理', 102, 100, '', '', 'N', b'1', 'http://127.0.0.1:10000/file/0000/2019/11/c8df3238-ebca-42b3-baeb-37896468f028.png', 'mz_zz', 'COLLEGE', 'WORKING', '', '2019-12-21 16:45:13', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-12-21 16:45:14', 3, '2019-11-06 09:58:56', 3, '2019-11-26 11:02:42');
 INSERT INTO `c_auth_user` VALUES (641590096981656001, '0000', 'manong', '码农', 643776594376135105, 642032719487828225, '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2020-02-22 12:32:35', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-22 12:32:35', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
 COMMIT;
@@ -572,7 +568,7 @@ CREATE TABLE `c_common_area` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`),
+  UNIQUE KEY `UN_CODE` (`tenant_code`,`code`) USING BTREE,
   KEY `IDX_PARENT_ID` (`parent_id`,`label`) USING BTREE COMMENT '查询'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
@@ -696,7 +692,7 @@ INSERT INTO `c_common_dictionary_item` VALUES (96, '0000', 1, 'NATION', 'mz_hzz'
 INSERT INTO `c_common_dictionary_item` VALUES (97, '0000', 1, 'NATION', 'mz_lbz', '珞巴族', b'1', '', 54, 1, '2018-03-15 20:11:01', 1, '2018-03-15 20:11:04');
 INSERT INTO `c_common_dictionary_item` VALUES (98, '0000', 1, 'NATION', 'mz_blz', '布朗族', b'1', '', 55, 1, '2018-03-15 20:11:01', 1, '2018-03-15 20:11:04');
 INSERT INTO `c_common_dictionary_item` VALUES (99, '0000', 2, 'POSITION_STATUS', 'WORKING', '在职', b'1', '', 1, 1, '2019-06-04 11:38:16', 1, '2019-06-04 11:38:16');
-INSERT INTO `c_common_dictionary_item` VALUES (100, '0000', 2, 'POSITION_STATUS', 'LEAVE', '离职', b'1', '', 2, 1, '2019-06-04 11:38:50', 1, '2019-06-04 11:38:50');
+INSERT INTO `c_common_dictionary_item` VALUES (100, '0000', 2, 'POSITION_STATUS', 'QUIT', '离职', b'1', '', 2, 1, '2019-06-04 11:38:50', 1, '2019-06-04 11:38:50');
 INSERT INTO `c_common_dictionary_item` VALUES (1237038877428940800, '0000', 4, 'AREA_LEVEL', 'TOWNS', '乡镇', b'1', '', 5, 3, '2020-03-09 23:33:46', 3, '2020-03-09 23:33:46');
 INSERT INTO `c_common_dictionary_item` VALUES (1237038991044247552, '0000', 3, 'EDUCATION', 'XIAOXUE', '小学', b'1', '', 1, 3, '2020-03-09 23:34:13', 3, '2020-03-09 23:34:13');
 INSERT INTO `c_common_dictionary_item` VALUES (1237039071537135616, '0000', 3, 'EDUCATION', 'ZHONGXUE', '中学', b'1', '', 2, 3, '2020-03-09 23:34:32', 3, '2020-03-09 23:34:32');
@@ -779,7 +775,8 @@ CREATE TABLE `c_common_parameter` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_KEY` (`tenant_code`,`key_`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数配置';
 
 -- ----------------------------
@@ -1158,7 +1155,7 @@ CREATE TABLE `sms_template` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`custom_code`) USING BTREE
+  UNIQUE KEY `UN_CODE` (`custom_code`,`tenant_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='短信模板';
 
 -- ----------------------------
