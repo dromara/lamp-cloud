@@ -15,8 +15,10 @@ zuihou:
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
   database:
     isBlockAttack: false
-    isMultiTenant: true
+    multiTenantType: SCHEMA
     bizDatabase: zuihou_base
+    worker-id: 0
+    data-center-id: 0
 
 ### xxl-job email
 xxl.job:

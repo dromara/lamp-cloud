@@ -19,6 +19,8 @@ import com.github.zuihou.authority.dao.core.StationMapper;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.common.Dictionary;
+import com.github.zuihou.authority.entity.common.DictionaryItem;
 import com.github.zuihou.authority.entity.common.LoginLog;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.entity.core.Org;
@@ -26,6 +28,8 @@ import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.authority.service.auth.ResourceService;
 import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.service.common.DictionaryItemService;
+import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.context.BaseContextHandler;
@@ -92,6 +96,34 @@ public class TestResource {
     public void setTenant() {
         BaseContextHandler.setUserId(3L);
         BaseContextHandler.setTenant("0000");
+    }
+
+    @Autowired
+    private DictionaryService dictionaryService;
+    @Autowired
+    private DictionaryItemService dictionaryItemService;
+
+    @Test
+    public void testDict() {
+
+        Collection<com.github.zuihou.authority.entity.common.Dictionary> dictionaryList = new ArrayList<>();
+        dictionaryList.add(com.github.zuihou.authority.entity.common.Dictionary.builder().type("AAA").name("BBBB").build());
+        dictionaryList.add(Dictionary.builder().type("CCC").name("DDD").build());
+        dictionaryService.saveBatch(dictionaryList);
+
+        Collection<DictionaryItem> dictionaryItemList = new ArrayList<>();
+        dictionaryList.forEach((item -> {
+            dictionaryItemList.add(DictionaryItem.builder()
+                    .dictionaryId(item.getId()).dictionaryType(item.getType())
+                    .code("cc").name("ddd").sortValue(0)
+                    .build());
+            dictionaryItemList.add(DictionaryItem.builder()
+                    .dictionaryId(item.getId()).dictionaryType(item.getType())
+                    .code("ee").name("fff").sortValue(1)
+                    .build());
+        }));
+        dictionaryItemService.saveBatch(dictionaryItemList);
+        System.out.println(dictionaryItemList);
     }
 
     @Test

@@ -10,7 +10,7 @@ public interface BizConstant {
     /**
      * 初始化的租户管理员角色
      */
-    Long INIT_ROLE_ID = 100L;
+    String INIT_ROLE_CODE = "PT_ADMIN";
 
     /**
      * 演示用的组织ID
