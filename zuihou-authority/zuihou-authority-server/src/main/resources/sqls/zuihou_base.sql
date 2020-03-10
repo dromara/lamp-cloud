@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 09/03/2020 23:42:19
+ Date: 10/03/2020 23:39:32
 */
 
 SET NAMES utf8mb4;
@@ -88,7 +88,7 @@ DROP TABLE IF EXISTS `c_auth_resource`;
 CREATE TABLE `c_auth_resource` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
-  `code` varchar(255) DEFAULT '' COMMENT '编码\n规则：\n链接：\n数据列：\n按钮：',
+  `code` varchar(50) DEFAULT '' COMMENT '编码\n规则：\n链接：\n数据列：\n按钮：',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID\n#c_auth_menu',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
@@ -97,7 +97,7 @@ CREATE TABLE `c_auth_resource` (
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`) COMMENT '编码唯一'
+  UNIQUE KEY `UN_CODE` (`code`,`tenant_code`) USING BTREE COMMENT '编码唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
 
 -- ----------------------------
@@ -118,7 +118,7 @@ CREATE TABLE `c_auth_role` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`)
+  UNIQUE KEY `UN_CODE` (`code`,`tenant_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
@@ -177,7 +177,7 @@ CREATE TABLE `c_auth_system_api` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UNX_ID` (`id`) USING BTREE,
-  UNIQUE KEY `UNX_CODE` (`code`(100)) USING BTREE,
+  UNIQUE KEY `UNX_CODE` (`code`(100),`tenant_code`) USING BTREE,
   KEY `service_id` (`service_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='API接口';
 
@@ -211,7 +211,7 @@ CREATE TABLE `c_auth_user` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_ACCOUNT` (`account`) USING BTREE
+  UNIQUE KEY `UN_ACCOUNT` (`account`,`tenant_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------
@@ -250,7 +250,7 @@ CREATE TABLE `c_common_area` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`code`),
+  UNIQUE KEY `UN_CODE` (`tenant_code`,`code`) USING BTREE,
   KEY `IDX_PARENT_ID` (`parent_id`,`label`) USING BTREE COMMENT '查询'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
@@ -367,7 +367,8 @@ CREATE TABLE `c_common_parameter` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(20) DEFAULT '0' COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UN_KEY` (`tenant_code`,`key_`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数配置';
 
 -- ----------------------------
@@ -698,7 +699,7 @@ CREATE TABLE `sms_template` (
   `update_user` bigint(20) DEFAULT '0' COMMENT '最后修改人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_CODE` (`custom_code`) USING BTREE
+  UNIQUE KEY `UN_CODE` (`custom_code`,`tenant_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='短信模板';
 
 -- ----------------------------

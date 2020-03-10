@@ -1,13 +1,12 @@
 package com.github.zuihou.executor.jobhandler;
 
-import com.github.zuihou.authority.service.defaults.InitSystemStrategy;
+import com.github.zuihou.authority.service.defaults.InitSystemContext;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,18 +23,20 @@ public class RestBase0000JobHandler extends IJobHandler {
      * 内置租户
      */
     private final static String DEF_TENANT = "0000";
-    /**
-     * 需要初始化的sql文件在classpath中的路径
-     */
-    private final static String SQL_RESOURCE_PATH = "sqls/%s.sql";
+    //    /**
+//     * 需要初始化的sql文件在classpath中的路径
+//     */
+//    private final static String SQL_RESOURCE_PATH = "sqls/%s.sql";
     @Autowired
-    private InitSystemStrategy initSystemService;
-    @Value("${zuihou.database.bizDatabase:zuihou_base}")
-    private String database;
+    private InitSystemContext initSystemContext;
+//    @Value("${zuihou.database.bizDatabase:zuihou_base}")
+//    private String database;
 
     @Override
     public ReturnT<String> execute2(String param) throws Exception {
         XxlJobLogger.log("执行参数--->param={} ", param);
+
+        initSystemContext.reset(DEF_TENANT);
 
 //        ScriptRunner runner = null;
 //        try {
