@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
-            <version>${cloud.project.version}</version>
+            <version>${zuihou-project.version}</version>
         </dependency>
 
         <dependency>

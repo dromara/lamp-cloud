@@ -37,6 +37,7 @@ spring:
 # window会自动在 代码所在盘 根目录下自动创建文件夹，  如： D:/data/projects/logs
 logging:
   file:
+    # 为什么要用绝对路径，而非相对路径？ 正式环境服务器磁盘通常是外挂到某个目录的，所以需要指定这个路径。 开发环境将所有系统日志存放在一起，便于后期清理日志文件，不用一个项目一个项目删除。
     path: /data/projects/logs
     name: ${logging.file.path}/${spring.application.name}/root.log
 
