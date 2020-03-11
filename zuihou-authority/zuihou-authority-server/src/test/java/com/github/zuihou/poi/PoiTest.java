@@ -43,7 +43,7 @@ public class PoiTest {
     private static List<UserExcelVO> USER_EXCEL_LIST = new ArrayList<>();
 
     static {
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 2; i++) {
             User user = User.builder()
                     .orgId(new RemoteData<>(Long.valueOf(i), Org.builder().label("org" + i).build()))
                     .stationId(new RemoteData<>(Long.valueOf(i), "stataiin" + i))

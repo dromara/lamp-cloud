@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserPoiTest {
 
@@ -30,7 +31,7 @@ public class UserPoiTest {
     private static List<UserExcelVO> USER_EXCEL_LIST = new ArrayList<>();
 
     static {
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 2; i++) {
             User user = User.builder()
                     .orgId(new RemoteData<>(Long.valueOf(i), Org.builder().label("org" + i).build()))
                     .stationId(new RemoteData<>(Long.valueOf(i), "stataiin" + i))
@@ -95,6 +96,25 @@ public class UserPoiTest {
             System.out.println(ReflectionToStringBuilder.toString(result.getList().get(i)));
         }
 
+        System.out.println(result.getList().size());
+
+    }
+
+    @Test
+    public void testImportMap() throws Exception {
+        ImportParams params = new ImportParams();
+        params.setTitleRows(0);
+        params.setHeadRows(1);
+        params.setNeedVerify(true);
+
+        List<Map<String, Object>> list = ExcelImportUtil.importExcel(new File(OUTPUT_PATH + "User2.xlsx"), Map.class, params);
+
+        ExcelImportResult<UserExcelVO> result = ExcelImportUtil.importExcelMore(
+                new File(OUTPUT_PATH + "User2.xlsx"),
+                UserExcelVO.class, params);
+
+
+        System.out.println(list.size());
         System.out.println(result.getList().size());
 
     }

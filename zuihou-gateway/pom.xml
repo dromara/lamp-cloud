@@ -28,17 +28,17 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-zuul-base</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-zuul-ratelimit</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-zuul-authentication</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

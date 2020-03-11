@@ -29,12 +29,12 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-biz</artifactId>
-            <version>${cloud.project.version}</version>
+            <version>${zuihou-project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-sms-biz</artifactId>
-            <version>${cloud.project.version}</version>
+            <version>${zuihou-project.version}</version>
         </dependency>
 
         <dependency>

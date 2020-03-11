@@ -27,17 +27,17 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-order-biz</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-order-controller</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-order-entity</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
 
         </dependencies>
