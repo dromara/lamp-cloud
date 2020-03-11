@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-api</artifactId>
-            <version>${cloud.project.version}</version>
+            <version>${zuihou-project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>

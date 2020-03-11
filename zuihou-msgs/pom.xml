@@ -29,28 +29,28 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-sms-biz</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-sms-controller</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-msgs-biz</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-msgs-controller</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-msgs-entity</artifactId>
-                <version>${cloud.project.version}</version>
+                <version>${zuihou-project.version}</version>
             </dependency>
 
 

@@ -10,7 +10,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-<!--    <version>${cloud.project.version}</version>-->
     <artifactId>zuihou-authority-server</artifactId>
     <name>${project.artifactId}</name>
     <description>权限认证服务启动模块</description>
@@ -23,7 +22,7 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-authority-api</artifactId>
-            <version>${cloud.project.version}</version>
+            <version>${zuihou-project.version}</version>
         </dependency>
 
         <dependency>
@@ -58,10 +57,10 @@
                     <artifactId>fastjson</artifactId>
                     <groupId>com.alibaba</groupId>
                 </exclusion>
-                <!--                <exclusion>-->
-                <!--                    <groupId>com.google.guava</groupId>-->
-                <!--                    <artifactId>guava</artifactId>-->
-                <!--                </exclusion>-->
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -165,7 +164,7 @@
                 <version>${dockerfile-maven-plugin.version}</version>
                 <configuration>
                     <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                    <tag>${cloud.project.version}</tag>
+                    <tag>${zuihou-project.version}</tag>
                     <buildArgs>
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>

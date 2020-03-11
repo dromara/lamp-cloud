@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
-            <version>${cloud.project.version}</version>
+            <version>${zuihou-project.version}</version>
         </dependency>
 
         <!-- databases 只有权限服务需要引用， 其他服务放在server模块 -->
