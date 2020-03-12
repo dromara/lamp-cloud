@@ -71,6 +71,10 @@ public class AuthorityGeneralController {
 
     @GetMapping("/aaaa")
     public R<Object> test() {
+        log.warn("warn");
+        log.error("error");
+        log.debug("debug");
+        log.info("info");
         return R.success(isNotWrite);
     }
 

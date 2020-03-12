@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dao.auth.UserMapper;
+import com.github.zuihou.authority.dao.defaults.TenantMapper;
 import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.Role;
 import com.github.zuihou.authority.entity.auth.RoleOrg;
@@ -20,7 +21,6 @@ import com.github.zuihou.authority.service.auth.UserRoleService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
-import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.common.constant.CacheKey;
@@ -77,7 +77,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Autowired
     private OrgService orgService;
     @Autowired
-    private TenantService tenantService;
+    private TenantMapper tenantMapper;
 
     @Override
     protected String getRegion() {
@@ -188,7 +188,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
     @Override
     public User saveUser(User user) {
-        Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
+        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
         BizAssert.notNull(tenant, "租户不存在，请联系管理员");
 
         // 永不过期
@@ -209,7 +209,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         if (ids.isEmpty()) {
             return true;
         }
-        Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
+        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
         BizAssert.notNull(tenant, "租户不存在，请联系管理员");
 
         LocalDateTime passwordExpireTime = null;
@@ -233,7 +233,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
     @Override
     public User updateUser(User user) {
-        Tenant tenant = tenantService.getByCode(BaseContextHandler.getTenant());
+        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
         BizAssert.notNull(tenant, "租户不存在，请联系管理员");
         // 永不过期
         if (tenant.getPasswordExpire() == null || tenant.getPasswordExpire() <= 0) {
