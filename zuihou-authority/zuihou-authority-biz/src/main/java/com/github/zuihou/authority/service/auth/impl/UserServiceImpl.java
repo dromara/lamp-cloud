@@ -334,4 +334,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
         return sysUser;
     }
+
+    @Override
+    public List<Long> findAllUserId() {
+        return super.list().stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
+    }
 }

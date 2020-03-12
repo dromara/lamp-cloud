@@ -262,7 +262,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @GetMapping("/find")
     @SysLog("查询所有用户")
     public R<List<Long>> findAllUserId() {
-        return success(baseService.list().stream().mapToLong(User::getId).boxed().collect(Collectors.toList()));
+        return success(baseService.findAllUserId());
     }
 
     /**
