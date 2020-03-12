@@ -1,15 +1,15 @@
 zuihou:
   nacos:
-    ip: ${NACOS_IP:@pom.nacos.ip@}
-    port: ${NACOS_PORT:@pom.nacos.port@}
-    namespace: ${NACOS_ID:@pom.nacos.namespace@}
+    ip: ${NACOS_IP:@nacos.ip@}
+    port: ${NACOS_PORT:@nacos.port@}
+    namespace: ${NACOS_ID:@nacos.namespace@}
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
     name: @project.artifactId@
   profiles:
-    active: @pom.profile.name@
+    active: @profile.active@
   cloud:
     nacos:
       config:

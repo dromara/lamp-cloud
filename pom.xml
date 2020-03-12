@@ -192,7 +192,7 @@
         <profile>
             <id>dev</id>
             <properties>
-                <env>dev</env>
+                <profile.active>dev</profile.active>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -202,7 +202,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <env>prod</env>
+                <profile.active>prod</profile.active>
             </properties>
         </profile>
     </profiles>
