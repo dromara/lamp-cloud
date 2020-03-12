@@ -1,13 +1,10 @@
 zuihou:
-  ip:
-    mysql: ${MYSQL_IP:127.0.0.1}
-    executor: ${EXECUTOR_IP:127.0.0.1}
   mysql:
-    database: zuihou_defaults
-    host: ${zuihou.ip.mysql}
+    ip: ${MYSQL_IP:127.0.0.1}
+    port: 3306
     username: root
     password: root
-    port: 3306
+    database: zuihou_defaults
     driverClassName: com.mysql.cj.jdbc.Driver
   redis:
     ip: 127.0.0.1
@@ -39,8 +36,8 @@ xxl.job:
     addresses: http://127.0.0.1:${server.port}/${spring.application.name}
   executor:
     appname: ${spring.application.name}
-    ip: ${zuihou.ip.executor}
-    port: ${zuihou.port.executor:8771}
+    ip: ${EXECUTOR_IP:127.0.0.1}
+    port: ${EXECUTOR_PORT:8771}
     registryLazy: 10000  # 延迟10秒注册，防止首次启动报错
     logpath: ${logging.file.path}/${spring.application.name}/
     logretentiondays: -1
@@ -64,7 +61,7 @@ spring:
     active: dev
   datasource:
     druid:
-      url: jdbc:mysql://${zuihou.mysql.host}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
       username: ${zuihou.mysql.username}
       password: ${zuihou.mysql.password}
       driver-class-name: ${zuihou.mysql.driverClassName}
