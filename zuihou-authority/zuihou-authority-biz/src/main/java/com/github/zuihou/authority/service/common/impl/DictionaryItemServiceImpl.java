@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.common.impl;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.github.zuihou.authority.dao.common.DictionaryItemMapper;
 import com.github.zuihou.authority.entity.common.DictionaryItem;
 import com.github.zuihou.authority.service.common.DictionaryItemService;
@@ -14,10 +15,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.github.zuihou.common.constant.CacheKey.DICTIONARY_ITEM;
 import static java.util.stream.Collectors.groupingBy;
@@ -48,6 +46,9 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
 
     @Override
     public Map<String, Map<String, String>> map(String[] codes) {
+        if (ArrayUtil.isEmpty(codes)) {
+            return Collections.emptyMap();
+        }
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
                 .in(DictionaryItem::getDictionaryType, codes)
                 .eq(DictionaryItem::getStatus, true)
@@ -69,6 +70,9 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
 
     @Override
     public Map<Serializable, Object> findDictionaryItem(Set<Serializable> codes) {
+        if (codes.isEmpty()) {
+            return Collections.emptyMap();
+        }
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
                 .in(DictionaryItem::getCode, codes)
                 .eq(DictionaryItem::getStatus, true)
