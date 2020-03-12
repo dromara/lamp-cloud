@@ -10,7 +10,7 @@
 
 
 ## 简介：
-基于`SpringCloud(Hoxton.SR1)`  + `SpringBoot(2.2.4.RELEASE)` 的 SaaS型微服务脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
+基于`SpringCloud(Hoxton.SR1)`  + `SpringBoot(2.2.5.RELEASE)` 的 SaaS型微服务脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。核心技术采用Nacos、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Seata、Nacos、Sentinel、
 RabbitMQ、FastDFS等主要框架和中间件。
 
@@ -39,11 +39,12 @@ http://doc.tangyh.top/zuihou-admin-cloud
 
 | 项目 | gitee | github | 备注 |
 |---|---|---|---|
+| 核心工具类 | https://gitee.com/zuihou111/zuihou-commons | https://github.com/zuihou/zuihou-commons | cloud和boot 项目都依赖她 |
 | 微服务项目 | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud | SpringCloud 版本 |
 | 单体项目 | https://gitee.com/zuihou111/zuihou-admin-boot | https://github.com/zuihou/zuihou-admin-boot | SpringBoot 版本 |
 | 租户后台 | https://gitee.com/zuihou111/zuihou-ui | https://github.com/zuihou/zuihou-ui | 给客户使用 |
 | 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui | 给公司内部开发&运营&运维等人员使用 |
-| 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator | 给开发人员使用 |
+| 代码生成器 | https://gitee.com/zuihou111/zuihou-generator | https://github.com/zuihou/zuihou-generator | 给开发人员使用 |
 
 ## zuihou-admin-cloud 演示地址 （服务器没法备案，只能加上端口~~~）
 
@@ -172,13 +173,13 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
     - 消息队列：RabbitMQ
     - 缓存：Redis
     - 缓存框架：J2Cache
-    - 数据库： MySQL 5.7.9 (驱动6.0.6)
+    - 数据库： MySQL 5.7.9 或者 MySQL 8.0.19
     - 定时器：采用xxl-jobs项目进行二次改造
     - 前端：vue
     - 持久层框架： Mybatis-plus
-    - 代码生成器：基于Mybatis-plus-generator自定义  [https://github.com/zuihou/zuihou-generator.git]
-    - API网关：Zuul
-    - 服务注册与发现：Eureka -> Nacos
+    - 代码生成器：基于Mybatis-plus-generator自定义 
+    - API网关：Gateway
+    - 服务注册与发现: Nacos
     - 服务消费：OpenFeign
     - 负载均衡：Ribbon
     - 配置中心：Nacos
@@ -186,8 +187,8 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
     - 项目构建：Maven 3.3
     - 分布式事务： seata
     - 分布式系统的流量防卫兵： Sentinel
-    - 监控： spring-boot-admin 2.x
-    - 链路调用跟踪： zipkin 2.x
+    - 监控： spring-boot-admin 2.2.0
+    - 链路调用跟踪： zipkin 2.19.2
     - 文件服务器：FastDFS 5.0.5/阿里云OSS/本地存储
     - Nginx
 - 部署方面：

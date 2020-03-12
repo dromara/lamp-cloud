@@ -98,7 +98,7 @@
     </dependencies>
     <build>
         <filters>
-            <filter>../../src/main/filters/config-${env}.properties</filter>
+            <filter>../../src/main/filters/config-${profile.active}.properties</filter>
         </filters>
         <finalName>${project.artifactId}</finalName>
         <plugins>
