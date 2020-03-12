@@ -123,28 +123,6 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <!-- 过滤后缀为pem、pfx的证书文件 -->
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
-                    <resources>
-                        <resource>
-                            <directory>src/main/resources</directory>
-                            <filtering>false</filtering>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
             <!-- docker打包插件 -->
             <plugin>
                 <groupId>com.spotify</groupId>
