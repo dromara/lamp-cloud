@@ -7,12 +7,6 @@
     <artifactId>zuihou-admin-cloud</artifactId>
     <version>c.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <!--    <parent>-->
-    <!--        <groupId>org.springframework.boot</groupId>-->
-    <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--        <version>2.2.4.RELEASE</version>-->
-    <!--        <relativePath/>-->
-    <!--    </parent>-->
     <url>https://gitee.com/zuihou111/zuihou-admin-cloud</url>
     <name>${project.artifactId}</name>
     <description>zuihou-admin-cloud</description>
