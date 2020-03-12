@@ -153,4 +153,11 @@ public interface UserService extends SuperCacheService<User> {
      * @return
      */
     SysUser getSysUserById(Long id, UserQuery query);
+
+    /**
+     * 查询所有用户的id
+     *
+     * @return
+     */
+    List<Long> findAllUserId();
 }
