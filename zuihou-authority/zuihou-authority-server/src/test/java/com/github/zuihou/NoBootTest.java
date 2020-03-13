@@ -20,6 +20,7 @@ import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.parsers.MultiTenantInterceptor;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.core.InjectionFieldPo;
 import com.github.zuihou.model.RemoteData;
@@ -86,8 +87,50 @@ public class NoBootTest {
                 "  PRIMARY KEY (`id`) USING BTREE,\n" +
                 "  UNIQUE INDEX `UN_CODE`(`code`) USING BTREE COMMENT '编码唯一'\n" +
                 ") ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '资源' ROW_FORMAT = Dynamic;";
-        TableNameParser tableNameParser = new TableNameParser(sql);
-        tableNameParser.tables().forEach(System.out::println);
+
+        sql = "SELECT\n" +
+                "\tcount( 0 ) \n" +
+                "FROM\n" +
+                "\t(\n" +
+                "SELECT\n" +
+                "\tid,\n" +
+                "\tNO,\n" +
+                "\tNAME,\n" +
+                "\taddress,\n" +
+                "\taddressdetail,\n" +
+                "IF\n" +
+                "\t( longitude IS NULL, \"\", longitude ) AS longitude,\n" +
+                "IF\n" +
+                "\t( latitude IS NULL, \"\", latitude ) AS latitude,\n" +
+                "\temail,\n" +
+                "\tcontact,\n" +
+                "\tcooperatestatus_id,\n" +
+                "\tcontractstatus_id,\n" +
+                "\tintro,\n" +
+                "\tlogo,\n" +
+                "\tservicescore,\n" +
+                "\trecommen,\n" +
+                "\ttax,\n" +
+                "\tcreated_by,\n" +
+                "\tupdated_by,\n" +
+                "\tDATE_FORMAT( created_at, '%Y-%m-%d %h:%i:%s' ) AS created_at,\n" +
+                "\tDATE_FORMAT( updated_at, '%Y-%m-%d %h:%i:%s' ) AS updated_at,\n" +
+                "\tdeleted_at \n" +
+                "FROM\n" +
+                "\t`suppliers` \n" +
+                "WHERE\n" +
+                "\t1 = 1 \n" +
+                "\tAND ( `no` LIKE CONCAT( '%',?, '%' ) OR `name` LIKE CONCAT( '%',?, '%' ) OR `intro` LIKE CONCAT( '%',?, '%' ) ) \n" +
+                "\tAND `suppliers`.`deleted_at` IS NULL \n" +
+                "ORDER BY\n" +
+                "\t`id` DESC \n" +
+                "\t) tmp_count";
+//        TableNameParser tableNameParser = new TableNameParser(sql);
+//        tableNameParser.tables().forEach(System.out::println);
+
+        MultiTenantInterceptor i = new MultiTenantInterceptor();
+        i.setSchemaName("1234");
+        System.out.println(i.processSqlByInterceptor(sql));
     }
 
     private static Field getField(Class<?> clazz, String fieldName) {
