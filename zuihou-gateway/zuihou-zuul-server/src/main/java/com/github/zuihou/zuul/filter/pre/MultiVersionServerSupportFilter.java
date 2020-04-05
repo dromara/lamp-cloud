@@ -1,8 +1,8 @@
 package com.github.zuihou.zuul.filter.pre;
 
 import cn.hutool.core.util.StrUtil;
-import com.github.zuihou.filter.BaseFilter;
 import com.github.zuihou.utils.StrPool;
+import com.github.zuihou.zuul.filter.BaseFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

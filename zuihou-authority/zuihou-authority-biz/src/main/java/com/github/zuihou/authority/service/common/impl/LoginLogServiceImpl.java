@@ -65,38 +65,44 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     }
 
     @Override
-    public LoginLog save(String account, String ua, String ip, String location, String description) {
-        User user = this.userService.getByAccount(account);
+    public LoginLog save(Long userId, String account, String ua, String ip, String location, String description) {
+        User user;
+        if (userId != null) {
+            user = this.userService.getByIdCache(userId);
+        } else {
+            user = this.userService.getByAccount(account);
+        }
+
         UserAgent userAgent = UserAgent.parseUserAgentString(ua);
         Browser browser = userAgent.getBrowser();
         OperatingSystem operatingSystem = userAgent.getOperatingSystem();
         LoginLog loginLog = LoginLog.builder()
-                .account(account).location(location)
+                .location(location)
                 .loginDate(LocalDate.now())
                 .description(description)
-                .requestIp(ip).ua(ua).userName(account)
+                .requestIp(ip).ua(ua)
                 .browser(simplifyBrowser(browser.getName())).browserVersion(userAgent.getBrowserVersion().getVersion())
                 .operatingSystem(simplifyOperatingSystem(operatingSystem.getName()))
                 .build();
         if (user != null) {
-            loginLog.setUserId(user.getId()).setUserName(user.getName());
+            loginLog.setAccount(user.getAccount()).setUserId(user.getId()).setUserName(user.getName())
+                    .setCreateUser(user.getId());
         }
 
         super.save(loginLog);
-
         LocalDate now = LocalDate.now();
         LocalDate tenDays = now.plusDays(-9);
         this.cache.evict(CacheKey.LOGIN_LOG_TOTAL, CacheKey.buildTenantKey());
         this.cache.evict(CacheKey.LOGIN_LOG_TODAY, CacheKey.buildTenantKey(now));
         this.cache.evict(CacheKey.LOGIN_LOG_TODAY_IP, CacheKey.buildTenantKey(now));
         this.cache.evict(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, null));
-        this.cache.evict(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, account));
         this.cache.evict(CacheKey.LOGIN_LOG_BROWSER, CacheKey.buildTenantKey());
         this.cache.evict(CacheKey.LOGIN_LOG_SYSTEM, CacheKey.buildTenantKey());
-
+        if (user != null) {
+            this.cache.evict(CacheKey.LOGIN_LOG_TEN_DAY, CacheKey.buildTenantKey(tenDays, user.getAccount()));
+        }
         return loginLog;
     }
-
 
     @Override
     public Long findTotalVisitCount() {

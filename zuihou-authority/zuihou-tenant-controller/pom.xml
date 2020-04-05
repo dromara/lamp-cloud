@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zuihou-authority</artifactId>
+        <groupId>com.github.zuihou</groupId>
+        <version>c.2.1-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zuihou-tenant-controller</artifactId>
+    <name>${project.artifactId}</name>
+    <description>租户服务接口模块</description>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-tenant-biz</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

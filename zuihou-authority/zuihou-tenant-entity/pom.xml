@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zuihou-authority</artifactId>
+        <groupId>com.github.zuihou</groupId>
+        <version>c.2.1-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zuihou-tenant-entity</artifactId>
+    <name>${project.artifactId}</name>
+    <description>租户实体模块</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-common</artifactId>
+            <version>${zuihou-project.version}</version>
+        </dependency>
+
+        <!-- databases 只有权限服务需要引用， 其他服务放在server模块 -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.zuihou</groupId>-->
+        <!--            <artifactId>zuihou-databases</artifactId>-->
+        <!--            <optional>true</optional>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-injection-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

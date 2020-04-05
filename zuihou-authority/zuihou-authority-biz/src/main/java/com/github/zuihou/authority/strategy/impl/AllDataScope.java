@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Classname AllDataScope
- * @Description 所有
- * @Author Created by Lihaodong (alias:小东啊) lihaodongmail@163.com
- * @Date 2019-06-08 16:27
- * @Version 1.0
+ * 所有
+ *
+ * @author zuihou
+ * @version 1.0
+ * @date 2019-06-08 16:27
  */
 @Component("ALL")
 public class AllDataScope implements AbstractDataScopeHandler {

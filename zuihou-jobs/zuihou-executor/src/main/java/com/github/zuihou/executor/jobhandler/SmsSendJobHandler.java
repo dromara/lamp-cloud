@@ -35,7 +35,7 @@ public class SmsSendJobHandler extends IJobHandler {
     public ReturnT<String> execute2(String param) throws Exception {
         XxlJobLogger.log("执行参数--->param={} ", param);
         JSONObject map = JSONObject.parseObject(param);
-        BaseContextHandler.setTenant(map.getString(BaseContextConstants.TENANT));
+        BaseContextHandler.setTenant(map.getString(BaseContextConstants.JWT_KEY_TENANT));
 
         smsContext.smsSend(map.getLong("id"));
         return SUCCESS;

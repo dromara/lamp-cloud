@@ -23,36 +23,37 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2019-12-25
+ * @since 2020-04-02
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_auth_application")
 @ApiModel(value = "Application", description = "应用")
+@AllArgsConstructor
 public class Application extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * AppKey
+     * 客户端ID
      */
-    @ApiModelProperty(value = "AppKey")
-    @Length(max = 24, message = "AppKey长度不能超过100")
-    @TableField(value = "app_key", condition = LIKE)
-    @Excel(name = "AppKey")
-    private String appKey;
+    @ApiModelProperty(value = "客户端ID")
+    @Length(max = 24, message = "客户端ID长度不能超过24")
+    @TableField(value = "client_id", condition = LIKE)
+    @Excel(name = "客户端ID")
+    private String clientId;
 
     /**
-     * AppSecret
+     * 客户端密码
      */
-    @ApiModelProperty(value = "AppSecret")
-    @Length(max = 32, message = "AppSecret长度不能超过255")
-    @TableField(value = "app_secret", condition = LIKE)
-    private String appSecret;
+    @ApiModelProperty(value = "客户端密码")
+    @Length(max = 32, message = "客户端密码长度不能超过32")
+    @TableField(value = "client_secret", condition = LIKE)
+    @Excel(name = "客户端密码")
+    private String clientSecret;
 
     /**
      * 官网
@@ -60,6 +61,7 @@ public class Application extends Entity<Long> {
     @ApiModelProperty(value = "官网")
     @Length(max = 100, message = "官网长度不能超过100")
     @TableField(value = "website", condition = LIKE)
+    @Excel(name = "官网")
     private String website;
 
     /**
@@ -69,7 +71,7 @@ public class Application extends Entity<Long> {
     @NotEmpty(message = "应用名称不能为空")
     @Length(max = 255, message = "应用名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
-    @Excel(name = "应用名称", width = 20)
+    @Excel(name = "应用名称")
     private String name;
 
     /**
@@ -78,15 +80,17 @@ public class Application extends Entity<Long> {
     @ApiModelProperty(value = "应用图标")
     @Length(max = 255, message = "应用图标长度不能超过255")
     @TableField(value = "icon", condition = LIKE)
+    @Excel(name = "应用图标")
     private String icon;
 
     /**
      * 类型
      * #{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}
+     *
      */
     @ApiModelProperty(value = "类型")
     @TableField("app_type")
-    @Excel(name = "应用名称", replace = {"服务应用_SERVER", "手机应用_APP", "手机网页应用_WAP", "PC网页应用_PC", "_null"})
+    @Excel(name = "类型", replace = {"服务应用_SERVER", "手机应用_APP", "PC网页应用_PC", "手机网页应用_WAP", "_null"})
     private ApplicationAppTypeEnum appType;
 
     /**
@@ -95,29 +99,29 @@ public class Application extends Entity<Long> {
     @ApiModelProperty(value = "备注")
     @Length(max = 200, message = "备注长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
-    @Excel(name = "备注", width = 20)
+    @Excel(name = "备注")
     private String describe;
 
     /**
-     * 状态
+     * 是否启用
      */
-    @ApiModelProperty(value = "状态")
+    @ApiModelProperty(value = "是否启用")
     @TableField("status")
-    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
+    @Excel(name = "是否启用", replace = {"是_true", "否_false", "_null"})
     private Boolean status;
 
 
     @Builder
     public Application(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                       String appKey, String appSecret, String website, String name, String icon,
+                       String clientId, String clientSecret, String website, String name, String icon,
                        ApplicationAppTypeEnum appType, String describe, Boolean status) {
         this.id = id;
         this.createUser = createUser;
         this.createTime = createTime;
         this.updateUser = updateUser;
         this.updateTime = updateTime;
-        this.appKey = appKey;
-        this.appSecret = appSecret;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
         this.website = website;
         this.name = name;
         this.icon = icon;

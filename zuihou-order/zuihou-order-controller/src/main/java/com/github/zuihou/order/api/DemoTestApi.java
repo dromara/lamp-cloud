@@ -1,7 +1,7 @@
 package com.github.zuihou.order.api;
 
-import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.base.R;
+import com.github.zuihou.demo.entity.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author zuihou
  * @date 2019/08/12
  */
-@FeignClient(name = "${zuihou.feign.authority-server:zuihou-demo-server}", path = "/seata")
+@FeignClient(name = "${zuihou.feign.demo-server:zuihou-demo-server}", path = "/seata")
 public interface DemoTestApi {
     /**
      * 新增时发生异常
@@ -21,7 +21,7 @@ public interface DemoTestApi {
      * @return
      */
     @PostMapping("/saveEx")
-    R<Org> saveEx(@RequestBody Org data);
+    R<Product> saveEx(@RequestBody Product data);
 
     /**
      * 新增
@@ -30,5 +30,5 @@ public interface DemoTestApi {
      * @return
      */
     @PostMapping("/save")
-    R<Org> save(@RequestBody Org data);
+    R<Product> save(@RequestBody Product data);
 }

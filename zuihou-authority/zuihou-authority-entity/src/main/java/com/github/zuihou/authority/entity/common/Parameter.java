@@ -70,7 +70,7 @@ public class Parameter extends Entity<Long> {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 200, message = "描述长度不能超过200")
+    @Length(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述", width = 40)
     private String describe;

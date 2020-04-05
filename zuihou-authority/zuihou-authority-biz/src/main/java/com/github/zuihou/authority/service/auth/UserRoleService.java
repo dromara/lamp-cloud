@@ -17,7 +17,8 @@ public interface UserRoleService extends SuperService<UserRole> {
     /**
      * 初始化超级管理员角色 权限
      *
-     * @param userId
+     * @param userId 用户id
+     * @return 是否正确
      */
-    void initAdmin(Long userId);
+    boolean initAdmin(Long userId);
 }

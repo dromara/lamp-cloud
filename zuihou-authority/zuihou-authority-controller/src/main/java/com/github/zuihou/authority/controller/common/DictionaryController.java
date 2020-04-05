@@ -10,6 +10,7 @@ import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.security.annotation.PreAuth;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionary")
 @Api(value = "Dictionary", tags = "字典类型")
+@PreAuth(replace = "dict:")
 public class DictionaryController extends SuperController<DictionaryService, Long, Dictionary, Dictionary, DictionarySaveDTO, DictionaryUpdateDTO> {
 
     @Autowired

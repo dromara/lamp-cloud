@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-demo</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -15,6 +15,10 @@
     <description>演示服务启动模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-tenant-biz</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-demo-controller</artifactId>

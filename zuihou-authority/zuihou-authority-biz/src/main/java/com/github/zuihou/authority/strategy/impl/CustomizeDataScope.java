@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Classname CustomizeDataScope
- * @Description 自定义
- * @Author Created by Lihaodong (alias:小东啊) lihaodongmail@163.com
- * @Date 2019-06-08 16:31
- * @Version 1.0
+ * 自定义模式
+ *
+ * @author zuihou
+ * @version 1.0
+ * @date 2019-06-08 16:31
  */
 @Component("CUSTOMIZE")
 public class CustomizeDataScope implements AbstractDataScopeHandler {

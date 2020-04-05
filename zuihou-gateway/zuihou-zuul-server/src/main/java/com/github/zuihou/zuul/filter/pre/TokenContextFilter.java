@@ -1,25 +1,36 @@
 package com.github.zuihou.zuul.filter.pre;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
-import com.github.zuihou.auth.client.properties.AuthClientProperties;
-import com.github.zuihou.auth.client.utils.JwtTokenClientUtils;
-import com.github.zuihou.auth.utils.JwtUserInfo;
 import com.github.zuihou.base.R;
+import com.github.zuihou.common.constant.BizConstant;
+import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
-import com.github.zuihou.filter.BaseFilter;
+import com.github.zuihou.jwt.TokenUtil;
+import com.github.zuihou.jwt.model.AuthInfo;
+import com.github.zuihou.jwt.utils.JwtUtil;
 import com.github.zuihou.utils.StrPool;
+import com.github.zuihou.zuul.filter.BaseFilter;
+import com.github.zuihou.zuul.properties.IgnoreTokenProperties;
 import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
+import net.oschina.j2cache.CacheChannel;
+import net.oschina.j2cache.CacheObject;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.github.zuihou.context.BaseContextConstants.BEARER_HEADER_KEY;
+import static com.github.zuihou.context.BaseContextConstants.JWT_KEY_TENANT;
+import static com.github.zuihou.exception.code.ExceptionCode.JWT_OFFLINE;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
@@ -30,12 +41,13 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  */
 @Component
 @Slf4j
+@EnableConfigurationProperties({IgnoreTokenProperties.class})
 public class TokenContextFilter extends BaseFilter {
+    @Autowired
+    private TokenUtil tokenUtil;
 
     @Autowired
-    private AuthClientProperties authClientProperties;
-    @Autowired
-    private JwtTokenClientUtils jwtTokenClientUtils;
+    private CacheChannel channel;
 
     /**
      * pre：可以在请求被路由之前调用
@@ -92,25 +104,42 @@ public class TokenContextFilter extends BaseFilter {
 
         BaseContextHandler.setGrayVersion(getHeader(BaseContextConstants.GRAY_VERSION, request));
 
-        // 不进行拦截的地址
-        if (isIgnoreToken()) {
-            log.debug("access filter not execute");
-            return null;
-        }
-        //获取token， 解析，然后想信息放入 heade
-        //1, 获取token
-        String userToken = getHeader(authClientProperties.getUser().getHeaderName(), request);
 
-        //2, 解析token
-        JwtUserInfo userInfo = null;
-
-        //添加测试环境的特殊token
-        if (isDev() && StrPool.TEST.equalsIgnoreCase(userToken)) {
-            userInfo = new JwtUserInfo(1L, "zuihou", "最后");
-        }
+        AuthInfo authInfo = null;
         try {
-            if (!isIgnoreToken() && userInfo == null) {
-                userInfo = jwtTokenClientUtils.getUserInfo(userToken);
+            //1, 请求头中的租户信息
+            String base64Tenant = getHeader(JWT_KEY_TENANT, request);
+            if (StrUtil.isNotEmpty(base64Tenant)) {
+                String tenant = JwtUtil.base64Decoder(base64Tenant);
+                BaseContextHandler.setTenant(tenant);
+            }
+
+            // 不进行拦截的地址
+            if (isIgnoreToken()) {
+                log.debug("access filter not execute");
+                return null;
+            }
+            //获取token， 解析，然后想信息放入 heade
+            //1, 获取token
+            String token = getHeader(BEARER_HEADER_KEY, request);
+
+            //添加测试环境的特殊token
+            if (isDev() && StrPool.TEST.equalsIgnoreCase(token)) {
+                authInfo = new AuthInfo().setAccount("zuihou").setUserId(1L)
+                        .setTokenType(BEARER_HEADER_KEY).setName("平台管理员");
+            }
+            if (authInfo == null) {
+                authInfo = tokenUtil.getAuthInfo(token);
+            }
+
+            String newToken = JwtUtil.getToken(token);
+            String tokenKey = CacheKey.buildKey(newToken);
+            CacheObject tokenCache = channel.get(CacheKey.TOKEN_USER_ID, tokenKey);
+            if (tokenCache.getValue() == null) {
+                // 为空就认为是没登录或者被T会有bug，该 bug 取决于登录成功后，异步调用UserTokenService.save 方法的延迟
+            } else if (StrUtil.equals(BizConstant.LOGIN_STATUS, (String) tokenCache.getValue())) {
+                errorResponse(JWT_OFFLINE.getMsg(), JWT_OFFLINE.getCode(), 200);
+                return null;
             }
         } catch (BizException e) {
             errorResponse(e.getMessage(), e.getCode(), 200);
@@ -121,14 +150,17 @@ public class TokenContextFilter extends BaseFilter {
         }
 
         //3, 将信息放入header
-        if (userInfo != null) {
-            addHeader(ctx, BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_USER_ID, userInfo.getUserId());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_NAME, userInfo.getName());
+        if (authInfo != null) {
+            addHeader(ctx, BaseContextConstants.JWT_KEY_ACCOUNT, authInfo.getAccount());
+            addHeader(ctx, BaseContextConstants.JWT_KEY_USER_ID, authInfo.getUserId());
+            addHeader(ctx, BaseContextConstants.JWT_KEY_NAME, authInfo.getName());
+            addHeader(ctx, BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
 
+            MDC.put(BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
+            MDC.put(BaseContextConstants.JWT_KEY_USER_ID, String.valueOf(authInfo.getUserId()));
         }
 
-        log.info("userInfo={}", userInfo);
+        log.info("userInfo={}", authInfo);
         return null;
     }
 

@@ -23,17 +23,29 @@ import javax.validation.constraints.NotEmpty;
 @ApiModel(value = "LoginParamDTO", description = "登录参数")
 public class LoginParamDTO {
     @ApiModelProperty(value = "验证码KEY")
-    @NotEmpty(message = "验证码KEY不能为空")
     private String key;
     @ApiModelProperty(value = "验证码")
-    @NotEmpty(message = "验证码不能为空")
     private String code;
-    @ApiModelProperty(value = "企业编号")
+
+    @ApiModelProperty(value = "企业编号", example = "0000")
     private String tenant;
     @ApiModelProperty(value = "账号")
-    @NotEmpty(message = "账号不能为空")
     private String account;
     @ApiModelProperty(value = "密码")
-    @NotEmpty(message = "密码不能为空")
     private String password;
+
+    /**
+     * password: 账号密码
+     * refresh_token: 刷新token
+     * captcha: 验证码
+     */
+    @ApiModelProperty(value = "授权类型", example = "captcha", allowableValues = "captcha,refresh_token,password")
+    @NotEmpty(message = "授权类型不能为空")
+    private String grantType;
+
+    /**
+     * 前端界面点击清空缓存时调用
+     */
+    @ApiModelProperty(value = "刷新token")
+    private String refreshToken;
 }

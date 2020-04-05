@@ -13,6 +13,7 @@ import com.github.zuihou.sms.strategy.domain.SmsResult;
 import com.github.zuihou.sms.util.PhoneUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -27,14 +28,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class AbstractSmsStrategy implements SmsStrategy {
 
-
     @Autowired
     private SmsTaskMapper smsTaskMapper;
     @Autowired
     private SmsSendStatusService smsSendStatusService;
 
-
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> sendSms(SmsTask task, SmsTemplate template) {
         String appId = template.getAppId();
         String appSecret = template.getAppSecret();

@@ -7,10 +7,6 @@ import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.StaticLog;
-import com.baomidou.mybatisplus.core.toolkit.TableNameParser;
-import com.github.zuihou.auth.utils.JwtHelper;
-import com.github.zuihou.auth.utils.JwtUserInfo;
-import com.github.zuihou.auth.utils.Token;
 import com.github.zuihou.authority.dto.auth.VueRouter;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.auth.Menu;
@@ -335,14 +331,5 @@ public class NoBootTest {
         return validatorFactory.getValidator();
     }
 
-    @Test
-    public void test2() {
-        JwtUserInfo jwtInfo = new JwtUserInfo();
-        jwtInfo.setAccount("111");
-        jwtInfo.setName("123");
-        jwtInfo.setUserId(1L);
-        Token token = JwtHelper.generateUserToken(jwtInfo, "client/pub.key", 2700);
-        log.info("{}", token);
-    }
 }
 

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zuihou-authority</artifactId>
+        <groupId>com.github.zuihou</groupId>
+        <version>c.2.1-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zuihou-tenant-biz</artifactId>
+    <name>${project.artifactId}</name>
+    <description>租户服务业务模块</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-tenant-entity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-authority-biz</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-mq-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-databases</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-j2cache-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-dozer-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-boot</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
+
+        <!-- @RefreshScope 需要使用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

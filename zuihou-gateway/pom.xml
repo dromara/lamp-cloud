@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.zuihou</groupId>
         <artifactId>zuihou-admin-cloud</artifactId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -18,28 +18,6 @@
     <modules>
         <!-- gateway还没调试正确，存在系列的问题-->
         <module>zuihou-gateway-server</module>
-        <module>zuihou-zuul-base</module>
         <module>zuihou-zuul-server</module>
-        <module>zuihou-zuul-ratelimit</module>
-        <module>zuihou-zuul-authentication</module>
     </modules>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-zuul-base</artifactId>
-                <version>${zuihou-project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-zuul-ratelimit</artifactId>
-                <version>${zuihou-project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-zuul-authentication</artifactId>
-                <version>${zuihou-project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>

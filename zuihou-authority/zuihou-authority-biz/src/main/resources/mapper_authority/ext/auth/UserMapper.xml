@@ -17,13 +17,13 @@
         where id = #{id, jdbcType=BIGINT}
     </update>
     <update id="resetPassErrorNum">
-        update c_auth_user set password_error_num = 0, password_error_last_time = SYSDATE()
+        update c_auth_user set password_error_num = 0, password_error_last_time = #{now, jdbcType=TIMESTAMP}, last_login_time = #{now, jdbcType=TIMESTAMP}
         where id = #{id, jdbcType=BIGINT}
     </update>
-    <update id="updateLastLoginTime">
-        update c_auth_user set last_login_time = #{now, jdbcType=TIMESTAMP}
-        where account = #{account, jdbcType=BIGINT}
-    </update>
+    <!--    <update id="updateLastLoginTime">-->
+    <!--        update c_auth_user set last_login_time = #{now, jdbcType=TIMESTAMP}-->
+    <!--        where id = #{id, jdbcType=BIGINT}-->
+    <!--    </update>-->
 
 
     <select id="findPage" resultMap="BaseResultMap">

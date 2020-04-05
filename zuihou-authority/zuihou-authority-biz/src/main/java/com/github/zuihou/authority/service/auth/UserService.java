@@ -5,8 +5,8 @@ import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.base.service.SuperCacheService;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.user.feign.UserQuery;
-import com.github.zuihou.user.model.SysUser;
+import com.github.zuihou.security.feign.UserQuery;
+import com.github.zuihou.security.model.SysUser;
 
 import java.io.Serializable;
 import java.util.List;
@@ -56,7 +56,7 @@ public interface UserService extends SuperCacheService<User> {
      *
      * @param id
      */
-    void updatePasswordErrorNumById(Long id);
+    void incrPasswordErrorNumById(Long id);
 
     /**
      * 根据账号查询用户
@@ -71,7 +71,7 @@ public interface UserService extends SuperCacheService<User> {
      *
      * @param account
      */
-    void updateLoginTime(String account);
+//    void updateLoginTime(String account);
 
     /**
      * 保存
@@ -160,4 +160,12 @@ public interface UserService extends SuperCacheService<User> {
      * @return
      */
     List<Long> findAllUserId();
+
+    /**
+     * 初始化用户
+     *
+     * @param user
+     * @return
+     */
+    boolean initUser(User user);
 }

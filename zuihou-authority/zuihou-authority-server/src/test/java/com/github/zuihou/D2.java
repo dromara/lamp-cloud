@@ -2,6 +2,7 @@ package com.github.zuihou;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.druid.filter.config.ConfigTools;
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import lombok.Data;
 import lombok.ToString;
@@ -22,6 +23,10 @@ import java.util.Set;
 public class D2 {
     private String date;
     private String d2;
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(ConfigTools.encrypt("Zkhy@1234"));
+    }
 
     @Test
     public void testId1() {

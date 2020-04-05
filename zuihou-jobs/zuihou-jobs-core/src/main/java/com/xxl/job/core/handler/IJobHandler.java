@@ -2,12 +2,14 @@ package com.xxl.job.core.handler;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.log.XxlJobLogger;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * job handler
  *
  * @author xuxueli 2015-12-19 19:06:38
  */
+@Slf4j
 public abstract class IJobHandler {
 
 
@@ -36,6 +38,7 @@ public abstract class IJobHandler {
         try {
             return execute2(param);
         } catch (Exception e) {
+            log.warn("job 任务处理器执行失败：", e);
             XxlJobLogger.log("任务处理器执行失败", e.getMessage());
             return new ReturnT<>(IJobHandler.FAIL.getCode(), e.getMessage());
         }

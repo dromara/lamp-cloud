@@ -4,6 +4,7 @@ package com.github.zuihou.datasource;
 import com.github.zuihou.database.datasource.BaseMybatisConfiguration;
 import com.github.zuihou.database.properties.DatabaseProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Slf4j
+@EnableConfigurationProperties({DatabaseProperties.class})
 public class JobsMybatisAutoConfiguration extends BaseMybatisConfiguration {
 
 
