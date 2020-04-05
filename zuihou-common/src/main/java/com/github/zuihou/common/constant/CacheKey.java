@@ -20,6 +20,11 @@ public interface CacheKey {
      * 完整key: captcha:{key} -> str
      */
     String CAPTCHA = "captcha";
+    /**
+     * token 前缀
+     * 完整key： token:{token} -> userid
+     */
+    String TOKEN = "token";
 
 
     /**
@@ -59,11 +64,11 @@ public interface CacheKey {
      * 完整key: role_resource:{ROLE_ID} -> [RESOURCE_ID, ...]
      */
     String ROLE_RESOURCE = "role_resource";
-    /**
-     * 角色拥有那些组织 前缀
-     * 完整key: role_org:{ROLE_ID} -> [ORG_ID, ...]
-     */
-    String ROLE_ORG = "role_org";
+//    /**
+//     * 角色拥有那些组织 前缀
+//     * 完整key: role_org:{ROLE_ID} -> [ORG_ID, ...]
+//     */
+//    String ROLE_ORG = "role_org";
 
     /**
      * 用户 前缀
@@ -148,6 +153,29 @@ public interface CacheKey {
      * 完整key: parameter:{id} -> obj
      */
     String PARAMETER = "parameter";
+//    /**
+//     * 用户登录的客户端 前缀： 用于记录用户在那几个设备上登录了
+//     * 完整key: user_login_client:{userid} -> [client, client, ...] (Set)
+//     */
+//    String USER_LOGIN_CLIENT = "user_login_client";
+
+    /**
+     * 用户客户端token 前缀
+     * 完整key: user_client_token:{userid}:{client} -> token (String)
+     */
+    String USER_CLIENT_TOKEN = "user_client_token";
+
+    /**
+     * 用户token 前缀
+     * 完整key: user_token:{userid} -> token (String)
+     */
+    String USER_TOKEN = "user_token";
+
+    /**
+     * 用户token 前缀
+     * 完整key: token_user_id:{token} -> userid (Long)
+     */
+    String TOKEN_USER_ID = "token_user_id";
 
 
     /**

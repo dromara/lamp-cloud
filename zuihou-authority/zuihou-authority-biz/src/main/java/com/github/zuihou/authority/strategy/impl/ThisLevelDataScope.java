@@ -12,11 +12,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @Classname ThisLevelHandler
- * @Description 本级
- * @Author Created by Lihaodong (alias:小东啊) lihaodongmail@163.com
- * @Date 2019-06-08 15:44
- * @Version 1.0
+ * 本级
+ *
+ * @author zuihou
+ * @version 1.0
+ * @date 2019-06-08 15:44
  */
 @Component("THIS_LEVEL")
 public class ThisLevelDataScope implements AbstractDataScopeHandler {

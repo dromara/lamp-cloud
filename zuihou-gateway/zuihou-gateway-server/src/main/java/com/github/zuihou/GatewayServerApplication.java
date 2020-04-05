@@ -1,7 +1,6 @@
 package com.github.zuihou;
 
 
-import com.github.zuihou.auth.client.EnableAuthClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +19,6 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients({"com.github.zuihou"})
-@EnableAuthClient
 @Slf4j
 public class GatewayServerApplication {
     public static void main(String[] args) throws UnknownHostException {

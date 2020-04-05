@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Classname ThisLevelChildenDataScope
- * @Description 本级以及子级
- * @Author Created by Lihaodong (alias:小东啊) lihaodongmail@163.com
- * @Date 2019-06-08 16:30
- * @Version 1.0
+ * 本级以及子级
+ *
+ * @author zuihou
+ * @version 1.0
+ * @date 2019-06-08 16:30
  */
 @Component("THIS_LEVEL_CHILDREN")
 public class ThisLevelChildrenDataScope implements AbstractDataScopeHandler {

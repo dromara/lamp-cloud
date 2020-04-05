@@ -20,12 +20,15 @@ import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.CodeGenerate;
 import com.github.zuihou.utils.StrHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.framework.AopContext;
+import net.oschina.j2cache.CacheObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.github.zuihou.common.constant.CacheKey.ROLE;
@@ -41,7 +44,6 @@ import static com.github.zuihou.common.constant.CacheKey.ROLE;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = ROLE)
 public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> implements RoleService {
     @Autowired
     private RoleOrgService roleOrgService;
@@ -53,10 +55,6 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
     private DataScopeContext dataScopeContext;
     @Autowired
     private CodeGenerate codeGenerate;
-
-    protected RoleService currentProxy() {
-        return ((RoleService) AopContext.currentProxy());
-    }
 
     @Override
     protected String getRegion() {
@@ -81,28 +79,33 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean removeByIdWithCache(List<Long> ids) {
         if (ids.isEmpty()) {
             return true;
         }
-        boolean removeFlag = currentProxy().removeByIds(ids);
+        // 橘色
+        boolean removeFlag = removeByIds(ids);
+        // 角色组织
         roleOrgService.remove(Wraps.<RoleOrg>lbQ().in(RoleOrg::getRoleId, ids));
+        // 角色权限
         roleAuthorityService.remove(Wraps.<RoleAuthority>lbQ().in(RoleAuthority::getRoleId, ids));
 
         List<Long> userIds = userRoleService.listObjs(
                 Wraps.<UserRole>lbQ().select(UserRole::getUserId).in(UserRole::getRoleId, ids),
                 Convert::toLong);
 
+        //角色拥有的用户
         userRoleService.remove(Wraps.<UserRole>lbQ().in(UserRole::getRoleId, ids));
 
         ids.forEach((id) -> {
             cacheChannel.evict(CacheKey.ROLE_MENU, String.valueOf(id));
             cacheChannel.evict(CacheKey.ROLE_RESOURCE, String.valueOf(id));
-            cacheChannel.evict(CacheKey.ROLE_ORG, String.valueOf(id));
         });
 
         if (!userIds.isEmpty()) {
-            String[] userIdArray = userIds.stream().toArray(String[]::new);
+            //用户角色 、 用户菜单、用户资源
+            String[] userIdArray = userIds.stream().map(this::key).toArray(String[]::new);
             cacheChannel.evict(CacheKey.USER_ROLE, userIdArray);
             cacheChannel.evict(CacheKey.USER_RESOURCE, userIdArray);
             cacheChannel.evict(CacheKey.USER_MENU, userIdArray);
@@ -112,7 +115,34 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
 
     @Override
     public List<Role> findRoleByUserId(Long userId) {
-        return baseMapper.findRoleByUserId(userId);
+        String key = key(userId);
+        List<Role> roleList = new ArrayList<>();
+        CacheObject cacheObject = cacheChannel.get(CacheKey.USER_ROLE, key, (k) -> {
+            roleList.addAll(baseMapper.findRoleByUserId(userId));
+            return roleList.stream().mapToLong(Role::getId).boxed().collect(Collectors.toList());
+        });
+
+        if (cacheObject.getValue() == null) {
+            return Collections.emptyList();
+        }
+
+
+        if (!roleList.isEmpty()) {
+            // TODO 异步性能 更加
+            roleList.forEach((item) -> {
+                String itemKey = key(item.getId());
+                cacheChannel.set(ROLE, itemKey, item);
+            });
+
+            return roleList;
+        }
+
+        List<Long> list = (List<Long>) cacheObject.getValue();
+
+        List<Role> menuList = list.stream().map(this::getByIdCache)
+                .filter(Objects::nonNull).collect(Collectors.toList());
+
+        return menuList;
     }
 
     /**
@@ -123,11 +153,12 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
      * @param userId 用户id
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveRole(RoleSaveDTO data, Long userId) {
         Role role = BeanPlusUtil.toBean(data, Role.class);
         role.setCode(StrHelper.getOrDef(data.getCode(), codeGenerate.next()));
         role.setReadonly(false);
-        currentProxy().save(role);
+        save(role);
 
         saveRoleOrg(userId, role, data.getOrgList());
 
@@ -135,27 +166,21 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
     }
 
     @Override
-//    @CacheEvict(value = CacheKey.ROLE, key = "#data.id")
+    @Transactional(rollbackFor = Exception.class)
     public void updateRole(RoleUpdateDTO data, Long userId) {
         Role role = BeanPlusUtil.toBean(data, Role.class);
-        currentProxy().updateById(role);
+        updateById(role);
 
         roleOrgService.remove(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, data.getId()));
         saveRoleOrg(userId, role, data.getOrgList());
 
-        //角色关联的组织
-        cacheChannel.evict(CacheKey.ROLE_ORG, String.valueOf(data.getId()));
     }
 
     private void saveRoleOrg(Long userId, Role role, List<Long> orgList) {
         // 根据 数据范围类型 和 勾选的组织ID， 重新计算全量的组织ID
         List<Long> orgIds = dataScopeContext.getOrgIdsForDataScope(orgList, role.getDsType(), userId);
         if (orgIds != null && !orgIds.isEmpty()) {
-            List<RoleOrg> list = orgIds.stream().map((orgId) ->
-                    RoleOrg.builder()
-                            .orgId(orgId).roleId(role.getId())
-                            .build()
-            ).collect(Collectors.toList());
+            List<RoleOrg> list = orgIds.stream().map((orgId) -> RoleOrg.builder().orgId(orgId).roleId(role.getId()).build()).collect(Collectors.toList());
             roleOrgService.saveBatch(list);
         }
     }

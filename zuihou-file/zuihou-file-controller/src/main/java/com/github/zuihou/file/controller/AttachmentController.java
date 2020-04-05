@@ -48,6 +48,7 @@ import static java.util.stream.Collectors.groupingBy;
 @Slf4j
 @Api(value = "附件", tags = "附件")
 @Validated
+@SysLog(enabled = false)
 public class AttachmentController extends SuperSimpleController<AttachmentService, Attachment>
         implements QueryController<Attachment, Long, FilePageReqDTO>, DeleteController<Attachment, Long> {
 

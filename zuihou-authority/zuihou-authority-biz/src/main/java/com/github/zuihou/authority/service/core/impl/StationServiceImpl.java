@@ -15,8 +15,6 @@ import com.github.zuihou.injection.annonation.InjectionResult;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -36,15 +34,10 @@ import static com.github.zuihou.common.constant.CacheKey.STATION;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = STATION)
 public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Station> implements StationService {
     @Override
     protected String getRegion() {
         return STATION;
-    }
-
-    protected StationService currentProxy() {
-        return ((StationService) AopContext.currentProxy());
     }
 
     @Override
@@ -91,7 +84,7 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
 
         List<Station> list = null;
         if (idList.size() <= 1000) {
-            list = idList.stream().map(currentProxy()::getByIdCache).filter(Objects::nonNull).collect(Collectors.toList());
+            list = idList.stream().map(this::getByIdCache).filter(Objects::nonNull).collect(Collectors.toList());
         } else {
             LbqWrapper<Station> query = Wraps.<Station>lbQ()
                     .in(Station::getId, idList)

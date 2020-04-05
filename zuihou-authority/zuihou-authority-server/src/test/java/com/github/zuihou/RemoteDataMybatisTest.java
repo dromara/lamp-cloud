@@ -1,6 +1,5 @@
 package com.github.zuihou;
 
-import com.github.zuihou.authority.api.OrgApi;
 import com.github.zuihou.authority.dao.auth.MenuMapper;
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dao.auth.RoleMapper;
@@ -18,6 +17,7 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.injection.core.InjectionCore;
 import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.oauth.api.OrgApi;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

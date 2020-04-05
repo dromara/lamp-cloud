@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.authority.dao.auth.UserTokenMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.zuihou.authority.entity.auth.UserToken">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="client_id" jdbcType="VARCHAR" property="clientId"/>
+        <result column="token" jdbcType="LONGVARCHAR" property="token"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,create_time,create_user,update_time,update_user,
+        login_ip, location, client_id, token, name, expire_time, account
+    </sql>
+
+</mapper>

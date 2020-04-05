@@ -1,7 +1,7 @@
 package com.github.zuihou.order.controller;
 
-import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.base.R;
+import com.github.zuihou.demo.entity.Product;
 import com.github.zuihou.order.api.DemoTestApi;
 import com.github.zuihou.order.entity.Order;
 import com.github.zuihou.order.service.OrderService;
@@ -42,12 +42,12 @@ public class SeataTxController {
      */
     @PostMapping("/save")
     @GlobalTransactional
-    public R<Org> saveCommitSuccess(@RequestBody Org data) {
+    public R<Product> saveCommitSuccess(@RequestBody Product data) {
         log.info("data={}", data);
         this.seataTestApi.save(data);
         Order entity = Order.builder()
-                .code(data.getAbbreviation())
-                .name(data.getLabel())
+                .code(data.getName() + "CODE")
+                .name(data.getName())
                 .build();
         this.orderService.save(entity);
         return R.success(data);
@@ -60,13 +60,13 @@ public class SeataTxController {
      * @return
      */
     @PostMapping("/save/rollback/fail")
-    public R<Org> saveRollbackFail(@RequestBody Org data) {
+    public R<Product> saveRollbackFail(@RequestBody Product data) {
         log.info("data={}", data);
         this.seataTestApi.save(data);
         int i = 1 / 0;
         Order entity = Order.builder()
-                .code(data.getAbbreviation())
-                .name(data.getLabel())
+                .code(data.getName() + "CODE")
+                .name(data.getName())
                 .build();
         this.orderService.save(entity);
         return R.success(data);
@@ -87,19 +87,19 @@ public class SeataTxController {
     @PostMapping("/save/rollback")
     @GlobalTransactional
     public Boolean placeOrderRollback() {
-        Org data = Org.builder()
-                .label("你的名字")
-                .abbreviation("aa")
+        Product data = Product.builder()
+                .name("你的名字")
+                .stock(123)
                 .build();
         log.info("data={}", data);
-        R<Org> save = this.seataTestApi.save(data);
+        R<Product> save = this.seataTestApi.save(data);
 
         //在这里打断点可以看到 m_product 表的数据已经插入
         //但等执行完整个方法，发现 m_product 数据被删除
         int i = 1 / 0;
         Order entity = Order.builder()
-                .code(data.getAbbreviation())
-                .name(data.getLabel())
+                .code(data.getName() + "code")
+                .name(data.getName())
                 .build();
         this.orderService.save(entity);
 
@@ -114,13 +114,13 @@ public class SeataTxController {
      */
     @PostMapping("/save/rollback2")
     @GlobalTransactional
-    public R<Org> saveRollbackSuccess2(@RequestBody Org data) {
+    public R<Product> saveRollbackSuccess2(@RequestBody Product data) {
         log.info("data={}", data);
         this.seataTestApi.saveEx(data);
 
         Order entity = Order.builder()
-                .code(data.getAbbreviation())
-                .name(data.getLabel())
+                .code(data.getName() + "CODE")
+                .name(data.getName())
                 .build();
         this.orderService.save(entity);
         return R.success(data);

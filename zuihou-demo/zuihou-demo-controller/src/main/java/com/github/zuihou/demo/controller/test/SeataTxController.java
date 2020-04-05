@@ -39,8 +39,7 @@ public class SeataTxController {
     @PostMapping("/saveEx")
     public R<Product> saveEx(@RequestBody Product data) {
         log.info("data={}", data);
-        productService.save(data);
-        int i = 1 / 0;
+        productService.saveEx(data);
         return R.success(data);
     }
 }

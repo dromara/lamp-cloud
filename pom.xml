@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
-    <version>c.2.0-SNAPSHOT</version>
+    <version>c.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <url>https://gitee.com/zuihou111/zuihou-admin-cloud</url>
+    <url>https://gitee.com/zuihou111/zuihou-cloud</url>
     <name>${project.artifactId}</name>
-    <description>zuihou-admin-cloud</description>
+    <description>zuihou-cloud-plus</description>
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -27,20 +27,21 @@
 
     <modules>
         <module>zuihou-common</module>
+        <module>zuihou-oauth</module>
         <module>zuihou-authority</module>
         <module>zuihou-msgs</module>
         <module>zuihou-file</module>
-        <module>zuihou-jobs</module>
         <module>zuihou-gateway</module>
+        <module>zuihou-jobs</module>
+        <module>zuihou-support</module>
         <!-- 以下两个模块为测试模块 -->
         <module>zuihou-demo</module>
         <module>zuihou-order</module>
-        <module>zuihou-support</module>
     </modules>
 
     <properties>
-        <zuihou-commons.version>2.0</zuihou-commons.version>
-        <zuihou-project.version>c.2.0-SNAPSHOT</zuihou-project.version>
+        <zuihou-commons.version>2.1</zuihou-commons.version>
+        <zuihou-project.version>c.2.1-SNAPSHOT</zuihou-project.version>
         <seata.version>1.0.0</seata.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -67,12 +68,23 @@
 
             <dependency>
                 <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-tenant-biz</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-boot</artifactId>
                 <version>${zuihou-commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-cache-starter</artifactId>
+                <version>${zuihou-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-security-starter</artifactId>
                 <version>${zuihou-commons.version}</version>
             </dependency>
             <dependency>
@@ -126,11 +138,7 @@
                 <artifactId>zuihou-swagger2-starter</artifactId>
                 <version>${zuihou-commons.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-user-starter</artifactId>
-                <version>${zuihou-commons.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-validator-starter</artifactId>
@@ -215,6 +223,13 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
                 </includes>
                 <filtering>true</filtering>
             </resource>

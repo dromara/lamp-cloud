@@ -6,14 +6,16 @@ zuihou:
     password: root
     database: zuihou_defaults
     driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
   redis:
     ip: 127.0.0.1
     port: 16379
+    database: 0
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
   database:
+    multiTenantType: DATASOURCE
+    tenantDatabasePrefix: zuihou_base
     isBlockAttack: false
-    multiTenantType: SCHEMA
-    bizDatabase: zuihou_base
     worker-id: 0
     data-center-id: 0
 
@@ -53,18 +55,50 @@ server:
     buffer-size: 1024  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
     direct-buffers: true  # 是否分配的直接内存
 
-mybatis:
-  mapper-locations: classpath:mybatis-mapper/*.xml
 
+# mysql 通用配置
 spring:
   profiles:
     active: dev
   datasource:
+    # 从这里开始(dynamic)，中间的这段配置用于 zuihou.database.multiTenantType == DATASOURCE 时
+    dynamic:
+      enabled: false  # 这里一定要写成false， 是否开启根据 zuihou.database.multiTenantType 来决定
+      p6spy: true
+      druid:
+        initialSize: 10
+        minIdle: 10
+        maxActive: 500
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        validation-query: SELECT 'x'
+        test-on-borrow: false
+        test-on-return: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
+        filters: stat,wall
+        wall:
+          comment-allow: true
+          multiStatementAllow: true
+          noneBaseStatementAllow: true
+      datasource:
+        master:
+          username: ${zuihou.mysql.username}
+          password: ${zuihou.mysql.password}
+          driver-class-name: ${zuihou.mysql.driverClassName}
+          url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          db-type: mysql
+    # 从这里结束(dynamic)，中间的这段配置用于 zuihou.database.multiTenantType == DATASOURCE 时
     druid:
-      url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      enable: true
+      # 从这里开始(druid)，中间的这段配置用于 zuihou.database.multiTenantType != DATASOURCE 时
       username: ${zuihou.mysql.username}
       password: ${zuihou.mysql.password}
       driver-class-name: ${zuihou.mysql.driverClassName}
+      url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      db-type: mysql
       initialSize: 10
       minIdle: 10
       maxActive: 500
@@ -77,6 +111,30 @@ spring:
       test-while-idle: true
       time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
+      filters: stat,wall
+      filter:
+        wall:
+          enabled: true
+          config:
+            commentAllow: true
+            multiStatementAllow: true
+            noneBaseStatementAllow: true
+      # 从这里结束(druid)，中间的这段配置用于 zuihou.database.multiTenantType != DATASOURCE 时
+
+      # 以下的2段配置，同时适用于所有模式
+      web-stat-filter:  # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js , *.gif ,*.jpg ,*.png ,*.css ,*.ico , /druid/*"
+        session-stat-max-count: 1000
+        profile-enable: true
+        session-stat-enable: false
+      stat-view-servlet:  #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
+        enabled: true
+        url-pattern: /druid/*   #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：http://127.0.0.1:9000/druid/index.html
+        reset-enable: true    #允许清空统计数据
+        login-username: zuihou
+        login-password: zuihou
   mvc:
     static-path-pattern: /static/**
   resources:
@@ -102,34 +160,32 @@ spring:
       charset: UTF-8
       force: true
       enabled: true
+  cache:
+    type: GENERIC
+  redis:
+    host: ${zuihou.redis.ip}
+    password: ${zuihou.redis.password}
+    port: ${zuihou.redis.port}
+    database: ${zuihou.redis.database}
 
+#mybatis:
+#  mapper-locations: classpath:mybatis-mapper/*.xml
 
 mybatis-plus:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
   # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
   mapper-locations:
     - classpath:mybatis-mapper/**/*Mapper.xml
-    - classpath:mapper_authority/**/*Mapper.xml
+    - classpath*:mapper_**/**/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.xxl.job.admin.core.model,com.github.zuihou.authority.entity
+  typeAliasesPackage: com.xxl.job.admin.core.model;com.github.zuihou.*.entity;com.github.zuihou.database.mybatis.typehandler
+  typeEnumsPackage: com.github.zuihou.*.enumeration
   global-config:
     db-config:
-      #    super-mapper-class: com.zuihousoft.db.MyBaseMapper
-      #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
       id-type: INPUT
-      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-      field-strategy: NOT_EMPTY
-      #驼峰下划线转换
-      #      db-column-underline: true
-      #mp2.3+ 全局表前缀 mp_
-      #table-prefix: mp_
-      #刷新mapper 调试神器
-      #      refresh-mapper: true
-      #数据库大写下划线转换
-      #capital-mode: true
-      #逻辑删除配置（下面3个配置）
-      logic-delete-value: 4
-      logic-not-delete-value: 0
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+      select-strategy: NOT_EMPTY
   configuration:
     #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
     map-underscore-to-camel-case: true

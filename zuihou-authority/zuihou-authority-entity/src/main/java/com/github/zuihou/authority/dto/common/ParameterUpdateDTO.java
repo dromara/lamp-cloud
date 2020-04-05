@@ -61,7 +61,7 @@ public class ParameterUpdateDTO implements Serializable {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 200, message = "描述长度不能超过200")
+    @Length(max = 255, message = "描述长度不能超过255")
     private String describe;
     /**
      * 状态

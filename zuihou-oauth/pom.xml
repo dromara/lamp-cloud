@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zuihou-admin-cloud</artifactId>
+        <groupId>com.github.zuihou</groupId>
+        <version>c.2.1-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zuihou-oauth</artifactId>
+    <name>${project.artifactId}</name>
+    <description>认证服务</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>zuihou-oauth-api</module>
+        <module>zuihou-oauth-controller</module>
+        <module>zuihou-oauth-biz</module>
+        <module>zuihou-oauth-server</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-oauth-api</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-oauth-biz</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-oauth-controller</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-authority-biz</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+</project>

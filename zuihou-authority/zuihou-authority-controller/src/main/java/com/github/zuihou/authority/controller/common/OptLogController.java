@@ -1,14 +1,16 @@
 package com.github.zuihou.authority.controller.common;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.common.OptLogUpdateDTO;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.service.common.OptLogService;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
+import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.log.entity.OptLogDTO;
-import com.github.zuihou.utils.BeanPlusUtil;
+import com.github.zuihou.security.annotation.PreAuth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -31,20 +33,15 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/optLog")
 @Api(value = "OptLog", tags = "系统日志")
+@PreAuth(replace = "optLog:")
 public class OptLogController extends SuperController<OptLogService, Long, OptLog, OptLog, OptLogDTO, OptLogUpdateDTO> {
 
-
-    /**
-     * 保存系统日志
-     *
-     * @param data 保存对象
-     * @return 保存结果
-     */
     @Override
-    @ApiOperation(value = "保存系统日志", notes = "保存系统日志不为空的字段")
-    public R<OptLog> save(@RequestBody OptLogDTO data) {
-        baseService.save(data);
-        return success(BeanPlusUtil.toBean(data, OptLog.class));
+    @ApiOperation(value = "分页列表查询")
+    @PostMapping(value = "/page")
+    @PreAuth("hasPermit('{}view')")
+    public R<IPage<OptLog>> page(@RequestBody @Validated PageParams<OptLog> params) {
+        return super.page(params);
     }
 
     @ApiOperation("清空日志")

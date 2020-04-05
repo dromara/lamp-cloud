@@ -57,15 +57,15 @@ public interface UserMapper extends SuperMapper<User> {
      * @param id
      * @return
      */
-    int resetPassErrorNum(@Param("id") Long id);
+    int resetPassErrorNum(@Param("id") Long id, @Param("now") LocalDateTime now);
 
-    /**
-     * 修改用户最后登录时间
-     *
-     * @param account
-     * @param now
-     * @return
-     */
-    int updateLastLoginTime(@Param("account") String account, @Param("now") LocalDateTime now);
+//    /**
+//     * 修改用户最后登录时间
+//     *
+//     * @param id 用户id
+//     * @param now 当前时间
+//     * @return
+//     */
+//    int updateLastLoginTime(@Param("id") Long id, @Param("now") LocalDateTime now);
 
 }

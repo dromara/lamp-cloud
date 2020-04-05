@@ -14,6 +14,7 @@ import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.security.annotation.PreAuth;
 import com.github.zuihou.utils.BeanPlusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/role")
 @Api(value = "Role", tags = "角色")
+@PreAuth(replace = "role:")
 public class RoleController extends SuperCacheController<RoleService, Long, Role, RolePageDTO, RoleSaveDTO, RoleUpdateDTO> {
 
     @Autowired

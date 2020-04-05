@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-authority</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -39,12 +39,7 @@
         <!-- user 只有权限服务 放在biz 层 -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-user-starter</artifactId>
-        </dependency>
-        <!-- jwt 只有权限服务需要使用 -->
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-jwt-starter</artifactId>
+            <artifactId>zuihou-security-starter</artifactId>
         </dependency>
         <!-- log 只有权限服务biz模块引用，其他服务都在controller模块 -->
         <dependency>
@@ -67,11 +62,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
         </dependency>
 
     </dependencies>

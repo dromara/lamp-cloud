@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-order</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
 
@@ -21,14 +21,13 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-authority-api</artifactId>
+            <artifactId>zuihou-demo-entity</artifactId>
             <version>${zuihou-project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-oauth-api</artifactId>
+            <version>${zuihou-project.version}</version>
         </dependency>
 
         <!-- 操作日志需要在Controller方法上标注注解 -->
@@ -39,7 +38,7 @@
         <!-- 注入当前登录人信息 需要在Controller方法参数上写注解和实体类 -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-user-starter</artifactId>
+            <artifactId>zuihou-security-starter</artifactId>
         </dependency>
 
         <dependency>

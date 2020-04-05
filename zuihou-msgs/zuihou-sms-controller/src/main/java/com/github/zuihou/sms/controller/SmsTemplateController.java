@@ -5,6 +5,7 @@ import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.security.annotation.PreAuth;
 import com.github.zuihou.sms.dto.SmsTemplateSaveDTO;
 import com.github.zuihou.sms.dto.SmsTemplateUpdateDTO;
 import com.github.zuihou.sms.entity.SmsTemplate;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/smsTemplate")
 @Api(value = "SmsTemplate", tags = "短信模板")
+@PreAuth(replace = "sms:template:")
 public class SmsTemplateController extends SuperController<SmsTemplateService, Long, SmsTemplate, SmsTemplate, SmsTemplateSaveDTO, SmsTemplateUpdateDTO> {
 
     @Override
@@ -52,6 +54,7 @@ public class SmsTemplateController extends SuperController<SmsTemplateService, L
     @ApiOperation(value = "检测自定义编码是否存在", notes = "检测自定义编码是否存在")
     @GetMapping("/check")
     @SysLog("检测自定义编码是否存在")
+    @PreAuth("hasPermit('{}view')")
     public R<Boolean> check(@RequestParam(value = "customCode") String customCode) {
         int count = baseService.count(Wraps.<SmsTemplate>lbQ().eq(SmsTemplate::getCustomCode, customCode));
         return success(count > 0);

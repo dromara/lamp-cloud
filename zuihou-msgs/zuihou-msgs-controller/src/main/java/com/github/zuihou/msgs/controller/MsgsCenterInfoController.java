@@ -10,8 +10,7 @@ import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.view.PoiBaseView;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.api.RoleApi;
-import com.github.zuihou.authority.api.UserApi;
+import com.github.zuihou.authority.api.UserBizApi;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.context.BaseContextHandler;
@@ -22,6 +21,8 @@ import com.github.zuihou.msgs.dto.MsgsCenterInfoSaveDTO;
 import com.github.zuihou.msgs.entity.MsgsCenterInfo;
 import com.github.zuihou.msgs.enumeration.MsgsCenterType;
 import com.github.zuihou.msgs.service.MsgsCenterInfoService;
+import com.github.zuihou.oauth.api.RoleApi;
+import com.github.zuihou.security.annotation.PreAuth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,7 @@ import java.util.Map;
 @RequestMapping("/msgsCenterInfo")
 @Api(value = "MsgsCenterInfo", tags = "消息中心")
 @Validated
+@PreAuth(replace = "msgs:")
 public class MsgsCenterInfoController {
 
     @Autowired
@@ -62,7 +64,7 @@ public class MsgsCenterInfoController {
     @Resource
     private RoleApi roleApi;
     @Resource
-    private UserApi userApi;
+    private UserBizApi userBizApi;
 
 
     /**
@@ -197,6 +199,7 @@ public class MsgsCenterInfoController {
     @ApiOperation(value = "新增消息中心", notes = "新增消息中心不为空的字段")
     @PostMapping
     @SysLog("新增消息中心")
+    @PreAuth("hasPermit('{}add')")
     public R<MsgsCenterInfo> save(@RequestBody @Validated MsgsCenterInfoSaveDTO data) {
         if (CollectionUtil.isEmpty(data.getUserIdList()) && CollectionUtil.isNotEmpty(data.getRoleCodeList())) {
             R<List<Long>> result = roleApi.findUserIdByCode(data.getRoleCodeList().stream().toArray(String[]::new));
@@ -208,7 +211,7 @@ public class MsgsCenterInfoController {
             }
         }
         if (MsgsCenterType.PUBLICITY.eq(data.getMsgsCenterInfoDTO().getMsgsCenterType())) {
-            R<List<Long>> result = userApi.findAllUserId();
+            R<List<Long>> result = userBizApi.findAllUserId();
             if (result.getIsSuccess()) {
                 data.setUserIdList(new HashSet<>(result.getData()));
             }

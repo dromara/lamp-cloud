@@ -17,7 +17,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author zuihou
- * @since 2019-12-25
+ * @since 2020-04-02
  */
 @Data
 @NoArgsConstructor
@@ -32,17 +32,17 @@ public class ApplicationSaveDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * AppKey
+     * 客户端ID
      */
-    @ApiModelProperty(value = "AppKey")
-    @Length(max = 24, message = "AppKey长度不能超过100")
-    private String appKey;
+    @ApiModelProperty(value = "客户端ID")
+    @Length(max = 24, message = "客户端ID长度不能超过24")
+    private String clientId;
     /**
-     * AppSecret
+     * 客户端密码
      */
-    @ApiModelProperty(value = "AppSecret")
-    @Length(max = 32, message = "AppSecret长度不能超过255")
-    private String appSecret;
+    @ApiModelProperty(value = "客户端密码")
+    @Length(max = 32, message = "客户端密码长度不能超过32")
+    private String clientSecret;
     /**
      * 官网
      */
@@ -65,6 +65,7 @@ public class ApplicationSaveDTO implements Serializable {
     /**
      * 类型
      * #{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}
+     *
      */
     @ApiModelProperty(value = "类型")
     private ApplicationAppTypeEnum appType;
@@ -75,9 +76,9 @@ public class ApplicationSaveDTO implements Serializable {
     @Length(max = 200, message = "备注长度不能超过200")
     private String describe;
     /**
-     * 状态
+     * 是否启用
      */
-    @ApiModelProperty(value = "状态")
+    @ApiModelProperty(value = "是否启用")
     private Boolean status;
 
 }

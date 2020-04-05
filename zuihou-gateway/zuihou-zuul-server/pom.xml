@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-gateway</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -17,8 +17,20 @@
     <dependencies>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-zuul-base</artifactId>
+            <artifactId>zuihou-common</artifactId>
+            <version>${zuihou-project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-boot</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-log-starter</artifactId>
@@ -59,7 +71,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

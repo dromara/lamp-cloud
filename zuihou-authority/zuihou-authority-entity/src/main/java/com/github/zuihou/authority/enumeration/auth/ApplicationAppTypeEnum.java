@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
  * </p>
  *
  * @author zuihou
- * @date 2019-12-25
+ * @date 2020-04-02
  */
 @Getter
 @AllArgsConstructor
@@ -60,7 +60,7 @@ public enum ApplicationAppTypeEnum implements BaseEnum {
     }
 
     public boolean eq(String val) {
-        return name().equalsIgnoreCase(val);
+        return this.name().equalsIgnoreCase(val);
     }
 
     public boolean eq(ApplicationAppTypeEnum val) {
@@ -73,7 +73,7 @@ public enum ApplicationAppTypeEnum implements BaseEnum {
     @Override
     @ApiModelProperty(value = "编码", allowableValues = "SERVER,APP,PC,WAP", example = "SERVER")
     public String getCode() {
-        return name();
+        return this.name();
     }
 
 }
