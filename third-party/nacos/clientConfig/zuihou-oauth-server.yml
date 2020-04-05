@@ -1,0 +1,13 @@
+server:
+  port: 8773
+
+zuihou:
+  swagger:
+    enabled: true
+    title: 认证服务
+    base-package: com.github.zuihou
+
+
+authentication:
+  expire: 28800               # token有效期为8小时
+  refreshExpire: 86400        # 刷新token有效期为24小时

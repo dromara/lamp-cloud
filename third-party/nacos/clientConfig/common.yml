@@ -5,13 +5,27 @@ zuihou:
   zipkin:
     enabled: false
   swagger:
+    license: Powered By zuihou
+    licenseUrl: https://github.com/zuihou
+    termsOfServiceUrl: https://github.com/zuihou
+    version: 2.1
+    apiKeys:
+      - name: 令牌
+        keyname: token
+        passAs: header
     global-operation-parameters:
+      - name: Authorization
+        description: 客户端信息
+        modelRef: String
+        parameterType: header
+        required: true
+        defaultValue: "Basic enVpaG91X3VpOnp1aWhvdV91aV9zZWNyZXQ="
       - name: tenant
         description: 租户编码
         modelRef: String
         parameterType: header
         required: true
-        defaultValue: "0000"
+        defaultValue: "MDAwMA=="
   injection:
     # 是否启用 远程数据 手动注入
     enabled: true
@@ -22,13 +36,20 @@ zuihou:
       maximumSize: 1000
       refreshWriteTime: 10
       refreshThreadPoolSize: 1000
-  user:
+  security:
+    # 是否开启URI权限校验
+    enabled: true
     type: FEIGN
   scan:
     type: FEIGN
   log:
     enabled: true
     type: DB
+  context:
+    # 上下文拦截器
+    pathPatterns: '/**'
+    order: -20
+
 
 server:
   undertow: # jetty  undertow

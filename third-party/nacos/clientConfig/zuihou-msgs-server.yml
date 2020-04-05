@@ -11,9 +11,6 @@ zuihou:
       mail:
         title: 邮件模块
         base-package: com.github.zuihou.mail.controller
-      general:
-        title: 通用模块
-        base-package: com.github.zuihou.general.controller
   cache:
     type: REDIS   # CAFFEINE
     def:

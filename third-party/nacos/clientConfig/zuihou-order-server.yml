@@ -1,16 +1,21 @@
 zuihou:
   database:
-    isSeata: false
-    isMultiTenant: false
+    isSeata: true
+    multiTenantType: DATASOURCE
   swagger:
     docket:
       order:
         title: 演示服务
         base-package: com.github.zuihou.order.controller
 
+
+logging:
+  io.seata: debug
+  org.springframework.cloud.alibaba.seata.web: debug
+
+
 server:
   port: 8769
-
 
 seata:
   enabled: ${zuihou.database.isSeata}

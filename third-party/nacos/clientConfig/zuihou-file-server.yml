@@ -8,9 +8,6 @@ zuihou:
       file:
         title: 文件服务
         base-package: com.github.zuihou.file.controller
-      general:
-        title: 通用模块
-        base-package: com.github.zuihou.general.controller
   file:
     type: LOCAL # FAST_DFS LOCAL
     storage-path: /data/projects/uploadfile/file/     # 文件存储路径  （ 某些版本的 window 需要改成  D:\\data\\projects\\uploadfile\\file\\  ）

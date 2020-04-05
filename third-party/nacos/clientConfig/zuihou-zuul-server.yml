@@ -30,6 +30,9 @@ zuul:
     authority:  # 其中 authority 是路由名称，可以随便定义，但是path和service-id需要一一对应
       path: /authority/**
       serviceId: zuihou-authority-server
+    oauth:
+      path: /oauth/**
+      serviceId: zuihou-oauth-server
     file:
       path: /file/**
       serviceId: zuihou-file-server

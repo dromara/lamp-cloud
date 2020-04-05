@@ -1,7 +1,7 @@
 zuihou:
   database:
-    isSeata: false
-    isMultiTenant: false
+    isSeata: true
+    multiTenantType: DATASOURCE
   swagger:
     docket:
       demo:
@@ -11,6 +11,9 @@ zuihou:
 server:
   port: 8770
 
+logging:
+  io.seata: debug
+  org.springframework.cloud.alibaba.seata.web: debug
 
 seata:
   enabled: ${zuihou.database.isSeata}
