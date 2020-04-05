@@ -12,19 +12,9 @@ zuihou:
       core:
         title: 组织模块
         base-package: com.github.zuihou.authority.controller.core
-      general:
-        title: 通用模块
-        base-package: com.github.zuihou.general.controller
       tenant:
         title: 租户模块
         base-package: com.github.zuihou.authority.controller.defaults
-
-authentication:
-  user:
-    header-name: token
-    expire: 43200               # 外部token有效期为12小时
-    pri-key: client/pri.key    # 加密
-    pub-key: client/pub.key    # 解密
 
 server:
   port: 8764

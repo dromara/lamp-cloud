@@ -12,6 +12,16 @@ spring:
           enabled: true
           lowerCaseServiceId: true
       routes:
+        - id: oauth
+          uri: lb://zuihou-oauth-server
+          predicates:
+            - Path=/oauth/**
+          filters:
+            - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/fallback'
         - id: file
           uri: lb://zuihou-file-server
           predicates:
