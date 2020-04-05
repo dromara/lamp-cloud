@@ -6,51 +6,43 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dao.auth.UserMapper;
-import com.github.zuihou.authority.dao.defaults.TenantMapper;
+import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
-import com.github.zuihou.authority.entity.auth.Role;
-import com.github.zuihou.authority.entity.auth.RoleOrg;
-import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.authority.entity.auth.UserRole;
+import com.github.zuihou.authority.entity.auth.*;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
-import com.github.zuihou.authority.entity.defaults.Tenant;
-import com.github.zuihou.authority.service.auth.RoleOrgService;
-import com.github.zuihou.authority.service.auth.RoleService;
-import com.github.zuihou.authority.service.auth.UserRoleService;
-import com.github.zuihou.authority.service.auth.UserService;
+import com.github.zuihou.authority.service.auth.*;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
 import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.common.constant.CacheKey;
-import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.injection.annonation.InjectionResult;
 import com.github.zuihou.model.RemoteData;
-import com.github.zuihou.user.feign.UserQuery;
-import com.github.zuihou.user.model.SysOrg;
-import com.github.zuihou.user.model.SysRole;
-import com.github.zuihou.user.model.SysStation;
-import com.github.zuihou.user.model.SysUser;
+import com.github.zuihou.security.feign.UserQuery;
+import com.github.zuihou.security.model.SysOrg;
+import com.github.zuihou.security.model.SysRole;
+import com.github.zuihou.security.model.SysStation;
+import com.github.zuihou.security.model.SysUser;
 import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 /**
  * <p>
@@ -63,7 +55,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = CacheKey.USER)
 public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
@@ -71,22 +62,17 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Autowired
     private RoleService roleService;
     @Autowired
+    private ResourceService resourceService;
+    @Autowired
     private UserRoleService userRoleService;
     @Autowired
     private RoleOrgService roleOrgService;
     @Autowired
     private OrgService orgService;
-    @Autowired
-    private TenantMapper tenantMapper;
 
     @Override
     protected String getRegion() {
         return CacheKey.USER;
-    }
-
-
-    protected UserService currentProxy() {
-        return ((UserService) AopContext.currentProxy());
     }
 
     @Override
@@ -95,12 +81,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         return baseMapper.findPage(page, wrapper, new DataScope());
     }
 
-    @Override
-    public int resetPassErrorNum(Long id) {
-        return baseMapper.resetPassErrorNum(id);
-    }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updatePassword(UserUpdatePasswordDTO data) {
         BizAssert.equals(data.getConfirmPassword(), data.getPassword(), "密码与确认密码不一致");
 
@@ -109,8 +92,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         String oldPassword = SecureUtil.md5(data.getOldPassword());
         BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
-        User build = User.builder().password(data.getPassword()).id(data.getId()).build();
-        currentProxy().updateById(build);
+        User build = User.builder().password(SecureUtil.md5(data.getPassword())).id(data.getId()).build();
+        updateById(build);
         return true;
     }
 
@@ -131,25 +114,29 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         DataScopeType dsType = DataScopeType.SELF;
 
         List<Role> list = roleService.findRoleByUserId(userId);
+
+        // 过滤最小角色
         Optional<Role> min = list.stream().min(Comparator.comparingInt((item) -> item.getDsType().getVal()));
 
         if (min.isPresent()) {
             Role role = min.get();
             dsType = role.getDsType();
-
+            map.put("dsType", dsType.getVal());
             if (DataScopeType.CUSTOMIZE.eq(dsType)) {
                 LbqWrapper<RoleOrg> wrapper = Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId).eq(RoleOrg::getRoleId, role.getId());
                 List<RoleOrg> roleOrgList = roleOrgService.list(wrapper);
 
                 orgIds = roleOrgList.stream().mapToLong(RoleOrg::getOrgId).boxed().collect(Collectors.toList());
             } else if (DataScopeType.THIS_LEVEL.eq(dsType)) {
-                User user = currentProxy().getByIdCache(userId);
+                User user = getByIdCache(userId);
                 if (user != null) {
                     Long orgId = RemoteData.getKey(user.getOrg());
-                    orgIds.add(orgId);
+                    if (orgId != null) {
+                        orgIds.add(orgId);
+                    }
                 }
             } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(dsType)) {
-                User user = currentProxy().getByIdCache(userId);
+                User user = getByIdCache(userId);
                 if (user != null) {
                     Long orgId = RemoteData.getKey(user.getOrg());
                     List<Org> orgList = orgService.findChildren(Arrays.asList(orgId));
@@ -157,7 +144,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
                 }
             }
         }
-        map.put("dsType", dsType.getVal());
         map.put("orgIds", orgIds);
         return map;
     }
@@ -168,36 +154,32 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
-    @CacheEvict(key = "#id")
-    public void updatePasswordErrorNumById(Long id) {
+    @CacheEvict(cacheNames = CacheKey.USER, key = "#id")
+    public void incrPasswordErrorNumById(Long id) {
         baseMapper.incrPasswordErrorNumById(id);
     }
 
     @Override
-    public void updateLoginTime(String account) {
-        User user = getByAccount(account);
-        if (user == null) {
-            return;
-        }
-
-        baseMapper.updateLastLoginTime(account, LocalDateTime.now());
-
-        String key = key(user.getId());
+    @Transactional(rollbackFor = Exception.class)
+    public int resetPassErrorNum(Long id) {
+        int count = baseMapper.resetPassErrorNum(id, LocalDateTime.now());
+        String key = key(id);
         cacheChannel.evict(getRegion(), key);
+        return count;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public User saveUser(User user) {
-        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
-        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
-
+//        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
+//        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
+        //TODO zuihou
         // 永不过期
-        if (tenant.getPasswordExpire() == null || tenant.getPasswordExpire() <= 0) {
-            user.setPasswordExpireTime(null);
-        } else {
-            user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
-        }
-
+//        if (tenant.getPasswordExpire() == null || tenant.getPasswordExpire() <= 0) {
+//            user.setPasswordExpireTime(null);
+//        } else {
+//            user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
+//        }
         user.setPassword(SecureUtil.md5(user.getPassword()));
         user.setPasswordErrorNum(0);
         super.save(user);
@@ -205,25 +187,27 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean reset(List<Long> ids) {
         if (ids.isEmpty()) {
             return true;
         }
-        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
-        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
+        //TODO zuihou
+//        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
+//        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
+//
+//        LocalDateTime passwordExpireTime = null;
+//        if (tenant.getPasswordExpire() != null && tenant.getPasswordExpire() > 0) {
+//            passwordExpireTime = LocalDateTime.now().plusDays(tenant.getPasswordExpire());
+//        }
 
-        LocalDateTime passwordExpireTime = null;
-        if (tenant.getPasswordExpire() != null && tenant.getPasswordExpire() > 0) {
-            passwordExpireTime = LocalDateTime.now().plusDays(tenant.getPasswordExpire());
-        }
-
-        String defPassword = BizConstant.DEF_PASSWORD;
+        String defPassword = BizConstant.DEF_PASSWORD_MD5;
         super.update(Wraps.<User>lbU()
-                .set(User::getPassword, defPassword)
-                .set(User::getPasswordErrorNum, 0L)
-                .set(User::getPasswordErrorLastTime, null)
-                .set(User::getPasswordExpireTime, passwordExpireTime)
-                .in(User::getId, ids)
+                        .set(User::getPassword, defPassword)
+                        .set(User::getPasswordErrorNum, 0L)
+                        .set(User::getPasswordErrorLastTime, null)
+//                .set(User::getPasswordExpireTime, passwordExpireTime)
+                        .in(User::getId, ids)
         );
         String[] keys = ids.stream().map((id) -> key(id)).toArray(String[]::new);
         cacheChannel.evict(getRegion(), keys);
@@ -232,29 +216,36 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public User updateUser(User user) {
-        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
-        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
-        // 永不过期
-        if (tenant.getPasswordExpire() == null || tenant.getPasswordExpire() <= 0) {
-            user.setPasswordExpireTime(null);
-        } else {
-            user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
-        }
+//        Tenant tenant = tenantMapper.getByCode(BaseContextHandler.getTenant());
+//        BizAssert.notNull(tenant, "租户不存在，请联系管理员");
+//        // 永不过期
+//        if (tenant.getPasswordExpire() == null || tenant.getPasswordExpire() <= 0) {
+//            user.setPasswordExpireTime(null);
+//        } else {
+//            user.setPasswordExpireTime(LocalDateTime.now().plusDays(tenant.getPasswordExpire()));
+//        }
 
         if (StrUtil.isNotEmpty(user.getPassword())) {
             user.setPassword(SecureUtil.md5(user.getPassword()));
         }
-        currentProxy().updateById(user);
+        updateById(user);
         return user;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean remove(List<Long> ids) {
-        userRoleService.remove(Wraps.<UserRole>lbQ()
-                .in(UserRole::getUserId, ids)
-        );
-        return currentProxy().removeByIds(ids);
+        if (ids.isEmpty()) {
+            return true;
+        }
+        userRoleService.remove(Wraps.<UserRole>lbQ().in(UserRole::getUserId, ids));
+        String[] userIdArray = ids.stream().map(this::key).toArray(String[]::new);
+        cacheChannel.evict(CacheKey.USER_ROLE, userIdArray);
+        cacheChannel.evict(CacheKey.USER_MENU, userIdArray);
+        cacheChannel.evict(CacheKey.USER_RESOURCE, userIdArray);
+        return removeByIds(ids);
     }
 
     @Override
@@ -288,7 +279,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
             }
 
         } else {
-            list = idList.stream().map(currentProxy()::getByIdCache)
+            list = idList.stream().map(this::getByIdCache)
                     .filter(Objects::nonNull).collect(Collectors.toList());
         }
         return list;
@@ -305,7 +296,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
     @Override
     public SysUser getSysUserById(Long id, UserQuery query) {
-        User user = currentProxy().getByIdCache(id);
+        User user = getByIdCache(id);
         if (user == null) {
             return null;
         }
@@ -315,11 +306,11 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         sysUser.setStationId(RemoteData.getKey(user.getOrg()));
 
         if (query.getFull() || query.getOrg()) {
-            sysUser.setOrg(BeanUtil.toBean(orgService.getById(user.getOrg()), SysOrg.class));
+            sysUser.setOrg(BeanUtil.toBean(orgService.getByIdCache(user.getOrg()), SysOrg.class));
         }
 
         if (query.getFull() || query.getStation()) {
-            Station station = stationService.getById(user.getStation());
+            Station station = stationService.getByIdCache(user.getStation());
             if (station != null) {
                 SysStation sysStation = BeanUtil.toBean(station, SysStation.class);
                 sysStation.setOrgId(RemoteData.getKey(station.getOrg()));
@@ -331,6 +322,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
             List<Role> list = roleService.findRoleByUserId(id);
             sysUser.setRoles(BeanPlusUtil.toBeanList(list, SysRole.class));
         }
+        if (query.getFull() || query.getResource()) {
+            List<Resource> resourceList = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(id).build());
+            sysUser.setResources(resourceList.stream().map(Resource::getCode).distinct().collect(Collectors.toList()));
+        }
 
         return sysUser;
     }
@@ -338,5 +333,12 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     public List<Long> findAllUserId() {
         return super.list().stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean initUser(User user) {
+        this.saveUser(user);
+        return userRoleService.initAdmin(user.getId());
     }
 }

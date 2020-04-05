@@ -8,6 +8,10 @@ package com.github.zuihou.common.constant;
  */
 public interface BizConstant {
     /**
+     * 超级租户编码
+     */
+    String SUPER_TENANT = "admin";
+    /**
      * 初始化的租户管理员角色
      */
     String INIT_ROLE_CODE = "PT_ADMIN";
@@ -24,7 +28,11 @@ public interface BizConstant {
     /**
      * 默认MD5密码：123456
      */
-    String DEF_PASSWORD = "e10adc3949ba59abbe56e057f20f883e";
+    String DEF_PASSWORD_MD5 = "e10adc3949ba59abbe56e057f20f883e";
+    /**
+     * 默认密码：123456
+     */
+    String DEF_PASSWORD = "123456";
 
     /**
      * 默认的定时任务组
@@ -40,4 +48,9 @@ public interface BizConstant {
      */
     String BASE_DATABASE = "zuihou_base";
 
+
+    /**
+     * 被T
+     */
+    String LOGIN_STATUS = "T";
 }

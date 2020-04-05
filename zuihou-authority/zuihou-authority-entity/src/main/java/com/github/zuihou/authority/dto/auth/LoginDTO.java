@@ -35,7 +35,11 @@ public class LoginDTO implements Serializable {
      * 有效时间：单位：秒
      */
     @ApiModelProperty(value = "有效期")
-    private Integer expire;
+    private Long expire;
+
+    @ApiModelProperty(value = "刷新令牌")
+    private String refreshToken;
+
     @ApiModelProperty(value = "权限列表")
     private List<String> permissionsList;
 }

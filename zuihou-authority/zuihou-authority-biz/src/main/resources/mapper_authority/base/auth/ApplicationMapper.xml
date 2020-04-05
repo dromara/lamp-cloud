@@ -9,8 +9,8 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
-        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="client_id" jdbcType="VARCHAR" property="clientId"/>
+        <result column="client_secret" jdbcType="VARCHAR" property="clientSecret"/>
         <result column="website" jdbcType="VARCHAR" property="website"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
@@ -21,8 +21,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_user, create_time, update_user, update_time, 
-        app_key, app_secret, website, name, icon, app_type, describe_, status
+        id,create_user,create_time,update_user,update_time,
+        client_id, client_secret, website, name, icon, app_type, describe_, status
     </sql>
 
 </mapper>

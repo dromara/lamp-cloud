@@ -1,28 +1,24 @@
 package com.github.zuihou.authority.controller.common;
 
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.github.zuihou.authority.dto.common.LoginLogUpdateDTO;
 import com.github.zuihou.authority.entity.common.LoginLog;
-import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.log.annotation.SysLog;
-import com.github.zuihou.log.util.AddressUtil;
+import com.github.zuihou.security.annotation.PreAuth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
@@ -39,10 +35,8 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/loginLog")
 @Api(value = "LoginLog", tags = "登录日志")
+@PreAuth(value = "hasPermit('loginLog:add')", replace = "loginLog:")
 public class LoginLogController extends SuperController<LoginLogService, Long, LoginLog, LoginLog, LoginLog, LoginLogUpdateDTO> {
-
-    @Autowired
-    private UserService userService;
 
     /**
      * 分页查询登录日志
@@ -64,28 +58,6 @@ public class LoginLogController extends SuperController<LoginLogService, Long, L
                 .likeRight(LoginLog::getAccount, model.getAccount())
                 .likeRight(LoginLog::getRequestIp, model.getRequestIp());
     }
-
-
-    /**
-     * 新增登录日志
-     *
-     * @param account 用户名
-     * @return 新增结果
-     */
-    @ApiOperation(value = "新增登录日志", notes = "新增登录日志不为空的字段")
-    @GetMapping("/anno/login/{account}")
-    public R<LoginLog> save(@NotBlank(message = "用户名不能为为空") @PathVariable String account,
-                            @RequestParam(required = false, defaultValue = "登陆成功") String description,
-                            @ApiIgnore HttpServletRequest request) {
-        String ua = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
-        String ip = ServletUtil.getClientIP(request);
-        String location = AddressUtil.getRegion(ip);
-        // update last login time
-        this.userService.updateLoginTime(account);
-        LoginLog loginLog = baseService.save(account, ua, ip, location, description);
-        return this.success(loginLog);
-    }
-
 
     @ApiOperation("清空日志")
     @DeleteMapping("clear")
@@ -117,4 +89,5 @@ public class LoginLogController extends SuperController<LoginLogService, Long, L
 
         return success(baseService.clearLog(clearBeforeTime, clearBeforeNum));
     }
+
 }

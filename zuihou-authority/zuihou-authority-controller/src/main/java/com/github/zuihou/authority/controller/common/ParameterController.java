@@ -6,7 +6,8 @@ import com.github.zuihou.authority.dto.common.ParameterSaveDTO;
 import com.github.zuihou.authority.dto.common.ParameterUpdateDTO;
 import com.github.zuihou.authority.entity.common.Parameter;
 import com.github.zuihou.authority.service.common.ParameterService;
-import com.github.zuihou.base.controller.SuperCacheController;
+import com.github.zuihou.base.controller.SuperController;
+import com.github.zuihou.security.annotation.PreAuth;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/parameter")
 @Api(value = "Parameter", tags = "参数配置")
-public class ParameterController extends SuperCacheController<ParameterService, Long, Parameter, ParameterPageDTO, ParameterSaveDTO, ParameterUpdateDTO> {
-
+@PreAuth(replace = "parameter:")
+public class ParameterController extends SuperController<ParameterService, Long, Parameter, ParameterPageDTO, ParameterSaveDTO, ParameterUpdateDTO> {
 
 }

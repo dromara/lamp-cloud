@@ -103,11 +103,10 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
 
         AttachmentDTO dto = BeanPlusUtil.toBean(attachment, AttachmentDTO.class);
         dto.setDownloadUrlByBizId(fileProperties.getDownByBizId(bizId));
-        dto.setDownloadUrlById(fileProperties.getDownById(file.getId()));
-        dto.setDownloadUrlByUrl(fileProperties.getDownByUrl(file.getUrl(), file.getSubmittedFileName()));
+        dto.setDownloadUrlById(fileProperties.getDownById(attachment.getId()));
+        dto.setDownloadUrlByUrl(fileProperties.getDownByUrl(attachment.getUrl(), attachment.getSubmittedFileName()));
         return dto;
     }
-
 
     private void setDate(Attachment file) {
         LocalDateTime now = LocalDateTime.now();

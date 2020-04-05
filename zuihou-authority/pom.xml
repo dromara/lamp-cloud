@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.zuihou</groupId>
         <artifactId>zuihou-admin-cloud</artifactId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -19,6 +19,9 @@
         <module>zuihou-authority-entity</module>
         <module>zuihou-authority-biz</module>
         <module>zuihou-authority-controller</module>
+        <module>zuihou-tenant-entity</module>
+        <module>zuihou-tenant-biz</module>
+        <module>zuihou-tenant-controller</module>
         <module>zuihou-authority-server</module>
     </modules>
 
@@ -38,6 +41,21 @@
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-authority-controller</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-tenant-entity</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-tenant-biz</artifactId>
+                <version>${zuihou-project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.zuihou</groupId>
+                <artifactId>zuihou-tenant-controller</artifactId>
                 <version>${zuihou-project.version}</version>
             </dependency>
 

@@ -10,10 +10,9 @@ import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.common.constant.CacheKey;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheObject;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +34,6 @@ import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = MENU)
 public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> implements MenuService {
 
     @Autowired
@@ -44,10 +42,6 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
     @Override
     protected String getRegion() {
         return MENU;
-    }
-
-    protected MenuService currentProxy() {
-        return ((MenuService) AopContext.currentProxy());
     }
 
     /**
@@ -91,9 +85,7 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
 
         List<Long> list = (List<Long>) cacheObject.getValue();
 
-        //使用 this::getByIdWithCache 会导致无法读取缓存
-//        List<Menu> menuList = list.stream().map(this::getByIdWithCache).collect(Collectors.toList());
-        List<Menu> menuList = list.stream().map(currentProxy()::getByIdCache)
+        List<Menu> menuList = list.stream().map(this::getByIdCache)
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
         return menuListFilterGroup(group, menuList);
@@ -108,11 +100,12 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean removeByIdWithCache(List<Long> ids) {
         if (ids.isEmpty()) {
             return true;
         }
-        boolean result = currentProxy().removeByIds(ids);
+        boolean result = this.removeByIds(ids);
         if (result) {
             resourceService.removeByMenuIdWithCache(ids);
         }
@@ -120,8 +113,9 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateWithCache(Menu menu) {
-        boolean result = currentProxy().updateById(menu);
+        boolean result = this.updateById(menu);
         if (result) {
             cacheChannel.clear(CacheKey.USER_MENU);
         }
@@ -129,19 +123,16 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveWithCache(Menu menu) {
         menu.setIsEnable(Convert.toBool(menu.getIsEnable(), true));
         menu.setIsPublic(Convert.toBool(menu.getIsPublic(), false));
         menu.setParentId(Convert.toLong(menu.getParentId(), DEF_PARENT_ID));
+        save(menu);
 
-        currentProxy().save(menu);
-
-        String menuKey = key(menu.getId());
-        cacheChannel.set(CacheKey.MENU, menuKey, menu);
         if (menu.getIsPublic()) {
             cacheChannel.evict(CacheKey.USER_MENU);
         }
-
         return true;
     }
 }

@@ -11,8 +11,8 @@ import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.BeanPlusUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,7 +29,6 @@ import static com.github.zuihou.common.constant.CacheKey.SYSTEM_API;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = SYSTEM_API)
 public class SystemApiServiceImpl extends SuperCacheServiceImpl<SystemApiMapper, SystemApi> implements SystemApiService {
     @Override
     protected String getRegion() {
@@ -37,6 +36,7 @@ public class SystemApiServiceImpl extends SuperCacheServiceImpl<SystemApiMapper,
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean batchSave(SystemApiScanSaveDTO data) {
         List<SystemApiSaveDTO> list = data.getSystemApiList();
         if (CollUtil.isEmpty(list)) {

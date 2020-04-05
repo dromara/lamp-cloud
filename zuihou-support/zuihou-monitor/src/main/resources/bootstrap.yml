@@ -34,12 +34,12 @@ spring:
 
 logging:
   file:
-    path: /data/projects/logs
+    path: @logging.file.path@
     name: ${logging.file.path}/${spring.application.name}/root.log
 
 info:
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
-  spring-boot-version: '@spring.boot.version@'
+  spring-boot-version: '${spring.boot.version}'
   spring-cloud-version: '@spring.cloud.version@'

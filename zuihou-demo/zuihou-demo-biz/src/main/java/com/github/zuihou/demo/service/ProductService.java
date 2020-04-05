@@ -14,4 +14,5 @@ import com.github.zuihou.demo.entity.Product;
  */
 public interface ProductService extends IService<Product> {
 
+    boolean saveEx(Product data);
 }

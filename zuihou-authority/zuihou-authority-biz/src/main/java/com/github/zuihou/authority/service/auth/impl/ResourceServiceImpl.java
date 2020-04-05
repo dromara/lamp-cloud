@@ -4,6 +4,7 @@ import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
 import com.github.zuihou.authority.service.auth.ResourceService;
+import com.github.zuihou.authority.service.auth.RoleAuthorityService;
 import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
@@ -12,10 +13,9 @@ import com.github.zuihou.utils.CodeGenerate;
 import com.github.zuihou.utils.StrHelper;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheObject;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,23 +36,21 @@ import static com.github.zuihou.common.constant.CacheKey.RESOURCE;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = RESOURCE)
 public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
     @Autowired
     private CodeGenerate codeGenerate;
+    @Autowired
+    private RoleAuthorityService roleAuthorityService;
 
     @Override
     protected String getRegion() {
         return RESOURCE;
     }
 
-    protected ResourceService currentProxy() {
-        return ((ResourceService) AopContext.currentProxy());
-    }
-
     /**
      * 查询用户的可用资源
+     *
      * 注意：什么地方需要清除 USER_MENU 缓存
      * 给用户重新分配角色时， 角色重新分配资源/菜单时
      *
@@ -83,8 +81,10 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
             return resourceListFilterGroup(resource.getMenuId(), visibleResource);
         }
 
+        // 若list里面的值过多，而资源又均没有缓存（或者缓存击穿），则这里的效率并不高
+
         List<Long> list = (List<Long>) cacheObject.getValue();
-        List<Resource> resourceList = list.stream().map(((ResourceService) AopContext.currentProxy())::getByIdCache).collect(Collectors.toList());
+        List<Resource> resourceList = list.stream().map(this::getByIdCache).collect(Collectors.toList());
 
         if (resource.getMenuId() == null) {
             return resourceList;
@@ -94,7 +94,6 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
         return resourceListFilterGroup(resource.getMenuId(), visibleResource);
     }
 
-
     private List<Resource> resourceListFilterGroup(Long menuId, List<Resource> visibleResource) {
         if (menuId == null) {
             return visibleResource;
@@ -103,20 +102,27 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean removeByIdWithCache(List<Long> ids) {
-        boolean result = currentProxy().removeByIds(ids);
-        //TODO 删除跟资源关联的数据
+        boolean result = this.removeByIds(ids);
+
+        // 删除角色的权限
+        roleAuthorityService.removeByAuthorityId(ids);
         return result;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void removeByMenuIdWithCache(List<Long> menuIds) {
         List<Resource> resources = super.list(Wraps.<Resource>lbQ().in(Resource::getMenuId, menuIds));
         if (resources.isEmpty()) {
             return;
         }
         List<Long> idList = resources.stream().mapToLong(Resource::getId).boxed().collect(Collectors.toList());
-        currentProxy().removeByIds(idList);
+        this.removeByIds(idList);
+
+        // 删除角色的权限
+        roleAuthorityService.removeByAuthorityId(menuIds);
 
         String[] keys = idList.stream().map(this::key).toArray(String[]::new);
         cacheChannel.evict(CacheKey.RESOURCE, keys);
@@ -124,13 +130,14 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveWithCache(Resource resource) {
         resource.setCode(StrHelper.getOrDef(resource.getCode(), codeGenerate.next()));
         if (super.count(Wraps.<Resource>lbQ().eq(Resource::getCode, resource.getCode())) > 0) {
             throw BizException.validFail("编码[%s]重复", resource.getCode());
         }
 
-        currentProxy().save(resource);
+        this.save(resource);
         String resourceKey = key(resource.getId());
         cacheChannel.set(CacheKey.RESOURCE, resourceKey, resource);
         return true;

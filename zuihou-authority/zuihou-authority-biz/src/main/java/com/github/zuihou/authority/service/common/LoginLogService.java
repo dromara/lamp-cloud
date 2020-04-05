@@ -19,9 +19,22 @@ import java.util.Map;
  */
 public interface LoginLogService extends SuperService<LoginLog> {
 
+//    /**
+//     * 记录登录日志
+//     *
+//     * @param account     账号
+//     * @param ua          浏览器
+//     * @param ip          客户端IP
+//     * @param location    客户端地址
+//     * @param description 登陆描述消息
+//     * @return
+//     */
+//    LoginLog save(String account, String ua, String ip, String location, String description);
+
     /**
      * 记录登录日志
      *
+     * @param userId      用户id
      * @param account     账号
      * @param ua          浏览器
      * @param ip          客户端IP
@@ -29,7 +42,7 @@ public interface LoginLogService extends SuperService<LoginLog> {
      * @param description 登陆描述消息
      * @return
      */
-    LoginLog save(String account, String ua, String ip, String location, String description);
+    LoginLog save(Long userId, String account, String ua, String ip, String location, String description);
 
     /**
      * 获取系统总访问次数

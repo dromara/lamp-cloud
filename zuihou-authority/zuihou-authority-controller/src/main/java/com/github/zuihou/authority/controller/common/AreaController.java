@@ -11,6 +11,7 @@ import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.log.annotation.SysLog;
+import com.github.zuihou.security.annotation.PreAuth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/area")
 @Api(value = "Area", tags = "地区表")
+@PreAuth(replace = "area:")
 public class AreaController extends SuperCacheController<AreaService, Long, Area, AreaPageDTO, AreaSaveDTO, AreaUpdateDTO> {
 
     @ApiOperation(value = "检测地区编码是否重复", notes = "检测地区编码是否重复")

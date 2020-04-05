@@ -1,8 +1,8 @@
 package com.github.zuihou.file.config;
 
-import com.github.zuihou.authority.api.LogApi;
 import com.github.zuihou.boot.config.BaseConfig;
 import com.github.zuihou.log.event.SysLogListener;
+import com.github.zuihou.oauth.api.LogApi;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FileWebConfiguration extends BaseConfig {
-
+    /**
+     * zuihou.log.enabled = true 并且 zuihou.log.type=DB时实例该类
+     *
+     * @param logApi
+     * @return
+     */
     @Bean
     @ConditionalOnExpression("${zuihou.log.enabled:true} && 'DB'.equals('${zuihou.log.type:LOGGER}')")
     public SysLogListener sysLogListener(LogApi logApi) {

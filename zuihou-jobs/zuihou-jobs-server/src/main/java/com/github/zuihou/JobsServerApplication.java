@@ -1,6 +1,5 @@
 package com.github.zuihou;
 
-import com.github.zuihou.auth.server.EnableAuthServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +21,6 @@ import java.net.InetAddress;
         "com.xxl.job.admin",
 })
 @Slf4j
-@EnableAuthServer
 public class JobsServerApplication {
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext application = SpringApplication.run(JobsServerApplication.class, args);

@@ -4,6 +4,7 @@ package com.github.zuihou.sms.controller;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.security.annotation.PreAuth;
 import com.github.zuihou.sms.dto.SmsSendTaskDTO;
 import com.github.zuihou.sms.dto.SmsTaskPageDTO;
 import com.github.zuihou.sms.dto.SmsTaskSaveDTO;
@@ -42,6 +43,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/smsTask")
 @Api(value = "SmsTask", tags = "发送任务")
+@PreAuth(replace = "sms:manage:")
 public class SmsTaskController extends SuperController<SmsTaskService, Long, SmsTask, SmsTaskPageDTO, SmsTaskSaveDTO, SmsTaskUpdateDTO> {
 
     @Autowired
@@ -50,6 +52,7 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
 
     @ApiOperation(value = "发送短信", notes = "短信发送，需要先在短信系统，或者短信数据库中进行配置供应商和模板")
     @RequestMapping(value = "/send", method = RequestMethod.POST)
+    @PreAuth("hasPermit('{}add')")
     public R<SmsTask> save(@RequestBody SmsSendTaskDTO smsTaskDTO) {
         SmsTask smsTask = BeanPlusUtil.toBean(smsTaskDTO, SmsTask.class);
         smsTask.setSourceType(SourceType.SERVICE);

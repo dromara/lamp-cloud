@@ -10,8 +10,6 @@ import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -32,16 +30,11 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = DICTIONARY_ITEM)
 public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryItemMapper, DictionaryItem> implements DictionaryItemService {
 
     @Override
     protected String getRegion() {
         return DICTIONARY_ITEM;
-    }
-
-    protected DictionaryItemService currentProxy() {
-        return ((DictionaryItemService) AopContext.currentProxy());
     }
 
     @Override

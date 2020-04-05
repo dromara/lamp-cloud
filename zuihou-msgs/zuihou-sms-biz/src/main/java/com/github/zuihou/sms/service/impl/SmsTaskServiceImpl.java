@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -90,6 +91,7 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveTask(SmsTask smsTask, TemplateCodeType type) {
         validAndInit(smsTask, null);
 
@@ -144,6 +146,7 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(SmsTask smsTask) {
         validAndInit(smsTask, null);
 
@@ -186,7 +189,7 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
         } else {
             JSONObject param = new JSONObject();
             param.put("id", smsTask.getId());
-            param.put(BaseContextConstants.TENANT, BaseContextHandler.getTenant());
+            param.put(BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
             //推送定时任务
             jobsTimingApi.addTimingTask(
                     XxlJobInfo.build(BizConstant.DEF_JOB_GROUP_NAME,

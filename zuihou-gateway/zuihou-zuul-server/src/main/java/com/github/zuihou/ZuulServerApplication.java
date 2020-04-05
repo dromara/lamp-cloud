@@ -1,6 +1,5 @@
 package com.github.zuihou;
 
-import com.github.zuihou.auth.client.EnableAuthClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +20,6 @@ import java.net.UnknownHostException;
 @EnableDiscoveryClient
 @EnableFeignClients({"com.github.zuihou"})
 @EnableZuulProxy
-@EnableAuthClient
 @Slf4j
 public class ZuulServerApplication {
     public static void main(String[] args) throws UnknownHostException {

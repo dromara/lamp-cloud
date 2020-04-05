@@ -5,12 +5,10 @@
     <parent>
         <groupId>com.github.zuihou</groupId>
         <artifactId>zuihou-admin-cloud</artifactId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
-    <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-jobs</artifactId>
-    <version>c.2.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
@@ -35,14 +33,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
-
-    </build>
 </project>

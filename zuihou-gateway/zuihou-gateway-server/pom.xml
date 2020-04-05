@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-gateway</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -18,6 +18,11 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
+            <version>${zuihou-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-oauth-api</artifactId>
             <version>${zuihou-project.version}</version>
         </dependency>
         <dependency>

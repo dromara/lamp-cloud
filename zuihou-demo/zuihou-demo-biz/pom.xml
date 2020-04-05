@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-demo</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.0-SNAPSHOT</version>
+        <version>c.2.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -50,13 +50,5 @@
         </dependency>
 
     </dependencies>
-
-    <!--    <build>-->
-    <!--        <resources>-->
-    <!--            <resource>-->
-    <!--                <directory>src/main/resources</directory>-->
-    <!--            </resource>-->
-    <!--        </resources>-->
-    <!--    </build>-->
 
 </project>

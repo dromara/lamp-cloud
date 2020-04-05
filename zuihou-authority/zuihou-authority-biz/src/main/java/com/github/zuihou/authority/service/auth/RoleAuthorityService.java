@@ -5,6 +5,8 @@ import com.github.zuihou.authority.dto.auth.UserRoleSaveDTO;
 import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.base.service.SuperService;
 
+import java.util.List;
+
 /**
  * <p>
  * 业务接口
@@ -31,4 +33,12 @@ public interface RoleAuthorityService extends SuperService<RoleAuthority> {
      * @return
      */
     boolean saveRoleAuthority(RoleAuthoritySaveDTO roleAuthoritySaveDTO);
+
+    /**
+     * 根据权限id 删除
+     *
+     * @param ids
+     * @return
+     */
+    boolean removeByAuthorityId(List<Long> ids);
 }
