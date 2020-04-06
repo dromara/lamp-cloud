@@ -13,7 +13,7 @@ zuihou:
     database: 0
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
   database:
-    multiTenantType: DATASOURCE
+    multiTenantType: SCHEMA
     tenantDatabasePrefix: zuihou_base
     isBlockAttack: false
     worker-id: 0
