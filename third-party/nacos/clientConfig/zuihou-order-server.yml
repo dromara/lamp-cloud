@@ -1,7 +1,8 @@
 zuihou:
   database:
     isSeata: true
-    multiTenantType: DATASOURCE
+    # SCHEMA 模式下，分布式事务无法正常回滚！ 请改成其他模式
+    multiTenantType: SCHEMA
   swagger:
     docket:
       order:
