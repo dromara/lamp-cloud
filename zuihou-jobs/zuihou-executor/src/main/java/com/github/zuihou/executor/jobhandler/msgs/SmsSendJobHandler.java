@@ -1,4 +1,4 @@
-package com.github.zuihou.executor.jobhandler;
+package com.github.zuihou.executor.jobhandler.msgs;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.context.BaseContextConstants;
