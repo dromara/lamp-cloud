@@ -45,9 +45,3 @@ zuul:
     demo:
       path: /demo/**
       serviceId: zuihou-demo-server
-
-
-authentication:
-  user:
-    header-name: token
-    pub-key: client/pub.key    # 解密

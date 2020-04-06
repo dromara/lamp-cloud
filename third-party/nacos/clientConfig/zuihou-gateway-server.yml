@@ -84,8 +84,3 @@ server:
   port: 8760
   servlet:
     context-path: /api  # = server.servlet.context-path
-
-authentication:
-  user:
-    header-name: token
-    pub-key: client/pub.key    # 解密
