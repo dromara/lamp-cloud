@@ -45,3 +45,8 @@ info:
   version: '@project.version@'
   spring-boot-version: '${spring.boot.version}'
   spring-cloud-version: '@spring.cloud.version@'
+
+zuul:
+  sensitiveHeaders:
+  #添加代理头
+  add-proxy-headers: true

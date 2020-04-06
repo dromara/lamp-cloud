@@ -2,7 +2,6 @@ package com.github.zuihou.zuul.filter.pre;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.common.constant.CacheKey;
@@ -99,11 +98,7 @@ public class TokenContextFilter extends BaseFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
 
-        String clientIP = ServletUtil.getClientIP(request);
-        log.info("clientIP={}", clientIP);
-
         BaseContextHandler.setGrayVersion(getHeader(BaseContextConstants.GRAY_VERSION, request));
-
 
         AuthInfo authInfo = null;
         try {
