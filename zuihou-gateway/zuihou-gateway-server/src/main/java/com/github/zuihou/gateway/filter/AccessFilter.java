@@ -49,10 +49,13 @@ import static com.github.zuihou.exception.code.ExceptionCode.JWT_OFFLINE;
 public class AccessFilter implements GlobalFilter, Ordered {
     @Value("${spring.profiles.active:dev}")
     protected String profiles;
+    @Value("${zuihou.database.multiTenantType:SCHEMA}")
+    protected String multiTenantType;
     @Autowired
     private TokenUtil tokenUtil;
     @Autowired
     private IgnoreTokenProperties ignoreTokenProperties;
+
 
     @Autowired
     private CacheChannel channel;
@@ -104,12 +107,14 @@ public class AccessFilter implements GlobalFilter, Ordered {
         AuthInfo authInfo = null;
         try {
             //1, 解码 请求头中的租户信息
-            String base64Tenant = getHeader(JWT_KEY_TENANT, request);
-            if (StrUtil.isNotEmpty(base64Tenant)) {
-                String tenant = JwtUtil.base64Decoder(base64Tenant);
-                BaseContextHandler.setTenant(tenant);
-                addHeader(mutate, JWT_KEY_TENANT, BaseContextHandler.getTenant());
-                MDC.put(JWT_KEY_TENANT, BaseContextHandler.getTenant());
+            if (!"NONE".equals(multiTenantType)) {
+                String base64Tenant = getHeader(JWT_KEY_TENANT, request);
+                if (StrUtil.isNotEmpty(base64Tenant)) {
+                    String tenant = JwtUtil.base64Decoder(base64Tenant);
+                    BaseContextHandler.setTenant(tenant);
+                    addHeader(mutate, JWT_KEY_TENANT, BaseContextHandler.getTenant());
+                    MDC.put(JWT_KEY_TENANT, BaseContextHandler.getTenant());
+                }
             }
 
             // 2,解码 Authorization 后面完善
