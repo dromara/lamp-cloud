@@ -34,6 +34,7 @@ import static com.github.zuihou.common.constant.CacheKey.STATION;
  */
 @Slf4j
 @Service
+
 public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Station> implements StationService {
     @Override
     protected String getRegion() {

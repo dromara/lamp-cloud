@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+
 import com.github.zuihou.authority.dao.auth.RoleOrgMapper;
 import com.github.zuihou.authority.entity.auth.RoleOrg;
 import com.github.zuihou.authority.service.auth.RoleOrgService;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+
 public class RoleOrgServiceImpl extends SuperServiceImpl<RoleOrgMapper, RoleOrg> implements RoleOrgService {
     @Override
     public List<Long> listOrgByRoleId(Long id) {

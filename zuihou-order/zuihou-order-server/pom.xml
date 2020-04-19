@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-order</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.1-SNAPSHOT</version>
+        <version>c.2.2-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
 
@@ -18,11 +18,8 @@
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-tenant-biz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-order-controller</artifactId>
+            <version>${zuihou-project.version}</version>
         </dependency>
 
         <dependency>
@@ -48,37 +45,6 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-zipkin-client-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>fastjson</artifactId>
-                    <groupId>com.alibaba</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- spring boot -->

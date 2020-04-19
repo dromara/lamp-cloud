@@ -30,6 +30,7 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 @Service
+
 public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryItemMapper, DictionaryItem> implements DictionaryItemService {
 
     @Override

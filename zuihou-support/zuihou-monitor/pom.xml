@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-support</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.1-SNAPSHOT</version>
+        <version>c.2.2-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -31,9 +31,8 @@
         </dependency>
 
         <dependency>
-            <artifactId>zuihou-config</artifactId>
-            <groupId>com.github.zuihou</groupId>
-            <version>${zuihou-commons.version}</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
         <dependency>

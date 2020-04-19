@@ -35,6 +35,7 @@ import static com.github.zuihou.common.constant.CacheKey.ORG;
  */
 @Slf4j
 @Service
+
 public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implements OrgService {
     @Autowired
     private RoleOrgService roleOrgService;

@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.github.zuihou.authority.dao.auth.UserTokenMapper;
 import com.github.zuihou.authority.entity.auth.UserToken;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
+
 public class UserTokenServiceImpl extends SuperServiceImpl<UserTokenMapper, UserToken> implements UserTokenService {
 
     @Autowired

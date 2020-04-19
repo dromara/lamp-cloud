@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.common.impl;
 
+
 import com.github.zuihou.authority.dao.common.OptLogMapper;
 import com.github.zuihou.authority.entity.common.OptLog;
 import com.github.zuihou.authority.service.common.OptLogService;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 @Service
+
 public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> implements OptLogService {
 
     @Override

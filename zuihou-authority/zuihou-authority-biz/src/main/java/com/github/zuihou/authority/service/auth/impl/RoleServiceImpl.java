@@ -44,6 +44,7 @@ import static com.github.zuihou.common.constant.CacheKey.ROLE;
  */
 @Slf4j
 @Service
+
 public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> implements RoleService {
     @Autowired
     private RoleOrgService roleOrgService;

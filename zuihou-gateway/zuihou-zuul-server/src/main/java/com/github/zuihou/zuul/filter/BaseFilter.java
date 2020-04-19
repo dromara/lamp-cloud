@@ -2,8 +2,8 @@ package com.github.zuihou.zuul.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.base.R;
+import com.github.zuihou.common.properties.IgnoreTokenProperties;
 import com.github.zuihou.utils.StrPool;
-import com.github.zuihou.zuul.properties.IgnoreTokenProperties;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +37,8 @@ public abstract class BaseFilter extends ZuulFilter {
     @Autowired
     protected RouteLocator routeLocator;
 
-    protected boolean isDev() {
-        return !StrPool.PROD.equalsIgnoreCase(profiles);
+    protected boolean isDev(String token) {
+        return !StrPool.PROD.equalsIgnoreCase(profiles) && StrPool.TEST.equalsIgnoreCase(token);
     }
 
     /**

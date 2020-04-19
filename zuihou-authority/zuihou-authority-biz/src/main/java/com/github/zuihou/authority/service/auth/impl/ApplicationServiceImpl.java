@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+
 import com.github.zuihou.authority.dao.auth.ApplicationMapper;
 import com.github.zuihou.authority.entity.auth.Application;
 import com.github.zuihou.authority.service.auth.ApplicationService;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+
 public class ApplicationServiceImpl extends SuperServiceImpl<ApplicationMapper, Application> implements ApplicationService {
 
 }

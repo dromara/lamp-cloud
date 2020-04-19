@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+
 public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapper, RoleAuthority> implements RoleAuthorityService {
 
     @Autowired

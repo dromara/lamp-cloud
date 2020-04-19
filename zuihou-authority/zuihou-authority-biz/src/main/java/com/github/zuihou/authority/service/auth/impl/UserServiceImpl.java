@@ -43,6 +43,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//import com.github.zuihou.authority.dao.defaults.TenantMapper;
+//import com.github.zuihou.authority.entity.defaults.Tenant;
 
 /**
  * <p>
@@ -55,6 +57,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+
 public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired

@@ -37,6 +37,7 @@ import static com.github.zuihou.common.constant.CacheKey.buildTenantKey;
  */
 @Slf4j
 @Service
+
 public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Parameter> implements ParameterService {
 
     @Autowired

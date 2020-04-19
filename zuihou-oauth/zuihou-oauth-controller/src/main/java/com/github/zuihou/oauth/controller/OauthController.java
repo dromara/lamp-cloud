@@ -10,6 +10,7 @@ import com.github.zuihou.jwt.model.AuthInfo;
 import com.github.zuihou.jwt.utils.JwtUtil;
 import com.github.zuihou.oauth.granter.TokenGranter;
 import com.github.zuihou.oauth.granter.TokenGranterBuilder;
+import com.github.zuihou.oauth.service.AdminUiService;
 import com.github.zuihou.oauth.service.ValidateCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +41,7 @@ public class OauthController {
     @Autowired
     private TokenGranterBuilder tokenGranterBuilder;
     @Autowired
-    private AuthManager authManager;
+    private AdminUiService authManager;
     @Autowired
     private TokenUtil tokenUtil;
 
