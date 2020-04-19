@@ -25,6 +25,7 @@ import static com.github.zuihou.common.constant.CacheKey.AREA;
  */
 @Slf4j
 @Service
+
 public class AreaServiceImpl extends SuperCacheServiceImpl<AreaMapper, Area> implements AreaService {
 
     @Override

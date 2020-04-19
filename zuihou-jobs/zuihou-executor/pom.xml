@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-jobs</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.1-SNAPSHOT</version>
+        <version>c.2.2-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -19,6 +19,7 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-jobs-core</artifactId>
+            <version>${zuihou-project.version}</version>
         </dependency>
 
         <dependency>

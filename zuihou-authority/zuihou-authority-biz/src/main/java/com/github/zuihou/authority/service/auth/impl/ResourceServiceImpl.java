@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
@@ -36,6 +37,7 @@ import static com.github.zuihou.common.constant.CacheKey.RESOURCE;
  */
 @Slf4j
 @Service
+
 public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
     @Autowired

@@ -34,6 +34,7 @@ import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
  */
 @Slf4j
 @Service
+
 public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> implements MenuService {
 
     @Autowired

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.zuihou</groupId>
         <artifactId>zuihou-jobs</artifactId>
-        <version>c.2.1-SNAPSHOT</version>
+        <version>c.2.2-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,16 +14,24 @@
     <name>${project.artifactId}</name>
     <description>定时服务启动模块</description>
     <dependencies>
-        <!-- xxl-job-core -->
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-jobs-core</artifactId>
-        </dependency>
-
+        <!-- 单机版jobs，请打开该依赖，然后无需启动zuihou-executor-server -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-executor</artifactId>
             <version>${zuihou-project.version}</version>
+        </dependency>
+
+        <!-- xxl-job-core -->
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-jobs-core</artifactId>
+            <version>${zuihou-project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-databases</artifactId>
+            <version>${zuihou-commons.version}</version>
         </dependency>
 
         <dependency>

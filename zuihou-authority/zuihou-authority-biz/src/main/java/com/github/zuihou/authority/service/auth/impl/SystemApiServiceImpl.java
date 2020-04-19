@@ -29,6 +29,7 @@ import static com.github.zuihou.common.constant.CacheKey.SYSTEM_API;
  */
 @Slf4j
 @Service
+
 public class SystemApiServiceImpl extends SuperCacheServiceImpl<SystemApiMapper, SystemApi> implements SystemApiService {
     @Override
     protected String getRegion() {

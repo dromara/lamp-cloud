@@ -1,12 +1,12 @@
 package com.github.zuihou.executor.jobhandler.authority;
 
 import com.github.zuihou.authority.entity.auth.UserToken;
-import com.github.zuihou.authority.entity.defaults.Tenant;
 import com.github.zuihou.authority.service.auth.UserTokenService;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.executor.jobhandler.GlobalTenantJobHandler;
+import com.github.zuihou.tenant.entity.Tenant;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;

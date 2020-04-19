@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.common.impl;
 
+
 import com.github.zuihou.authority.dao.common.DictionaryMapper;
 import com.github.zuihou.authority.entity.common.Dictionary;
 import com.github.zuihou.authority.service.common.DictionaryService;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+
 public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Dictionary> implements DictionaryService {
 
 }

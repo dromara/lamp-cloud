@@ -1,10 +1,10 @@
 package com.github.zuihou.executor.jobhandler;
 
-import com.github.zuihou.authority.entity.defaults.Tenant;
-import com.github.zuihou.authority.enumeration.defaults.TenantStatusEnum;
-import com.github.zuihou.authority.service.defaults.TenantService;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.tenant.entity.Tenant;
+import com.github.zuihou.tenant.enumeration.TenantStatusEnum;
+import com.github.zuihou.tenant.service.TenantService;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
