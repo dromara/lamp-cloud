@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <url>https://gitee.com/zuihou111/zuihou-cloud</url>
     <name>${project.artifactId}</name>
-    <description>zuihou-cloud-plus</description>
+    <description>zuihou-admin-cloud</description>
     <licenses>
         <license>
             <name>Apache 2</name>
