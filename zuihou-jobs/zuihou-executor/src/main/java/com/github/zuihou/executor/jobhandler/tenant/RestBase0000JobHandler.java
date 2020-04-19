@@ -1,6 +1,6 @@
 package com.github.zuihou.executor.jobhandler.tenant;
 
-import com.github.zuihou.authority.service.defaults.InitSystemContext;
+import com.github.zuihou.tenant.strategy.InitSystemContext;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;

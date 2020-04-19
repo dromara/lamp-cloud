@@ -1,6 +1,6 @@
 spring:
   application:
-    name: zuihou-jobs-server
+    name: @project.artifactId@
 
 logging:
   file:

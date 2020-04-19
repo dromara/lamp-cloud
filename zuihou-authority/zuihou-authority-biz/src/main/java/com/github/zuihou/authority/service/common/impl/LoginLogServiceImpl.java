@@ -33,6 +33,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
+
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
     @Autowired
     private UserService userService;

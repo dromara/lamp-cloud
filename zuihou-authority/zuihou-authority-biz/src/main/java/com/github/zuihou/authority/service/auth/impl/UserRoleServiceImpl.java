@@ -1,5 +1,6 @@
 package com.github.zuihou.authority.service.auth.impl;
 
+
 import com.github.zuihou.authority.dao.auth.RoleMapper;
 import com.github.zuihou.authority.dao.auth.UserRoleMapper;
 import com.github.zuihou.authority.entity.auth.Role;
@@ -26,6 +27,7 @@ import static com.github.zuihou.common.constant.BizConstant.INIT_ROLE_CODE;
  */
 @Slf4j
 @Service
+
 public class UserRoleServiceImpl extends SuperServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
     @Autowired

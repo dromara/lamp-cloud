@@ -162,30 +162,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
         return success();
     }
 
-//    /**
-//     * 单体查询用户
-//     *
-//     * @param id 主键id
-//     * @return 查询结果
-//     */
-//    @ApiOperation(value = "查询用户详细", notes = "查询用户详细")
-//    @PostMapping(value = "/anno/id/{id}")
-//    public R<SysUser> getById(@PathVariable Long id, @RequestBody UserQuery query) {
-//        return success(baseService.getSysUserById(id, query));
-//    }
-
-//    /**
-//     * 根据用户id，查询用户权限范围
-//     *
-//     * @param id 用户id
-//     * @return
-//     */
-//    @ApiOperation(value = "查询用户权限范围", notes = "根据用户id，查询用户权限范围")
-//    @GetMapping(value = "/ds/{id}")
-//    public Map<String, Object> getDataScopeById(@PathVariable("id") Long id) {
-//        return baseService.getDataScopeById(id);
-//    }
-
     /**
      * 查询角色的已关联用户
      *
@@ -202,56 +178,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
     }
 
 
-//    /**
-//     * 注册用户
-//     *
-//     * @param data 新增对象
-//     * @return 新增结果
-//     */
-//    @ApiOperation(value = "注册用户", notes = "注册用户")
-//    @PostMapping("/anno/register")
-//    @SysLog("注册用户")
-//    public R<Boolean> register(@RequestBody @Validated UserRegisterDTO data) {
-//        R<Boolean> result = smsApi.verification(VerificationCodeDTO.builder()
-//                .code(data.getVerificationCode())
-//                .mobile(data.getMobile()).type(VerificationCodeType.REGISTER_USER)
-//                .build());
-//
-//        //调用失败或者发送失败
-//        if (result.getIsError() || !result.getData()) {
-//            return result;
-//        }
-//
-//        User user = User.builder()
-//                .account(data.getMobile())
-//                .name(data.getMobile()).orgId(new RemoteData<>(DEMO_ORG_ID)).stationId(new RemoteData<>(DEMO_STATION_ID))
-//                .mobile(data.getMobile())
-//                .password(DigestUtils.md5Hex(data.getPassword()))
-//                .build();
-//        return success(baseService.save(user));
-//    }
-
-//    /**
-//     * 清除缓存并重新加载数据
-//     *
-//     * @param userId 用户id
-//     * @return
-//     * @throws BizException
-//     */
-//    @SysLog("清除缓存并重新加载数据")
-//    @ApiOperation(value = "清除缓存并重新加载数据", notes = "清除缓存并重新加载数据")
-//    @PostMapping(value = "/reload")
-//    public R<LoginDTO> reload(@RequestParam Long userId) throws BizException {
-//        User user = baseService.getByIdCache(userId);
-//        if (user == null) {
-//            return R.fail("用户不存在");
-//        }
-//
-//        List<com.github.zuihou.authority.entity.auth.Resource> resourceList = this.resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(userId).build());
-//        List<String> permissionsList = resourceList.stream().map(com.github.zuihou.authority.entity.auth.Resource::getCode).collect(Collectors.toList());
-//
-//        return this.success(LoginDTO.builder().user(BeanUtil.toBean(user, UserDTO.class)).permissionsList(permissionsList).token(null).build());
-//    }
 
     @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
     @GetMapping("/find")
@@ -259,44 +185,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
     public R<List<Long>> findAllUserId() {
         return success(baseService.findAllUserId());
     }
-
-//    /**
-//     * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
-//     * 问题如下: select * from org where id in ('100');
-//     * <p>
-//     * 强制转换成Long后，sql就能正常执行: select * from org where id in (100);
-//     *
-//     * <p>
-//     * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
-//     * {@link com.github.zuihou.oauth.api.UserApi#findUserByIds} 方法的实现类
-//     *
-//     * @param ids id
-//     * @return
-//     */
-//    @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
-//    @GetMapping("/findUserByIds")
-//    public Map<Serializable, Object> findUserByIds(@RequestParam(value = "ids") Set<Serializable> ids) {
-//        return this.baseService.findUserByIds(ids);
-//    }
-//
-//    /**
-//     * 调用方传递的参数类型是 Set<Serializable> ，但接收方必须指定为Long类型（实体的主键类型），否则在调用mp提供的方法时，会使得mysql出现类型隐式转换问题。
-//     * 问题如下: select * from org where id in ('100');
-//     * <p>
-//     * 强制转换成Long后，sql就能正常执行: select * from org where id in (100);
-//     *
-//     * <p>
-//     * 接口和实现类的类型不一致，但也能调用，归功于 SpingBoot 的自动转换功能
-//     * {@link com.github.zuihou.oauth.api.UserApi#findUserNameByIds} 方法的实现类
-//     *
-//     * @param ids id
-//     * @return
-//     */
-//    @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
-//    @GetMapping("/findUserNameByIds")
-//    public Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Serializable> ids) {
-//        return this.baseService.findUserNameByIds(ids);
-//    }
 
     @Override
     public R<Boolean> importExcel(@RequestParam("file") MultipartFile simpleFile, HttpServletRequest request,
