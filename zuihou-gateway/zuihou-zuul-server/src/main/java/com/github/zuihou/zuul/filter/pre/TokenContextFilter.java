@@ -19,6 +19,7 @@ import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,8 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 public class TokenContextFilter extends BaseFilter {
     @Autowired
     private TokenUtil tokenUtil;
+    @Value("${zuihou.database.multiTenantType:SCHEMA}")
+    protected String multiTenantType;
 
     @Autowired
     private CacheChannel channel;
@@ -101,12 +104,14 @@ public class TokenContextFilter extends BaseFilter {
         AuthInfo authInfo = null;
         try {
             //1, 解码 请求头中的租户信息
-            String base64Tenant = getHeader(JWT_KEY_TENANT, request);
-            if (StrUtil.isNotEmpty(base64Tenant)) {
-                String tenant = JwtUtil.base64Decoder(base64Tenant);
-                BaseContextHandler.setTenant(tenant);
-                addHeader(ctx, BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
-                MDC.put(BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
+            if (!"NONE".equals(multiTenantType)) {
+                String base64Tenant = getHeader(JWT_KEY_TENANT, request);
+                if (StrUtil.isNotEmpty(base64Tenant)) {
+                    String tenant = JwtUtil.base64Decoder(base64Tenant);
+                    BaseContextHandler.setTenant(tenant);
+                    addHeader(ctx, BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
+                    MDC.put(BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
+                }
             }
 
             // 2,解码 Authorization 后面完善
