@@ -30,7 +30,6 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 @Service
-
 public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryItemMapper, DictionaryItem> implements DictionaryItemService {
 
     @Override
@@ -39,12 +38,12 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
     }
 
     @Override
-    public Map<String, Map<String, String>> map(String[] codes) {
-        if (ArrayUtil.isEmpty(codes)) {
+    public Map<String, Map<String, String>> map(String[] types) {
+        if (ArrayUtil.isEmpty(types)) {
             return Collections.emptyMap();
         }
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
-                .in(DictionaryItem::getDictionaryType, codes)
+                .in(DictionaryItem::getDictionaryType, types)
                 .eq(DictionaryItem::getStatus, true)
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = super.list(query);
@@ -67,21 +66,19 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
         if (codes.isEmpty()) {
             return Collections.emptyMap();
         }
+        // 1. 根据 字典编码查询可用的字典列表
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
                 .in(DictionaryItem::getCode, codes)
                 .eq(DictionaryItem::getStatus, true)
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = super.list(query);
 
-        //key 是类型
+        // 2. 将 list 转换成 Map，Map的key是字典编码，value是字典名称
         ImmutableMap<String, String> typeMap = MapHelper.uniqueIndex(list, DictionaryItem::getCode, DictionaryItem::getName);
 
-        //需要返回的map
+        // 3. 将 Map<String, String> 转换成 Map<Serializable, Object>
         Map<Serializable, Object> typeCodeNameMap = new LinkedHashMap<>(typeMap.size());
-
-        typeMap.forEach((key, value) -> {
-            typeCodeNameMap.put(key, value);
-        });
+        typeMap.forEach((key, value) -> typeCodeNameMap.put(key, value));
         return typeCodeNameMap;
     }
 }

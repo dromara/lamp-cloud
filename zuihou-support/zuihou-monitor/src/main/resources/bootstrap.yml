@@ -3,7 +3,8 @@ zuihou:
     ip: ${NACOS_IP:@nacos.ip@}
     port: ${NACOS_PORT:@nacos.port@}
     namespace: ${NACOS_ID:@nacos.namespace@}
-
+    username: ${NACOS_USERNAME:@nacos.username@}
+    password: ${NACOS_PASSWORD:@nacos.password@}
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -20,26 +21,30 @@ spring:
         shared-configs:
           - dataId: common.yml
             refresh: true
-          - dataId: mysql.yml
-            refresh: true
           - dataId: rabbitmq.yml
             refresh: false
+        enabled: true
+        username: ${zuihou.nacos.username}
+        password: ${zuihou.nacos.password}
       discovery:
+        username: ${zuihou.nacos.username}
+        password: ${zuihou.nacos.password}
         server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
         namespace: ${zuihou.nacos.namespace}
-        metadata:
-          user.name: ${spring.security.user.name}
-          user.password: ${spring.security.user.password}
+        metadata: # 元数据，用于权限服务实时获取各个服务的所有接口
           management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
 
+# 只能配置在bootstrap.yml ，否则会生成 log.path_IS_UNDEFINED 文件夹
+# window会自动在 代码所在盘 根目录下自动创建文件夹，  如： D:/data/projects/logs
 logging:
   file:
+    # 为什么要用绝对路径，而非相对路径？ 正式环境服务器磁盘通常是外挂到某个目录的，所以需要指定这个路径。 开发环境将所有系统日志存放在一起，便于后期清理日志文件，不用一个项目一个项目删除。
     path: @logging.file.path@
     name: ${logging.file.path}/${spring.application.name}/root.log
 
+# 用于/actuator/info
 info:
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
   spring-boot-version: '${spring.boot.version}'
-  spring-cloud-version: '@spring.cloud.version@'

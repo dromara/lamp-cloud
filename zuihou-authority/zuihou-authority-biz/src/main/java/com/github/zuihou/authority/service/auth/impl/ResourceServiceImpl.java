@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.service.auth.impl;
 
-
 import com.github.zuihou.authority.dao.auth.ResourceMapper;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.entity.auth.Resource;
@@ -37,7 +36,6 @@ import static com.github.zuihou.common.constant.CacheKey.RESOURCE;
  */
 @Slf4j
 @Service
-
 public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
     @Autowired
@@ -86,7 +84,7 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
         // 若list里面的值过多，而资源又均没有缓存（或者缓存击穿），则这里的效率并不高
 
         List<Long> list = (List<Long>) cacheObject.getValue();
-        List<Resource> resourceList = list.stream().map(this::getByIdCache).collect(Collectors.toList());
+        List<Resource> resourceList = list.stream().map(this::getByIdCache).filter(Objects::nonNull).collect(Collectors.toList());
 
         if (resource.getMenuId() == null) {
             return resourceList;

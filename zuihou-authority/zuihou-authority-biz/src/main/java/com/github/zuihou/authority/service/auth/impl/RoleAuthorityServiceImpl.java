@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,7 +35,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-
 public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapper, RoleAuthority> implements RoleAuthorityService {
 
     @Autowired
@@ -45,6 +45,7 @@ public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapp
     private CacheChannel cache;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveUserRole(UserRoleSaveDTO userRole) {
         userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, userRole.getRoleId()));
         List<UserRole> list = userRole.getUserIdList()
@@ -66,6 +67,7 @@ public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapp
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveRoleAuthority(RoleAuthoritySaveDTO dto) {
         //删除角色和资源的关联
         super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, dto.getRoleId()));
@@ -119,7 +121,8 @@ public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapp
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean removeByAuthorityId(List<Long> ids) {
-        return remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getAuthorityId, ids));
+        return remove(Wraps.<RoleAuthority>lbQ().in(RoleAuthority::getAuthorityId, ids));
     }
 }
