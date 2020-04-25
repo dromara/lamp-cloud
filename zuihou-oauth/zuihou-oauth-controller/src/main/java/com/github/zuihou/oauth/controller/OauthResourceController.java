@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -55,7 +56,7 @@ public class OauthResourceController {
             resource.setUserId(sysUser.getId());
         }
         List<Resource> list = resourceService.findVisibleResource(resource);
-        return R.success(list.stream().map(Resource::getCode).collect(Collectors.toList()));
+        return R.success(list.stream().filter(Objects::nonNull).map(Resource::getCode).collect(Collectors.toList()));
     }
 
 

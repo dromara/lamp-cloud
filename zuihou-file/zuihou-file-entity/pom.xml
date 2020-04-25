@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zuihou-file</artifactId>
         <groupId>com.github.zuihou</groupId>
-        <version>c.2.2-SNAPSHOT</version>
+        <version>c.2.3-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>

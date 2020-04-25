@@ -12,7 +12,7 @@ zuihou:
   database:      # 数据库配置请看DatabaseProperties类上的注释
     isNotWrite: false
     tenantDatabasePrefix: zuihou_base
-    multiTenantType: SCHEMA
+    multiTenantType: DATASOURCE
     isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
     worker-id: 0
     data-center-id: 0
@@ -84,3 +84,31 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
+
+
+# 分布式事务相关
+seata:
+  enabled: ${zuihou.database.isSeata}
+  enableAutoDataSourceProxy: true
+  tx-service-group: zuihou_admin_seata_tx_group
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
+      username: ${zuihou.nacos.username}
+      password: ${zuihou.nacos.password}
+  config:
+    type: nacos
+    nacos:
+      server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
+      username: ${zuihou.nacos.username}
+      password: ${zuihou.nacos.password}
+  service:
+    grouplist:
+      default: ${zuihou.seata.ip:}:${zuihou.seata.port:}
+    vgroup-mapping:
+      zuihou_admin_seata_tx_group: default
+    disable-global-transaction: false
+  client:
+    rm:
+      report-success-enable: false

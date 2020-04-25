@@ -3,6 +3,9 @@ zuihou:
     enabled: false
 
 spring:
+  autoconfigure:
+    # cao，升级到1.2.0后，gateway要排除这个依赖，排查了2个小时 2020年04月21日00:51:18
+    exclude: io.seata.integration.http.HttpAutoConfiguration
   cloud:
     gateway:
       x-forwarded:
