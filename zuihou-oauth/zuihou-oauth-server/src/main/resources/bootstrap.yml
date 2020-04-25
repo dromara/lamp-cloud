@@ -3,6 +3,8 @@ zuihou:
     ip: ${NACOS_IP:@nacos.ip@}
     port: ${NACOS_PORT:@nacos.port@}
     namespace: ${NACOS_ID:@nacos.namespace@}
+    username: ${NACOS_USERNAME:@nacos.username@}
+    password: ${NACOS_PASSWORD:@nacos.password@}
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -26,7 +28,11 @@ spring:
           - dataId: rabbitmq.yml
             refresh: false
         enabled: true
+        username: ${zuihou.nacos.username}
+        password: ${zuihou.nacos.password}
       discovery:
+        username: ${zuihou.nacos.username}
+        password: ${zuihou.nacos.password}
         server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
         namespace: ${zuihou.nacos.namespace}
         metadata: # 元数据，用于权限服务实时获取各个服务的所有接口
