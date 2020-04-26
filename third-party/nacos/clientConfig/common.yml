@@ -8,7 +8,7 @@ zuihou:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 2.1
+    version: 2.3
     apiKeys:
       - name: 令牌
         keyname: token

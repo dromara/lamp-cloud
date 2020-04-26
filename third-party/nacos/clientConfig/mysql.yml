@@ -85,7 +85,6 @@ mybatis-plus:
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
 
-
 # 分布式事务相关
 seata:
   enabled: ${zuihou.database.isSeata}
@@ -97,12 +96,14 @@ seata:
       server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
       username: ${zuihou.nacos.username}
       password: ${zuihou.nacos.password}
+      namespace: ${zuihou.seata.namespace}
   config:
     type: nacos
     nacos:
       server-addr: ${zuihou.nacos.ip}:${zuihou.nacos.port}
       username: ${zuihou.nacos.username}
       password: ${zuihou.nacos.password}
+      namespace: ${zuihou.seata.namespace}
   service:
     grouplist:
       default: ${zuihou.seata.ip:}:${zuihou.seata.port:}
@@ -112,3 +113,4 @@ seata:
   client:
     rm:
       report-success-enable: false
+
