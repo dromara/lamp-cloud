@@ -31,7 +31,7 @@ RabbitMQ、FastDFS等主要框架和中间件。
 |---|---|---|---|---|
 | NONE | 无 | 无 | 支持 | zuihou_defaults | 
 | COLUMN | 有 | 无 | 支持 | zuihou_defaults |
-| SCHEMA | 无 | 无 | 暂时不支持 | zuihou_defaults、zuihou_base_{tenant} |
+| SCHEMA | 无 | 无 | 支持 | zuihou_defaults、zuihou_base_{tenant} |
 | DATASOURCE | 无 | 无 | 支持 | zuihou_defaults、zuihou_base_{tenant} |
 
 
