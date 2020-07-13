@@ -7,7 +7,14 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.controller.poi.ExcelUserVerifyHandlerImpl;
-import com.github.zuihou.authority.dto.auth.*;
+import com.github.zuihou.authority.dto.auth.UserExcelVO;
+import com.github.zuihou.authority.dto.auth.UserPageDTO;
+import com.github.zuihou.authority.dto.auth.UserRoleDTO;
+import com.github.zuihou.authority.dto.auth.UserSaveDTO;
+import com.github.zuihou.authority.dto.auth.UserUpdateAvatarDTO;
+import com.github.zuihou.authority.dto.auth.UserUpdateBaseInfoDTO;
+import com.github.zuihou.authority.dto.auth.UserUpdateDTO;
+import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.service.auth.UserService;
@@ -18,8 +25,7 @@ import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.common.constant.BizConstant;
-import com.github.zuihou.common.constant.DictionaryCode;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.common.constant.DictionaryType;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.log.annotation.SysLog;
@@ -32,7 +38,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +54,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 /**
  * <p>
@@ -210,11 +223,11 @@ public class UserController extends SuperCacheController<UserService, Long, User
             return this.validFail("导入数据不能为空");
         }
         //数据转换
-        Map<String, Map<String, String>> dictMap = dictionaryItemService.map(new String[]{DictionaryCode.EDUCATION, DictionaryCode.NATION, DictionaryCode.POSITION_STATUS});
+        Map<String, Map<String, String>> dictMap = dictionaryItemService.map(new String[]{DictionaryType.EDUCATION, DictionaryType.NATION, DictionaryType.POSITION_STATUS});
 
-        Map<String, String> educationMap = MapHelper.inverse(dictMap.get(DictionaryCode.EDUCATION));
-        Map<String, String> nationMap = MapHelper.inverse(dictMap.get(DictionaryCode.NATION));
-        Map<String, String> positionStatusMap = MapHelper.inverse(dictMap.get(DictionaryCode.POSITION_STATUS));
+        Map<String, String> educationMap = MapHelper.inverse(dictMap.get(DictionaryType.EDUCATION));
+        Map<String, String> nationMap = MapHelper.inverse(dictMap.get(DictionaryType.NATION));
+        Map<String, String> positionStatusMap = MapHelper.inverse(dictMap.get(DictionaryType.POSITION_STATUS));
 
         List<User> userList = list.stream().map((item) -> {
             User user = new User();
@@ -248,8 +261,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
     public void query(PageParams<UserPageDTO> params, IPage<User> page, Long defSize) {
         UserPageDTO userPage = params.getModel();
 
-        QueryWrap<User> wrap = Wraps.q();
-        handlerWrapper(wrap, params);
+        QueryWrap<User> wrap = handlerWrapper(null, params);
 
         LbqWrapper<User> wrapper = wrap.lambda();
         if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {

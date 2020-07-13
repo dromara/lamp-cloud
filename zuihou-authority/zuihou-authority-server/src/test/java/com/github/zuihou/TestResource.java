@@ -48,7 +48,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 测试类
@@ -175,7 +180,7 @@ public class TestResource {
 
         StationPageDTO stationPageDTO = dozer.map(station, StationPageDTO.class);
 
-        System.out.println(stationPageDTO.getOrgId());
+        System.out.println(stationPageDTO.getOrg());
     }
 
 
@@ -190,7 +195,7 @@ public class TestResource {
 //        StationPageDTO stationPageDTO = dozer.map(station, StationPageDTO.class);
         StationPageDTO stationPageDTO = new StationPageDTO();
         BeanUtil.copyProperties(station, stationPageDTO);
-        System.out.println(stationPageDTO.getOrgId());
+        System.out.println(stationPageDTO.getOrg());
     }
 
     @Test

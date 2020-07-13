@@ -1,5 +1,5 @@
 var userInfo = {md5: ""};   //用户会话信息
-var chunkSize = 5 * 1000 * 1024;        //分块大小
+var chunkSize = 5 * 1000 * 1024;        //分块大小 5M
 var uniqueFileName = null;          //文件唯一标识符
 var folderId = -1; //文件夹id 根据当前所属文件夹来赋值
 function getUrl(uri) {   //测试用，根据不同类型的后端返回对应的请求地址
@@ -9,7 +9,9 @@ function getUrl(uri) {   //测试用，根据不同类型的后端返回对应�
 
 function getHeaders() {
     return {
-        token: "test"
+        token: "Bearer test",
+        tenant: "MDAwMA==",
+        Authorization: "Basic enVpaG91X3VpOnp1aWhvdV91aV9zZWNyZXQ="
     };
 }
 

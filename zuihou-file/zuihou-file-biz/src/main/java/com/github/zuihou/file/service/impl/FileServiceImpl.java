@@ -59,6 +59,7 @@ import static java.util.stream.Collectors.groupingBy;
  */
 @Slf4j
 @Service
+
 public class FileServiceImpl extends SuperServiceImpl<FileMapper, File> implements FileService {
 
     @Autowired

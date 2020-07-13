@@ -1,5 +1,6 @@
 package com.github.zuihou.demo.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.demo.dao.CCommonAreaMapper;
 import com.github.zuihou.demo.entity.CCommonArea;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+
 public class CCommonAreaServiceImpl extends ServiceImpl<CCommonAreaMapper, CCommonArea> implements CCommonAreaService {
 
 }

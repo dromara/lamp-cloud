@@ -5,10 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -39,11 +37,6 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
     @Value("${server.servlet.context-path:/api}")
     private String contextPath;
 
-    @LoadBalanced
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
     @Override
     public List<SwaggerResource> get() {
@@ -60,12 +53,12 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                             .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
                             .forEach(predicateDefinition -> {
                                         try {
+                                            // knife4j 官方提供的demo中，只能聚合group=default的文档，我这里做了增强，能聚合所有group
                                             JSONArray list = restTemplate.getForObject("http://" + route.getUri().getHost() + url, JSONArray.class);
                                             if (!list.isEmpty()) {
                                                 for (int i = 0; i < list.size(); i++) {
                                                     SwaggerResource sr = list.getObject(i, SwaggerResource.class);
                                                     resources.add(swaggerResource(route.getId() + "-" + sr.getName(), "/" + route.getId() + sr.getUrl()));
-//                                                    resources.add(swaggerResource(route.getId() + "-" + sr.getName(), contextPath + "/" + route.getId() + sr.getUrl()));
                                                 }
                                             }
                                         } catch (Exception e) {
@@ -76,8 +69,6 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                             );
                 });
 
-        //gateway 网关和bootsway
-//        resources.add(swaggerResource("网关模块", "/v2/api-docs?group=网关模块"));
         return resources;
     }
 

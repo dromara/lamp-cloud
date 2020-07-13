@@ -58,7 +58,8 @@ public class VerificationCodeController {
         param.put("1", code);
         smsTask.setTemplateParams(param.toString());
         smsTask.setReceiver(data.getMobile());
-        smsTaskService.saveTask(smsTask, TemplateCodeType.ZUIHOU_COMMON);
+        smsTask.setDraft(false);
+        smsTaskService.saveTask(smsTask, TemplateCodeType.COMMON_SMS);
 
         String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
         cacheRepository.setExpire(key, code, CacheRepository.DEF_TIMEOUT_5M);

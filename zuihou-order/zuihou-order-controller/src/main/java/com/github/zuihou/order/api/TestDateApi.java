@@ -32,6 +32,7 @@ public interface TestDateApi {
 
     /**
      * 测试
+     * 调用这个接口会报错，原因是FeignClient 不支持GET请求，传复杂对象。
      *
      * @param data
      * @return

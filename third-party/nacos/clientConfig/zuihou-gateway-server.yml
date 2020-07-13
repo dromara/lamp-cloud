@@ -4,7 +4,6 @@ zuihou:
 
 spring:
   autoconfigure:
-    # cao，升级到1.2.0后，gateway要排除这个依赖，排查了2个小时 2020年04月21日00:51:18
     exclude: io.seata.integration.http.HttpAutoConfiguration
   cloud:
     gateway:
@@ -21,69 +20,44 @@ spring:
             - Path=/oauth/**
           filters:
             - StripPrefix=1
-            - name: Hystrix
-              args:
-                name: default
-                fallbackUri: 'forward:/fallback'
         - id: file
           uri: lb://zuihou-file-server
           predicates:
             - Path=/file/**
           filters:
             - StripPrefix=1
-            - name: Hystrix
-              args:
-                name: default
-                fallbackUri: 'forward:/fallback'
         - id: authority
           uri: lb://zuihou-authority-server
           predicates:
             - Path=/authority/**
           filters:
             - StripPrefix=1
-            - name: Hystrix
-              args:
-                name: default
-                fallbackUri: 'forward:/fallback'
         - id: msgs
           uri: lb://zuihou-msgs-server
           predicates:
             - Path=/msgs/**
           filters:
             - StripPrefix=1
-            - name: Hystrix
-              args:
-                name: default
-                fallbackUri: 'forward:/fallback'
         - id: demo
           uri: lb://zuihou-demo-server
           predicates:
             - Path=/demo/**
           filters:
             - StripPrefix=1
-            - name: Hystrix
-              args:
-                name: default
-                fallbackUri: 'forward:/fallback'
         - id: order
           uri: lb://zuihou-order-server
           predicates:
             - Path=/order/**
           filters:
             - StripPrefix=1
-            - name: Hystrix
-              args:
-                name: default
-                fallbackUri: 'forward:/fallback'
-
-filters:
-  - name: Hystrix
-    args:
-      name: default
-      fallbackUri: 'forward:/fallback'
+      default-filters:
+        - name: Hystrix
+          args:
+            name: default
+            fallbackUri: 'forward:/fallback'
 
 
 server:
   port: 8760
   servlet:
-    context-path: /api  # = server.servlet.context-path
+    context-path: /api

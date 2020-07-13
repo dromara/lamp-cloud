@@ -15,7 +15,6 @@ spring:
     password: ${zuihou.redis.password}
     port: ${zuihou.redis.port}
     database: ${zuihou.redis.database}
-
 j2cache:
   #  config-location: /j2cache.properties
   open-spring-cache: true

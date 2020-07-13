@@ -31,6 +31,7 @@ import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
  */
 @Slf4j
 @Service
+
 public class SmsTemplateServiceImpl extends SuperServiceImpl<SmsTemplateMapper, SmsTemplate> implements SmsTemplateService {
 
     @Autowired

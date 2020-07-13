@@ -1,5 +1,6 @@
 package com.github.zuihou.sms.service.impl;
 
+
 import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.sms.dao.SmsSendStatusMapper;
 import com.github.zuihou.sms.entity.SmsSendStatus;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+
 public class SmsSendStatusServiceImpl extends SuperServiceImpl<SmsSendStatusMapper, SmsSendStatus> implements SmsSendStatusService {
 
 }

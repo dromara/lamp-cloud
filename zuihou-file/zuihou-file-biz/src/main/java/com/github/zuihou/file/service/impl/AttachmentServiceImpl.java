@@ -50,6 +50,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+
 public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, Attachment> implements AttachmentService {
     @Autowired
     private DatabaseProperties databaseProperties;

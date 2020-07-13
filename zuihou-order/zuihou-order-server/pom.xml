@@ -15,6 +15,11 @@
     <description>订单服务启动模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-spring-boot-starter</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
@@ -22,10 +27,6 @@
             <version>${zuihou-project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-scan-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>

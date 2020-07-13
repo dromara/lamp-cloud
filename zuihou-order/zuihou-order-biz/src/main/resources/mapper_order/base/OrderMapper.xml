@@ -10,13 +10,16 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="education" jdbcType="VARCHAR" property="education"/>
+        <result column="nation" jdbcType="VARCHAR" property="nation"/>
+        <result column="org_id" jdbcType="BIGINT" property="org"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, create_user, update_time, update_user, 
-        name, code
+        id,create_time,create_user,update_time,update_user,
+        name, education, nation, org_id, code
     </sql>
 
 </mapper>

@@ -2,6 +2,7 @@ package com.github.zuihou;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.github.zuihou.authority.entity.core.Org;
+import com.github.zuihou.common.constant.DictionaryType;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModelProperty;
@@ -35,17 +36,17 @@ public class TestModel {
     private RemoteData<Long, String> org2;
 
 
-    @InjectionField(feign = Object.class, method = "findOrgNameByIds")
+    @InjectionField(apiClass = Object.class, method = "findOrgNameByIds")
     private RemoteData<Long, String> error;
 
     @InjectionField(api = "stationServiceImpl", method = STATION_ID_METHOD)
     private RemoteData<Long, Org> station;
 
     // 去数据字典表 根据code 查询 name
-    @InjectionField(api = "dictionaryItemServiceImpl", method = "findDictionaryItem")
+    @InjectionField(api = "dictionaryItemServiceImpl", method = "findDictionaryItem", dictType = DictionaryType.EDUCATION)
     private RemoteData<String, String> education;
 
-    @InjectionField(api = "dictionaryItemServiceImpl", method = "findDictionaryItem")
+    @InjectionField(api = "dictionaryItemServiceImpl", method = "findDictionaryItem", dictType = DictionaryType.EDUCATION)
     private String education2;
 
 }

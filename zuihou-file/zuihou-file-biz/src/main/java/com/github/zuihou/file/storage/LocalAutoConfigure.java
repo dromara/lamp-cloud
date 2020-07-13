@@ -45,7 +45,7 @@ import static com.github.zuihou.utils.DateUtils.DEFAULT_MONTH_FORMAT_SLASH;
 
 @EnableConfigurationProperties(FileServerProperties.class)
 @Configuration
-@ConditionalOnProperty(name = "zuihou.file.type", havingValue = "LOCAL")
+@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "type", havingValue = "LOCAL", matchIfMissing = true)
 @Slf4j
 public class LocalAutoConfigure {
 

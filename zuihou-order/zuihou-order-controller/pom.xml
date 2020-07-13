@@ -30,12 +30,37 @@
             <artifactId>zuihou-oauth-api</artifactId>
             <version>${zuihou-project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-cloud-starter</artifactId>
+        </dependency>
         <!-- 操作日志需要在Controller方法上标注注解 -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-log-starter</artifactId>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.zuihou</groupId>-->
+        <!--            <artifactId>zuihou-cache-starter</artifactId>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>org.springframework.boot</groupId>-->
+        <!--                    <artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-j2cache-starter</artifactId>
+            <!--            <exclusions>-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>org.springframework.boot</groupId>-->
+            <!--                    <artifactId>spring-boot-starter-data-redis</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
+        </dependency>
+
         <!-- 注入当前登录人信息 需要在Controller方法参数上写注解和实体类 -->
         <dependency>
             <groupId>com.github.zuihou</groupId>
@@ -50,14 +75,21 @@
                     <groupId>io.seata</groupId>
                     <artifactId>seata-all</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-spring-boot-starter</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-all</artifactId>
-            <version>${seata.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-jwt-starter</artifactId>
+        </dependency>
 
     </dependencies>
 

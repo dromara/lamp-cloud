@@ -15,7 +15,8 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 /**
- * This is a Description
+ * 1, spring.cloud.gateway.x-forwarded.prefixEnabled: false ， 仅供官方 XForwardedHeadersFilter 的部分功能
+ * 2，重写 XForwardedHeadersFilter 禁用掉的部分功能
  *
  * @author zuihou
  * @date 2019/08/13
@@ -59,6 +60,7 @@ public class MySwaggerXForwardedHeadersFilter implements HttpHeadersFilter, Orde
                         prefix = originalUriPath.replace(requestUriPath, "");
                         if (prefix != null && prefix.length() > 0 &&
                                 prefix.length() <= originalUri.getPath().length()) {
+                            // 就是这里跟官方的XForwardedHeadersFilter 不同，多了：contextPath
                             updated.set(X_FORWARDED_PREFIX_HEADER, contextPath + prefix);
                         }
                     }

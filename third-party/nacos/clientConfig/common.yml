@@ -5,15 +5,27 @@ zuihou:
   zipkin:
     enabled: false
   swagger:
+    enabled: true
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 2.3
-    apiKeys:
-      - name: 令牌
-        keyname: token
-        passAs: header
+    version: 2.4
+    contact:
+      url: https://github.com/zuihou
+      name: zuiou
+      email: 306479353@qq.com
+    # apiKeys: # api key 不能设置默认参数，所以调整到全局参数中
+    #   - name: 用户身份token
+    #     keyname: token
+    #     passAs: header
     global-operation-parameters:
+      - name: token
+        description: 用户身份token
+        modelRef: String
+        parameterType: header
+        required: true
+        # 默认值只是方便本地开发时，少填参数，生产环境请禁用swagger或者禁用默认参数
+        defaultValue: "Bearer test"
       - name: Authorization
         description: 客户端信息
         modelRef: String
@@ -37,10 +49,7 @@ zuihou:
       refreshWriteTime: 10
       refreshThreadPoolSize: 1000
   security:
-    # 是否开启URI权限校验
     enabled: true
-    type: FEIGN
-  scan:
     type: FEIGN
   log:
     enabled: true
@@ -49,7 +58,6 @@ zuihou:
     # 上下文拦截器
     pathPatterns: '/**'
     order: -20
-
 
 server:
   undertow: # jetty  undertow
@@ -63,11 +71,11 @@ spring:
     sender:
       type: RABBIT
     enabled: ${zuihou.zipkin.enabled}
-    discoveryClientEnabled: true
-    baseUrl: http://localhost:9411/  #http://zuihou-zipkin:8772/
+    discovery-client-enabled: false
+    baseUrl: http://localhost:9411/      # 老版本可以使用这个连接 http://zuihou-zipkin:8772/
     compression: # 压缩
       enabled: true
-    locator: # 通过nacos动态获取地址
+    locator:    # 通过nacos动态获取地址
       discovery:
         enabled: true
     rabbitmq: # 使用指定的队列
@@ -76,7 +84,7 @@ spring:
   sleuth:
     enabled: ${zuihou.zipkin.enabled}
     sampler:
-      probability: 1.0   # 采集率 1.0表示所有请求都采集， 生产线一般不会设置成1.0，影响效率
+      probability: 1.0
   http:
     encoding:
       charset: UTF-8
@@ -129,7 +137,6 @@ ribbon:
   MaxAutoRetriesNextServer: 1   # 最大自动像下一个服务重试
   OkToRetryOnAllOperations: false  #无论是请求超时或者socket read timeout都进行重试，
 
-# 文件服务由于需要上传大文件，所以可以将超时时间测试大一些，其他服务超时时间是30s
 zuihou-file-server:
   ribbon:
     ConnectTimeout: 300000
@@ -152,3 +159,4 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 1200000
+

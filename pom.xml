@@ -40,8 +40,8 @@
     </modules>
 
     <properties>
-        <zuihou-commons.version>2.3</zuihou-commons.version>
-        <zuihou-project.version>c.2.3-SNAPSHOT</zuihou-project.version>
+        <zuihou-commons.version>2.4</zuihou-commons.version>
+        <zuihou-project.version>c.2.4-SNAPSHOT</zuihou-project.version>
         <seata.version>1.2.0</seata.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -52,7 +52,7 @@
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
         <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
-        <spring-boot-maven-plugin.version>2.2.6.RELEASE</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>2.2.7.RELEASE</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -122,11 +122,7 @@
                 <artifactId>zuihou-mq-starter</artifactId>
                 <version>${zuihou-commons.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-scan-starter</artifactId>
-                <version>${zuihou-commons.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-swagger2-starter</artifactId>
@@ -151,14 +147,10 @@
             </dependency>
             <dependency>
                 <groupId>com.github.zuihou</groupId>
-                <artifactId>zuihou-config</artifactId>
-                <version>${zuihou-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.zuihou</groupId>
                 <artifactId>zuihou-zipkin-client-starter</artifactId>
                 <version>${zuihou-commons.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.seata</groupId>
                 <artifactId>seata-spring-boot-starter</artifactId>

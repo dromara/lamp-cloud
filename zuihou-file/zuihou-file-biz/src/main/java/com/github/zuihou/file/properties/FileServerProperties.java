@@ -17,9 +17,10 @@ import java.io.File;
  */
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "zuihou.file")
+@ConfigurationProperties(prefix = FileServerProperties.PREFIX)
 @RefreshScope
 public class FileServerProperties {
+    public static final String PREFIX = "zuihou.file";
     /**
      * 为以下3个值，指定不同的自动化配置
      * qiniu：七牛oss

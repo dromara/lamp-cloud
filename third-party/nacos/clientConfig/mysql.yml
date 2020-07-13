@@ -1,3 +1,4 @@
+
 # mysql 个性化配置， 不同的环境，需要配置不同的链接信息，只需要将这段信息复制到具体环境的配置文件中进行修改即可
 # 如：复制到zuihou-authority-server-dev.yml中将数据库名和ip改掉
 zuihou:
@@ -9,11 +10,11 @@ zuihou:
     username: root
     password: root
     url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-  database:      # 数据库配置请看DatabaseProperties类上的注释
+  database:
     isNotWrite: false
     tenantDatabasePrefix: zuihou_base
-    multiTenantType: DATASOURCE
-    isBlockAttack: false  # 是否启用 攻击 SQL 阻断解析器
+    multiTenantType: SCHEMA
+    isBlockAttack: false
     worker-id: 0
     data-center-id: 0
     isSeata: false
@@ -66,6 +67,7 @@ spring:
         login-username: zuihou
         login-password: zuihou
 
+
 mybatis-plus:
   mapper-locations:
     - classpath*:mapper_**/**/*Mapper.xml
@@ -113,4 +115,3 @@ seata:
   client:
     rm:
       report-success-enable: false
-

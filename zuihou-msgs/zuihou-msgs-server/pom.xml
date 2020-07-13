@@ -15,6 +15,7 @@
     <description>消息服务启动模块</description>
 
     <dependencies>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-sms-controller</artifactId>
@@ -31,10 +32,7 @@
             <version>${zuihou-project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-scan-starter</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>
@@ -99,7 +97,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <filters>
             <filter>../../src/main/filters/config-${profile.active}.properties</filter>
