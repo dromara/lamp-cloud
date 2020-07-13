@@ -25,21 +25,18 @@
             <artifactId>zuihou-tenant-controller</artifactId>
             <version>${zuihou-project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-oauth-api</artifactId>
             <version>${zuihou-project.version}</version>
         </dependency>
 
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-cloud-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-scan-starter</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>

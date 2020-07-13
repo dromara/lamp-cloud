@@ -29,7 +29,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -86,7 +94,7 @@ public class MsgsCenterInfoController {
     @PostMapping("/page")
     @SysLog(value = "'分页列表查询:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
     public R<IPage<MsgsCenterInfoPageResultDTO>> page(@RequestBody @Validated PageParams<MsgsCenterInfoQueryDTO> data) {
-        IPage<MsgsCenterInfoPageResultDTO> page = data.getPage();
+        IPage<MsgsCenterInfoPageResultDTO> page = data.buildPage();
         query(data, page);
         return R.success(page);
     }
@@ -136,7 +144,7 @@ public class MsgsCenterInfoController {
     @RequestMapping(value = "/export", method = RequestMethod.POST, produces = "application/octet-stream")
     @SysLog("'导出Excel:'.concat(#params.map[" + NormalExcelConstants.FILE_NAME + "]?:'')")
     public void exportExcel(@RequestBody @Validated PageParams<MsgsCenterInfoQueryDTO> params, HttpServletRequest request, HttpServletResponse response) {
-        IPage<MsgsCenterInfoPageResultDTO> page = params.getPage();
+        IPage<MsgsCenterInfoPageResultDTO> page = params.buildPage();
         ExportParams exportParams = getExportParams(params, page);
 
         Map<String, Object> map = new HashMap<>(5);
@@ -158,7 +166,7 @@ public class MsgsCenterInfoController {
     @SysLog("'预览Excel:' + (#params.map[" + NormalExcelConstants.FILE_NAME + "]?:'')")
     @RequestMapping(value = "/preview", method = RequestMethod.POST)
     public R<String> preview(@RequestBody @Validated PageParams<MsgsCenterInfoQueryDTO> params) {
-        IPage<MsgsCenterInfoPageResultDTO> page = params.getPage();
+        IPage<MsgsCenterInfoPageResultDTO> page = params.buildPage();
         ExportParams exportParams = getExportParams(params, page);
 
         Workbook workbook = ExcelExportUtil.exportExcel(exportParams, MsgsCenterInfoPageResultDTO.class, page.getRecords());

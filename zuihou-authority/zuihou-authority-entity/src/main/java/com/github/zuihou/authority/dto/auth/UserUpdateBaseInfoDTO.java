@@ -2,20 +2,21 @@ package com.github.zuihou.authority.dto.auth;
 
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
 
 /**
  * <p>
@@ -70,29 +71,23 @@ public class UserUpdateBaseInfoDTO implements Serializable {
     /**
      * 民族
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "民族")
     @Length(max = 20, message = "民族长度不能超过20")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
     private RemoteData<String, String> nation;
     /**
      * 学历
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
     @Length(max = 20, message = "学历长度不能超过20")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
     private RemoteData<String, String> education;
     /**
      * 职位状态
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
      */
     @ApiModelProperty(value = "职位状态")
     @Length(max = 20, message = "职位状态长度不能超过20")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
     private RemoteData<String, String> positionStatus;
     /**
      * 工作描述

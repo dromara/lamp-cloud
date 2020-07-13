@@ -7,11 +7,17 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.Entity;
+import com.github.zuihou.common.constant.DictionaryType;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,7 +25,12 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.*;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.ORG_ID_CLASS;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.ORG_ID_METHOD;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.STATION_ID_CLASS;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.STATION_ID_NAME_METHOD;
 import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
@@ -142,7 +153,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "民族")
     @Length(max = 20, message = "民族长度不能超过20")
     @TableField(value = "nation", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION)
     @Excel(name = "民族")
     @ExcelEntity(name = "")
     private RemoteData<String, String> nation;
@@ -155,7 +166,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "学历")
     @Length(max = 20, message = "学历长度不能超过20")
     @TableField(value = "education", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
     @Excel(name = "学历")
     @ExcelEntity(name = "")
     private RemoteData<String, String> education;
@@ -168,7 +179,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "职位状态")
     @Length(max = 20, message = "职位状态长度不能超过20")
     @TableField(value = "position_status", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS)
     @Excel(name = "职位状态")
     @ExcelEntity(name = "")
     private RemoteData<String, String> positionStatus;

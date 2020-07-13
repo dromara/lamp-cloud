@@ -1,18 +1,19 @@
 package com.github.zuihou.authority.dto.common;
 
-import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
-import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
 
 /**
  * <p>
@@ -74,7 +75,6 @@ public class AreaSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "行政区级")
     @Length(max = 10, message = "行政区级长度不能超过10")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
     private RemoteData<String, String> level;
     /**
      * 数据来源

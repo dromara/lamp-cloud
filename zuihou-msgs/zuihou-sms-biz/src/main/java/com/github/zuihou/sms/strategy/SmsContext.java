@@ -1,5 +1,6 @@
 package com.github.zuihou.sms.strategy;
 
+
 import com.github.zuihou.base.R;
 import com.github.zuihou.sms.dao.SmsTaskMapper;
 import com.github.zuihou.sms.dao.SmsTemplateMapper;
@@ -19,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2019-05-15
  */
 @Component
+
 public class SmsContext {
     private final Map<String, SmsStrategy> smsContextStrategyMap = new ConcurrentHashMap<>();
 

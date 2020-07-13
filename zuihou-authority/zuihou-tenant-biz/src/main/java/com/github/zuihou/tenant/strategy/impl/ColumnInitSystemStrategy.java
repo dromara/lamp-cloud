@@ -2,13 +2,21 @@ package com.github.zuihou.tenant.strategy.impl;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
-import com.github.zuihou.authority.entity.auth.*;
+import com.github.zuihou.authority.entity.auth.Application;
+import com.github.zuihou.authority.entity.auth.Menu;
+import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.authority.entity.auth.Role;
+import com.github.zuihou.authority.entity.auth.RoleAuthority;
 import com.github.zuihou.authority.entity.common.Dictionary;
 import com.github.zuihou.authority.entity.common.DictionaryItem;
 import com.github.zuihou.authority.entity.common.Parameter;
 import com.github.zuihou.authority.enumeration.auth.ApplicationAppTypeEnum;
 import com.github.zuihou.authority.enumeration.auth.AuthorizeType;
-import com.github.zuihou.authority.service.auth.*;
+import com.github.zuihou.authority.service.auth.ApplicationService;
+import com.github.zuihou.authority.service.auth.MenuService;
+import com.github.zuihou.authority.service.auth.ResourceService;
+import com.github.zuihou.authority.service.auth.RoleAuthorityService;
+import com.github.zuihou.authority.service.auth.RoleService;
 import com.github.zuihou.authority.service.common.DictionaryItemService;
 import com.github.zuihou.authority.service.common.DictionaryService;
 import com.github.zuihou.authority.service.common.ParameterService;
@@ -46,7 +54,6 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
     private static final String AREA = "area";
     private static final String PARAMETER = "parameter";
     private static final String APPLICATION = "application";
-    private static final String SYSTEM_API = "systemApi";
     private static final String DB = "db";
     private static final String OPT_LOG = "optLog";
     private static final String LOGIN_LOG = "loginLog";
@@ -225,13 +232,6 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         resourceList.add(Resource.builder().code("application:update").name("修改").menuId(applicationId).build());
         resourceList.add(Resource.builder().code("application:view").name("查看").menuId(applicationId).build());
 
-        Long systemApiId = menuMap.get(SYSTEM_API);
-        resourceList.add(Resource.builder().code("systemApi:add").name("新增").menuId(systemApiId).build());
-        resourceList.add(Resource.builder().code("systemApi:delete").name("删除").menuId(systemApiId).build());
-        resourceList.add(Resource.builder().code("systemApi:export").name("导出").menuId(systemApiId).build());
-        resourceList.add(Resource.builder().code("systemApi:update").name("修改").menuId(systemApiId).build());
-        resourceList.add(Resource.builder().code("systemApi:view").name("查看").menuId(systemApiId).build());
-
         Long loginLogId = menuMap.get(LOGIN_LOG);
         resourceList.add(Resource.builder().code("loginLog:delete").name("删除").menuId(loginLogId).build());
         resourceList.add(Resource.builder().code("loginLog:export").name("导出").menuId(loginLogId).build());
@@ -325,9 +325,6 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         Long applicationApi = snowflake.nextId();
         menuMap.put(APPLICATION, applicationApi);
         menuList.add(Menu.builder().id(applicationApi).parentId(developerId).label("应用管理").path("/developer/application").component("zuihou/developer/application/Index").sortValue(1).build());
-        Long systemId = snowflake.nextId();
-        menuMap.put(SYSTEM_API, systemId);
-        menuList.add(Menu.builder().id(systemId).parentId(developerId).label("接口查询").path("/developer/systemApi").component("zuihou/developer/systemApi/Index").sortValue(2).build());
         Long optLogId = snowflake.nextId();
         menuMap.put(OPT_LOG, optLogId);
         menuList.add(Menu.builder().id(optLogId).parentId(developerId).label("操作日志").path("/developer/optLog").component("zuihou/developer/optLog/Index").sortValue(3).build());

@@ -9,6 +9,13 @@ zuihou:
     ip: ${SEATA_IP:@seata.ip@}
     port: ${SEATA_PORT:@seata.port@}
     namespace: ${SEATA_ID:@nacos.seata.namespace@}
+  cache:
+    #    type: caffeine
+    type: REDIS
+    def:
+      time-to-live: 60S
+      max-size: 1000
+
 
 spring:
   main:
@@ -59,4 +66,3 @@ info:
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
-  spring-boot-version: '${spring.boot.version}'

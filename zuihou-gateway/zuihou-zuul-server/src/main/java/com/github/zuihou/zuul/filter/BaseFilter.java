@@ -38,7 +38,7 @@ public abstract class BaseFilter extends ZuulFilter {
     protected RouteLocator routeLocator;
 
     protected boolean isDev(String token) {
-        return !StrPool.PROD.equalsIgnoreCase(profiles) && StrPool.TEST.equalsIgnoreCase(token);
+        return !StrPool.PROD.equalsIgnoreCase(profiles) && (StrPool.TEST_TOKEN.equalsIgnoreCase(token) || StrPool.TEST.equalsIgnoreCase(token));
     }
 
     /**

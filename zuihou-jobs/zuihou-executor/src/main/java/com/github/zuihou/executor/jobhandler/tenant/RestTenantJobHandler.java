@@ -43,7 +43,7 @@ public class RestTenantJobHandler extends IJobHandler {
     @Autowired
     private InitDbMapper initDbMapper;
 
-    @Value("${zuihou.database.tenantDatabasePrefix:zuihou_base}")
+    @Value("${zuihou.database.tenantDatabasePrefix}")
     private String database;
 
     @Override

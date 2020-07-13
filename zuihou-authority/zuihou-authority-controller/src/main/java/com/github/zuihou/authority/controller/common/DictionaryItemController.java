@@ -32,11 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuth(replace = "dict:")
 public class DictionaryItemController extends SuperCacheController<DictionaryItemService, Long, DictionaryItem, DictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO> {
     @Override
-    public void handlerWrapper(QueryWrap<DictionaryItem> wrapper, PageParams<DictionaryItem> params) {
-        super.handlerWrapper(wrapper, params);
-        DictionaryItem model = params.getModel();
+    public QueryWrap<DictionaryItem> handlerWrapper(DictionaryItem model, PageParams<DictionaryItem> params) {
+        QueryWrap<DictionaryItem> wrapper = super.handlerWrapper(model, params);
         wrapper.lambda().ignore(DictionaryItem::setDictionaryType)
                 .eq(DictionaryItem::getDictionaryType, model.getDictionaryType());
+        return wrapper;
     }
 
 }

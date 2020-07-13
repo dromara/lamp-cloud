@@ -31,7 +31,6 @@ public class RestBase0000JobHandler extends IJobHandler {
         XxlJobLogger.log("执行参数--->param={} ", param);
 
         initSystemContext.reset(DEF_TENANT);
-
         return SUCCESS;
     }
 }

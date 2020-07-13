@@ -8,10 +8,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dao.auth.UserMapper;
 import com.github.zuihou.authority.dto.auth.ResourceQueryDTO;
 import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
-import com.github.zuihou.authority.entity.auth.*;
+import com.github.zuihou.authority.entity.auth.Resource;
+import com.github.zuihou.authority.entity.auth.Role;
+import com.github.zuihou.authority.entity.auth.RoleOrg;
+import com.github.zuihou.authority.entity.auth.User;
+import com.github.zuihou.authority.entity.auth.UserRole;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
-import com.github.zuihou.authority.service.auth.*;
+import com.github.zuihou.authority.service.auth.ResourceService;
+import com.github.zuihou.authority.service.auth.RoleOrgService;
+import com.github.zuihou.authority.service.auth.RoleService;
+import com.github.zuihou.authority.service.auth.UserRoleService;
+import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
 import com.github.zuihou.base.service.SuperCacheServiceImpl;
@@ -40,7 +48,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -55,6 +72,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+
 public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired

@@ -16,7 +16,6 @@ import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
-import com.github.zuihou.database.parsers.MultiTenantInterceptor;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.injection.core.InjectionFieldPo;
 import com.github.zuihou.model.RemoteData;
@@ -124,9 +123,6 @@ public class NoBootTest {
 //        TableNameParser tableNameParser = new TableNameParser(sql);
 //        tableNameParser.tables().forEach(System.out::println);
 
-        MultiTenantInterceptor i = new MultiTenantInterceptor();
-        i.setSchemaName("1234");
-        System.out.println(i.processSqlByInterceptor(sql));
     }
 
     private static Field getField(Class<?> clazz, String fieldName) {
@@ -183,7 +179,7 @@ public class NoBootTest {
             field.setAccessible(true);
 
             String api = anno.api();
-            Class<?> feign = anno.feign();
+            Class<?> feign = anno.apiClass();
 
             if (StrUtil.isEmpty(api) && Object.class.equals(feign)) {
                 log.warn("忽略注入字段: {}.{}", field.getType(), field.getName());

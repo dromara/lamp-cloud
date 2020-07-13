@@ -1,7 +1,8 @@
 package com.github.zuihou;
 
+import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
 import com.github.zuihou.security.annotation.EnableLoginArgResolver;
-import com.github.zuihou.validator.config.EnableFormValidator;
+import com.github.zuihou.validator.annotation.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +21,7 @@ import java.net.UnknownHostException;
  *
  * @author zuihou
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, SeataFeignClientAutoConfiguration.class})
 @EnableDiscoveryClient
 @EnableHystrix
 @EnableFeignClients(value = {

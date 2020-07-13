@@ -21,6 +21,11 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-order-entity</artifactId>
+            <version>${zuihou-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-oauth-api</artifactId>
             <version>${zuihou-project.version}</version>
         </dependency>

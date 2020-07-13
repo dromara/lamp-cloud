@@ -13,7 +13,7 @@ zuihou:
     database: 0
     password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
   database:
-    multiTenantType: SCHEMA
+    multiTenantType: DATASOURCE
     tenantDatabasePrefix: zuihou_base
     isBlockAttack: false
     worker-id: 0
@@ -31,17 +31,25 @@ xxl.job:
   login:
     username: zuihou
     password: zuihou
-  accessToken:
+  # 调度中心国际化配置 ： 默认为 "zh_CN"/中文简体, 可选范围为 "zh_CN"/中文简体, "zh_TC"/中文繁体 and "en"/英文；
   i18n:
+  #设置一：调度中心和执行器，均不设置AccessToken；关闭安全性校验；
+  #设置二：调度中心和执行器，设置了相同的AccessToken；
+  accessToken:
   # 以下是client 执行器端配置（注意：若不想配置调度器也是执行器，请自行参考xxl）
   admin:
     addresses: http://127.0.0.1:${server.port}/${spring.application.name}
   executor:
+    # 执行器名
     appname: ${spring.application.name}
+    # # 调度器通过XXL-RPC跟执行器通信的IP
     ip: ${EXECUTOR_IP:127.0.0.1}
+    # 调度器通过XXL-RPC跟执行器通信的端口
     port: ${EXECUTOR_PORT:8771}
     registryLazy: 10000  # 延迟10秒注册，防止首次启动报错
+    # 日志路径
     logpath: ${logging.file.path}/${spring.application.name}/
+    # 日志保留天数
     logretentiondays: -1
 
 
@@ -192,8 +200,6 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
-
-
 
 
 j2cache:

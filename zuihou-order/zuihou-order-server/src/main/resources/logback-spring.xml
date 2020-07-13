@@ -15,6 +15,7 @@
         </logger>
     </springProfile>
 
+
     <springProfile name="dev">
         <logger name="com.github.zuihou.order.controller" additivity="true" level="${log.level.controller}">
             <appender-ref ref="CONTROLLER_APPENDER"/>

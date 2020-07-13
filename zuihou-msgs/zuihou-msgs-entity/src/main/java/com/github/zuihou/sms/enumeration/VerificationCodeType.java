@@ -1,12 +1,13 @@
 package com.github.zuihou.sms.enumeration;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.stream.Stream;
 
 /**
  * 验证码类型
@@ -18,7 +19,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "VerificationCodeType", description = "验证码类型")
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum VerificationCodeType implements BaseEnum {
     /**
      * 用户注册
@@ -31,27 +31,15 @@ public enum VerificationCodeType implements BaseEnum {
 
 
     public static VerificationCodeType match(String val, VerificationCodeType def) {
-        for (VerificationCodeType enm : VerificationCodeType.values()) {
-            if (enm.name().equalsIgnoreCase(val)) {
-                return enm;
-            }
-        }
-        return def;
+        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static VerificationCodeType get(String val) {
         return match(val, null);
     }
 
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-
     public boolean eq(VerificationCodeType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return val == null ? false : eq(val.name());
     }
 
     @Override

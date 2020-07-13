@@ -4,13 +4,11 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.log.StaticLog;
 import com.github.zuihou.authority.entity.common.Area;
-import com.github.zuihou.authority.service.common.AreaService;
 import com.github.zuihou.context.BaseContextHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,8 +24,6 @@ public class CityParserTest {
     ICityParser cityParser;
     @Resource
     SqlCityParserDecorator sqlCityParserDecorator;
-    @Autowired
-    private AreaService areaService;
 
     @Before
     public void setTenant() {
@@ -46,23 +42,15 @@ public class CityParserTest {
         StaticLog.info("本次程序执行 花费毫秒数: {} ,   花费分钟数:{} . ", interval, intervalMinute);
     }
 
-//    public static void main(String[] args) {
-//        TimeInterval timer = DateUtil.timer();
-//        // -------这是执行过程--------------
-//        cityParserDecorator();
-//        // ---------------------------------
-//        long interval = timer.interval();// 花费毫秒数
-//        long intervalMinute = timer.intervalMinute();// 花费分钟数
-//        StaticLog.info("本次程序执行 花费毫秒数: {} ,   花费分钟数:{} . ", interval, intervalMinute);
-//    }
-
     private List<Area> cityParserDecorator() {
-
+        /*
+        获取统计局数据, 注意：目前只获取了 省市区 3级数据， 若要获取乡镇（4级）和村庄数据（5级），请将 CityParser 类的122行代码打开. （5级数据量比较多，非常非常非常非常耗时）
+        CityParser 122行： countyArea.setChildren(parseTowntr(fullName + countyName, COMMON_URL + href.subSequence(2, 5).toString() + "/" + href));
+        */
         List<Area> list = cityParser.parseProvinces(url);
 
-
+        // 持久化
         sqlCityParserDecorator.parseProvinces(list);
-
         return list;
     }
 

@@ -3,11 +3,17 @@ package com.github.zuihou.authority.entity.common;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.TreeEntity;
+import com.github.zuihou.common.constant.DictionaryType;
 import com.github.zuihou.injection.annonation.InjectionField;
 import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
@@ -80,7 +86,7 @@ public class Area extends TreeEntity<Area, Long> {
     @ApiModelProperty(value = "行政区级")
     @Length(max = 10, message = "行政区级长度不能超过10")
     @TableField(value = "level", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD)
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.AREA_LEVEL)
     private RemoteData<String, String> level;
 
     /**

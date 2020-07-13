@@ -24,15 +24,4 @@ public class JobsMybatisAutoConfiguration extends BaseMybatisConfiguration {
 
     }
 
-//    /**
-//     * 数据权限插件
-//     *
-//     * @return DataScopeInterceptor
-//     */
-//    @Bean
-//    @ConditionalOnProperty(name = "zuihou.database.isDataScope", havingValue = "true", matchIfMissing = true)
-//    public DataScopeInterceptor dataScopeInterceptor() {
-//        return new DataScopeInterceptor((userId) -> SpringUtils.getBean(UserService.class).getDataScopeById(userId));
-//    }
-
 }

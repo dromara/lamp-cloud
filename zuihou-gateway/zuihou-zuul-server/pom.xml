@@ -43,6 +43,11 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-zipkin-client-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-swagger2-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-j2cache-starter</artifactId>
@@ -97,10 +102,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-swagger2-starter</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

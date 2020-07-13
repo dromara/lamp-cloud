@@ -42,4 +42,6 @@ fdfs:
 
 
 server:
+  servlet:
+    context-path:
   port: 8765

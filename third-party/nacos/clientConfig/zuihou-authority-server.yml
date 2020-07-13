@@ -14,7 +14,7 @@ zuihou:
         base-package: com.github.zuihou.authority.controller.core
       tenant:
         title: 租户模块
-        base-package: com.github.zuihou.authority.controller.defaults
+        base-package: com.github.zuihou.tenant.controller
 
 server:
   port: 8764

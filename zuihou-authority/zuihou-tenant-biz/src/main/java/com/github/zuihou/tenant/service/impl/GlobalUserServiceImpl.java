@@ -29,6 +29,7 @@ import static com.github.zuihou.utils.BizAssert.isFalse;
  */
 @Slf4j
 @Service
+
 public class GlobalUserServiceImpl extends SuperServiceImpl<GlobalUserMapper, GlobalUser> implements GlobalUserService {
 
     @Override

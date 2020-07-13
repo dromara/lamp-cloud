@@ -21,16 +21,16 @@ public class NoBootTest {
                 .maximumSize(100)
                 .build();
 
-        Object val = cache.get("zuihouaa", (key) -> "延迟加载" + key);
+        Object val = cache.get("hello", (key) -> "延迟加载" + key);
         System.out.println(val);
 
-        System.out.println(cache.getIfPresent("zuihouaa"));
+        System.out.println(cache.getIfPresent("hello"));
 
     }
 
     @Test
     public void test2() {
-        String data = "zuihou:\n" +
+        String data = "hello:\n" +
                 "  swagger:\n" +
                 "    enabled: true\n" +
                 "    title: 网关模块\n" +
