@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://dozermapper.github.io/schema/bean-mapping"
+          xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
+
+    <mapping date-format="yyyy-MM-dd HH:mm:ss">
+        <class-a>com.github.zuihou.order.dto.OrderDozerTest</class-a>
+        <class-b>com.github.zuihou.order.dto.OrderDozerTest2</class-b>
+        <field>
+            <a>code</a>
+            <b>code2</b>
+        </field>
+        <field>
+            <a>ldt</a>
+            <b>ldt2</b>
+        </field>
+        <field>
+            <a>ldt</a>
+            <b>ldtStr</b>
+        </field>
+        <field>
+            <a>save.name</a>
+            <b>name</b>
+        </field>
+    </mapping>
+
+</mappings>
