@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
-    <version>c.2.3-SNAPSHOT</version>
+    <version>c.2.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://gitee.com/zuihou111/zuihou-cloud</url>
     <name>${project.artifactId}</name>
