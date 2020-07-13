@@ -10,7 +10,7 @@
 
 
 ## 简介：
-基于`SpringCloud(Hoxton.SR3)`  + `SpringBoot(2.2.6.RELEASE)` 的 SaaS型微服务脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
+基于`SpringCloud(Hoxton.SR3)`  + `SpringBoot(2.2.7.RELEASE)` 的 SaaS型微服务脚手架，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。核心技术采用Nacos、Fegin、Ribbon、Zuul、Hystrix、JWT Token、Mybatis、SpringBoot、Seata、Nacos、Sentinel、
 RabbitMQ、FastDFS等主要框架和中间件。
 
@@ -207,7 +207,7 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
     - 项目构建：Maven 3.3
     - 分布式事务： seata
     - 分布式系统的流量防卫兵： Sentinel
-    - 监控： spring-boot-admin 2.2.0
+    - 监控： spring-boot-admin 2.2.7
     - 链路调用跟踪： zipkin 2.19.2
     - 文件服务器：FastDFS 5.0.5/阿里云OSS/本地存储
     - Nginx
@@ -236,7 +236,7 @@ PS: Lombok版本过低会导致枚举类型的参数无法正确获取参数，�
     各位大侠就将就着看，但随着时间的推移。文档，注释，启动说明等码主我一定会补全的。   
 
 ## 项目不错，支持一下吧
-![请作者买个防脱发药水吧.png](docs/image/请作者买瓶防脱发药水吧.png)
+![扫码支持.png](docs/image/请作者买瓶防脱发药水吧.png)
     
     ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 并 备注邮箱，可得开发文档一份（支持后续更新） 
         打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
