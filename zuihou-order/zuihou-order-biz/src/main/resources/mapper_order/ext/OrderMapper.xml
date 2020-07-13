@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zuihou.order.dao.OrderMapper">
+
+
+    <select id="find" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from m_order
+        <where>
+            <if test="data.code != null and data.code != ''">
+                and code like #{data.code,typeHandler=fullLike}
+            </if>
+            <if test="data.name != null and data.name != ''">
+                and name like #{data.name,typeHandler=leftLike}
+            </if>
+            <if test="data.org != null and data.org.key != null">
+                and org_id = #{data.org.key,jdbcType=BIGINT}
+            </if>
+            <if test="data.nation != null and data.nation.key != null and data.nation.key != ''">
+                and nation = #{data.nation.key,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from m_order ${ew.customSqlSegment}
+    </select>
+
+</mapper>
