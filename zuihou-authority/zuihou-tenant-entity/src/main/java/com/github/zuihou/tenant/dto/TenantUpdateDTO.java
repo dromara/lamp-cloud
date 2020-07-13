@@ -4,7 +4,12 @@ import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.tenant.enumeration.TenantStatusEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
@@ -62,4 +67,17 @@ public class TenantUpdateDTO implements Serializable {
     @ApiModelProperty(value = "有效期")
     private LocalDateTime expirationTime;
 
+    /**
+     * logo地址
+     */
+    @ApiModelProperty(value = "logo地址")
+    @Length(max = 255, message = "logo地址长度不能超过255")
+    private String logo;
+
+    /**
+     * 企业简介
+     */
+    @ApiModelProperty(value = "企业简介")
+    @Length(max = 255, message = "企业简介长度不能超过255")
+    private String describe;
 }
