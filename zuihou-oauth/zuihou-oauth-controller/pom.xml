@@ -14,7 +14,6 @@
     <name>${project.artifactId}</name>
     <description>权限服务接口模块</description>
     <dependencies>
-
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-oauth-biz</artifactId>
@@ -41,6 +40,5 @@
             <artifactId>zuihou-jwt-starter</artifactId>
         </dependency>
     </dependencies>
-
 
 </project>

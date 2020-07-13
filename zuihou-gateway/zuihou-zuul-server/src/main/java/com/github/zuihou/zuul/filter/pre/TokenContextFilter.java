@@ -27,7 +27,10 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.github.zuihou.context.BaseContextConstants.*;
+import static com.github.zuihou.context.BaseContextConstants.BASIC_HEADER_KEY;
+import static com.github.zuihou.context.BaseContextConstants.BEARER_HEADER_KEY;
+import static com.github.zuihou.context.BaseContextConstants.JWT_KEY_CLIENT_ID;
+import static com.github.zuihou.context.BaseContextConstants.JWT_KEY_TENANT;
 import static com.github.zuihou.exception.code.ExceptionCode.JWT_OFFLINE;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
@@ -134,7 +137,7 @@ public class TokenContextFilter extends BaseFilter {
 
             //添加测试环境的特殊token
             if (isDev(token)) {
-                authInfo = new AuthInfo().setAccount("zuihou").setUserId(1L)
+                authInfo = new AuthInfo().setAccount("zuihou").setUserId(3L)
                         .setTokenType(BEARER_HEADER_KEY).setName("平台管理员");
             }
             // 4, 解析 并 验证 token

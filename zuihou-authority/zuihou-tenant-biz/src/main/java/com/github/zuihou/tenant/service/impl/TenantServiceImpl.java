@@ -32,6 +32,7 @@ import static com.github.zuihou.utils.BizAssert.isFalse;
  */
 @Slf4j
 @Service
+
 public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenant> implements TenantService {
 
     @Autowired

@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 05/04/2020 13:22:20
+ Date: 12/07/2020 23:49:10
 */
 
 SET NAMES utf8mb4;
@@ -130,36 +130,6 @@ CREATE TABLE `c_auth_role_org` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色组织关系';
 
 -- ----------------------------
--- Table structure for c_auth_system_api
--- ----------------------------
-DROP TABLE IF EXISTS `c_auth_system_api`;
-CREATE TABLE `c_auth_system_api` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `code` varchar(100) DEFAULT NULL COMMENT '编码',
-  `permission` varchar(255) DEFAULT NULL COMMENT '权限',
-  `name` varchar(100) NOT NULL COMMENT '名称',
-  `describe_` varchar(100) DEFAULT NULL COMMENT '描述',
-  `request_method` varchar(255) DEFAULT NULL COMMENT '请求方式',
-  `content_type` varchar(255) DEFAULT NULL COMMENT '响应类型',
-  `service_id` varchar(50) NOT NULL COMMENT '服务ID',
-  `path` varchar(255) DEFAULT NULL COMMENT '请求路径',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态\n:0-无效 1-有效',
-  `is_persist` bit(1) DEFAULT b'0' COMMENT '保留数据 \n0-否 1-是 系统内资数据,不允许删除',
-  `is_auth` bit(1) DEFAULT b'1' COMMENT '是否需要认证\n: 0-无认证 1-身份认证 默认:1',
-  `is_open` bit(1) DEFAULT b'0' COMMENT '是否公开\n: 0-内部的 1-公开的',
-  `class_name` varchar(255) DEFAULT NULL COMMENT '类名',
-  `method_name` varchar(255) DEFAULT NULL COMMENT '方法名',
-  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人id',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人id',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UNX_ID` (`id`) USING BTREE,
-  UNIQUE KEY `UNX_CODE` (`code`) USING BTREE,
-  KEY `service_id` (`service_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='API接口';
-
--- ----------------------------
 -- Table structure for c_auth_user
 -- ----------------------------
 DROP TABLE IF EXISTS `c_auth_user`;
@@ -174,7 +144,7 @@ CREATE TABLE `c_auth_user` (
   `sex` varchar(1) DEFAULT 'N' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
   `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
   `avatar` varchar(255) DEFAULT '' COMMENT '头像',
-  `nation` varchar(20) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
+  `nation` varchar(20) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>\n',
   `education` varchar(20) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
   `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
@@ -471,6 +441,9 @@ DROP TABLE IF EXISTS `m_order`;
 CREATE TABLE `m_order` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `education` varchar(255) DEFAULT NULL COMMENT '学历\n@InjectionField(api = "orderServiceImpl", method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>',
+  `nation` varchar(255) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>\n',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD) RemoteData<Long, String>',
   `code` varchar(255) DEFAULT NULL COMMENT '编号',
   `create_time` datetime DEFAULT NULL,
   `create_user` bigint(20) DEFAULT NULL,
@@ -493,7 +466,7 @@ CREATE TABLE `m_product` (
   `update_user` bigint(20) DEFAULT NULL,
   `type_` text COMMENT '商品类型\n#ProductType{ordinary:普通;gift:赠品}',
   `type2` longtext COMMENT '商品类型2\n#{ordinary:普通;gift:赠品;}',
-  `type3` varchar(255) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>\n',
+  `type3` varchar(255) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>\n',
   `status` bit(1) DEFAULT NULL COMMENT '状态',
   `test4` tinyint(10) DEFAULT NULL,
   `test5` date DEFAULT NULL COMMENT '时间',

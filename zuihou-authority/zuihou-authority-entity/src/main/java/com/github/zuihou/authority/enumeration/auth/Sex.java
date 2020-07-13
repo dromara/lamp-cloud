@@ -1,12 +1,13 @@
 package com.github.zuihou.authority.enumeration.auth;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -21,7 +22,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "Sex", description = "性别-枚举")
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Sex implements BaseEnum {
 
     /**
@@ -41,38 +41,20 @@ public enum Sex implements BaseEnum {
     @ApiModelProperty(value = "描述")
     private String desc;
 
-
     public static Sex match(String val, Sex def) {
-        for (Sex enm : Sex.values()) {
-            if (enm.name().equalsIgnoreCase(val)) {
-                return enm;
-            }
-        }
-        return def;
+        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static Sex matchDesc(String val, Sex def) {
-        for (Sex enm : Sex.values()) {
-            if (enm.getDesc().equalsIgnoreCase(val)) {
-                return enm;
-            }
-        }
-        return def;
+        return Stream.of(values()).parallel().filter((item) -> item.getDesc().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static Sex get(String val) {
         return match(val, null);
     }
 
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-
     public boolean eq(Sex val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return val == null ? false : eq(val.name());
     }
 
     @Override

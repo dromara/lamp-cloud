@@ -1,11 +1,13 @@
 package com.github.zuihou.common.enums;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.stream.Stream;
 
 /**
  * 日期类型
@@ -16,9 +18,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @ApiModel(value = "DateType", description = "日期类型-枚举")
-public enum DateType {
+public enum DateType implements BaseEnum {
     /**
      * 一个月
      */
@@ -42,29 +43,18 @@ public enum DateType {
     private String desc;
 
     public static DateType match(String val, DateType def) {
-        for (DateType enm : DateType.values()) {
-            if (enm.name().equalsIgnoreCase(val)) {
-                return enm;
-            }
-        }
-        return def;
+        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static DateType get(String val) {
         return match(val, null);
     }
 
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-
     public boolean eq(DateType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return val == null ? false : eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "MONTH,WEEK,DAY,NUL", example = "NUL")
     public String getCode() {
         return this.name();

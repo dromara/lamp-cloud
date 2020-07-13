@@ -34,7 +34,7 @@ public class RefreshTokenGranter extends AbstractTokenGranter implements TokenGr
             return R.fail("加载用户信息失败");
         }
 
-        AuthInfo authInfo = tokenUtil.parseJWT(refreshTokenStr);
+        AuthInfo authInfo = tokenUtil.parseRefreshToken(refreshTokenStr);
 
         if (!BaseContextConstants.REFRESH_TOKEN_KEY.equals(authInfo.getTokenType())) {
             return R.fail("refreshToken无效，无法加载用户信息");

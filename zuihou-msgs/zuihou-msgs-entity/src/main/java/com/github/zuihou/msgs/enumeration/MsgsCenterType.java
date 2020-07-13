@@ -1,12 +1,13 @@
 package com.github.zuihou.msgs.enumeration;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -21,7 +22,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "MsgsCenterType", description = "消息类型-枚举")
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MsgsCenterType implements BaseEnum {
 
     /**
@@ -47,27 +47,15 @@ public enum MsgsCenterType implements BaseEnum {
 
 
     public static MsgsCenterType match(String val, MsgsCenterType def) {
-        for (MsgsCenterType enm : MsgsCenterType.values()) {
-            if (enm.name().equalsIgnoreCase(val)) {
-                return enm;
-            }
-        }
-        return def;
+        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static MsgsCenterType get(String val) {
         return match(val, null);
     }
 
-    public boolean eq(String val) {
-        return name().equalsIgnoreCase(val);
-    }
-
     public boolean eq(MsgsCenterType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return val == null ? false : eq(val.name());
     }
 
     @Override

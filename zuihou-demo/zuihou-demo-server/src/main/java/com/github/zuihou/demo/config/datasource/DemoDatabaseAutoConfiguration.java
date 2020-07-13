@@ -1,37 +1,24 @@
 package com.github.zuihou.demo.config.datasource;
 
 
-import cn.hutool.core.util.ArrayUtil;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
-import com.github.zuihou.database.datasource.BaseDatabaseConfiguration;
+import com.github.zuihou.database.datasource.defaults.MasterDatabaseConfiguration;
 import com.github.zuihou.database.properties.DatabaseProperties;
-import com.p6spy.engine.spy.P6DataSource;
-import io.seata.rm.datasource.DataSourceProxy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.scripting.LanguageDriver;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandler;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -57,14 +44,8 @@ import java.util.List;
         basePackages = {"com.github.zuihou"},
         annotationClass = Repository.class,
         sqlSessionFactoryRef = DemoDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
-@EnableConfigurationProperties({MybatisPlusProperties.class})
 @ConditionalOnExpression("!'DATASOURCE'.equals('${zuihou.database.multiTenantType}')")
-public class DemoDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
-    /**
-     * 每个数据源配置不同即可
-     */
-    final static String DATABASE_PREFIX = "master";
-
+public class DemoDatabaseAutoConfiguration extends MasterDatabaseConfiguration {
     public DemoDatabaseAutoConfiguration(MybatisPlusProperties properties,
                                          DatabaseProperties databaseProperties,
                                          ObjectProvider<Interceptor[]> interceptorsProvider,
@@ -80,76 +61,4 @@ public class DemoDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
                 configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);
         log.debug("检测到 zuihou.database.multiTenantType!=DATASOURCE，启用了 AuthorityDatabaseAutoConfiguration");
     }
-
-    @Bean(DATABASE_PREFIX + "SqlSessionTemplate")
-    public SqlSessionTemplate getSqlSessionTemplate(@Qualifier(DATABASE_PREFIX + "SqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
-        ExecutorType executorType = this.properties.getExecutorType();
-        if (executorType != null) {
-            return new SqlSessionTemplate(sqlSessionFactory, executorType);
-        } else {
-            return new SqlSessionTemplate(sqlSessionFactory);
-        }
-    }
-
-    /**
-     * 数据源信息
-     *
-     * @return
-     */
-    @Primary
-    @Bean(name = DATABASE_PREFIX + "DruidDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.druid")
-    public DataSource druidDataSource() {
-        return DruidDataSourceBuilder.create().build();
-    }
-
-//    @Bean(name = DATABASE_PREFIX + "DataSource")
-//    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "false", matchIfMissing = true)
-//    public DataSource dataSource(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
-//        if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
-//            return new P6DataSource(dataSource);
-//        } else {
-//            return dataSource;
-//        }
-//    }
-//
-//    @Bean(name = DATABASE_PREFIX + "p6DataSource")
-//    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "true")
-//    public DataSource dataSourceP6(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
-//        if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
-//            return new P6DataSource(dataSource);
-//        } else {
-//            return dataSource;
-//        }
-//    }
-//
-//    @ConditionalOnProperty(name = "zuihou.database.isSeata", havingValue = "true")
-//    @Bean(DATABASE_PREFIX + "DataSource")
-//    public DataSourceProxy dataSourceProxy(@Qualifier(DATABASE_PREFIX + "p6DataSource") DataSource dataSource) {
-//        return new DataSourceProxy(dataSource);
-//    }
-
-    @Bean(DATABASE_PREFIX + "DataSource")
-    public DataSource dataSourceProxy(@Qualifier(DATABASE_PREFIX + "DruidDataSource") DataSource dataSource) {
-        DataSource dataSourceWrapper = dataSource;
-        if (ArrayUtil.contains(DEV_PROFILES, this.profiles)) {
-            dataSourceWrapper = new P6DataSource(dataSource);
-        }
-        if (databaseProperties.getIsSeata()) {
-            dataSourceWrapper = new DataSourceProxy(dataSourceWrapper);
-        }
-        return dataSourceWrapper;
-    }
-
-    /**
-     * mybatis Sql Session 工厂
-     *
-     * @return
-     * @throws Exception
-     */
-    @Bean(DATABASE_PREFIX + "SqlSessionFactory")
-    public SqlSessionFactory getSqlSessionFactory(@Qualifier(DATABASE_PREFIX + "DataSource") DataSource dataSource) throws Exception {
-        return super.sqlSessionFactory(dataSource);
-    }
-
 }

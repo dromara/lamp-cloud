@@ -46,9 +46,8 @@ public class LoginLogController extends SuperController<LoginLogService, Long, L
      * @return 查询结果
      */
     @Override
-    public void handlerWrapper(QueryWrap<LoginLog> wrapper, PageParams<LoginLog> params) {
-        super.handlerWrapper(wrapper, params);
-        LoginLog model = params.getModel();
+    public QueryWrap<LoginLog> handlerWrapper(LoginLog model, PageParams<LoginLog> params) {
+        QueryWrap<LoginLog> wrapper = super.handlerWrapper(model, params);
 
         wrapper.lambda()
                 // 忽略 Wraps.q(model); 时， account  和 requestIp 字段的默认查询规则，
@@ -57,6 +56,7 @@ public class LoginLogController extends SuperController<LoginLogService, Long, L
                 // 使用 自定义的查询规则
                 .likeRight(LoginLog::getAccount, model.getAccount())
                 .likeRight(LoginLog::getRequestIp, model.getRequestIp());
+        return wrapper;
     }
 
     @ApiOperation("清空日志")

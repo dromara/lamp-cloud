@@ -27,7 +27,6 @@ public interface DictionaryItemService extends SuperCacheService<DictionaryItem>
 
     /**
      * 根据类型编码查询字典项
-     *
      * @param codes
      * @return
      */

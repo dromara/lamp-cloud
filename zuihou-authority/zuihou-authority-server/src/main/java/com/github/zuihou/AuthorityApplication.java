@@ -1,7 +1,7 @@
 package com.github.zuihou;
 
 import com.github.zuihou.security.annotation.EnableLoginArgResolver;
-import com.github.zuihou.validator.config.EnableFormValidator;
+import com.github.zuihou.validator.annotation.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

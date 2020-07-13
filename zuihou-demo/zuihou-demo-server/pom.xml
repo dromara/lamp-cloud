@@ -21,10 +21,7 @@
             <version>${zuihou-project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-scan-starter</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>
@@ -45,7 +42,9 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-zipkin-client-starter</artifactId>
         </dependency>
-
+        <!--为什么spring-cloud-starter-alibaba-seata 要将 seata-all 和 seata-spring-boot-starter 排除掉，然后在下面重新依赖呢？
+            因为： 随着 spring-cloud-starter-alibaba-seata 版本的升级， 里面seata-all、seata-spring-boot-starter的版本可能跟我们
+            使用的 seata-server 版本不一致，所以需要将手动指定这2个jar的版本跟 seata-server 保持一致。 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
@@ -54,12 +53,19 @@
                     <groupId>io.seata</groupId>
                     <artifactId>seata-all</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-spring-boot-starter</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-all</artifactId>
-            <version>${seata.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- spring boot -->
@@ -98,7 +104,6 @@
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-spring-boot-starter</artifactId>
         </dependency>
-
 
         <!-- 测试 -->
         <dependency>

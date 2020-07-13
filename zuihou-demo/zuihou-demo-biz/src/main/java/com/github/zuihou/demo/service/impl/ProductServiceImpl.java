@@ -1,5 +1,6 @@
 package com.github.zuihou.demo.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.zuihou.demo.dao.ProductMapper;
 import com.github.zuihou.demo.entity.Product;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
+
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> implements ProductService {
 
     @Override

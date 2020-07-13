@@ -29,7 +29,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -125,8 +129,7 @@ public class GlobalUserController extends SuperController<GlobalUserService, Lon
     public void query(PageParams<GlobalUserPageDTO> params, IPage<GlobalUser> page, Long defSize) {
         GlobalUserPageDTO model = params.getModel();
         if (StrUtil.isEmpty(model.getTenantCode()) || BizConstant.SUPER_TENANT.equals(model.getTenantCode())) {
-            QueryWrap<GlobalUser> wrapper = Wraps.q();
-            handlerWrapper(wrapper, params);
+            QueryWrap<GlobalUser> wrapper = handlerWrapper(null, params);
             wrapper.lambda().eq(GlobalUser::getTenantCode, model.getTenantCode())
                     .like(GlobalUser::getAccount, model.getAccount())
                     .like(GlobalUser::getName, model.getName());
@@ -135,7 +138,7 @@ public class GlobalUserController extends SuperController<GlobalUserService, Lon
         }
         BaseContextHandler.setTenant(model.getTenantCode());
 
-        IPage<User> userPage = params.getPage();
+        IPage<User> userPage = params.buildPage();
         QueryWrap<User> wrapper = Wraps.q();
         handlerUserWrapper(wrapper, params);
         wrapper.lambda()

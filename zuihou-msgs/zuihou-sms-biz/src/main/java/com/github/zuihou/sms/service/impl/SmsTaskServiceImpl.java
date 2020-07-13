@@ -51,6 +51,7 @@ import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
  */
 @Slf4j
 @Service
+
 public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask> implements SmsTaskService {
     @Resource
     private JobsTimingApi jobsTimingApi;
@@ -93,7 +94,7 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveTask(SmsTask smsTask, TemplateCodeType type) {
-        validAndInit(smsTask, null);
+        validAndInit(smsTask, type);
 
         send(smsTask, (task) -> save(task));
     }

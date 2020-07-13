@@ -1,6 +1,5 @@
 package com.github.zuihou.authority.enumeration.auth;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,7 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "AuthorizeType", description = "权限类型-枚举")
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum AuthorizeType implements BaseEnum {
 
     /**
@@ -51,15 +49,8 @@ public enum AuthorizeType implements BaseEnum {
         return match(val, null);
     }
 
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-
     public boolean eq(AuthorizeType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return val == null ? false : eq(val.name());
     }
 
     @Override

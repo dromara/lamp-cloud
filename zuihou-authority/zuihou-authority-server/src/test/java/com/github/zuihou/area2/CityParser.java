@@ -16,9 +16,14 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 将国家统计局的数据封装成list
+ *
+ * @author zuihou
+ * @date 2020年05月08日15:09:15
+ */
 @Component
 public class CityParser implements ICityParser {
-
 
     private static final String COMMON_URL = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2018/";
 
@@ -80,8 +85,9 @@ public class CityParser implements ICityParser {
                     .level(new RemoteData<>("CITY"))
                     .fullName(provinceName + cityName)
                     .build();
-            cityArea.setChildren(parseCounty(provinceName + cityName, COMMON_URL + href));
+
             StaticLog.info("	市级数据:  {}  ", cityArea);
+            cityArea.setChildren(parseCounty(provinceName + cityName, COMMON_URL + href));
 
             cities.add(cityArea);
         }
@@ -102,7 +108,6 @@ public class CityParser implements ICityParser {
             }
             String href = links.get(0).attr("href");
             String countyCode = links.get(0).text();
-//            String countyCode = links.get(0).text().substring(0, 6);
             String countyName = links.get(1).text();
 
             Area countyArea = Area.builder().code(countyCode)
@@ -111,9 +116,10 @@ public class CityParser implements ICityParser {
                     .fullName(fullName + countyName)
                     .sortValue(sort++)
                     .level(new RemoteData<>("COUNTY"))
-//                    .nodes(parseTowntr(fullName + countyName, COMMON_URL + href.subSequence(2, 5).toString() + "/" + href))
                     .build();
+
             StaticLog.info("		县级数据:  {}  ", countyArea);
+//            countyArea.setChildren(parseTowntr(fullName + countyName, COMMON_URL + href.subSequence(2, 5).toString() + "/" + href));
 
             counties.add(countyArea);
         }
@@ -140,7 +146,6 @@ public class CityParser implements ICityParser {
             }
             String href = links.get(0).attr("href");
             String towntrCode = links.get(0).text();
-//            String towntrCode = links.get(0).text().substring(0, 6);
             String towntrName = links.get(1).text();
 
             Area towntrArea = Area.builder()
@@ -148,10 +153,11 @@ public class CityParser implements ICityParser {
                     .fullName(fullName + towntrName)
                     .level(new RemoteData<>("TOWNTR"))
                     .sortValue(sort++)
-//                    .nodes(parseVillagetr(fullName + towntrName, COMMON_URL + href.subSequence(2, 5).toString() + "/" + href.substring(5, 7) + "/" + href))
                     .build();
 
             StaticLog.info("			乡镇级数据:  {}  ", towntrArea);
+            towntrArea.setChildren(parseVillagetr(fullName + towntrName, COMMON_URL + href.subSequence(2, 5).toString() + "/" + href.substring(5, 7) + "/" + href));
+
 
             counties.add(towntrArea);
         }

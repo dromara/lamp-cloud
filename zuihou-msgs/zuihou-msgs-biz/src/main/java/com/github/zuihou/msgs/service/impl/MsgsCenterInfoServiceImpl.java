@@ -37,6 +37,7 @@ import static com.github.zuihou.utils.StrHelper.getOrDef;
  */
 @Slf4j
 @Service
+
 public class MsgsCenterInfoServiceImpl extends SuperServiceImpl<MsgsCenterInfoMapper, MsgsCenterInfo> implements MsgsCenterInfoService {
     @Autowired
     private MsgsCenterInfoReceiveService msgsCenterInfoReceiveService;
