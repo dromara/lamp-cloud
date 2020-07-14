@@ -82,16 +82,6 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 穷逼C公司没钱， 就花了20W使用A公司部署的云环境， 服务器和数据等都存在A公司的云服务器上。
 ```
 
-## zuihou-admin-boot 演示地址 
-
-| 项目 | 演示地址 | 管理员账号 | 普通账号 |
-|---|---|---|---|
-| 租户后台 | http://42.202.130.216:10000/zuihou-ui | zuihou/zuihou | test/zuiou |
-| 开发&运营后台 | http://42.202.130.216:10000/zuihou-admin-ui | demoAdmin/zuihou | 无 |
-| swagger文档 | http://42.202.130.216:10000/api/gate/doc.html | 无 | 无 |
-| 定时任务 | http://42.202.130.216:10000/zuihou-jobs-server | zuihou/zuihou | 无  |
-
-
 ## 功能点介绍:
 1. **服务注册&发现与调用：**
 
@@ -207,7 +197,7 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
     - 项目构建：Maven 3.3
     - 分布式事务： seata
     - 分布式系统的流量防卫兵： Sentinel
-    - 监控： spring-boot-admin 2.2.7
+    - 监控： spring-boot-admin 2.2.X
     - 链路调用跟踪： zipkin 2.19.2
     - 文件服务器：FastDFS 5.0.5/阿里云OSS/本地存储
     - Nginx
