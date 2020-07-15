@@ -254,6 +254,7 @@
                             <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
                             <nonFilteredFileExtension>p12</nonFilteredFileExtension>
                             <nonFilteredFileExtension>key</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>db</nonFilteredFileExtension>
                         </nonFilteredFileExtensions>
                     </configuration>
                 </plugin>
