@@ -1,5 +1,6 @@
 package com.github.zuihou.tenant.service;
 
+import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.base.service.SuperService;
 import com.github.zuihou.tenant.dto.GlobalUserSaveDTO;
 import com.github.zuihou.tenant.dto.GlobalUserUpdateDTO;
@@ -40,4 +41,12 @@ public interface GlobalUserService extends SuperService<GlobalUser> {
      * @return
      */
     GlobalUser update(GlobalUserUpdateDTO data);
+
+    /**
+     * 修改密码
+     *
+     * @param model
+     * @return
+     */
+    Boolean updatePassword(UserUpdatePasswordDTO model);
 }

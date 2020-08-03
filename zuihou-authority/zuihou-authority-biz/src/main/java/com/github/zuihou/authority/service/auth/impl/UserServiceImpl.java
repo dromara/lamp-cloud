@@ -2,7 +2,6 @@ package com.github.zuihou.authority.service.auth.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dao.auth.UserMapper;
@@ -111,8 +110,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
         User build = User.builder().password(SecureUtil.md5(data.getPassword())).id(data.getId()).build();
-        updateById(build);
-        return true;
+        return updateById(build);
     }
 
     @Override
@@ -217,9 +215,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public User updateUser(User user) {
-        if (StrUtil.isNotEmpty(user.getPassword())) {
-            user.setPassword(SecureUtil.md5(user.getPassword()));
-        }
+        // 不允许修改用户信息时修改密码，请单独调用修改密码接口
+        user.setPassword(null);
         updateById(user);
         return user;
     }

@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.zuihou.authority.entity.core.Org;
 import com.github.zuihou.authority.enumeration.auth.Sex;
 import com.github.zuihou.base.entity.Entity;
@@ -222,6 +223,7 @@ public class User extends Entity<Long> {
     @NotEmpty(message = "密码不能为空")
     @Length(max = 64, message = "密码长度不能超过64")
     @TableField(value = "password", condition = LIKE)
+    @JsonIgnore
     private String password;
 
     /**

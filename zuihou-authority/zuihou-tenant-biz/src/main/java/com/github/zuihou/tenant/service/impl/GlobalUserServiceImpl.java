@@ -1,7 +1,7 @@
 package com.github.zuihou.tenant.service.impl;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.tenant.dao.GlobalUserMapper;
@@ -67,17 +67,23 @@ public class GlobalUserServiceImpl extends SuperServiceImpl<GlobalUserMapper, Gl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public GlobalUser update(GlobalUserUpdateDTO data) {
-        if (StrUtil.isNotBlank(data.getPassword()) || StrUtil.isNotBlank(data.getPassword())) {
-            BizAssert.equals(data.getPassword(), data.getConfirmPassword(), "2次输入的密码不一致");
-        }
-
         GlobalUser globalUser = BeanPlusUtil.toBean(data, GlobalUser.class);
-        if (StrUtil.isNotBlank(data.getPassword())) {
-            String md5Password = SecureUtil.md5(data.getPassword());
-            globalUser.setPassword(md5Password);
-
-        }
+        globalUser.setPassword(null);
         updateById(globalUser);
         return globalUser;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updatePassword(UserUpdatePasswordDTO data) {
+        BizAssert.equals(data.getConfirmPassword(), data.getPassword(), "密码与确认密码不一致");
+
+        GlobalUser user = getById(data.getId());
+        BizAssert.notNull(user, "用户不存在");
+        String oldPassword = SecureUtil.md5(data.getOldPassword());
+        BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
+
+        GlobalUser build = GlobalUser.builder().password(SecureUtil.md5(data.getPassword())).id(data.getId()).build();
+        return updateById(build);
     }
 }
