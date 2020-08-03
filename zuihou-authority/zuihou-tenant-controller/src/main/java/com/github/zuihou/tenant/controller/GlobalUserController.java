@@ -4,10 +4,12 @@ package com.github.zuihou.tenant.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
+import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.context.BaseContextHandler;
@@ -31,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -171,4 +175,21 @@ public class GlobalUserController extends SuperController<GlobalUserService, Lon
         }
     }
 
+
+    /**
+     * 修改密码
+     *
+     * @param model 修改实体
+     * @return
+     */
+    @ApiOperation(value = "修改密码", notes = "修改密码")
+    @PutMapping("/password")
+    public R<Boolean> updatePassword(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO model) {
+        if (StrUtil.isEmpty(model.getTenantCode()) || BizConstant.SUPER_TENANT.equals(model.getTenantCode())) {
+            return success(baseService.updatePassword(model));
+        } else {
+            BaseContextHandler.setTenant(model.getTenantCode());
+            return success(userService.updatePassword(model));
+        }
+    }
 }

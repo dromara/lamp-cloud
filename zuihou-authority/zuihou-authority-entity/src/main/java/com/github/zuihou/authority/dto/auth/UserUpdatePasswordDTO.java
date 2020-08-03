@@ -3,7 +3,12 @@ package com.github.zuihou.authority.dto.auth;
 import com.github.zuihou.base.entity.SuperEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
@@ -58,4 +63,9 @@ public class UserUpdatePasswordDTO implements Serializable {
     @NotEmpty(message = "确认密码不能为空")
     @Length(max = 64, message = "确认密码长度不能超过64")
     private String confirmPassword;
+    /**
+     * 租户编码
+     */
+    @ApiModelProperty(value = "租户编码，zuihou-admin-ui页面使用")
+    private String tenantCode;
 }

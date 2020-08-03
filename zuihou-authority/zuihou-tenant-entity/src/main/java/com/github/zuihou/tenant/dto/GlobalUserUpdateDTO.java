@@ -3,7 +3,12 @@ package com.github.zuihou.tenant.dto;
 import com.github.zuihou.base.entity.SuperEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
@@ -58,14 +63,14 @@ public class GlobalUserUpdateDTO implements Serializable {
     @ApiModelProperty(value = "邮箱")
     @Length(max = 255, message = "邮箱长度不能超过255")
     private String email;
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value = "密码")
-    @Length(max = 64, message = "密码长度不能超过64")
-    private String password;
-    @ApiModelProperty(value = "确认密码")
-    @Length(max = 64, message = "确认密码长度不能超过64")
-    private String confirmPassword;
+//    /**
+//     * 密码
+//     */
+//    @ApiModelProperty(value = "密码")
+//    @Length(max = 64, message = "密码长度不能超过64")
+//    private String password;
+//    @ApiModelProperty(value = "确认密码")
+//    @Length(max = 64, message = "确认密码长度不能超过64")
+//    private String confirmPassword;
 
 }

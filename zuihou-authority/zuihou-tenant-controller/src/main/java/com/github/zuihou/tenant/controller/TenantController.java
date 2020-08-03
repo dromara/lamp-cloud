@@ -62,16 +62,17 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
         return success(baseService.check(code));
     }
 
+
     @Override
     public R<Boolean> handlerDelete(List<Long> ids) {
-        // 这个操作相当的危险，请谨慎操作！！
+        // 这个操作相当的危险，请谨慎操作！！!
         return success(baseService.delete(ids));
     }
 
     @ApiOperation(value = "修改租户状态", notes = "修改租户状态")
     @PostMapping("/status")
     public R<Boolean> updateStatus(@RequestParam("ids[]") List<Long> ids,
-                                   @RequestParam @NotNull(message = "状态不能为空") TenantStatusEnum status) {
+                                   @RequestParam(defaultValue = "FORBIDDEN") @NotNull(message = "状态不能为空") TenantStatusEnum status) {
         return success(baseService.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, status).in(Tenant::getId, ids)));
     }
 }

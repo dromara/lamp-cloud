@@ -18,7 +18,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -131,31 +130,31 @@ public class UserUpdateDTO implements Serializable {
     @ApiModelProperty(value = "工作描述")
     @Length(max = 255, message = "工作描述长度不能超过255")
     private String workDescribe;
-    /**
-     * 最后一次输错密码时间
-     */
-    @ApiModelProperty(value = "最后一次输错密码时间")
-    private LocalDateTime passwordErrorLastTime;
-    /**
-     * 密码错误次数
-     */
-    @ApiModelProperty(value = "密码错误次数")
-    private Integer passwordErrorNum;
-    /**
-     * 密码过期时间
-     */
-    @ApiModelProperty(value = "密码过期时间")
-    private LocalDateTime passwordExpireTime;
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value = "密码")
-    @NotEmpty(message = "密码不能为空")
-    @Length(max = 64, message = "密码长度不能超过64")
-    private String password;
-    /**
-     * 最后登录时间
-     */
-    @ApiModelProperty(value = "最后登录时间")
-    private LocalDateTime lastLoginTime;
+//    /**
+//     * 最后一次输错密码时间
+//     */
+//    @ApiModelProperty(value = "最后一次输错密码时间")
+//    private LocalDateTime passwordErrorLastTime;
+//    /**
+//     * 密码错误次数
+//     */
+//    @ApiModelProperty(value = "密码错误次数")
+//    private Integer passwordErrorNum;
+//    /**
+//     * 密码过期时间
+//     */
+//    @ApiModelProperty(value = "密码过期时间")
+//    private LocalDateTime passwordExpireTime;
+//    /**
+//     * 密码
+//     */
+//    @ApiModelProperty(value = "密码")
+//    @NotEmpty(message = "密码不能为空")
+//    @Length(max = 64, message = "密码长度不能超过64")
+//    private String password;
+//    /**
+//     * 最后登录时间
+//     */
+//    @ApiModelProperty(value = "最后登录时间")
+//    private LocalDateTime lastLoginTime;
 }
