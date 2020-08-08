@@ -1,7 +1,6 @@
 package com.github.zuihou.order.controller.cloud;
 
 import com.github.zuihou.base.R;
-import com.github.zuihou.cloud.http.LbRestTemplate;
 import com.github.zuihou.common.enums.DateType;
 import com.github.zuihou.order.dto.RestTestDTO;
 import com.github.zuihou.order.entity.Order;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -41,9 +41,7 @@ import java.util.Map;
 public class RestTemplateController {
 
     @Autowired
-    LbRestTemplate restTemplate;
-//    @Autowired
-//RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
 
     @GetMapping("/get")
