@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
-    <version>c.2.4-SNAPSHOT</version>
+    <version>c.2.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://gitee.com/zuihou111/zuihou-cloud</url>
     <name>${project.artifactId}</name>
@@ -40,8 +40,8 @@
     </modules>
 
     <properties>
-        <zuihou-commons.version>2.4.0</zuihou-commons.version>
-        <zuihou-project.version>c.2.4-SNAPSHOT</zuihou-project.version>
+        <zuihou-commons.version>2.5.0</zuihou-commons.version>
+        <zuihou-project.version>c.2.5-SNAPSHOT</zuihou-project.version>
         <seata.version>1.2.0</seata.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -52,7 +52,7 @@
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
         <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
-        <spring-boot-maven-plugin.version>2.2.7.RELEASE</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>2.2.9.RELEASE</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -255,6 +255,12 @@
                             <nonFilteredFileExtension>p12</nonFilteredFileExtension>
                             <nonFilteredFileExtension>key</nonFilteredFileExtension>
                             <nonFilteredFileExtension>db</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>otf</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
                         </nonFilteredFileExtensions>
                     </configuration>
                 </plugin>

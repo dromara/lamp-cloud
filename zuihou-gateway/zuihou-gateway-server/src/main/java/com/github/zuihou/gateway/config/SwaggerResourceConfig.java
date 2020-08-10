@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
 
     @Autowired
     RouteLocator routeLocator;
-    @Autowired
+    @Resource(name = "lbRestTemplate")
     RestTemplate restTemplate;
     @Autowired
     private GatewayProperties gatewayProperties;

@@ -13,7 +13,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.*;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_DECORATION_FILTER_ORDER;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.REQUEST_URI_KEY;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SERVICE_ID_HEADER;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SERVICE_ID_KEY;
 
 /**
  * 使得网关支持同一服务的多版本化。
@@ -39,7 +43,9 @@ public class MultiVersionServerSupportFilter extends BaseFilter {
     @Override
     public Object run() {
         Route route = route();
-
+        if (route == null) {
+            return null;
+        }
         RequestContext ctx = RequestContext.getCurrentContext();
         final String requestURI = URL_PATH_HELPER.getPathWithinApplication(ctx.getRequest());
         String version = ctx.getRequest().getHeader("serviceSuffix");
