@@ -111,9 +111,6 @@ INSERT INTO `c_auth_menu` VALUES (643874916004790785, '运营平台演示地址'
 INSERT INTO `c_auth_menu` VALUES (644111530555611361, '链路调用监控', '', b'0', 'http://127.0.0.1:8772/zipkin', 'Layout', b'1', 10, '', '', 104, 3, '2019-11-13 09:49:16', 3, '2019-11-13 09:56:51');
 INSERT INTO `c_auth_menu` VALUES (645215230518909025, '登录日志', '', b'0', '/developer/loginLog', 'zuihou/developer/loginLog/Index', b'1', 4, '', '', 104, 3, '2019-11-16 10:54:59', 3, '2019-11-16 10:54:59');
 INSERT INTO `c_auth_menu` VALUES (1225042542827929600, '参数配置', '', b'0', '/base/parameter', 'zuihou/base/parameter/Index', b'1', 3, '', '', 103, 3, '2020-02-05 21:04:37', 3, '2020-02-05 21:04:37');
-INSERT INTO `c_auth_menu` VALUES (1291625710699413504, '网关管理', '', b'0', '/gateway', 'zuihou/gateway/Index', b'1', 10, 'el-icon-odometer', '', 0, 3, '2020-08-07 14:42:21', 3, '2020-08-07 14:42:21');
-INSERT INTO `c_auth_menu` VALUES (1291625997229096960, '限流规则', '', b'0', '/gateway/ratelimiter', 'zuihou/gateway/ratelimiter/Index', b'1', 1, '', '', 1291625710699413504, 3, '2020-08-07 14:43:30', 3, '2020-08-07 14:57:56');
-INSERT INTO `c_auth_menu` VALUES (1291626135842455552, '阻止访问', '', b'0', '/gateway/blocklist', 'zuihou/gateway/blocklist/Index', b'1', 2, '', '', 1291625710699413504, 3, '2020-08-07 14:44:03', 3, '2020-08-07 14:44:03');
 COMMIT;
 
 -- ----------------------------
