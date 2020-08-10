@@ -1,7 +1,8 @@
 zuihou:
   log:
     enabled: false
-
+  webmvc:
+    enabled: false
 spring:
   autoconfigure:
     exclude: io.seata.integration.http.HttpAutoConfiguration

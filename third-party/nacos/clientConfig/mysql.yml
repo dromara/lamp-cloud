@@ -32,7 +32,7 @@ spring:
       db-type: mysql
       initialSize: 10
       minIdle: 10
-      maxActive: 500
+      maxActive: 200
       max-wait: 60000
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20

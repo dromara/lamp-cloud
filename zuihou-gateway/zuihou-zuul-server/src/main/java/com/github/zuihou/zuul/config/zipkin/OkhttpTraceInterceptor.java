@@ -1,8 +1,8 @@
 package com.github.zuihou.zuul.config.zipkin;
 
 import brave.Tracer;
-import brave.internal.HexCodec;
 import brave.internal.Platform;
+import brave.internal.codec.HexCodec;
 import brave.propagation.TraceContext;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Headers;

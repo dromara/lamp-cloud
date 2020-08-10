@@ -7,7 +7,6 @@ import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.filters.Route;
@@ -72,7 +71,7 @@ public abstract class BaseFilter extends ZuulFilter {
 
     protected String getHeader(String headerName, HttpServletRequest request) {
         String token = request.getHeader(headerName);
-        if (StringUtils.isBlank(token)) {
+        if (StrUtil.isBlank(token)) {
             token = request.getParameter(headerName);
         }
         return token;

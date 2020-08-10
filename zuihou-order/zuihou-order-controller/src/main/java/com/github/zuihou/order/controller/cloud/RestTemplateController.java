@@ -6,7 +6,6 @@ import com.github.zuihou.order.dto.RestTestDTO;
 import com.github.zuihou.order.entity.Order;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,8 +39,7 @@ import java.util.Map;
 @RequestMapping("/restTemplate")
 @Api(value = "restTemplate", tags = "RestTemplate演示")
 public class RestTemplateController {
-
-    @Autowired
+    @Resource(name = "lbRestTemplate")
     RestTemplate restTemplate;
 
 

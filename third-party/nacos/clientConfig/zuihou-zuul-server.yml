@@ -5,7 +5,8 @@ zuihou:
     base-package: com.github.zuihou.zuul.controller
   log:
     enabled: false
-
+  webmvc:
+    enabled: true
 spring:
   mvc:
     servlet:
