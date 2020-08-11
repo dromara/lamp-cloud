@@ -31,6 +31,7 @@ import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.security.annotation.PreAuth;
+import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.MapHelper;
 import com.github.zuihou.utils.StrPool;
 import io.swagger.annotations.Api;
@@ -158,20 +159,21 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @PutMapping("/password")
     @SysLog("'修改密码:' + #p0.id")
     public R<Boolean> updatePassword(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO data) {
+        BizAssert.notEmpty(data.getOldPassword(), "请输入旧密码");
         return success(baseService.updatePassword(data));
     }
 
     /**
      * 重置密码
      *
-     * @param ids 用户ID
+     * @param data
      * @return
      */
     @ApiOperation(value = "重置密码", notes = "重置密码")
     @GetMapping("/reset")
-    @SysLog("'重置密码:' + #ids")
-    public R<Boolean> resetTx(@RequestParam("ids[]") List<Long> ids) {
-        baseService.reset(ids);
+    @SysLog("'重置密码:' + #data.id")
+    public R<Boolean> reset(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO data) {
+        baseService.reset(data);
         return success();
     }
 

@@ -183,13 +183,13 @@ public class GlobalUserController extends SuperController<GlobalUserService, Lon
      * @return
      */
     @ApiOperation(value = "修改密码", notes = "修改密码")
-    @PutMapping("/password")
+    @PutMapping("/reset")
     public R<Boolean> updatePassword(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO model) {
         if (StrUtil.isEmpty(model.getTenantCode()) || BizConstant.SUPER_TENANT.equals(model.getTenantCode())) {
             return success(baseService.updatePassword(model));
         } else {
             BaseContextHandler.setTenant(model.getTenantCode());
-            return success(userService.updatePassword(model));
+            return success(userService.reset(model));
         }
     }
 }

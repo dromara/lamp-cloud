@@ -22,7 +22,6 @@ import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.authority.service.core.OrgService;
 import com.github.zuihou.authority.service.core.StationService;
 import com.github.zuihou.base.service.SuperCacheServiceImpl;
-import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
@@ -195,19 +194,16 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean reset(List<Long> ids) {
-        if (ids.isEmpty()) {
-            return true;
-        }
-        String defPassword = BizConstant.DEF_PASSWORD_MD5;
+    public boolean reset(UserUpdatePasswordDTO data) {
+        BizAssert.equals(data.getConfirmPassword(), data.getPassword(), "2次输入的密码不一致");
+        String defPassword = SecureUtil.md5(data.getPassword());
         super.update(Wraps.<User>lbU()
                 .set(User::getPassword, defPassword)
                 .set(User::getPasswordErrorNum, 0L)
                 .set(User::getPasswordErrorLastTime, null)
-                .in(User::getId, ids)
+                .in(User::getId, data.getId())
         );
-        String[] keys = ids.stream().map((id) -> key(id)).toArray(String[]::new);
-        cacheChannel.evict(getRegion(), keys);
+        cacheChannel.evict(getRegion(), key(data.getId()));
 
         return true;
     }

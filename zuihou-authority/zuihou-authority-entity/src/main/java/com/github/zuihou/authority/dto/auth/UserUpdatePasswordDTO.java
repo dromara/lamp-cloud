@@ -45,7 +45,6 @@ public class UserUpdatePasswordDTO implements Serializable {
      * 密码
      */
     @ApiModelProperty(value = "旧密码")
-    @NotEmpty(message = "旧密码不能为空")
     @Length(max = 64, message = "旧密码长度不能超过64")
     private String oldPassword;
     /**
