@@ -80,8 +80,6 @@ public class GlobalUserServiceImpl extends SuperServiceImpl<GlobalUserMapper, Gl
 
         GlobalUser user = getById(data.getId());
         BizAssert.notNull(user, "用户不存在");
-        String oldPassword = SecureUtil.md5(data.getOldPassword());
-        BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
         GlobalUser build = GlobalUser.builder().password(SecureUtil.md5(data.getPassword())).id(data.getId()).build();
         return updateById(build);
