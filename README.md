@@ -30,10 +30,9 @@ RabbitMQ、FastDFS等主要框架和中间件。
 | 模式\描述  | 表中有无租户字段 | 实体类中有无租户字段 | 分布式事务| 有几个数据库 |  
 |---|---|---|---|---|
 | NONE | 无 | 无 | 支持 | zuihou_defaults | 
-| COLUMN | 有 | 无 | 支持 | zuihou_defaults |
+| COLUMN | 有 | 无 | 支持 | zuihou_column |
 | SCHEMA | 无 | 无 | 支持 | zuihou_defaults、zuihou_base_{tenant} |
-| DATASOURCE | 无 | 无 | 支持 | zuihou_defaults、zuihou_base_{tenant} |
-
+| DATASOURCE | 无 | 无 | 支持 | zuihou_defaults、zuihou_base_{tenant}、自建库 |
 
 部署方面, 可以采用以下几种方式：
 - IDEA 启动
