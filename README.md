@@ -48,11 +48,6 @@ RabbitMQ、FastDFS等主要框架和中间件。
     ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 并 备注邮箱，可得开发文档一份（支持后续更新）
     打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
 
-## 收费版
-本项目分为开源版和收费版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 收费版源码在私有gitlab托管，购买后开通账号。
-
-收费版和开源版区别请看：[收费版](收费版.md)
-
 
 ## 交流群： 63202894（主群）、 1011148503（2号群）
 ![qq群.png](docs/image/qq群.png) <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=958f380cb111bcea0cfe35cc5996c47b72ae17a3757807599d1f5ad4fa3c4f6b"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
@@ -234,6 +229,10 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
     zuihou-ui 和 zuihou-admin-ui 基于本项目改造
 * Cloud-Platform： [https://gitee.com/geek_qi/cloud-platform](https://gitee.com/geek_qi/cloud-platform)
     作者学习时接触到的第一个微服务项目
+
+## 感谢 JetBrains 提供的免费开源 License：
+
+[![JetBrains](docs/image/jetbrains.png)](https://www.jetbrains.com/?from=zuihou-admin-cloud)
     
 ## 写在最后：
     本项目正在开发阶段，由于码主白天要上班，只有晚上、周末能挤点时间来敲敲代码，所以进度可能比较慢，文档、注释也不齐全。 
