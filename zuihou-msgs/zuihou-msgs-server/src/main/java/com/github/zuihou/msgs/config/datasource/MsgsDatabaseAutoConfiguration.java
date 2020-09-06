@@ -35,7 +35,7 @@ import java.util.List;
  * @author zuihou
  * @createTime 2017-11-18 0:34
  * 断点查看原理：👇👇👇
- * @see com.github.zuihou.database.datasource.BaseMybatisConfiguration#paginationInterceptor()
+ * @see com.github.zuihou.database.datasource.BaseMybatisConfiguration#mybatisPlusInterceptor()
  * @see com.github.zuihou.database.servlet.TenantContextHandlerInterceptor
  * @see com.github.zuihou.database.parsers.DynamicTableNameParser
  */

@@ -11,6 +11,7 @@ import com.github.zuihou.common.constant.CacheKey;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
+import eu.bitwalker.useragentutils.Version;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
@@ -21,6 +22,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -40,29 +43,19 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     @Autowired
     private CacheChannel cache;
 
-    private final static String[] BROWSER = new String[]{
+    private final static Supplier<Stream<String>> BROWSER = () -> Stream.of(
             "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
-    };
-    private final static String[] OPERATING_SYSTEM = new String[]{
+    );
+    private final static Supplier<Stream<String>> OPERATING_SYSTEM = () -> Stream.of(
             "Android", "Linux", "Mac OS X", "Ubuntu", "Windows 10", "Windows 8", "Windows 7", "Windows XP", "Windows Vista"
-    };
+    );
 
     private static String simplifyOperatingSystem(String operatingSystem) {
-        for (String b : OPERATING_SYSTEM) {
-            if (StrUtil.containsIgnoreCase(operatingSystem, b)) {
-                return b;
-            }
-        }
-        return operatingSystem;
+        return OPERATING_SYSTEM.get().parallel().filter(b -> StrUtil.containsIgnoreCase(operatingSystem, b)).findAny().orElse(operatingSystem);
     }
 
     private static String simplifyBrowser(String browser) {
-        for (String b : BROWSER) {
-            if (StrUtil.containsIgnoreCase(browser, b)) {
-                return b;
-            }
-        }
-        return browser;
+        return BROWSER.get().parallel().filter(b -> StrUtil.containsIgnoreCase(browser, b)).findAny().orElse(browser);
     }
 
     @Override
@@ -74,17 +67,26 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
             user = this.userService.getByAccount(account);
         }
 
-        UserAgent userAgent = UserAgent.parseUserAgentString(ua);
-        Browser browser = userAgent.getBrowser();
-        OperatingSystem operatingSystem = userAgent.getOperatingSystem();
         LoginLog loginLog = LoginLog.builder()
                 .location(location)
                 .loginDate(LocalDate.now())
                 .description(description)
                 .requestIp(ip).ua(ua)
-                .browser(simplifyBrowser(browser.getName())).browserVersion(userAgent.getBrowserVersion().getVersion())
-                .operatingSystem(simplifyOperatingSystem(operatingSystem.getName()))
                 .build();
+
+        UserAgent userAgent = UserAgent.parseUserAgentString(ua);
+        Browser browser = userAgent.getBrowser();
+        OperatingSystem operatingSystem = userAgent.getOperatingSystem();
+        Version browserVersion = userAgent.getBrowserVersion();
+        if (browser != null) {
+            loginLog.setBrowser(simplifyBrowser(browser.getName()));
+        }
+        if (browserVersion != null) {
+            loginLog.setBrowserVersion(browserVersion.getVersion());
+        }
+        if (operatingSystem != null) {
+            loginLog.setOperatingSystem(simplifyOperatingSystem(operatingSystem.getName()));
+        }
         if (user != null) {
             loginLog.setAccount(user.getAccount()).setUserId(user.getId()).setUserName(user.getName())
                     .setCreateUser(user.getId());

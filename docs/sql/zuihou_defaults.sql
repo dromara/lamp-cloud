@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 12/07/2020 23:46:10
+ Date: 05/09/2020 17:34:38
 */
 
 SET NAMES utf8mb4;
@@ -140,7 +140,7 @@ CREATE TABLE `XXL_JOB_QRTZ_SCHEDULER_STATE` (
 -- Records of XXL_JOB_QRTZ_SCHEDULER_STATE
 -- ----------------------------
 BEGIN;
-INSERT INTO `XXL_JOB_QRTZ_SCHEDULER_STATE` VALUES ('DefaultQuartzScheduler', 'tangyhMacBookPro.lan1591893018694', 1591893706916, 5000);
+INSERT INTO `XXL_JOB_QRTZ_SCHEDULER_STATE` VALUES ('DefaultQuartzScheduler', 'tangyhMacBookPro.lan1597071255376', 1597071293488, 5000);
 INSERT INTO `XXL_JOB_QRTZ_SCHEDULER_STATE` VALUES ('getSchedulerFactoryBean', 'tangyhMacBookPro.local1553850279059', 1553850304933, 5000);
 COMMIT;
 
@@ -209,6 +209,32 @@ CREATE TABLE `XXL_JOB_QRTZ_TRIGGERS` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for d_datasource_config
+-- ----------------------------
+DROP TABLE IF EXISTS `d_datasource_config`;
+CREATE TABLE `d_datasource_config` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `username` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
+  `password` varchar(255) NOT NULL DEFAULT '' COMMENT '密码',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '链接',
+  `driver_class_name` varchar(255) NOT NULL COMMENT '驱动',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='数据源';
+
+-- ----------------------------
+-- Records of d_datasource_config
+-- ----------------------------
+BEGIN;
+INSERT INTO `d_datasource_config` VALUES (1298615115649646592, 'alibaba-扩展服务', 'root', 'root', 'jdbc:mysql://127.0.0.1:3306/zuihou_aext_new?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true', 'com.mysql.cj.jdbc.Driver', '2020-08-26 21:35:45', 1, '2020-09-03 17:23:57', 2);
+INSERT INTO `d_datasource_config` VALUES (1300075361224097792, 'alibaba-基础服务', 'root', 'root', 'jdbc:mysql://127.0.0.1:3306/zuihou_aaa_new?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true', 'com.mysql.cj.jdbc.Driver', '2020-08-30 22:18:15', 2, '2020-09-03 17:23:45', 2);
+COMMIT;
+
+-- ----------------------------
 -- Table structure for d_global_user
 -- ----------------------------
 DROP TABLE IF EXISTS `d_global_user`;
@@ -233,7 +259,7 @@ CREATE TABLE `d_global_user` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `d_global_user` VALUES (1, 'admin', 'admin', '10086', '超级管理员', '244387066@qq.com', '1fdbcfb7a0a8c138c7eedbd205639853', b'1', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35', 1);
-INSERT INTO `d_global_user` VALUES (2, 'admin', 'demoAdmin', '10086', '超级管理员[演示]', '244387066@qq.com', 'd9d17d88918aa72834289edaf38f42e2', b'1', '2019-10-30 10:29:21', 1, '2019-10-30 10:29:23', 1);
+INSERT INTO `d_global_user` VALUES (2, 'admin', 'demoAdmin', '10086', '超级管理员[演示]', '244387066@qq.com', 'd9d17d88918aa72834289edaf38f42e2', b'1', '2019-10-30 10:29:21', 1, '2020-08-11 14:05:19', 2);
 COMMIT;
 
 -- ----------------------------
@@ -245,7 +271,8 @@ CREATE TABLE `d_tenant` (
   `code` varchar(20) DEFAULT '' COMMENT '企业编码',
   `name` varchar(255) DEFAULT '' COMMENT '企业名称',
   `type` varchar(10) DEFAULT 'CREATE' COMMENT '类型\n#{CREATE:创建;REGISTER:注册}',
-  `status` varchar(10) DEFAULT 'NORMAL' COMMENT '状态\n#{NORMAL:正常;FORBIDDEN:禁用;WAITING:待审核;REFUSE:拒绝}',
+  `connect_type` varchar(10) DEFAULT NULL COMMENT '链接类型\n#TenantConnectTypeEnum{LOCAL:本地;REMOTE:远程}',
+  `status` varchar(10) DEFAULT 'NORMAL' COMMENT '状态\n#{NORMAL:正常;WAIT_INIT:待初始化;FORBIDDEN:禁用;WAITING:待审核;REFUSE:拒绝;DELETE:已删除}',
   `readonly` bit(1) DEFAULT b'0' COMMENT '是否内置',
   `duty` varchar(50) DEFAULT NULL COMMENT '责任人',
   `expiration_time` datetime DEFAULT NULL COMMENT '有效期\n为空表示永久',
@@ -263,8 +290,22 @@ CREATE TABLE `d_tenant` (
 -- Records of d_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `d_tenant` VALUES (616676078974402977, '0000', '最后的内置企业', 'CREATE', 'NORMAL', b'1', '最后', NULL, NULL, '内置企业，请勿删除', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35', 1);
+INSERT INTO `d_tenant` VALUES (616676078974402977, '0000', '最后的内置企业', 'CREATE', 'LOCAL', 'NORMAL', b'1', '最后', NULL, NULL, '内置企业，请勿删除', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35', 1);
 COMMIT;
+
+-- ----------------------------
+-- Table structure for d_tenant_datasource_config
+-- ----------------------------
+DROP TABLE IF EXISTS `d_tenant_datasource_config`;
+CREATE TABLE `d_tenant_datasource_config` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户id',
+  `datasource_config_id` bigint(20) DEFAULT NULL COMMENT '数据源id',
+  `application` varchar(100) DEFAULT NULL COMMENT '服务',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='租户数据源关系';
 
 -- ----------------------------
 -- Table structure for f_attachment
@@ -312,7 +353,7 @@ CREATE TABLE `undo_log` (
   `log_modified` datetime NOT NULL COMMENT 'modify datetime',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='AT transaction mode undo table';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='AT transaction mode undo table';
 
 -- ----------------------------
 -- Table structure for xxl_job_qrtz_trigger_group
@@ -334,7 +375,7 @@ CREATE TABLE `xxl_job_qrtz_trigger_group` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `xxl_job_qrtz_trigger_group` VALUES (1, 'zuihou-jobs-server', '单机执行器', 1, 0, NULL);
-INSERT INTO `xxl_job_qrtz_trigger_group` VALUES (2, 'zuihou-executor-server', '分布式执行器', 2, 0, '127.0.0.1:8775');
+INSERT INTO `xxl_job_qrtz_trigger_group` VALUES (2, 'zuihou-executor-server', '分布式执行器', 2, 0, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -457,13 +498,13 @@ CREATE TABLE `xxl_job_qrtz_trigger_registry` (
   `registry_value` varchar(255) NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xxl_job_qrtz_trigger_registry
 -- ----------------------------
 BEGIN;
-INSERT INTO `xxl_job_qrtz_trigger_registry` VALUES (21, 'EXECUTOR', 'zuihou-executor-server', '127.0.0.1:8775', '2020-06-12 00:41:37');
+INSERT INTO `xxl_job_qrtz_trigger_registry` VALUES (28, 'EXECUTOR', 'zuihou-jobs-server', '127.0.0.1:8771', '2020-08-10 23:10:59');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -84,10 +84,10 @@ public interface UserService extends SuperCacheService<User> {
     /**
      * 重置密码
      *
-     * @param data
+     * @param ids
      * @return
      */
-    boolean reset(UserUpdatePasswordDTO data);
+    boolean reset(UserUpdatePasswordDTO model);
 
     /**
      * 修改

@@ -41,7 +41,7 @@ public class SmsTencentStrategy extends AbstractSmsStrategy {
         ERROR_CODE_MAP.put("1012", "签名格式错误或者签名未审批");
         ERROR_CODE_MAP.put("1013", "下发短信/语音命中了频率限制策略");
         ERROR_CODE_MAP.put("1014", "模版未审批或请求的内容与审核通过的模版内容不匹配");
-        ERROR_CODE_MAP.put("1015", "手机号在黑名单库中，通常是用户退订或者命中运营商黑名单导致的");
+        ERROR_CODE_MAP.put("1015", "手机号在阻止列表库中，通常是用户退订或者命中运营商阻止列表导致的");
         ERROR_CODE_MAP.put("1016", "手机号格式错误");
         ERROR_CODE_MAP.put("1017", "请求的短信内容太长");
         ERROR_CODE_MAP.put("1018", "语音验证码格式错误");

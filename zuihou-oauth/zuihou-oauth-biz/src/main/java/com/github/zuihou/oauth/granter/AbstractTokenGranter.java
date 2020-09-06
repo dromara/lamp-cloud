@@ -8,24 +8,30 @@ import com.github.zuihou.authority.dto.auth.LoginParamDTO;
 import com.github.zuihou.authority.entity.auth.Application;
 import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.authority.entity.auth.UserToken;
-import com.github.zuihou.authority.event.LoginEvent;
-import com.github.zuihou.authority.event.model.LoginStatusDTO;
 import com.github.zuihou.authority.service.auth.ApplicationService;
 import com.github.zuihou.authority.service.auth.UserService;
 import com.github.zuihou.base.R;
 import com.github.zuihou.boot.utils.WebUtils;
 import com.github.zuihou.context.BaseContextHandler;
-import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.properties.DatabaseProperties;
+import com.github.zuihou.database.properties.MultiTenantType;
 import com.github.zuihou.exception.code.ExceptionCode;
 import com.github.zuihou.jwt.TokenUtil;
 import com.github.zuihou.jwt.model.AuthInfo;
 import com.github.zuihou.jwt.model.JwtUserInfo;
 import com.github.zuihou.jwt.utils.JwtUtil;
+import com.github.zuihou.oauth.event.LoginEvent;
+import com.github.zuihou.oauth.event.model.LoginStatusDTO;
 import com.github.zuihou.oauth.utils.TimeUtils;
 import com.github.zuihou.tenant.entity.Tenant;
 import com.github.zuihou.tenant.enumeration.TenantStatusEnum;
 import com.github.zuihou.tenant.service.TenantService;
-import com.github.zuihou.utils.*;
+import com.github.zuihou.utils.BeanPlusUtil;
+import com.github.zuihou.utils.BizAssert;
+import com.github.zuihou.utils.DateUtils;
+import com.github.zuihou.utils.SpringUtils;
+import com.github.zuihou.utils.StrHelper;
+import com.github.zuihou.utils.StrPool;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +61,8 @@ public abstract class AbstractTokenGranter implements TokenGranter {
     protected CacheChannel cacheChannel;
     @Autowired
     protected ApplicationService applicationService;
+    @Autowired
+    protected DatabaseProperties databaseProperties;
 
     /**
      * 处理登录逻辑
@@ -67,14 +75,16 @@ public abstract class AbstractTokenGranter implements TokenGranter {
             return R.fail("请输入用户名或密码");
         }
         // 1，检测租户是否可用
-        Tenant tenant = this.tenantService.getByCode(loginParam.getTenant());
-        notNull(tenant, "企业不存在");
-        BizAssert.equals(TenantStatusEnum.NORMAL, tenant.getStatus(), "企业不可用~");
-        if (tenant.getExpirationTime() != null) {
-            gt(LocalDateTime.now(), tenant.getExpirationTime(), "企业服务已到期~");
+        if (!MultiTenantType.NONE.eq(databaseProperties.getMultiTenantType())) {
+            Tenant tenant = this.tenantService.getByCode(loginParam.getTenant());
+            notNull(tenant, "企业不存在");
+            BizAssert.equals(TenantStatusEnum.NORMAL, tenant.getStatus(), "企业不可用~");
+            if (tenant.getExpirationTime() != null) {
+                gt(LocalDateTime.now(), tenant.getExpirationTime(), "企业服务已到期~");
+            }
+            BaseContextHandler.setTenant(tenant.getCode());
         }
 
-        BaseContextHandler.setTenant(tenant.getCode());
         // 2.检测client是否可用
         R<String[]> checkR = checkClient();
         if (checkR.getIsError()) {
@@ -82,7 +92,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
         }
 
         // 3. 验证登录
-        R<User> result = this.getUser(tenant, loginParam.getAccount(), loginParam.getPassword());
+        R<User> result = this.getUser(loginParam.getAccount(), loginParam.getPassword());
         if (result.getIsError()) {
             return R.fail(result.getCode(), result.getMsg());
         }
@@ -119,8 +129,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
     protected R<String[]> checkClient() {
         String basicHeader = ServletUtil.getHeader(WebUtils.request(), BASIC_HEADER_KEY, StrPool.UTF_8);
         String[] client = JwtUtil.getClient(basicHeader);
-        Application application = applicationService.getOne(Wraps.<Application>lbQ().eq(Application::getClientId, client[0])
-                .eq(Application::getClientSecret, client[1]));
+        Application application = applicationService.getByClient(client[0], client[1]);
 
         if (application == null) {
             return R.fail("请填写正确的客户端ID或者客户端秘钥");
@@ -135,12 +144,11 @@ public abstract class AbstractTokenGranter implements TokenGranter {
     /**
      * 检测用户密码是否正确
      *
-     * @param tenant   租户
      * @param account  账号
      * @param password 密码
      * @return 用户信息
      */
-    protected R<User> getUser(Tenant tenant, String account, String password) {
+    protected R<User> getUser(String account, String password) {
         User user = this.userService.getByAccount(account);
         // 密码错误
         String passwordMd5 = cn.hutool.crypto.SecureUtil.md5(password);
@@ -169,7 +177,6 @@ public abstract class AbstractTokenGranter implements TokenGranter {
         }
 
         // 用户锁定
-//        Integer maxPasswordErrorNum = Convert.toInt(tenant.getPasswordErrorNum(), 0);
         Integer maxPasswordErrorNum = 0;
         Integer passwordErrorNum = Convert.toInt(user.getPasswordErrorNum(), 0);
         if (maxPasswordErrorNum > 0 && passwordErrorNum > maxPasswordErrorNum) {

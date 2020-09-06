@@ -3,7 +3,7 @@ package com.github.zuihou.order.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.service.SuperServiceImpl;
+import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.injection.annonation.InjectionResult;
 import com.github.zuihou.injection.properties.InjectionProperties;
@@ -35,13 +35,18 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 
-public class OrderServiceImpl extends SuperServiceImpl<OrderMapper, Order> implements OrderService {
+public class OrderServiceImpl extends SuperCacheServiceImpl<OrderMapper, Order> implements OrderService {
     @Autowired
     private InjectionProperties ips;
 
     @Override
     public List<Order> find(Order data) {
         return baseMapper.find(data);
+    }
+
+    @Override
+    protected String getRegion() {
+        return "order";
     }
 
     @Override

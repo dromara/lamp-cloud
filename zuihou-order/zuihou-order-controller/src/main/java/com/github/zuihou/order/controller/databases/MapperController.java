@@ -52,6 +52,50 @@ public class MapperController {
         return R.success(list);
     }
 
+    @PostMapping("/saveBatch")
+    public R saveBatch(@RequestBody Order data) {
+        log.info("saveBatch={}", data);
+        List<Order> list = new ArrayList<>();
+        list.add(data);
+
+        Order order = BeanUtil.toBean(data, Order.class);
+        order.setName("new oder");
+        list.add(order);
+        orderService.saveBatch(list);
+
+        return R.success(list);
+    }
+
+    @PostMapping("/updateBatchById")
+    public R updateBatchById(@RequestBody Order data) {
+        log.info("updateBatchById={}", data);
+        List<Order> list = new ArrayList<>();
+        list.add(data);
+
+        Order order = BeanUtil.toBean(data, Order.class);
+        order.setId(123L);
+        order.setName("new oder");
+        list.add(order);
+        orderService.updateBatchById(list);
+
+        return R.success(list);
+    }
+
+    @PostMapping("/saveOrUpdateBatch")
+    public R saveOrUpdateBatch(@RequestBody Order data) {
+        log.info("saveOrUpdateBatch={}", data);
+        List<Order> list = new ArrayList<>();
+        list.add(data);
+
+        Order order = BeanUtil.toBean(data, Order.class);
+        order.setId(123L);
+        order.setName("new oder");
+        list.add(order);
+        orderService.saveOrUpdateBatch(list);
+
+        return R.success(list);
+    }
+
     @PostMapping("/updateAllById")
     public R updateAllById(@RequestBody Order data) {
         log.info("updateAllById={}", data);

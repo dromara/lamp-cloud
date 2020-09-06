@@ -86,7 +86,6 @@ public class Order extends Entity<Long> {
     /**
      * 组织ID
      * #c_core_org
-     *
      * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "组织ID")

@@ -103,6 +103,18 @@ public class OauthMenuController {
         List<VueRouter> tree = new ArrayList<>();
         List<VueRouter> children = new ArrayList<>();
 
+        VueRouter datasourceConfig = new VueRouter();
+        datasourceConfig.setPath("/defaults/datasourceconfig");
+        datasourceConfig.setComponent("zuihou/defaults/datasourceconfig/Index");
+        datasourceConfig.setName("数据源");
+        datasourceConfig.setHidden(false);
+        datasourceConfig.setMeta(RouterMeta.builder()
+                .title("数据源").breadcrumb(true).icon("")
+                .build());
+        datasourceConfig.setId(-4L);
+        datasourceConfig.setParentId(-1L);
+        children.add(datasourceConfig);
+
         VueRouter tenant = new VueRouter();
         tenant.setPath("/defaults/tenant");
         tenant.setComponent("zuihou/defaults/tenant/Index");

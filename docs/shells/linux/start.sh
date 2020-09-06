@@ -32,7 +32,7 @@ function start()
 		echo "$MODULER is running..."
 	else
 		echo "Start $MODULER success..."
-		nohup java -jar $MODULER.jar $JAVA_OPT $MODULER > /dev/null 2>&1 &
+		nohup java -jar $JAVA_OPT $MODULER.jar $MODULER > /dev/null 2>&1 &
 	fi
 }
 

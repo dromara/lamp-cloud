@@ -1,7 +1,7 @@
 package com.github.zuihou.order.controller;
 
 
-import com.github.zuihou.base.controller.SuperController;
+import com.github.zuihou.base.controller.SuperCacheController;
 import com.github.zuihou.order.dto.OrderPageDTO;
 import com.github.zuihou.order.dto.OrderSaveDTO;
 import com.github.zuihou.order.dto.OrderUpdateDTO;
@@ -29,6 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/order")
 @Api(value = "Order", tags = "订单")
 @PreAuth(replace = "order:", enabled = false)
-public class OrderController extends SuperController<OrderService, Long, Order, OrderPageDTO, OrderSaveDTO, OrderUpdateDTO> {
+public class OrderController extends SuperCacheController<OrderService, Long, Order, OrderPageDTO, OrderSaveDTO, OrderUpdateDTO> {
 
 }

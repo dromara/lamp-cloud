@@ -31,7 +31,6 @@ import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.security.annotation.PreAuth;
-import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.MapHelper;
 import com.github.zuihou.utils.StrPool;
 import io.swagger.annotations.Api;
@@ -89,6 +88,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @Override
     public R<User> handlerSave(UserSaveDTO data) {
         User user = BeanUtil.toBean(data, User.class);
+        user.setReadonly(false);
         baseService.saveUser(user);
         return success(user);
     }
@@ -159,7 +159,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @PutMapping("/password")
     @SysLog("'修改密码:' + #p0.id")
     public R<Boolean> updatePassword(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO data) {
-        BizAssert.notEmpty(data.getOldPassword(), "请输入旧密码");
         return success(baseService.updatePassword(data));
     }
 
@@ -191,7 +190,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
         List<Long> idList = list.stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
         return success(UserRoleDTO.builder().idList(idList).userList(list).build());
     }
-
 
 
     @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
@@ -272,6 +270,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
         }
         wrapper.like(User::getName, userPage.getName())
                 .like(User::getAccount, userPage.getAccount())
+                .eq(User::getReadonly, false)
                 .like(User::getEmail, userPage.getEmail())
                 .like(User::getMobile, userPage.getMobile())
                 .eq(User::getStation, userPage.getStation())

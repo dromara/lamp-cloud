@@ -32,7 +32,6 @@
                 #{type, jdbcType=VARCHAR}
             </foreach>
         </if>
-        order by a.create_time asc
     </select>
 
 

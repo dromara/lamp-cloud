@@ -4,15 +4,25 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.zuihou.base.entity.TreeEntity;
+import com.github.zuihou.common.constant.DictionaryType;
+import com.github.zuihou.injection.annonation.InjectionField;
+import com.github.zuihou.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
+import static com.github.zuihou.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
 
 /**
  * <p>
@@ -47,6 +57,13 @@ public class Org extends TreeEntity<Org, Long> {
     @Excel(name = "简称", width = 30)
     private String abbreviation;
 
+    @ApiModelProperty(value = "类型")
+    @Length(max = 2, message = "类型长度不能超过2")
+    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.ORG_TYPE)
+    @TableField(value = "type_")
+    @Excel(name = "类型", width = 30, dict = "ORG_TYPE")
+    private RemoteData<String, String> type;
+
 
     /**
      * 树结构
@@ -76,7 +93,7 @@ public class Org extends TreeEntity<Org, Long> {
 
     @Builder
     public Org(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-               String label, String abbreviation, Long parentId, String treePath, Integer sortValue,
+               String label, String abbreviation, RemoteData<String, String> type, Long parentId, String treePath, Integer sortValue,
                Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
@@ -84,6 +101,7 @@ public class Org extends TreeEntity<Org, Long> {
         this.updateTime = updateTime;
         this.updateUser = updateUser;
         this.label = label;
+        this.type = type;
         this.abbreviation = abbreviation;
         this.parentId = parentId;
         this.treePath = treePath;

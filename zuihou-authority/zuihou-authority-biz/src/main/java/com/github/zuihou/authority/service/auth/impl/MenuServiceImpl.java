@@ -75,7 +75,7 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
         }
 
         if (!visibleMenu.isEmpty()) {
-            // TODO 异步性能 更加
+            // TODO 异步性能 更佳
             visibleMenu.forEach((menu) -> {
                 String menuKey = key(menu.getId());
                 cacheChannel.set(MENU, menuKey, menu);

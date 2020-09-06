@@ -1,12 +1,12 @@
 package com.github.zuihou.oauth.granter;
 
 import com.github.zuihou.authority.dto.auth.LoginParamDTO;
-import com.github.zuihou.authority.event.LoginEvent;
-import com.github.zuihou.authority.event.model.LoginStatusDTO;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
 import com.github.zuihou.jwt.model.AuthInfo;
+import com.github.zuihou.oauth.event.LoginEvent;
+import com.github.zuihou.oauth.event.model.LoginStatusDTO;
 import com.github.zuihou.oauth.service.ValidateCodeService;
 import com.github.zuihou.utils.SpringUtils;
 import lombok.extern.slf4j.Slf4j;

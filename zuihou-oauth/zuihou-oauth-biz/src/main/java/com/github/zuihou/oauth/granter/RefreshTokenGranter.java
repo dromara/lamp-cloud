@@ -2,11 +2,11 @@ package com.github.zuihou.oauth.granter;
 
 import com.github.zuihou.authority.dto.auth.LoginParamDTO;
 import com.github.zuihou.authority.entity.auth.User;
-import com.github.zuihou.authority.event.LoginEvent;
-import com.github.zuihou.authority.event.model.LoginStatusDTO;
 import com.github.zuihou.base.R;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.jwt.model.AuthInfo;
+import com.github.zuihou.oauth.event.LoginEvent;
+import com.github.zuihou.oauth.event.model.LoginStatusDTO;
 import com.github.zuihou.utils.SpringUtils;
 import com.github.zuihou.utils.StrHelper;
 import org.springframework.stereotype.Component;

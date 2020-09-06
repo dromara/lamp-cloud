@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 10/08/2020 22:14:12
+ Date: 05/09/2020 17:01:53
 */
 
 SET NAMES utf8mb4;
@@ -445,14 +445,15 @@ CREATE TABLE `c_auth_user` (
   `name` varchar(50) NOT NULL COMMENT '姓名',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>',
   `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station\n@InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>',
+  `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT 'N' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
   `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
   `avatar` varchar(255) DEFAULT '' COMMENT '头像',
   `nation` varchar(20) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>\n',
-  `education` varchar(20) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
-  `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
+  `education` varchar(20) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>',
+  `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS) RemoteData<String, String>',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
   `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
   `password_error_num` int(11) DEFAULT '0' COMMENT '密码错误次数',
@@ -471,9 +472,9 @@ CREATE TABLE `c_auth_user` (
 -- Records of c_auth_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_auth_user` VALUES (3, 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869991', 'M', b'1', 'cnrhVkzwxjPwAaCfPbdc.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班111', '2020-08-10 16:49:49', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-08-10 16:49:49', 1, '2019-09-02 11:32:02', 3, '2020-04-03 22:01:34');
-INSERT INTO `c_auth_user` VALUES (641577229343523041, 'test', '总经理', 102, 100, '', '', 'N', b'1', 'http://127.0.0.1:10000/file/0000/2019/11/c8df3238-ebca-42b3-baeb-37896468f028.png', 'mz_zz', 'COLLEGE', 'WORKING', '', '2019-12-21 16:45:13', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-12-21 16:45:14', 3, '2019-11-06 09:58:56', 3, '2019-11-26 11:02:42');
-INSERT INTO `c_auth_user` VALUES (641590096981656001, 'manong', '码农', 643776594376135105, 642032719487828225, '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2020-02-22 12:32:35', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-22 12:32:35', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
+INSERT INTO `c_auth_user` VALUES (3, 'zuihou', '平台超管', 100, 100, b'0', '244387061@qq.com', '15218869991', 'M', b'1', 'cnrhVkzwxjPwAaCfPbdc.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班111', '2020-09-03 16:52:56', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-09-03 16:52:56', 1, '2019-09-02 11:32:02', 3, '2020-04-03 22:01:34');
+INSERT INTO `c_auth_user` VALUES (641577229343523041, 'test', '总经理', 102, NULL, b'0', '', '', 'N', b'1', 'http://127.0.0.1:10000/file/0000/2019/11/c8df3238-ebca-42b3-baeb-37896468f028.png', 'mz_zz', 'COLLEGE', 'WORKING', '', NULL, 0, NULL, 'c4ca4238a0b923820dcc509a6f75849b', '2019-12-21 16:45:14', 3, '2019-11-06 09:58:56', 3, '2020-08-11 13:45:43');
+INSERT INTO `c_auth_user` VALUES (641590096981656001, 'manong', '码农', 643776594376135105, 642032719487828225, b'0', '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2020-02-22 12:32:35', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-22 12:32:35', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
 COMMIT;
 
 -- ----------------------------
@@ -565,7 +566,8 @@ BEGIN;
 INSERT INTO `c_common_dictionary` VALUES (1, 'NATION', '民族', '', b'1', 1, '2019-06-01 09:42:50', 1, '2019-06-01 09:42:54');
 INSERT INTO `c_common_dictionary` VALUES (2, 'POSITION_STATUS', '在职状态', '', b'1', 1, '2019-06-04 11:37:15', 1, '2019-06-04 11:37:15');
 INSERT INTO `c_common_dictionary` VALUES (3, 'EDUCATION', '学历', '', b'1', 1, '2019-06-04 11:33:52', 1, '2019-06-04 11:33:52');
-INSERT INTO `c_common_dictionary` VALUES (4, 'AREA_LEVEL', '行政区级', '', b'1', 3, '2020-01-20 15:12:05', 3, '2020-01-20 15:12:05');
+INSERT INTO `c_common_dictionary` VALUES (4, 'AREA_LEVEL', '行政区级', '', b'1', 1, '2020-01-20 15:12:05', 1, '2020-01-20 15:12:05');
+INSERT INTO `c_common_dictionary` VALUES (5, 'ORG_TYPE', '机构类型', '', b'1', 1, '2020-08-19 15:02:57', 1, '2020-08-19 15:03:00');
 COMMIT;
 
 -- ----------------------------
@@ -597,6 +599,8 @@ INSERT INTO `c_common_dictionary_item` VALUES (1, 4, 'AREA_LEVEL', 'COUNTRY', '�
 INSERT INTO `c_common_dictionary_item` VALUES (2, 4, 'AREA_LEVEL', 'PROVINCE', '省份/直辖市', b'1', '', 2, 3, '2020-01-20 15:13:45', 3, '2020-01-20 15:13:45');
 INSERT INTO `c_common_dictionary_item` VALUES (3, 4, 'AREA_LEVEL', 'CITY', '地市', b'1', '', 3, 3, '2020-01-20 15:14:16', 3, '2020-01-20 15:14:16');
 INSERT INTO `c_common_dictionary_item` VALUES (4, 4, 'AREA_LEVEL', 'COUNTY', '区县', b'1', '', 4, 3, '2020-01-20 15:14:54', 3, '2020-01-20 15:14:54');
+INSERT INTO `c_common_dictionary_item` VALUES (5, 5, 'ORG_TYPE', '01', '单位', b'1', '', 1, 1, '2020-08-19 15:03:40', 1, '2020-08-19 15:03:45');
+INSERT INTO `c_common_dictionary_item` VALUES (6, 5, 'ORG_TYPE', '02', '部门', b'1', '', 1, 1, '2020-08-19 15:03:59', 1, '2020-08-19 15:04:04');
 INSERT INTO `c_common_dictionary_item` VALUES (38, 3, 'EDUCATION', 'ZHUANKE', '专科', b'1', '', 4, 1, '2019-06-04 11:36:29', 1, '2019-06-04 11:36:29');
 INSERT INTO `c_common_dictionary_item` VALUES (39, 3, 'EDUCATION', 'COLLEGE', '本科', b'1', '', 5, 1, '2019-06-04 11:36:19', 1, '2019-06-04 11:36:19');
 INSERT INTO `c_common_dictionary_item` VALUES (40, 3, 'EDUCATION', 'SUOSHI', '硕士', b'1', '', 6, 1, '2019-06-04 11:36:29', 1, '2019-06-04 11:36:29');
@@ -748,7 +752,6 @@ CREATE TABLE `c_common_parameter` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_common_parameter` VALUES (1, 'LOGIN_POLICY', '登录策略', 'MANY', 'ONLY_ONE:一个用户只能登录一次; MANY:用户可以任意登录; ONLY_ONE_CLIENT:一个用户在一个应用只能登录一次', b'1', b'1', 1, '2020-04-02 21:56:19', 3, '2020-04-03 01:12:32');
-INSERT INTO `c_common_parameter` VALUES (1266370415375155200, '123', 'aa', '123', '', b'1', NULL, 3, '2020-05-29 22:06:50', 3, '2020-05-29 22:06:50');
 COMMIT;
 
 -- ----------------------------
@@ -758,6 +761,7 @@ DROP TABLE IF EXISTS `c_core_org`;
 CREATE TABLE `c_core_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `type_` char(2) DEFAULT '01' COMMENT '类型\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.ORG_TYPE)',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `tree_path` varchar(255) DEFAULT ',' COMMENT '树结构',
@@ -776,20 +780,20 @@ CREATE TABLE `c_core_org` (
 -- Records of c_core_org
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_core_org` VALUES (100, '最后集团股份有限公司', '最后集团2', 0, ',', 1, b'1', '初始化数据', '2019-07-10 17:02:18', 1, '2019-07-10 17:02:16', 1);
-INSERT INTO `c_core_org` VALUES (101, '最后集团股份有限公司广州子公司', '广州最后集团', 100, ',100,', 0, b'1', '初始化数据', '2019-08-06 09:10:53', 1, '2019-11-12 11:36:48', 3);
-INSERT INTO `c_core_org` VALUES (102, '最后集团股份有限公司北京分公司', '北京最后集团', 100, ',100,', 1, b'1', '初始化数据', '2019-11-07 16:13:09', 1, '2019-11-07 16:13:12', 1);
-INSERT INTO `c_core_org` VALUES (643775612976106881, '综合部', '', 101, ',100,101,', 0, b'1', '前台&HR', '2019-11-12 11:34:27', 3, '2019-11-12 11:34:27', 3);
-INSERT INTO `c_core_org` VALUES (643775664683486689, '管理层', '', 100, ',100,', 3, b'1', '', '2019-11-12 11:34:39', 3, '2019-11-12 11:36:16', 3);
-INSERT INTO `c_core_org` VALUES (643775904077582049, '总经办', '', 100, ',100,', 2, b'1', '', '2019-11-12 11:35:37', 3, '2019-11-12 11:36:52', 3);
-INSERT INTO `c_core_org` VALUES (643776324342648929, '财务部', '', 100, ',100,', 4, b'1', '', '2019-11-12 11:37:17', 3, '2019-11-12 11:37:40', 3);
-INSERT INTO `c_core_org` VALUES (643776407691858113, '市场部', '', 100, ',100,', 5, b'1', '', '2019-11-12 11:37:37', 3, '2019-11-12 11:37:37', 3);
-INSERT INTO `c_core_org` VALUES (643776508795556193, '销售部', '', 100, ',100,', 6, b'1', '', '2019-11-12 11:38:01', 3, '2019-11-12 11:38:01', 3);
-INSERT INTO `c_core_org` VALUES (643776594376135105, '研发部', '', 101, ',100,101,', 1, b'1', '', '2019-11-12 11:38:21', 3, '2019-11-12 11:38:21', 3);
-INSERT INTO `c_core_org` VALUES (643776633823564321, '产品部', '', 101, ',100,101,', 2, b'1', '', '2019-11-12 11:38:31', 3, '2019-11-12 11:38:31', 3);
-INSERT INTO `c_core_org` VALUES (643776668917305985, '综合部', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:39', 3, '2019-11-12 11:38:39', 3);
-INSERT INTO `c_core_org` VALUES (643776713909605089, '研发部', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:50', 3, '2019-11-12 11:38:50', 3);
-INSERT INTO `c_core_org` VALUES (643776757199016769, '销售部', '', 102, ',100,102,', 2, b'1', '', '2019-11-12 11:39:00', 3, '2019-11-12 11:39:00', 3);
+INSERT INTO `c_core_org` VALUES (100, '最后集团股份有限公司', '01', '最后集团2', 0, ',', 1, b'1', '初始化数据', '2019-07-10 17:02:18', 1, '2019-07-10 17:02:16', 1);
+INSERT INTO `c_core_org` VALUES (101, '最后集团股份有限公司广州子公司', '01', '广州最后集团', 100, ',100,', 0, b'1', '初始化数据', '2019-08-06 09:10:53', 1, '2019-11-12 11:36:48', 3);
+INSERT INTO `c_core_org` VALUES (102, '最后集团股份有限公司北京分公司', '01', '北京最后集团', 100, ',100,', 1, b'1', '初始化数据', '2019-11-07 16:13:09', 1, '2019-11-07 16:13:12', 1);
+INSERT INTO `c_core_org` VALUES (643775612976106881, '综合部', '02', '', 101, ',100,101,', 0, b'1', '前台&HR', '2019-11-12 11:34:27', 3, '2019-11-12 11:34:27', 3);
+INSERT INTO `c_core_org` VALUES (643775664683486689, '管理层', '02', '', 100, ',100,', 3, b'1', '', '2019-11-12 11:34:39', 3, '2019-11-12 11:36:16', 3);
+INSERT INTO `c_core_org` VALUES (643775904077582049, '总经办', '02', '', 100, ',100,', 2, b'1', '', '2019-11-12 11:35:37', 3, '2019-11-12 11:36:52', 3);
+INSERT INTO `c_core_org` VALUES (643776324342648929, '财务部', '02', '', 100, ',100,', 4, b'1', '', '2019-11-12 11:37:17', 3, '2019-11-12 11:37:40', 3);
+INSERT INTO `c_core_org` VALUES (643776407691858113, '市场部', '02', '', 100, ',100,', 5, b'1', '', '2019-11-12 11:37:37', 3, '2019-11-12 11:37:37', 3);
+INSERT INTO `c_core_org` VALUES (643776508795556193, '销售部', '02', '', 100, ',100,', 6, b'1', '', '2019-11-12 11:38:01', 3, '2019-11-12 11:38:01', 3);
+INSERT INTO `c_core_org` VALUES (643776594376135105, '研发部', '02', '', 101, ',100,101,', 1, b'1', '', '2019-11-12 11:38:21', 3, '2019-11-12 11:38:21', 3);
+INSERT INTO `c_core_org` VALUES (643776633823564321, '产品部', '02', '', 101, ',100,101,', 2, b'1', '', '2019-11-12 11:38:31', 3, '2019-11-12 11:38:31', 3);
+INSERT INTO `c_core_org` VALUES (643776668917305985, '综合部', '02', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:39', 3, '2019-11-12 11:38:39', 3);
+INSERT INTO `c_core_org` VALUES (643776713909605089, '研发部', '02', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:50', 3, '2019-11-12 11:38:50', 3);
+INSERT INTO `c_core_org` VALUES (643776757199016769, '销售部', '02', '', 102, ',100,102,', 2, b'1', '', '2019-11-12 11:39:00', 3, '2019-11-12 11:39:00', 3);
 COMMIT;
 
 -- ----------------------------
@@ -901,93 +905,6 @@ CREATE TABLE `f_file` (
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT KEY `FU_TREE_PATH` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件表';
-
--- ----------------------------
--- Table structure for g_block_list
--- ----------------------------
-DROP TABLE IF EXISTS `g_block_list`;
-CREATE TABLE `g_block_list` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `ip` varchar(20) DEFAULT '' COMMENT '黑名单ip',
-  `request_uri` varchar(255) DEFAULT '' COMMENT '请求URI',
-  `request_method` varchar(10) DEFAULT 'ALL' COMMENT '请求方法\n如果为ALL则表示对所有方法生效',
-  `limit_start` varchar(8) DEFAULT '' COMMENT '限制时间起',
-  `limit_end` varchar(8) DEFAULT '' COMMENT '限制时间止',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `create_time` datetime DEFAULT NULL,
-  `create_user` bigint(20) DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  FULLTEXT KEY `FU_PATH` (`limit_start`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='黑名单\n';
-
--- ----------------------------
--- Table structure for g_rate_limiter
--- ----------------------------
-DROP TABLE IF EXISTS `g_rate_limiter`;
-CREATE TABLE `g_rate_limiter` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `count` int(10) DEFAULT '0' COMMENT '次数',
-  `request_uri` varchar(255) DEFAULT '' COMMENT '请求URI',
-  `request_method` varchar(10) DEFAULT 'ALL' COMMENT '请求方法\n如果为ALL则表示对所有方法生效',
-  `limit_start` varchar(8) DEFAULT '' COMMENT '限制时间起',
-  `limit_end` varchar(8) DEFAULT '' COMMENT '限制时间止',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `interval_sec` bigint(20) DEFAULT '0' COMMENT '时间窗口',
-  `create_time` datetime DEFAULT NULL,
-  `create_user` bigint(20) DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  FULLTEXT KEY `FU_PATH` (`limit_start`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='限流';
-
--- ----------------------------
--- Table structure for m_order
--- ----------------------------
-DROP TABLE IF EXISTS `m_order`;
-CREATE TABLE `m_order` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL COMMENT '名称',
-  `education` varchar(255) DEFAULT NULL COMMENT '学历\n@InjectionField(api = "orderServiceImpl", method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>',
-  `nation` varchar(255) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>\n',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD) RemoteData<Long, String>',
-  `code` varchar(255) DEFAULT NULL COMMENT '编号',
-  `create_time` datetime DEFAULT NULL,
-  `create_user` bigint(20) DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `update_user` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单(用于测试)';
-
--- ----------------------------
--- Table structure for m_product
--- ----------------------------
-DROP TABLE IF EXISTS `m_product`;
-CREATE TABLE `m_product` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL COMMENT '名称',
-  `stock` int(11) DEFAULT NULL COMMENT '库存',
-  `create_time` datetime DEFAULT NULL,
-  `create_user` bigint(20) DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `update_user` bigint(20) DEFAULT NULL,
-  `type_` text COMMENT '商品类型\n#ProductType{ordinary:普通;gift:赠品}',
-  `type2` longtext COMMENT '商品类型2\n#{ordinary:普通;gift:赠品;}',
-  `type3` varchar(255) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>\n',
-  `status` bit(1) DEFAULT NULL COMMENT '状态',
-  `test4` tinyint(10) DEFAULT NULL,
-  `test5` date DEFAULT NULL COMMENT '时间',
-  `test6` datetime DEFAULT NULL COMMENT '日期',
-  `parent_id` bigint(20) DEFAULT NULL,
-  `label` varchar(255) DEFAULT NULL COMMENT '名称',
-  `sort_value` int(11) DEFAULT NULL,
-  `test7` char(10) DEFAULT NULL COMMENT 'xxx\n@InjectionField(api = “userApi”, method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户\n@InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品(用于测试)';
 
 -- ----------------------------
 -- Table structure for mail_provider

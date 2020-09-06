@@ -39,8 +39,11 @@ import java.util.Map;
 @RequestMapping("/restTemplate")
 @Api(value = "restTemplate", tags = "RestTemplate演示")
 public class RestTemplateController {
+
     @Resource(name = "lbRestTemplate")
     RestTemplate restTemplate;
+//    @Autowired
+//RestTemplate restTemplate;
 
 
     @GetMapping("/get")

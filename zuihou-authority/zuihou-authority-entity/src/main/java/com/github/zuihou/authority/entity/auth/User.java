@@ -102,6 +102,13 @@ public class User extends Entity<Long> {
     private RemoteData<Long, String> station;
 
     /**
+     * 是否内置
+     */
+    @ApiModelProperty(value = "是否内置")
+    @TableField("readonly")
+    private Boolean readonly;
+
+    /**
      * 邮箱
      */
     @ApiModelProperty(value = "邮箱")
@@ -237,7 +244,7 @@ public class User extends Entity<Long> {
 
     @Builder
     public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String account, String name, RemoteData<Long, Org> orgId, RemoteData<Long, String> stationId, String email,
+                String account, String name, RemoteData<Long, Org> orgId, RemoteData<Long, String> stationId, Boolean readonly, String email,
                 String mobile, Sex sex, Boolean status, String avatar, RemoteData<String, String> nation, RemoteData<String, String> education,
                 RemoteData<String, String> positionStatus, String workDescribe, LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password, LocalDateTime lastLoginTime) {
         this.id = id;
@@ -249,6 +256,7 @@ public class User extends Entity<Long> {
         this.name = name;
         this.org = orgId;
         this.station = stationId;
+        this.readonly = readonly;
         this.email = email;
         this.mobile = mobile;
         this.sex = sex;

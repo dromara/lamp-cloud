@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 12/07/2020 23:48:30
+ Date: 05/09/2020 17:34:02
 */
 
 SET NAMES utf8mb4;
@@ -113,6 +113,9 @@ INSERT INTO `c_auth_menu` VALUES (643874916004790785, '0000', '运营平台演�
 INSERT INTO `c_auth_menu` VALUES (644111530555611361, '0000', '链路调用监控', '', b'0', 'http://127.0.0.1:8772/zipkin', 'Layout', b'1', 10, '', '', 104, 3, '2019-11-13 09:49:16', 3, '2019-11-13 09:56:51');
 INSERT INTO `c_auth_menu` VALUES (645215230518909025, '0000', '登录日志', '', b'0', '/developer/loginLog', 'zuihou/developer/loginLog/Index', b'1', 4, '', '', 104, 3, '2019-11-16 10:54:59', 3, '2019-11-16 10:54:59');
 INSERT INTO `c_auth_menu` VALUES (1225042542827929600, '0000', '参数配置', '', b'0', '/base/parameter', 'zuihou/base/parameter/Index', b'1', 3, '', '', 103, 3, '2020-02-05 21:04:37', 3, '2020-02-05 21:04:37');
+INSERT INTO `c_auth_menu` VALUES (1291625710699413504, '0000', '网关管理', '', b'0', '/gateway', 'zuihou/gateway/Index', b'1', 10, 'el-icon-odometer', '', 0, 3, '2020-08-07 14:42:21', 3, '2020-08-07 14:42:21');
+INSERT INTO `c_auth_menu` VALUES (1291625997229096960, '0000', '限流规则', '', b'0', '/gateway/ratelimiter', 'zuihou/gateway/ratelimiter/Index', b'1', 1, '', '', 1291625710699413504, 3, '2020-08-07 14:43:30', 3, '2020-08-07 14:57:56');
+INSERT INTO `c_auth_menu` VALUES (1291626135842455552, '0000', '阻止访问', '', b'0', '/gateway/blocklist', 'zuihou/gateway/blocklist/Index', b'1', 2, '', '', 1291625710699413504, 3, '2020-08-07 14:44:03', 3, '2020-08-07 14:44:03');
 COMMIT;
 
 -- ----------------------------
@@ -300,6 +303,7 @@ INSERT INTO `c_auth_role_authority` VALUES (1246067572680425472, '0000', 6434505
 INSERT INTO `c_auth_role_authority` VALUES (1246067572680425473, '0000', 643452458693043457, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572680425474, '0000', 643454110992968129, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572684619776, '0000', 643445016773002817, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1246067572684619777, '0000', 659430164874134689, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572684619778, '0000', 643445162915137313, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572688814080, '0000', 643445229575210977, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572688814081, '0000', 1225984389242945536, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
@@ -307,6 +311,7 @@ INSERT INTO `c_auth_role_authority` VALUES (1246067572693008384, '0000', 6434483
 INSERT INTO `c_auth_role_authority` VALUES (1246067572693008385, '0000', 643454825052252961, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572697202688, '0000', 643456884694593409, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572697202689, '0000', 643445704177487105, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1246067572697202690, '0000', 659045058871296641, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572701396992, '0000', 658002570005972001, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572701396993, '0000', 643451893279892129, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572701396994, '0000', 643445283996305569, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
@@ -347,6 +352,7 @@ INSERT INTO `c_auth_role_authority` VALUES (1246067572747534336, '0000', 6434507
 INSERT INTO `c_auth_role_authority` VALUES (1246067572747534337, '0000', 1225984321857257472, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572747534338, '0000', 643455720519380097, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572751728640, '0000', 643450210449627681, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1246067572751728641, '0000', 659045100646564577, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572751728642, '0000', 643444992357959137, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572755922944, '0000', 643456789920100129, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572755922945, '0000', 659702641965662497, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
@@ -359,6 +365,7 @@ INSERT INTO `c_auth_role_authority` VALUES (1246067572764311554, '0000', 6434483
 INSERT INTO `c_auth_role_authority` VALUES (1246067572768505856, '0000', 643449573045442433, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572768505857, '0000', 1225042691843162112, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572768505858, '0000', 659702791312245313, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1246067572768505859, '0000', 659045207890723745, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572772700160, '0000', 643452429496493217, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572772700161, '0000', 643454073500084577, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572772700162, '0000', 643455175503129569, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
@@ -371,6 +378,7 @@ INSERT INTO `c_auth_role_authority` VALUES (1246067572781088769, '0000', 6452883
 INSERT INTO `c_auth_role_authority` VALUES (1246067572781088770, '0000', 643452488447436129, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572781088771, '0000', 659702674622513537, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572785283072, '0000', 1225042821497487360, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1246067572785283073, '0000', 659045145735332673, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572785283074, '0000', 643449540959016737, 'RESOURCE', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572785283075, '0000', 645215230518909025, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572789477376, '0000', 605079411338773153, 'MENU', 100, '2020-04-03 21:30:35', 3);
@@ -378,6 +386,7 @@ INSERT INTO `c_auth_role_authority` VALUES (1246067572789477377, '0000', 6050806
 INSERT INTO `c_auth_role_authority` VALUES (1246067572789477378, '0000', 603983082961243905, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572793671680, '0000', 603982542332235201, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572793671681, '0000', 603981723864141121, 'MENU', 100, '2020-04-03 21:30:35', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1246067572793671682, '0000', 605424535633666945, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572797865984, '0000', 605078371293987105, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572797865985, '0000', 644111530555611361, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572797865986, '0000', 605079751035454305, 'MENU', 100, '2020-04-03 21:30:35', 3);
@@ -402,6 +411,9 @@ INSERT INTO `c_auth_role_authority` VALUES (1246067572818837505, '0000', 1225042
 INSERT INTO `c_auth_role_authority` VALUES (1246067572818837506, '0000', 603982713849908801, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572823031808, '0000', 605079658416833313, 'MENU', 100, '2020-04-03 21:30:35', 3);
 INSERT INTO `c_auth_role_authority` VALUES (1246067572823031809, '0000', 605078538881597857, 'MENU', 100, '2020-04-03 21:30:35', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1291627753803612165, '0000', 1291626135842455552, 'MENU', 100, '2020-08-07 14:50:28', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1291627753853943808, '0000', 1291625710699413504, 'MENU', 100, '2020-08-07 14:50:28', 3);
+INSERT INTO `c_auth_role_authority` VALUES (1291627753862332417, '0000', 1291625997229096960, 'MENU', 100, '2020-08-07 14:50:28', 3);
 COMMIT;
 
 -- ----------------------------
@@ -449,14 +461,15 @@ CREATE TABLE `c_auth_user` (
   `name` varchar(50) NOT NULL COMMENT '姓名',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>',
   `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station\n@InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>',
+  `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT 'N' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
   `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
   `avatar` varchar(255) DEFAULT '' COMMENT '头像',
   `nation` varchar(20) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>\n',
-  `education` varchar(20) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
-  `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>',
+  `education` varchar(20) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>',
+  `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS) RemoteData<String, String>',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述\r\n比如：  市长、管理员、局长等等   用于登陆展示',
   `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
   `password_error_num` int(11) DEFAULT '0' COMMENT '密码错误次数',
@@ -475,9 +488,9 @@ CREATE TABLE `c_auth_user` (
 -- Records of c_auth_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_auth_user` VALUES (3, '0000', 'zuihou', '平台超管', 100, 100, '244387061@qq.com', '15218869991', 'W', b'1', 'cnrhVkzwxjPwAaCfPbdc.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班111', '2020-04-04 18:59:08', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-04-04 18:59:08', 1, '2019-09-02 11:32:02', 3, '2020-04-03 22:01:34');
-INSERT INTO `c_auth_user` VALUES (641577229343523041, '0000', 'test', '总经理', 102, 100, '', '', 'N', b'1', 'http://127.0.0.1:10000/file/0000/2019/11/c8df3238-ebca-42b3-baeb-37896468f028.png', 'mz_zz', 'COLLEGE', 'WORKING', '', '2019-12-21 16:45:13', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-12-21 16:45:14', 3, '2019-11-06 09:58:56', 3, '2019-11-26 11:02:42');
-INSERT INTO `c_auth_user` VALUES (641590096981656001, '0000', 'manong', '码农', 643776594376135105, 642032719487828225, '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2020-02-22 12:32:35', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-22 12:32:35', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
+INSERT INTO `c_auth_user` VALUES (3, '0000', 'zuihou', '平台超管', 100, 100, b'0', '244387061@qq.com', '15218869991', 'W', b'1', 'cnrhVkzwxjPwAaCfPbdc.png', 'mz_hanz', 'BOSHI', 'WORKING', '疯狂加班111', '2020-04-04 18:59:08', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-04-04 18:59:08', 1, '2019-09-02 11:32:02', 3, '2020-04-03 22:01:34');
+INSERT INTO `c_auth_user` VALUES (641577229343523041, '0000', 'test', '总经理', 102, 100, b'0', '', '', 'N', b'1', 'http://127.0.0.1:10000/file/0000/2019/11/c8df3238-ebca-42b3-baeb-37896468f028.png', 'mz_zz', 'COLLEGE', 'WORKING', '', '2019-12-21 16:45:13', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2019-12-21 16:45:14', 3, '2019-11-06 09:58:56', 3, '2019-11-26 11:02:42');
+INSERT INTO `c_auth_user` VALUES (641590096981656001, '0000', 'manong', '码农', 643776594376135105, 642032719487828225, b'0', '', '', 'M', b'1', 'http://192.168.1.34:10000/file/0000/2019/11/6a759cd8-40f6-46d2-9487-6bd18a6695f2.jpg', 'mz_mz', 'ZHUANKE', 'LEAVE', '122', '2020-02-22 12:32:35', 0, NULL, 'd9d17d88918aa72834289edaf38f42e2', '2020-02-22 12:32:35', 3, '2019-11-06 10:50:01', 3, '2019-11-26 20:27:48');
 COMMIT;
 
 -- ----------------------------
@@ -770,6 +783,7 @@ CREATE TABLE `c_core_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `tenant_code` varchar(20) DEFAULT '' COMMENT '租户编码',
   `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `type_` char(2) DEFAULT '01' COMMENT '类型\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.ORG_TYPE)',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `tree_path` varchar(255) DEFAULT ',' COMMENT '树结构',
@@ -788,20 +802,20 @@ CREATE TABLE `c_core_org` (
 -- Records of c_core_org
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_core_org` VALUES (100, '0000', '最后集团股份有限公司', '最后集团2', 0, ',', 1, b'1', '初始化数据', '2019-07-10 17:02:18', 1, '2019-07-10 17:02:16', 1);
-INSERT INTO `c_core_org` VALUES (101, '0000', '最后集团股份有限公司广州子公司', '广州最后集团', 100, ',100,', 0, b'1', '初始化数据', '2019-08-06 09:10:53', 1, '2019-11-12 11:36:48', 3);
-INSERT INTO `c_core_org` VALUES (102, '0000', '最后集团股份有限公司北京分公司', '北京最后集团', 100, ',100,', 1, b'1', '初始化数据', '2019-11-07 16:13:09', 1, '2019-11-07 16:13:12', 1);
-INSERT INTO `c_core_org` VALUES (643775612976106881, '0000', '综合部', '', 101, ',100,101,', 0, b'1', '前台&HR', '2019-11-12 11:34:27', 3, '2019-11-12 11:34:27', 3);
-INSERT INTO `c_core_org` VALUES (643775664683486689, '0000', '管理层', '', 100, ',100,', 3, b'1', '', '2019-11-12 11:34:39', 3, '2019-11-12 11:36:16', 3);
-INSERT INTO `c_core_org` VALUES (643775904077582049, '0000', '总经办', '', 100, ',100,', 2, b'1', '', '2019-11-12 11:35:37', 3, '2019-11-12 11:36:52', 3);
-INSERT INTO `c_core_org` VALUES (643776324342648929, '0000', '财务部', '', 100, ',100,', 4, b'1', '', '2019-11-12 11:37:17', 3, '2019-11-12 11:37:40', 3);
-INSERT INTO `c_core_org` VALUES (643776407691858113, '0000', '市场部', '', 100, ',100,', 5, b'1', '', '2019-11-12 11:37:37', 3, '2019-11-12 11:37:37', 3);
-INSERT INTO `c_core_org` VALUES (643776508795556193, '0000', '销售部', '', 100, ',100,', 6, b'1', '', '2019-11-12 11:38:01', 3, '2019-11-12 11:38:01', 3);
-INSERT INTO `c_core_org` VALUES (643776594376135105, '0000', '研发部', '', 101, ',100,101,', 1, b'1', '', '2019-11-12 11:38:21', 3, '2019-11-12 11:38:21', 3);
-INSERT INTO `c_core_org` VALUES (643776633823564321, '0000', '产品部', '', 101, ',100,101,', 2, b'1', '', '2019-11-12 11:38:31', 3, '2019-11-12 11:38:31', 3);
-INSERT INTO `c_core_org` VALUES (643776668917305985, '0000', '综合部', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:39', 3, '2019-11-12 11:38:39', 3);
-INSERT INTO `c_core_org` VALUES (643776713909605089, '0000', '研发部', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:50', 3, '2019-11-12 11:38:50', 3);
-INSERT INTO `c_core_org` VALUES (643776757199016769, '0000', '销售部', '', 102, ',100,102,', 2, b'1', '', '2019-11-12 11:39:00', 3, '2019-11-12 11:39:00', 3);
+INSERT INTO `c_core_org` VALUES (100, '0000', '最后集团股份有限公司', '01', '最后集团2', 0, ',', 1, b'1', '初始化数据', '2019-07-10 17:02:18', 1, '2019-07-10 17:02:16', 1);
+INSERT INTO `c_core_org` VALUES (101, '0000', '最后集团股份有限公司广州子公司', '01', '广州最后集团', 100, ',100,', 0, b'1', '初始化数据', '2019-08-06 09:10:53', 1, '2019-11-12 11:36:48', 3);
+INSERT INTO `c_core_org` VALUES (102, '0000', '最后集团股份有限公司北京分公司', '01', '北京最后集团', 100, ',100,', 1, b'1', '初始化数据', '2019-11-07 16:13:09', 1, '2019-11-07 16:13:12', 1);
+INSERT INTO `c_core_org` VALUES (643775612976106881, '0000', '综合部', '01', '', 101, ',100,101,', 0, b'1', '前台&HR', '2019-11-12 11:34:27', 3, '2019-11-12 11:34:27', 3);
+INSERT INTO `c_core_org` VALUES (643775664683486689, '0000', '管理层', '01', '', 100, ',100,', 3, b'1', '', '2019-11-12 11:34:39', 3, '2019-11-12 11:36:16', 3);
+INSERT INTO `c_core_org` VALUES (643775904077582049, '0000', '总经办', '01', '', 100, ',100,', 2, b'1', '', '2019-11-12 11:35:37', 3, '2019-11-12 11:36:52', 3);
+INSERT INTO `c_core_org` VALUES (643776324342648929, '0000', '财务部', '01', '', 100, ',100,', 4, b'1', '', '2019-11-12 11:37:17', 3, '2019-11-12 11:37:40', 3);
+INSERT INTO `c_core_org` VALUES (643776407691858113, '0000', '市场部', '01', '', 100, ',100,', 5, b'1', '', '2019-11-12 11:37:37', 3, '2019-11-12 11:37:37', 3);
+INSERT INTO `c_core_org` VALUES (643776508795556193, '0000', '销售部', '01', '', 100, ',100,', 6, b'1', '', '2019-11-12 11:38:01', 3, '2019-11-12 11:38:01', 3);
+INSERT INTO `c_core_org` VALUES (643776594376135105, '0000', '研发部', '01', '', 101, ',100,101,', 1, b'1', '', '2019-11-12 11:38:21', 3, '2019-11-12 11:38:21', 3);
+INSERT INTO `c_core_org` VALUES (643776633823564321, '0000', '产品部', '01', '', 101, ',100,101,', 2, b'1', '', '2019-11-12 11:38:31', 3, '2019-11-12 11:38:31', 3);
+INSERT INTO `c_core_org` VALUES (643776668917305985, '0000', '综合部', '01', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:39', 3, '2019-11-12 11:38:39', 3);
+INSERT INTO `c_core_org` VALUES (643776713909605089, '0000', '研发部', '01', '', 102, ',100,102,', 0, b'1', '', '2019-11-12 11:38:50', 3, '2019-11-12 11:38:50', 3);
+INSERT INTO `c_core_org` VALUES (643776757199016769, '0000', '销售部', '01', '', 102, ',100,102,', 2, b'1', '', '2019-11-12 11:39:00', 3, '2019-11-12 11:39:00', 3);
 COMMIT;
 
 -- ----------------------------
@@ -916,6 +930,49 @@ CREATE TABLE `f_file` (
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT KEY `FU_TREE_PATH` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件表';
+
+-- ----------------------------
+-- Table structure for g_block_list
+-- ----------------------------
+DROP TABLE IF EXISTS `g_block_list`;
+CREATE TABLE `g_block_list` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT NULL COMMENT '租户编码',
+  `ip` varchar(20) DEFAULT '' COMMENT '黑名单ip',
+  `request_uri` varchar(255) DEFAULT '' COMMENT '请求URI',
+  `request_method` varchar(10) DEFAULT 'ALL' COMMENT '请求方法\n如果为ALL则表示对所有方法生效',
+  `limit_start` varchar(8) DEFAULT '' COMMENT '限制时间起',
+  `limit_end` varchar(8) DEFAULT '' COMMENT '限制时间止',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  FULLTEXT KEY `FU_PATH` (`limit_start`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='黑名单\n';
+
+-- ----------------------------
+-- Table structure for g_rate_limiter
+-- ----------------------------
+DROP TABLE IF EXISTS `g_rate_limiter`;
+CREATE TABLE `g_rate_limiter` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `tenant_code` varchar(20) DEFAULT NULL COMMENT '租户编码',
+  `count` int(10) DEFAULT '0' COMMENT '次数',
+  `request_uri` varchar(255) DEFAULT '' COMMENT '请求URI',
+  `request_method` varchar(10) DEFAULT 'ALL' COMMENT '请求方法\n如果为ALL则表示对所有方法生效',
+  `limit_start` varchar(8) DEFAULT '' COMMENT '限制时间起',
+  `limit_end` varchar(8) DEFAULT '' COMMENT '限制时间止',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `interval_sec` bigint(20) DEFAULT '0' COMMENT '时间窗口',
+  `create_time` datetime DEFAULT NULL,
+  `create_user` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  FULLTEXT KEY `FU_PATH` (`limit_start`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='限流';
 
 -- ----------------------------
 -- Table structure for m_order

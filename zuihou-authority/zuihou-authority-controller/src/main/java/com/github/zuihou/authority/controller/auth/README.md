@@ -1,5 +1,10 @@
 #缓存规则说明：
 对象缓存规则：
+key中包含id等全平台唯一标识的可以不用考虑租户情况， 反之，需要在key中拼接租户编码以便做到租户隔离。
+
+1. CacheKey.buildTenantKey： 根据租户编码和参数拼接缓存的key
+2. CacheKey.buildKey： 根据参数拼接缓存的key
+
 
 
 

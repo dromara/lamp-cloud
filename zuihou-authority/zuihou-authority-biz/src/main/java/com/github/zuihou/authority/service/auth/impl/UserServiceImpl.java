@@ -56,7 +56,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.github.zuihou.common.constant.CacheKey.USER_ACCOUNT;
+import static com.github.zuihou.common.constant.CacheKey.buildTenantKey;
 
 
 /**
@@ -114,7 +118,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
     @Override
     public User getByAccount(String account) {
-        return super.getOne(Wraps.<User>lbQ().eq(User::getAccount, account));
+        String key = buildTenantKey(account);
+        Function<String, Object> loader = (k) -> getObj(Wraps.<User>lbQ().select(User::getId).eq(User::getAccount, account), Convert::toLong);
+        return getByKey(USER_ACCOUNT, key, loader);
     }
 
     @Override
