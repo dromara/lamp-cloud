@@ -106,10 +106,10 @@ public class OauthMenuController {
         VueRouter datasourceConfig = new VueRouter();
         datasourceConfig.setPath("/defaults/datasourceconfig");
         datasourceConfig.setComponent("zuihou/defaults/datasourceconfig/Index");
-        datasourceConfig.setName("数据源");
+        datasourceConfig.setName("数据源(联系群主开通)");
         datasourceConfig.setHidden(false);
         datasourceConfig.setMeta(RouterMeta.builder()
-                .title("数据源").breadcrumb(true).icon("")
+                .title("数据源(联系群主开通)").breadcrumb(true).icon("")
                 .build());
         datasourceConfig.setId(-4L);
         datasourceConfig.setParentId(-1L);
@@ -135,10 +135,10 @@ public class OauthMenuController {
         VueRouter globalUser = new VueRouter();
         globalUser.setPath("/defaults/globaluser");
         globalUser.setComponent("zuihou/defaults/globaluser/Index");
-        globalUser.setName("全局用户");
+        globalUser.setName("运营用户");
         globalUser.setHidden(false);
         globalUser.setMeta(RouterMeta.builder()
-                .title("全局用户").breadcrumb(true).icon("")
+                .title("运营用户").breadcrumb(true).icon("")
                 .build());
         globalUser.setId(-3L);
         globalUser.setParentId(-1L);
