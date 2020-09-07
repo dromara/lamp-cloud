@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WebUploader</title>
+    <link href="webuploader2/webuploader.css" rel="stylesheet"/>
+    <style type="text/css">
+        .itemDel, .itemStop, .itemUpload {
+            margin-left: 15px;
+            color: blue;
+            cursor: pointer;
+        }
+
+        #theList {
+            width: 80%;
+            min-height: 100px;
+            border: 1px solid red;
+        }
+
+        #theList .itemStop {
+            display: none;
+        }
+    </style>
+    <script charset="utf-8" src="webuploader2/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script charset="utf-8" src="webuploader2/md5.js" type="text/javascript"></script>
+    <script charset="utf-8" src="webuploader2/webuploader.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        // var _GATE_URL = "http://127.0.0.1:8765/";  // 改成自己文件服务的访问前缀 （debug时不走网关，防止由于debug引起的超时）
+        var _GATE_URL = "http://127.0.0.1:8760/api/file/";  // 改成自己网关的访问前缀 (正式使用时，走网关，统一前缀)
+    </script>
+
+</head>
+<body>
+<h2>大文件"分片上传/断点续传/秒传"demo</h2>
+<div id="uploader">
+    <ul id="theList"></ul>
+    <div id="picker">选择文件</div>
+</div>
+
+<div>
+    1，在系统的文件夹工具中用谷歌浏览器（其他浏览器不知道有没有问题）打开 <br/>
+    2，将_GATE_URL地址改成自己网关的地址 <br/>
+    3，vue 版本的已经测试通过，后面前端(zuihou-ui)对接好后会公布 <br/>
+    4, 后端存储，目前支持 本地和FastDFS 后续会增加七牛、阿里OSS等 <br/>
+    5, 如何验证分片？ <br/>
+    1） f12 打开控制台，看请求记录 <br/>
+    2） 上传过程中，去磁盘路径: /data/projects/uploadfile/file/2019/ 目录看 （上传完毕后，会删除） (window 的路径在代码所在盘) <br/>
+    6, 如何验证续传？ <br/>
+    上传一个几百M的文件， 上传到一半时，关闭浏览器， 然后重新上传同样的文件 <br/>
+    7, 如何验证秒传？ <br/>
+    同一个文件上传多次，第二次开始秒传 <br/>
+    8，webuploader2.js 3171行代码被我修改过，不修改无法传参
+
+</div>
+<script charset="utf-8" src="webuploader2/chunk.js" type="text/javascript"></script>
+
+</body>
+</html>

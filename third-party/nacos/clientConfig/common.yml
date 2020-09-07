@@ -1,0 +1,155 @@
+# 在这里配置 所有的服务 和 所有环境 都相同的配置
+zuihou:
+  zipkin:
+    enabled: false
+  swagger:
+    enabled: true
+    license: Powered By zuihou
+    licenseUrl: https://github.com/zuihou
+    termsOfServiceUrl: https://github.com/zuihou
+    version: 2.5.1
+    contact:
+      url: https://github.com/zuihou
+      name: zuiou
+      email: 306479353@qq.com
+    global-operation-parameters:
+      - name: token
+        description: 用户身份token
+        modelRef: String
+        parameterType: header
+        required: true
+        # 默认值只是方便本地开发时，少填参数，生产环境请禁用swagger或者禁用默认参数
+        defaultValue: "Bearer test"
+      - name: Authorization
+        description: 客户端信息
+        modelRef: String
+        parameterType: header
+        required: true
+        defaultValue: "Basic enVpaG91X3VpOnp1aWhvdV91aV9zZWNyZXQ="
+      - name: tenant
+        description: 租户编码
+        modelRef: String
+        parameterType: header
+        required: true
+        defaultValue: "MDAwMA=="
+  injection:
+    # 是否启用 远程数据 手动注入
+    enabled: true
+    # 是否启用 远程数据 注解注入
+    aop-enabled: true
+    guavaCache:
+      enabled: true
+      maximumSize: 1000
+      refreshWriteTime: 10
+      refreshThreadPoolSize: 1000
+  security:
+    enabled: true
+    type: FEIGN
+  log:
+    enabled: true
+    type: DB
+  context:
+    # 上下文拦截器
+    pathPatterns: '/**'
+    order: -20
+
+server:
+  undertow: # jetty  undertow
+    io-threads: 8 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    worker-threads: 120  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    buffer-size: 2048  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
+    direct-buffers: true  # 是否分配的直接内存
+
+spring:
+  zipkin:
+    sender:
+      type: RABBIT
+    enabled: ${zuihou.zipkin.enabled}
+    discovery-client-enabled: false
+    baseUrl: http://localhost:9411/      # 老版本可以使用这个连接 http://zuihou-zipkin:8772/
+    compression: # 压缩
+      enabled: true
+    locator:    # 通过nacos动态获取地址
+      discovery:
+        enabled: true
+    rabbitmq: # 使用指定的队列
+      queue: zuihou_zipkin
+  #被追踪的可能性，默认是0.1 表示百分之10
+  sleuth:
+    enabled: ${zuihou.zipkin.enabled}
+    sampler:
+      probability: 1.0
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 512MB      # Max file size，默认1M
+      max-request-size: 512MB   # Max request size，默认10M
+
+dozer:
+  mappingFiles:
+    - classpath*:dozer/*.dozer.xml
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  hystrix:
+    enabled: true   # feign 熔断机制是否开启
+    #支持压缩的mime types
+  compression:  # 请求压缩
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:  # 响应压缩
+      enabled: true
+
+ribbon:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  ReadTimeout: 30000     #
+  ConnectTimeout: 30000  # [ribbon超时时间]大于[熔断超时],那么会先走熔断，相当于你配的ribbon超时就不生效了  ribbon和hystrix是同时生效的，哪个值小哪个生效
+  MaxAutoRetries: 0             # 最大自动重试
+  MaxAutoRetriesNextServer: 1   # 最大自动像下一个服务重试
+  OkToRetryOnAllOperations: false  #无论是请求超时或者socket read timeout都进行重试，
+
+zuihou-file-server:
+  ribbon:
+    ConnectTimeout: 300000
+    ReadTimeout: 300000
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000 # #并发执行的最大线程数，默认10
+      maxQueueSize: 1000 # #BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 500 # #即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 120000  # 熔断超时 ribbon和hystrix是同时生效的，哪个值小哪个生效
+    zuihou-file-server:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1200000

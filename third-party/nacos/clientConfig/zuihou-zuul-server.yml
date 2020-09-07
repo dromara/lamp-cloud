@@ -1,0 +1,75 @@
+zuihou:
+  swagger:
+    enabled: true
+    title: 网关模块
+    base-package: com.github.zuihou.zuul.controller
+  log:
+    enabled: false
+  webmvc:
+    enabled: true
+  database:
+    tenantDatabasePrefix: zuihou_extend
+
+spring:
+  mvc:
+    servlet:
+      path: /gate
+
+server:
+  port: 8760
+  servlet:
+    context-path: /api  # = server.servlet.context-path
+
+zuul:
+  # 一些比较敏感的请求头，不想通过zuul传递过去， 可以通过该属性进行设置
+  sensitiveHeaders: ''
+  #添加代理头
+  add-proxy-headers: true
+  #  debug:
+  #    request: true
+  #  include-debug-header: true
+  retryable: false
+  servlet-path: /         # 默认是/zuul , 上传文件需要加/zuul前缀才不会出现乱码，这个改成/ 即可不加前缀
+  ignored-services: "*"   # 忽略eureka上的所有服务
+  #  prefix: /api #为zuul设置一个公共的前缀
+  #  strip-prefix: false     #对于代理前缀默认会被移除   故加入false  表示不要移除
+  routes:  # 路由配置方式
+    authority: # 其中 authority 是路由名称，可以随便定义，但是path和service-id需要一一对应
+      path: /authority/**
+      serviceId: zuihou-authority-server
+    oauth:
+      path: /oauth/**
+      serviceId: zuihou-oauth-server
+    tenant:
+      path: /tenant/**
+      serviceId: zuihou-tenant-server
+    file:
+      path: /file/**
+      serviceId: zuihou-file-server
+    msgs:
+      path: /msgs/**
+      serviceId: zuihou-msgs-server
+    order:
+      path: /order/**
+      serviceId: zuihou-order-server
+    demo:
+      path: /demo/**
+      serviceId: zuihou-demo-server
+
+
+ignore:
+  token:
+    url:
+      - /error
+      - /actuator/**
+      - /gate/**
+      - /static/**
+      - /anno/**
+      - /**/anno/**
+      - /**/swagger-ui.html
+      - /**/doc.html
+      - /**/webjars/**
+      - /**/v2/api-docs/**
+      - /**/v2/api-docs-ext/**
+      - /**/swagger-resources/**
+      - /api/gate/ds/**

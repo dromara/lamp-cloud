@@ -1,0 +1,11 @@
+# 在这里配置 权限服务 所有环境都能使用的配置
+zuihou:
+  swagger:
+    enabled: true
+    docket:
+      tenant:
+        title: 租户模块
+        base-package: com.github.zuihou.tenant.controller
+
+server:
+  port: 8771

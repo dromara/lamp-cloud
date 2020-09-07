@@ -1,0 +1,92 @@
+zuihou:
+  log:
+    enabled: false
+  webmvc:
+    enabled: false
+  database:
+    tenantDatabasePrefix: zuihou_extend
+
+spring:
+  autoconfigure:
+    exclude: io.seata.integration.http.HttpAutoConfiguration
+  cloud:
+    gateway:
+      x-forwarded:
+        prefixEnabled: false
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: oauth
+          uri: lb://zuihou-oauth-server
+          predicates:
+            - Path=/oauth/**
+          filters:
+            - StripPrefix=1
+        - id: tenant
+          uri: lb://zuihou-tenant-server
+          predicates:
+            - Path=/tenant/**
+          filters:
+            - StripPrefix=1
+        - id: file
+          uri: lb://zuihou-file-server
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=1
+        - id: authority
+          uri: lb://zuihou-authority-server
+          predicates:
+            - Path=/authority/**
+          filters:
+            - StripPrefix=1
+        - id: msgs
+          uri: lb://zuihou-msgs-server
+          predicates:
+            - Path=/msgs/**
+          filters:
+            - StripPrefix=1
+        - id: demo
+          uri: lb://zuihou-demo-server
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
+        - id: order
+          uri: lb://zuihou-order-server
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix=1
+      default-filters:
+        - name: Hystrix
+          args:
+            name: default
+            fallbackUri: 'forward:/fallback'
+
+
+server:
+  port: 8760
+  servlet:
+    context-path: /api
+
+
+
+ignore:
+  token:
+    url:
+      - /error
+      - /actuator/**
+      - /gate/**
+      - /static/**
+      - /anno/**
+      - /**/anno/**
+      - /**/swagger-ui.html
+      - /**/doc.html
+      - /**/webjars/**
+      - /**/v2/api-docs/**
+      - /**/v2/api-docs-ext/**
+      - /**/swagger-resources/**
+      - /ds/**

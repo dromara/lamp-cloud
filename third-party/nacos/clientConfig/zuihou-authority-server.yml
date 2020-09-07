@@ -1,0 +1,17 @@
+# 在这里配置 权限服务 所有环境都能使用的配置
+zuihou:
+  swagger:
+    enabled: true
+    docket:
+      auth:
+        title: 权限模块
+        base-package: com.github.zuihou.authority.controller.auth
+      common:
+        title: 公共模块
+        base-package: com.github.zuihou.authority.controller.common
+      core:
+        title: 组织模块
+        base-package: com.github.zuihou.authority.controller.core
+
+server:
+  port: 8764
