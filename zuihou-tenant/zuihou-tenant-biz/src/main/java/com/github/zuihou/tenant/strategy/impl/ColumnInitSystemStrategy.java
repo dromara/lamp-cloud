@@ -145,6 +145,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         User user = User.builder()
                 .account("admin").name("内置超级管理员").password("admin")
                 .readonly(true).sex(Sex.M).avatar("cnrhVkzwxjPwAaCfPbdc.png")
+                .status(true).passwordErrorNum(0)
                 .build();
         return userService.initUser(user);
     }
