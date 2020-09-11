@@ -61,7 +61,7 @@ public interface BizConstant {
     String FILE = "zuihou-file-server";
     String MSGS = "zuihou-msgs-server";
     String OAUTH = "zuihou-oauth-server";
-    String GATE = "zuihou-gate-server";
+    String GATE = "zuihou-gateway-server";
     String ORDER = "zuihou-order-server";
     String DEMO = "zuihou-demo-server";
 
