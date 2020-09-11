@@ -92,7 +92,7 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
     @PostMapping("/status")
     public R<Boolean> updateStatus(@RequestParam("ids[]") List<Long> ids,
                                    @RequestParam(defaultValue = "FORBIDDEN") @NotNull(message = "状态不能为空") TenantStatusEnum status) {
-        return success(baseService.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, status).in(Tenant::getId, ids)));
+        return success(baseService.updateStatus(ids, status));
     }
 
     /**

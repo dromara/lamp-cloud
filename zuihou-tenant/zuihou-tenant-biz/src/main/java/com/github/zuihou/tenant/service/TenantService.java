@@ -4,6 +4,7 @@ import com.github.zuihou.base.service.SuperCacheService;
 import com.github.zuihou.tenant.dto.TenantConnectDTO;
 import com.github.zuihou.tenant.dto.TenantSaveDTO;
 import com.github.zuihou.tenant.entity.Tenant;
+import com.github.zuihou.tenant.enumeration.TenantStatusEnum;
 
 import java.util.List;
 
@@ -56,4 +57,13 @@ public interface TenantService extends SuperCacheService<Tenant> {
      * @return
      */
     Boolean connect(TenantConnectDTO tenantConnect);
+
+    /**
+     * 修改租户状态
+     *
+     * @param ids
+     * @param status
+     * @return
+     */
+    Boolean updateStatus(List<Long> ids, TenantStatusEnum status);
 }

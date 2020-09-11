@@ -120,4 +120,14 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         }
         return flag;
     }
+
+    @Override
+    public Boolean updateStatus(List<Long> ids, TenantStatusEnum status) {
+        boolean update = super.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, status)
+                .in(Tenant::getId, ids));
+
+        String[] keys = ids.stream().map(this::key).toArray(String[]::new);
+        cacheChannel.evict(getRegion(), keys);
+        return update;
+    }
 }
