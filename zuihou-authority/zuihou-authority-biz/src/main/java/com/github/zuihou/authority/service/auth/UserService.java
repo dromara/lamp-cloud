@@ -168,4 +168,12 @@ public interface UserService extends SuperCacheService<User> {
      * @return
      */
     boolean initUser(User user);
+
+    /**
+     * 联合查询
+     *
+     * @param ids
+     * @return
+     */
+    List<User> findUser(Set<Serializable> ids);
 }

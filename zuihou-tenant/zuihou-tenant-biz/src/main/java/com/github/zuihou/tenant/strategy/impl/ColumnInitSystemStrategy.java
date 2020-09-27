@@ -100,7 +100,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         String tenant = tenantConnect.getTenant();
         // 初始化数据
         //1, 生成并关联 ID TENANT
-        DatabaseProperties.Id id = databaseProperties.getId();
+        DatabaseProperties.HutoolId id = databaseProperties.getHutoolId();
         Snowflake snowflake = IdUtil.getSnowflake(id.getWorkerId(), id.getDataCenterId());
 
         BaseContextHandler.setTenant(tenant);

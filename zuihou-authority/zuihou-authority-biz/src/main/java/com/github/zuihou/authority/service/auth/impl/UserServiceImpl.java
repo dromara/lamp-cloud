@@ -27,7 +27,6 @@ import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.auth.DataScopeType;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
-import com.github.zuihou.injection.annonation.InjectionResult;
 import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.security.feign.UserQuery;
 import com.github.zuihou.security.model.SysOrg;
@@ -60,7 +59,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.github.zuihou.common.constant.CacheKey.USER_ACCOUNT;
-import static com.github.zuihou.common.constant.CacheKey.buildTenantKey;
 
 
 /**
@@ -96,7 +94,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
-    @InjectionResult
     public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
         return baseMapper.findPage(page, wrapper, new DataScope());
     }
@@ -246,7 +243,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         return typeMap;
     }
 
-    private List<User> findUser(Set<Serializable> ids) {
+    @Override
+    public List<User> findUser(Set<Serializable> ids) {
         if (ids.isEmpty()) {
             return Collections.emptyList();
         }

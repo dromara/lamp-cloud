@@ -35,14 +35,14 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/loginLog")
 @Api(value = "LoginLog", tags = "登录日志")
-@PreAuth(value = "hasPermit('loginLog:add')", replace = "loginLog:")
+@PreAuth(enabled = false, replace = "loginLog:")
 public class LoginLogController extends SuperController<LoginLogService, Long, LoginLog, LoginLog, LoginLog, LoginLogUpdateDTO> {
 
     /**
      * 分页查询登录日志
      *
-     * @param wrapper 分页查询条件
-     * @param params  分页查询参数
+     * @param model  对象
+     * @param params 分页查询参数
      * @return 查询结果
      */
     @Override

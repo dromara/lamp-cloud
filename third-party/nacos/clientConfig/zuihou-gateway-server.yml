@@ -80,7 +80,7 @@ ignore:
       - /error
       - /actuator/**
       - /gate/**
-      - /static/**
+      - /**/static/**
       - /anno/**
       - /**/anno/**
       - /**/swagger-ui.html

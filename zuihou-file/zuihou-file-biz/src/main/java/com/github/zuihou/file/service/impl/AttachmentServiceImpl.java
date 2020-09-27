@@ -79,7 +79,7 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
     public AttachmentDTO upload(MultipartFile multipartFile, String tenant, Long id, String bizType, String bizId, Boolean isSingle) {
         //根据业务类型来判断是否生成业务id
         if (StringUtils.isNotEmpty(bizType) && StringUtils.isEmpty(bizId)) {
-            DatabaseProperties.Id idPro = databaseProperties.getId();
+            DatabaseProperties.HutoolId idPro = databaseProperties.getHutoolId();
             bizId = IdUtil.getSnowflake(idPro.getWorkerId(), idPro.getDataCenterId()).nextIdStr();
         }
         File file = fileStrategy.upload(multipartFile);

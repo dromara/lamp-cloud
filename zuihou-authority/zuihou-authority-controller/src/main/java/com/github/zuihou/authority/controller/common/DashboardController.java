@@ -1,9 +1,8 @@
 package com.github.zuihou.authority.controller.common;
 
-import cn.hutool.core.util.IdUtil;
+import com.baidu.fsg.uid.UidGenerator;
 import com.github.zuihou.authority.service.common.LoginLogService;
 import com.github.zuihou.base.R;
-import com.github.zuihou.database.properties.DatabaseProperties;
 import com.github.zuihou.security.annotation.LoginUser;
 import com.github.zuihou.security.model.SysUser;
 import io.swagger.annotations.Api;
@@ -35,7 +34,7 @@ public class DashboardController {
     @Autowired
     private LoginLogService loginLogService;
     @Autowired
-    private DatabaseProperties databaseProperties;
+    private UidGenerator uidGenerator;
 
     /**
      * 最近10天访问记录
@@ -64,8 +63,8 @@ public class DashboardController {
      * @return
      */
     @GetMapping("/common/generateId")
-    public R<Long> generate() {
-        DatabaseProperties.Id id = databaseProperties.getId();
-        return R.success(IdUtil.getSnowflake(id.getWorkerId(), id.getDataCenterId()).nextId());
+    public R<Object> generate() {
+        long uid = uidGenerator.getUID();
+        return R.success(uid + "length" + String.valueOf(uid).length());
     }
 }

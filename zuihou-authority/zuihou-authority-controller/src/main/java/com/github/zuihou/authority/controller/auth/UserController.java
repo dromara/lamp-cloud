@@ -28,6 +28,7 @@ import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.common.constant.DictionaryType;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
+import com.github.zuihou.injection.core.InjectionCore;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.model.RemoteData;
 import com.github.zuihou.security.annotation.PreAuth;
@@ -40,9 +41,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,9 +53,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.groups.Default;
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -78,6 +84,8 @@ public class UserController extends SuperCacheController<UserService, Long, User
     private ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
     @Autowired
     private DictionaryItemService dictionaryItemService;
+    @Autowired
+    private InjectionCore injectionCore;
 
     /**
      * 重写保存逻辑
@@ -169,7 +177,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @return
      */
     @ApiOperation(value = "重置密码", notes = "重置密码")
-    @GetMapping("/reset")
+    @PostMapping("/reset")
     @SysLog("'重置密码:' + #data.id")
     public R<Boolean> reset(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO data) {
         baseService.reset(data);
@@ -197,6 +205,25 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @SysLog("查询所有用户")
     public R<List<Long>> findAllUserId() {
         return success(baseService.findAllUserId());
+    }
+
+    @ApiOperation(value = "查询所有用户实体", notes = "查询所有用户实体")
+    @GetMapping("/findAll")
+    @SysLog("查询所有用户")
+    public R<List<User>> findAll() {
+        List<User> res = baseService.list();
+        res.forEach(obj -> obj.setPassword(null));
+        return success(res);
+    }
+
+    @RequestMapping(value = "/findUserById", method = RequestMethod.GET)
+    public R<List<User>> findUserById(@RequestParam(value = "ids") List<Long> ids) {
+        Set<Serializable> set = new HashSet<>();
+        ids.forEach(id -> {
+            set.add(id);
+        });
+        List<User> user = baseService.findUser(set);
+        return this.success(user);
     }
 
     @Override
@@ -280,5 +307,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
                 .eq(User::getSex, userPage.getSex())
                 .eq(User::getStatus, userPage.getStatus());
         baseService.findPage(page, wrapper);
+        // 手动注入
+        injectionCore.injection(page);
     }
 }
