@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zuihou</groupId>
     <artifactId>zuihou-admin-cloud</artifactId>
-    <version>c.2.5.1-SNAPSHOT</version>
+    <version>c.2.5.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://gitee.com/zuihou111/zuihou-cloud</url>
     <name>${project.artifactId}</name>
@@ -41,8 +41,8 @@
     </modules>
 
     <properties>
-        <zuihou-commons.version>2.5.1</zuihou-commons.version>
-        <zuihou-project.version>c.2.5.1-SNAPSHOT</zuihou-project.version>
+        <zuihou-commons.version>2.5.2</zuihou-commons.version>
+        <zuihou-project.version>c.2.5.2-SNAPSHOT</zuihou-project.version>
         <seata.version>1.2.0</seata.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
