@@ -112,6 +112,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean connect(TenantConnectDTO tenantConnect) {
         boolean flag = initSystemContext.initConnect(tenantConnect);
         if (flag) {
@@ -122,6 +123,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateStatus(List<Long> ids, TenantStatusEnum status) {
         boolean update = super.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, status)
                 .in(Tenant::getId, ids));

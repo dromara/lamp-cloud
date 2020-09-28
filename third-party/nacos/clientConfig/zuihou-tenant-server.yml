@@ -8,4 +8,4 @@ zuihou:
         base-package: com.github.zuihou.tenant.controller
 
 server:
-  port: 8771
+  port: 8778

@@ -12,6 +12,7 @@ import com.github.zuihou.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.github.zuihou.common.constant.BizConstant.INIT_ROLE_CODE;
 
@@ -34,6 +35,7 @@ public class UserRoleServiceImpl extends SuperServiceImpl<UserRoleMapper, UserRo
     private RoleMapper roleMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean initAdmin(Long userId) {
         Role role = roleMapper.selectOne(Wraps.<Role>lbQ().eq(Role::getCode, INIT_ROLE_CODE));
         if (role == null) {
