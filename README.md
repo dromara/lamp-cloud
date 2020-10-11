@@ -211,7 +211,7 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 | ![预览.png](docs/image/项目相关/开发%26运营后台预览.png) | ![预览.png](docs/image/项目相关/租户后台预览.png) |
 | ![预览.png](docs/image/监控界面/sba.png) | ![预览.png](docs/image/监控界面/zipkin1_2_19_2.png) |
 | ![预览.png](docs/image/监控界面/zipkin2_2_19_2.png) | ![预览.png](docs/image/监控界面/zipkin3_2_19_2.png) |
-| ![预览.png](docs/image/项目相关/swagger获取token.jpg) | ![预览.png](docs/image/项目相关/admin-api.png)  |
+| ![预览.png](docs/image/项目相关/swagger获取token.jpg) | ![预览.png](docs/image/软著V2.5.0.jpg)  |
 | ![预览.png](docs/image/1000star.png) | ![预览.png](docs/image/项目相关/zuihou-jobs-server.png) |
 
 ## 友情链接 & 特别鸣谢
