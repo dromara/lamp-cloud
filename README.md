@@ -8,8 +8,6 @@
 [![GitHub forks](https://img.shields.io/github/forks/zuihou/zuihou-admin-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/zuihou-admin-cloud/network/members)
 [![fork](https://gitee.com/zuihou111/zuihou-admin-cloud/badge/fork.svg?theme=white)](https://gitee.com/zuihou111/zuihou-admin-cloud/members)
 
- 
-
 ## 简介
 基于`SpringCloud(Hoxton.SR7)`  + `SpringBoot(2.2.9.RELEASE)` 的 SaaS型微服务快速开发平台，具备用户管理、资源权限管理、网关统一鉴权、Xss防跨站攻击、自动代码生成、多存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，架构清晰，非常适合学习使用。核心技术采用SpringCloud(Nacos、Fegin、Ribbon、Gateway、Hystrix)、SpringBoot、Mybatis Plus、Seata、Sentinel、Redis、RabbitMQ、FastDFS等主要技术。
@@ -18,6 +16,23 @@
 
 `本项目旨在通过约定表结构设计规范、代码编写规范、模块拆分规范，实现系统的代码生成功能、基础功能、常用功能、通用功能。`
 
+## 项目组成及项目名由来
+本项目由`zuihou-admin-cloud`、`zuihou-admin-boot`、`zuihou-commons`、`zuihou-ui`、`zuihou-admin-ui`、`zuihou-generator` 等6个项目组成，其中：
+- zuihou-commons：是项目的核心工具包，开发宗旨是打造一套按模块独立使用的工具类。 （cloud、boot项目必须先编译它）
+- zuihou-admin-cloud：是基于SpringCloud的SaaS型微服务快速开发平台
+- zuihou-admin-boot： 是基于SpringBoot的SaaS型单体架构快速开发平台，功能和zuihou-admin-cloud完全一致
+- zuihou-generator：  是基于`mybatis-plus-generator`定制的代码生成器，专门按 zuihou-admin-cloud 和 zuihou-admin-boot 项目的结构生成Controller、Service、Dao、Entity、DTO、XML、前端Vue页面等代码。生成代码后，能实现不写一行代码、不移动一个类，即拥有CRUD、导入、导出等功能。
+- zuihou-ui： 给客户使用的后台系统
+- zuihou-admin-ui： 公司内部管理人员使用的后台管理系统，用于管理租户信息。
+
+项目名解释：
+- zuihou：即中文名：最后，是十多年来在各大平台一直使用的网名
+- admin： 最初的设想是做一个后台管理系统
+- cloud： 基于SpringCloud框架
+- boot：  基于SpringBoot框架
+- commons： 公共的组件、工具类
+- generator： 代码生成
+- ui：前端项目
 
 
 ## 模式介绍
