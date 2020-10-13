@@ -100,8 +100,8 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
         userRoleService.remove(Wraps.<UserRole>lbQ().in(UserRole::getRoleId, ids));
 
         ids.forEach((id) -> {
-            cacheChannel.evict(CacheKey.ROLE_MENU, String.valueOf(id));
-            cacheChannel.evict(CacheKey.ROLE_RESOURCE, String.valueOf(id));
+            cacheChannel.evict(CacheKey.ROLE_MENU, key(id));
+            cacheChannel.evict(CacheKey.ROLE_RESOURCE, key(id));
         });
 
         if (!userIds.isEmpty()) {
@@ -163,7 +163,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
 
         saveRoleOrg(userId, role, data.getOrgList());
 
-        cacheChannel.set(CacheKey.ROLE, String.valueOf(role.getId()), role);
+        cacheChannel.set(CacheKey.ROLE, key(role.getId()), role);
     }
 
     @Override

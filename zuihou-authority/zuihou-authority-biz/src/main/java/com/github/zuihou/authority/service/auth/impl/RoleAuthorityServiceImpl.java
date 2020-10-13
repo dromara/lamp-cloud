@@ -110,14 +110,15 @@ public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapp
         // 清理
         List<Long> userIdList = userRoleService.listObjs(Wraps.<UserRole>lbQ().select(UserRole::getUserId).eq(UserRole::getRoleId, dto.getRoleId()),
                 (userId) -> Convert.toLong(userId, 0L));
-        userIdList.stream().collect(Collectors.toSet()).forEach((userId) -> {
+        userIdList.stream().collect(Collectors.toSet()).forEach(userId -> {
             log.info("清理了 {} 的菜单/资源", userId);
-            cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));
-            cache.evict(CacheKey.USER_MENU, String.valueOf(userId));
+            cache.evict(CacheKey.USER_RESOURCE, key(userId));
+            cache.evict(CacheKey.USER_MENU, key(userId));
+            cache.evict(CacheKey.USER_ROLE, key(userId));
         });
 
-        cache.evict(CacheKey.ROLE_RESOURCE, String.valueOf(dto.getRoleId()));
-        cache.evict(CacheKey.ROLE_MENU, String.valueOf(dto.getRoleId()));
+        cache.evict(CacheKey.ROLE_RESOURCE, key(dto.getRoleId()));
+        cache.evict(CacheKey.ROLE_MENU, key(dto.getRoleId()));
         return true;
     }
 
