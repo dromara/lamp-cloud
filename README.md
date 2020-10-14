@@ -16,6 +16,10 @@
 
 `本项目旨在通过约定表结构设计规范、代码编写规范、模块拆分规范，实现系统的代码生成功能、基础功能、常用功能、通用功能。`
 
+## 项目架构图
+![架构图.png](docs/image/项目相关/架构图.png)
+
+
 ## 项目组成及项目名由来
 本项目由`zuihou-admin-cloud`、`zuihou-admin-boot`、`zuihou-commons`、`zuihou-ui`、`zuihou-admin-ui`、`zuihou-generator` 等6个项目组成，其中：
 - zuihou-commons：是项目的核心工具包，开发宗旨是打造一套按模块独立使用的工具类。 （cloud、boot项目必须先编译它）
@@ -44,26 +48,6 @@
 | SCHEMA（独立schema) | 每个租户独立一个 数据库(schema)，执行sql时，动态在表名前增加schema | 简单、开发无感知、数据隔离性好 | 配置文件中必须配置数据库的root账号、不支持复杂sql和 sql嵌套自定义函数 | 
 | DATASOURCE(独立数据源) | 每个租户独立一个 数据库(数据源)，执行代码时，动态切换数据源 | 可独立部署数据库，数据隔离性好、扩展性高、故障影响小 | 相对复杂、开发需要注意切换数据源时的事务问题、需要较多的数据库 |
 
-| 模式\描述  | 表中有无租户字段 | 实体类中有无租户字段 | 分布式事务| 有几个数据库 |  
-|---|---|---|---|---|
-| NONE | 无 | 无 | 支持 | zuihou_defaults | 
-| COLUMN | 有 | 无 | 支持 | zuihou_column |
-| SCHEMA | 无 | 无 | 支持 | zuihou_defaults、zuihou_base_{tenant}、zuihou_extend_{tenant} |
-| DATASOURCE | 无 | 无 | 支持 | zuihou_defaults、zuihou_base_{tenant}、zuihou_extend_{tenant}、自定义库 |
-
-## SCHEMA、DATASOURCE 模式各个服务链接的库和描述
-| 后台服务 | 项目名 | 启动时连接的库 | 运行时租户库 | 功能描述 |  
-|---|---|---|---|---|
-| 认证服务 | zuihou-oauth | zuihou_defaults | zuihou_base_{tenant} | 负责登录、用户必备的数据接口 | 
-| 权限服务 | zuihou-authority | zuihou_defaults | zuihou_base_{tenant} | 权限、公共、组织架构等基础功能。 后期考虑更名为 zuihou-base(欢迎提建议) |
-| 文件服务 | zuihou-file | zuihou_defaults | zuihou_base_{tenant} | 负责文件上传、下载等功能 |
-| 消息服务 | zuihou-msgs | zuihou_defaults | zuihou_base_{tenant} | 负责站内信、消息、短信、邮件等功能 |
-| 租户服务 | zuihou-tenant | zuihou_defaults | zuihou_defaults | 负责租户模式管理租户 |
-| 网关服务 | zuihou-gate | zuihou_defaults | zuihou_extend_{tenant} | 负责统一路由、认证、限流等 |
-| 订单服务 | zuihou-order | zuihou_defaults | zuihou_extend_{tenant} | 演示用 |
-| 演示服务 | zuihou-demo | zuihou_defaults | zuihou_extend_{tenant} | 演示用 |
-| 定时服务 | zuihou-jobs | zuihou_defaults | zuihou_base_{tenant}、zuihou_extend_{tenant} | 负责定时任务 |
-
 ## 项目代码地址防走丢
 
 | 项目 | gitee | github | 备注 |
@@ -75,7 +59,7 @@
 | 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui | 给公司内部开发&运营&运维等人员使用 |
 | 代码生成器 | https://gitee.com/zuihou111/zuihou-generator | https://github.com/zuihou/zuihou-generator | 给开发人员使用 |
 
-## zuihou-admin-cloud 演示地址 （服务器没法备案，只能加上端口~~~）
+## 演示地址
 
 | 项目 | 演示地址 | 管理员账号 | 普通账号 | 
 |---|---|---|---|
@@ -198,9 +182,6 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 2. dev 分支为作者的开发分支，作者开发的最新功能会实时提交上来，喜欢尝鲜的可以切换为dev。 但可能有报错、漏提等，对项目不是很熟的朋友千万别尝试。
 3. tag 每个固定的版本都会打一个tag方便后续切换任意版本。
 
-## 项目架构图:  架构图.xml -> https://www.draw.io/
-![架构图.png](docs/image/项目相关/架构图.png)
-
 ## 技术栈/版本介绍：
 - 所涉及的相关的技术有：
     - JSON序列化:Jackson
@@ -241,6 +222,27 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 | ![预览.png](docs/image/项目相关/swagger获取token.jpg) | ![预览.png](docs/image/软著V2.5.0.jpg)  |
 | ![预览.png](docs/image/1000star.png) | ![预览.png](docs/image/项目相关/zuihou-jobs-server.png) |
 
+
+## 交流群： 63202894（主群）、 1011148503（2号群）
+    加群前请先给项目点个 "Star"，谢谢！😘
+
+## 如果觉得本项目对您有任何一点帮助，请点右上角 "Star" 支持一下， 并向您的基友、同事们宣传一下吧，谢谢！
+
+## 详细文档:  https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+    ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 并 备注邮箱，可得开发文档一份（支持后续更新） 
+        打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
+    
+## 会员版
+本项目分为开源版和会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
+
+会员版和开源版区别请看：[会员版](会员版.md)
+
+## 项目不错，支持一下吧
+![扫码支持.png](docs/image/请作者买瓶防脱发药水吧.png)
+
+## 感谢 JetBrains 提供的免费开源 License：
+[![JetBrains](docs/image/jetbrains.png)](https://www.jetbrains.com/?from=zuihou-admin-cloud)
+    
 ## 友情链接 & 特别鸣谢
 * SaaS型微服务快速开发平台：[https://github.com/zuihou/zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)
 * SaaS型单体快速开发平台：[https://github.com/zuihou/zuihou-admin-boot](https://github.com/zuihou/zuihou-admin-boot)
@@ -254,27 +256,3 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
     zuihou-ui 和 zuihou-admin-ui 基于本项目改造
 * Cloud-Platform： [https://gitee.com/geek_qi/cloud-platform](https://gitee.com/geek_qi/cloud-platform)
     作者学习时接触到的第一个微服务项目
-
-## 感谢 JetBrains 提供的免费开源 License：
-
-[![JetBrains](docs/image/jetbrains.png)](https://www.jetbrains.com/?from=zuihou-admin-cloud)
-    
-## 交流群： 63202894（主群）、 1011148503（2号群）
-![qq群.png](docs/image/qq群.png) <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=958f380cb111bcea0cfe35cc5996c47b72ae17a3757807599d1f5ad4fa3c4f6b"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
-
-    加群前请先将下方项目点star，支持下群主，谢谢😘
-
-## 如果觉得对您有任何一点帮助，请点右上角 "Star" 支持一下吧，谢谢！
-
-## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
-
-## 项目不错，支持一下吧
-![扫码支持.png](docs/image/请作者买瓶防脱发药水吧.png)
-    
-    ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 并 备注邮箱，可得开发文档一份（支持后续更新） 
-        打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
-
-## 会员版
-本项目分为开源版和会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
-
-会员版和开源版区别请看：[会员版](会员版.md)
