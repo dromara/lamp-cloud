@@ -66,6 +66,8 @@ server:
 
 # mysql 通用配置
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   profiles:
     active: dev
   datasource:

@@ -27,6 +27,8 @@ zuihou:
 
 # mysql 通用配置
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   datasource:
     dynamic:
       enabled: false  # 这里一定要写成false，无论是什么模式
