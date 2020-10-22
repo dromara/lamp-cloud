@@ -1,22 +1,14 @@
-package com.github.zuihou.common.constant;
-
-import cn.hutool.core.util.StrUtil;
-import com.github.zuihou.context.BaseContextHandler;
-import com.github.zuihou.utils.StrPool;
+package com.github.zuihou.common.cache;
 
 /**
  * 用于同一管理和生成缓存的key， 避免多个项目使用的key重复
  * <p>
  * 使用@Cacheable时， 其value值一定要在此处指定
- * <p>
- * 3.0.0 废弃本类
  *
  * @author zuihou
- * @date 2019/08/06
- * @see com.github.zuihou.common.cache.CacheKeyDefinition
+ * @date 2020/10/21
  */
-@Deprecated
-public interface CacheKey {
+public interface CacheKeyDefinition {
     // 权限系统缓存 start
 
     /**
@@ -152,16 +144,23 @@ public interface CacheKey {
     String AREA_ALL = "area_all";
 
     /**
-     * 字典 前缀
+     * 字典项 前缀
      * 完整key: dictionary_item:{id} -> obj
      */
     String DICTIONARY_ITEM = "dictionary_item";
+    /**
+     * 字典类型 前缀
+     * 完整key:  {tenant}:dictionary_type:{type}
+     * field:   {code}
+     * value:   itemId
+     */
+    String DICTIONARY_TYPE = "dictionary_type";
 
     /**
      * 参数 前缀
-     * 完整key: parameter:{id} -> obj
+     * 完整key: parameter_key:{key} -> obj
      */
-    String PARAMETER = "parameter";
+    String PARAMETER_KEY = "parameter_key";
     /**
      * 应用 前缀
      * 完整key: application:{id} -> obj
@@ -204,9 +203,10 @@ public interface CacheKey {
     String TENANT = "tenant";
     /**
      * 租户 前缀
-     * 完整key: tenant_name:{name} -> id
+     * 完整key: tenant_code:{code} -> id
      */
-    String TENANT_NAME = "tenant_name";
+    String TENANT_CODE = "tenant_code";
+
     // 权限系统缓存 end
 
 
@@ -230,33 +230,4 @@ public interface CacheKey {
     String RATE_LIMITER_ID = "gateway:ratelimiter:id";
     String RATE_LIMITER = "gateway:ratelimiter";
 
-    /**
-     * 构建key
-     *
-     * @param args
-     * @return
-     */
-    static String buildTenantKey(Object... args) {
-        if (args.length > 0) {
-            return StrUtil.join(StrPool.COLON, BaseContextHandler.getTenant(), args);
-        } else {
-            return BaseContextHandler.getTenant();
-        }
-    }
-
-    /**
-     * 构建没有租户信息的key
-     *
-     * @param args
-     * @return
-     */
-    static String buildKey(Object... args) {
-        if (args.length == 1) {
-            return String.valueOf(args[0]);
-        } else if (args.length > 0) {
-            return StrUtil.join(StrPool.COLON, args);
-        } else {
-            return "";
-        }
-    }
 }

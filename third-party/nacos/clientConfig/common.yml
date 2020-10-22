@@ -1,4 +1,3 @@
-# 在这里配置 所有的服务 和 所有环境 都相同的配置
 zuihou:
   zipkin:
     enabled: false
@@ -7,7 +6,7 @@ zuihou:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 2.5.2
+    version: 2.6.0
     contact:
       url: https://github.com/zuihou
       name: zuiou

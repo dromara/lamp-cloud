@@ -1,4 +1,6 @@
+
 # mysql 个性化配置， 不同的环境，需要配置不同的链接信息，只需要将这段信息复制到具体环境的配置文件中进行修改即可
+# 如：复制到zuihou-authority-server-dev.yml中将数据库名和ip改掉
 zuihou:
   mysql:
     ip: 127.0.0.1
@@ -7,8 +9,8 @@ zuihou:
     database: zuihou_defaults
     username: root
     password: root
-    url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-  database:
+    url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
+  database: # 字段介绍参考 DatabaseProperties
     tenantDatabasePrefix: zuihou_base
     multiTenantType: SCHEMA
     isNotWrite: false
@@ -26,16 +28,18 @@ zuihou:
 # mysql 通用配置
 spring:
   datasource:
-    # 从这里开始，中间的这段配置用于 zuihou.database.multiTenantType == DATASOURCE 时
-    # 联系群主开通
-    # 从这里结束，中间的这段配置用于 zuihou.database.multiTenantType == DATASOURCE 时
+    dynamic:
+      enabled: false  # 这里一定要写成false，无论是什么模式
+      # 从这里开始(dynamic)，中间的这段配置用于 zuihou.database.multiTenantType == DATASOURCE 时
+      # DATASOURCE模式 联系群主购买开通
+      # 从这里结束(dynamic)，中间的这段配置用于 zuihou.database.multiTenantType == DATASOURCE 时
     druid:
       enable: true
       # 从这里开始(druid)，中间的这段配置用于 zuihou.database.multiTenantType != DATASOURCE 时
       username: ${zuihou.mysql.username}
       password: ${zuihou.mysql.password}
       driver-class-name: ${zuihou.mysql.driverClassName}
-      url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      url: jdbc:mysql://${zuihou.mysql.ip}:${zuihou.mysql.port}/${zuihou.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
       db-type: mysql
       initialSize: 10
       minIdle: 10

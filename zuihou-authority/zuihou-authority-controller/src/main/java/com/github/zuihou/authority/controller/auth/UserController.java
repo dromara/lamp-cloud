@@ -53,12 +53,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.groups.Default;
-import java.io.Serializable;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -218,12 +215,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
 
     @RequestMapping(value = "/findUserById", method = RequestMethod.GET)
     public R<List<User>> findUserById(@RequestParam(value = "ids") List<Long> ids) {
-        Set<Serializable> set = new HashSet<>();
-        ids.forEach(id -> {
-            set.add(id);
-        });
-        List<User> user = baseService.findUser(set);
-        return this.success(user);
+        return this.success(baseService.findUserById(ids));
     }
 
     @Override

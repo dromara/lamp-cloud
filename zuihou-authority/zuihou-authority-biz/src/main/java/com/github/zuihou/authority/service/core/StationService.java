@@ -3,6 +3,7 @@ package com.github.zuihou.authority.service.core;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.core.Station;
+import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.base.service.SuperCacheService;
 
 import java.io.Serializable;
@@ -23,10 +24,10 @@ public interface StationService extends SuperCacheService<Station> {
      * 按权限查询岗位的分页信息
      *
      * @param page
-     * @param data
+     * @param params
      * @return
      */
-    IPage<Station> findStationPage(IPage page, StationPageDTO data);
+    IPage<Station> findStationPage(IPage page, PageParams<StationPageDTO> params);
 
     /**
      * 根据id 查询

@@ -1,7 +1,6 @@
 package com.github.zuihou.tenant.controller;
 
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.authority.dto.auth.UserUpdatePasswordDTO;
@@ -14,6 +13,7 @@ import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.query.QueryWrap;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.tenant.dto.GlobalUserPageDTO;
@@ -26,7 +26,6 @@ import com.github.zuihou.tenant.service.GlobalUserService;
 import com.github.zuihou.tenant.service.TenantService;
 import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.BizAssert;
-import com.github.zuihou.utils.DateUtils;
 import com.github.zuihou.utils.StrHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,7 +43,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -116,29 +114,6 @@ public class GlobalUserController extends SuperController<GlobalUserService, Lon
         }
     }
 
-    private void handlerUserWrapper(QueryWrap<User> wrapper, PageParams<GlobalUserPageDTO> params) {
-        if (CollUtil.isNotEmpty(params.getMap())) {
-            Map<String, String> map = params.getMap();
-            //拼装区间
-            for (Map.Entry<String, String> field : map.entrySet()) {
-                String key = field.getKey();
-                String value = field.getValue();
-                if (StrUtil.isEmpty(value)) {
-                    continue;
-                }
-                if (key.endsWith("_st")) {
-                    String beanField = StrUtil.subBefore(key, "_st", true);
-                    wrapper.ge(getDbField(beanField, getEntityClass()), DateUtils.getStartTime(value));
-                }
-                if (key.endsWith("_ed")) {
-                    String beanField = StrUtil.subBefore(key, "_ed", true);
-                    wrapper.le(getDbField(beanField, getEntityClass()), DateUtils.getEndTime(value));
-                }
-            }
-        }
-    }
-
-
     @Override
     public void query(PageParams<GlobalUserPageDTO> params, IPage<GlobalUser> page, Long defSize) {
         GlobalUserPageDTO model = params.getModel();
@@ -153,11 +128,10 @@ public class GlobalUserController extends SuperController<GlobalUserService, Lon
         BaseContextHandler.setTenant(model.getTenantCode());
 
         IPage<User> userPage = params.buildPage();
-        QueryWrap<User> wrapper = Wraps.q();
-        handlerUserWrapper(wrapper, params);
-        wrapper.lambda()
-                .like(User::getAccount, model.getAccount())
-                .like(User::getName, model.getName());
+        LbqWrapper<User> wrapper = Wraps.lbq(null, params.getMap(), User.class);
+        wrapper.like(User::getAccount, model.getAccount())
+                .like(User::getName, model.getName())
+                .orderByDesc(User::getCreateTime);
 
         userService.page(userPage, wrapper);
 

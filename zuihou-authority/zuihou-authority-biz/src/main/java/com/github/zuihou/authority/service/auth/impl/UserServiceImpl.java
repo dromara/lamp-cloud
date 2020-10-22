@@ -50,6 +50,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,7 +73,6 @@ import static com.github.zuihou.common.constant.CacheKey.USER_ACCOUNT;
  */
 @Slf4j
 @Service
-
 public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
@@ -241,6 +241,13 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         //key 是 用户id
         ImmutableMap<Serializable, Object> typeMap = MapHelper.uniqueIndex(list, User::getId, (user) -> user);
         return typeMap;
+    }
+
+    @Override
+    public List<User> findUserById(List<Long> ids) {
+        Set<Serializable> set = new HashSet<>();
+        ids.forEach(set::add);
+        return findUser(set);
     }
 
     @Override

@@ -21,6 +21,10 @@ public interface BizConstant {
      */
     Long DEMO_ORG_ID = 101L;
     /**
+     * 角色前缀
+     */
+    String ROLE_PREFIX = "ROLE_";
+    /**
      * 演示用的岗位ID
      */
     Long DEMO_STATION_ID = 101L;

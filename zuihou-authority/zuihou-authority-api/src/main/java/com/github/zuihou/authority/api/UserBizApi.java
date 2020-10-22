@@ -1,10 +1,12 @@
 package com.github.zuihou.authority.api;
 
 import com.github.zuihou.authority.api.hystrix.UserBizApiFallback;
+import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,4 +27,12 @@ public interface UserBizApi {
      */
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     R<List<Long>> findAllUserId();
+
+    /**
+     * 根据id集合查询所有的用户
+     *
+     * @return
+     */
+    @RequestMapping(value = "/findUserById", method = RequestMethod.GET)
+    R<List<User>> findUserById(@RequestParam(value = "ids") List<Long> ids);
 }

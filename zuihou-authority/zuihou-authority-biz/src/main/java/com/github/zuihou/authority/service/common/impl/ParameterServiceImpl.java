@@ -11,6 +11,7 @@ import com.github.zuihou.authority.service.common.ParameterService;
 import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
+import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.SpringUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;
@@ -24,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.github.zuihou.common.constant.CacheKey.PARAMETER;
-import static com.github.zuihou.common.constant.CacheKey.buildTenantKey;
 
 /**
  * <p>
@@ -37,7 +37,6 @@ import static com.github.zuihou.common.constant.CacheKey.buildTenantKey;
  */
 @Slf4j
 @Service
-
 public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Parameter> implements ParameterService {
 
     @Autowired
@@ -50,6 +49,9 @@ public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Para
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Parameter model) {
+        int count = count(Wraps.<Parameter>lbQ().eq(Parameter::getKey, model.getKey()));
+        BizAssert.isFalse(count > 0, StrUtil.format("参数key[{}]已经存在，请勿重复创建", model.getKey()));
+
         boolean bool = SqlHelper.retBool(baseMapper.insert(model));
         if (bool) {
             String cacheKey = buildTenantKey(model.getKey());
@@ -61,6 +63,9 @@ public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Para
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(Parameter model) {
+        int count = count(Wraps.<Parameter>lbQ().eq(Parameter::getKey, model.getKey()).ne(Parameter::getId, model.getId()));
+        BizAssert.isFalse(count > 0, StrUtil.format("参数key[{}]已经存在，请勿重复创建", model.getKey()));
+
         boolean bool = SqlHelper.retBool(getBaseMapper().updateById(model));
         if (bool) {
             String cacheKey = buildTenantKey(model.getKey());

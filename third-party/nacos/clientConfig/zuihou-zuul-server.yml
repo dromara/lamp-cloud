@@ -43,6 +43,10 @@ zuul:
     tenant:
       path: /tenant/**
       serviceId: zuihou-tenant-server
+    # 联系作者购买
+    activiti:
+      path: /activiti/**
+      serviceId: zuihou-activiti-server
     file:
       path: /file/**
       serviceId: zuihou-file-server

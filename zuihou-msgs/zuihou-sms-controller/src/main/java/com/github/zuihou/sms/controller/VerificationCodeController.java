@@ -4,8 +4,9 @@ import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.entity.SuperEntity;
-import com.github.zuihou.cache.repository.CacheRepository;
-import com.github.zuihou.common.constant.CacheKey;
+import com.github.zuihou.cache.model.CacheKey;
+import com.github.zuihou.cache.repository.CacheOps;
+import com.github.zuihou.common.cache.VerificationCodeCacheKeyBuilder;
 import com.github.zuihou.sms.dto.VerificationCodeDTO;
 import com.github.zuihou.sms.entity.SmsTask;
 import com.github.zuihou.sms.enumeration.SourceType;
@@ -35,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class VerificationCodeController {
 
     @Autowired
-    private CacheRepository cacheRepository;
+    private CacheOps cacheOps;
     @Autowired
     private SmsTaskService smsTaskService;
 
@@ -61,8 +62,8 @@ public class VerificationCodeController {
         smsTask.setDraft(false);
         smsTaskService.saveTask(smsTask, TemplateCodeType.COMMON_SMS);
 
-        String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
-        cacheRepository.setExpire(key, code, CacheRepository.DEF_TIMEOUT_5M);
+        CacheKey cacheKey = new VerificationCodeCacheKeyBuilder().key(data.getType().name(), data.getMobile());
+        cacheOps.set(cacheKey, code);
         return R.success();
     }
 
@@ -75,8 +76,8 @@ public class VerificationCodeController {
     @ApiOperation(value = "验证验证码", notes = "验证验证码")
     @PostMapping
     public R<Boolean> verification(@Validated(SuperEntity.Update.class) @RequestBody VerificationCodeDTO data) {
-        String key = CacheKey.buildTenantKey(CacheKey.REGISTER_USER, data.getType().name(), data.getMobile());
-        String code = cacheRepository.get(key);
+        CacheKey cacheKey = new VerificationCodeCacheKeyBuilder().key(data.getType().name(), data.getMobile());
+        String code = cacheOps.get(cacheKey);
         return R.success(data.getCode().equals(code));
     }
 }

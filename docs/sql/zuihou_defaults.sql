@@ -272,8 +272,8 @@ CREATE TABLE `d_global_user` (
 -- Records of d_global_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `d_global_user` VALUES (1, 'admin', 'admin', '10086', '超级管理员', '244387066@qq.com', '1fdbcfb7a0a8c138c7eedbd205639853', b'1', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35', 1);
-INSERT INTO `d_global_user` VALUES (2, 'admin', 'demoAdmin', '10086', '超级管理员[演示]', '244387066@qq.com', 'd9d17d88918aa72834289edaf38f42e2', b'1', '2019-10-30 10:29:21', 1, '2020-08-11 14:05:19', 2);
+INSERT INTO `d_global_user` VALUES (1, 'admin', 'admin', '10086', '超级管理员', '306479353@qq.com', '1fdbcfb7a0a8c138c7eedbd205639853', b'1', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35', 1);
+INSERT INTO `d_global_user` VALUES (2, 'admin', 'demoAdmin', '10086', '超级管理员[演示]', '306479353@qq.com', 'd9d17d88918aa72834289edaf38f42e2', b'1', '2019-10-30 10:29:21', 1, '2020-08-11 14:05:19', 2);
 COMMIT;
 
 -- ----------------------------

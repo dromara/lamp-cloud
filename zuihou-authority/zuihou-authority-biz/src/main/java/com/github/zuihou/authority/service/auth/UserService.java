@@ -176,4 +176,6 @@ public interface UserService extends SuperCacheService<User> {
      * @return
      */
     List<User> findUser(Set<Serializable> ids);
+
+    List<User> findUserById(List<Long> ids);
 }

@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.api.hystrix;
 
 import com.github.zuihou.authority.api.UserBizApi;
+import com.github.zuihou.authority.entity.auth.User;
 import com.github.zuihou.base.R;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,11 @@ import java.util.List;
 public class UserBizApiFallback implements UserBizApi {
     @Override
     public R<List<Long>> findAllUserId() {
+        return R.timeout();
+    }
+
+    @Override
+    public R<List<User>> findUserById(List<Long> ids) {
         return R.timeout();
     }
 }

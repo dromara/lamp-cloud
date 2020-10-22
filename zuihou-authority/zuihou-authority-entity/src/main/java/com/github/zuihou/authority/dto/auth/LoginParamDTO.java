@@ -2,7 +2,12 @@ package com.github.zuihou.authority.dto.auth;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
@@ -27,7 +32,7 @@ public class LoginParamDTO {
     @ApiModelProperty(value = "验证码")
     private String code;
 
-    @ApiModelProperty(value = "企业编号", example = "0000")
+    @ApiModelProperty(value = "企业编号", example = "MDAwMA==")
     private String tenant;
     @ApiModelProperty(value = "账号")
     private String account;

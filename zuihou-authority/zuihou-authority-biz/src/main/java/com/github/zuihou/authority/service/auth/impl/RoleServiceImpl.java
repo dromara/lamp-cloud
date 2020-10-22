@@ -44,7 +44,6 @@ import static com.github.zuihou.common.constant.CacheKey.ROLE;
  */
 @Slf4j
 @Service
-
 public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> implements RoleService {
     @Autowired
     private RoleOrgService roleOrgService;
@@ -114,6 +113,14 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
         return removeFlag;
     }
 
+    /**
+     * 1、根据 {tenant}:USER_ROLE:{userId} 查询用户拥有的角色ID集合
+     * 2、缓存中有，则根据角色ID集合查询 角色集合
+     * 3、缓存中有查不到，则从DB查询，并写入缓存， 立即返回
+     *
+     * @param userId 用户id
+     * @return
+     */
     @Override
     public List<Role> findRoleByUserId(Long userId) {
         String key = key(userId);

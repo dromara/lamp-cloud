@@ -7,6 +7,7 @@ import com.github.zuihou.authority.dao.core.StationMapper;
 import com.github.zuihou.authority.dto.core.StationPageDTO;
 import com.github.zuihou.authority.entity.core.Station;
 import com.github.zuihou.authority.service.core.StationService;
+import com.github.zuihou.base.request.PageParams;
 import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.database.mybatis.auth.DataScope;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
@@ -48,19 +49,18 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
     @Override
     // 启用属性自动注入
     @InjectionResult
-    public IPage<Station> findStationPage(IPage page, StationPageDTO data) {
+    public IPage<Station> findStationPage(IPage page, PageParams<StationPageDTO> params) {
+        StationPageDTO data = params.getModel();
         Station station = BeanUtil.toBean(data, Station.class);
 
         //Wraps.lbQ(station); 这种写法值 不能和  ${ew.customSqlSegment} 一起使用
-        LbqWrapper<Station> wrapper = Wraps.lbQ();
+        LbqWrapper<Station> wrapper = Wraps.lbq(null, params.getMap(), Station.class);
 
         // ${ew.customSqlSegment} 语法一定要手动eq like 等
         wrapper.like(Station::getName, station.getName())
                 .like(Station::getDescribe, station.getDescribe())
                 .eq(Station::getOrg, station.getOrg())
-                .eq(Station::getStatus, station.getStatus())
-                .geHeader(Station::getCreateTime, data.getStartCreateTime())
-                .leFooter(Station::getCreateTime, data.getEndCreateTime());
+                .eq(Station::getStatus, station.getStatus());
         return baseMapper.findStationPage(page, wrapper, new DataScope());
     }
 

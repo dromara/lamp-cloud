@@ -48,6 +48,13 @@ spring:
             - Path=/msgs/**
           filters:
             - StripPrefix=1
+        # 联系作者购买
+        - id: activiti
+          uri: lb://zuihou-activiti-server
+          predicates:
+            - Path=/activiti/**
+          filters:
+            - StripPrefix=1
         - id: demo
           uri: lb://zuihou-demo-server
           predicates:

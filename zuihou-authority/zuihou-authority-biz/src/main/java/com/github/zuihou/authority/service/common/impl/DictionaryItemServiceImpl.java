@@ -9,13 +9,16 @@ import com.github.zuihou.base.service.SuperCacheServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.injection.properties.InjectionProperties;
+import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.MapHelper;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -40,7 +43,6 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 @Service
-
 public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryItemMapper, DictionaryItem> implements DictionaryItemService {
 
     @Autowired
@@ -49,6 +51,23 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
     @Override
     protected String getRegion() {
         return DICTIONARY_ITEM;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save(DictionaryItem model) {
+        int count = count(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getDictionaryType, model.getDictionaryType()).eq(DictionaryItem::getCode, model.getCode()));
+        BizAssert.isFalse(count > 0, StrUtil.format("字典类型[{}]已经存在，请勿重复创建", model.getCode()));
+        return super.save(model);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateById(DictionaryItem model) {
+        int count = count(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getDictionaryType, model.getDictionaryType())
+                .eq(DictionaryItem::getCode, model.getCode()).ne(DictionaryItem::getId, model.getId()));
+        BizAssert.isFalse(count > 0, StrUtil.format("字典类型[{}]已经存在，请勿重复创建", model.getCode()));
+        return super.updateById(model);
     }
 
     @Override
@@ -76,31 +95,33 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
     }
 
     @Override
-    public Map<Serializable, Object> findDictionaryItem(Set<Serializable> codes) {
-        if (codes.isEmpty()) {
+    public Map<Serializable, Object> findDictionaryItem(Set<Serializable> typeCodes) {
+        if (typeCodes.isEmpty()) {
             return Collections.emptyMap();
         }
-        Set<String> types = codes.stream().filter(Objects::nonNull)
+        Set<String> types = typeCodes.stream().filter(Objects::nonNull)
                 .map((item) -> StrUtil.split(String.valueOf(item), ips.getDictSeparator())[0]).collect(Collectors.toSet());
-        Set<String> newCodes = codes.stream().filter(Objects::nonNull)
+        Set<String> multiCodes = typeCodes.stream().filter(Objects::nonNull)
                 .map((item) -> StrUtil.split(String.valueOf(item), ips.getDictSeparator())[1]).collect(Collectors.toSet());
+        Set<String> codes = multiCodes.parallelStream()
+                .map(item -> StrUtil.split(String.valueOf(item), ips.getDictItemSeparator()))
+                .flatMap(Arrays::stream).collect(Collectors.toSet());
+
 
         // 1. 根据 字典编码查询可用的字典列表
         LbqWrapper<DictionaryItem> query = Wraps.<DictionaryItem>lbQ()
                 .in(DictionaryItem::getDictionaryType, types)
-                .in(DictionaryItem::getCode, newCodes)
-                .eq(DictionaryItem::getStatus, true)
+                .in(DictionaryItem::getCode, codes)
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = super.list(query);
 
         // 2. 将 list 转换成 Map，Map的key是字典编码，value是字典名称
         ImmutableMap<String, String> typeMap = MapHelper.uniqueIndex(list,
-                (item) -> StrUtil.join(ips.getDictSeparator(), item.getDictionaryType(), item.getCode())
-                , DictionaryItem::getName);
+                item -> StrUtil.join(ips.getDictSeparator(), item.getDictionaryType(), item.getCode()), DictionaryItem::getName);
 
         // 3. 将 Map<String, String> 转换成 Map<Serializable, Object>
         Map<Serializable, Object> typeCodeNameMap = new HashMap<>(typeMap.size());
-        typeMap.forEach((key, value) -> typeCodeNameMap.put(key, value));
+        typeMap.forEach(typeCodeNameMap::put);
         return typeCodeNameMap;
     }
 }
