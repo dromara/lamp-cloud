@@ -46,11 +46,6 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         return TENANT;
     }
 
-    @Override
-    protected String key(Object... args) {
-        return buildKey(args);
-    }
-
     /**
      * tanant_name:{tenantcode} -> id 只存租户的id，然后根据id再次查询缓存，这样子的好处是，删除或者修改租户信息时，只需要根据id淘汰缓存即可
      * 缺点就是 每次查询，需要多查一次缓存
