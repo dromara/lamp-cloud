@@ -18,8 +18,20 @@ import com.xxl.rpc.remoting.net.impl.jetty.server.JettyServerHandler;
 import com.xxl.rpc.remoting.provider.XxlRpcProviderFactory;
 import com.xxl.rpc.serialize.Serializer;
 import org.eclipse.jetty.server.Request;
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.Job;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
 import org.quartz.Trigger.TriggerState;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -320,6 +332,48 @@ public final class XxlJobDynamicScheduler {
         scheduler.rescheduleJob(triggerKey, oldTrigger);
 
         logger.info(">>>>>>>>>>> resumeJob success, JobGroup:{}, JobName:{}", jobGroup, jobName);
+        return true;
+    }
+
+    public static boolean updateJobCron(XxlJobInfo jobInfo) throws SchedulerException {
+        // update quartz-cron if started
+        String jobGroup = String.valueOf(jobInfo.getJobGroup());
+        String jobName = String.valueOf(jobInfo.getId());
+        // trigger key
+        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
+
+        // trigger cron
+        Trigger trigger = scheduler.getTrigger(triggerKey);
+        if (trigger != null) {
+            // trigger state
+            TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+            if (triggerState != null && triggerState == TriggerState.NORMAL) {
+
+                SimpleTrigger oldTrigger = (SimpleTrigger) scheduler.getTrigger(triggerKey);
+
+                SimpleScheduleBuilder timingScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+                        .withIntervalInSeconds(jobInfo.getIntervalSeconds())
+                        .withRepeatCount(jobInfo.getRepeatCount());
+                if (jobInfo.getEndExecuteTime() != null) {
+                    oldTrigger = oldTrigger.getTriggerBuilder()
+                            .withIdentity(triggerKey)
+                            // 开始执行时间
+                            .startAt(jobInfo.getStartExecuteTime())
+                            // 结束执行时间
+                            .endAt(jobInfo.getEndExecuteTime())
+                            .withSchedule(timingScheduleBuilder)
+                            .build();
+                } else {
+                    oldTrigger = oldTrigger.getTriggerBuilder()
+                            .withIdentity(triggerKey)
+                            .startAt(jobInfo.getStartExecuteTime())
+                            .withSchedule(timingScheduleBuilder)
+                            .build();
+                }
+                Date date = scheduler.rescheduleJob(triggerKey, oldTrigger);
+                logger.info("date={}", date);
+            }
+        }
         return true;
     }
 

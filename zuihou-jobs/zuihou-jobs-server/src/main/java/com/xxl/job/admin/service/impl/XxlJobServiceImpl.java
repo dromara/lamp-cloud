@@ -26,7 +26,13 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * core job action for xxl-job
@@ -262,14 +268,16 @@ public class XxlJobServiceImpl implements XxlJobService {
         existsJobInfo.setIntervalSeconds(jobInfo.getIntervalSeconds());
         xxlJobInfoDao.update(existsJobInfo);
 
-        if (JobTypeEnum.TIMES.eq(jobInfo.getType())) {
-            return ReturnT.SUCCESS;
-        }
-
-        // update quartz-cron if started
-        String qzGroup = String.valueOf(existsJobInfo.getJobGroup());
-        String qzName = String.valueOf(existsJobInfo.getId());
         try {
+            if (JobTypeEnum.TIMES.eq(jobInfo.getType())) {
+                XxlJobDynamicScheduler.updateJobCron(existsJobInfo);
+                return ReturnT.SUCCESS;
+            }
+
+            // update quartz-cron if started
+            String qzGroup = String.valueOf(existsJobInfo.getJobGroup());
+            String qzName = String.valueOf(existsJobInfo.getId());
+
             XxlJobDynamicScheduler.updateJobCron(qzGroup, qzName, existsJobInfo.getJobCron());
         } catch (SchedulerException e) {
             logger.error(e.getMessage(), e);
@@ -334,30 +342,6 @@ public class XxlJobServiceImpl implements XxlJobService {
             return ReturnT.FAIL;
         }
     }
-
-	/*@Override
-    public ReturnT<String> triggerJob(int id, int failRetryCount) {
-
-		JobTriggerPoolHelper.trigger(id, failRetryCount);
-		return ReturnT.SUCCESS;
-
-        *//*XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(id);
-        if (xxlJobInfo == null) {
-        	return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("jobinfo_field_id")+I18nUtil.getString("system_unvalid")) );
-		}
-
-        String group = String.valueOf(xxlJobInfo.getJobGroup());
-        String name = String.valueOf(xxlJobInfo.getId());
-
-		try {
-			XxlJobDynamicScheduler.triggerJob(name, group);
-			return ReturnT.SUCCESS;
-		} catch (SchedulerException e) {
-			logger.error(e.getMessage(), e);
-			return new ReturnT<String>(ReturnT.FAIL_CODE, e.getMessage());
-		}*//*
-
-	}*/
 
     @Override
     public ReturnT<String> stop(Integer id) {
