@@ -1,7 +1,8 @@
 spring:
   application:
     name: @project.artifactId@
-
+  main:
+    allow-bean-definition-overriding: true
 logging:
   file:
     path: @logging.file.path@
