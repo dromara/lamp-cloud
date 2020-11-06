@@ -1,5 +1,6 @@
 package com.xxl.job.admin.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.model.XxlJobLog;
@@ -11,7 +12,6 @@ import com.xxl.job.admin.dao.XxlJobLogDao;
 import com.xxl.job.core.biz.ExecutorBiz;
 import com.xxl.job.core.biz.model.LogResult;
 import com.xxl.job.core.biz.model.ReturnT;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +76,7 @@ public class JobLogController {
         // parse param
         Date triggerTimeStart = null;
         Date triggerTimeEnd = null;
-        if (StringUtils.isNotBlank(filterTime)) {
+        if (StrUtil.isNotBlank(filterTime)) {
             String[] temp = filterTime.split(" - ");
             if (temp != null && temp.length == 2) {
                 try {

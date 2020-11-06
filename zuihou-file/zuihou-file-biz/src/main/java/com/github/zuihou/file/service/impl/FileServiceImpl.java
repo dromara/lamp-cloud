@@ -1,6 +1,7 @@
 package com.github.zuihou.file.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
@@ -25,7 +26,6 @@ import com.github.zuihou.utils.BizAssert;
 import com.github.zuihou.utils.DateUtils;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,7 +95,7 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, File> implemen
 
         if (folder != null && !folder.getIsDelete() && DataType.DIR.eq(folder.getDataType())) {
             folderName = folder.getSubmittedFileName();
-            treePath = StringUtils.join(folder.getTreePath(), folder.getId(), DEF_ROOT_PATH);
+            treePath = StrUtil.join(DEF_ROOT_PATH, folder.getTreePath(), folder.getId());
             grade = folder.getGrade() + 1;
         }
         BizAssert.isTrue(grade <= 10, BASE_VALID_PARAM.build("文件夹层级不能超过10层"));
@@ -117,7 +117,7 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, File> implemen
             BizAssert.equals(DataType.DIR.name(), parent.getDataType().name(), BASE_VALID_PARAM.build("父文件夹不存在"));
             BizAssert.isTrue(parent.getGrade() < 10, BASE_VALID_PARAM.build("文件夹层级不能超过10层"));
             folder.setFolderName(parent.getSubmittedFileName());
-            folder.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), DEF_ROOT_PATH));
+            folder.setTreePath(StrUtil.join(DEF_ROOT_PATH, parent.getTreePath(), parent.getId()));
             folder.setGrade(parent.getGrade() + 1);
         }
         if (folderSaveDto.getOrderNum() == null) {

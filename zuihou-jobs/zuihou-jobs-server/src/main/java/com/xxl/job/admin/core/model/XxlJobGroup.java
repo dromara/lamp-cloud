@@ -1,6 +1,6 @@
 package com.xxl.job.admin.core.model;
 
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +48,7 @@ public class XxlJobGroup {
     private List<String> registryList;
 
     public List<String> getRegistryList() {
-        if (StringUtils.isNotBlank(addressList)) {
+        if (StrUtil.isNotBlank(addressList)) {
             registryList = new ArrayList<String>(Arrays.asList(addressList.split(",")));
         }
         return registryList;

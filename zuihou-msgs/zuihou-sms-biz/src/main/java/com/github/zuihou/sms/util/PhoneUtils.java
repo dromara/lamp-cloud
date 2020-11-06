@@ -1,7 +1,7 @@
 package com.github.zuihou.sms.util;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -39,7 +39,7 @@ public class PhoneUtils {
     public static Set<String> getPhone(String receiverPhone, String regEx) {
         //判断参数类型
         if (!receiverPhone.contains(PHONE_SEPARATOR)) {
-            String[] list = StringUtils.split(receiverPhone, CONTACTS_SEPARATOR);
+            String[] list = StrUtil.split(receiverPhone, CONTACTS_SEPARATOR);
             return new LinkedHashSet<>(Arrays.asList(list));
         }
 

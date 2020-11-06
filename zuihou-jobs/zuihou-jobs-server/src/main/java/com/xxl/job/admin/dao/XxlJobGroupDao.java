@@ -1,6 +1,6 @@
 package com.xxl.job.admin.dao;
 
-import com.baomidou.mybatisplus.annotation.SqlParser;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by xuxueli on 16/9/30.
  */
 @Repository
-@SqlParser(filter = true)
+@InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 public interface XxlJobGroupDao {
 
     List<XxlJobGroup> findAll();

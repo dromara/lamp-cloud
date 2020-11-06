@@ -2,6 +2,7 @@ package com.github.zuihou.file.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.base.service.SuperServiceImpl;
@@ -26,7 +27,6 @@ import com.github.zuihou.file.strategy.FileStrategy;
 import com.github.zuihou.utils.BeanPlusUtil;
 import com.github.zuihou.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,7 +78,7 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
     @Override
     public AttachmentDTO upload(MultipartFile multipartFile, String tenant, Long id, String bizType, String bizId, Boolean isSingle) {
         //根据业务类型来判断是否生成业务id
-        if (StringUtils.isNotEmpty(bizType) && StringUtils.isEmpty(bizId)) {
+        if (StrUtil.isNotEmpty(bizType) && StrUtil.isEmpty(bizId)) {
             DatabaseProperties.HutoolId idPro = databaseProperties.getHutoolId();
             bizId = IdUtil.getSnowflake(idPro.getWorkerId(), idPro.getDataCenterId()).nextIdStr();
         }
@@ -174,7 +174,7 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
 
     @Override
     public void downloadByUrl(HttpServletRequest request, HttpServletResponse response, String url, String filename) throws Exception {
-        if (StringUtils.isEmpty(filename)) {
+        if (StrUtil.isEmpty(filename)) {
             filename = "未知文件名.txt";
         }
         List<Attachment> list = Arrays.asList(Attachment.builder()

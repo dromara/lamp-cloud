@@ -32,6 +32,11 @@ public class CityParserTest {
 
 
     @Test
+    public void empty() {
+
+    }
+
+    //    @Test
     public void init() {
         TimeInterval timer = DateUtil.timer();
         // -------这是执行过程--------------

@@ -1,6 +1,6 @@
 package com.xxl.job.admin.dao;
 
-import com.baomidou.mybatisplus.annotation.SqlParser;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.xxl.job.admin.core.model.XxlJobLog;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,19 +14,11 @@ import java.util.Map;
  *
  * @author xuxueli 2016-1-12 18:03:06
  */
-@SqlParser(filter = true)
+@InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 @Repository
 public interface XxlJobLogDao {
 
-    public List<XxlJobLog> pageList(@Param("offset") Integer offset,
-                                    @Param("pagesize") Integer pagesize,
-                                    @Param("jobGroup") Integer jobGroup,
-                                    @Param("jobId") Integer jobId,
-                                    @Param("triggerTimeStart") Date triggerTimeStart,
-                                    @Param("triggerTimeEnd") Date triggerTimeEnd,
-                                    @Param("logStatus") Integer logStatus);
-
-    public int pageListCount(@Param("offset") Integer offset,
+    List<XxlJobLog> pageList(@Param("offset") Integer offset,
                              @Param("pagesize") Integer pagesize,
                              @Param("jobGroup") Integer jobGroup,
                              @Param("jobId") Integer jobId,
@@ -34,24 +26,32 @@ public interface XxlJobLogDao {
                              @Param("triggerTimeEnd") Date triggerTimeEnd,
                              @Param("logStatus") Integer logStatus);
 
-    public XxlJobLog load(@Param("id") Integer id);
+    int pageListCount(@Param("offset") Integer offset,
+                      @Param("pagesize") Integer pagesize,
+                      @Param("jobGroup") Integer jobGroup,
+                      @Param("jobId") Integer jobId,
+                      @Param("triggerTimeStart") Date triggerTimeStart,
+                      @Param("triggerTimeEnd") Date triggerTimeEnd,
+                      @Param("logStatus") Integer logStatus);
 
-    public int save(XxlJobLog xxlJobLog);
+    XxlJobLog load(@Param("id") Integer id);
 
-    public int updateTriggerInfo(XxlJobLog xxlJobLog);
+    int save(XxlJobLog xxlJobLog);
 
-    public int updateHandleInfo(XxlJobLog xxlJobLog);
+    int updateTriggerInfo(XxlJobLog xxlJobLog);
 
-    public int delete(@Param("jobId") Integer jobId);
+    int updateHandleInfo(XxlJobLog xxlJobLog);
 
-    public int triggerCountByHandleCode(@Param("handleCode") Integer handleCode);
+    int delete(@Param("jobId") Integer jobId);
 
-    public List<Map<String, Object>> triggerCountByDay(@Param("from") Date from,
-                                                       @Param("to") Date to);
+    int triggerCountByHandleCode(@Param("handleCode") Integer handleCode);
 
-    public int clearLog(@Param("jobGroup") Integer jobGroup,
-                        @Param("jobId") Integer jobId,
-                        @Param("clearBeforeTime") Date clearBeforeTime,
-                        @Param("clearBeforeNum") Integer clearBeforeNum);
+    List<Map<String, Object>> triggerCountByDay(@Param("from") Date from,
+                                                @Param("to") Date to);
+
+    int clearLog(@Param("jobGroup") Integer jobGroup,
+                 @Param("jobId") Integer jobId,
+                 @Param("clearBeforeTime") Date clearBeforeTime,
+                 @Param("clearBeforeNum") Integer clearBeforeNum);
 
 }

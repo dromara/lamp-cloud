@@ -15,7 +15,6 @@ import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
 import com.github.zuihou.file.utils.FileDataTypeUtil;
 import com.github.zuihou.utils.StrPool;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -163,7 +162,7 @@ public class LocalAutoConfigure {
                     .toString();
             File filePo = File.builder()
                     .relativePath(relativePath)
-                    .url(StringUtils.replace(url, "\\\\", StrPool.SLASH))
+                    .url(StrUtil.replace(url, "\\\\", StrPool.SLASH))
                     .build();
             return R.success(filePo);
         }

@@ -27,7 +27,6 @@ import com.github.zuihou.file.strategy.impl.AbstractFileStrategy;
 import com.github.zuihou.utils.StrPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -175,7 +174,7 @@ public class AliOssAutoConfigure {
                     .append(StrPool.SLASH)
                     .append(fileName)
                     .toString();
-            file.setUrl(StringUtils.replace(url, "\\\\", StrPool.SLASH));
+            file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
             file.setFilename(fileName);
 
             // 关闭OSSClient。
@@ -245,7 +244,7 @@ public class AliOssAutoConfigure {
                     .relativePath(relativePath)
                     .group(uploadResult.getETag())
                     .path(uploadResult.getRequestId())
-                    .url(StringUtils.replace(url, "\\\\", StrPool.SLASH))
+                    .url(StrUtil.replace(url, "\\\\", StrPool.SLASH))
                     .build();
 
             // 关闭OSSClient。

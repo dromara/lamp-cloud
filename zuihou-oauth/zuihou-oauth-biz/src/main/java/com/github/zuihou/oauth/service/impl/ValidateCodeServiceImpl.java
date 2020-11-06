@@ -1,5 +1,6 @@
 package com.github.zuihou.oauth.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.constant.CacheKey;
 import com.github.zuihou.exception.BizException;
@@ -11,7 +12,6 @@ import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -35,26 +35,26 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 
     @Override
     public void create(String key, HttpServletResponse response) throws IOException {
-        if (StringUtils.isBlank(key)) {
+        if (StrUtil.isBlank(key)) {
             throw BizException.validFail("验证码key不能为空");
         }
         setHeader(response, "arithmetic");
 
         Captcha captcha = createCaptcha("arithmetic");
-        cache.set(CacheKey.CAPTCHA, key, StringUtils.lowerCase(captcha.text()));
+        cache.set(CacheKey.CAPTCHA, key, captcha.text().toLowerCase());
         captcha.out(response.getOutputStream());
     }
 
     @Override
     public R<Boolean> check(String key, String value) {
-        if (StringUtils.isBlank(value)) {
+        if (StrUtil.isBlank(value)) {
             return R.fail(CAPTCHA_ERROR.build("请输入验证码"));
         }
         CacheObject cacheObject = cache.get(CacheKey.CAPTCHA, key);
         if (cacheObject.getValue() == null) {
             return R.fail(CAPTCHA_ERROR.build("验证码已过期"));
         }
-        if (!StringUtils.equalsIgnoreCase(value, String.valueOf(cacheObject.getValue()))) {
+        if (!StrUtil.equalsIgnoreCase(value, String.valueOf(cacheObject.getValue()))) {
             return R.fail(CAPTCHA_ERROR.build("验证码不正确"));
         }
         cache.evict(CacheKey.CAPTCHA, key);
@@ -63,13 +63,13 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 
     private Captcha createCaptcha(String type) {
         Captcha captcha;
-        if (StringUtils.equalsIgnoreCase(type, "gif")) {
+        if (StrUtil.equalsIgnoreCase(type, "gif")) {
             captcha = new GifCaptcha(115, 42, 4);
-        } else if (StringUtils.equalsIgnoreCase(type, "png")) {
+        } else if (StrUtil.equalsIgnoreCase(type, "png")) {
             captcha = new SpecCaptcha(115, 42, 4);
-        } else if (StringUtils.equalsIgnoreCase(type, "chinese")) {
+        } else if (StrUtil.equalsIgnoreCase(type, "chinese")) {
             captcha = new ChineseCaptcha(115, 42);
-        } else  /*if (StringUtils.equalsIgnoreCase(type, "arithmetic")) */ {
+        } else  /*if (StrUtil.equalsIgnoreCase(type, "arithmetic")) */ {
             captcha = new ArithmeticCaptcha(115, 42);
         }
         captcha.setCharType(2);
@@ -77,7 +77,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     }
 
     private void setHeader(HttpServletResponse response, String type) {
-        if (StringUtils.equalsIgnoreCase(type, "gif")) {
+        if (StrUtil.equalsIgnoreCase(type, "gif")) {
             response.setContentType(MediaType.IMAGE_GIF_VALUE);
         } else {
             response.setContentType(MediaType.IMAGE_PNG_VALUE);

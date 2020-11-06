@@ -1,5 +1,7 @@
 package com.xxl.job.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.xxl.job.admin.core.conf.XxlJobAdminConfig;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobRegistry;
@@ -9,7 +11,6 @@ import com.xxl.job.admin.dao.XxlJobInfoDao;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,22 +51,22 @@ public class JobGroupController {
     public ReturnT<String> save(XxlJobGroup xxlJobGroup) {
 
         // valid
-        if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
+        if (xxlJobGroup.getAppName() == null || StrUtil.isBlank(xxlJobGroup.getAppName())) {
             return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + "AppName"));
         }
         if (xxlJobGroup.getAppName().length() < 4 || xxlJobGroup.getAppName().length() > 64) {
             return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_appName_length"));
         }
-        if (xxlJobGroup.getTitle() == null || StringUtils.isBlank(xxlJobGroup.getTitle())) {
+        if (xxlJobGroup.getTitle() == null || StrUtil.isBlank(xxlJobGroup.getTitle())) {
             return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
         }
         if (xxlJobGroup.getAddressType() != 0) {
-            if (StringUtils.isBlank(xxlJobGroup.getAddressList())) {
+            if (StrUtil.isBlank(xxlJobGroup.getAddressList())) {
                 return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
             }
             String[] addresss = xxlJobGroup.getAddressList().split(",");
             for (String item : addresss) {
-                if (StringUtils.isBlank(item)) {
+                if (StrUtil.isBlank(item)) {
                     return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_registryList_unvalid"));
                 }
             }
@@ -79,13 +80,13 @@ public class JobGroupController {
     @ResponseBody
     public ReturnT<String> update(XxlJobGroup xxlJobGroup) {
         // valid
-        if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
+        if (xxlJobGroup.getAppName() == null || StrUtil.isBlank(xxlJobGroup.getAppName())) {
             return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + "AppName"));
         }
         if (xxlJobGroup.getAppName().length() < 4 || xxlJobGroup.getAppName().length() > 64) {
             return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_appName_length"));
         }
-        if (xxlJobGroup.getTitle() == null || StringUtils.isBlank(xxlJobGroup.getTitle())) {
+        if (xxlJobGroup.getTitle() == null || StrUtil.isBlank(xxlJobGroup.getTitle())) {
             return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
         }
         if (xxlJobGroup.getAddressType() == 0) {
@@ -94,17 +95,17 @@ public class JobGroupController {
             String addressListStr = null;
             if (CollectionUtils.isNotEmpty(registryList)) {
                 Collections.sort(registryList);
-                addressListStr = StringUtils.join(registryList, ",");
+                addressListStr = CollUtil.join(registryList, ",");
             }
             xxlJobGroup.setAddressList(addressListStr);
         } else {
             // 1=手动录入
-            if (StringUtils.isBlank(xxlJobGroup.getAddressList())) {
+            if (StrUtil.isBlank(xxlJobGroup.getAddressList())) {
                 return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
             }
             String[] addresss = xxlJobGroup.getAddressList().split(",");
             for (String item : addresss) {
-                if (StringUtils.isBlank(item)) {
+                if (StrUtil.isBlank(item)) {
                     return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_registryList_unvalid"));
                 }
             }

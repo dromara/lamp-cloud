@@ -1,5 +1,6 @@
 package com.github.zuihou.file.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.R;
 import com.github.zuihou.base.controller.SuperController;
@@ -13,12 +14,21 @@ import com.github.zuihou.file.manager.FileRestManager;
 import com.github.zuihou.file.service.FileService;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.utils.BeanPlusUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -92,7 +102,7 @@ public class FileController extends SuperController<FileService, Long, File, Fil
     @Override
     public R<File> handlerUpdate(FileUpdateDTO fileUpdateDTO) {
         // 判断文件名是否有 后缀
-        if (StringUtils.isNotEmpty(fileUpdateDTO.getSubmittedFileName())) {
+        if (StrUtil.isNotEmpty(fileUpdateDTO.getSubmittedFileName())) {
             File oldFile = baseService.getById(fileUpdateDTO.getId());
             if (oldFile.getExt() != null && !fileUpdateDTO.getSubmittedFileName().endsWith(oldFile.getExt())) {
                 fileUpdateDTO.setSubmittedFileName(fileUpdateDTO.getSubmittedFileName() + "." + oldFile.getExt());

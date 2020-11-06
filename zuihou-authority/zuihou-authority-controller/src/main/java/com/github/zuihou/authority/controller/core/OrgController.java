@@ -1,6 +1,7 @@
 package com.github.zuihou.authority.controller.core;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.authority.dto.core.OrgSaveDTO;
 import com.github.zuihou.authority.dto.core.OrgUpdateDTO;
 import com.github.zuihou.authority.entity.core.Org;
@@ -16,7 +17,6 @@ import com.github.zuihou.utils.TreeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.github.zuihou.utils.StrPool.*;
+import static com.github.zuihou.utils.StrPool.DEF_PARENT_ID;
+import static com.github.zuihou.utils.StrPool.DEF_ROOT_PATH;
+import static com.github.zuihou.utils.StrPool.EMPTY;
 
 
 /**
@@ -69,7 +71,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
             Org parent = this.baseService.getByIdCache(org.getParentId());
             BizAssert.notNull(parent, "父组织不能为空");
 
-            org.setTreePath(StringUtils.join(parent.getTreePath(), parent.getId(), DEF_ROOT_PATH));
+            org.setTreePath(StrUtil.join(DEF_ROOT_PATH, parent.getTreePath(), parent.getId()));
         }
         return org;
     }

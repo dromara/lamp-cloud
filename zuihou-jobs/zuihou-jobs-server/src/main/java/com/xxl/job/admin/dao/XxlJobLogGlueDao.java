@@ -1,6 +1,6 @@
 package com.xxl.job.admin.dao;
 
-import com.baomidou.mybatisplus.annotation.SqlParser;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.xxl.job.admin.core.model.XxlJobLogGlue;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -12,17 +12,16 @@ import java.util.List;
  *
  * @author xuxueli 2016-5-19 18:04:56
  */
-@SqlParser(filter = true)
+@InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 @Repository
 public interface XxlJobLogGlueDao {
 
+    int save(XxlJobLogGlue xxlJobLogGlue);
 
-    public int save(XxlJobLogGlue xxlJobLogGlue);
+    List<XxlJobLogGlue> findByJobId(@Param("jobId") Integer jobId);
 
-    public List<XxlJobLogGlue> findByJobId(@Param("jobId") Integer jobId);
+    int removeOld(@Param("jobId") Integer jobId, @Param("limit") Integer limit);
 
-    public int removeOld(@Param("jobId") Integer jobId, @Param("limit") Integer limit);
-
-    public int deleteByJobId(@Param("jobId") Integer jobId);
+    int deleteByJobId(@Param("jobId") Integer jobId);
 
 }

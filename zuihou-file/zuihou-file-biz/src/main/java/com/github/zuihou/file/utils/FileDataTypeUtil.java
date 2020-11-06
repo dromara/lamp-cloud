@@ -1,9 +1,9 @@
 package com.github.zuihou.file.utils;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.file.enumeration.DataType;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -72,11 +72,8 @@ public class FileDataTypeUtil {
     }
 
     public static String getRelativePath(String pathPrefix, String path) {
-        String remove = StringUtils.remove(path, pathPrefix + File.separator);
-
-        log.info("remove={}, index={}", remove, remove.lastIndexOf(java.io.File.separator));
-        String relativePath = StringUtils.substring(remove, 0, remove.lastIndexOf(java.io.File.separator));
-        return relativePath;
+        String fileName = StrUtil.subAfter(path, "/", true);
+        return StrUtil.subBetween(path, pathPrefix + File.separator, File.separator + fileName);
     }
 
 }

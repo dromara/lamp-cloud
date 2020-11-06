@@ -1,6 +1,7 @@
 package com.github.zuihou.file.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
@@ -28,7 +29,6 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -217,7 +217,7 @@ public class AttachmentController extends SuperSimpleController<AttachmentServic
     @SysLog("根据文件连接下载文件")
     public void downloadUrl(@RequestParam(value = "url") String url, @RequestParam(value = "filename", required = false) String filename,
                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BizAssert.isTrue(StringUtils.isNotEmpty(url), BASE_VALID_PARAM.build("附件下载地址不能为空"));
+        BizAssert.isTrue(StrUtil.isNotEmpty(url), BASE_VALID_PARAM.build("附件下载地址不能为空"));
         log.info("name={}, url={}", filename, url);
         baseService.downloadByUrl(request, response, url, filename);
     }

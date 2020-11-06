@@ -1,5 +1,6 @@
 package com.github.zuihou.file.manager;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,7 +9,6 @@ import com.github.zuihou.file.constant.FileConstants;
 import com.github.zuihou.file.dto.FilePageReqDTO;
 import com.github.zuihou.file.entity.File;
 import com.github.zuihou.file.service.FileService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +43,7 @@ public class FileRestManager {
                 .eq(File::getIsDelete, false)
                 .eq(filePageReq.getDataType() != null, File::getDataType, filePageReq.getDataType())
                 .eq(filePageReq.getFolderId() != null, File::getFolderId, filePageReq.getFolderId())
-                .like(StringUtils.isNotEmpty(filePageReq.getSubmittedFileName()), File::getSubmittedFileName, filePageReq.getSubmittedFileName())
+                .like(StrUtil.isNotEmpty(filePageReq.getSubmittedFileName()), File::getSubmittedFileName, filePageReq.getSubmittedFileName())
                 .eq(userId != null && userId != 0, File::getCreateUser, userId);
 
         query.orderByDesc(String.format("case when %s='DIR' THEN 1 else 0 end", FileConstants.DATA_TYPE));
