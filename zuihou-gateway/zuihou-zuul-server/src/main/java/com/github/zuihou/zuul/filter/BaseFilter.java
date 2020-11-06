@@ -2,7 +2,7 @@ package com.github.zuihou.zuul.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.properties.IgnoreTokenProperties;
+import com.github.zuihou.common.properties.IgnoreProperties;
 import com.github.zuihou.utils.StrPool;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -32,7 +32,7 @@ public abstract class BaseFilter extends ZuulFilter {
     @Value("${spring.profiles.active:dev}")
     protected String profiles;
     @Autowired
-    protected IgnoreTokenProperties ignoreTokenProperties;
+    protected IgnoreProperties ignoreTokenProperties;
     @Autowired
     protected RouteLocator routeLocator;
 

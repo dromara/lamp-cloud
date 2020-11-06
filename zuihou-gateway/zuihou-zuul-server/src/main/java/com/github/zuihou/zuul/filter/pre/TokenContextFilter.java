@@ -1,11 +1,12 @@
 package com.github.zuihou.zuul.filter.pre;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.github.zuihou.base.R;
 import com.github.zuihou.common.constant.BizConstant;
 import com.github.zuihou.common.constant.CacheKey;
-import com.github.zuihou.common.properties.IgnoreTokenProperties;
+import com.github.zuihou.common.properties.IgnoreProperties;
 import com.github.zuihou.context.BaseContextConstants;
 import com.github.zuihou.context.BaseContextHandler;
 import com.github.zuihou.exception.BizException;
@@ -23,7 +24,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,7 +42,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  */
 @Component
 @Slf4j
-@EnableConfigurationProperties({IgnoreTokenProperties.class})
+@EnableConfigurationProperties({IgnoreProperties.class})
 public class TokenContextFilter extends BaseFilter {
     @Autowired
     private TokenUtil tokenUtil;
@@ -101,68 +101,55 @@ public class TokenContextFilter extends BaseFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-
         BaseContextHandler.setGrayVersion(getHeader(BaseContextConstants.GRAY_VERSION, request));
 
-        AuthInfo authInfo = null;
         try {
             //1, 解码 请求头中的租户信息
-            if (!"NONE".equals(multiTenantType)) {
-                String base64Tenant = getHeader(JWT_KEY_TENANT, request);
-                if (StrUtil.isNotEmpty(base64Tenant)) {
-                    String tenant = JwtUtil.base64Decoder(base64Tenant);
-                    BaseContextHandler.setTenant(tenant);
-                    addHeader(ctx, BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
-                    MDC.put(BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
-                }
-            }
+            parseTenant(ctx, request);
 
             // 2,解码 Authorization 后面完善
-            String base64Authorization = getHeader(BASIC_HEADER_KEY, request);
-            if (StrUtil.isNotEmpty(base64Authorization)) {
-                String[] client = JwtUtil.getClient(base64Authorization);
-                BaseContextHandler.setClientId(client[0]);
-                addHeader(ctx, JWT_KEY_CLIENT_ID, BaseContextHandler.getClientId());
-            }
+            parseClient(ctx, request);
 
-            // 忽略 token 认证的接口
-            if (isIgnoreToken()) {
-                log.debug("access filter not execute");
-                return null;
-            }
-
-            //获取token， 解析，然后想信息放入 heade
-            //3, 获取token
-            String token = getHeader(BEARER_HEADER_KEY, request);
-
-            //添加测试环境的特殊token
-            if (isDev(token)) {
-                authInfo = new AuthInfo().setAccount("zuihou").setUserId(3L)
-                        .setTokenType(BEARER_HEADER_KEY).setName("平台管理员");
-            }
-            // 4, 解析 并 验证 token
-            if (authInfo == null) {
-                authInfo = tokenUtil.getAuthInfo(token);
-            }
-
-            if (!isDev(token)) {
-                // 5，验证 是否在其他设备登录或被挤下线
-                String newToken = JwtUtil.getToken(token);
-                String tokenKey = CacheKey.buildKey(newToken);
-                CacheObject tokenCache = channel.get(CacheKey.TOKEN_USER_ID, tokenKey);
-                if (tokenCache.getValue() == null) {
-                    // 为空就认为是没登录或者被T会有bug，该 bug 取决于登录成功后，异步调用UserTokenService.save 方法的延迟
-                } else if (StrUtil.equals(BizConstant.LOGIN_STATUS, (String) tokenCache.getValue())) {
-                    errorResponse(JWT_OFFLINE.getMsg(), JWT_OFFLINE.getCode(), 200);
-                    return null;
-                }
-            }
+            // 解析token
+            parseToken(ctx, request);
         } catch (BizException e) {
             errorResponse(e.getMessage(), e.getCode(), 200);
-            return null;
         } catch (Exception e) {
             errorResponse("验证token出错", R.FAIL_CODE, 200);
-            return null;
+        }
+        return null;
+    }
+
+    private boolean parseToken(RequestContext ctx, HttpServletRequest request) {
+
+        // 忽略 token 认证的接口
+        if (isIgnoreToken()) {
+            log.debug("access filter not execute");
+            return true;
+        }
+
+        //获取token， 解析，然后想信息放入 heade
+        //3, 获取token
+        String token = getHeader(BEARER_HEADER_KEY, request);
+
+        AuthInfo authInfo = null;
+        //添加测试环境的特殊token
+        if (isDev(token)) {
+            authInfo = new AuthInfo().setAccount("zuihou").setUserId(3L)
+                    .setTokenType(BEARER_HEADER_KEY).setName("平台管理员");
+        } else {
+            authInfo = tokenUtil.getAuthInfo(token);
+
+            // 5，验证 是否在其他设备登录或被挤下线
+            String newToken = JwtUtil.getToken(token);
+            String tokenKey = CacheKey.buildKey(newToken);
+            CacheObject tokenCache = channel.get(CacheKey.TOKEN_USER_ID, tokenKey);
+            if (tokenCache.getValue() == null) {
+                // 为空就认为是没登录或者被T会有bug，该 bug 取决于登录成功后，异步调用UserTokenService.save 方法的延迟
+            } else if (StrUtil.equals(BizConstant.LOGIN_STATUS, (String) tokenCache.getValue())) {
+                errorResponse(JWT_OFFLINE.getMsg(), JWT_OFFLINE.getCode(), 200);
+                return true;
+            }
         }
 
         //6, 转换，将 token 解析出来的用户身份 和 解码后的tenant、Authorization 重新封装到请求头
@@ -172,13 +159,44 @@ public class TokenContextFilter extends BaseFilter {
             addHeader(ctx, BaseContextConstants.JWT_KEY_NAME, authInfo.getName());
             MDC.put(BaseContextConstants.JWT_KEY_USER_ID, String.valueOf(authInfo.getUserId()));
         }
+        return false;
+    }
 
-        log.info("authInfo={}", authInfo);
-        return null;
+    private void parseClient(RequestContext ctx, HttpServletRequest request) {
+        String base64Authorization = getHeader(BASIC_HEADER_KEY, request);
+        if (StrUtil.isNotEmpty(base64Authorization)) {
+            String[] client = JwtUtil.getClient(base64Authorization);
+            BaseContextHandler.setClientId(client[0]);
+            addHeader(ctx, JWT_KEY_CLIENT_ID, BaseContextHandler.getClientId());
+        }
+    }
+
+    private void parseTenant(RequestContext ctx, HttpServletRequest request) {
+        // 判断是否忽略tenant
+        if (isIgnoreTenant(request.getRequestURI())) {
+            return;
+        }
+
+        String base64Tenant = getHeader(JWT_KEY_TENANT, request);
+        if (StrUtil.isNotEmpty(base64Tenant)) {
+            String tenant = JwtUtil.base64Decoder(base64Tenant);
+            BaseContextHandler.setTenant(tenant);
+            addHeader(ctx, BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
+            MDC.put(BaseContextConstants.JWT_KEY_TENANT, BaseContextHandler.getTenant());
+        }
+    }
+
+    /**
+     * 忽略 租户编码
+     *
+     * @return
+     */
+    protected boolean isIgnoreTenant(String path) {
+        return "NONE".equals(multiTenantType) || ignoreTokenProperties.isIgnoreTenant(path);
     }
 
     private void addHeader(RequestContext ctx, String name, Object value) {
-        if (StringUtils.isEmpty(value)) {
+        if (ObjectUtil.isEmpty(value)) {
             return;
         }
         String valueStr = value.toString();

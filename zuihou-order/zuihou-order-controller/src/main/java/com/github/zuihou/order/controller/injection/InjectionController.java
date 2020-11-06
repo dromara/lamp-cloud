@@ -5,8 +5,8 @@ import com.github.zuihou.injection.core.InjectionCore;
 import com.github.zuihou.order.entity.Order;
 import com.github.zuihou.order.service.OrderService;
 import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +21,11 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/injection")
+@AllArgsConstructor
 @Api(value = "injection", tags = "injection")
 public class InjectionController {
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private InjectionCore injectionCore;
+    private final OrderService orderService;
+    private final InjectionCore injectionCore;
 
 
     /**
@@ -40,8 +39,7 @@ public class InjectionController {
     @PostMapping("/injection")
     public R injection(@RequestBody Order data) {
         List<Order> orders = orderService.find(data);
-        injectionCore.injection(orders, false);
-//        injectionCore.injection(orders);
+        injectionCore.injection(orders, false, "education");
         return R.success(orders);
     }
 

@@ -1,5 +1,6 @@
 package com.xxl.job.admin.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.route.ExecutorRouteStrategyEnum;
@@ -105,18 +106,18 @@ public class XxlJobServiceImpl implements XxlJobService {
             //表单校验
             String msg = validate(jobInfo.getIntervalSeconds(), jobInfo.getRepeatCount(),
                     jobInfo.getStartExecuteTime(), jobInfo.getEndExecuteTime());
-            if (!StringUtils.isEmpty(msg)) {
+            if (!StrUtil.isEmpty(msg)) {
                 return new ReturnT<>(ReturnT.FAIL_CODE, msg);
             }
         }
-        if (GlueTypeEnum.BEAN == GlueTypeEnum.match(jobInfo.getGlueType()) && StringUtils.isBlank(jobInfo.getExecutorHandler())) {
+        if (GlueTypeEnum.BEAN == GlueTypeEnum.match(jobInfo.getGlueType()) && StrUtil.isBlank(jobInfo.getExecutorHandler())) {
             return new ReturnT<>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_input") + "JobHandler"));
         }
 
-        if (StringUtils.isBlank(jobInfo.getJobDesc())) {
+        if (StrUtil.isBlank(jobInfo.getJobDesc())) {
             jobInfo.setJobDesc("任务描述");
         }
-        if (StringUtils.isBlank(jobInfo.getAuthor())) {
+        if (StrUtil.isBlank(jobInfo.getAuthor())) {
             jobInfo.setAuthor("admin");
         }
         if (ExecutorRouteStrategyEnum.match(jobInfo.getExecutorRouteStrategy(), null) == null) {
@@ -134,10 +135,10 @@ public class XxlJobServiceImpl implements XxlJobService {
         }
 
         // ChildJobId valid
-        if (StringUtils.isNotBlank(jobInfo.getChildJobId())) {
-            String[] childJobIds = StringUtils.split(jobInfo.getChildJobId(), ",");
+        if (StrUtil.isNotBlank(jobInfo.getChildJobId())) {
+            String[] childJobIds = StrUtil.split(jobInfo.getChildJobId(), ",");
             for (String childJobIdItem : childJobIds) {
-                if (StringUtils.isNotBlank(childJobIdItem) && StringUtils.isNumeric(childJobIdItem)) {
+                if (StrUtil.isNotBlank(childJobIdItem) && StringUtils.isNumeric(childJobIdItem)) {
                     XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.valueOf(childJobIdItem));
                     if (childJobInfo == null) {
                         return new ReturnT<String>(ReturnT.FAIL_CODE,
@@ -148,7 +149,7 @@ public class XxlJobServiceImpl implements XxlJobService {
                             MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_unvalid")), childJobIdItem));
                 }
             }
-            jobInfo.setChildJobId(StringUtils.join(childJobIds, ","));
+            jobInfo.setChildJobId(StrUtil.join(",", childJobIds));
         }
 
 
@@ -209,14 +210,14 @@ public class XxlJobServiceImpl implements XxlJobService {
             //表单校验
             String msg = validate(jobInfo.getIntervalSeconds(), jobInfo.getRepeatCount(),
                     jobInfo.getStartExecuteTime(), jobInfo.getEndExecuteTime());
-            if (!StringUtils.isEmpty(msg)) {
+            if (!StrUtil.isEmpty(msg)) {
                 return new ReturnT<String>(ReturnT.FAIL_CODE, msg);
             }
         }
-        if (StringUtils.isBlank(jobInfo.getJobDesc())) {
+        if (StrUtil.isBlank(jobInfo.getJobDesc())) {
             return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobinfo_field_jobdesc")));
         }
-        if (StringUtils.isBlank(jobInfo.getAuthor())) {
+        if (StrUtil.isBlank(jobInfo.getAuthor())) {
             return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobinfo_field_author")));
         }
         if (ExecutorRouteStrategyEnum.match(jobInfo.getExecutorRouteStrategy(), null) == null) {
@@ -227,10 +228,10 @@ public class XxlJobServiceImpl implements XxlJobService {
         }
 
         // ChildJobId valid
-        if (StringUtils.isNotBlank(jobInfo.getChildJobId())) {
-            String[] childJobIds = StringUtils.split(jobInfo.getChildJobId(), ",");
+        if (StrUtil.isNotBlank(jobInfo.getChildJobId())) {
+            String[] childJobIds = StrUtil.split(jobInfo.getChildJobId(), ",");
             for (String childJobIdItem : childJobIds) {
-                if (StringUtils.isNotBlank(childJobIdItem) && StringUtils.isNumeric(childJobIdItem)) {
+                if (StrUtil.isNotBlank(childJobIdItem) && StringUtils.isNumeric(childJobIdItem)) {
                     XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.valueOf(childJobIdItem));
                     if (childJobInfo == null) {
                         return new ReturnT<String>(ReturnT.FAIL_CODE,
@@ -241,7 +242,7 @@ public class XxlJobServiceImpl implements XxlJobService {
                             MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_unvalid")), childJobIdItem));
                 }
             }
-            jobInfo.setChildJobId(StringUtils.join(childJobIds, ","));
+            jobInfo.setChildJobId(StrUtil.join(",", childJobIds));
         }
 
         // stage job info
@@ -318,7 +319,7 @@ public class XxlJobServiceImpl implements XxlJobService {
             //表单校验
             String msg = validate(xxlJobInfo.getIntervalSeconds(), xxlJobInfo.getRepeatCount(),
                     xxlJobInfo.getStartExecuteTime(), xxlJobInfo.getEndExecuteTime());
-            if (!StringUtils.isEmpty(msg)) {
+            if (!StrUtil.isEmpty(msg)) {
                 return new ReturnT<String>(ReturnT.FAIL_CODE, msg);
             }
         }
@@ -342,6 +343,30 @@ public class XxlJobServiceImpl implements XxlJobService {
             return ReturnT.FAIL;
         }
     }
+
+	/*@Override
+    public ReturnT<String> triggerJob(int id, int failRetryCount) {
+
+		JobTriggerPoolHelper.trigger(id, failRetryCount);
+		return ReturnT.SUCCESS;
+
+        *//*XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(id);
+        if (xxlJobInfo == null) {
+        	return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("jobinfo_field_id")+I18nUtil.getString("system_unvalid")) );
+		}
+
+        String group = String.valueOf(xxlJobInfo.getJobGroup());
+        String name = String.valueOf(xxlJobInfo.getId());
+
+		try {
+			XxlJobDynamicScheduler.triggerJob(name, group);
+			return ReturnT.SUCCESS;
+		} catch (SchedulerException e) {
+			logger.error(e.getMessage(), e);
+			return new ReturnT<String>(ReturnT.FAIL_CODE, e.getMessage());
+		}*//*
+
+	}*/
 
     @Override
     public ReturnT<String> stop(Integer id) {
