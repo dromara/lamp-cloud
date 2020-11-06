@@ -6,7 +6,6 @@ import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.authority.api.UserBizApi;
 import com.github.zuihou.authority.controller.poi.ExcelUserVerifyHandlerImpl;
 import com.github.zuihou.authority.dto.auth.UserExcelVO;
 import com.github.zuihou.authority.dto.auth.UserPageDTO;
@@ -75,7 +74,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 @Api(value = "User", tags = "用户")
 @PreAuth(replace = "user:")
-public class UserController extends SuperCacheController<UserService, Long, User, UserPageDTO, UserSaveDTO, UserUpdateDTO> implements UserBizApi {
+public class UserController extends SuperCacheController<UserService, Long, User, UserPageDTO, UserSaveDTO, UserUpdateDTO> {
     @Autowired
     private OrgService orgService;
     @Autowired
@@ -201,7 +200,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
     @GetMapping("/find")
     @SysLog("查询所有用户")
-    @Override
     public R<List<Long>> findAllUserId() {
         return success(baseService.findAllUserId());
     }
@@ -215,7 +213,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
         return success(res);
     }
 
-    @Override
     @RequestMapping(value = "/findUserById", method = RequestMethod.GET)
     public R<List<User>> findUserById(@RequestParam(value = "ids") List<Long> ids) {
         return this.success(baseService.findUserById(ids));

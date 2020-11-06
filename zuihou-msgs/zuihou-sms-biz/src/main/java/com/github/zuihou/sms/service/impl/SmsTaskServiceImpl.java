@@ -3,7 +3,6 @@ package com.github.zuihou.sms.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.zuihou.base.service.SuperServiceImpl;
 import com.github.zuihou.common.constant.BizConstant;
@@ -52,7 +51,6 @@ import static com.github.zuihou.exception.code.ExceptionCode.BASE_VALID_PARAM;
  */
 @Slf4j
 @Service
-@DS("#thread.tenant")
 public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask> implements SmsTaskService {
     @Resource
     private JobsTimingApi jobsTimingApi;
