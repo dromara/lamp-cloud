@@ -19,6 +19,12 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
             <version>${zuihou-project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.zuihou</groupId>
+                    <artifactId>zuihou-cache-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
