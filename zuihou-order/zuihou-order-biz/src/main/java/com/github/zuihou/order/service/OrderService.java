@@ -23,4 +23,8 @@ public interface OrderService extends SuperCacheService<Order> {
     List<Order> findInjectionResult(Order data);
 
     IPage<Order> findPage(IPage page, Wrapper<Order> wrapper);
+
+    boolean save1(Order order);
+
+    boolean save2(Order order);
 }

@@ -13,8 +13,10 @@ import com.github.zuihou.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +36,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-
 public class OrderServiceImpl extends SuperCacheServiceImpl<OrderMapper, Order> implements OrderService {
     @Autowired
     private InjectionProperties ips;
@@ -91,5 +92,21 @@ public class OrderServiceImpl extends SuperCacheServiceImpl<OrderMapper, Order> 
         typeCodeNameMap.put("NATION" + ips.getDictSeparator() + "mz_zz", "壮族");
 
         return typeCodeNameMap;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save1(Order order) {
+        baseMapper.insert(order);
+        int a = 1 / 0;
+        return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save2(Order order) {
+        saveBatch(Arrays.asList(order));
+        int a = 1 / 0;
+        return true;
     }
 }
