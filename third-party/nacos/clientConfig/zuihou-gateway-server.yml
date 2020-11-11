@@ -8,7 +8,7 @@ zuihou:
 
 spring:
   autoconfigure:
-    exclude: io.seata.integration.http.HttpAutoConfiguration
+    exclude: io.seata.integration.http.HttpAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   cloud:
     gateway:
       x-forwarded:
