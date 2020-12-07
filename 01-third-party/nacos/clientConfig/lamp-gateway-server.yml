@@ -52,12 +52,6 @@ spring:
             - Path=/msg/**
           filters:
             - StripPrefix=1
-        - id: activiti
-          uri: lb://lamp-activiti-server
-          predicates:
-            - Path=/activiti/**
-          filters:
-            - StripPrefix=1
         - id: demo
           uri: lb://lamp-demo-server
           predicates:

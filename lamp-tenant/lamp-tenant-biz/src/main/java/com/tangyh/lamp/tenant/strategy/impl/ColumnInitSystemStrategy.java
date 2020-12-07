@@ -276,16 +276,13 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         Long workbenchId = uidGenerator.getUid();
         Long organizationId = uidGenerator.getUid();
         Long resourcesId = uidGenerator.getUid();
-        Long activitiId = uidGenerator.getUid();
         Long systemId = uidGenerator.getUid();
         Long gatewayId = uidGenerator.getUid();
         // 1级菜单
         menuList.add(Menu.builder().id(workbenchId).label("工作台").path("/workbench").component("Layout").icon("fa fa-tachometer").sortValue(20).readonly(true).build());
         menuList.add(Menu.builder().id(organizationId).label("组织管理").path("/org").component("Layout").icon("fa fa-users").sortValue(30).readonly(true).build());
         menuList.add(Menu.builder().id(resourcesId).label("资源中心").path("/resources").component("Layout").icon("fa fa-cloud").sortValue(40).readonly(true).build());
-        menuList.add(Menu.builder().id(activitiId).label("流程管理").path("/activiti").component("Layout").icon("fa fa-retweet").sortValue(50).readonly(true).build());
         menuList.add(Menu.builder().id(systemId).label("系统设置").path("/system").component("Layout").icon("fa fa-gears").sortValue(60).readonly(true).build());
-        menuList.add(Menu.builder().id(gatewayId).label("网关管理").path("/gateway").component("Layout").icon("fa fa-sort-amount-asc").sortValue(70).readonly(true).build());
 
         // 工作台
         Long noticeId = uidGenerator.getUid();
@@ -326,17 +323,6 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         menuMap.put(ATTACHMENT, attachmentId);
         menuList.add(Menu.builder().id(attachmentId).parentId(resourcesId).label("附件管理").path("/resources/attachment").component("lamp/resources/attachment/index").sortValue(40).readonly(true).build());
 
-        // 流程管理
-        Long leaveId = uidGenerator.getUid();
-        Long reId = uidGenerator.getUid();
-        menuList.add(Menu.builder().parentId(activitiId).label("流程部署").path("/activiti/deploymentManager").component("lamp/activiti/deploymentManager/index").sortValue(10).readonly(true).build());
-        menuList.add(Menu.builder().parentId(activitiId).label("模型管理").path("/activiti/modelManager").component("lamp/activiti/modelManager/index").sortValue(20).readonly(true).build());
-        menuList.add(Menu.builder().id(leaveId).parentId(activitiId).label("请假流程").path("/activiti/leave").component("Layout").sortValue(30).readonly(true).build());
-        menuList.add(Menu.builder().id(reId).parentId(activitiId).label("报销流程").path("/activiti/reimbursement").component("lamp/activiti/reimbursement/Index").sortValue(40).readonly(true).build());
-        menuList.add(Menu.builder().parentId(leaveId).label("请假管理").path("/activiti/leave/instant").component("lamp/activiti/leave/instantManager/index").sortValue(1).readonly(true).build());
-        menuList.add(Menu.builder().parentId(leaveId).label("请假任务").path("/activiti/leave/ruTask").component("lamp/activiti/leave/ruTask/index").sortValue(2).readonly(true).build());
-        menuList.add(Menu.builder().parentId(reId).label("报销管理").path("/activiti/reimbursement/instantManager").component("lamp/activiti/reimbursement/instantManager/index").sortValue(1).readonly(true).build());
-        menuList.add(Menu.builder().parentId(reId).label("报销任务").path("/activiti/reimbursement/ruTask").component("lamp/activiti/reimbursement/ruTask/index").sortValue(2).readonly(true).build());
 
         // 系统管理
         Long menuId = uidGenerator.getUid();
@@ -367,9 +353,6 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         menuMap.put(APPLICATION, applicationApi);
         menuList.add(Menu.builder().id(applicationApi).parentId(systemId).label("应用管理").path("/system/application").component("lamp/system/application/index").sortValue(90).readonly(true).build());
 
-        // 网关管理
-        menuList.add(Menu.builder().parentId(gatewayId).label("限流规则").path("/gateway/ratelimiter").component("lamp/gateway/ratelimiter/index").sortValue(10).readonly(true).build());
-        menuList.add(Menu.builder().parentId(gatewayId).label("阻止访问").path("/gateway/blocklist").component("lamp/gateway/blocklist/index").sortValue(20).readonly(true).build());
         return menuService.saveBatch(menuList);
     }
 

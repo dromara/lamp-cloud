@@ -47,9 +47,6 @@ zuul:
     tenant:
       path: /tenant/**
       serviceId: lamp-tenant-server
-    activiti:
-      path: /activiti/**
-      serviceId: lamp-activiti-server
     file:
       path: /file/**
       serviceId: lamp-file-server
