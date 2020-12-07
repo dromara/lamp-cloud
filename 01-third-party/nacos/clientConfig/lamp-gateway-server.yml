@@ -12,7 +12,7 @@ lamp:
 
 spring:
   autoconfigure:
-    exclude: io.seata.integration.http.HttpAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    exclude: io.seata.integration.http.HttpAutoConfiguration
   cloud:
     gateway:
       x-forwarded:

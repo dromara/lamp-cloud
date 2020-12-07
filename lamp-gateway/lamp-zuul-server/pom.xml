@@ -21,19 +21,8 @@
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
-            <artifactId>lamp-gateway-biz</artifactId>
-            <version>${lamp-project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-gateway</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-boot</artifactId>
+                <artifactId>lamp-boot-util</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>

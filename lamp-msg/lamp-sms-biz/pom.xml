@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-boot</artifactId>
+                <artifactId>lamp-boot-util</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>

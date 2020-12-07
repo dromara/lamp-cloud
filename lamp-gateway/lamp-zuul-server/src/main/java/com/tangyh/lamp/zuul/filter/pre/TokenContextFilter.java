@@ -8,7 +8,6 @@ import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.repository.CacheOps;
 import com.tangyh.basic.context.ContextConstants;
 import com.tangyh.basic.context.ContextUtil;
-import com.tangyh.basic.database.properties.MultiTenantType;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.jwt.TokenUtil;
 import com.tangyh.basic.jwt.model.AuthInfo;
@@ -172,7 +171,7 @@ public class TokenContextFilter extends BaseFilter {
 
     private void parseTenant(RequestContext ctx, HttpServletRequest request) {
         // 判断是否忽略tenant
-        if (MultiTenantType.NONE.name().equals(multiTenantType)) {
+        if ("NONE".equals(multiTenantType)) {
             addHeader(ctx, JWT_KEY_TENANT, StrPool.EMPTY);
             MDC.put(JWT_KEY_TENANT, StrPool.EMPTY);
             return;

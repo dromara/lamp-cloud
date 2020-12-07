@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-boot</artifactId>
+                <artifactId>lamp-boot-util</artifactId>
         </dependency>
 
         <!-- user 只有权限服务 放在biz层， 其他服务都在controller模块 -->
