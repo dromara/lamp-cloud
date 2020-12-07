@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.authority.dao.common.OptLogMapper">
+
+    <delete id="clearLog" parameterType="map">
+        delete from c_opt_log
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="clearBeforeTime != null">
+                AND create_time <![CDATA[ <= ]]> #{clearBeforeTime}
+            </if>
+            <if test="clearBeforeNum  != null">
+                AND id NOT in(
+                SELECT id FROM(
+                SELECT id FROM c_opt_log AS t
+                ORDER BY t.create_time desc LIMIT 0, #{clearBeforeNum}
+                ) t1
+                )
+            </if>
+        </trim>
+    </delete>
+</mapper>

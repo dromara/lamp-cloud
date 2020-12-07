@@ -1,0 +1,27 @@
+lamp:
+  database:
+    isSeata: false
+    tenantDatabasePrefix: lamp_extend
+  swagger:
+    docket:
+      demo:
+        title: 演示服务
+        base-package: com.tangyh.lamp.demo.controller
+
+logging:
+  io.seata: debug
+  org.springframework.cloud.alibaba.seata.web: debug
+
+server:
+  servlet:
+    context-path:
+  port: 8770
+
+
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          grayversion: demo

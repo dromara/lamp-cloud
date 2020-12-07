@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.authority.dao.core.OrgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tangyh.lamp.authority.entity.core.Org">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="label" jdbcType="VARCHAR" property="label"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="type_" jdbcType="CHAR" property="type"/>
+        <result column="abbreviation" jdbcType="VARCHAR" property="abbreviation"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,label,parent_id,sort_value,create_time,created_by,update_time,updated_by,
+        type_, abbreviation, tree_path, state, describe_
+    </sql>
+
+</mapper>

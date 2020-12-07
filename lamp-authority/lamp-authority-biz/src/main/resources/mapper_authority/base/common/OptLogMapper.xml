@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.authority.dao.common.OptLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tangyh.lamp.authority.entity.common.OptLog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="request_ip" jdbcType="VARCHAR" property="requestIp"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="class_path" jdbcType="VARCHAR" property="classPath"/>
+        <result column="action_method" jdbcType="VARCHAR" property="actionMethod"/>
+        <result column="request_uri" jdbcType="VARCHAR" property="requestUri"/>
+        <result column="http_method" jdbcType="VARCHAR" property="httpMethod"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime"/>
+        <result column="consuming_time" jdbcType="BIGINT" property="consumingTime"/>
+        <result column="ua" jdbcType="VARCHAR" property="ua"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,create_time,created_by,
+        request_ip, type, user_name, description, class_path, action_method, request_uri, http_method, start_time, finish_time, consuming_time, ua
+    </sql>
+
+</mapper>

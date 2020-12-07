@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.file.dao.AttachmentMapper">
+
+    <resultMap id="AttachmentResultMap" type="com.tangyh.lamp.file.dto.AttachmentResultDTO">
+        <result column="biz_id" jdbcType="VARCHAR" property="bizId"/>
+        <result column="biz_type" jdbcType="VARCHAR" property="bizType"/>
+        <association property="list"
+                     select="com.tangyh.lamp.file.dao.AttachmentMapper.selectByBizIdAndBizType"
+                     column="{bizId=biz_id,bizType=biz_type}">
+        </association>
+    </resultMap>
+    <select id="selectByBizIdAndBizType" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM c_attachment a
+        where a.biz_id = #{bizId, jdbcType=VARCHAR} and a.biz_type = #{bizType, jdbcType=VARCHAR}
+        order by a.create_time desc
+    </select>
+    <select id="find" parameterType="java.util.Map" resultMap="AttachmentResultMap">
+        SELECT DISTINCT a.biz_id biz_id, a.biz_type biz_type FROM c_attachment a
+        where 1=1
+        <if test="bizIds != null">
+            and a.biz_id in
+            <foreach collection="bizIds" open="(" close=")" item="id" separator=",">
+                #{id, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="bizTypes != null">
+            and a.biz_type in
+            <foreach collection="bizTypes" open="(" close=")" item="type" separator=",">
+                #{type, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="countByGroup" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(id) from f_file where id not in
+        <foreach collection="ids" open="(" close=")" item="id" separator=",">
+            #{id, jdbcType=BIGINT}
+        </foreach>
+        and group_ = #{group, jdbcType=VARCHAR}
+        and path = #{path, jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="page" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM c_attachment f ${ew.customSqlSegment}
+    </select>
+</mapper>

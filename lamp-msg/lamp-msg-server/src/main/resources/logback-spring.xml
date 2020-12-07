@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="com/tangyh/basic/log/logback/defaults.xml"/>
+
+    <springProfile name="test,docker,prod">
+        <logger name="com.tangyh.lamp.msg.controller" additivity="true" level="${log.level.controller}">
+            <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.msg.service" additivity="true" level="${log.level.service}">
+            <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.msg.dao" additivity="false" level="${log.level.dao}">
+            <appender-ref ref="ASYNC_DAO_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.sms.controller" additivity="true" level="${log.level.controller}">
+            <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.sms.service" additivity="true" level="${log.level.service}">
+            <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.sms.dao" additivity="false" level="${log.level.dao}">
+            <appender-ref ref="ASYNC_DAO_APPENDER"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="dev">
+        <logger name="com.tangyh.lamp.msg.controller" additivity="true" level="${log.level.controller}">
+            <appender-ref ref="CONTROLLER_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.msg.service" additivity="true" level="${log.level.service}">
+            <appender-ref ref="SERVICE_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.sms.controller" additivity="true" level="${log.level.controller}">
+            <appender-ref ref="CONTROLLER_APPENDER"/>
+        </logger>
+        <logger name="com.tangyh.lamp.sms.service" additivity="true" level="${log.level.service}">
+            <appender-ref ref="SERVICE_APPENDER"/>
+        </logger>
+    </springProfile>
+</configuration>

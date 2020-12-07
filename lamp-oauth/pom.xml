@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lamp-cloud</artifactId>
+        <groupId>com.tangyh.lamp</groupId>
+        <version>3.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lamp-oauth</artifactId>
+    <name>${project.artifactId}</name>
+    <description>认证服务</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>lamp-oauth-api</module>
+        <module>lamp-oauth-controller</module>
+        <module>lamp-oauth-biz</module>
+        <module>lamp-oauth-server</module>
+    </modules>
+
+</project>

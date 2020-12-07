@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.tenant.dao.TenantDatasourceConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tangyh.lamp.tenant.entity.TenantDatasourceConfig">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="tenant_id" jdbcType="BIGINT" property="tenantId"/>
+        <result column="datasource_config_id" jdbcType="BIGINT" property="datasourceConfigId"/>
+        <result column="application" jdbcType="VARCHAR" property="application"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,create_time,created_by,
+        tenant_id, datasource_config_id, application
+    </sql>
+
+</mapper>

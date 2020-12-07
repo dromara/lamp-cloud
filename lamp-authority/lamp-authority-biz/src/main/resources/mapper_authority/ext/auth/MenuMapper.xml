@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.authority.dao.auth.MenuMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="V_Column_List">
+        id,  label, path, component, state, sort_value, icon, group_, parent_id
+    </sql>
+
+    <select id="findVisibleMenu" parameterType="map"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="V_Column_List"/>
+        from (
+        SELECT
+        <include refid="V_Column_List"/>
+        from c_menu where state = true and is_general = true
+        UNION ALL
+        SELECT
+        <include refid="V_Column_List"/>
+        from c_menu where state = true and is_general = false
+        and id in (
+        SELECT distinct authority_id FROM c_role_authority ra
+        INNER JOIN c_user_role ur on ra.role_id = ur.role_id
+        INNER JOIN c_role r on r.id = ra.role_id
+        where ur.user_id = #{userId, jdbcType=BIGINT} and r.state = true
+        and ra.authority_type = 'MENU'
+        )
+        ) tmp ORDER BY sort_value asc
+    </select>
+
+
+</mapper>

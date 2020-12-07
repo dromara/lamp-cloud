@@ -1,0 +1,49 @@
+server:
+  port: 8762
+  servlet:
+    context-path: /${spring.application.name}   # 监控系统项目名
+
+turbine:
+  stream:
+    port: 8763
+
+spring:
+  #  mail:
+  #    host: smtp.163.com
+  #    username: adadminfocus@163.com
+  #    password: adsugar123
+  #    properties:
+  #      smtp:
+  #        auth: true
+  #        starttls:
+  #          enable: true
+  #          required: true
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      turbine:
+        clusters: default
+        location: http://${lamp.local-ip:127.0.0.1}:${turbine.stream.port}${server.servlet.context-path}
+  #      context-path: ${management.context-path}
+  #      notify:
+  #        mail:
+  #          to: 306479353@qq.com
+  #          from: adadminfocus@163.com
+  #          ignore-changes: UNKNOWN:UP
+  security:
+    user:
+      name: lamp
+      password: lamp
+      roles: USER
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true

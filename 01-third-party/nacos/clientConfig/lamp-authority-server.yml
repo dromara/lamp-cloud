@@ -1,0 +1,16 @@
+lamp:
+  swagger:
+    enabled: true
+    docket:
+      auth:
+        title: 权限模块
+        base-package: com.tangyh.lamp.authority.controller.auth
+      common:
+        title: 公共模块
+        base-package: com.tangyh.lamp.authority.controller.common
+      core:
+        title: 组织模块
+        base-package: com.tangyh.lamp.authority.controller.core
+
+server:
+  port: 8764

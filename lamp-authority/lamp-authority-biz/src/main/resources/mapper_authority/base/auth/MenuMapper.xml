@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.authority.dao.auth.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tangyh.lamp.authority.entity.auth.Menu">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="label" jdbcType="VARCHAR" property="label"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
+        <result column="is_general" jdbcType="BIT" property="isGeneral"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="component" jdbcType="VARCHAR" property="component"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="group_" jdbcType="VARCHAR" property="group"/>
+        <result column="readonly_" jdbcType="BIT" property="readonly"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,label,sort_value,parent_id,created_by,create_time,updated_by,update_time,
+        describe_, is_general, path, component, state, icon, group_, readonly_
+    </sql>
+
+</mapper>

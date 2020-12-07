@@ -1,0 +1,18 @@
+lamp:
+  database:
+    isSeata: false
+    tenantDatabasePrefix: lamp_extend
+  swagger:
+    base-package: com.tangyh.lamp.example.controller
+    title: 订单服务
+
+
+
+logging:
+  io.seata: debug
+  org.springframework.cloud.alibaba.seata.web: debug
+
+server:
+  servlet:
+    context-path:
+  port: 8769

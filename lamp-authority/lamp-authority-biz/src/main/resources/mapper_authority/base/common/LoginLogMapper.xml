@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.authority.dao.common.LoginLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tangyh.lamp.authority.entity.common.LoginLog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="request_ip" jdbcType="VARCHAR" property="requestIp"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="login_date" jdbcType="CHAR" property="loginDate"/>
+        <result column="ua" jdbcType="VARCHAR" property="ua"/>
+        <result column="browser" jdbcType="VARCHAR" property="browser"/>
+        <result column="browser_version" jdbcType="VARCHAR" property="browserVersion"/>
+        <result column="operating_system" jdbcType="VARCHAR" property="operatingSystem"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,create_time,created_by,
+        request_ip, user_id, user_name, account, description, login_date, ua, browser, browser_version, operating_system, location
+    </sql>
+
+</mapper>

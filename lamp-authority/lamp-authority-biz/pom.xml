@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lamp-authority</artifactId>
+        <groupId>com.tangyh.lamp</groupId>
+        <version>3.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lamp-authority-biz</artifactId>
+    <name>${project.artifactId}</name>
+    <description>权限服务业务模块</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.tangyh.lamp</groupId>
+            <artifactId>lamp-authority-entity</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-databases</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-cache-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-injection-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-boot</artifactId>
+        </dependency>
+
+        <!-- user 只有权限服务 放在biz层， 其他服务都在controller模块 -->
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-security-starter</artifactId>
+        </dependency>
+        <!-- log 只有权限服务biz模块引用，其他服务都在controller模块 -->
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-log-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- @RefreshScope 需要使用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

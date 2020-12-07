@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.tenant.dao.InitDbMapper">
+
+    <update id="createDatabase" parameterType="java.util.Map">
+        CREATE DATABASE IF NOT EXISTS ${database} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
+    </update>
+
+
+    <delete id="dropDatabase" parameterType="java.util.Map">
+        DROP DATABASE IF EXISTS ${database}
+    </delete>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.msg.dao.MsgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tangyh.lamp.msg.entity.Msg">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="biz_id" jdbcType="VARCHAR" property="bizId"/>
+        <result column="biz_type" jdbcType="VARCHAR" property="bizType"/>
+        <result column="msg_type" jdbcType="VARCHAR" property="msgType"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="handler_url" jdbcType="VARCHAR" property="handlerUrl"/>
+        <result column="handler_params" jdbcType="VARCHAR" property="handlerParams"/>
+        <result column="is_single_handle" jdbcType="BIT" property="isSingleHandle"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,create_time,created_by,update_time,updated_by,
+        biz_id, biz_type, msg_type, title, content, author, handler_url, handler_params, is_single_handle
+    </sql>
+
+</mapper>

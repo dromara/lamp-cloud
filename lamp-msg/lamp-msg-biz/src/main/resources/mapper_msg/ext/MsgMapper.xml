@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.msg.dao.MsgMapper">
+
+    <resultMap id="PageResultMap" type="com.tangyh.lamp.msg.dto.MsgPageResult"
+               extends="BaseResultMap">
+        <result column="receive_id" jdbcType="BIGINT" property="receiveId"/>
+        <result column="read_time" jdbcType="TIMESTAMP" property="readTime"/>
+        <result column="is_read" jdbcType="BIT" property="isRead"/>
+    </resultMap>
+
+    <!--
+     分页查询消息数据， 消息有4种类型： 代办、预警、通知、公告
+
+     公告消息： 保存时只存主表，表示所有人都查看，  但标记已读时，需要在receive表中记录指定用户的一条记录
+
+     代办、预警、通知： 保存是，既要存主表，也要存receive表
+     -->
+    <select id="page" parameterType="java.util.Map" resultMap="PageResultMap">
+        select rece.id receive_id,
+        CASE WHEN (rece.is_read is null ) then 0 else rece.is_read end as is_read,
+        rece.update_time read_time,
+        info.id, info.create_time, info.created_by, info.update_time, info.updated_by,
+        info.biz_id, info.biz_type, info.msg_type, info.title, info.content, info.author,
+        info.handler_url, info.handler_params, info.is_single_handle
+        FROM e_msg info LEFT JOIN e_msg_receive rece on info.id = rece.msg_id
+        <if test="param.model.userId != null">
+            and rece.user_id = #{param.model.userId, jdbcType=BIGINT}
+        </if>
+        <where>
+            <if test="param.model.userId != null">
+                and rece.user_id = #{param.model.userId, jdbcType=BIGINT}
+            </if>
+            <if test="param.model.isRead == true">
+                and rece.is_read = true
+            </if>
+            <if test="param.model.isRead == false">
+                and rece.is_read = false
+            </if>
+            <if test="param.model.msgType != null">
+                and info.msg_type = #{param.model.msgType, jdbcType=VARCHAR}
+            </if>
+            <if test="param.model.bizType != null">
+                and info.biz_type = #{param.model.bizType, jdbcType=VARCHAR}
+            </if>
+            <if test="param.model.title != null and param.model.title != ''">
+                and info.title like #{param.model.title, typeHandler=fullLike}
+            </if>
+            <if test="param.model.content != null and param.model.content != ''">
+                and info.content like #{param.model.content, typeHandler=fullLike}
+            </if>
+            <if test="param.extra.createTime_st != null">
+                and info.create_time >= #{param.extra.createTime_st}
+            </if>
+            <if test="param.extra.createTime_ed != null">
+                and info.create_time <![CDATA[ <= ]]>  #{param.extra.createTime_ed}
+            </if>
+        </where>
+        ORDER BY is_read asc , info.create_time desc
+    </select>
+
+</mapper>
