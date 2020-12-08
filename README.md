@@ -38,13 +38,17 @@
 核心技术采用Spring Cloud Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking等主要框架和中间件。
 希望能努力打造一套从 `JavaWeb基础框架` - `分布式微服务架构` - `持续集成` - `系统监测` 的解决方案。`本项目旨在实现基础能力，不涉及具体业务。`
 
+**切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
+**切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
+**切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
+
 ## 分支介绍
 1. master 分支为最新的稳定版本，每次提交都会升级一个版本号
 2. dev 分支为作者的开发分支，作者开发的最新功能会实时提交上来，喜欢尝鲜的可以切换为dev。 但可能有报错、漏提等，对项目不是很熟的朋友千万别尝试。
 3. tag 每个固定的版本都会打一个tag方便后续切换任意版本。
 
 ## lamp 租户模式介绍
-本项目可以通过配置，轻松切换项目的 **租户模式**。
+本项目真正实现了同一套代码（sql都不用改），只改一个配置类型，即轻松切换项目的 **租户模式**。
 
 | 租户模式 | 描述 | 优点 | 缺点  |
 |---|---|---|---|

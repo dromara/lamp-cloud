@@ -7,7 +7,7 @@
     <artifactId>lamp-cloud</artifactId>
     <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <url>https://gitee.com/zuihou111/lamp-cloud</url>
+    <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
     <description>lamp-cloud</description>
     <licenses>
