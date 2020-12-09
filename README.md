@@ -39,7 +39,9 @@
 希望能努力打造一套从 `JavaWeb基础框架` - `分布式微服务架构` - `持续集成` - `系统监测` 的解决方案。`本项目旨在实现基础能力，不涉及具体业务。`
 
 **切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
+
 **切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
+
 **切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
 
 ## 分支介绍
