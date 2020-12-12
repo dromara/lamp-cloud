@@ -47,9 +47,9 @@ public class MsgServerApplication {
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
                 InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port"),
+                env.getProperty("server.port", "8080"),
                 InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port")
+                env.getProperty("server.port", "8080")
 
         );
     }

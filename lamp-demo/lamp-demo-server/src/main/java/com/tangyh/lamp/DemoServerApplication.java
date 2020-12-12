@@ -44,7 +44,7 @@ public class DemoServerApplication {
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
                 InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port"));
+                env.getProperty("server.port", "8080"));
 
     }
 }

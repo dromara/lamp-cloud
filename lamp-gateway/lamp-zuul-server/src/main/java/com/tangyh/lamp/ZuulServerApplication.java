@@ -40,7 +40,7 @@ public class ZuulServerApplication {
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
                 InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port"),
+                env.getProperty("server.port", "8080"),
                 env.getProperty("server.servlet.context-path", ""),
                 env.getProperty("spring.mvc.servlet.path", "")
         );
