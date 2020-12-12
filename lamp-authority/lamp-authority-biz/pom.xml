@@ -43,12 +43,11 @@
             <groupId>com.tangyh.basic</groupId>
             <artifactId>lamp-security-starter</artifactId>
         </dependency>
-        <!-- log 只有权限服务biz模块引用，其他服务都在controller模块 -->
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-log-starter</artifactId>
-        </dependency>
 
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

@@ -24,10 +24,15 @@
             <artifactId>lamp-tenant-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-        <!-- jwt 只有权限服务需要使用 -->
+        <!-- jwt 只有认证服务需要使用 -->
         <dependency>
             <groupId>com.tangyh.basic</groupId>
             <artifactId>lamp-jwt-starter</artifactId>
+        </dependency>
+        <!-- log 只有认证服务biz模块引用，其他服务都在controller模块 -->
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-log-starter</artifactId>
         </dependency>
 
         <dependency>
