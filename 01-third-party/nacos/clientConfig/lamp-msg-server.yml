@@ -2,7 +2,6 @@ lamp:
   database:
     tenantDatabasePrefix: lamp_extend
   swagger:
-    enabled: true
     docket:
       msg:
         title: 消息服务

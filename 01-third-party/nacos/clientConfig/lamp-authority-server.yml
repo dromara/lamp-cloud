@@ -1,6 +1,5 @@
 lamp:
   swagger:
-    enabled: true
     docket:
       auth:
         title: 权限模块

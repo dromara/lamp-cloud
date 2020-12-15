@@ -1,6 +1,5 @@
 lamp:
   swagger:
-    enabled: true
     docket:
       tenant:
         title: 租户模块

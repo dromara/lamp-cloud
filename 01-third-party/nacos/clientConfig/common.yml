@@ -36,7 +36,7 @@ lamp:
     # 是否启用 远程数据 注解注入
     aop-enabled: true
     guavaCache:
-      enabled: true
+      enabled: false
       maximumSize: 1000
       refreshWriteTime: 10
       refreshThreadPoolSize: 1000
@@ -50,6 +50,9 @@ lamp:
     # 上下文拦截器
     pathPatterns: '/**'
     order: -20
+  xss:
+    enabled: true
+    requestBodyEnabled: false
 
 knife4j:
   enable: true

@@ -1,6 +1,5 @@
 lamp:
   swagger:
-    enabled: true
     title: 网关模块
     base-package: com.tangyh.lamp.zuul.controller
   log:
