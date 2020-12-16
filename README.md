@@ -209,14 +209,15 @@
 - 63202894(主群 满员请加群2)
 - 1011148503(群2)
 
-# 如果觉得本项目对您有任何一点帮助，请点右上角 "Star" 支持一下， 并向您的基友、同事们宣传一下吧，谢谢！
+## 如果觉得本项目对您有任何一点帮助，请点右上角 "Star" 支持一下， 并向您的基友、同事们宣传一下吧，谢谢！
 
-# [点我详细查看如何使用本项目的高级功能](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
-    ps: gitee捐献 或者 二维码打赏(本页最下方)： 45元及以上 并 备注邮箱，可得开发文档一份(支持后续更新)
+## [点我详细查看如何使用本项目的高级功能](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
+    ps: gitee捐献 或者 二维码打赏(本页最下方)： 45元及以上 并 备注邮箱，可得离线开发文档一份 (支持后续更新) （该文档跟看云上的文档一致！）
         打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
 
-# 遇到问题请先查看历史issue，未找到解决方案，在提交issue(问题描述详细一些，报错截图大一些，复现步骤全一些)
-    https://github.com/zuihou/lamp-cloud/issues    
+## 发现bug请提交 [issues](https://github.com/zuihou/lamp-cloud/issues)
+
+## 使用项目遇到问题请先查看历史 [discussions](https://github.com/zuihou/lamp-cloud/discussions) ，未找到解决方案，在提交discussions(问题描述详细一些，报错截图大一些，复现步骤全一些)
 
 # 会员版
 本项目分为开源版和会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
