@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.tangyh.lamp</groupId>
         <artifactId>lamp-oauth</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
