@@ -46,10 +46,6 @@ lamp:
   log:
     enabled: true
     type: DB
-  context:
-    # 上下文拦截器
-    pathPatterns: '/**'
-    order: -20
   xss:
     enabled: true
     requestBodyEnabled: false
@@ -66,6 +62,7 @@ knife4j:
 
 
 server:
+  shutdown: GRACEFUL
   servlet:
     encoding:
       enabled: true
@@ -79,6 +76,9 @@ server:
     direct-buffers: true  # 是否分配的直接内存
 
 spring:
+  lifecycle:
+    # 优雅停机宽限期时间
+    timeout-per-shutdown-phase: 30s
   zipkin:
     sender:
       type: RABBIT
@@ -87,7 +87,7 @@ spring:
     baseUrl: http://localhost:9411/
     compression: # 压缩
       enabled: true
-    locator:    # 通过nacos动态获取地址
+    locator: # 通过nacos动态获取地址
       discovery:
         enabled: true
     rabbitmq: # 使用指定的队列

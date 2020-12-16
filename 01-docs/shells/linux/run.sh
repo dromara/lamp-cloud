@@ -47,8 +47,8 @@ function stop()
     	count=`ps -ef | grep java | grep $MODULER | grep -v grep | wc -l`
 
       pid=`ps -ef | grep java | grep $MODULER | grep -v grep | awk '{print $2}'`
-      kill -9 $pid
 
+      kill -2 $pid
       echo "Stop $MODULER Success"
 	fi
 }
