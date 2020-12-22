@@ -104,7 +104,7 @@ mybatis-plus:
 seata:
   enabled: ${lamp.database.isSeata}
   enableAutoDataSourceProxy: true
-  tx-service-group: lamp_admin_seata_tx_group
+  tx-service-group: lamp_cloud_seata_tx_group
   registry:
     type: nacos
     nacos:
