@@ -76,7 +76,7 @@ public class DictionaryController
 
     @ApiOperation(value = "保存-字典类型")
     @PostMapping(value = "/type")
-    @PreAuth("hasAnyPermission('{}save')")
+    @PreAuth("hasAnyPermission('{}add')")
     public R<Dictionary> saveType(@RequestBody @Validated DictionaryTypeSaveDTO dictType) {
         return R.success(baseService.saveType(dictType));
     }
