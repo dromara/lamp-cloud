@@ -35,12 +35,22 @@ public interface BizMqQueue {
     /**
      * 租户数据源 广播
      */
+    String TENANT_DS_FANOUT_EXCHANGE_BASE_EXECUTOR = "tenant_ds_fe_base_executor";
+    String TENANT_DS_FANOUT_EXCHANGE_EXTEND_EXECUTOR = "tenant_ds_fe_extend_executor";
+    /**
+     * 租户数据源 广播
+     */
     String TENANT_DS_FANOUT_EXCHANGE_GATEWAY = "tenant_ds_fe_geteway";
 
     /**
      * 租户数据源 队列 消费者
      */
     String TENANT_DS_QUEUE_BY_OAUTH = "tenant_ds_oauth";
+    /**
+     * 租户数据源 队列 消费者
+     */
+    String TENANT_DS_QUEUE_BY_BASE_EXECUTOR = "tenant_ds_base_executor";
+    String TENANT_DS_QUEUE_BY_EXTEND_EXECUTOR = "tenant_ds_extend_executor";
     /**
      * 租户数据源 队列 消费者
      */

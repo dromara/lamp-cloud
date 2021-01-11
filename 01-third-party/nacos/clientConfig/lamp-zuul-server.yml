@@ -12,7 +12,8 @@ lamp:
     token:
       - /api/gate/ds/**
       - /**/noToken/**
-
+      - /verification
+      - /verification/send
 spring:
   mvc:
     servlet:

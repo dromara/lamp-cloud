@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_ARRAY;
 import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
 import static com.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 
@@ -102,11 +101,11 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
     }
 
 
-    @ApiOperation(value = "删除")
+    @ApiOperation(value = "删除用户")
     @DeleteMapping("/delete")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tenantCode", value = "企业编码", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "ids[]", value = "主键id", dataType = DATA_TYPE_ARRAY, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "ids[]", value = "主键id", dataType = DATA_TYPE_STRING, allowMultiple = true, paramType = PARAM_TYPE_QUERY),
     })
     public R<Boolean> delete(@RequestParam String tenantCode, @RequestParam("ids[]") List<Long> ids) {
         ContextUtil.setTenant(tenantCode);

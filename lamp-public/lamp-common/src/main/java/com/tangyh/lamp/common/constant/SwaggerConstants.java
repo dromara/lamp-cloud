@@ -14,5 +14,4 @@ public class SwaggerConstants {
 //    public static final String DATA_TYPE_LONG = "java.lang.Long";
 //    public static final String DATA_TYPE_STRING = "java.lang.String";
     public static final String DATA_TYPE_MULTIPART_FILE = "MultipartFile";
-    public static final String DATA_TYPE_ARRAY = "array";
 }

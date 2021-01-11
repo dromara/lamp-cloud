@@ -43,15 +43,6 @@ public interface BizConstant {
     String DEF_PASSWORD = "123456";
 
     /**
-     * 默认的定时任务组
-     */
-    String DEF_JOB_GROUP_NAME = "lamp-jobs-server";
-    /**
-     * 短信发送处理器
-     */
-    String SMS_SEND_JOB_HANDLER = "smsSendJobHandler";
-
-    /**
      * 基础库
      */
     String BASE_DATABASE = "lamp_base";
@@ -70,6 +61,8 @@ public interface BizConstant {
     String MSG = "lamp-msg-server";
     String OAUTH = "lamp-oauth-server";
     String GATE = "lamp-gateway-server";
+    String BASE_EXECUTOR = "lamp-base-executor";
+    String EXTEND_EXECUTOR = "lamp-extend-executor";
     String ORDER = "lamp-example-server";
     String DEMO = "lamp-demo-server";
 

@@ -27,6 +27,7 @@
 
     <modules>
         <module>lamp-public/lamp-common</module>
+        <module>lamp-public/lamp-common-api</module>
         <module>lamp-oauth</module>
         <module>lamp-authority</module>
         <module>lamp-tenant</module>

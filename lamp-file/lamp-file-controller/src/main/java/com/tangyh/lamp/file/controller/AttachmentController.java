@@ -47,7 +47,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.tangyh.basic.exception.code.ExceptionCode.BASE_VALID_PARAM;
-import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_ARRAY;
 import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_BOOLEAN;
 import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
 import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_MULTIPART_FILE;
@@ -135,6 +134,10 @@ public class AttachmentController extends SuperSimpleController<AttachmentServic
     )
     @GetMapping
     @SysLog("根据业务类型查询附件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "bizIds", value = "业务id", dataType = DATA_TYPE_STRING, allowMultiple = true, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "bizTypes", value = "业务类型", dataType = DATA_TYPE_STRING, allowMultiple = true, paramType = PARAM_TYPE_QUERY),
+    })
     @PreAuth("hasAnyPermission('{}view')")
     public R<List<AttachmentResultDTO>> findAttachment(@RequestParam(value = "bizTypes", required = false) String[] bizTypes,
                                                        @RequestParam(value = "bizIds", required = false) String[] bizIds) {
@@ -190,8 +193,8 @@ public class AttachmentController extends SuperSimpleController<AttachmentServic
      * @date 2019-05-12 21:23
      */
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "bizIds[]", value = "业务id数组", dataType = DATA_TYPE_ARRAY, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "bizTypes[]", value = "业务类型数组", dataType = DATA_TYPE_ARRAY, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "bizIds[]", value = "业务id数组", dataType = DATA_TYPE_STRING, allowMultiple = true, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "bizTypes[]", value = "业务类型数组", dataType = DATA_TYPE_STRING, allowMultiple = true, paramType = PARAM_TYPE_QUERY),
     })
     @ApiOperation(value = "根据业务类型/业务id打包下载", notes = "根据业务id下载一个文件或多个文件打包下载")
     @GetMapping(value = "/download/biz", produces = "application/octet-stream")

@@ -9,7 +9,8 @@ lamp:
     token:
       - /ds/**
       - /**/noToken/**
-
+      - /verification
+      - /verification/send
 spring:
   autoconfigure:
     exclude: io.seata.integration.http.HttpAutoConfiguration

@@ -20,11 +20,11 @@
             <artifactId>lamp-msg-entity</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.tangyh.lamp</groupId>-->
-        <!--            <artifactId>lamp-jobs-api</artifactId>-->
-        <!--            <version>${lamp-project.version}</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.tangyh.lamp</groupId>
+            <artifactId>lamp-common-api</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.tangyh.basic</groupId>
@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>
-                <artifactId>lamp-boot-util</artifactId>
+            <artifactId>lamp-boot-util</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>

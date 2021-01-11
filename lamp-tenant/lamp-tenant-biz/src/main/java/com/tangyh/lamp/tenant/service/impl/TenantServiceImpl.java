@@ -1,7 +1,6 @@
 package com.tangyh.lamp.tenant.service.impl;
 
 import cn.hutool.core.convert.Convert;
-
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
@@ -91,11 +90,15 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean connect(TenantConnectDTO tenantConnect) {
-        boolean flag = initSystemContext.initConnect(tenantConnect);
-        if (flag) {
-            updateById(Tenant.builder().id(tenantConnect.getId()).connectType(tenantConnect.getConnectType())
-                    .status(TenantStatusEnum.NORMAL).build());
-        }
+        return initSystemContext.initConnect(tenantConnect) && updateTenantStatus(tenantConnect);
+    }
+
+    private Boolean updateTenantStatus(TenantConnectDTO tenantConnect) {
+        Boolean flag = this.update(Wraps.<Tenant>lbU()
+                .set(Tenant::getStatus, TenantStatusEnum.NORMAL)
+                .set(Tenant::getConnectType, tenantConnect.getConnectType())
+                .eq(Tenant::getId, tenantConnect.getId()));
+        delCache(tenantConnect.getId());
         return flag;
     }
 
@@ -120,9 +123,18 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         return initSystemContext.delete(ids, tenantCodeList);
     }
 
-
     @Override
     public List<Tenant> find() {
         return list(Wraps.<Tenant>lbQ().eq(Tenant::getStatus, TenantStatusEnum.NORMAL));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateStatus(List<Long> ids, TenantStatusEnum status) {
+        boolean update = super.update(Wraps.<Tenant>lbU().set(Tenant::getStatus, status)
+                .in(Tenant::getId, ids));
+
+        delCache(ids);
+        return update;
     }
 }

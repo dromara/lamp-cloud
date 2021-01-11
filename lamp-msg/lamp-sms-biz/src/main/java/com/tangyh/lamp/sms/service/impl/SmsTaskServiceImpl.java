@@ -3,14 +3,17 @@ package com.tangyh.lamp.sms.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
-
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.context.ContextConstants;
 import com.tangyh.basic.context.ContextUtil;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.utils.BizAssert;
+import com.tangyh.lamp.common.api.JobApi;
+import com.tangyh.lamp.common.constant.JobConstant;
+import com.tangyh.lamp.common.dto.XxlJobInfoVO;
 import com.tangyh.lamp.sms.dao.SmsTaskMapper;
 import com.tangyh.lamp.sms.entity.SmsTask;
 import com.tangyh.lamp.sms.entity.SmsTemplate;
@@ -47,10 +50,9 @@ import static com.tangyh.basic.exception.code.ExceptionCode.BASE_VALID_PARAM;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask> implements SmsTaskService {
-//    private final JobsTimingApi jobsTimingApi;
+    private final JobApi jobApi;
     private final SmsContext smsContext;
     private final SmsTemplateService smsTemplateService;
 
@@ -179,11 +181,15 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
             param.put("id", smsTask.getId());
             param.put(ContextConstants.JWT_KEY_TENANT, ContextUtil.getTenant());
             //推送定时任务
-//            jobsTimingApi.addTimingTask(
-//                    XxlJobInfo.build(BizConstant.DEF_JOB_GROUP_NAME,
-//                            DateUtils.localDateTime2Date(smsTask.getSendTime()),
-//                            BizConstant.SMS_SEND_JOB_HANDLER,
-//                            param.toString()));
+            R<String> r = jobApi.addTimingTask(
+                    XxlJobInfoVO.create(JobConstant.DEF_EXTEND_JOB_GROUP_NAME,
+                            smsTask.getTopic(),
+                            smsTask.getSendTime(),
+                            JobConstant.SMS_SEND_JOB_HANDLER,
+                            param.toString()));
+            if (!r.getIsSuccess()) {
+                throw BizException.wrap("定时发送失败");
+            }
         }
         return smsTask;
     }

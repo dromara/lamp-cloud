@@ -11,6 +11,7 @@ import com.tangyh.lamp.tenant.dto.TenantPageQuery;
 import com.tangyh.lamp.tenant.dto.TenantSaveDTO;
 import com.tangyh.lamp.tenant.dto.TenantUpdateDTO;
 import com.tangyh.lamp.tenant.entity.Tenant;
+import com.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 import com.tangyh.lamp.tenant.service.TenantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static com.tangyh.lamp.tenant.enumeration.TenantStatusEnum.NORMAL;
@@ -91,15 +93,20 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
 
     @ApiOperation(value = "删除租户和基础租户数据，请谨慎操作")
     @DeleteMapping("/deleteAll")
-    @PreAuth("hasAnyRole('SUPER_ADMIN')")
+    @PreAuth("hasAnyRole('PT_ADMIN')")
     public R<Boolean> deleteAll(@RequestParam("ids[]") List<Long> ids) {
         return success(baseService.deleteAll(ids));
     }
 
+    @ApiOperation(value = "修改租户状态", notes = "修改租户状态")
+    @PostMapping("/status")
+    public R<Boolean> updateStatus(@RequestParam("ids[]") List<Long> ids,
+                                   @RequestParam(defaultValue = "FORBIDDEN") @NotNull(message = "状态不能为空") TenantStatusEnum status) {
+        return success(baseService.updateStatus(ids, status));
+    }
 
     /**
      * 初始化
-     *
      */
     @ApiOperation(value = "连接数据源", notes = "连接数据源")
     @PostMapping("/initConnect")

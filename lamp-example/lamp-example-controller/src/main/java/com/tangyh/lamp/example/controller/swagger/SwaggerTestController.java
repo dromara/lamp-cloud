@@ -1,5 +1,6 @@
 package com.tangyh.lamp.example.controller.swagger;
 
+import com.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
 import com.tangyh.basic.annotation.user.LoginUser;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.security.model.SysUser;
@@ -45,6 +46,25 @@ public class SwaggerTestController {
         return R.success(order);
     }
 
+    @PostMapping(value = "/postFrom23")
+    public Order postFrom23(Order order) {
+        log.info("user={}", order);
+        return order;
+    }
+
+    @PostMapping(value = "/postFrom33")
+    public Order postFrom33(Order order) {
+        log.info("user={}", order);
+        int a = 1 / 0;
+        return order;
+    }
+
+    @PostMapping(value = "/postFrom13")
+    @IgnoreResponseBodyAdvice
+    public Order postFrom13(Order order) {
+        log.info("user={}", order);
+        return order;
+    }
 
     @PostMapping(value = "/postFrom")
     public R postFrom(Order order) {
