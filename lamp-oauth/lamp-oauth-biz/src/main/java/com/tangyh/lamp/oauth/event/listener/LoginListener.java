@@ -2,6 +2,8 @@ package com.tangyh.lamp.oauth.event.listener;
 
 import cn.hutool.core.util.StrUtil;
 import com.tangyh.basic.context.ContextUtil;
+import com.tangyh.basic.database.properties.DatabaseProperties;
+import com.tangyh.basic.database.properties.MultiTenantType;
 import com.tangyh.lamp.authority.service.auth.UserService;
 import com.tangyh.lamp.authority.service.common.LoginLogService;
 import com.tangyh.lamp.oauth.event.LoginEvent;
@@ -24,13 +26,14 @@ import org.springframework.stereotype.Component;
 public class LoginListener {
     private final LoginLogService loginLogService;
     private final UserService userService;
+    private final DatabaseProperties databaseProperties;
 
     @Async
     @EventListener({LoginEvent.class})
     public void saveSysLog(LoginEvent event) {
         LoginStatusDTO loginStatus = (LoginStatusDTO) event.getSource();
 
-        if (StrUtil.isEmpty(loginStatus.getTenant())) {
+        if (!MultiTenantType.NONE.eq(databaseProperties.getMultiTenantType()) && StrUtil.isEmpty(loginStatus.getTenant())) {
             log.warn("忽略记录登录日志:{}", loginStatus);
             return;
         }
