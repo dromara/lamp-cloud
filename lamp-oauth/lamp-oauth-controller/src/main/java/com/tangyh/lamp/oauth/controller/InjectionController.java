@@ -1,5 +1,6 @@
 package com.tangyh.lamp.oauth.controller;
 
+import com.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
 import com.tangyh.lamp.authority.service.auth.UserService;
 import com.tangyh.lamp.authority.service.common.DictionaryService;
 import com.tangyh.lamp.authority.service.core.OrgService;
@@ -25,6 +26,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@IgnoreResponseBodyAdvice
 @Api(value = "数据注入查询接口", tags = "数据注入查询接口， 不建议前端调用")
 public class InjectionController {
     private final DictionaryService dictionaryService;

@@ -1,5 +1,6 @@
 package com.tangyh.lamp.oauth.controller;
 
+import com.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.jwt.TokenUtil;
@@ -70,6 +71,7 @@ public class OauthController {
 
     @ApiOperation(value = "验证码", notes = "验证码")
     @GetMapping(value = "/anno/captcha", produces = "image/png")
+    @IgnoreResponseBodyAdvice
     public void captcha(@RequestParam(value = "key") String key, HttpServletResponse response) throws IOException {
         this.validateCodeService.create(key, response);
     }

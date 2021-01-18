@@ -1,5 +1,6 @@
 package com.tangyh.lamp.oauth.controller;
 
+import com.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.security.feign.UserQuery;
 import com.tangyh.basic.security.model.SysUser;
@@ -55,6 +56,7 @@ public class OauthUserController {
      */
     @ApiOperation(value = "查询用户权限范围", notes = "根据用户id，查询用户权限范围")
     @GetMapping(value = "/ds/{id}")
+    @IgnoreResponseBodyAdvice
     public Map<String, Object> getDataScopeById(@PathVariable("id") Long id) {
         return userService.getDataScopeById(id);
     }
