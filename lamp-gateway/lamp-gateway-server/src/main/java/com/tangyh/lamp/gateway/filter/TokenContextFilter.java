@@ -121,7 +121,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
                 return token;
             }
         } catch (BizException e) {
-            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.BAD_REQUEST);
+            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return errorResponse(response, "验证token出错", R.FAIL_CODE, HttpStatus.BAD_REQUEST);
         }
@@ -159,9 +159,9 @@ public class TokenContextFilter implements WebFilter, Ordered {
             String tokenCache = cacheOps.get(cacheKey);
 
             if (StrUtil.isEmpty(tokenCache)) {
-                return errorResponse(response, JWT_NOT_LOGIN.getMsg(), JWT_NOT_LOGIN.getCode(), HttpStatus.BAD_REQUEST);
+                return errorResponse(response, JWT_NOT_LOGIN.getMsg(), JWT_NOT_LOGIN.getCode(), HttpStatus.UNAUTHORIZED);
             } else if (StrUtil.equals(BizConstant.LOGIN_STATUS, tokenCache)) {
-                return errorResponse(response, JWT_OFFLINE.getMsg(), JWT_OFFLINE.getCode(), HttpStatus.BAD_REQUEST);
+                return errorResponse(response, JWT_OFFLINE.getMsg(), JWT_OFFLINE.getCode(), HttpStatus.UNAUTHORIZED);
             }
         }
 
