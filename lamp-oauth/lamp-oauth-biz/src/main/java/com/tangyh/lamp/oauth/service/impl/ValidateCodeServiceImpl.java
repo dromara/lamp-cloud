@@ -6,16 +6,18 @@ import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.repository.CacheOps;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.lamp.common.cache.common.CaptchaCacheKeyBuilder;
+import com.tangyh.lamp.oauth.properties.CaptchaProperties;
 import com.tangyh.lamp.oauth.service.ValidateCodeService;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.ChineseCaptcha;
+import com.wf.captcha.ChineseGifCaptcha;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,22 +32,23 @@ import static com.tangyh.basic.exception.code.ExceptionCode.CAPTCHA_ERROR;
  */
 @Service
 @RequiredArgsConstructor
+@EnableConfigurationProperties(CaptchaProperties.class)
 public class ValidateCodeServiceImpl implements ValidateCodeService {
 
     private final CacheOps cacheOps;
+    private final CaptchaProperties captchaProperties;
 
     @Override
     public void create(String key, HttpServletResponse response) throws IOException {
         if (StrUtil.isBlank(key)) {
             throw BizException.validFail("验证码key不能为空");
         }
-        setHeader(response, "arithmetic");
-
-        Captcha captcha = createCaptcha("arithmetic");
+        Captcha captcha = createCaptcha();
 
         CacheKey cacheKey = new CaptchaCacheKeyBuilder().key(key);
         cacheOps.set(cacheKey, StringUtils.lowerCase(captcha.text()));
 
+        setHeader(response);
         captcha.out(response.getOutputStream());
     }
 
@@ -66,27 +69,34 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         return R.success(true);
     }
 
-    private Captcha createCaptcha(String type) {
+    private Captcha createCaptcha() {
         Captcha captcha;
-        if (StrUtil.equalsIgnoreCase(type, "gif")) {
-            captcha = new GifCaptcha(115, 42, 4);
-        } else if (StrUtil.equalsIgnoreCase(type, "png")) {
-            captcha = new SpecCaptcha(115, 42, 4);
-        } else if (StrUtil.equalsIgnoreCase(type, "chinese")) {
-            captcha = new ChineseCaptcha(115, 42);
-        } else  /*if (StrUtil.equalsIgnoreCase(type, "arithmetic")) */ {
-            captcha = new ArithmeticCaptcha(115, 42);
+        CaptchaProperties.CaptchaType type = captchaProperties.getType();
+        switch (type) {
+            case GIF:
+                captcha = new GifCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight(), captchaProperties.getLen());
+                break;
+            case SPEC:
+                captcha = new SpecCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight(), captchaProperties.getLen());
+                break;
+            case CHINESE:
+                captcha = new ChineseCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight(), captchaProperties.getLen());
+                break;
+            case CHINESE_GIF:
+                captcha = new ChineseGifCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight(), captchaProperties.getLen());
+                break;
+            case ARITHMETIC:
+            default:
+                captcha = new ArithmeticCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight(), captchaProperties.getLen());
+                break;
         }
-        captcha.setCharType(2);
+        captcha.setCharType(captchaProperties.getCharType());
+
         return captcha;
     }
 
-    private void setHeader(HttpServletResponse response, String type) {
-        if (StrUtil.equalsIgnoreCase(type, "gif")) {
-            response.setContentType(MediaType.IMAGE_GIF_VALUE);
-        } else {
-            response.setContentType(MediaType.IMAGE_PNG_VALUE);
-        }
+    private void setHeader(HttpServletResponse response) {
+        response.setContentType(captchaProperties.getType().getContentType());
         response.setHeader(HttpHeaders.PRAGMA, "No-cache");
         response.setHeader(HttpHeaders.CACHE_CONTROL, "No-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
