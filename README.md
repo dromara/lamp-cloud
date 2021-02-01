@@ -1,4 +1,4 @@
-# lamp 快速开发平台
+# 《灯灯》中后台快速开发平台
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
 [![](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
