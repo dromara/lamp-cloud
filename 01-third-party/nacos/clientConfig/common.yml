@@ -49,6 +49,12 @@ lamp:
   xss:
     enabled: true
     requestBodyEnabled: false
+  captcha:
+    type: ARITHMETIC
+    width: 115
+    height: 42
+    len: 2
+    charType: 2
 
 knife4j:
   enable: true
