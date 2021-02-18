@@ -32,10 +32,10 @@ public class LoginParamDTO {
     @ApiModelProperty(value = "验证码")
     private String code;
 
-//    @ApiModelProperty(value = "企业编号", example = "MDAwMA==")
-//    private String tenant;
-@ApiModelProperty(value = "账号")
-private String account;
+    //    @ApiModelProperty(value = "企业编号", example = "MDAwMA==")
+    //    private String tenant;
+    @ApiModelProperty(value = "账号")
+    private String account;
     @ApiModelProperty(value = "密码")
     private String password;
 
