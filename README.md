@@ -81,7 +81,7 @@
 - (已完成) 基于 [FEBS-Cloud-Web](https://gitee.com/mrbirdd/FEBS-Cloud-Web) 改造的前端项目演示地址： http://tangyh.top:10000/lamp-web/
 - (正在开发中...)基于 [vue-admin-beautiful](https://github.com/chuzhixin/vue-admin-beautiful)
   改造的前端项目演示地址： http://tangyh.top:180
-- (敬请期待...)基于 ant-design 开发的前端项目演示地址：???
+- (正在开发中...)基于 ant-design [vue-vben-admin](https://github.com/anncwb/vue-vben-admin) 开发的前端项目演示地址：http://tangyh.top:3100
 - 以下内置账号仅限于内置的0000租户
 - 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
 - 超级管理员： lamp/lamp
