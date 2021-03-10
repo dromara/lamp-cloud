@@ -4,6 +4,7 @@ import com.baidu.fsg.uid.UidGenerator;
 import com.tangyh.basic.annotation.user.LoginUser;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.security.model.SysUser;
+import com.tangyh.lamp.authority.service.auth.UserService;
 import com.tangyh.lamp.authority.service.common.LoginLogService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ import java.util.Map;
 public class DashboardController {
 
     private final LoginLogService loginLogService;
+    private final UserService userService;
     private final UidGenerator uidGenerator;
 
     @GetMapping("/dashboard/visit")
@@ -42,6 +44,7 @@ public class DashboardController {
         data.put("totalVisitCount", loginLogService.getTotalVisitCount());
         data.put("todayVisitCount", loginLogService.getTodayVisitCount());
         data.put("todayIp", loginLogService.getTodayIp());
+        data.put("userCount", userService.count());
 
         data.put("lastTenVisitCount", loginLogService.findLastTenDaysVisitCount(null));
         data.put("lastTenUserVisitCount", loginLogService.findLastTenDaysVisitCount(user.getAccount()));
