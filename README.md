@@ -10,25 +10,43 @@
 
 # lamp 项目名字由来
 ## 叙事版：
-在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。
-走着走着，在一盏路灯下，孩砸盯着路灯打破宁静，喊出：灯灯～ 我和媳妇愣了一下，然后对视着一起说：哈哈，这个名字好～
+
+在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。 走着走着，在一盏路灯下，孩砸盯着路灯打破宁静，喊出：灯灯～
+我和媳妇愣了一下，然后对视着一起说：哈哈，这个名字好～
 
 ## 解释版：
+
 `灯灯`： 是我小孩学说话时会说的第一个词，也是我在想了很多项目名后，小孩一语点破的一个名字，灯灯象征着光明，给困境的我们带来希望，给加班夜归的程序员们指引前方～
 
 `灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，包含以下几个子项目
 
 ## lamp 项目组成
+
+### 工具集
+
 | 项目 | gitee | github | 备注 |
-|---|---|---|---|
-| 工具集 | https://gitee.com/zuihou111/lamp-util | https://github.com/zuihou/lamp-util | 业务无关的工具集，cloud和boot 项目都依赖它 |
-| 微服务版 | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud | SpringCloud 版 |
-| 单体版 | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版(和lamp-cloud功能基本一致)|
-| 租户后台 | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web | PC端管理系统 |
+| --- | --- | --- | --- |
+| 工具集 | https://gitee.com/zuihou111/lamp-util | https://github.com/zuihou/lamp-util | 业务无关的工具集，cloud 和 boot 项目都依赖它 |
 | 代码生成器 | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator | 给开发人员使用 |
-| 定时调度器 | https://gitee.com/zuihou111/lamp-job | https://github.com/zuihou/lamp-job | 需要先编译 lamp-util 和 lamp-cloud(或lamp-util) |
+| 定时调度器 | https://gitee.com/zuihou111/lamp-job | https://github.com/zuihou/lamp-job | 尚未开发 |
+
+### 后端
+
+| 项目 | gitee | github | 备注 |
+| --- | --- | --- | --- |
+| 微服务版(后端) | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud | SpringCloud 版 |
+| 单体版(后端) | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版(和 lamp-cloud 功能基本一致) |
+
+### 前端
+
+| 项目 | gitee | github | 备注 | 演示地址 |
+| --- | --- | --- | --- | --- |
+| 中后台管理系统 | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web | 基于 vue-admin-element | http://tangyh.top:10000 |
+| 中后台管理系统 | https://gitee.com/zuihou111/lamp-web-beautiful | https://github.com/zuihou/lamp-web-beautiful | 基于 vue-admin-beautiful | http://tangyh.top:180 |
+| 中后台管理系统 (强烈推荐！👏👏👏) | https://gitee.com/zuihou111/lamp-web-plus | https://github.com/zuihou/lamp-web-plus | 基于 vue-vben-admin （vue 3 + vite 2） | http://tangyh.top:3100 |
 
 # lamp-cloud 简介
+
 `lamp-cloud`的前身是`zuihou-admin-cloud`，从3.0.0版本开始，改名为lamp-cloud，它是`lamp`项目的其中一员。
 
 `lamp-cloud` 基于`SpringCloud(Hoxton.SR9)`  + `SpringBoot(2.3.6.RELEASE)` 的微服务快速开发平台，其中的可配置的SaaS功能尤其闪耀，
@@ -242,8 +260,10 @@
 * hutool：[https://hutool.cn/](https://hutool.cn/)
 * xxl-job：[http://www.xuxueli.com/xxl-job/](http://www.xuxueli.com/xxl-job/)
 * kkfileview：[https://kkfileview.keking.cn](https://kkfileview.keking.cn)
+* vue-vben-admin(vue3.x + vite2.x)： [https://github.com/anncwb/vue-vben-admin](https://github.com/anncwb/vue-vben-admin)
+  lamp-web-plus 基于本项目改造
 * FEBS Cloud Web： [https://gitee.com/mrbirdd/FEBS-Cloud-Web](https://gitee.com/mrbirdd/FEBS-Cloud-Web)
-    lamp-web 基于本项目改造， 感谢 [wuyouzhuguli](https://github.com/wuyouzhuguli)
+  lamp-web 基于本项目改造， 感谢 [wuyouzhuguli](https://github.com/wuyouzhuguli)
 * Cloud-Platform： [https://gitee.com/geek_qi/cloud-platform](https://gitee.com/geek_qi/cloud-platform)
   作者学习时接触到的第一个微服务项目
-* [vue-admin-beautiful](https://github.com/chuzhixin/vue-admin-beautiful) ： 前端框架
+* [vue-admin-beautiful](https://github.com/chuzhixin/vue-admin-beautiful) ： lamp-web-beautiful 基于本项目改造
