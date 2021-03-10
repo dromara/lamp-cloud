@@ -2,7 +2,7 @@
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
 [![](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![](https://img.shields.io/badge/版本-3.1.0.PRE.1-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
+[![](https://img.shields.io/badge/版本-3.1.1-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
 [![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
 [![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/zuihou/lamp-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/lamp-cloud/network/members)
@@ -50,7 +50,7 @@
 
 `lamp-cloud`的前身是`zuihou-admin-cloud`，从3.0.0版本开始，改名为lamp-cloud，它是`lamp`项目的其中一员。
 
-`lamp-cloud` 基于`SpringCloud(Hoxton.SR9)`  + `SpringBoot(2.3.6.RELEASE)` 的微服务快速开发平台，其中的可配置的SaaS功能尤其闪耀，
+`lamp-cloud` 基于`SpringCloud(Hoxton.SR10)`  + `SpringBoot(2.3.9.RELEASE)` 的微服务快速开发平台，其中的可配置的SaaS功能尤其闪耀，
 具备RBAC功能、网关统一鉴权、Xss防跨站攻击、自动代码生成、多种存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，注释齐全，架构清晰，非常适合学习和企业作为基础框架使用。
 
