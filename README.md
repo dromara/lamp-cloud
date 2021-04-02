@@ -2,7 +2,7 @@
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
 [![](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![](https://img.shields.io/badge/版本-3.1.1-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
+[![](https://img.shields.io/badge/版本-3.1.2-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
 [![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
 [![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/zuihou/lamp-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/lamp-cloud/network/members)
