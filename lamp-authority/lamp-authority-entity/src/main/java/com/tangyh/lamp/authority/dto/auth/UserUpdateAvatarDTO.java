@@ -3,11 +3,16 @@ package com.tangyh.lamp.authority.dto.auth;
 import com.tangyh.basic.base.entity.SuperEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -39,7 +44,7 @@ public class UserUpdateAvatarDTO implements Serializable {
      * 头像
      */
     @ApiModelProperty(value = "头像")
-    @Length(max = 255, message = "头像长度不能超过255")
+    @Size(max = 255, message = "头像长度不能超过255")
     private String avatar;
 
 }

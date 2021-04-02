@@ -3,12 +3,12 @@ package com.tangyh.lamp.example.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.tangyh.basic.annotation.injection.InjectionResult;
+import com.tangyh.basic.annotation.echo.EchoResult;
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.database.mybatis.auth.DataScope;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
-import com.tangyh.basic.injection.properties.InjectionProperties;
+import com.tangyh.basic.echo.properties.EchoProperties;
 import com.tangyh.lamp.example.dao.OrderMapper;
 import com.tangyh.lamp.example.entity.Order;
 import com.tangyh.lamp.example.service.OrderService;
@@ -40,7 +40,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class OrderServiceImpl extends SuperCacheServiceImpl<OrderMapper, Order> implements OrderService {
 
-    private final InjectionProperties ips;
+    private final EchoProperties ips;
 
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
@@ -54,7 +54,7 @@ public class OrderServiceImpl extends SuperCacheServiceImpl<OrderMapper, Order> 
 
 
     @Override
-    @InjectionResult
+    @EchoResult
     public List<Order> findInjectionResult(Order data) {
         return baseMapper.find(data);
     }

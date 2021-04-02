@@ -15,6 +15,10 @@ public enum FileStorageType {
      * FastDFS
      */
     FAST_DFS,
+    /**
+     * minIO
+     */
+    MIN_IO,
     ALI,
     QINIU,
     ;

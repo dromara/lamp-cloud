@@ -17,12 +17,12 @@ import java.util.Set;
 @Component
 public class OrgApiFallback implements OrgApi {
     @Override
-    public Map<Serializable, Object> findOrgByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
         return Collections.emptyMap();
     }
 
     @Override
-    public Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
         return Collections.emptyMap();
     }
 }

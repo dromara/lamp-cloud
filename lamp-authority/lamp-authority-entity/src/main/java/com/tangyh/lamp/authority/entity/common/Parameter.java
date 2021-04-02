@@ -13,9 +13,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -46,7 +46,7 @@ public class Parameter extends Entity<Long> {
      */
     @ApiModelProperty(value = "参数键")
     @NotEmpty(message = "参数键不能为空")
-    @Length(max = 255, message = "参数键长度不能超过255")
+    @Size(max = 255, message = "参数键长度不能超过255")
     @TableField(value = "key_", condition = LIKE)
     @Excel(name = "参数键")
     private String key;
@@ -56,7 +56,7 @@ public class Parameter extends Entity<Long> {
      */
     @ApiModelProperty(value = "参数值")
     @NotEmpty(message = "参数值不能为空")
-    @Length(max = 255, message = "参数值长度不能超过255")
+    @Size(max = 255, message = "参数值长度不能超过255")
     @TableField(value = "value", condition = LIKE)
     @Excel(name = "参数值")
     private String value;
@@ -66,7 +66,7 @@ public class Parameter extends Entity<Long> {
      */
     @ApiModelProperty(value = "参数名称")
     @NotEmpty(message = "参数名称不能为空")
-    @Length(max = 255, message = "参数名称长度不能超过255")
+    @Size(max = 255, message = "参数名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "参数名称")
     private String name;
@@ -75,7 +75,7 @@ public class Parameter extends Entity<Long> {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
     private String describe;

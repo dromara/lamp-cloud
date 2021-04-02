@@ -101,4 +101,22 @@ public interface AttachmentService extends SuperService<Attachment> {
      * @return 分页数据
      */
     IPage<Attachment> page(IPage<Attachment> page, FilePageReqDTO data);
+
+    /**
+     * 获取文件访问路径
+     *
+     * @param paths  文件路径
+     * @param expiry 过期时间
+     * @return
+     */
+    List<String> getUrls(List<String> paths, Integer expiry);
+
+    /**
+     * 获取文件访问路径
+     *
+     * @param paths  文件路径
+     * @param expiry 过期时间
+     * @return
+     */
+    String getUrl(String paths, Integer expiry);
 }

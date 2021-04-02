@@ -1,8 +1,8 @@
 package com.tangyh.lamp.file.properties;
 
 
-import com.tangyh.lamp.file.enumeration.FileStorageType;
 import com.tangyh.basic.utils.StrPool;
+import com.tangyh.lamp.file.enumeration.FileStorageType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +45,7 @@ public class FileServerProperties {
     private String downById = "";
 
     private Ali ali;
+    private MinIo minIo;
 
     public String getDownByUrl(Object... param) {
         return String.format(downByUrl, param);
@@ -83,5 +84,28 @@ public class FileServerProperties {
         private String accessKeyId;
         private String accessKeySecret;
         private String bucketName;
+    }
+
+    @Data
+    public static class MinIo {
+        /**
+         * minio地址+端口号
+         */
+        private String endpoint = "http://127.0.0.1:9000";
+
+        /**
+         * minio用户名
+         */
+        private String accessKey = "minioadmin";
+
+        /**
+         * minio密码
+         */
+        private String secretKey = "minioadmin";
+
+        /**
+         * 文件桶的名称
+         */
+        private String bucket = "dev";
     }
 }

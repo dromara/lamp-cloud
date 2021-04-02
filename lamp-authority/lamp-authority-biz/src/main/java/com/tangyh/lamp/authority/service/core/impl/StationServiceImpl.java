@@ -2,9 +2,8 @@ package com.tangyh.lamp.authority.service.core.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.tangyh.basic.annotation.injection.InjectionResult;
+import com.tangyh.basic.annotation.echo.EchoResult;
 import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
@@ -46,7 +45,7 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
     }
 
     @Override
-    @InjectionResult
+    @EchoResult
     public IPage<Station> findStationPage(IPage<Station> page, PageParams<StationPageQuery> params) {
         StationPageQuery data = params.getModel();
         Station station = BeanUtil.toBean(data, Station.class);
@@ -57,19 +56,19 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
         // ${ew.customSqlSegment} 语法一定要手动eq like 等
         wrapper.like(Station::getName, station.getName())
                 .like(Station::getDescribe, station.getDescribe())
-                .eq(Station::getOrg, station.getOrg())
+                .eq(Station::getOrgId, station.getOrgId())
                 .eq(Station::getState, station.getState());
         return baseMapper.findStationPage(page, wrapper, new DataScope());
     }
 
     @Override
-    public Map<Serializable, Object> findStationByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findStation(ids), Station::getId, station -> station);
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(findStation(ids), Station::getId, Station::getName);
     }
 
     @Override
-    public Map<Serializable, Object> findStationNameByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findStation(ids), Station::getId, Station::getName);
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(findStation(ids), Station::getId, station -> station);
     }
 
     private List<Station> findStation(Set<Serializable> ids) {

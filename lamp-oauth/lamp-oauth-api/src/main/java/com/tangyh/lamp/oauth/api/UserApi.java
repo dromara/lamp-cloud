@@ -1,5 +1,6 @@
 package com.tangyh.lamp.oauth.api;
 
+import com.tangyh.basic.model.LoadService;
 import com.tangyh.lamp.oauth.api.hystrix.UserApiFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ import java.util.Set;
  */
 @FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", fallback = UserApiFallback.class
         , path = "/user", qualifier = "userApi")
-public interface UserApi {
+public interface UserApi extends LoadService {
     /**
      * 根据用户id查询权限范围
      *
@@ -31,20 +32,22 @@ public interface UserApi {
     Map<String, Object> getDataScopeById(@PathVariable("id") Long id);
 
     /**
-     * 根据id查询用户
+     * 根据id查询 显示名
      *
-     * @param ids id
-     * @return id-user
+     * @param ids 唯一键（可能不是主键ID)
+     * @return
      */
-    @GetMapping("/findUserByIds")
-    Map<Serializable, Object> findUserByIds(@RequestParam(value = "ids") Set<Serializable> ids);
+    @Override
+    @GetMapping("/findNameByIds")
+    Map<Serializable, Object> findNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 
     /**
-     * 根据id查询用户名称
+     * 根据id查询实体
      *
-     * @param ids id
-     * @return id-name
+     * @param ids 唯一键（可能不是主键ID)
+     * @return
      */
-    @GetMapping("/findUserNameByIds")
-    Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
+    @Override
+    @GetMapping("/findByIds")
+    Map<Serializable, Object> findByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 }

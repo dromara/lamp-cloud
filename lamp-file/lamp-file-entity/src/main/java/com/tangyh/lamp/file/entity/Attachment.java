@@ -14,8 +14,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -45,7 +45,7 @@ public class Attachment extends Entity<Long> {
      * 业务ID
      */
     @ApiModelProperty(value = "业务ID")
-    @Length(max = 64, message = "业务ID长度不能超过64")
+    @Size(max = 64, message = "业务ID长度不能超过64")
     @TableField(value = "biz_id", condition = LIKE)
     @Excel(name = "业务ID")
     private String bizId;
@@ -55,7 +55,7 @@ public class Attachment extends Entity<Long> {
      * #AttachmentType
      */
     @ApiModelProperty(value = "业务类型")
-    @Length(max = 255, message = "业务类型长度不能超过255")
+    @Size(max = 255, message = "业务类型长度不能超过255")
     @TableField(value = "biz_type", condition = LIKE)
     @Excel(name = "业务类型")
     private String bizType;
@@ -73,7 +73,7 @@ public class Attachment extends Entity<Long> {
      * 原始文件名
      */
     @ApiModelProperty(value = "原始文件名")
-    @Length(max = 255, message = "原始文件名长度不能超过255")
+    @Size(max = 255, message = "原始文件名长度不能超过255")
     @TableField(value = "submitted_file_name", condition = LIKE)
     @Excel(name = "原始文件名")
     private String submittedFileName;
@@ -83,7 +83,7 @@ public class Attachment extends Entity<Long> {
      * 用于FastDFS
      */
     @ApiModelProperty(value = "FastDFS返回的组")
-    @Length(max = 255, message = "FastDFS返回的组长度不能超过255")
+    @Size(max = 255, message = "FastDFS返回的组长度不能超过255")
     @TableField(value = "group_", condition = LIKE)
     @Excel(name = "FastDFS返回的组")
     private String group;
@@ -93,7 +93,7 @@ public class Attachment extends Entity<Long> {
      * 用于FastDFS
      */
     @ApiModelProperty(value = "FastDFS的远程文件名")
-    @Length(max = 255, message = "FastDFS的远程文件名长度不能超过255")
+    @Size(max = 255, message = "FastDFS的远程文件名长度不能超过255")
     @TableField(value = "path", condition = LIKE)
     @Excel(name = "FastDFS的远程文件名")
     private String path;
@@ -102,7 +102,7 @@ public class Attachment extends Entity<Long> {
      * 文件相对路径
      */
     @ApiModelProperty(value = "文件相对路径")
-    @Length(max = 255, message = "文件相对路径长度不能超过255")
+    @Size(max = 255, message = "文件相对路径长度不能超过255")
     @TableField(value = "relative_path", condition = LIKE)
     @Excel(name = "文件相对路径")
     private String relativePath;
@@ -112,7 +112,7 @@ public class Attachment extends Entity<Long> {
      * 需要通过nginx配置路由，才能访问
      */
     @ApiModelProperty(value = "文件访问链接")
-    @Length(max = 255, message = "文件访问链接长度不能超过255")
+    @Size(max = 255, message = "文件访问链接长度不能超过255")
     @TableField(value = "url", condition = LIKE)
     @Excel(name = "文件访问链接")
     private String url;
@@ -121,7 +121,7 @@ public class Attachment extends Entity<Long> {
      * 文件md5值
      */
     @ApiModelProperty(value = "文件md5值")
-    @Length(max = 255, message = "文件md5值长度不能超过255")
+    @Size(max = 255, message = "文件md5值长度不能超过255")
     @TableField(value = "file_md5", condition = LIKE)
     @Excel(name = "文件md5值")
     private String fileMd5;
@@ -131,7 +131,7 @@ public class Attachment extends Entity<Long> {
      * 取上传文件的值
      */
     @ApiModelProperty(value = "文件上传类型")
-    @Length(max = 255, message = "文件上传类型长度不能超过255")
+    @Size(max = 255, message = "文件上传类型长度不能超过255")
     @TableField(value = "context_type", condition = LIKE)
     @Excel(name = "文件上传类型")
     private String contextType;
@@ -140,7 +140,7 @@ public class Attachment extends Entity<Long> {
      * 唯一文件名
      */
     @ApiModelProperty(value = "唯一文件名")
-    @Length(max = 255, message = "唯一文件名长度不能超过255")
+    @Size(max = 255, message = "唯一文件名长度不能超过255")
     @TableField(value = "filename", condition = LIKE)
     @Excel(name = "唯一文件名")
     private String filename;
@@ -150,7 +150,7 @@ public class Attachment extends Entity<Long> {
      * (没有.)
      */
     @ApiModelProperty(value = "后缀")
-    @Length(max = 64, message = "后缀长度不能超过64")
+    @Size(max = 64, message = "后缀长度不能超过64")
     @TableField(value = "ext", condition = LIKE)
     @Excel(name = "后缀")
     private String ext;
@@ -176,7 +176,7 @@ public class Attachment extends Entity<Long> {
      * 图标
      */
     @ApiModelProperty(value = "图标")
-    @Length(max = 64, message = "图标长度不能超过64")
+    @Size(max = 64, message = "图标长度不能超过64")
     @TableField(value = "icon", condition = LIKE)
     @Excel(name = "图标")
     private String icon;
@@ -186,7 +186,7 @@ public class Attachment extends Entity<Long> {
      * 格式：yyyy-MM 用于统计
      */
     @ApiModelProperty(value = "创建年月")
-    @Length(max = 7, message = "创建年月长度不能超过7")
+    @Size(max = 7, message = "创建年月长度不能超过7")
     @TableField(value = "create_month", condition = LIKE)
     @Excel(name = "创建年月")
     private String createMonth;
@@ -196,7 +196,7 @@ public class Attachment extends Entity<Long> {
      * 格式：yyyy-ww 用于统计
      */
     @ApiModelProperty(value = "创建时处于当年的第几周")
-    @Length(max = 7, message = "创建时处于当年的第几周长度不能超过7")
+    @Size(max = 7, message = "创建时处于当年的第几周长度不能超过7")
     @TableField(value = "create_week", condition = LIKE)
     @Excel(name = "创建时处于当年的第几周")
     private String createWeek;
@@ -206,7 +206,7 @@ public class Attachment extends Entity<Long> {
      * 格式： yyyy-MM-dd 用于统计
      */
     @ApiModelProperty(value = "创建年月日")
-    @Length(max = 10, message = "创建年月日长度不能超过10")
+    @Size(max = 10, message = "创建年月日长度不能超过10")
     @TableField(value = "create_day", condition = LIKE)
     @Excel(name = "创建年月日")
     private String createDay;

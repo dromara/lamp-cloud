@@ -1,21 +1,17 @@
 package com.tangyh.lamp.authority.service.common.impl;
 
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.ImmutableMap;
 import com.tangyh.basic.base.entity.SuperEntity;
-import com.tangyh.basic.base.service.SuperCacheServiceImpl;
+import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.cache.model.CacheHashKey;
-import com.tangyh.basic.cache.model.CacheKey;
-import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.cache.repository.CachePlusOps;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import com.tangyh.basic.echo.properties.EchoProperties;
 import com.tangyh.basic.exception.BizException;
-import com.tangyh.basic.injection.properties.InjectionProperties;
 import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.basic.utils.CollHelper;
@@ -24,7 +20,6 @@ import com.tangyh.lamp.authority.dto.common.DictionaryPageQuery;
 import com.tangyh.lamp.authority.dto.common.DictionaryTypeSaveDTO;
 import com.tangyh.lamp.authority.entity.common.Dictionary;
 import com.tangyh.lamp.authority.service.common.DictionaryService;
-import com.tangyh.lamp.common.cache.common.DictionaryCacheKeyBuilder;
 import com.tangyh.lamp.common.cache.common.DictionaryTypeCacheKeyBuilder;
 import com.tangyh.lamp.common.constant.DefValConstants;
 import lombok.RequiredArgsConstructor;
@@ -33,18 +28,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -62,16 +53,10 @@ import static java.util.stream.Collectors.toList;
 @Service
 
 @RequiredArgsConstructor
-public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMapper, Dictionary> implements DictionaryService {
+public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Dictionary> implements DictionaryService {
 
-    private final InjectionProperties ips;
+    private final EchoProperties ips;
     private final CachePlusOps cachePlusOps;
-
-    @Override
-    protected CacheKeyBuilder cacheKeyBuilder() {
-        return new DictionaryCacheKeyBuilder();
-    }
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -98,11 +83,8 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
         List<Long> ids = list.stream().map(Dictionary::getId).collect(toList());
         boolean bool = removeByIds(ids);
 
-        delCache(ids);
-        types.forEach(type -> {
-            CacheKey typeKey = new DictionaryTypeCacheKeyBuilder().key(type);
-            cachePlusOps.del(typeKey);
-        });
+        CacheHashKey[] typeKeys = list.stream().map(type -> new DictionaryTypeCacheKeyBuilder().hashKey(type.getType())).toArray(CacheHashKey[]::new);
+        cachePlusOps.del(typeKeys);
         return bool;
     }
 
@@ -121,8 +103,7 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
         });
         boolean bool = updateBatchById(list);
 
-        delCache(list.stream().map(Dictionary::getId).collect(toList()));
-        CacheKey typeKey = new DictionaryTypeCacheKeyBuilder().key(dictType.getType());
+        CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(dictType.getType());
         cachePlusOps.del(typeKey);
         return bool;
     }
@@ -146,11 +127,10 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
         } else {
             BeanPlusUtil.copyProperties(model, type, SuperEntity.FIELD_ID, SuperEntity.CREATE_TIME, SuperEntity.CREATED_BY);
             bool = super.updateById(type);
-            setCache(type);
         }
 
-        CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(model.getCode(), model.getType());
-        cachePlusOps.hSet(typeKey, model.getId());
+        CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashFieldKey(model.getCode(), model.getType());
+        cachePlusOps.hSet(typeKey, model.getName());
         return bool;
     }
 
@@ -174,10 +154,8 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
         BizAssert.notNull(old, "字典不存在或已被删除！");
         boolean bool = function.apply(model);
 
-        CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(old.getCode(), old.getType());
-        cachePlusOps.hDel(typeKey);
-        CacheHashKey newKey = new DictionaryTypeCacheKeyBuilder().hashKey(model.getCode(), model.getType());
-        cachePlusOps.hSet(newKey, model.getId());
+        CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(model.getType());
+        cachePlusOps.del(typeKey);
         return bool;
     }
 
@@ -187,7 +165,7 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
         BizAssert.notNull(model, "字典项不存在");
         boolean remove = super.removeById(id);
 
-        CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(model.getCode(), model.getType());
+        CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashFieldKey(model.getCode(), model.getType());
         cachePlusOps.hDel(typeKey);
         return remove;
     }
@@ -199,10 +177,8 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
         }
         List<Dictionary> list = listByIds(idList);
         boolean remove = super.removeByIds(idList);
-        list.forEach(model -> {
-            CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(model.getCode(), model.getType());
-            cachePlusOps.hDel(typeKey);
-        });
+        CacheHashKey[] hashKeys = list.stream().map(model -> new DictionaryTypeCacheKeyBuilder().hashKey(model.getType())).toArray(CacheHashKey[]::new);
+        cachePlusOps.del(hashKeys);
         return remove;
     }
 
@@ -233,70 +209,31 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
             ImmutableMap<Dictionary, String> itemCodeMap = CollHelper.uniqueIndex(items, i -> i, Dictionary::getName);
             typeCodeNameMap.put(key, itemCodeMap);
         });
-
         return typeCodeNameMap;
     }
 
-    /**
-     * 缓存方案
-     * 2. 根据type+code，查所有 item name
-     * {tenant}:dictionary_type:{type}  {code} -> itemId
-     *
-     * <p>
-     * 3、简单存储
-     * {tenant}:dictionary_item:{id} -> obj
-     *
-     * @param typeCodes 类型+编码 数组
-     * @return 字典
-     */
     @Override
-    public Map<Serializable, Object> findDictionaryItem(Set<Serializable> typeCodes) {
-        if (typeCodes.isEmpty()) {
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> types) {
+        if (types.isEmpty()) {
             return Collections.emptyMap();
         }
-        Set<String> types = typeCodes.parallelStream().filter(Objects::nonNull)
-                .map(item -> StrUtil.split(String.valueOf(item), ips.getDictSeparator())[0]).collect(Collectors.toSet());
-        Set<String> multiCodes = typeCodes.parallelStream().filter(Objects::nonNull)
-                .map(item -> StrUtil.split(String.valueOf(item), ips.getDictSeparator())[1]).collect(Collectors.toSet());
-        Set<String> codes = multiCodes.parallelStream()
-                .map(item -> StrUtil.split(String.valueOf(item), ips.getDictItemSeparator()))
-                .flatMap(Arrays::stream).collect(Collectors.toSet());
 
-        // 1.1 根据 type+code 查询 item id
-        List<Long> itemIdList = new ArrayList<>();
-        for (String type : types) {
-            for (String code : codes) {
-                String itemId = cachePlusOps.hGet(new DictionaryTypeCacheKeyBuilder().hashKey(code, type), hk -> {
-                    Dictionary one = getOne(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, type).eq(Dictionary::getCode, code), false);
-                    return one != null ? String.valueOf(one.getId()) : null;
-                });
-                if (itemId != null) {
-                    itemIdList.add(Convert.toLong(itemId));
-                }
-            }
-        }
-        // 1.2 根据 item id 查询DictionaryItem
-        List<Dictionary> list = findByIds(itemIdList, this::listByIds);
-
-        // 2. 将 list 转换成 Map，Map的key是字典编码，value是字典名称
-        ImmutableMap<String, String> typeMap = CollHelper.uniqueIndex(list,
-                item -> StrUtil.join(ips.getDictSeparator(), item.getType(), item.getCode())
-                , Dictionary::getName);
-
-        // 3. 将 Map<String, String> 转换成 Map<Serializable, Object>
-        Map<Serializable, Object> typeCodeNameMap = new HashMap<>(CollHelper.initialCapacity(typeMap.size()));
-        typeMap.forEach(typeCodeNameMap::put);
-        return typeCodeNameMap;
+        Map<Serializable, Object> codeValueMap = new HashMap<>();
+        types.forEach(type -> {
+            Function<CacheHashKey, Map<String, String>> fun = (ck) -> {
+                LbqWrapper<Dictionary> wrap = Wraps.<Dictionary>lbQ().eq(Dictionary::getType, type);
+                List<Dictionary> list = list(wrap);
+                return CollHelper.uniqueIndex(list, Dictionary::getCode, Dictionary::getName);
+            };
+            Map<String, String> map = cachePlusOps.hGetAll(new DictionaryTypeCacheKeyBuilder().hashKey(type), fun);
+            map.forEach((value, txt) -> codeValueMap.put(StrUtil.join(ips.getDictSeparator(), type, value), txt));
+        });
+        return codeValueMap;
     }
 
     @Override
-    public void refreshCache() {
-        List<Dictionary> list = list();
-        list.forEach(model -> {
-            this.setCache(model);
-
-            CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(model.getCode(), model.getType());
-            cachePlusOps.hSet(typeKey, model.getId());
-        });
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return Collections.emptyMap();
     }
+
 }

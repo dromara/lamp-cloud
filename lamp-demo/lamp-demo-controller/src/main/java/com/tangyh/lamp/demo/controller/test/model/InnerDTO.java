@@ -3,13 +3,28 @@ package com.tangyh.lamp.demo.controller.test.model;
 import com.tangyh.basic.base.entity.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,11 +50,10 @@ public class InnerDTO extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用编码")
     @NotEmpty(message = "应用编码不能为空")
-    @Length(max = 20, message = "应用编码长度不能超过20")
+    @Size(max = 20, message = "应用编码长度不能超过20")
     private String code;
 
     @NotNull(message = "age不能为空")
-    @Range(max = 20, message = "age长度不能超过20")
     private Long age;
 
     @NotBlank(message = "名称不能为空")
@@ -54,7 +68,6 @@ public class InnerDTO extends Entity<Long> {
     @Email(message = "email 不符合")
     private String email;
 
-    @URL(message = "url 不符合规则")
     private String url;
 
 

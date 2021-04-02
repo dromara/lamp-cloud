@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -40,7 +40,7 @@ public class DictionaryTypeSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "类型")
     @NotEmpty(message = "类型不能为空")
-    @Length(max = 255, message = "类型长度不能超过255")
+    @Size(max = 255, message = "类型长度不能超过255")
     private String type;
 
     /**
@@ -48,7 +48,7 @@ public class DictionaryTypeSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "类型标签")
     @NotEmpty(message = "类型标签不能为空")
-    @Length(max = 255, message = "类型标签长度不能超过255")
+    @Size(max = 255, message = "类型标签长度不能超过255")
     private String label;
 
     /**

@@ -4,7 +4,7 @@ package com.tangyh.lamp.demo.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.annotation.security.PreAuth;
 import com.tangyh.basic.base.controller.SuperController;
-import com.tangyh.basic.injection.core.InjectionCore;
+import com.tangyh.basic.echo.core.EchoService;
 import com.tangyh.lamp.demo.dto.ProductPageQuery;
 import com.tangyh.lamp.demo.dto.ProductSaveDTO;
 import com.tangyh.lamp.demo.dto.ProductUpdateDTO;
@@ -34,10 +34,10 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuth(replace = "demo:product:", enabled = false)
 @RequiredArgsConstructor
 public class ProductController extends SuperController<ProductService, Long, Product, ProductPageQuery, ProductSaveDTO, ProductUpdateDTO> {
-    private final InjectionCore injectionCore;
+    private final EchoService echoService;
 
     @Override
     public void handlerResult(IPage<Product> page) {
-        injectionCore.injection(page);
+        echoService.action(page);
     }
 }

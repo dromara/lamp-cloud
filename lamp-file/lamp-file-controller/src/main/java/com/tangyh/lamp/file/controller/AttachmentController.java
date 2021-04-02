@@ -231,4 +231,33 @@ public class AttachmentController extends SuperSimpleController<AttachmentServic
         baseService.downloadByUrl(request, response, url, filename);
     }
 
+
+    /**
+     * 根据文件相对路径，获取访问路径
+     *
+     * @param paths  文件路径
+     * @param expiry 有效期
+     */
+    @ApiOperation(value = "批量根据文件相对路径，获取访问路径", notes = "批量根据文件相对路径，获取访问路径")
+    @GetMapping(value = "/getUrls")
+    public R<List<String>> getUrls(@ApiParam(name = "paths", value = "文件路径") @RequestParam(value = "paths") List<String> paths,
+                                   @ApiParam(name = "expiry", value = "过期时间")
+                                   @RequestParam(value = "expiry", defaultValue = "172800") Integer expiry) {
+        return R.success(baseService.getUrls(paths, expiry));
+    }
+
+    /**
+     * 根据文件相对路径，获取访问路径
+     *
+     * @param path   文件路径
+     * @param expiry 有效期
+     */
+    @ApiOperation(value = "根据文件相对路径，获取访问路径", notes = "根据文件相对路径，获取访问路径")
+    @GetMapping(value = "/getUrl")
+    public R<String> getUrl(@ApiParam(name = "path", value = "文件路径")
+                            @RequestParam(value = "path") String path,
+                            @ApiParam(name = "expiry", value = "过期时间")
+                            @RequestParam(value = "expiry", defaultValue = "172800") Integer expiry) {
+        return R.success(baseService.getUrl(path, expiry));
+    }
 }

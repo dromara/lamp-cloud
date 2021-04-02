@@ -22,27 +22,11 @@
             <version>${lamp-project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-all</artifactId>
+        </dependency>
 
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-swagger2-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-validator-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-xss-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-cloud-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-zipkin-client-starter</artifactId>
-        </dependency>
         <!--为什么spring-cloud-starter-alibaba-seata 要将 seata-all 和 seata-spring-boot-starter 排除掉，然后在下面重新依赖呢？
             因为： 随着 spring-cloud-starter-alibaba-seata 版本的升级， 里面seata-all、seata-spring-boot-starter的版本可能跟我们
             使用的 seata-server 版本不一致，所以需要将手动指定这2个jar的版本跟 seata-server 保持一致。 -->

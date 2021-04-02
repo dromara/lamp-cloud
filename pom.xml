@@ -70,6 +70,11 @@
 
             <dependency>
                 <groupId>com.tangyh.basic</groupId>
+                <artifactId>lamp-all</artifactId>
+                <version>${lamp-util.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tangyh.basic</groupId>
                 <artifactId>lamp-annotation</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
@@ -106,7 +111,7 @@
 
             <dependency>
                 <groupId>com.tangyh.basic</groupId>
-                <artifactId>lamp-injection-starter</artifactId>
+                <artifactId>lamp-echo-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
 

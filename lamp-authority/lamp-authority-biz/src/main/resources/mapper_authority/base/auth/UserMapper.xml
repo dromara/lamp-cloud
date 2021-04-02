@@ -11,8 +11,8 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="account" jdbcType="VARCHAR" property="account"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="org_id" jdbcType="BIGINT" property="org"/>
-        <result column="station_id" jdbcType="BIGINT" property="station"/>
+        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
+        <result column="station_id" jdbcType="BIGINT" property="stationId"/>
         <result column="readonly" jdbcType="BIT" property="readonly"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
@@ -33,8 +33,9 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,created_by,create_time,updated_by,update_time,
-        account, name, org_id, station_id, readonly, email, mobile, sex, state, avatar, nation, education, position_status, work_describe, password_error_last_time, password_error_num, password_expire_time, password, last_login_time, salt
+        id
+        ,created_by,create_time,updated_by,update_time,
+        account, name, org_id, station_id, readonly, email, mobile, sex, state, avatar, nation, education, position_status, work_describe, password_error_last_time, password_error_num, password_expire_time, password, salt, last_login_time
     </sql>
 
 </mapper>

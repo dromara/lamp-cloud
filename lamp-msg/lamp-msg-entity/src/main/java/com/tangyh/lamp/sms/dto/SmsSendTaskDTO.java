@@ -8,10 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -44,7 +44,7 @@ public class SmsSendTaskDTO {
             "支持2种格式:\n" +
             "1: 手机号,手机号 \n" +
             "2: 姓名<手机号>,姓名<手机号>")
-    @Length(max = 65535, message = "接收人长度不能超过65535")
+    @Size(max = 65535, message = "接收人长度不能超过65535")
     @NotEmpty(message = "接收人不能为空")
     private String receiver;
 
@@ -52,7 +52,7 @@ public class SmsSendTaskDTO {
      * 短信主题
      */
     @ApiModelProperty(value = "短信主题")
-    @Length(max = 255, message = "短信主题不能超过255")
+    @Size(max = 255, message = "短信主题不能超过255")
     private String topic;
 
     /**
@@ -64,7 +64,7 @@ public class SmsSendTaskDTO {
      *
      */
     @ApiModelProperty(value = "短信模板参数")
-    @Length(max = 500, message = "短信模板参数不能超过500")
+    @Size(max = 500, message = "短信模板参数不能超过500")
     @NotNull(message = "短信模板参数不能为空")
     private JSONObject templateParam;
 
@@ -78,7 +78,7 @@ public class SmsSendTaskDTO {
      * 发送内容
      */
     @ApiModelProperty(value = "发送内容")
-    @Length(max = 500, message = "发送内容不能超过450")
+    @Size(max = 500, message = "发送内容不能超过450")
     private String context;
     /**
      * 是否为草稿

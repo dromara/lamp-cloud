@@ -13,9 +13,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -46,7 +46,7 @@ public class Dictionary extends Entity<Long> {
      */
     @ApiModelProperty(value = "类型")
     @NotEmpty(message = "类型不能为空")
-    @Length(max = 255, message = "类型长度不能超过255")
+    @Size(max = 255, message = "类型长度不能超过255")
     @TableField(value = "type", condition = LIKE)
     @Excel(name = "类型")
     private String type;
@@ -56,7 +56,7 @@ public class Dictionary extends Entity<Long> {
      */
     @ApiModelProperty(value = "类型标签")
     @NotEmpty(message = "类型标签不能为空")
-    @Length(max = 255, message = "类型标签长度不能超过255")
+    @Size(max = 255, message = "类型标签长度不能超过255")
     @TableField(value = "label", condition = LIKE)
     @Excel(name = "类型标签")
     private String label;
@@ -66,7 +66,7 @@ public class Dictionary extends Entity<Long> {
      */
     @ApiModelProperty(value = "编码")
     @NotEmpty(message = "编码不能为空")
-    @Length(max = 64, message = "编码长度不能超过64")
+    @Size(max = 64, message = "编码长度不能超过64")
     @TableField(value = "code", condition = LIKE)
     @Excel(name = "编码")
     private String code;
@@ -76,7 +76,7 @@ public class Dictionary extends Entity<Long> {
      */
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
-    @Length(max = 64, message = "名称长度不能超过64")
+    @Size(max = 64, message = "名称长度不能超过64")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "名称")
     private String name;
@@ -93,7 +93,7 @@ public class Dictionary extends Entity<Long> {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
     private String describe;
@@ -110,7 +110,7 @@ public class Dictionary extends Entity<Long> {
      * 图标
      */
     @ApiModelProperty(value = "图标")
-    @Length(max = 255, message = "图标长度不能超过255")
+    @Size(max = 255, message = "图标长度不能超过255")
     @TableField(value = "icon", condition = LIKE)
     @Excel(name = "图标")
     private String icon;
@@ -119,7 +119,7 @@ public class Dictionary extends Entity<Long> {
      * css样式
      */
     @ApiModelProperty(value = "css样式")
-    @Length(max = 255, message = "css样式长度不能超过255")
+    @Size(max = 255, message = "css样式长度不能超过255")
     @TableField(value = "css_style", condition = LIKE)
     @Excel(name = "css样式")
     private String cssStyle;
@@ -128,7 +128,7 @@ public class Dictionary extends Entity<Long> {
      * 类选择器
      */
     @ApiModelProperty(value = "类选择器")
-    @Length(max = 255, message = "类选择器长度不能超过255")
+    @Size(max = 255, message = "类选择器长度不能超过255")
     @TableField(value = "css_class", condition = LIKE)
     @Excel(name = "类选择器")
     private String cssClass;

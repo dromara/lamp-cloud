@@ -10,9 +10,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -50,13 +50,13 @@ public class SmsTaskSaveDTO implements Serializable {
      * 支持2种 格式:1: 手机号,手机号  格式2: 姓名<手机号>,姓名<手机号>
      */
     @ApiModelProperty(value = "接收者手机号")
-    @Length(max = 65535, message = "接收者手机号长度不能超过65,535")
+    @Size(max = 65535, message = "接收者手机号长度不能超过65,535")
     private String receiver;
     /**
      * 主题
      */
     @ApiModelProperty(value = "主题")
-    @Length(max = 255, message = "主题长度不能超过255")
+    @Size(max = 255, message = "主题长度不能超过255")
     private String topic;
     /**
      * 参数
@@ -75,7 +75,7 @@ public class SmsTaskSaveDTO implements Serializable {
      * 需要封装正确格式化: 您好，张三，您有一个新的快递。
      */
     @ApiModelProperty(value = "发送内容")
-    @Length(max = 500, message = "发送内容长度不能超过500")
+    @Size(max = 500, message = "发送内容长度不能超过500")
     private String content;
     /**
      * 是否草稿

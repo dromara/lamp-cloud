@@ -10,10 +10,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -58,33 +58,33 @@ public class SmsSendStatusSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "接收者手机号")
     @NotEmpty(message = "接收者手机号不能为空")
-    @Length(max = 20, message = "接收者手机号长度不能超过20")
+    @Size(max = 20, message = "接收者手机号长度不能超过20")
     private String receiver;
     /**
      * 发送回执ID
      */
     @ApiModelProperty(value = "发送回执ID")
-    @Length(max = 255, message = "发送回执ID长度不能超过255")
+    @Size(max = 255, message = "发送回执ID长度不能超过255")
     private String bizId;
     /**
      * 发送返回
      * 阿里：RequestId 请求ID  腾讯：ext：用户的session内容，腾讯server回包中会原样返回   百度：无
      */
     @ApiModelProperty(value = "发送返回")
-    @Length(max = 255, message = "发送返回长度不能超过255")
+    @Size(max = 255, message = "发送返回长度不能超过255")
     private String ext;
     /**
      * 状态码
      * 阿里：返回OK代表请求成功,其他错误码详见错误码列表  腾讯：0表示成功(计费依据)，非0表示失败  百度：1000 表示成功
      */
     @ApiModelProperty(value = "状态码")
-    @Length(max = 255, message = "状态码长度不能超过255")
+    @Size(max = 255, message = "状态码长度不能超过255")
     private String code;
     /**
      * 状态码的描述
      */
     @ApiModelProperty(value = "状态码的描述")
-    @Length(max = 500, message = "状态码的描述长度不能超过500")
+    @Size(max = 500, message = "状态码的描述长度不能超过500")
     private String message;
     /**
      * 短信计费的条数
@@ -97,21 +97,21 @@ public class SmsSendStatusSaveDTO implements Serializable {
      * 格式：yyyy-MM 用于统计
      */
     @ApiModelProperty(value = "创建时年月")
-    @Length(max = 7, message = "创建时年月长度不能超过7")
+    @Size(max = 7, message = "创建时年月长度不能超过7")
     private String createMonth;
     /**
      * 创建时年周
      * 创建时处于当年的第几周 yyyy-ww 用于统计
      */
     @ApiModelProperty(value = "创建时年周")
-    @Length(max = 7, message = "创建时年周长度不能超过7")
+    @Size(max = 7, message = "创建时年周长度不能超过7")
     private String createWeek;
     /**
      * 创建时年月日
      * 格式： yyyy-MM-dd 用于统计
      */
     @ApiModelProperty(value = "创建时年月日")
-    @Length(max = 10, message = "创建时年月日长度不能超过10")
+    @Size(max = 10, message = "创建时年月日长度不能超过10")
     private String createDate;
 
 }

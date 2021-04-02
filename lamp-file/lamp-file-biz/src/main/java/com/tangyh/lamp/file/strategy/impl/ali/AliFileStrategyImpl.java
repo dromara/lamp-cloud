@@ -80,4 +80,13 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         ossClient.shutdown();
     }
 
+    @Override
+    public List<String> getUrls(List<String> paths, Integer expiry) {
+        return null;
+    }
+
+    @Override
+    public String getUrl(String path, Integer expiry) {
+        return null;
+    }
 }

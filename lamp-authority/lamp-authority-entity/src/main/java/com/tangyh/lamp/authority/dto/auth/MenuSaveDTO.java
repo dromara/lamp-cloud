@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -35,27 +35,27 @@ public class MenuSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Size(max = 255, message = "名称长度不能超过255")
+    protected String label;
     /**
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 200, message = "描述长度不能超过200")
+    @Size(max = 200, message = "描述长度不能超过200")
     private String describe;
-    @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
-    protected String label;
     /**
      * 路径
      */
     @ApiModelProperty(value = "路径")
-    @Length(max = 255, message = "路径长度不能超过255")
+    @Size(max = 255, message = "路径长度不能超过255")
     private String path;
     /**
      * 组件
      */
     @ApiModelProperty(value = "组件")
-    @Length(max = 255, message = "组件长度不能超过255")
+    @Size(max = 255, message = "组件长度不能超过255")
     private String component;
     @ApiModelProperty(value = "父ID")
     protected Long parentId;
@@ -63,13 +63,13 @@ public class MenuSaveDTO implements Serializable {
      * 菜单图标
      */
     @ApiModelProperty(value = "菜单图标")
-    @Length(max = 255, message = "菜单图标长度不能超过255")
+    @Size(max = 255, message = "菜单图标长度不能超过255")
     private String icon;
     /**
      * 分组
      */
     @ApiModelProperty(value = "分组")
-    @Length(max = 20, message = "分组长度不能超过20")
+    @Size(max = 20, message = "分组长度不能超过20")
     private String group;
     @ApiModelProperty(value = "排序号")
     protected Integer sortValue;

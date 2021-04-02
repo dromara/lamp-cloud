@@ -11,8 +11,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -45,13 +45,13 @@ public class RestTestDTO implements Serializable {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Size(max = 255, message = "名称长度不能超过255")
     private String name;
     /**
      * 编号
      */
     @ApiModelProperty(value = "编号")
-    @Length(max = 255, message = "编号长度不能超过255")
+    @Size(max = 255, message = "编号长度不能超过255")
     private String code;
 
     private Long id;

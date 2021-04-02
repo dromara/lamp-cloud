@@ -4,7 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.tangyh.basic.annotation.injection.InjectionField;
+import com.tangyh.basic.annotation.echo.Echo;
 import com.tangyh.basic.base.entity.Entity;
 import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.common.constant.DictionaryType;
@@ -19,18 +19,17 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.USER_ID_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.USER_ID_NAME_METHOD;
+import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.ORG_ID_FEIGN_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.USER_ID_FEIGN_CLASS;
 
 /**
  * <p>
@@ -57,7 +56,7 @@ public class Product extends Entity<Long> {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    @Length(max = 24, message = "名称长度不能超过24")
+    @Size(max = 24, message = "名称长度不能超过24")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "名称")
     private String name;
@@ -91,12 +90,12 @@ public class Product extends Entity<Long> {
     /**
      * 学历
      *
-     * @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
-    @Length(max = 255, message = "学历长度不能超过255")
+    @Size(max = 255, message = "学历长度不能超过255")
     @TableField(value = "type3", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
+    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
     @ExcelEntity
     @Excel(name = "学历")
     private RemoteData<String, String> type3;
@@ -145,7 +144,7 @@ public class Product extends Entity<Long> {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Size(max = 255, message = "名称长度不能超过255")
     @TableField(value = "label", condition = LIKE)
     @Excel(name = "名称")
     private String label;
@@ -161,12 +160,12 @@ public class Product extends Entity<Long> {
     /**
      * 测试字段
      *
-     * @InjectionField(api = "userApi", method = USER_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = "userApi", method = FIND_NAME_BY_IDS) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "测试字段")
-    @Length(max = 10, message = "测试字段长度不能超过10")
+    @Size(max = 10, message = "测试字段长度不能超过10")
     @TableField(value = "test7", condition = LIKE)
-    @InjectionField(api = "userApi", method = USER_ID_NAME_METHOD)
+    @Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)
     @ExcelEntity
     @Excel(name = "测试字段")
     private RemoteData<Long, String> test7;
@@ -174,11 +173,11 @@ public class Product extends Entity<Long> {
     /**
      * 用户
      *
-     * @InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "用户")
     @TableField("user_id")
-    @InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD)
+    @Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)
     @ExcelEntity
     @Excel(name = "用户")
     private RemoteData<Long, String> user;
@@ -186,11 +185,11 @@ public class Product extends Entity<Long> {
     /**
      * 组织
      *
-     * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>
+     * @Echo(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>
      */
     @ApiModelProperty(value = "组织")
     @TableField("org_id")
-    @InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds")
+    @Echo(api = ORG_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)
     @ExcelEntity
     @Excel(name = "组织")
     private RemoteData<Long, String> org;

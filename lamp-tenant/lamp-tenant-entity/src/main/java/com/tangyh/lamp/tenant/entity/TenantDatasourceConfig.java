@@ -13,10 +13,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -65,7 +65,7 @@ public class TenantDatasourceConfig extends SuperEntity<Long> {
      */
     @ApiModelProperty(value = "服务")
     @NotEmpty(message = "服务不能为空")
-    @Length(max = 100, message = "服务长度不能超过100")
+    @Size(max = 100, message = "服务长度不能超过100")
     @TableField(value = "application", condition = LIKE)
     @Excel(name = "服务")
     private String application;

@@ -10,9 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.URL;
 
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
@@ -54,15 +51,17 @@ public class ValidatorDTO extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用编码")
     @NotEmpty(message = "应用编码不能为空")
-    @Length(max = 20, message = "应用编码长度不能超过20")
+    @Size(max = 20, message = "应用编码长度不能超过20")
     private String code;
 
     @NotNull(message = "age不能为空")
-    @Range(max = 20, message = "age长度不能超过20")
     private Long age;
 
     @NotBlank(message = "名称不能为空")
     private String name;
+
+    @Size(min = 2, max = 5, message = "name3 在2-5之间")
+    private String name3;
 
     @Null
     private String nulls;
@@ -72,8 +71,6 @@ public class ValidatorDTO extends Entity<Long> {
 
     @Email(message = "email 不符合")
     private String email;
-
-    @URL(message = "url 不符合规则")
     private String url;
 
 

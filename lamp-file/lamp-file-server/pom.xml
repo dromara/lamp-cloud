@@ -15,7 +15,6 @@
     <description>文件服务启动模块</description>
 
     <dependencies>
-
         <dependency>
             <groupId>com.tangyh.lamp</groupId>
             <artifactId>lamp-file-controller</artifactId>
@@ -24,23 +23,7 @@
 
         <dependency>
             <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-swagger2-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-validator-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-xss-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-cloud-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-zipkin-client-starter</artifactId>
+            <artifactId>lamp-all</artifactId>
         </dependency>
 
         <dependency>

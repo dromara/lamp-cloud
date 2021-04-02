@@ -4,7 +4,6 @@ package com.tangyh.lamp.area2;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.log.StaticLog;
-import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.authority.entity.common.Area;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -53,7 +52,7 @@ public class CityParser implements ICityParser {
                 Area provinceArea = Area.builder().code(provinceCode + "0000")
                         .label(provinceName).source(url)
                         .sortValue(sort++)
-                        .level(new RemoteData<>("PROVINCE"))
+                        .level("PROVINCE")
                         .fullName(provinceName)
                         .build();
                 provinceArea.setChildren(parseCity(provinceName, COMMON_URL + href));
@@ -82,7 +81,7 @@ public class CityParser implements ICityParser {
 
             Area cityArea = Area.builder()
                     .label(cityName).code(cityCode).source(url).sortValue(sort++)
-                    .level(new RemoteData<>("CITY"))
+                    .level("CITY")
                     .fullName(provinceName + cityName)
                     .build();
 
@@ -114,7 +113,7 @@ public class CityParser implements ICityParser {
                     .source(url)
                     .fullName(fullName + countyName)
                     .sortValue(sort++)
-                    .level(new RemoteData<>("COUNTY"))
+                    .level("COUNTY")
                     .build();
 
             StaticLog.info("		县级数据:  {}  ", countyArea);
@@ -150,7 +149,7 @@ public class CityParser implements ICityParser {
             Area towntrArea = Area.builder()
                     .label(towntrName).code(towntrCode).source(url)
                     .fullName(fullName + towntrName)
-                    .level(new RemoteData<>("TOWNTR"))
+                    .level("TOWNTR")
                     .sortValue(sort++)
                     .build();
 

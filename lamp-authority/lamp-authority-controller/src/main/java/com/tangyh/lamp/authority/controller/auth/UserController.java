@@ -16,8 +16,7 @@ import com.tangyh.basic.base.entity.SuperEntity;
 import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import com.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
-import com.tangyh.basic.injection.core.InjectionCore;
-import com.tangyh.basic.model.RemoteData;
+import com.tangyh.basic.echo.core.EchoService;
 import com.tangyh.basic.utils.StrPool;
 import com.tangyh.lamp.authority.api.UserBizApi;
 import com.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
@@ -82,7 +81,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
     private final OrgService orgService;
     private final ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
     private final DictionaryService dictionaryService;
-    private final InjectionCore injectionCore;
+    private final EchoService echoService;
 
     /**
      * 重写保存逻辑
@@ -254,11 +253,11 @@ public class UserController extends SuperCacheController<UserService, Long, User
                     "org", "station", "nation", "education", "positionStatus"
             };
             BeanUtil.copyProperties(item, user, ignore);
-            user.setOrg(new RemoteData<>(item.getOrg()));
-            user.setStation(new RemoteData<>(item.getStation()));
-            user.setEducation(new RemoteData<>(educationMap.getOrDefault(item.getEducation(), StrPool.EMPTY)));
-            user.setNation(new RemoteData<>(nationMap.getOrDefault(item.getNation(), StrPool.EMPTY)));
-            user.setPositionStatus(new RemoteData<>(positionStatusMap.getOrDefault(item.getPositionStatus(), StrPool.EMPTY)));
+            user.setOrgId(item.getOrg());
+            user.setStationId(item.getStation());
+            user.setEducation(educationMap.getOrDefault(item.getEducation(), StrPool.EMPTY));
+            user.setNation(nationMap.getOrDefault(item.getNation(), StrPool.EMPTY));
+            user.setPositionStatus(positionStatusMap.getOrDefault(item.getPositionStatus(), StrPool.EMPTY));
             user.setSalt(RandomUtil.randomString(20));
             user.setPassword(SecureUtil.sha256(BizConstant.DEF_PASSWORD + user.getSalt()));
             return user;
@@ -283,24 +282,24 @@ public class UserController extends SuperCacheController<UserService, Long, User
         QueryWrap<User> wrap = handlerWrapper(null, params);
 
         LbqWrapper<User> wrapper = wrap.lambda();
-        if (userPage.getOrg() != null && RemoteData.getKey(userPage.getOrg(), 0L) > 0) {
-            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrg().getKey()));
-            wrapper.in(User::getOrg, children.stream().map(org -> new RemoteData(org.getId())).collect(Collectors.toList()));
+        if (userPage.getOrgId() != null && userPage.getOrgId() > 0) {
+            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrgId()));
+            wrapper.in(User::getOrgId, children.stream().map(Org::getId).collect(Collectors.toList()));
         }
         wrapper.like(User::getName, userPage.getName())
                 .like(User::getAccount, userPage.getAccount())
                 .eq(User::getReadonly, false)
                 .like(User::getEmail, userPage.getEmail())
                 .like(User::getMobile, userPage.getMobile())
-                .eq(User::getStation, userPage.getStation())
+                .eq(User::getStationId, userPage.getStationId())
                 .eq(User::getPositionStatus, userPage.getPositionStatus())
                 .eq(User::getEducation, userPage.getEducation())
-                .eq(userPage.getNation() != null && StrUtil.isNotEmpty(userPage.getNation().getKey()), User::getNation, userPage.getNation())
+                .eq(User::getNation, userPage.getNation())
                 .eq(User::getSex, userPage.getSex())
                 .eq(User::getState, userPage.getState());
         baseService.findPage(page, wrapper);
         // 手动注入
-        injectionCore.injection(page);
+        echoService.action(page);
 
         page.getRecords().forEach(item -> item.setPassword(null));
     }

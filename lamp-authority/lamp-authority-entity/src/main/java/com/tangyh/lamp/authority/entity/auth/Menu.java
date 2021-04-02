@@ -13,8 +13,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -44,7 +44,7 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 200, message = "描述长度不能超过200")
+    @Size(max = 200, message = "描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
     private String describe;
@@ -62,7 +62,7 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 路径
      */
     @ApiModelProperty(value = "路径")
-    @Length(max = 255, message = "路径长度不能超过255")
+    @Size(max = 255, message = "路径长度不能超过255")
     @TableField(value = "path", condition = LIKE)
     @Excel(name = "路径")
     private String path;
@@ -71,7 +71,7 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 组件
      */
     @ApiModelProperty(value = "组件")
-    @Length(max = 255, message = "组件长度不能超过255")
+    @Size(max = 255, message = "组件长度不能超过255")
     @TableField(value = "component", condition = LIKE)
     @Excel(name = "组件")
     private String component;
@@ -88,7 +88,7 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 菜单图标
      */
     @ApiModelProperty(value = "菜单图标")
-    @Length(max = 255, message = "菜单图标长度不能超过255")
+    @Size(max = 255, message = "菜单图标长度不能超过255")
     @TableField(value = "icon", condition = LIKE)
     @Excel(name = "菜单图标")
     private String icon;
@@ -97,7 +97,7 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 分组
      */
     @ApiModelProperty(value = "分组")
-    @Length(max = 20, message = "分组长度不能超过20")
+    @Size(max = 20, message = "分组长度不能超过20")
     @TableField(value = "group_", condition = LIKE)
     @Excel(name = "分组")
     private String group;

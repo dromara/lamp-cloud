@@ -15,8 +15,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -47,7 +47,7 @@ public class OptLog extends SuperEntity<Long> {
      * 操作IP
      */
     @ApiModelProperty(value = "操作IP")
-    @Length(max = 50, message = "操作IP长度不能超过50")
+    @Size(max = 50, message = "操作IP长度不能超过50")
     @TableField(value = "request_ip", condition = LIKE)
     @Excel(name = "操作IP")
     private String requestIp;
@@ -65,7 +65,7 @@ public class OptLog extends SuperEntity<Long> {
      * 操作人
      */
     @ApiModelProperty(value = "操作人")
-    @Length(max = 50, message = "操作人长度不能超过50")
+    @Size(max = 50, message = "操作人长度不能超过50")
     @TableField(value = "user_name", condition = LIKE)
     @Excel(name = "操作人")
     private String userName;
@@ -74,7 +74,7 @@ public class OptLog extends SuperEntity<Long> {
      * 操作描述
      */
     @ApiModelProperty(value = "操作描述")
-    @Length(max = 255, message = "操作描述长度不能超过255")
+    @Size(max = 255, message = "操作描述长度不能超过255")
     @TableField(value = "description", condition = LIKE)
     @Excel(name = "操作描述")
     private String description;
@@ -83,7 +83,7 @@ public class OptLog extends SuperEntity<Long> {
      * 类路径
      */
     @ApiModelProperty(value = "类路径")
-    @Length(max = 255, message = "类路径长度不能超过255")
+    @Size(max = 255, message = "类路径长度不能超过255")
     @TableField(value = "class_path", condition = LIKE)
     @Excel(name = "类路径")
     private String classPath;
@@ -92,7 +92,7 @@ public class OptLog extends SuperEntity<Long> {
      * 请求方法
      */
     @ApiModelProperty(value = "请求方法")
-    @Length(max = 50, message = "请求方法长度不能超过50")
+    @Size(max = 50, message = "请求方法长度不能超过50")
     @TableField(value = "action_method", condition = LIKE)
     @Excel(name = "请求方法")
     private String actionMethod;
@@ -101,7 +101,7 @@ public class OptLog extends SuperEntity<Long> {
      * 请求地址
      */
     @ApiModelProperty(value = "请求地址")
-    @Length(max = 50, message = "请求地址长度不能超过50")
+    @Size(max = 50, message = "请求地址长度不能超过50")
     @TableField(value = "request_uri", condition = LIKE)
     @Excel(name = "请求地址")
     private String requestUri;
@@ -143,7 +143,7 @@ public class OptLog extends SuperEntity<Long> {
      * 浏览器
      */
     @ApiModelProperty(value = "浏览器")
-    @Length(max = 500, message = "浏览器长度不能超过500")
+    @Size(max = 500, message = "浏览器长度不能超过500")
     @TableField(value = "ua", condition = LIKE)
     @Excel(name = "浏览器")
     private String ua;

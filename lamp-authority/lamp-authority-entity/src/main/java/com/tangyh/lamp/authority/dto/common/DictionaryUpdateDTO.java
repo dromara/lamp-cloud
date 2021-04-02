@@ -10,10 +10,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -46,28 +46,28 @@ public class DictionaryUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "类型")
     @NotEmpty(message = "类型不能为空")
-    @Length(max = 255, message = "类型长度不能超过255")
+    @Size(max = 255, message = "类型长度不能超过255")
     private String type;
     /**
      * 类型标签
      */
     @ApiModelProperty(value = "类型标签")
     @NotEmpty(message = "类型标签不能为空")
-    @Length(max = 255, message = "类型标签长度不能超过255")
+    @Size(max = 255, message = "类型标签长度不能超过255")
     private String label;
     /**
      * 编码
      */
     @ApiModelProperty(value = "编码")
     @NotEmpty(message = "编码不能为空")
-    @Length(max = 64, message = "编码长度不能超过64")
+    @Size(max = 64, message = "编码长度不能超过64")
     private String code;
     /**
      * 名称
      */
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
-    @Length(max = 64, message = "名称长度不能超过64")
+    @Size(max = 64, message = "名称长度不能超过64")
     private String name;
     /**
      * 状态
@@ -78,7 +78,7 @@ public class DictionaryUpdateDTO implements Serializable {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Size(max = 255, message = "描述长度不能超过255")
     private String describe;
     /**
      * 排序
@@ -89,19 +89,19 @@ public class DictionaryUpdateDTO implements Serializable {
      * 图标
      */
     @ApiModelProperty(value = "图标")
-    @Length(max = 255, message = "图标长度不能超过255")
+    @Size(max = 255, message = "图标长度不能超过255")
     private String icon;
     /**
      * css样式
      */
     @ApiModelProperty(value = "css样式")
-    @Length(max = 255, message = "css样式长度不能超过255")
+    @Size(max = 255, message = "css样式长度不能超过255")
     private String cssStyle;
     /**
      * 类选择器
      */
     @ApiModelProperty(value = "类选择器")
-    @Length(max = 255, message = "类选择器长度不能超过255")
+    @Size(max = 255, message = "类选择器长度不能超过255")
     private String cssClass;
     /**
      * 内置

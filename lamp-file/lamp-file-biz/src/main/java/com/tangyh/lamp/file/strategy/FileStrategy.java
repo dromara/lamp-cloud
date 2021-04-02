@@ -29,4 +29,21 @@ public interface FileStrategy {
      */
     boolean delete(List<FileDeleteDO> list);
 
+    /**
+     * 根据路径获取访问地址
+     *
+     * @param paths
+     * @param expiry
+     * @return
+     */
+    List<String> getUrls(List<String> paths, Integer expiry);
+
+    /**
+     * 根据路径获取访问地址
+     *
+     * @param path
+     * @param expiry
+     * @return
+     */
+    String getUrl(String path, Integer expiry);
 }

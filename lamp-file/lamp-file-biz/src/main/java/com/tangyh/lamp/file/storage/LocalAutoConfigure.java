@@ -35,4 +35,5 @@ public class LocalAutoConfigure {
     public FileChunkStrategy getFileChunkStrategy(AttachmentService fileService, FileServerProperties fileProperties) {
         return new LocalFileChunkStrategyImpl(fileService, fileProperties);
     }
+
 }

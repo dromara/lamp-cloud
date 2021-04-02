@@ -4,7 +4,7 @@ import com.tangyh.lamp.oauth.api.DictionaryApi;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,9 +16,13 @@ import java.util.Set;
  */
 @Component
 public class DictionaryApiFallback implements DictionaryApi {
+    @Override
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+        return Collections.emptyMap();
+    }
 
     @Override
-    public Map<Serializable, Object> findDictionaryItem(Set<Serializable> codes) {
-        return new HashMap<>(1);
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return Collections.emptyMap();
     }
 }

@@ -14,10 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.tangyh.basic.exception.code.ExceptionCode.BASE_VALID_PARAM;
+import static com.tangyh.basic.utils.DateUtils.SLASH_DATE_FORMAT;
 
 
 /**
@@ -106,4 +109,13 @@ public abstract class AbstractFileStrategy implements FileStrategy {
      */
     protected abstract void delete(List<FileDeleteDO> list, FileDeleteDO file);
 
+
+    /**
+     * 获取年月日 2020/09/01
+     *
+     * @return
+     */
+    protected static String getDateFolder() {
+        return LocalDate.now().format(DateTimeFormatter.ofPattern(SLASH_DATE_FORMAT));
+    }
 }

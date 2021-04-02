@@ -30,4 +30,6 @@ public class FileDO {
      * 文件大小
      */
     private Long size;
+
+    private String path;
 }

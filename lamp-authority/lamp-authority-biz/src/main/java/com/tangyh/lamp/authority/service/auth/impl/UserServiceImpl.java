@@ -16,7 +16,6 @@ import com.tangyh.basic.database.mybatis.auth.DataScope;
 import com.tangyh.basic.database.mybatis.auth.DataScopeType;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import com.tangyh.basic.model.RemoteData;
 import com.tangyh.basic.security.feign.UserQuery;
 import com.tangyh.basic.security.model.SysOrg;
 import com.tangyh.basic.security.model.SysRole;
@@ -92,6 +91,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     private final UserRoleService userRoleService;
     private final RoleOrgService roleOrgService;
     private final OrgService orgService;
+
 
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
@@ -176,7 +176,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
             } else if (DataScopeType.THIS_LEVEL.eq(dsType)) {
                 User user = getByIdCache(userId);
                 if (user != null) {
-                    Long orgId = RemoteData.getKey(user.getOrg());
+                    Long orgId = user.getOrgId();
                     if (orgId != null) {
                         orgIds.add(orgId);
                     }
@@ -184,7 +184,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
             } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(dsType)) {
                 User user = getByIdCache(userId);
                 if (user != null) {
-                    Long orgId = RemoteData.getKey(user.getOrg());
+                    Long orgId = user.getOrgId();
                     List<Org> orgList = orgService.findChildren(CollUtil.newArrayList(orgId));
                     orgIds = orgList.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
                 }
@@ -250,14 +250,13 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
-    public Map<Serializable, Object> findUserByIds(Set<Serializable> ids) {
-        //key 是 用户id
-        return CollHelper.uniqueIndex(findUser(ids), User::getId, (user) -> user);
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(findUser(ids), User::getId, User::getName);
     }
 
     @Override
-    public Map<Serializable, Object> findUserNameByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findUser(ids), User::getId, User::getName);
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(findUser(ids), User::getId, (user) -> user);
     }
 
     @Override
@@ -281,18 +280,18 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         }
         SysUser sysUser = BeanUtil.toBean(user, SysUser.class);
 
-        sysUser.setOrgId(RemoteData.getKey(user.getOrg()));
-        sysUser.setStationId(RemoteData.getKey(user.getOrg()));
+        sysUser.setOrgId(user.getOrgId());
+        sysUser.setStationId(user.getStationId());
 
         if (query.getFull() || query.getOrg()) {
-            sysUser.setOrg(BeanUtil.toBean(orgService.getByIdCache(user.getOrg()), SysOrg.class));
+            sysUser.setOrg(BeanUtil.toBean(orgService.getByIdCache(user.getOrgId()), SysOrg.class));
         }
 
         if (query.getFull() || query.getStation()) {
-            Station station = stationService.getByIdCache(user.getStation());
+            Station station = stationService.getByIdCache(user.getStationId());
             if (station != null) {
                 SysStation sysStation = BeanUtil.toBean(station, SysStation.class);
-                sysStation.setOrgId(RemoteData.getKey(station.getOrg()));
+                sysStation.setOrgId(station.getOrgId());
                 sysUser.setStation(sysStation);
             }
         }

@@ -26,12 +26,12 @@ public class UserApiFallback implements UserApi {
     }
 
     @Override
-    public Map<Serializable, Object> findUserByIds(Set<Serializable> codes) {
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
         return Collections.emptyMap();
     }
 
     @Override
-    public Map<Serializable, Object> findUserNameByIds(Set<Serializable> codes) {
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
         return Collections.emptyMap();
     }
 }

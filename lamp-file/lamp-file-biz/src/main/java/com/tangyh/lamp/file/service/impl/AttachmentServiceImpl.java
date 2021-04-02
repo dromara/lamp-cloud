@@ -3,7 +3,6 @@ package com.tangyh.lamp.file.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baidu.fsg.uid.UidGenerator;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangyh.basic.base.service.SuperServiceImpl;
@@ -21,6 +20,7 @@ import com.tangyh.lamp.file.dto.AttachmentResultDTO;
 import com.tangyh.lamp.file.dto.FilePageReqDTO;
 import com.tangyh.lamp.file.entity.Attachment;
 import com.tangyh.lamp.file.enumeration.DataType;
+import com.tangyh.lamp.file.enumeration.FileStorageType;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.FileStrategy;
@@ -177,16 +177,36 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
         if (list.isEmpty()) {
             throw BizException.wrap("您下载的文件不存在");
         }
-        List<FileDO> listDO = list.stream().map((file) ->
-                FileDO.builder()
-                        .url(file.getUrl())
-                        .submittedFileName(file.getSubmittedFileName())
-                        .size(file.getSize())
-                        .dataType(file.getDataType())
-                        .build())
-                .collect(Collectors.toList());
+        List<FileDO> listDO;
+        if (FileStorageType.MIN_IO.eq(fileProperties.getType())) {
+            listDO = list.stream().map(file ->
+                    FileDO.builder()
+                            .url(getUrl(file.getPath(), 172800))
+                            .submittedFileName(file.getSubmittedFileName())
+                            .size(file.getSize())
+                            .dataType(file.getDataType())
+                            .build())
+                    .collect(Collectors.toList());
+        } else {
+            listDO = list.stream().map(file ->
+                    FileDO.builder()
+                            .url(file.getUrl())
+                            .submittedFileName(file.getSubmittedFileName())
+                            .size(file.getSize())
+                            .dataType(file.getDataType())
+                            .build())
+                    .collect(Collectors.toList());
+        }
         fileBiz.down(listDO, request, response);
     }
 
+    @Override
+    public List<String> getUrls(List<String> paths, Integer expiry) {
+        return fileStrategy.getUrls(paths, expiry);
+    }
 
+    @Override
+    public String getUrl(String path, Integer expiry) {
+        return fileStrategy.getUrl(path, expiry);
+    }
 }

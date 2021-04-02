@@ -2,14 +2,13 @@ package com.tangyh.lamp.authority.service.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.service.SuperService;
+import com.tangyh.basic.model.LoadService;
 import com.tangyh.lamp.authority.dto.common.DictionaryPageQuery;
 import com.tangyh.lamp.authority.dto.common.DictionaryTypeSaveDTO;
 import com.tangyh.lamp.authority.entity.common.Dictionary;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * <p>
@@ -20,7 +19,7 @@ import java.util.Set;
  * @author zuihou
  * @date 2019-07-02
  */
-public interface DictionaryService extends SuperService<Dictionary> {
+public interface DictionaryService extends SuperService<Dictionary>, LoadService {
     /**
      * 修改字典类型
      *
@@ -70,12 +69,12 @@ public interface DictionaryService extends SuperService<Dictionary> {
      */
     Map<String, Map<Dictionary, String>> mapInverse(String[] types);
 
-    /**
-     * 根据类型编码查询字典项
-     *
-     * @param typeCodes 字典类型#编码
-     * @return 名称
-     */
-    Map<Serializable, Object> findDictionaryItem(Set<Serializable> typeCodes);
+//    /**
+//     * 根据类型编码查询字典项
+//     *
+//     * @param typeCodes 字典类型#编码
+//     * @return 名称
+//     */
+//    Map<Serializable, Object> findDictionaryItem(Set<Serializable> typeCodes);
 
 }

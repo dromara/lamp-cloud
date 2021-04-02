@@ -2,7 +2,6 @@ package com.tangyh.lamp.authority.strategy.impl;
 
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.exception.code.ExceptionCode;
-import com.tangyh.lamp.authority.service.core.OrgService;
 import com.tangyh.lamp.authority.strategy.AbstractDataScopeHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ import java.util.List;
 @Component("CUSTOMIZE")
 @RequiredArgsConstructor
 public class CustomizeDataScope implements AbstractDataScopeHandler {
-    private final OrgService orgService;
 
     @Override
     public List<Long> getOrgIds(List<Long> orgList, Long userId) {

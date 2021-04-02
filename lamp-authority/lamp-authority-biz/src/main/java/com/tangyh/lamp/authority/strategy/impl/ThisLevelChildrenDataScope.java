@@ -1,6 +1,5 @@
 package com.tangyh.lamp.authority.strategy.impl;
 
-import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.authority.dao.auth.UserMapper;
 import com.tangyh.lamp.authority.entity.auth.User;
 import com.tangyh.lamp.authority.entity.core.Org;
@@ -33,7 +32,7 @@ public class ThisLevelChildrenDataScope implements AbstractDataScopeHandler {
         if (user == null) {
             return Collections.emptyList();
         }
-        Long orgId = RemoteData.getKey(user.getOrg());
+        Long orgId = user.getOrgId();
         List<Org> children = orgService.findChildren(Arrays.asList(orgId));
         return children.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
     }

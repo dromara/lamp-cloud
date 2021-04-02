@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.base.service.SuperCacheService;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import com.tangyh.basic.model.LoadService;
 import com.tangyh.basic.security.feign.UserQuery;
 import com.tangyh.basic.security.model.SysUser;
 import com.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;
@@ -24,7 +25,7 @@ import java.util.Set;
  * @author zuihou
  * @date 2019-07-03
  */
-public interface UserService extends SuperCacheService<User> {
+public interface UserService extends SuperCacheService<User>, LoadService {
 
     /**
      * 根据用户id 查询数据范围
@@ -125,22 +126,6 @@ public interface UserService extends SuperCacheService<User> {
      * @return 重置了多少行
      */
     int resetPassErrorNum(Long id);
-
-    /**
-     * 根据 id 查询用户
-     *
-     * @param ids 用户id
-     * @return 用户信息
-     */
-    Map<Serializable, Object> findUserByIds(Set<Serializable> ids);
-
-    /**
-     * 根据 id 查询用户名称
-     *
-     * @param ids 用户Id
-     * @return 用户名
-     */
-    Map<Serializable, Object> findUserNameByIds(Set<Serializable> ids);
 
     /**
      * 根据id 查询用户详情

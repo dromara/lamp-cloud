@@ -1,8 +1,5 @@
 package com.tangyh.lamp.authority.dto.core;
 
-import com.tangyh.basic.annotation.injection.InjectionField;
-import com.tangyh.basic.model.RemoteData;
-import com.tangyh.lamp.authority.entity.core.Org;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,13 +9,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_METHOD;
 
 /**
  * <p>
@@ -27,7 +21,7 @@ import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_MET
  * </p>
  *
  * @author zuihou
- * @since 2020-11-20
+ * @since 2021-04-01
  */
 @Data
 @NoArgsConstructor
@@ -46,17 +40,16 @@ public class StationSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Size(max = 255, message = "名称长度不能超过255")
     private String name;
     /**
      * 组织ID
      * #c_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>
+     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织ID")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class)
-    private RemoteData<Long, Org> org;
+    private Long orgId;
     /**
      * 状态
      */
@@ -66,7 +59,7 @@ public class StationSaveDTO implements Serializable {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Size(max = 255, message = "描述长度不能超过255")
     private String describe;
 
 }

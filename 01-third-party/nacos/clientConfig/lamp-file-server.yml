@@ -8,7 +8,7 @@ lamp:
         title: 文件服务
         base-package: com.tangyh.lamp.file.controller
   file:
-    type: LOCAL # FAST_DFS LOCAL
+    type: LOCAL # FAST_DFS LOCAL MIN_IO ALI
     storage-path: /data/projects/uploadfile/file/     # 文件存储路径  （ 某些版本的 window 需要改成  D:\\data\\projects\\uploadfile\\file\\  ）
     uriPrefix: http://${lamp.nginx.ip}:${lamp.nginx.port}/file/   # 文件访问 需要通过这个uri前缀进行访问
     inner-uri-prefix: null  #  内网的url前缀
@@ -22,6 +22,11 @@ lamp:
       endpoint: http://oss-cn-shenzhen.aliyuncs.com
       access-key-id: test
       access-key-secret: test
+    minIo:
+      endpoint: "http://127.0.0.1:9000"
+      accessKey: "minioadmin"
+      secretKey: "minioadmin"
+      bucket: "dev"
 
 #FAST_DFS配置
 fdfs:

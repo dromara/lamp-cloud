@@ -1,7 +1,7 @@
 package com.tangyh.lamp.example.controller.injection;
 
 import com.tangyh.basic.base.R;
-import com.tangyh.basic.injection.core.InjectionCore;
+import com.tangyh.basic.echo.core.EchoService;
 import com.tangyh.lamp.example.entity.Order;
 import com.tangyh.lamp.example.service.OrderService;
 import io.swagger.annotations.Api;
@@ -25,7 +25,7 @@ import java.util.List;
 @Api(value = "injection", tags = "injection")
 public class InjectionController {
     private final OrderService orderService;
-    private final InjectionCore injectionCore;
+    private final EchoService echoService;
 
 
     /**
@@ -39,7 +39,7 @@ public class InjectionController {
     @PostMapping("/injection")
     public R injection(@RequestBody Order data) {
         List<Order> orders = orderService.find(data);
-        injectionCore.injection(orders, false, "education");
+        echoService.action(orders, "education");
         return R.success(orders);
     }
 

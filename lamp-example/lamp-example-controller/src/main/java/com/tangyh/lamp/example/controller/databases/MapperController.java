@@ -6,7 +6,7 @@ import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import com.tangyh.basic.injection.core.InjectionCore;
+import com.tangyh.basic.echo.core.EchoService;
 import com.tangyh.lamp.example.entity.Order;
 import com.tangyh.lamp.example.service.OrderService;
 import io.swagger.annotations.Api;
@@ -35,7 +35,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MapperController {
     private final OrderService orderService;
-    private final InjectionCore injectionCore;
+    private final EchoService echoService;
 
     @PostMapping("/saveBatchSomeColumn")
     public R saveBatchSomeColumn(@RequestBody Order data) {
@@ -115,7 +115,7 @@ public class MapperController {
     @PostMapping("/injection")
     public R injection(@RequestBody Order data) {
         List<Order> orders = orderService.find(data);
-        injectionCore.injection(orders, false);
+        echoService.action(orders);
         return R.success(orders);
     }
 
@@ -125,7 +125,7 @@ public class MapperController {
         LbqWrapper<Order> wraps = Wraps.lbQ(data.getModel());
 
         IPage<Order> page = orderService.page(data.buildPage(), wraps);
-        injectionCore.injection(page, false);
+        echoService.action(page);
         return R.success(page);
     }
 
@@ -137,7 +137,7 @@ public class MapperController {
                 .likeRight(Order::getName, data.getModel().getName());
 
         IPage<Order> page = orderService.page(data.buildPage(), wraps);
-        injectionCore.injection(page, false);
+        echoService.action(page);
         return R.success(page);
     }
 
@@ -152,7 +152,7 @@ public class MapperController {
                 .eq(Order::getCode, data.getModel().getCode());
 
         IPage<Order> page = orderService.page(data.buildPage(), wraps);
-        injectionCore.injection(page, false);
+        echoService.action(page);
         return R.success(page);
     }
 
@@ -169,7 +169,7 @@ public class MapperController {
 //                .le(Order::getCreateTime, end);
 
         IPage<Order> page = orderService.page(data.buildPage(), wraps);
-        injectionCore.injection(page, false);
+        echoService.action(page);
         return R.success(page);
     }
 

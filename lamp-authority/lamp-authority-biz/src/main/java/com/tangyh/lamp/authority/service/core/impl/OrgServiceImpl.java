@@ -3,7 +3,6 @@ package com.tangyh.lamp.authority.service.core.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
-
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
@@ -72,21 +71,21 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         return bool;
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Map<Serializable, Object> findOrgByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findOrg(ids), Org::getId, org -> org);
-    }
-
     private List<Org> findOrg(Set<Serializable> ids) {
         return findByIds(ids,
                 missIds -> super.listByIds(missIds.stream().filter(Objects::nonNull).map(Convert::toLong).collect(Collectors.toList()))
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
         return CollHelper.uniqueIndex(findOrg(ids), Org::getId, Org::getLabel);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(findOrg(ids), Org::getId, org -> org);
+    }
 }

@@ -14,9 +14,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -46,7 +46,7 @@ public class Application extends Entity<Long> {
      * 客户端ID
      */
     @ApiModelProperty(value = "客户端ID")
-    @Length(max = 24, message = "客户端ID长度不能超过24")
+    @Size(max = 24, message = "客户端ID长度不能超过24")
     @TableField(value = "client_id", condition = LIKE)
     @Excel(name = "客户端ID")
     private String clientId;
@@ -55,7 +55,7 @@ public class Application extends Entity<Long> {
      * 客户端密码
      */
     @ApiModelProperty(value = "客户端密码")
-    @Length(max = 32, message = "客户端密码长度不能超过32")
+    @Size(max = 32, message = "客户端密码长度不能超过32")
     @TableField(value = "client_secret", condition = LIKE)
     @Excel(name = "客户端密码")
     private String clientSecret;
@@ -64,7 +64,7 @@ public class Application extends Entity<Long> {
      * 官网
      */
     @ApiModelProperty(value = "官网")
-    @Length(max = 100, message = "官网长度不能超过100")
+    @Size(max = 100, message = "官网长度不能超过100")
     @TableField(value = "website", condition = LIKE)
     @Excel(name = "官网")
     private String website;
@@ -74,7 +74,7 @@ public class Application extends Entity<Long> {
      */
     @ApiModelProperty(value = "应用名称")
     @NotEmpty(message = "应用名称不能为空")
-    @Length(max = 255, message = "应用名称长度不能超过255")
+    @Size(max = 255, message = "应用名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "应用名称")
     private String name;
@@ -83,7 +83,7 @@ public class Application extends Entity<Long> {
      * 应用图标
      */
     @ApiModelProperty(value = "应用图标")
-    @Length(max = 255, message = "应用图标长度不能超过255")
+    @Size(max = 255, message = "应用图标长度不能超过255")
     @TableField(value = "icon", condition = LIKE)
     @Excel(name = "应用图标")
     private String icon;
@@ -101,7 +101,7 @@ public class Application extends Entity<Long> {
      * 备注
      */
     @ApiModelProperty(value = "备注")
-    @Length(max = 200, message = "备注长度不能超过200")
+    @Size(max = 200, message = "备注长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "备注")
     private String describe;

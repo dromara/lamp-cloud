@@ -1,5 +1,6 @@
 package com.tangyh.lamp.oauth.api;
 
+import com.tangyh.basic.model.LoadService;
 import com.tangyh.lamp.oauth.api.hystrix.DictionaryApiFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +18,25 @@ import java.util.Set;
  */
 @FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", path = "dictionary",
         qualifier = "dictionaryApi", fallback = DictionaryApiFallback.class)
-public interface DictionaryApi {
+public interface DictionaryApi extends LoadService {
+    /**
+     * 根据id查询 显示名
+     *
+     * @param ids 唯一键（可能不是主键ID)
+     * @return
+     */
+    @Override
+    @GetMapping("/findNameByIds")
+    Map<Serializable, Object> findNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 
     /**
-     * 根据 code 查询字典
+     * 根据id查询实体
      *
-     * @param codes 字典编码
-     * @return 字典
+     * @param ids 唯一键（可能不是主键ID)
+     * @return
      */
-    @GetMapping("/findDictionaryItem")
-    Map<Serializable, Object> findDictionaryItem(@RequestParam(value = "codes") Set<Serializable> codes);
+    @Override
+    @GetMapping("/findByIds")
+    Map<Serializable, Object> findByIds(@RequestParam(value = "ids") Set<Serializable> ids);
+
 }

@@ -7,7 +7,10 @@ import com.tangyh.lamp.common.cache.CacheKeyDefinition;
 /**
  * 参数 KEY
  * <p>
- * {tenant}:dictionary_type:{type} - {code} --> id
+ * key={tenant}:dictionary_type:{type}
+ * field1: {code} --> name
+ * field2: {code} --> name
+ *
  * <p>
  * #c_dictionary_item
  *

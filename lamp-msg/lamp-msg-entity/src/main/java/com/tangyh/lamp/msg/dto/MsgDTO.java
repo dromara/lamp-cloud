@@ -11,9 +11,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -40,7 +40,7 @@ public class MsgDTO implements Serializable {
      * 业务表的唯一id
      */
     @ApiModelProperty(value = "业务ID")
-    @Length(max = 64, message = "业务ID长度不能超过64")
+    @Size(max = 64, message = "业务ID长度不能超过64")
     private String bizId;
     /**
      * 业务类型
@@ -59,19 +59,19 @@ public class MsgDTO implements Serializable {
      * 标题
      */
     @ApiModelProperty(value = "标题")
-    @Length(max = 255, message = "标题长度不能超过255")
+    @Size(max = 255, message = "标题长度不能超过255")
     private String title;
     /**
      * 内容
      */
     @ApiModelProperty(value = "内容")
-    @Length(max = 65535, message = "内容长度不能超过65,535")
+    @Size(max = 65535, message = "内容长度不能超过65,535")
     private String content;
     /**
      * 作者
      */
     @ApiModelProperty(value = "作者")
-    @Length(max = 50, message = "作者长度不能超过50")
+    @Size(max = 50, message = "作者长度不能超过50")
     private String author;
     /**
      * 处理地址
@@ -79,13 +79,13 @@ public class MsgDTO implements Serializable {
      * http可带参数
      */
     @ApiModelProperty(value = "处理地址")
-    @Length(max = 255, message = "处理地址长度不能超过255")
+    @Size(max = 255, message = "处理地址长度不能超过255")
     private String handlerUrl;
     /**
      * 处理参数
      */
     @ApiModelProperty(value = "处理参数")
-    @Length(max = 400, message = "处理参数长度不能超过400")
+    @Size(max = 400, message = "处理参数长度不能超过400")
     private String handlerParams;
     /**
      * 是否单人处理

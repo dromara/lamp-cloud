@@ -1,12 +1,10 @@
 package com.tangyh.lamp.authority.service.core;
 
 import com.tangyh.basic.base.service.SuperCacheService;
+import com.tangyh.basic.model.LoadService;
 import com.tangyh.lamp.authority.entity.core.Org;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * <p>
@@ -17,7 +15,7 @@ import java.util.Set;
  * @author zuihou
  * @date 2019-07-22
  */
-public interface OrgService extends SuperCacheService<Org> {
+public interface OrgService extends SuperCacheService<Org>, LoadService {
     /**
      * 查询指定id集合下的所有子集
      *
@@ -34,19 +32,4 @@ public interface OrgService extends SuperCacheService<Org> {
      */
     boolean remove(List<Long> ids);
 
-    /**
-     * 根据 id 查询组织，并转换成Map结构
-     *
-     * @param ids id
-     * @return id-岗位
-     */
-    Map<Serializable, Object> findOrgByIds(Set<Serializable> ids);
-
-    /**
-     * 根据 id 查询名称，并转换成Map结构
-     *
-     * @param ids id
-     * @return id-名称
-     */
-    Map<Serializable, Object> findOrgNameByIds(Set<Serializable> ids);
 }

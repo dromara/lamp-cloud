@@ -6,7 +6,6 @@ import com.tangyh.basic.annotation.security.PreAuth;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.controller.SuperCacheController;
 import com.tangyh.basic.base.request.PageParams;
-import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.authority.dto.core.StationPageQuery;
 import com.tangyh.lamp.authority.dto.core.StationSaveDTO;
 import com.tangyh.lamp.authority.dto.core.StationUpdateDTO;
@@ -48,8 +47,8 @@ public class StationController extends SuperCacheController<StationService, Long
             Station item = new Station();
             item.setDescribe(map.getOrDefault("描述", ""));
             item.setName(map.getOrDefault("名称", ""));
-            item.setOrg(new RemoteData<>(Convert.toLong(map.getOrDefault("组织", ""))));
-            item.setState(Convert.toBool(map.getOrDefault("状态", "")));
+            item.setOrgId(Convert.toLong(map.getOrDefault("组织", "0")));
+            item.setState(Convert.toBool(map.getOrDefault("状态", "false")));
             return item;
         }).collect(Collectors.toList());
 

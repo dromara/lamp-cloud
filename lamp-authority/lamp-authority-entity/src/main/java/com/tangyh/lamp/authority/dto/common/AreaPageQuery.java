@@ -1,6 +1,5 @@
 package com.tangyh.lamp.authority.dto.common;
 
-import com.tangyh.basic.model.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,9 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -22,7 +19,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author zuihou
- * @since 2020-02-02
+ * @since 2021-04-01
  */
 @Data
 @NoArgsConstructor
@@ -35,51 +32,48 @@ import java.io.Serializable;
 public class AreaPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
-    private String label;
-    @ApiModelProperty(value = "父ID")
-    private Long parentId;
-    @ApiModelProperty(value = "排序号")
-    private Integer sortValue;
+
     /**
      * 编码
      */
     @ApiModelProperty(value = "编码")
-    @NotEmpty(message = "编码不能为空")
-    @Length(max = 64, message = "编码长度不能超过64")
     private String code;
     /**
      * 全名
      */
     @ApiModelProperty(value = "全名")
-    @Length(max = 255, message = "全名长度不能超过255")
     private String fullName;
     /**
      * 经度
      */
     @ApiModelProperty(value = "经度")
-    @Length(max = 255, message = "经度长度不能超过255")
     private String longitude;
     /**
      * 维度
      */
     @ApiModelProperty(value = "维度")
-    @Length(max = 255, message = "维度长度不能超过255")
     private String latitude;
-    /**
-     * 行政区级
-     *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD) RemoteData<String, String>
-     */
-    @ApiModelProperty(value = "行政区级")
-    @Length(max = 10, message = "行政区级长度不能超过10")
-    private RemoteData<String, String> level;
+    @ApiModelProperty(value = "名称")
+    protected String label;
     /**
      * 数据来源
      */
     @ApiModelProperty(value = "数据来源")
-    @Length(max = 255, message = "数据来源长度不能超过255")
     private String source;
+    @ApiModelProperty(value = "父ID")
+    protected Long parentId;
+    @ApiModelProperty(value = "排序号")
+    protected Integer sortValue;
+    /**
+     * 行政区级
+     *
+     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.AREA_LEVEL)
+     */
+    @ApiModelProperty(value = "行政区级")
+    private String level;
+    /**
+     * 状态
+     */
+    @ApiModelProperty(value = "状态")
+    private Boolean state;
 }

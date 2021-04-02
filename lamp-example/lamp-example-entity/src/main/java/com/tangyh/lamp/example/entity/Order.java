@@ -4,7 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.tangyh.basic.annotation.injection.InjectionField;
+import com.tangyh.basic.annotation.echo.Echo;
 import com.tangyh.basic.base.entity.Entity;
 import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.common.constant.DictionaryType;
@@ -15,15 +15,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
+import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.ORG_ID_FEIGN_CLASS;
 
 /**
  * <p>
@@ -61,7 +60,7 @@ public class Order extends Entity<Long> {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Size(max = 255, message = "名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "名称")
     private String name;
@@ -69,12 +68,12 @@ public class Order extends Entity<Long> {
     /**
      * 学历
      *
-     * @InjectionField(api = "orderServiceImpl", method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
+     * @Echo(api = "orderServiceImpl", method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
-    @Length(max = 255, message = "学历长度不能超过255")
+    @Size(max = 255, message = "学历长度不能超过255")
     @TableField(value = "education", condition = LIKE)
-    @InjectionField(api = "orderServiceImpl", method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
+    @Echo(api = "orderServiceImpl", method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
     @ExcelEntity(name = "")
     @Excel(name = "学历")
     private RemoteData<String, String> education;
@@ -82,12 +81,12 @@ public class Order extends Entity<Long> {
     /**
      * 民族
      *
-     * @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION) RemoteData<String, String>
      */
     @ApiModelProperty(value = "民族")
-    @Length(max = 255, message = "民族长度不能超过255")
+    @Size(max = 255, message = "民族长度不能超过255")
     @TableField(value = "nation", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION)
+    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
     @ExcelEntity(name = "")
     @Excel(name = "民族")
     private RemoteData<String, String> nation;
@@ -96,11 +95,11 @@ public class Order extends Entity<Long> {
      * 组织ID
      * #c_org
      *
-     * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = ORG_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    @InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
+    @Echo(api = ORG_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)
     @ExcelEntity(name = "")
     @Excel(name = "组织ID")
     private RemoteData<Long, String> org;
@@ -109,7 +108,7 @@ public class Order extends Entity<Long> {
      * 编号
      */
     @ApiModelProperty(value = "编号")
-    @Length(max = 255, min = 0, message = "编号长度不能超过255")
+    @Size(max = 255, min = 0, message = "编号长度不能超过255")
     @TableField(value = "code", condition = LIKE)
     @Excel(name = "编号")
     private String code;

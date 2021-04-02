@@ -1,10 +1,6 @@
 package com.tangyh.lamp.authority.dto.auth;
 
-import com.tangyh.basic.annotation.injection.InjectionField;
-import com.tangyh.basic.model.RemoteData;
-import com.tangyh.lamp.authority.entity.core.Org;
 import com.tangyh.lamp.authority.enumeration.auth.Sex;
-import com.tangyh.lamp.common.constant.DictionaryType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,13 +14,6 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.STATION_ID_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.STATION_ID_NAME_METHOD;
-
 /**
  * <p>
  * 实体类
@@ -32,7 +21,7 @@ import static com.tangyh.lamp.common.constant.InjectionFieldConstants.STATION_ID
  * </p>
  *
  * @author zuihou
- * @since 2020-11-20
+ * @since 2021-04-01
  */
 @Data
 @NoArgsConstructor
@@ -60,20 +49,18 @@ public class UserPageQuery implements Serializable {
      * 组织ID
      * #c_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>
+     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织ID")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class)
-    private RemoteData<Long, Org> org;
+    private Long orgId;
     /**
      * 岗位ID
      * #c_station
      *
-     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
      */
     @ApiModelProperty(value = "岗位ID")
-    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD)
-    private RemoteData<Long, String> station;
+    private Long stationId;
     /**
      * 内置
      */
@@ -108,27 +95,24 @@ public class UserPageQuery implements Serializable {
     /**
      * 民族
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
      */
     @ApiModelProperty(value = "民族")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION)
-    private RemoteData<String, String> nation;
+    private String nation;
     /**
      * 学历
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
      */
     @ApiModelProperty(value = "学历")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
-    private RemoteData<String, String> education;
+    private String education;
     /**
      * 职位状态
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)
      */
     @ApiModelProperty(value = "职位状态")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS)
-    private RemoteData<String, String> positionStatus;
+    private String positionStatus;
     /**
      * 工作描述
      */
@@ -154,6 +138,11 @@ public class UserPageQuery implements Serializable {
      */
     @ApiModelProperty(value = "密码")
     private String password;
+    /**
+     * 密码盐
+     */
+    @ApiModelProperty(value = "密码盐")
+    private String salt;
     /**
      * 最后登录时间
      */

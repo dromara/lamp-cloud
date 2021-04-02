@@ -13,7 +13,7 @@
 //import lombok.NoArgsConstructor;
 //import lombok.ToString;
 //import lombok.experimental.Accessors;
-//import org.hibernate.validator.constraints.Length;
+//import javax.validation.constraints.Size;
 //
 //import java.time.LocalDateTime;
 //
@@ -50,7 +50,7 @@
 //     * 原始文件名
 //     */
 //    @ApiModelProperty(value = "原始文件名")
-//    @Length(max = 255, message = "原始文件名长度不能超过255")
+//    @Size(max = 255, message = "原始文件名长度不能超过255")
 //    @TableField("submitted_file_name")
 //    private String submittedFileName;
 //
@@ -58,7 +58,7 @@
 //     * 父目录层级关系
 //     */
 //    @ApiModelProperty(value = "父目录层级关系")
-//    @Length(max = 255, message = "父目录层级关系长度不能超过255")
+//    @Size(max = 255, message = "父目录层级关系长度不能超过255")
 //    @TableField("tree_path")
 //    private String treePath;
 //
@@ -89,7 +89,7 @@
 //     * 父文件夹名称
 //     */
 //    @ApiModelProperty(value = "父文件夹名称")
-//    @Length(max = 255, message = "父文件夹名称长度不能超过255")
+//    @Size(max = 255, message = "父文件夹名称长度不能超过255")
 //    @TableField("folder_name")
 //    private String folderName;
 //
@@ -98,7 +98,7 @@
 //     * 用于FastDFS
 //     */
 //    @ApiModelProperty(value = "FastDFS组")
-//    @Length(max = 255, message = "FastDFS组长度不能超过255")
+//    @Size(max = 255, message = "FastDFS组长度不能超过255")
 //    @TableField("group_")
 //    private String group;
 //
@@ -107,7 +107,7 @@
 //     * 用于FastDFS
 //     */
 //    @ApiModelProperty(value = "FastDFS远程文件名")
-//    @Length(max = 255, message = "FastDFS远程文件名长度不能超过255")
+//    @Size(max = 255, message = "FastDFS远程文件名长度不能超过255")
 //    @TableField("path")
 //    private String path;
 //
@@ -115,7 +115,7 @@
 //     * 文件的相对路径
 //     */
 //    @ApiModelProperty(value = "文件的相对路径 ")
-//    @Length(max = 255, message = "文件的相对路径 长度不能超过255")
+//    @Size(max = 255, message = "文件的相对路径 长度不能超过255")
 //    @TableField("relative_path")
 //    private String relativePath;
 //
@@ -124,7 +124,7 @@
 //     * 需要通过nginx配置路由，才能访问
 //     */
 //    @ApiModelProperty(value = "文件访问链接")
-//    @Length(max = 255, message = "文件访问链接长度不能超过255")
+//    @Size(max = 255, message = "文件访问链接长度不能超过255")
 //    @TableField("url")
 //    private String url;
 //
@@ -133,7 +133,7 @@
 //     * md5值
 //     */
 //    @ApiModelProperty(value = "md5值")
-//    @Length(max = 255, message = "md5值长度不能超过255")
+//    @Size(max = 255, message = "md5值长度不能超过255")
 //    @TableField("file_md5")
 //    private String fileMd5;
 //
@@ -142,7 +142,7 @@
 //     * 取上传文件的值
 //     */
 //    @ApiModelProperty(value = "文件类型")
-//    @Length(max = 255, message = "文件类型长度不能超过255")
+//    @Size(max = 255, message = "文件类型长度不能超过255")
 //    @TableField("context_type")
 //    private String contextType;
 //
@@ -150,7 +150,7 @@
 //     * 唯一文件名
 //     */
 //    @ApiModelProperty(value = "唯一文件名")
-//    @Length(max = 255, message = "唯一文件名长度不能超过255")
+//    @Size(max = 255, message = "唯一文件名长度不能超过255")
 //    @TableField("filename")
 //    private String filename;
 //
@@ -159,7 +159,7 @@
 //     * (没有.)
 //     */
 //    @ApiModelProperty(value = "文件名后缀")
-//    @Length(max = 64, message = "文件名后缀长度不能超过64")
+//    @Size(max = 64, message = "文件名后缀长度不能超过64")
 //    @TableField("ext")
 //    private String ext;
 //    /**
@@ -175,7 +175,7 @@
 //     * 用于云盘显示
 //     */
 //    @ApiModelProperty(value = "文件图标")
-//    @Length(max = 64, message = "文件图标长度不能超过64")
+//    @Size(max = 64, message = "文件图标长度不能超过64")
 //    @TableField("icon")
 //    private String icon;
 //
@@ -184,7 +184,7 @@
 //     * 格式：yyyy-MM 用于统计
 //     */
 //    @ApiModelProperty(value = "创建时年月")
-//    @Length(max = 10, message = "创建时年月长度不能超过10")
+//    @Size(max = 10, message = "创建时年月长度不能超过10")
 //    @TableField("create_month")
 //    private String createMonth;
 //
@@ -193,7 +193,7 @@
 //     * yyyy-ww 用于统计
 //     */
 //    @ApiModelProperty(value = "创建时年周")
-//    @Length(max = 10, message = "创建时年周长度不能超过10")
+//    @Size(max = 10, message = "创建时年周长度不能超过10")
 //    @TableField("create_week")
 //    private String createWeek;
 //
@@ -202,7 +202,7 @@
 //     * 格式： yyyy-MM-dd 用于统计
 //     */
 //    @ApiModelProperty(value = "创建时年月日")
-//    @Length(max = 12, message = "创建时年月日长度不能超过12")
+//    @Size(max = 12, message = "创建时年月日长度不能超过12")
 //    @TableField("create_day")
 //    private String createDay;
 //

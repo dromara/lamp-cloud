@@ -1,7 +1,5 @@
 package com.tangyh.lamp.authority.dto.core;
 
-import com.tangyh.basic.model.RemoteData;
-import com.tangyh.lamp.authority.entity.core.Org;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,7 +19,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author zuihou
- * @since 2020-11-20
+ * @since 2021-04-01
  */
 @Data
 @NoArgsConstructor
@@ -44,10 +42,10 @@ public class StationPageQuery implements Serializable {
      * 组织ID
      * #c_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>
+     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织ID")
-    private RemoteData<Long, Org> org;
+    private Long orgId;
     /**
      * 状态
      */

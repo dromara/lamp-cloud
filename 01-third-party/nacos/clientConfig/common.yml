@@ -5,7 +5,7 @@ lamp:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 3.0.0
+    version: 3.1.2
     contact:
       url: https://github.com/zuihou
       name: zuiou
@@ -30,19 +30,15 @@ lamp:
         parameterType: header
         required: true
         defaultValue: "MDAwMA=="
-  injection:
+  echo:
     # 是否启用 远程数据 手动注入
     enabled: true
     # 是否启用 远程数据 注解注入
     aop-enabled: true
-    guavaCache:
-      enabled: false
-      maximumSize: 1000
-      refreshWriteTime: 10
-      refreshThreadPoolSize: 1000
   security:
     enabled: true
     type: FEIGN
+    caseSensitive: false
   log:
     enabled: true
     type: DB

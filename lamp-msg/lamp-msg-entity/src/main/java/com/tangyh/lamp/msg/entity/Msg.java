@@ -15,9 +15,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -47,7 +47,7 @@ public class Msg extends Entity<Long> {
      * 业务ID
      */
     @ApiModelProperty(value = "业务ID")
-    @Length(max = 64, message = "业务ID长度不能超过64")
+    @Size(max = 64, message = "业务ID长度不能超过64")
     @TableField(value = "biz_id", condition = LIKE)
     @Excel(name = "业务ID")
     private String bizId;
@@ -75,7 +75,7 @@ public class Msg extends Entity<Long> {
      * 标题
      */
     @ApiModelProperty(value = "标题")
-    @Length(max = 255, message = "标题长度不能超过255")
+    @Size(max = 255, message = "标题长度不能超过255")
     @TableField(value = "title", condition = LIKE)
     @Excel(name = "标题")
     private String title;
@@ -84,7 +84,7 @@ public class Msg extends Entity<Long> {
      * 内容
      */
     @ApiModelProperty(value = "内容")
-    @Length(max = 65535, message = "内容长度不能超过65535")
+    @Size(max = 65535, message = "内容长度不能超过65535")
     @TableField("content")
     @Excel(name = "内容")
     private String content;
@@ -93,7 +93,7 @@ public class Msg extends Entity<Long> {
      * 发布人
      */
     @ApiModelProperty(value = "发布人")
-    @Length(max = 50, message = "发布人长度不能超过50")
+    @Size(max = 50, message = "发布人长度不能超过50")
     @TableField(value = "author", condition = LIKE)
     @Excel(name = "发布人")
     private String author;
@@ -103,7 +103,7 @@ public class Msg extends Entity<Long> {
      * 以http开头时直接跳转，否则与#c_application表拼接后跳转http可带参数
      */
     @ApiModelProperty(value = "处理地址")
-    @Length(max = 255, message = "处理地址长度不能超过255")
+    @Size(max = 255, message = "处理地址长度不能超过255")
     @TableField(value = "handler_url", condition = LIKE)
     @Excel(name = "处理地址")
     private String handlerUrl;
@@ -112,7 +112,7 @@ public class Msg extends Entity<Long> {
      * 处理参数
      */
     @ApiModelProperty(value = "处理参数")
-    @Length(max = 500, message = "处理参数长度不能超过500")
+    @Size(max = 500, message = "处理参数长度不能超过500")
     @TableField(value = "handler_params", condition = LIKE)
     @Excel(name = "处理参数")
     private String handlerParams;

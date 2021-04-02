@@ -1,13 +1,11 @@
 package com.tangyh.lamp.authority.entity.auth;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.tangyh.basic.annotation.injection.InjectionField;
+import com.tangyh.basic.annotation.echo.Echo;
 import com.tangyh.basic.base.entity.Entity;
-import com.tangyh.basic.model.RemoteData;
+import com.tangyh.basic.model.EchoVO;
 import com.tangyh.lamp.authority.entity.core.Org;
 import com.tangyh.lamp.authority.enumeration.auth.Sex;
 import com.tangyh.lamp.common.constant.DictionaryType;
@@ -20,20 +18,21 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.STATION_ID_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.STATION_ID_NAME_METHOD;
+import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.ORG_ID_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.STATION_ID_CLASS;
 
 /**
  * <p>
@@ -42,7 +41,7 @@ import static com.tangyh.lamp.common.constant.InjectionFieldConstants.STATION_ID
  * </p>
  *
  * @author zuihou
- * @since 2020-11-20
+ * @since 2021-04-01
  */
 @Data
 @NoArgsConstructor
@@ -52,16 +51,17 @@ import static com.tangyh.lamp.common.constant.InjectionFieldConstants.STATION_ID
 @TableName("c_user")
 @ApiModel(value = "User", description = "用户")
 @AllArgsConstructor
-public class User extends Entity<Long> {
+public class User extends Entity<Long> implements EchoVO {
 
     private static final long serialVersionUID = 1L;
-
+    @TableField(exist = false)
+    private Map<String, Object> echoMap = new HashMap<>();
     /**
      * 账号
      */
     @ApiModelProperty(value = "账号")
     @NotEmpty(message = "账号不能为空")
-    @Length(max = 30, message = "账号长度不能超过30")
+    @Size(max = 30, message = "账号长度不能超过30")
     @TableField(value = "account", condition = LIKE)
     @Excel(name = "账号")
     private String account;
@@ -71,7 +71,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "姓名")
     @NotEmpty(message = "姓名不能为空")
-    @Length(max = 50, message = "姓名长度不能超过50")
+    @Size(max = 50, message = "姓名长度不能超过50")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "姓名")
     private String name;
@@ -80,27 +80,25 @@ public class User extends Entity<Long> {
      * 组织ID
      * #c_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>
+     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class)
-    @ExcelEntity(name = "")
+    @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
     @Excel(name = "组织ID")
-    private RemoteData<Long, Org> org;
+    private Long orgId;
 
     /**
      * 岗位ID
      * #c_station
      *
-     * @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
      */
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
-    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD)
-    @ExcelEntity(name = "")
+    @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
     @Excel(name = "岗位ID")
-    private RemoteData<Long, String> station;
+    private Long stationId;
 
     /**
      * 内置
@@ -115,7 +113,7 @@ public class User extends Entity<Long> {
      * 邮箱
      */
     @ApiModelProperty(value = "邮箱")
-    @Length(max = 255, message = "邮箱长度不能超过255")
+    @Size(max = 255, message = "邮箱长度不能超过255")
     @TableField(value = "email", condition = LIKE)
     @Excel(name = "邮箱")
     private String email;
@@ -124,7 +122,7 @@ public class User extends Entity<Long> {
      * 手机
      */
     @ApiModelProperty(value = "手机")
-    @Length(max = 20, message = "手机长度不能超过20")
+    @Size(max = 20, message = "手机长度不能超过20")
     @TableField(value = "mobile", condition = LIKE)
     @Excel(name = "手机")
     private String mobile;
@@ -150,7 +148,7 @@ public class User extends Entity<Long> {
      * 头像
      */
     @ApiModelProperty(value = "头像")
-    @Length(max = 255, message = "头像长度不能超过255")
+    @Size(max = 255, message = "头像长度不能超过255")
     @TableField(value = "avatar", condition = LIKE)
     @Excel(name = "头像")
     private String avatar;
@@ -158,47 +156,44 @@ public class User extends Entity<Long> {
     /**
      * 民族
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
      */
     @ApiModelProperty(value = "民族")
-    @Length(max = 2, message = "民族长度不能超过2")
+    @Size(max = 2, message = "民族长度不能超过2")
     @TableField(value = "nation", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION)
-    @ExcelEntity(name = "")
+    @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
     @Excel(name = "民族")
-    private RemoteData<String, String> nation;
+    private String nation;
 
     /**
      * 学历
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
      */
     @ApiModelProperty(value = "学历")
-    @Length(max = 2, message = "学历长度不能超过2")
+    @Size(max = 2, message = "学历长度不能超过2")
     @TableField(value = "education", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
-    @ExcelEntity(name = "")
+    @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
     @Excel(name = "学历")
-    private RemoteData<String, String> education;
+    private String education;
 
     /**
      * 职位状态
      *
-     * @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)
      */
     @ApiModelProperty(value = "职位状态")
-    @Length(max = 2, message = "职位状态长度不能超过2")
+    @Size(max = 2, message = "职位状态长度不能超过2")
     @TableField(value = "position_status", condition = LIKE)
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS)
-    @ExcelEntity(name = "")
+    @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)
     @Excel(name = "职位状态")
-    private RemoteData<String, String> positionStatus;
+    private String positionStatus;
 
     /**
      * 工作描述
      */
     @ApiModelProperty(value = "工作描述")
-    @Length(max = 255, message = "工作描述长度不能超过255")
+    @Size(max = 255, message = "工作描述长度不能超过255")
     @TableField(value = "work_describe", condition = LIKE)
     @Excel(name = "工作描述")
     private String workDescribe;
@@ -207,7 +202,7 @@ public class User extends Entity<Long> {
      * 最后一次输错密码时间
      */
     @ApiModelProperty(value = "最后一次输错密码时间")
-    @TableField(value = "password_error_last_time", updateStrategy = FieldStrategy.IGNORED)
+    @TableField("password_error_last_time")
     @Excel(name = "最后一次输错密码时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime passwordErrorLastTime;
 
@@ -232,17 +227,20 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "密码")
     @NotEmpty(message = "密码不能为空")
-    @Length(max = 64, message = "密码长度不能超过64")
+    @Size(max = 64, message = "密码长度不能超过64")
     @TableField(value = "password", condition = LIKE)
+    @Excel(name = "密码")
     private String password;
 
-    @ApiModelProperty(value = "盐")
-    @NotEmpty(message = "盐不能为空")
-    @Length(max = 20, message = "盐长度不能超过20")
+    /**
+     * 密码盐
+     */
+    @ApiModelProperty(value = "密码盐")
+    @NotEmpty(message = "密码盐不能为空")
+    @Size(max = 20, message = "密码盐长度不能超过20")
     @TableField(value = "salt", condition = LIKE)
-    @Excel(name = "盐")
+    @Excel(name = "密码盐")
     private String salt;
-
 
     /**
      * 最后登录时间
@@ -255,9 +253,9 @@ public class User extends Entity<Long> {
 
     @Builder
     public User(Long id, Long createdBy, LocalDateTime createTime, Long updatedBy, LocalDateTime updateTime,
-                String account, String name, RemoteData<Long, Org> orgId, RemoteData<Long, String> stationId, Boolean readonly,
-                String email, String mobile, Sex sex, Boolean state, String avatar, RemoteData<String, String> nation,
-                RemoteData<String, String> education, RemoteData<String, String> positionStatus, String workDescribe, LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime,
+                String account, String name, Long orgId, Long stationId, Boolean readonly,
+                String email, String mobile, Sex sex, Boolean state, String avatar, String nation,
+                String education, String positionStatus, String workDescribe, LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime,
                 String password, String salt, LocalDateTime lastLoginTime) {
         this.id = id;
         this.createdBy = createdBy;
@@ -266,8 +264,8 @@ public class User extends Entity<Long> {
         this.updateTime = updateTime;
         this.account = account;
         this.name = name;
-        this.org = orgId;
-        this.station = stationId;
+        this.orgId = orgId;
+        this.stationId = stationId;
         this.readonly = readonly;
         this.email = email;
         this.mobile = mobile;

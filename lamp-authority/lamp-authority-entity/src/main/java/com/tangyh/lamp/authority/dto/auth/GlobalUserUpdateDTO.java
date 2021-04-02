@@ -10,10 +10,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -42,26 +42,26 @@ public class GlobalUserUpdateDTO implements Serializable {
     private Long id;
     @ApiModelProperty(value = "企业编码")
     @NotEmpty(message = "企业编码不能为空")
-    @Length(max = 10, message = "企业编码长度不能超过10")
+    @Size(max = 10, message = "企业编码长度不能超过10")
     private String tenantCode;
 
     /**
      * 手机
      */
     @ApiModelProperty(value = "手机")
-    @Length(max = 20, message = "手机长度不能超过20")
+    @Size(max = 20, message = "手机长度不能超过20")
     private String mobile;
     /**
      * 姓名
      */
     @ApiModelProperty(value = "姓名")
-    @Length(max = 50, message = "姓名长度不能超过20")
+    @Size(max = 50, message = "姓名长度不能超过20")
     private String name;
     /**
      * 邮箱
      */
     @ApiModelProperty(value = "邮箱")
-    @Length(max = 255, message = "邮箱长度不能超过255")
+    @Size(max = 255, message = "邮箱长度不能超过255")
     private String email;
 
 }

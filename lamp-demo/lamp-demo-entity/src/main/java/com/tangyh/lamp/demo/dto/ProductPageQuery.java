@@ -1,6 +1,6 @@
 package com.tangyh.lamp.demo.dto;
 
-import com.tangyh.basic.annotation.injection.InjectionField;
+import com.tangyh.basic.annotation.echo.Echo;
 import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.common.constant.DictionaryType;
 import com.tangyh.lamp.demo.enumeration.ProductType;
@@ -19,11 +19,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.USER_ID_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.USER_ID_NAME_METHOD;
+import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.ORG_ID_FEIGN_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.USER_ID_FEIGN_CLASS;
 
 /**
  * <p>
@@ -71,10 +70,10 @@ public class ProductPageQuery implements Serializable {
     /**
      * 学历
      *
-     * @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
-    @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
+    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
     private RemoteData<String, String> type3;
     /**
      * 状态
@@ -114,26 +113,26 @@ public class ProductPageQuery implements Serializable {
     /**
      * 测试字段
      *
-     * @InjectionField(api = "userApi", method = USER_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = "userApi", method = FIND_NAME_BY_IDS) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "测试字段")
-    @InjectionField(api = "userApi", method = USER_ID_NAME_METHOD)
+    @Echo(api = "userApi", method = FIND_NAME_BY_IDS)
     private RemoteData<Long, String> test7;
     /**
      * 用户
      *
-     * @InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "用户")
-    @InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD)
+    @Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)
     private RemoteData<Long, String> user;
     /**
      * 组织
      *
-     * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>
+     * @Echo(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>
      */
     @ApiModelProperty(value = "组织")
-    @InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds")
+    @Echo(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds")
     private RemoteData<Long, String> org;
 
 }

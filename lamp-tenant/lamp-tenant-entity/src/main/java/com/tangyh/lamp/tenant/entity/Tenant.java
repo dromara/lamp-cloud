@@ -17,9 +17,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -51,7 +51,7 @@ public class Tenant extends Entity<Long> {
      */
     @ApiModelProperty(value = "企业编码")
     @NotEmpty(message = "企业编码不能为空")
-    @Length(max = 20, message = "企业编码长度不能超过20")
+    @Size(max = 20, message = "企业编码长度不能超过20")
     @TableField(value = "code", condition = LIKE)
     @Excel(name = "企业编码", width = 20)
     private String code;
@@ -60,7 +60,7 @@ public class Tenant extends Entity<Long> {
      * 企业名称
      */
     @ApiModelProperty(value = "企业名称")
-    @Length(max = 255, message = "企业名称长度不能超过255")
+    @Size(max = 255, message = "企业名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "企业名称", width = 20)
     private String name;
@@ -104,7 +104,7 @@ public class Tenant extends Entity<Long> {
      * 责任人
      */
     @ApiModelProperty(value = "责任人")
-    @Length(max = 50, message = "责任人长度不能超过50")
+    @Size(max = 50, message = "责任人长度不能超过50")
     @TableField(value = "duty", condition = LIKE)
     @Excel(name = "责任人")
     private String duty;
@@ -122,7 +122,7 @@ public class Tenant extends Entity<Long> {
      * logo地址
      */
     @ApiModelProperty(value = "logo地址")
-    @Length(max = 255, message = "logo地址长度不能超过255")
+    @Size(max = 255, message = "logo地址长度不能超过255")
     @TableField(value = "logo", condition = LIKE)
     private String logo;
 
@@ -130,7 +130,7 @@ public class Tenant extends Entity<Long> {
      * 企业简介
      */
     @ApiModelProperty(value = "企业简介")
-    @Length(max = 255, message = "企业简介长度不能超过255")
+    @Size(max = 255, message = "企业简介长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "企业简介", width = 20)
     private String describe;

@@ -36,41 +36,41 @@ public class InjectionController {
 
 
     @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
-    @GetMapping("/user/findUserByIds")
+    @GetMapping("/user/findByIds")
     public Map<Serializable, Object> findUserByIds(@RequestParam(value = "ids") Set<Serializable> ids) {
-        return userService.findUserByIds(ids);
+        return userService.findByIds(ids);
     }
 
     @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
-    @GetMapping("/user/findUserNameByIds")
+    @GetMapping("/user/findNameByIds")
     public Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Serializable> ids) {
-        return userService.findUserNameByIds(ids);
+        return userService.findNameByIds(ids);
     }
 
-    @GetMapping("/station/findStationByIds")
+    @GetMapping("/station/findByIds")
     public Map<Serializable, Object> findStationByIds(@RequestParam("ids") Set<Serializable> ids) {
-        return stationService.findStationByIds(ids);
+        return stationService.findByIds(ids);
     }
 
-    @GetMapping("/station/findStationNameByIds")
+    @GetMapping("/station/findNameByIds")
     public Map<Serializable, Object> findStationNameByIds(@RequestParam("ids") Set<Serializable> ids) {
-        return stationService.findStationNameByIds(ids);
+        return stationService.findNameByIds(ids);
     }
 
     @ApiOperation(value = "查询字典项", notes = "根据字典编码查询字典项")
-    @GetMapping("/dictionary/findDictionaryItem")
+    @GetMapping("/dictionary/findNameByIds")
     public Map<Serializable, Object> findDictionaryItem(@RequestParam Set<Serializable> codes) {
-        return this.dictionaryService.findDictionaryItem(codes);
+        return this.dictionaryService.findNameByIds(codes);
     }
 
-    @GetMapping("/org/findOrgByIds")
+    @GetMapping("/org/findByIds")
     public Map<Serializable, Object> findOrgByIds(@RequestParam("ids") Set<Serializable> ids) {
-        return orgService.findOrgByIds(ids);
+        return orgService.findByIds(ids);
     }
 
-    @GetMapping("/org/findOrgNameByIds")
+    @GetMapping("/org/findNameByIds")
     public Map<Serializable, Object> findOrgNameByIds(@RequestParam("ids") Set<Serializable> ids) {
-        return orgService.findOrgNameByIds(ids);
+        return orgService.findNameByIds(ids);
     }
 
 

@@ -11,10 +11,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -48,19 +48,19 @@ public class RoleUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
-    @Length(max = 30, message = "名称长度不能超过30")
+    @Size(max = 30, message = "名称长度不能超过30")
     private String name;
     /**
      * 编码
      */
     @ApiModelProperty(value = "编码")
-    @Length(max = 20, message = "编码长度不能超过20")
+    @Size(max = 20, message = "编码长度不能超过20")
     private String code;
     /**
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 100, message = "描述长度不能超过100")
+    @Size(max = 100, message = "描述长度不能超过100")
     private String describe;
     /**
      * 状态

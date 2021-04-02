@@ -1,12 +1,11 @@
 package com.tangyh.lamp.authority.entity.core;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.tangyh.basic.annotation.injection.InjectionField;
+import com.tangyh.basic.annotation.echo.Echo;
 import com.tangyh.basic.base.entity.Entity;
-import com.tangyh.basic.model.RemoteData;
+import com.tangyh.basic.model.EchoVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,14 +15,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_METHOD;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.ORG_ID_CLASS;
 
 /**
  * <p>
@@ -32,7 +33,7 @@ import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_MET
  * </p>
  *
  * @author zuihou
- * @since 2020-11-20
+ * @since 2021-04-01
  */
 @Data
 @NoArgsConstructor
@@ -42,16 +43,17 @@ import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_MET
 @TableName("c_station")
 @ApiModel(value = "Station", description = "岗位")
 @AllArgsConstructor
-public class Station extends Entity<Long> {
+public class Station extends Entity<Long> implements EchoVO {
 
     private static final long serialVersionUID = 1L;
-
+    @TableField(exist = false)
+    private Map<String, Object> echoMap = new HashMap<>();
     /**
      * 名称
      */
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Size(max = 255, message = "名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
     @Excel(name = "名称")
     private String name;
@@ -60,14 +62,13 @@ public class Station extends Entity<Long> {
      * 组织ID
      * #c_org
      *
-     * @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>
+     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class)
-    @ExcelEntity
+    @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
     @Excel(name = "组织ID")
-    private RemoteData<Long, Org> org;
+    private Long orgId;
 
     /**
      * 状态
@@ -81,7 +82,7 @@ public class Station extends Entity<Long> {
      * 描述
      */
     @ApiModelProperty(value = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
     private String describe;
@@ -89,14 +90,14 @@ public class Station extends Entity<Long> {
 
     @Builder
     public Station(Long id, LocalDateTime createTime, Long createdBy, LocalDateTime updateTime, Long updatedBy,
-                   String name, RemoteData<Long, Org> orgId, Boolean state, String describe) {
+                   String name, Long orgId, Boolean state, String describe) {
         this.id = id;
         this.createTime = createTime;
         this.createdBy = createdBy;
         this.updateTime = updateTime;
         this.updatedBy = updatedBy;
         this.name = name;
-        this.org = orgId;
+        this.orgId = orgId;
         this.state = state;
         this.describe = describe;
     }

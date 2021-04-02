@@ -10,8 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -44,7 +44,7 @@ public class Online implements Serializable {
      * 登录IP
      */
     @ApiModelProperty(value = "登录IP")
-    @Length(max = 50, message = "登录IP长度不能超过50")
+    @Size(max = 50, message = "登录IP长度不能超过50")
     @Excel(name = "登录IP")
     private String loginIp;
 
@@ -52,7 +52,7 @@ public class Online implements Serializable {
      * 登录地点
      */
     @ApiModelProperty(value = "登录地点")
-    @Length(max = 50, message = "登录地点长度不能超过50")
+    @Size(max = 50, message = "登录地点长度不能超过50")
     @Excel(name = "登录地点")
     private String location;
 
@@ -60,7 +60,7 @@ public class Online implements Serializable {
      * 客户端Key
      */
     @ApiModelProperty(value = "客户端Key")
-    @Length(max = 24, message = "客户端Key长度不能超过24")
+    @Size(max = 24, message = "客户端Key长度不能超过24")
     @Excel(name = "客户端Key")
     private String clientId;
 
@@ -68,7 +68,7 @@ public class Online implements Serializable {
      * token
      */
     @ApiModelProperty(value = "token")
-    @Length(max = 65535, message = "token长度不能超过65535")
+    @Size(max = 65535, message = "token长度不能超过65535")
     @Excel(name = "token")
     private String token;
 
@@ -76,7 +76,7 @@ public class Online implements Serializable {
      * 姓名
      */
     @ApiModelProperty(value = "姓名")
-    @Length(max = 50, message = "姓名长度不能超过50")
+    @Size(max = 50, message = "姓名长度不能超过50")
     @Excel(name = "姓名")
     private String name;
 
@@ -95,7 +95,7 @@ public class Online implements Serializable {
      * 账号
      */
     @ApiModelProperty(value = "账号")
-    @Length(max = 30, message = "账号长度不能超过30")
+    @Size(max = 30, message = "账号长度不能超过30")
     @Excel(name = "账号")
     private String account;
 

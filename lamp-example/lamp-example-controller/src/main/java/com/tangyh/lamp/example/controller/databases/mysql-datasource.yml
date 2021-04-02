@@ -11,14 +11,23 @@ lamp:
     username: root
     password: root
     url: jdbc:mysql://${lamp.mysql.ip}:${lamp.mysql.port}/${lamp.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-  database:
-    isNotWrite: false
+  database: # 字段介绍参考 DatabaseProperties
     tenantDatabasePrefix: lamp_base
     multiTenantType: DATASOURCE
+    isNotWrite: false
     isBlockAttack: false
-    worker-id: 0
-    data-center-id: 0
     isSeata: false
+    id-type: HU_TOOL
+    hutoolId:
+      workerId: 0
+      dataCenterId: 0
+    cache-id:
+      time-bits: 31
+      worker-bits: 22
+      seq-bits: 10
+      epochStr: '2020-09-15'
+      boost-power: 3
+      padding-factor: 50
 
 # mysql 通用配置
 spring:

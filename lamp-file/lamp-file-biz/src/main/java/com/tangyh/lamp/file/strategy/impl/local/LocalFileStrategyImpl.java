@@ -60,4 +60,14 @@ public class LocalFileStrategyImpl extends AbstractFileStrategy {
         java.io.File ioFile = new java.io.File(Paths.get(fileProperties.getStoragePath(), file.getRelativePath(), file.getFileName()).toString());
         org.apache.commons.io.FileUtils.deleteQuietly(ioFile);
     }
+
+    @Override
+    public List<String> getUrls(List<String> paths, Integer expiry) {
+        return null;
+    }
+
+    @Override
+    public String getUrl(String path, Integer expiry) {
+        return null;
+    }
 }

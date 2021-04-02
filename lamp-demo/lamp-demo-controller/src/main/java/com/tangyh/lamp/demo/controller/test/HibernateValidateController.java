@@ -1,17 +1,22 @@
 package com.tangyh.lamp.demo.controller.test;
 
-import com.tangyh.lamp.authority.dto.auth.ApplicationUpdateDTO;
-import com.tangyh.basic.base.entity.SuperEntity;
-import com.tangyh.lamp.demo.controller.test.model.ValidatorDTO;
 import com.tangyh.basic.annotation.log.SysLog;
+import com.tangyh.basic.base.entity.SuperEntity;
+import com.tangyh.lamp.authority.dto.auth.ApplicationUpdateDTO;
+import com.tangyh.lamp.demo.controller.test.model.ValidatorDTO;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * 表单验证测试类
@@ -126,7 +131,7 @@ public class HibernateValidateController {
      */
     @GetMapping("/requestParam/get")
     @Validated
-    public String paramGet(@Length(max = 3)
+    public String paramGet(@Size(max = 3)
                            @NotEmpty(message = "不能为空")
                            @RequestParam(value = "code", required = false) String code) {
         return "方法上的@Validated注解，一般用来指定 验证组";

@@ -1,6 +1,6 @@
 package com.tangyh.lamp.demo.dto;
 
-import com.tangyh.basic.annotation.injection.InjectionField;
+import com.tangyh.basic.annotation.echo.Echo;
 import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.common.constant.DictionaryType;
 import com.tangyh.lamp.demo.enumeration.ProductType;
@@ -14,17 +14,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.DICTIONARY_ITEM_METHOD;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.USER_ID_FEIGN_CLASS;
-import static com.tangyh.lamp.common.constant.InjectionFieldConstants.USER_ID_NAME_METHOD;
+import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.ORG_ID_FEIGN_CLASS;
+import static com.tangyh.lamp.common.constant.EchoConstants.USER_ID_FEIGN_CLASS;
 
 /**
  * <p>
@@ -51,7 +50,7 @@ public class ProductSaveDTO implements Serializable {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    @Length(max = 24, message = "名称长度不能超过24")
+    @Size(max = 24, message = "名称长度不能超过24")
     private String name;
     /**
      * 库存
@@ -73,11 +72,11 @@ public class ProductSaveDTO implements Serializable {
     /**
      * 学历
      *
-     * @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
+     * @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
-    @Length(max = 255, message = "学历长度不能超过255")
-    @InjectionField(api = DICTIONARY_ITEM_FEIGN_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
+    @Size(max = 255, message = "学历长度不能超过255")
+    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
     private RemoteData<String, String> type3;
     /**
      * 状态
@@ -108,7 +107,7 @@ public class ProductSaveDTO implements Serializable {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Size(max = 255, message = "名称长度不能超过255")
     private String label;
     /**
      * 排序
@@ -118,27 +117,27 @@ public class ProductSaveDTO implements Serializable {
     /**
      * 测试字段
      *
-     * @InjectionField(api = "userApi", method = USER_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = "userApi", method = FIND_NAME_BY_IDS) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "测试字段")
-    @Length(max = 10, message = "测试字段长度不能超过10")
-    @InjectionField(api = "userApi", method = USER_ID_NAME_METHOD)
+    @Size(max = 10, message = "测试字段长度不能超过10")
+    @Echo(api = "userApi", method = FIND_NAME_BY_IDS)
     private RemoteData<Long, String> test7;
     /**
      * 用户
      *
-     * @InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD) RemoteData<Long, String>
+     * @Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS) RemoteData<Long, String>
      */
     @ApiModelProperty(value = "用户")
-    @InjectionField(api = USER_ID_FEIGN_CLASS, method = USER_ID_NAME_METHOD)
+    @Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)
     private RemoteData<Long, String> user;
     /**
      * 组织
      *
-     * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>
+     * @Echo(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds") RemoteData<Long, String>
      */
     @ApiModelProperty(value = "组织")
-    @InjectionField(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds")
+    @Echo(api = ORG_ID_FEIGN_CLASS, method = "findOrgNameByIds")
     private RemoteData<Long, String> org;
 
 }

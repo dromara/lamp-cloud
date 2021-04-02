@@ -1,6 +1,5 @@
 package com.tangyh.lamp.authority.strategy.impl;
 
-import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.authority.dao.auth.UserMapper;
 import com.tangyh.lamp.authority.entity.auth.User;
 import com.tangyh.lamp.authority.strategy.AbstractDataScopeHandler;
@@ -29,7 +28,7 @@ public class ThisLevelDataScope implements AbstractDataScopeHandler {
         if (user == null) {
             return Collections.emptyList();
         }
-        Long orgId = RemoteData.getKey(user.getOrg());
+        Long orgId = user.getOrgId();
         return Arrays.asList(orgId);
     }
 }
