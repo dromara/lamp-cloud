@@ -163,6 +163,8 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 120000  # 熔断超时 ribbon和hystrix是同时生效的，哪个值小哪个生效
+          semaphore:
+            maxConcurrentRequests: 1000
     lamp-file-server:
       execution:
         isolation:
