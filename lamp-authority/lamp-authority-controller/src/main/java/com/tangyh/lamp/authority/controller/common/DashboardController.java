@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -37,15 +38,35 @@ public class DashboardController {
     private final UserService userService;
     private final UidGenerator uidGenerator;
 
-    @GetMapping("/dashboard/visit")
-    public R<Map<String, Object>> index(@ApiIgnore @LoginUser SysUser user) {
-        Map<String, Object> data = new HashMap<>(11);
-        // 获取系统访问记录
-        data.put("totalVisitCount", loginLogService.getTotalVisitCount());
-        data.put("todayVisitCount", loginLogService.getTodayVisitCount());
-        data.put("todayIp", loginLogService.getTodayIp());
-        data.put("userCount", userService.count());
+    @PostMapping("/dashboard/pvIncr")
+    public R<Boolean> pvIncr() {
+        loginLogService.pvIncr();
+        return R.success();
+    }
 
+
+    @GetMapping("/dashboard/item")
+    public R<Map<String, Object>> item() {
+        Map<String, Object> data = new HashMap<>(11);
+        // 用户数
+        data.put("totalUserCount", userService.count());
+        data.put("todayUserCount", userService.todayUserCount());
+        // 页面 访问量
+        data.put("totalPv", loginLogService.getTotalPv());
+        data.put("todayPv", loginLogService.getTodayPv());
+        // 独立 登录IV数
+        data.put("totalLoginIv", loginLogService.getTotalLoginIv());
+        data.put("todayLoginIv", loginLogService.getTodayLoginIv());
+        // 独立 登录PV数
+        data.put("totalLoginPv", loginLogService.getTotalLoginPv());
+        data.put("todayLoginPv", loginLogService.getTodayLoginPv());
+
+        return R.success(data);
+    }
+
+    @GetMapping("/dashboard/chart")
+    public R<Map<String, Object>> chart(@ApiIgnore @LoginUser SysUser user) {
+        Map<String, Object> data = new HashMap<>(11);
         data.put("lastTenVisitCount", loginLogService.findLastTenDaysVisitCount(null));
         data.put("lastTenUserVisitCount", loginLogService.findLastTenDaysVisitCount(user.getAccount()));
 

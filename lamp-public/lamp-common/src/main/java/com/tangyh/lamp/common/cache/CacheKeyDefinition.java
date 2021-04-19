@@ -102,20 +102,38 @@ public interface CacheKeyDefinition {
     String SYSTEM_API = "system_api";
 
     /**
-     * 登录总次数
-     * login_log_total:{TENANT} -> Long
+     * 总 登录次数
+     * total_login_pv:{TENANT} -> Long
      */
-    String LOGIN_LOG_TOTAL = "login_log_total";
+    String TOTAL_LOGIN_PV = "total_login_pv";
     /**
-     * 今日登录总次数
-     * login_log_today:{TENANT}:{today} -> Long
+     * 今日 登录次数
+     * today_login_pv:{TENANT}:{today} -> Long
      */
-    String LOGIN_LOG_TODAY = "login_log_today";
+    String TODAY_LOGIN_PV = "today_login_pv";
     /**
      * 今日登录总ip
-     * login_log_todayip:{TENANT}:{today} -> Map
+     * today_login_iv:{TENANT}:{today} -> int
      */
-    String LOGIN_LOG_TODAY_IP = "login_log_todayip";
+    String TODAY_LOGIN_IV = "today_login_iv";
+    /**
+     * 今日登录总ip
+     * TOTAL_LOGIN_IV:{TENANT} -> int
+     */
+    String TOTAL_LOGIN_IV = "total_login_iv";
+
+    /**
+     * 今日 PV
+     * today_pv:{TENANT} -> int
+     */
+    String TODAY_PV = "today_pv";
+    /**
+     * 总 PV
+     * total_pv:{TENANT} -> int
+     */
+    String TOTAL_PV = "total_pv";
+
+
     /**
      * 最近10访问记录
      * login_log_tenday:{TENANT}:{today}:{account} -> Map

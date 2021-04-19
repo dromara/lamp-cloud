@@ -1,8 +1,8 @@
-# 《灯灯》中后台快速开发平台
+# lamp 快速开发平台
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
 [![](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![](https://img.shields.io/badge/版本-3.1.2-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
+[![](https://img.shields.io/badge/版本-3.2.0-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
 [![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
 [![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/zuihou/lamp-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/lamp-cloud/network/members)
@@ -21,47 +21,40 @@
 `灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，包含以下几个子项目
 
 ## lamp 项目组成
-注意： 请先下载lamp-util 代码并编译（mvn install） 到本地仓库，然后在编译（mvn install）lamp-cloud或lamp-boot项目， 最后编译（mvn install）lamp-job项目！！！
 
-### 工具集 （lamp-util 项目必备，其他2个可选）
-
-| 项目 | gitee | github | 备注 | 
-| --- | --- | --- | --- |
-| 工具集 | [lamp-util](https://gitee.com/zuihou111/lamp-util) | [lamp-util](https://github.com/zuihou/lamp-util) | 业务无关的工具集，cloud 和 boot 项目都依赖它 |
-| 代码生成器 | [lamp-generator](https://gitee.com/zuihou111/lamp-generator) | [lamp-generator](https://github.com/zuihou/lamp-generator) | 给开发人员使用 |
-| 定时调度器 | [lamp-job](https://gitee.com/zuihou111/lamp-job) | [lamp-job](https://github.com/zuihou/lamp-job) | 尚未开发 |
-
-### 后端 （下面2个项目功能一致，任选其一即可）
+### 工具集
 
 | 项目 | gitee | github | 备注 |
 | --- | --- | --- | --- |
-| 微服务版(后端) | [lamp-cloud](https://gitee.com/zuihou111/lamp-cloud) | [lamp-cloud](https://github.com/zuihou/lamp-cloud) | SpringCloud 版 |
-| 单体版(后端) | [lamp-boot](https://gitee.com/zuihou111/lamp-boot) | [lamp-boot](https://github.com/zuihou/lamp-boot) | SpringBoot 版(和 lamp-cloud 功能基本一致) |
+| 工具集 | https://gitee.com/zuihou111/lamp-util | https://github.com/zuihou/lamp-util | 业务无关的工具集，cloud 和 boot 项目都依赖它 |
+| 代码生成器 | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator | 给开发人员使用 |
+| 定时调度器 | https://gitee.com/zuihou111/lamp-job | https://github.com/zuihou/lamp-job | 尚未开发 |
 
-### 前端 （下面3个项目功能一致，任选其一即可）
+### 后端
+
+| 项目 | gitee | github | 备注 |
+| --- | --- | --- | --- |
+| 微服务版(后端) | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud | SpringCloud 版 |
+| 单体版(后端) | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版(和 lamp-cloud 功能基本一致) |
+
+### 前端
 
 | 项目 | gitee | github | 备注 | 演示地址 |
 | --- | --- | --- | --- | --- |
-| 中后台管理系统 | [lamp-web](https://gitee.com/zuihou111/lamp-web) | [lamp-web](https://github.com/zuihou/lamp-web) | （全部功能已完成）基于 vue-admin-element | http://tangyh.top:10000 |
-| 中后台管理系统 | [lamp-web-beautiful](https://gitee.com/zuihou111/lamp-web-beautiful) | [lamp-web-beautiful](https://github.com/zuihou/lamp-web-beautiful) | （正在开发...）基于 vue-admin-beautiful | http://tangyh.top:180 |
-| 中后台管理系统 (强烈推荐！👏👏👏) | [lamp-web-beautiful](https://gitee.com/zuihou111/lamp-web-plus) | [lamp-web-beautiful](https://github.com/zuihou/lamp-web-plus) | （正在开发...）基于 vue-vben-admin （vue 3 + vite 2） | http://tangyh.top:3100 |
+| 中后台管理系统 | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web | 基于 vue-admin-element | http://tangyh.top:10000 |
+| 中后台管理系统 | https://gitee.com/zuihou111/lamp-web-beautiful | https://github.com/zuihou/lamp-web-beautiful | 基于 vue-admin-beautiful | http://tangyh.top:180 |
+| 中后台管理系统 (强烈推荐！👏👏👏) | https://gitee.com/zuihou111/lamp-web-plus | https://github.com/zuihou/lamp-web-plus | 基于 vue-vben-admin （vue 3 + vite 2） | http://tangyh.top:3100 |
 
 # lamp-cloud 简介
 
 `lamp-cloud`的前身是`zuihou-admin-cloud`，从3.0.0版本开始，改名为lamp-cloud，它是`lamp`项目的其中一员。
 
-`lamp-cloud` 基于`SpringCloud(Hoxton.SR10)`  + `SpringBoot(2.3.9.RELEASE)` 的微服务快速开发平台，其中的可配置的SaaS功能尤其闪耀，
+`lamp-cloud` 基于`jdk11` + `SpringCloud(Hoxton.SR10)`  + `SpringBoot(2.3.10.RELEASE)` 的微服务快速开发平台，其中的可配置的SaaS功能尤其闪耀，
 具备RBAC功能、网关统一鉴权、Xss防跨站攻击、自动代码生成、多种存储系统、分布式事务、分布式定时任务等多个模块，支持多业务系统并行开发，
 支持多服务并行开发，可以作为后端服务的开发脚手架。代码简洁，注释齐全，架构清晰，非常适合学习和企业作为基础框架使用。
 
 核心技术采用Spring Cloud Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking等主要框架和中间件。
 希望能努力打造一套从 `JavaWeb基础框架` - `分布式微服务架构` - `持续集成` - `系统监测` 的解决方案。`本项目旨在实现基础能力，不涉及具体业务。`
-
-**切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
-
-**切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
-
-**切记:使用本项目之前，先下载并编译 [lamp-util](https://github.com/zuihou/lamp-util)**
 
 ## 分支介绍
 1. master 分支为最新的稳定版本，每次提交都会升级一个版本号
@@ -69,7 +62,8 @@
 3. tag 每个固定的版本都会打一个tag方便后续切换任意版本。
 
 ## lamp 租户模式介绍
-本项目真正实现了同一套代码（sql都不用改），只改一个配置类型，即轻松切换项目的 **租户模式**。
+
+本项目可以通过配置，轻松切换项目的 **租户模式**。
 
 | 租户模式 | 描述 | 优点 | 缺点  |
 |---|---|---|---|
@@ -80,10 +74,7 @@
 
 ## lamp 会员版项目演示地址
 
-- (已完成) 基于 [FEBS-Cloud-Web](https://gitee.com/mrbirdd/FEBS-Cloud-Web) 改造的前端项目演示地址： http://tangyh.top:10000/lamp-web/
-- (正在开发中...)基于 [vue-admin-beautiful](https://github.com/chuzhixin/vue-admin-beautiful)
-  改造的前端项目 演示地址： http://tangyh.top:180
-- (正在开发中...)基于 ant-design [vue-vben-admin](https://github.com/anncwb/vue-vben-admin) 开发的前端项目 演示地址：http://tangyh.top:3100
+- 地址： http://tangyh.top:10000/lamp-web/
 - 以下内置账号仅限于内置的0000租户
 - 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
 - 超级管理员： lamp/lamp
@@ -92,7 +83,7 @@
 
 > ps: 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请使用lamp_pt账号查询租户管理员账号后,登录新租户测试
 
-## lamp-cloud/lamp-boot + lamp-web 业务功能介绍：
+## lamp-cloud/lamp-boot + lamp-web 功能介绍：
 1. 租户管理：运营人员管理所有的租户创建
 2. 工作台：普通用户常用功能
 3. 组织管理：组织、岗位、用户数据维护、重置用户密码等
@@ -103,41 +94,43 @@
 8. 开发者管理：定时任务、接口文档、注册&配置中心、服务监控、数据库监控、zipkin监控、SkyWalking监控
 
 ## lamp-cloud 项目亮点功能介绍:
+
 1. **服务注册&发现与调用：**
 
-    基于Nacos来实现的服务注册与发现，使用使用Feign来实现服务互调, 可以做到使用HTTP请求远程调用时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。
+   基于Nacos来实现的服务注册与发现，使用使用Feign来实现服务互调, 可以做到使用HTTP请求远程调用时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。
 
 2. **负载均衡：**
 
-    将服务保留的rest进行代理和网关控制，除了平常经常使用的node.js、nginx外，Spring Cloud系列的zuul和ribbon，可以帮我们进行正常的网关管控和负载均衡。其中扩展和借鉴国外项目的扩展基于JWT的Zuul限流插件，方面进行限流。
-    
+   将服务保留的rest进行代理和网关控制，除了平常经常使用的node.js、nginx外，Spring
+   Cloud系列的zuul和ribbon，可以帮我们进行正常的网关管控和负载均衡。其中扩展和借鉴国外项目的扩展基于JWT的Zuul限流插件，方面进行限流。
+
 3. **服务鉴权:**
 
-    通过JWT的方式来加强服务之间调度的权限验证，保证内部服务的安全性。
+   通过JWT的方式来加强服务之间调度的权限验证，保证内部服务的安全性。
 
 4. **熔断机制：**
 
-    因为采取了服务的分布，为了避免服务之间的调用“雪崩”，采用了Hystrix的作为熔断器，避免了服务之间的“雪崩”。
+   因为采取了服务的分布，为了避免服务之间的调用“雪崩”，采用了Hystrix的作为熔断器，避免了服务之间的“雪崩”。
 
 5. **监控：**
 
-    利用Spring Boot Admin 来监控各个独立Service的运行状态；利用turbine来实时查看接口的运行状态和调用频率；通过Zipkin来查看各个服务之间的调用链等。
+   利用Spring Boot Admin 来监控各个独立Service的运行状态；利用turbine来实时查看接口的运行状态和调用频率；通过Zipkin来查看各个服务之间的调用链等。
 
 6. **链路调用监控：**
 
-    同时实现了Zipkin和SkyWalking作为本项目的全链路性能监控， 从整体维度到局部维度展示各项指标，将跨应用的所有调用链性能信息集中展现，可方便度量整体和局部性能，并且方便找到故障产生的源头，生产上可极大缩短故障排除时间。
-    
+   同时实现了Zipkin和SkyWalking作为本项目的全链路性能监控， 从整体维度到局部维度展示各项指标，将跨应用的所有调用链性能信息集中展现，可方便度量整体和局部性能，并且方便找到故障产生的源头，生产上可极大缩短故障排除时间。
+
 7. **数据权限**
 
-    利用基于Mybatis的DataScopeInnerInterceptor拦截器实现了数据权限功能
+   利用基于Mybatis的DataScopeInnerInterceptor拦截器实现了数据权限功能
 
 8. **SaaS(多租户)的无感解决方案**
 
-    本项目支持3种常见的租户解决方案和无租户方案，同一套代码，修改一个配置即可实现租户模式只有切换。
+   本项目支持3种常见的租户解决方案和无租户方案，同一套代码，修改一个配置即可实现租户模式只有切换。
 
 9. **缓存抽象**
 
-    采用CacheOps操作缓存，内置2种实现：Caffeine、 Redis，可以让项目应急时在无Redis环境正常运行
+   采用CacheOps操作缓存，内置2种实现：Caffeine、 Redis，可以让项目应急时在无Redis环境正常运行
 
 10. **优雅的Bean转换**
 
@@ -150,14 +143,14 @@
     以后若规则改变，只需要后端修改即可。
 
 12. **防跨站脚本攻击(XSS)**
-  
+
     - 通过过滤器对所有请求中的 表单参数 进行过滤
     - 通过Json反序列化器实现对所有 application/json 类型的参数 进行过滤
-    
+
 13. **当前登录用户信息注入器**
-  
+
     - 通过注解实现用户身份注入
-    
+
 14. **在线API**
 
     由于原生swagger-ui某些功能支持不够友好，故采用了国内开源的`knife4j`，并制作了stater，方便springboot用户使用。
@@ -179,14 +172,14 @@
 
     集成了阿里的分布式事务中间件：seata，以 **高效** 并且对业务 **0侵入** 的方式，解决 微服务 场景下面临的分布式事务问题。
 
-19. **跨表、跨库、跨服务的关联数据自动注入器**
+19. **跨表、跨库、跨服务的关联数据自动回显**
 
     用于解决跨表、跨库、跨服务分页数据的属性或单个对象的属性 回显关联数据之痛, 支持对静态数据属性(数据字典)、动态主键数据进行自动注入。
 
 20. **灰度发布**
-  
+
     为了解决频繁的服务更新上线，版本回退，快速迭代，公司内部协同开发，本项目采用修改ribbon的负载均衡策略来实现来灰度发布。
-    
+
 ## lamp-cloud 技术栈/版本介绍：
 - 所涉及的相关的技术有：
     - JSON序列化:Jackson
@@ -196,24 +189,24 @@
     - 定时器：采用xxl-job项目进行二次改造
     - 前端：vue + element-ui
     - 持久层框架： Mybatis-plus
-    - 代码生成器：基于Mybatis-plus-generator自定义 
+    - 代码生成器：基于Mybatis-plus-generator自定义
     - API网关：Gateway/zuul
     - 服务注册&发现和配置中心: Nacos
     - 服务消费：OpenFeign
     - 负载均衡：Ribbon
     - 服务熔断：Hystrix
-    - 项目构建：Maven 
+    - 项目构建：Maven
     - 分布式事务： seata
     - 分布式系统的流量防卫兵： Sentinel
-    - 监控： spring-boot-admin  
-    - 链路调用跟踪： zipkin/SkyWalking  
+    - 监控： spring-boot-admin
+    - 链路调用跟踪： zipkin/SkyWalking
     - 文件服务器：FastDFS 5.0.5/阿里云OSS/本地存储/MinIO
     - Nginx
 - 部署方面：
     - 服务器：CentOS
     - Jenkins
-    - Docker  
-    - Kubernetes 
+    - Docker
+    - Kubernetes
 
 # 项目截图：
 
@@ -229,14 +222,16 @@
 
 # 交流群，加群前请先给项目点个 "Star"，谢谢！😘
 
-- 63202894(主群 满员请加群2)
+- 63202894(主群满员，请加群2)
 - 1011148503(群2)
 
 ## 如果觉得本项目对您有任何一点帮助，请点右上角 "Star" 支持一下， 并向您的基友、同事们宣传一下吧，谢谢！
 
 ## [点我详细查看如何使用本项目的高级功能](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
-    ps: gitee捐献 或者 二维码打赏(本页最下方)： 45元及以上 并 备注邮箱，可得离线开发文档一份 (支持后续更新) （该文档跟看云上的文档一致！）
-        打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
+
+    ps: gitee捐献 或者 二维码打赏(本页最下方)： 45元及以上 并 备注邮箱，可得"离线开发文档"一份，支持后续文档更新 
+        打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，本群仅用于持续的获取最新的"离线开发文档"。 
+        "离线开发文档"和看云上的"在线文档"内容一样，在看云在线购买的不用申请入群，看云购买的可以申请上面的交流群。
 
 ## 发现bug请提交 [issues](https://github.com/zuihou/lamp-cloud/issues)
 
@@ -253,7 +248,7 @@
 
 # 感谢 JetBrains 提供的免费开源 License：
 [![JetBrains](01-docs/image/jetbrains.png)](https://www.jetbrains.com/?from=lamp-cloud)
-    
+
 # 友情链接 & 特别鸣谢
 * 微服务快速开发平台：[https://github.com/zuihou/lamp-cloud](https://github.com/zuihou/lamp-cloud)
 * 单体快速开发平台：[https://github.com/zuihou/lamp-boot](https://github.com/zuihou/lamp-boot)
@@ -268,4 +263,3 @@
   lamp-web 基于本项目改造， 感谢 [wuyouzhuguli](https://github.com/wuyouzhuguli)
 * Cloud-Platform： [https://gitee.com/geek_qi/cloud-platform](https://gitee.com/geek_qi/cloud-platform)
   作者学习时接触到的第一个微服务项目
-* [vue-admin-beautiful](https://github.com/chuzhixin/vue-admin-beautiful) ： lamp-web-beautiful 基于本项目改造

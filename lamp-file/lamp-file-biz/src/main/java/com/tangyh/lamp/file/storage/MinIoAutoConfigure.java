@@ -33,7 +33,7 @@ public class MinIoAutoConfigure {
      * 初始化minio客户端,不用每次都初始化
      *
      * @return MinioClient
-     * @author tangyh
+     * @author zuihou
      */
     @Bean
     public MinioClient minioClient(FileServerProperties properties) {

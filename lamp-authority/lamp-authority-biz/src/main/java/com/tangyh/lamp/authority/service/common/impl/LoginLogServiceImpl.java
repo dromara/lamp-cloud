@@ -2,7 +2,6 @@ package com.tangyh.lamp.authority.service.common.impl;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-
 import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.repository.CacheOps;
@@ -16,9 +15,12 @@ import com.tangyh.lamp.authority.service.common.LoginLogService;
 import com.tangyh.lamp.common.cache.common.LoginLogBrowserCacheKeyBuilder;
 import com.tangyh.lamp.common.cache.common.LoginLogSystemCacheKeyBuilder;
 import com.tangyh.lamp.common.cache.common.LoginLogTenDayCacheKeyBuilder;
-import com.tangyh.lamp.common.cache.common.LoginLogTodayCacheKeyBuilder;
-import com.tangyh.lamp.common.cache.common.LoginLogTodayIpCacheKeyBuilder;
-import com.tangyh.lamp.common.cache.common.LoginLogTotalCacheKeyBuilder;
+import com.tangyh.lamp.common.cache.common.TodayLoginIvCacheKeyBuilder;
+import com.tangyh.lamp.common.cache.common.TodayLoginPvCacheKeyBuilder;
+import com.tangyh.lamp.common.cache.common.TodayPvCacheKeyBuilder;
+import com.tangyh.lamp.common.cache.common.TotalLoginIvCacheKeyBuilder;
+import com.tangyh.lamp.common.cache.common.TotalLoginPvCacheKeyBuilder;
+import com.tangyh.lamp.common.cache.common.TotalPvCacheKeyBuilder;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -48,7 +50,6 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
     private final UserService userService;
@@ -105,18 +106,21 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
         super.save(loginLog);
         LocalDate now = LocalDate.now();
-        String nowStr = DateUtils.formatAsDate(now);
         String tenDaysAgo = DateUtils.formatAsDate(now.plusDays(-9));
 
-        CacheKey loginLogTotalKey = new LoginLogTotalCacheKeyBuilder().key();
-        CacheKey loginLogTodayKey = new LoginLogTodayCacheKeyBuilder().key(nowStr);
-        CacheKey loginLogTodayIpKey = new LoginLogTodayIpCacheKeyBuilder().key(nowStr);
+        CacheKey totalLoginPvKey = TotalLoginPvCacheKeyBuilder.build();
+        CacheKey todayLoginPvKey = TodayLoginPvCacheKeyBuilder.build(now);
+        // 登录IV
+        CacheKey totalLoginIvKey = TotalLoginIvCacheKeyBuilder.build();
+        CacheKey todayLoginIvKey = TodayLoginIvCacheKeyBuilder.build(now);
+
         CacheKey loginLogTenDayKey = new LoginLogTenDayCacheKeyBuilder().key(tenDaysAgo);
         CacheKey loginLogBrowserKey = new LoginLogBrowserCacheKeyBuilder().key();
         CacheKey loginLogSystemKey = new LoginLogSystemCacheKeyBuilder().key();
-        cacheOps.del(loginLogTotalKey);
-        cacheOps.del(loginLogTodayKey);
-        cacheOps.del(loginLogTodayIpKey);
+        cacheOps.del(totalLoginPvKey);
+        cacheOps.del(todayLoginPvKey);
+        cacheOps.del(todayLoginIvKey);
+        cacheOps.del(totalLoginIvKey);
         cacheOps.del(loginLogTenDayKey);
         cacheOps.del(loginLogBrowserKey);
         cacheOps.del(loginLogSystemKey);
@@ -128,24 +132,50 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     }
 
     @Override
-    public Long getTotalVisitCount() {
-        CacheKey loginLogTotalKey = new LoginLogTotalCacheKeyBuilder().key();
-        return Convert.toLong(cacheOps.get(loginLogTotalKey, key -> this.baseMapper.selectTotalVisitCount()), 0L);
+    public void pvIncr() {
+        CacheKey totalPvKey = TotalPvCacheKeyBuilder.build();
+        cacheOps.incr(totalPvKey);
+
+        CacheKey todayPvKey = TodayPvCacheKeyBuilder.build(LocalDate.now());
+        cacheOps.incr(todayPvKey);
     }
 
     @Override
-    public Long getTodayVisitCount() {
-        LocalDate now = LocalDate.now();
-        CacheKey loginLogTodayKey = new LoginLogTodayCacheKeyBuilder().key(now);
-        return Convert.toLong(cacheOps.get(loginLogTodayKey, k -> this.baseMapper.selectTodayVisitCount(now)), 0L);
+    public Long getTotalPv() {
+        CacheKey key = TotalPvCacheKeyBuilder.build();
+        return cacheOps.getCounter(key, k -> 0L);
     }
 
+    @Override
+    public Long getTodayPv() {
+        CacheKey key = TodayPvCacheKeyBuilder.build(LocalDate.now());
+        return cacheOps.getCounter(key, k -> 0L);
+    }
 
     @Override
-    public Long getTodayIp() {
+    public Long getTotalLoginPv() {
+        CacheKey loginLogTotalKey = TotalLoginPvCacheKeyBuilder.build();
+        return Convert.toLong(cacheOps.get(loginLogTotalKey, key -> this.baseMapper.getTotalLoginPv()), 0L);
+    }
+
+    @Override
+    public Long getTodayLoginPv() {
         LocalDate now = LocalDate.now();
-        CacheKey loginLogTodayIpKey = new LoginLogTodayIpCacheKeyBuilder().key(now);
-        return Convert.toLong(cacheOps.get(loginLogTodayIpKey, k -> this.baseMapper.selectTodayIp(now)), 0L);
+        CacheKey loginLogTodayKey = TodayLoginPvCacheKeyBuilder.build(now);
+        return Convert.toLong(cacheOps.get(loginLogTodayKey, k -> this.baseMapper.getTodayLoginPv(now)), 0L);
+    }
+
+    @Override
+    public Long getTotalLoginIv() {
+        CacheKey key = TotalLoginIvCacheKeyBuilder.build();
+        return Convert.toLong(cacheOps.get(key, k -> this.baseMapper.getTotalLoginIv()), 0L);
+    }
+
+    @Override
+    public Long getTodayLoginIv() {
+        LocalDate now = LocalDate.now();
+        CacheKey loginLogTodayIpKey = TodayLoginIvCacheKeyBuilder.build(now);
+        return Convert.toLong(cacheOps.get(loginLogTodayIpKey, k -> this.baseMapper.getTodayLoginIv(now)), 0L);
     }
 
     @Override
@@ -158,7 +188,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
             return map.stream().map(item -> {
                 Map<String, String> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
                 kv.put("login_date", item.get("login_date"));
-                kv.put("count", item.get("count"));
+                kv.put("count", String.valueOf(item.get("count")));
                 return kv;
             }).collect(Collectors.toList());
         });

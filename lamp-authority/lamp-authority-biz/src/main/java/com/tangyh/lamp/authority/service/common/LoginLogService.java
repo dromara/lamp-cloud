@@ -34,25 +34,32 @@ public interface LoginLogService extends SuperService<LoginLog> {
     LoginLog save(Long userId, String account, String ua, String ip, String location, String description);
 
     /**
-     * 获取系统总访问次数
+     * 获取系统总 登录次数
      *
      * @return Long
      */
-    Long getTotalVisitCount();
+    Long getTotalLoginPv();
 
     /**
-     * 获取系统今日访问次数
+     * 获取系统今日 登录次数
      *
      * @return Long
      */
-    Long getTodayVisitCount();
+    Long getTodayLoginPv();
 
     /**
-     * 获取系统今日访问 IP数
+     * 获取系统总 登录IV
      *
      * @return Long
      */
-    Long getTodayIp();
+    Long getTotalLoginIv();
+
+    /**
+     * 获取系统今日 登录IV
+     *
+     * @return Long
+     */
+    Long getTodayLoginIv();
 
 
     /**
@@ -86,4 +93,23 @@ public interface LoginLogService extends SuperService<LoginLog> {
      * @return 是否成功
      */
     boolean clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum);
+
+    /**
+     * 总 PV
+     *
+     * @return
+     */
+    Long getTotalPv();
+
+    /**
+     * 今日 PV
+     *
+     * @return
+     */
+    Long getTodayPv();
+
+    /**
+     * pv 计数
+     */
+    void pvIncr();
 }

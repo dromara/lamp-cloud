@@ -175,4 +175,11 @@ public interface UserService extends SuperCacheService<User>, LoadService {
      * @return 分页数据
      */
     IPage<User> pageByRole(IPage<User> page, PageParams<GlobalUserPageDTO> params);
+
+    /**
+     * 今天注册的用户数
+     *
+     * @return
+     */
+    Integer todayUserCount();
 }

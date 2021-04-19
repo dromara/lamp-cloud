@@ -26,7 +26,7 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      *
      * @return 总访问次数
      */
-    Long selectTotalVisitCount();
+    Long getTotalLoginPv();
 
     /**
      * 获取系统今日访问次数
@@ -34,15 +34,22 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      * @param today 今天
      * @return 今日访问次数
      */
-    Long selectTodayVisitCount(@Param("today") LocalDate today);
+    Long getTodayLoginPv(@Param("today") LocalDate today);
 
     /**
-     * 获取系统今日访问 IP数
+     * 获取系统今日 登录IV
      *
      * @param today 今天
      * @return 今日访问IP数
      */
-    Long selectTodayIp(@Param("today") LocalDate today);
+    Long getTodayLoginIv(@Param("today") LocalDate today);
+
+    /**
+     * 获取系统 登录IV
+     *
+     * @return 今日访问IP数
+     */
+    Long getTotalLoginIv();
 
     /**
      * 获取系统近十天来的访问记录

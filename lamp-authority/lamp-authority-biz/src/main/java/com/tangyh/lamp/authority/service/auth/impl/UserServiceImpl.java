@@ -321,4 +321,11 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         this.saveUser(user);
         return userRoleService.initAdmin(user.getId());
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer todayUserCount() {
+        return count(Wraps.<User>lbQ().leFooter(User::getCreateTime, LocalDateTime.now()).geHeader(User::getCreateTime, LocalDateTime.now()));
+    }
 }

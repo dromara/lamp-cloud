@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>3.1.2-SNAPSHOT</version>
+    <version>3.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -42,10 +42,10 @@
     </modules>
 
     <properties>
-        <lamp-util.version>3.1.2</lamp-util.version>
-        <lamp-project.version>3.1.2-SNAPSHOT</lamp-project.version>
+        <lamp-util.version>3.2.0</lamp-util.version>
+        <lamp-project.version>3.2.0-SNAPSHOT</lamp-project.version>
         <seata.version>1.3.0</seata.version>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 

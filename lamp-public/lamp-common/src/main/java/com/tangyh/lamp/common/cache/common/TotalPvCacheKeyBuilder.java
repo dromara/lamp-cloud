@@ -1,22 +1,24 @@
 package com.tangyh.lamp.common.cache.common;
 
 
+import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.lamp.common.cache.CacheKeyDefinition;
 
 /**
  * 参数 KEY
- * {tenant}:LOGIN_LOG_TODAY_IP -> long
- * <p>
- * #c_login_log
+ * {tenant}:TOTAL_PV -> long
  *
  * @author zuihou
  * @date 2020/9/20 6:45 下午
  */
-public class LoginLogTodayIpCacheKeyBuilder implements CacheKeyBuilder {
-    @Override
-    public String getPrefix() {
-        return CacheKeyDefinition.LOGIN_LOG_TODAY_IP;
+public class TotalPvCacheKeyBuilder implements CacheKeyBuilder {
+    public static CacheKey build() {
+        return new TotalPvCacheKeyBuilder().key();
     }
 
+    @Override
+    public String getPrefix() {
+        return CacheKeyDefinition.TOTAL_PV;
+    }
 }

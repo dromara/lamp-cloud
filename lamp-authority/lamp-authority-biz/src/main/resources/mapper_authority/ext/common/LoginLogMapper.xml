@@ -2,16 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tangyh.lamp.authority.dao.common.LoginLogMapper">
 
-    <select id="selectTotalVisitCount" resultType="long">
-        select count(1) from c_login_log
+    <select id="getTotalLoginPv" resultType="long">
+        select count(1)
+        from c_login_log
     </select>
 
-    <select id="selectTodayVisitCount" resultType="long" parameterType="map">
-        select count(1) from c_login_log where login_date = #{today}
+    <select id="getTodayLoginPv" resultType="long" parameterType="map">
+        select count(1)
+        from c_login_log
+        where login_date = #{today}
     </select>
 
-    <select id="selectTodayIp" resultType="long" parameterType="map">
-        select count(distinct(request_ip)) from c_login_log where login_date = #{today}
+    <select id="getTotalLoginIv" resultType="long">
+        select count(distinct (request_ip))
+        from c_login_log
+    </select>
+
+    <select id="getTodayLoginIv" resultType="long" parameterType="map">
+        select count(distinct (request_ip))
+        from c_login_log
+        where login_date = #{today}
     </select>
 
     <select id="findLastTenDaysVisitCount" resultType="map" parameterType="map">
@@ -24,7 +34,9 @@
     </select>
 
     <select id="findByBrowser" resultType="map">
-     	select browser, count(id) `count` from c_login_log group by browser
+        select browser, count(id) `count`
+        from c_login_log
+        group by browser
     </select>
     <select id="findByOperatingSystem" resultType="map">
         select operating_system,count(id) `count` from c_login_log group by operating_system
