@@ -26,6 +26,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,8 +73,8 @@ public class OauthGeneralController {
     }
 
     @ApiOperation(value = "获取当前系统指定枚举", notes = "获取当前系统指定枚举")
-    @GetMapping("/enums")
-    public R<Map<String, Map<String, String>>> enums(@RequestParam(value = "codes[]", required = false) String[] codes) {
+    @PostMapping("/enums")
+    public R<Map<String, Map<String, String>>> enums(@RequestBody String[] codes) {
         if (ArrayUtil.isEmpty(codes)) {
             return R.success(ENUM_MAP);
         }
@@ -86,10 +88,9 @@ public class OauthGeneralController {
         return R.success(map);
     }
 
-
     @ApiOperation(value = "根据类型编码查询字典项", notes = "根据类型编码查询字典项")
-    @GetMapping("/dictionary/codes")
-    public R<Map<String, List<Dictionary>>> list(@RequestParam("codes[]") String[] types) {
+    @PostMapping("/dictionary/codes")
+    public R<Map<String, List<Dictionary>>> list(@RequestBody String[] types) {
         return R.success(this.dictionaryService.listByTypes(types));
     }
 

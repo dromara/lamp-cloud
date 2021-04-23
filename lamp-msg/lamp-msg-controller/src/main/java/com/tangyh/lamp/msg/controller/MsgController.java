@@ -169,8 +169,8 @@ public class MsgController {
      * @return 是否成功
      */
     @ApiOperation(value = "标记消息为已读", notes = "标记消息为已读")
-    @GetMapping(value = "/mark")
-    public R<Boolean> mark(@RequestParam(value = "msgCenterIds[]") List<Long> msgCenterIds) {
+    @PostMapping(value = "/mark")
+    public R<Boolean> mark(@RequestBody List<Long> msgCenterIds) {
         return R.success(msgService.mark(msgCenterIds, ContextUtil.getUserId()));
     }
 
