@@ -59,7 +59,11 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <!--
+            注意： lamp-cloud和lamp-boot都依赖于lamp-util项目，请一定要先编译（mvn install) lamp-util项目，然后在编译 lamp-cloud 或者 lamp-boot。
+            注意： lamp-cloud和lamp-boot项目代码结构基本一致、实现的功能完全一致，请不要在同一个IDE的工作空间同时导入 lamp-cloud 和 lamp-boot 项目！！！
+            注意：com.tangyh.basic:lamp-xxx 相关的依赖，全部在lamp-util项目。 下载地址： https://github.com/zuihou
+            -->
             <dependency>
                 <groupId>com.tangyh.basic</groupId>
                 <artifactId>lamp-dependencies</artifactId>

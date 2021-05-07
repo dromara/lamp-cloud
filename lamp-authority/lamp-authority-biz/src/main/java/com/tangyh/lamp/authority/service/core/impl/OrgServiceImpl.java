@@ -61,10 +61,13 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean remove(List<Long> ids) {
+        if (ids.isEmpty()) {
+            return true;
+        }
         List<Org> list = this.findChildren(ids);
         List<Long> idList = list.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
 
-        boolean bool = idList.isEmpty() || super.removeByIds(idList);
+        boolean bool = super.removeByIds(idList);
 
         // 删除自定义类型的数据权限范围
         roleOrgService.remove(Wraps.<RoleOrg>lbQ().in(RoleOrg::getOrgId, idList));

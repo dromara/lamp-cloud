@@ -93,11 +93,12 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
         GlobalUserPageDTO model = params.getModel();
         ContextUtil.setTenant(model.getTenantCode());
 
-//        LbqWrapper<User> wrapper = Wraps.lbq(null, params.getExtra(), User.class);
-//        wrapper.like(User::getAccount, model.getAccount())
-//                .like(User::getName, model.getName());
-
         baseService.pageByRole(page, params);
+
+        page.getRecords().forEach(item -> {
+            item.setPassword(null);
+            item.setSalt(null);
+        });
     }
 
 

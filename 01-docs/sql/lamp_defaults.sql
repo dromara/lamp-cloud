@@ -118,17 +118,16 @@ CREATE TABLE `undo_log`
 -- Table structure for worker_node
 -- ----------------------------
 DROP TABLE IF EXISTS `worker_node`;
-CREATE TABLE `worker_node`
-(
-    `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'auto increment id',
-    `host_name`   varchar(64) NOT NULL COMMENT '主机名',
-    `port`        varchar(64) NOT NULL COMMENT '端口',
-    `type`        int(11) NOT NULL COMMENT '节点类型: ACTUAL 或者 CONTAINER',
-    `launch_date` date        NOT NULL COMMENT '上线日期',
-    `modified`    timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    `created`     timestamp   NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='DB WorkerID Assigner for UID Generator';
+CREATE TABLE `worker_node` (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'auto increment id',
+   `host_name` varchar(64) NOT NULL COMMENT '主机名',
+   `port` varchar(64) NOT NULL COMMENT '端口',
+   `type` int(11) NOT NULL COMMENT '节点类型: ACTUAL 或者 CONTAINER',
+   `launch_date` date NOT NULL COMMENT '上线日期',
+   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+   `created`     timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+   PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='DB WorkerID Assigner for UID Generator';
 
 -- ----------------------------
 -- Table structure for xxl_job_group

@@ -110,7 +110,7 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
      */
     @ApiOperation(value = "连接数据源", notes = "连接数据源")
     @PostMapping("/initConnect")
-    public R<Boolean> initConnect(@RequestBody TenantConnectDTO tenantConnect) {
+    public R<Boolean> initConnect(@Validated @RequestBody TenantConnectDTO tenantConnect) {
         return success(baseService.connect(tenantConnect));
     }
 }

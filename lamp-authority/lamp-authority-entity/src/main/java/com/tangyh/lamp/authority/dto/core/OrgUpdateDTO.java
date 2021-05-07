@@ -45,27 +45,22 @@ public class OrgUpdateDTO implements Serializable {
     @NotEmpty(message = "名称不能为空")
     @Size(max = 255, message = "名称长度不能超过255")
     protected String label;
-    @ApiModelProperty(value = "父ID")
-    protected Long parentId;
-    @ApiModelProperty(value = "排序号")
-    protected Integer sortValue;
-    /**
-     * 状态
-     */
-    @ApiModelProperty(value = "状态")
-    private Boolean state;
     /**
      * 简称
      */
     @ApiModelProperty(value = "简称")
     @Size(max = 255, message = "简称长度不能超过255")
     private String abbreviation;
+
     /**
-     * 树结构
+     * 状态
      */
-    @ApiModelProperty(value = "树结构")
-    @Size(max = 255, message = "树结构长度不能超过255")
-    private String treePath;
+    @ApiModelProperty(value = "状态")
+    private Boolean state;
+    @ApiModelProperty(value = "父ID")
+    protected Long parentId;
+    @ApiModelProperty(value = "排序号")
+    protected Integer sortValue;
     /**
      * 类型
      *

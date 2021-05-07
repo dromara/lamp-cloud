@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.request.PageParams;
@@ -318,6 +319,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean initUser(User user) {
+        BizAssert.isFalse(check(user.getAccount()), StrUtil.format("账号{}已经存在", user.getAccount()));
         this.saveUser(user);
         return userRoleService.initAdmin(user.getId());
     }

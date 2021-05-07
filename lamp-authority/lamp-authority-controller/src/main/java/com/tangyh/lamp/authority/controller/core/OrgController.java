@@ -9,6 +9,7 @@ import com.tangyh.basic.base.controller.SuperCacheController;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.basic.utils.BizAssert;
+import com.tangyh.basic.utils.StrPool;
 import com.tangyh.basic.utils.TreeUtil;
 import com.tangyh.lamp.authority.dto.core.OrgPageQuery;
 import com.tangyh.lamp.authority.dto.core.OrgSaveDTO;
@@ -67,7 +68,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     private void fillOrg(Org org) {
         if (org.getParentId() == null || org.getParentId() <= 0) {
             org.setParentId(DEF_PARENT_ID);
-            org.setTreePath(DEF_ROOT_PATH);
+            org.setTreePath(EMPTY);
         } else {
             Org parent = this.baseService.getByIdCache(org.getParentId());
             BizAssert.notNull(parent, "父组织不能为空");
@@ -85,7 +86,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     /**
      * 查询系统所有的组织树
      *
-     * @param status 状态
+     * @param state 状态
      * @author zuihou
      * @date 2019-07-29 11:59
      */
@@ -94,9 +95,9 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     @PreAuth("hasAnyPermission('{}view')")
     @SysLog("查询系统所有的组织树")
     public R<List<Org>> tree(@RequestParam(value = "name", required = false) String name,
-                             @RequestParam(value = "status", required = false) Boolean status) {
+                             @RequestParam(value = "state", required = false) Boolean state) {
         List<Org> list = this.baseService.list(Wraps.<Org>lbQ()
-                .like(Org::getLabel, name).eq(Org::getState, status).orderByAsc(Org::getSortValue));
+                .like(Org::getLabel, name).eq(Org::getState, state).orderByAsc(Org::getSortValue));
         return this.success(TreeUtil.buildTree(list));
     }
 

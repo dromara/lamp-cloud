@@ -1,6 +1,7 @@
 package com.tangyh.lamp.oauth.controller;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.tangyh.basic.base.BaseEnum;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.database.mybatis.auth.DataScopeType;
 import com.tangyh.basic.utils.CollHelper;
@@ -15,10 +16,12 @@ import com.tangyh.lamp.common.enums.HttpMethod;
 import com.tangyh.lamp.file.enumeration.DataType;
 import com.tangyh.lamp.msg.enumeration.MsgBizType;
 import com.tangyh.lamp.msg.enumeration.MsgType;
+import com.tangyh.lamp.oauth.controller.model.Option;
 import com.tangyh.lamp.sms.enumeration.ProviderType;
 import com.tangyh.lamp.sms.enumeration.SendStatus;
 import com.tangyh.lamp.sms.enumeration.SourceType;
 import com.tangyh.lamp.sms.enumeration.TaskStatus;
+import com.tangyh.lamp.tenant.enumeration.TenantConnectTypeEnum;
 import com.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 import com.tangyh.lamp.tenant.enumeration.TenantTypeEnum;
 import io.swagger.annotations.Api;
@@ -31,9 +34,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 通用 控制器
@@ -50,8 +55,36 @@ public class OauthGeneralController {
     private final ParameterService parameterService;
 
     private static final Map<String, Map<String, String>> ENUM_MAP = new HashMap<>(21);
+    private static final Map<String, List<Option>> ENUM_LIST_MAP = new HashMap<>(21);
+
+
+    private static List<Option> findOptions(BaseEnum[] values) {
+        return Arrays.stream(values).map(item -> Option.builder().label(item.getDesc())
+                .value(item.getCode()).build()).collect(Collectors.toList());
+    }
 
     static {
+        // 权限服务
+        ENUM_LIST_MAP.put(HttpMethod.class.getSimpleName(), findOptions(HttpMethod.values()));
+        ENUM_LIST_MAP.put(DataScopeType.class.getSimpleName(), findOptions(DataScopeType.values()));
+        ENUM_LIST_MAP.put(LogType.class.getSimpleName(), findOptions(LogType.values()));
+        ENUM_LIST_MAP.put(AuthorizeType.class.getSimpleName(), findOptions(AuthorizeType.values()));
+        ENUM_LIST_MAP.put(Sex.class.getSimpleName(), findOptions(Sex.values()));
+        ENUM_LIST_MAP.put(TenantTypeEnum.class.getSimpleName(), findOptions(TenantTypeEnum.values()));
+        ENUM_LIST_MAP.put(TenantStatusEnum.class.getSimpleName(), findOptions(TenantStatusEnum.values()));
+        ENUM_LIST_MAP.put(ApplicationAppTypeEnum.class.getSimpleName(), findOptions(ApplicationAppTypeEnum.values()));
+        // 租户服务
+        ENUM_LIST_MAP.put(TenantConnectTypeEnum.class.getSimpleName(), findOptions(TenantConnectTypeEnum.values()));
+        // 文件服务
+        ENUM_LIST_MAP.put(DataType.class.getSimpleName(), findOptions(HttpMethod.values()));
+        //消息服务
+        ENUM_LIST_MAP.put(MsgType.class.getSimpleName(), findOptions(MsgType.values()));
+        ENUM_LIST_MAP.put(MsgBizType.class.getSimpleName(), findOptions(MsgBizType.values()));
+        ENUM_LIST_MAP.put(ProviderType.class.getSimpleName(), findOptions(ProviderType.values()));
+        ENUM_LIST_MAP.put(SourceType.class.getSimpleName(), findOptions(SourceType.values()));
+        ENUM_LIST_MAP.put(SendStatus.class.getSimpleName(), findOptions(SendStatus.values()));
+        ENUM_LIST_MAP.put(TaskStatus.class.getSimpleName(), findOptions(TaskStatus.values()));
+
         // 权限服务
         ENUM_MAP.put(HttpMethod.class.getSimpleName(), CollHelper.getMap(HttpMethod.values()));
         ENUM_MAP.put(DataScopeType.class.getSimpleName(), CollHelper.getMap(DataScopeType.values()));
@@ -61,6 +94,8 @@ public class OauthGeneralController {
         ENUM_MAP.put(TenantTypeEnum.class.getSimpleName(), CollHelper.getMap(TenantTypeEnum.values()));
         ENUM_MAP.put(TenantStatusEnum.class.getSimpleName(), CollHelper.getMap(TenantStatusEnum.values()));
         ENUM_MAP.put(ApplicationAppTypeEnum.class.getSimpleName(), CollHelper.getMap(ApplicationAppTypeEnum.values()));
+        // 租户服务
+        ENUM_MAP.put(TenantConnectTypeEnum.class.getSimpleName(), CollHelper.getMap(TenantConnectTypeEnum.values()));
         // 文件服务
         ENUM_MAP.put(DataType.class.getSimpleName(), CollHelper.getMap(HttpMethod.values()));
         //消息服务
@@ -72,7 +107,7 @@ public class OauthGeneralController {
         ENUM_MAP.put(TaskStatus.class.getSimpleName(), CollHelper.getMap(TaskStatus.values()));
     }
 
-    @ApiOperation(value = "获取当前系统指定枚举", notes = "获取当前系统指定枚举")
+    @ApiOperation(value = "获取当前系统指定枚举 Map", notes = "获取当前系统指定枚举")
     @PostMapping("/enums")
     public R<Map<String, Map<String, String>>> enums(@RequestBody String[] codes) {
         if (ArrayUtil.isEmpty(codes)) {
@@ -83,6 +118,22 @@ public class OauthGeneralController {
         for (String code : codes) {
             if (ENUM_MAP.containsKey(code)) {
                 map.put(code, ENUM_MAP.get(code));
+            }
+        }
+        return R.success(map);
+    }
+
+    @ApiOperation(value = "获取当前系统指定枚举 List", notes = "获取当前系统指定枚举")
+    @PostMapping("/enumLists")
+    public R<Map<String, List<Option>>> enumLists(@RequestBody String[] codes) {
+        if (ArrayUtil.isEmpty(codes)) {
+            return R.success(ENUM_LIST_MAP);
+        }
+        Map<String, List<Option>> map = new HashMap<>(CollHelper.initialCapacity(codes.length));
+
+        for (String code : codes) {
+            if (ENUM_MAP.containsKey(code)) {
+                map.put(code, ENUM_LIST_MAP.get(code));
             }
         }
         return R.success(map);

@@ -1,5 +1,6 @@
 package com.tangyh.lamp.authority.dto.auth;
 
+import com.tangyh.lamp.authority.enumeration.auth.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -61,6 +62,8 @@ public class GlobalUserSaveDTO implements Serializable {
     @ApiModelProperty(value = "姓名")
     @Size(max = 50, message = "姓名长度不能超过20")
     private String name;
+    @ApiModelProperty(value = "性别")
+    private Sex sex;
     /**
      * 邮箱
      */

@@ -301,6 +301,9 @@ public class UserController extends SuperCacheController<UserService, Long, User
         // 手动注入
         echoService.action(page);
 
-        page.getRecords().forEach(item -> item.setPassword(null));
+        page.getRecords().forEach(item -> {
+            item.setPassword(null);
+            item.setSalt(null);
+        });
     }
 }

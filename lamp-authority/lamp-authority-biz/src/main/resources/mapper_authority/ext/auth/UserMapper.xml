@@ -47,10 +47,10 @@
             and u.name like #{param.model.name, typeHandler=fullLike}
         </if>
         <if test="param.extra.createTime_st != null">
-            and u.create_time >= #{param.map.createTime_st}
+            and u.create_time >= #{param.extra.createTime_st}
         </if>
         <if test="param.extra.createTime_ed != null">
-            and u.create_time  <![CDATA[ <= ]]>  #{param.map.createTime_ed}
+            and u.create_time  <![CDATA[ <= ]]>  #{param.extra.createTime_ed}
         </if>
 
     </select>
