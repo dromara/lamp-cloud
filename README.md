@@ -57,6 +57,11 @@
 - 普通管理员： general/lamp
 - 普通账号： normal/lamp
 
+# 快速上手
+- 入门到精通，参考文档： https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+- 发现bug和建议，请提交issue： https://github.com/zuihou/lamp-cloud/issues
+- 常见问题，请参考Discussions： https://github.com/zuihou/lamp-cloud/discussions
+
 # 项目截图：
 
 | 预览 | 预览 |
