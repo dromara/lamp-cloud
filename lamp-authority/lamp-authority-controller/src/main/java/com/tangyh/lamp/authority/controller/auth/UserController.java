@@ -18,7 +18,6 @@ import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import com.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import com.tangyh.basic.echo.core.EchoService;
 import com.tangyh.basic.utils.StrPool;
-import com.tangyh.lamp.authority.api.UserBizApi;
 import com.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
 import com.tangyh.lamp.authority.dto.auth.UserExcelVO;
 import com.tangyh.lamp.authority.dto.auth.UserPageQuery;
@@ -77,7 +76,7 @@ import java.util.stream.Collectors;
 @Api(value = "User", tags = "用户")
 @PreAuth(replace = "authority:user:")
 @RequiredArgsConstructor
-public class UserController extends SuperCacheController<UserService, Long, User, UserPageQuery, UserSaveDTO, UserUpdateDTO> implements UserBizApi {
+public class UserController extends SuperCacheController<UserService, Long, User, UserPageQuery, UserSaveDTO, UserUpdateDTO> {
     private final OrgService orgService;
     private final ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
     private final DictionaryService dictionaryService;
@@ -199,7 +198,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
     @GetMapping("/find")
     @SysLog("查询所有用户")
-    @Override
     public R<List<Long>> findAllUserId() {
         return success(baseService.findAllUserId());
     }
@@ -213,7 +211,6 @@ public class UserController extends SuperCacheController<UserService, Long, User
         return success(res);
     }
 
-    @Override
     @RequestMapping(value = "/findUserById", method = RequestMethod.GET)
     public R<List<User>> findUserById(@RequestParam(value = "ids") List<Long> ids) {
         return this.success(baseService.findUserById(ids));
@@ -292,10 +289,10 @@ public class UserController extends SuperCacheController<UserService, Long, User
                 .like(User::getEmail, userPage.getEmail())
                 .like(User::getMobile, userPage.getMobile())
                 .eq(User::getStationId, userPage.getStationId())
-                .eq(User::getPositionStatus, userPage.getPositionStatus())
-                .eq(User::getEducation, userPage.getEducation())
-                .eq(User::getNation, userPage.getNation())
-                .eq(User::getSex, userPage.getSex())
+                .in(User::getPositionStatus, userPage.getPositionStatus())
+                .in(User::getEducation, userPage.getEducation())
+                .in(User::getNation, userPage.getNation())
+                .in(User::getSex, userPage.getSex())
                 .eq(User::getState, userPage.getState());
         baseService.findPage(page, wrapper);
         // 手动注入

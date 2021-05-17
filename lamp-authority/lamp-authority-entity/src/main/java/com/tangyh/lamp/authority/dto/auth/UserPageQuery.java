@@ -3,16 +3,12 @@ package com.tangyh.lamp.authority.dto.auth;
 import com.tangyh.lamp.authority.enumeration.auth.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -81,7 +77,7 @@ public class UserPageQuery implements Serializable {
      * #Sex{W:女;M:男;N:未知}
      */
     @ApiModelProperty(value = "性别")
-    private Sex sex;
+    private List<Sex> sex;
     /**
      * 状态
      */
@@ -98,21 +94,21 @@ public class UserPageQuery implements Serializable {
      * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
      */
     @ApiModelProperty(value = "民族")
-    private String nation;
+    private List<String> nation;
     /**
      * 学历
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
      */
     @ApiModelProperty(value = "学历")
-    private String education;
+    private List<String> education;
     /**
      * 职位状态
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)
      */
     @ApiModelProperty(value = "职位状态")
-    private String positionStatus;
+    private List<String> positionStatus;
     /**
      * 工作描述
      */

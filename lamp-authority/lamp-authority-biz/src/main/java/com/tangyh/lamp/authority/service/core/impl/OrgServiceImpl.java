@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implements OrgService {
     private final RoleOrgService roleOrgService;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 本地开发时，在bootstrap-xxx.yml中通过 logging.config=classpath:logback-spring-dev.xml 文件，表示本地的日志实时打印出来 -->
+    <include resource="logback/defaults-sync.xml"/>
+
+    <logger name="com.tangyh.lamp.msg.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="com.tangyh.lamp.msg.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="SERVICE_APPENDER"/>
+    </logger>
+    <logger name="com.tangyh.lamp.sms.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="com.tangyh.lamp.sms.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="SERVICE_APPENDER"/>
+    </logger>
+</configuration>
