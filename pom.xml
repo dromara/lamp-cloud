@@ -35,10 +35,6 @@
         <module>lamp-file</module>
         <module>lamp-gateway</module>
         <module>lamp-support</module>
-        <!-- 3.0.0版本暂时移除jobs -->
-        <!-- 以下为测试模块 -->
-        <module>lamp-demo</module>
-        <module>lamp-example</module>
     </modules>
 
     <properties>
