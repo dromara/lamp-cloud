@@ -173,13 +173,11 @@ public class AttachmentController extends SuperSimpleController<AttachmentServic
      * @param ids 文件id
      */
     @ApiOperation(value = "根据文件id打包下载", notes = "根据附件id下载多个打包的附件")
-    @GetMapping(value = "/download", produces = "application/octet-stream")
+    @PostMapping(value = "/download", produces = "application/octet-stream")
     @SysLog("下载附件")
     @PreAuth("hasAnyPermission('{}download')")
-    public void download(
-            @ApiParam(name = "ids[]", value = "文件id 数组")
-            @RequestParam(value = "ids[]") Long[] ids,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void download(@RequestBody Long[] ids,
+                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         BizAssert.isTrue(ArrayUtils.isNotEmpty(ids), BASE_VALID_PARAM.build("附件id不能为空"));
         baseService.download(request, response, ids);
     }
