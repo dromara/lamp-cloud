@@ -4,15 +4,21 @@ lamp:
     port: 3306
     driverClassName: com.mysql.cj.jdbc.Driver
     database: lamp_defaults
-    username: root
-    password: root
+    username: 'root'
+    password: 'root'
     url: jdbc:mysql://${lamp.mysql.ip}:${lamp.mysql.port}/${lamp.mysql.database}?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
   database: # 字段介绍参考 DatabaseProperties
-    tenantDatabasePrefix: lamp_base
+    tenantDatabasePrefix: lamp_base   # 这里的前缀要和lamp-*-server/src/main/resources/sqls/下的文件名一致
     multiTenantType: SCHEMA
+    # 是否不允许写入数据  WriteInterceptor
     isNotWrite: false
+    # 是否启用  sql性能规范插件
     isBlockAttack: false
+    # 是否启用分布式事务
     isSeata: false
+    # 生产环境请设置p6spy = false
+    p6spy: true
+    # id生成策略
     id-type: HU_TOOL
     hutoolId:
       workerId: 0
@@ -123,7 +129,7 @@ seata:
     grouplist:
       default: ${lamp.seata.ip:}:${lamp.seata.port:}
     vgroup-mapping:
-      lamp_admin_seata_tx_group: default
+      lamp_cloud_seata_tx_group: default
     disable-global-transaction: false
   client:
     rm:

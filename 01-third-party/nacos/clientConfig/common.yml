@@ -1,11 +1,12 @@
 lamp:
   zipkin:
     enabled: false
+  # swagger 文档通用配置， 主要配置了全局参数、版本号信息、联系人信息  详情看: SwaggerProperties
   swagger:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 3.2.1
+    version: 3.2.2
     contact:
       url: https://github.com/zuihou
       name: zuiou
@@ -30,28 +31,37 @@ lamp:
         parameterType: header
         required: true
         defaultValue: "MDAwMA=="
-  echo:
+  echo:  #详情看: EchoProperties
     # 是否启用 远程数据 手动注入
     enabled: true
-    # 是否启用 远程数据 注解注入
+    # 是否启用 远程数据 注解AOP注入
     aop-enabled: true
-  security:
+  security: #详情看: SecurityProperties
+    # 全局开启 uri 权限
     enabled: true
+    # uri权限调用oauth服务的调用方式
     type: FEIGN
+    # uri权限验证时，是否区分@PreAuth(value="xxx")的大小写
     caseSensitive: false
-  log:
+  log:  # 详情看：OptLogProperties
+    # 开启记录操作日志
     enabled: true
+    # 记录到什么地方  DB:mysql LOGGER:日志文件
     type: DB
   xss:
+    # 是否开启 xss 过滤器  详情看：XssProperties
     enabled: true
     requestBodyEnabled: false
   captcha:
+    # 登录界面的验证码配置 详情看：CaptchaProperties
     type: ARITHMETIC
-    width: 115
-    height: 42
+    width: 158
+    height: 58
     len: 2
     charType: 2
 
+
+# knife4j 文档通用配置 详情看: Knife4jProperties
 knife4j:
   enable: true
   setting:
@@ -60,10 +70,11 @@ knife4j:
     enableDynamicParameter: true
     enableFooter: false
     enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright 2020 [lamp-cloud](https://github.com/zuihou)
+    footerCustomContent: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
 
 
 server:
+  # 优雅停机
   shutdown: GRACEFUL
   servlet:
     encoding:
@@ -100,10 +111,12 @@ spring:
     sampler:
       probability: 1.0
   servlet:
+    # 上传文件最大值
     multipart:
-      max-file-size: 512MB      # Max file size，默认1M
-      max-request-size: 512MB   # Max request size，默认10M
+      max-file-size: 512MB
+      max-request-size: 512MB
 
+# 通用dozer配置文件
 dozer:
   mappingFiles:
     - classpath*:dozer/*.dozer.xml
