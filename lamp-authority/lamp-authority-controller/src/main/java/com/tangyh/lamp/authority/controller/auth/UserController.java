@@ -1,6 +1,7 @@
 package com.tangyh.lamp.authority.controller.auth;
 
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import cn.hutool.core.bean.BeanUtil;
@@ -17,8 +18,9 @@ import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import com.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import com.tangyh.basic.echo.core.EchoService;
-import com.tangyh.basic.utils.StrPool;
+import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
+import com.tangyh.lamp.authority.controller.poi.UserExcelDictHandlerImpl;
 import com.tangyh.lamp.authority.dto.auth.UserExcelVO;
 import com.tangyh.lamp.authority.dto.auth.UserPageQuery;
 import com.tangyh.lamp.authority.dto.auth.UserRoleDTO;
@@ -28,14 +30,13 @@ import com.tangyh.lamp.authority.dto.auth.UserUpdateBaseInfoDTO;
 import com.tangyh.lamp.authority.dto.auth.UserUpdateDTO;
 import com.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
 import com.tangyh.lamp.authority.entity.auth.User;
-import com.tangyh.lamp.authority.entity.common.Dictionary;
 import com.tangyh.lamp.authority.entity.core.Org;
 import com.tangyh.lamp.authority.service.auth.UserService;
-import com.tangyh.lamp.authority.service.common.DictionaryService;
 import com.tangyh.lamp.authority.service.core.OrgService;
 import com.tangyh.lamp.common.constant.BizConstant;
-import com.tangyh.lamp.common.constant.DictionaryType;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +56,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.groups.Default;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
+import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
+import static com.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 
 
 /**
@@ -78,9 +84,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController extends SuperCacheController<UserService, Long, User, UserPageQuery, UserSaveDTO, UserUpdateDTO> {
     private final OrgService orgService;
-    private final ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
-    private final DictionaryService dictionaryService;
     private final EchoService echoService;
+    private final ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
+    private final UserExcelDictHandlerImpl userExcelDictHandlerIImpl;
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
+    })
+    @ApiOperation(value = "检测名称是否可用", notes = "检测名称是否可用")
+    @GetMapping("/check")
+    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
+        return success(baseService.check(id, name));
+    }
 
     /**
      * 重写保存逻辑
@@ -217,6 +233,21 @@ public class UserController extends SuperCacheController<UserService, Long, User
     }
 
     @Override
+    public Class<?> getExcelClass() {
+        return UserExcelVO.class;
+    }
+
+    @Override
+    public List<?> findExportList(PageParams<UserPageQuery> params) {
+        return super.findExportList(params);
+    }
+
+    @Override
+    public void enhanceExportParams(ExportParams ep) {
+        ep.setDictHandler(userExcelDictHandlerIImpl);
+    }
+
+    @Override
     public R<Boolean> importExcel(@RequestParam("file") MultipartFile simpleFile, HttpServletRequest request,
                                   HttpServletResponse response) throws Exception {
         ImportParams params = new ImportParams();
@@ -224,10 +255,14 @@ public class UserController extends SuperCacheController<UserService, Long, User
         params.setHeadRows(1);
         params.setNeedVerify(true);
         params.setVerifyGroup(new Class[]{Default.class});
+        // 下面的2个handler只能支持少量数据导入，因为每一条数据都会执行N次查询。有谁能提供优雅解决方式，欢迎PR
         params.setVerifyHandler(excelUserVerifyHandler);
+        params.setDictHandler(userExcelDictHandlerIImpl);
+
         ExcelImportResult<UserExcelVO> result = ExcelImportUtil.importExcelMore(simpleFile.getInputStream(), UserExcelVO.class, params);
 
         if (result.isVerifyFail()) {
+            // 更加优雅的方式，应该是让用户下载错误的数据， 有谁能提供优雅解决方式，欢迎PR
             return R.validFail(result.getFailList().stream()
                     .map(item -> StrUtil.format("第{}行检验错误: {}", item.getRowNum(), item.getErrorMsg()))
                     .collect(Collectors.joining("<br/>")));
@@ -237,31 +272,19 @@ public class UserController extends SuperCacheController<UserService, Long, User
         if (list.isEmpty()) {
             return this.validFail("导入数据不能为空");
         }
-        //数据转换
-        Map<String, Map<Dictionary, String>> dictMap = dictionaryService.mapInverse(new String[]{DictionaryType.EDUCATION, DictionaryType.NATION, DictionaryType.POSITION_STATUS});
 
-        Map<Dictionary, String> educationMap = dictMap.get(DictionaryType.EDUCATION);
-        Map<Dictionary, String> nationMap = dictMap.get(DictionaryType.NATION);
-        Map<Dictionary, String> positionStatusMap = dictMap.get(DictionaryType.POSITION_STATUS);
-
-        List<User> userList = list.stream().map((item) -> {
+        Set<String> accounts = new HashSet<>();
+        List<User> userList = list.stream().map(item -> {
+            BizAssert.isFalse(accounts.contains(item.getAccount()), StrUtil.format("Excel中存在重复的账号: {}", item.getAccount()));
+            accounts.add(item.getAccount());
             User user = new User();
-            String[] ignore = new String[]{
-                    "org", "station", "nation", "education", "positionStatus"
-            };
-            BeanUtil.copyProperties(item, user, ignore);
-            user.setOrgId(item.getOrg());
-            user.setStationId(item.getStation());
-            user.setEducation(educationMap.getOrDefault(item.getEducation(), StrPool.EMPTY));
-            user.setNation(nationMap.getOrDefault(item.getNation(), StrPool.EMPTY));
-            user.setPositionStatus(positionStatusMap.getOrDefault(item.getPositionStatus(), StrPool.EMPTY));
+            BeanUtil.copyProperties(item, user);
             user.setSalt(RandomUtil.randomString(20));
             user.setPassword(SecureUtil.sha256(BizConstant.DEF_PASSWORD + user.getSalt()));
             return user;
         }).collect(Collectors.toList());
 
         baseService.saveBatch(userList);
-
         return this.success(true);
     }
 
@@ -303,4 +326,5 @@ public class UserController extends SuperCacheController<UserService, Long, User
             item.setSalt(null);
         });
     }
+
 }

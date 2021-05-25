@@ -75,8 +75,8 @@ public class RoleSaveDTO implements Serializable {
     @NotNull(message = "数据权限不能为空")
     private DataScopeType dsType;
     /**
-     * 关联的组织id
+     * 关联的组织
      */
-    @ApiModelProperty(value = "关联的组织id")
+    @ApiModelProperty(value = "关联的组织")
     private List<Long> orgList;
 }

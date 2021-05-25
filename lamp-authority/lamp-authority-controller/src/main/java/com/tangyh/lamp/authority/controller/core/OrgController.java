@@ -9,7 +9,6 @@ import com.tangyh.basic.base.controller.SuperCacheController;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.basic.utils.BizAssert;
-import com.tangyh.basic.utils.StrPool;
 import com.tangyh.basic.utils.TreeUtil;
 import com.tangyh.lamp.authority.dto.core.OrgPageQuery;
 import com.tangyh.lamp.authority.dto.core.OrgSaveDTO;
@@ -17,6 +16,8 @@ import com.tangyh.lamp.authority.dto.core.OrgUpdateDTO;
 import com.tangyh.lamp.authority.entity.core.Org;
 import com.tangyh.lamp.authority.service.core.OrgService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,9 @@ import java.util.stream.Collectors;
 import static com.tangyh.basic.utils.StrPool.DEF_PARENT_ID;
 import static com.tangyh.basic.utils.StrPool.DEF_ROOT_PATH;
 import static com.tangyh.basic.utils.StrPool.EMPTY;
+import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
+import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
+import static com.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 
 
 /**
@@ -48,6 +52,16 @@ import static com.tangyh.basic.utils.StrPool.EMPTY;
 @Api(value = "Org", tags = "组织")
 @PreAuth(replace = "authority:org:")
 public class OrgController extends SuperCacheController<OrgService, Long, Org, OrgPageQuery, OrgSaveDTO, OrgUpdateDTO> {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
+    })
+    @ApiOperation(value = "检测名称是否可用", notes = "检测名称是否可用")
+    @GetMapping("/check")
+    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
+        return success(baseService.check(id, name));
+    }
+
 
     @Override
     public R<Org> handlerSave(OrgSaveDTO model) {

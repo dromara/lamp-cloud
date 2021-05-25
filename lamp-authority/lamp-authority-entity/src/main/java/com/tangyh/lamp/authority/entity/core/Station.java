@@ -59,15 +59,15 @@ public class Station extends Entity<Long> implements EchoVO {
     private String name;
 
     /**
-     * 组织ID
+     * 组织
      * #c_org
      *
      * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织ID")
+    @ApiModelProperty(value = "组织")
     @TableField("org_id")
     @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
-    @Excel(name = "组织ID")
+    @Excel(name = "组织")
     private Long orgId;
 
     /**

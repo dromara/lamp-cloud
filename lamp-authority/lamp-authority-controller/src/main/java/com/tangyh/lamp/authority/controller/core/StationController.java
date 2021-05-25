@@ -13,13 +13,22 @@ import com.tangyh.lamp.authority.dto.core.StationUpdateDTO;
 import com.tangyh.lamp.authority.entity.core.Station;
 import com.tangyh.lamp.authority.service.core.StationService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
+import static com.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
+import static com.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 
 /**
  * <p>
@@ -36,6 +45,16 @@ import java.util.stream.Collectors;
 @Api(value = "Station", tags = "岗位")
 @PreAuth(replace = "authority:station:")
 public class StationController extends SuperCacheController<StationService, Long, Station, StationPageQuery, StationSaveDTO, StationUpdateDTO> {
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
+    })
+    @ApiOperation(value = "检测名称是否可用", notes = "检测名称是否可用")
+    @GetMapping("/check")
+    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
+        return success(baseService.check(id, name));
+    }
 
     @Override
     public void query(PageParams<StationPageQuery> params, IPage<Station> page, Long defSize) {

@@ -28,7 +28,7 @@ public class ExcelUserVerifyHandlerImpl implements IExcelVerifyHandler<UserExcel
             builder.append("账号不能为空");
             bool = false;
         } else {
-            boolean check = userService.check(obj.getAccount());
+            boolean check = userService.check(null, obj.getAccount());
             if (check) {
                 builder.append(String.format("账号%s重复", obj.getAccount()));
                 bool = false;

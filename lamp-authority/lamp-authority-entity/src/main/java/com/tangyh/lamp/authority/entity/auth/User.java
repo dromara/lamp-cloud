@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
 import static com.tangyh.lamp.common.constant.EchoConstants.FIND_BY_IDS;
 import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
@@ -77,27 +76,27 @@ public class User extends Entity<Long> implements EchoVO {
     private String name;
 
     /**
-     * 组织ID
+     * 组织
      * #c_org
      *
      * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织ID")
+    @ApiModelProperty(value = "组织")
     @TableField("org_id")
     @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
-    @Excel(name = "组织ID")
+    @Excel(name = "组织")
     private Long orgId;
 
     /**
-     * 岗位ID
+     * 岗位
      * #c_station
      *
      * @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
      */
-    @ApiModelProperty(value = "岗位ID")
+    @ApiModelProperty(value = "岗位")
     @TableField("station_id")
     @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
-    @Excel(name = "岗位ID")
+    @Excel(name = "岗位")
     private Long stationId;
 
     /**
@@ -106,7 +105,6 @@ public class User extends Entity<Long> implements EchoVO {
     @ApiModelProperty(value = "内置")
     @NotNull(message = "内置不能为空")
     @TableField("readonly")
-    @Excel(name = "内置", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;
 
     /**
@@ -141,7 +139,7 @@ public class User extends Entity<Long> implements EchoVO {
      */
     @ApiModelProperty(value = "状态")
     @TableField("state")
-    @Excel(name = "状态", replace = {"是_true", "否_false", "_null"})
+    @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean state;
 
     /**
@@ -203,7 +201,6 @@ public class User extends Entity<Long> implements EchoVO {
      */
     @ApiModelProperty(value = "最后一次输错密码时间")
     @TableField("password_error_last_time")
-    @Excel(name = "最后一次输错密码时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime passwordErrorLastTime;
 
     /**
@@ -211,7 +208,6 @@ public class User extends Entity<Long> implements EchoVO {
      */
     @ApiModelProperty(value = "密码错误次数")
     @TableField("password_error_num")
-    @Excel(name = "密码错误次数")
     private Integer passwordErrorNum;
 
     /**
@@ -219,7 +215,6 @@ public class User extends Entity<Long> implements EchoVO {
      */
     @ApiModelProperty(value = "密码过期时间")
     @TableField("password_expire_time")
-    @Excel(name = "密码过期时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime passwordExpireTime;
 
     /**
@@ -229,7 +224,6 @@ public class User extends Entity<Long> implements EchoVO {
     @NotEmpty(message = "密码不能为空")
     @Size(max = 64, message = "密码长度不能超过64")
     @TableField(value = "password", condition = LIKE)
-    @Excel(name = "密码")
     private String password;
 
     /**
@@ -239,7 +233,6 @@ public class User extends Entity<Long> implements EchoVO {
     @NotEmpty(message = "密码盐不能为空")
     @Size(max = 20, message = "密码盐长度不能超过20")
     @TableField(value = "salt", condition = LIKE)
-    @Excel(name = "密码盐")
     private String salt;
 
     /**
@@ -247,7 +240,6 @@ public class User extends Entity<Long> implements EchoVO {
      */
     @ApiModelProperty(value = "最后登录时间")
     @TableField("last_login_time")
-    @Excel(name = "最后登录时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime lastLoginTime;
 
 

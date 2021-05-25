@@ -39,12 +39,12 @@ public class StationPageQuery implements Serializable {
     @ApiModelProperty(value = "名称")
     private String name;
     /**
-     * 组织ID
+     * 组织
      * #c_org
      *
      * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织ID")
+    @ApiModelProperty(value = "组织")
     private Long orgId;
     /**
      * 状态

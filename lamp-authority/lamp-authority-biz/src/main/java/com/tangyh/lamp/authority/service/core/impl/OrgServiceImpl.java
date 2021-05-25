@@ -3,9 +3,13 @@ package com.tangyh.lamp.authority.service.core.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
+import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.basic.utils.CollHelper;
 import com.tangyh.lamp.authority.dao.core.OrgMapper;
 import com.tangyh.lamp.authority.entity.auth.RoleOrg;
@@ -37,6 +41,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+
 @RequiredArgsConstructor
 public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implements OrgService {
     private final RoleOrgService roleOrgService;
@@ -44,6 +49,27 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
         return new OrgCacheKeyBuilder();
+    }
+
+    @Override
+    public boolean check(Long id, String name) {
+        LbqWrapper<Org> wrap = Wraps.<Org>lbQ()
+                .eq(Org::getLabel, name).ne(Org::getId, id);
+        return count(wrap) > 0;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save(Org model) {
+        BizAssert.isFalse(check(null, model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
+        return super.save(model);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateById(Org model) {
+        BizAssert.isFalse(check(model.getId(), model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
+        return super.updateById(model);
     }
 
     @Override

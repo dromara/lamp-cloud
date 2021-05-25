@@ -81,9 +81,9 @@ public class RoleUpdateDTO implements Serializable {
     private DataScopeType dsType;
 
     /**
-     * 关联的组织id
+     * 关联的组织
      */
-    @ApiModelProperty(value = "关联的组织id")
+    @ApiModelProperty(value = "关联的组织")
     private List<Long> orgList;
 
 }

@@ -49,10 +49,11 @@ public interface UserService extends SuperCacheService<User>, LoadService {
     /**
      * 检测账号是否存在
      *
+     * @param id      id
      * @param account 账号
      * @return true 表示存在
      */
-    boolean check(String account);
+    boolean check(Long id, String account);
 
     /**
      * 修改输错密码的次数

@@ -41,14 +41,6 @@ public class AreaUpdateDTO implements Serializable {
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
     private Long id;
 
-    @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Size(max = 255, message = "名称长度不能超过255")
-    protected String label;
-    @ApiModelProperty(value = "父ID")
-    protected Long parentId;
-    @ApiModelProperty(value = "排序号")
-    protected Integer sortValue;
     /**
      * 编码
      */
@@ -74,6 +66,10 @@ public class AreaUpdateDTO implements Serializable {
     @ApiModelProperty(value = "维度")
     @Size(max = 255, message = "维度长度不能超过255")
     private String latitude;
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Size(max = 255, message = "名称长度不能超过255")
+    protected String label;
     /**
      * 数据来源
      */
@@ -85,6 +81,10 @@ public class AreaUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "状态")
     private Boolean state;
+    @ApiModelProperty(value = "父ID")
+    protected Long parentId;
+    @ApiModelProperty(value = "排序号")
+    protected Integer sortValue;
     /**
      * 行政区级
      *

@@ -3,7 +3,12 @@ package com.tangyh.lamp.authority.dto.auth;
 import com.tangyh.lamp.authority.enumeration.auth.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -42,20 +47,20 @@ public class UserPageQuery implements Serializable {
     @ApiModelProperty(value = "姓名")
     private String name;
     /**
-     * 组织ID
+     * 组织
      * #c_org
      *
      * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织ID")
+    @ApiModelProperty(value = "组织")
     private Long orgId;
     /**
-     * 岗位ID
+     * 岗位
      * #c_station
      *
      * @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
      */
-    @ApiModelProperty(value = "岗位ID")
+    @ApiModelProperty(value = "岗位")
     private Long stationId;
     /**
      * 内置

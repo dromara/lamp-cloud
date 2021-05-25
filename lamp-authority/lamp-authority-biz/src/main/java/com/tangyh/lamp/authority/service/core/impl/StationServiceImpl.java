@@ -2,6 +2,8 @@ package com.tangyh.lamp.authority.service.core.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.annotation.echo.EchoResult;
 import com.tangyh.basic.base.request.PageParams;
@@ -10,6 +12,7 @@ import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.database.mybatis.auth.DataScope;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.basic.utils.CollHelper;
 import com.tangyh.lamp.authority.dao.core.StationMapper;
 import com.tangyh.lamp.authority.dto.core.StationPageQuery;
@@ -18,6 +21,7 @@ import com.tangyh.lamp.authority.service.core.StationService;
 import com.tangyh.lamp.common.cache.core.StationCacheKeyBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -42,6 +46,27 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
         return new StationCacheKeyBuilder();
+    }
+
+    @Override
+    public boolean check(Long id, String name) {
+        LbqWrapper<Station> wrap = Wraps.<Station>lbQ()
+                .eq(Station::getName, name).ne(Station::getId, id);
+        return count(wrap) > 0;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save(Station model) {
+        BizAssert.isFalse(check(null, model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
+        return super.save(model);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateById(Station model) {
+        BizAssert.isFalse(check(model.getId(), model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
+        return super.updateById(model);
     }
 
     @Override

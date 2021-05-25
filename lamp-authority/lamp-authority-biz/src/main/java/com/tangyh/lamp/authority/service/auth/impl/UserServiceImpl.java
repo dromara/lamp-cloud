@@ -6,6 +6,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.base.request.PageUtil;
@@ -68,6 +69,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.tangyh.lamp.common.constant.BizConstant.DEF_PASSWORD;
 
 
 /**
@@ -196,9 +199,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
-    public boolean check(String account) {
+    public boolean check(Long id, String account) {
         //这里不能用缓存，否则会导致用户无法登录
-        return count(Wraps.<User>lbQ().eq(User::getAccount, account)) > 0;
+        return count(Wraps.<User>lbQ().eq(User::getAccount, account).ne(User::getId, id)) > 0;
     }
 
     @Override
@@ -219,7 +222,11 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public User saveUser(User user) {
+        BizAssert.isFalse(check(null, user.getAccount()), StrUtil.format("账号{}已经存在", user.getAccount()));
         user.setSalt(RandomUtil.randomString(20));
+        if (StrUtil.isEmpty(user.getPassword())) {
+            user.setPassword(DEF_PASSWORD);
+        }
         user.setPassword(SecureUtil.sha256(user.getPassword() + user.getSalt()));
         user.setPasswordErrorNum(0);
         super.save(user);
@@ -319,11 +326,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean initUser(User user) {
-        BizAssert.isFalse(check(user.getAccount()), StrUtil.format("账号{}已经存在", user.getAccount()));
+        BizAssert.isFalse(check(null, user.getAccount()), StrUtil.format("账号{}已经存在", user.getAccount()));
         this.saveUser(user);
         return userRoleService.initAdmin(user.getId());
     }
-
 
     @Override
     @Transactional(readOnly = true)

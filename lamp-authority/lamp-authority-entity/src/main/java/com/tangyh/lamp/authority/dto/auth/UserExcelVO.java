@@ -17,9 +17,6 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
  * 用户
@@ -57,23 +54,19 @@ public class UserExcelVO implements Serializable, IExcelModel, IExcelDataModel {
     @Excel(name = "姓名")
     private String name;
     /**
-     * 组织ID
+     * 组织
      * #c_org
-     *
-     * @Echo(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>
      */
-    @ApiModelProperty(value = "组织ID")
-    @Excel(name = "组织")
-    private Long org;
+    @ApiModelProperty(value = "组织")
+    @Excel(name = "组织", dict = "org")
+    private String orgId;
     /**
-     * 岗位ID
+     * 岗位
      * #c_station
-     *
-     * @Echo(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>
      */
-    @ApiModelProperty(value = "岗位ID")
-    @Excel(name = "岗位")
-    private Long station;
+    @ApiModelProperty(value = "岗位")
+    @Excel(name = "岗位", dict = "station")
+    private String stationId;
     /**
      * 邮箱
      */
@@ -111,8 +104,6 @@ public class UserExcelVO implements Serializable, IExcelModel, IExcelDataModel {
     private String avatar;
     /**
      * 民族
-     *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS) RemoteData<String, String>
      */
     @ApiModelProperty(value = "民族")
     @Size(max = 20, message = "民族长度不能超过20")
@@ -120,8 +111,6 @@ public class UserExcelVO implements Serializable, IExcelModel, IExcelDataModel {
     private String nation;
     /**
      * 学历
-     *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS) RemoteData<String, String>
      */
     @ApiModelProperty(value = "学历")
     @Size(max = 20, message = "学历长度不能超过20")
@@ -129,8 +118,6 @@ public class UserExcelVO implements Serializable, IExcelModel, IExcelDataModel {
     private String education;
     /**
      * 职位状态
-     *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS) RemoteData<String, String>
      */
     @ApiModelProperty(value = "职位状态")
     @Size(max = 20, message = "职位状态长度不能超过20")
@@ -144,18 +131,6 @@ public class UserExcelVO implements Serializable, IExcelModel, IExcelDataModel {
     @Size(max = 255, message = "工作描述长度不能超过255")
     @Excel(name = "工作描述")
     private String workDescribe;
-    /**
-     * 密码过期时间
-     */
-    @ApiModelProperty(value = "密码过期时间")
-    @Excel(name = "密码过期时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
-    private LocalDateTime passwordExpireTime;
-    /**
-     * 最后登录时间
-     */
-    @ApiModelProperty(value = "最后登录时间")
-    @Excel(name = "最后登录时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
-    private LocalDateTime lastLoginTime;
 
     /**
      * 获取行号

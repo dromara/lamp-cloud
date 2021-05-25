@@ -25,13 +25,13 @@ import java.util.stream.Stream;
 public enum Sex implements BaseEnum {
 
     /**
-     * W="女"
-     */
-    W("女"),
-    /**
      * M="男"
      */
     M("男"),
+    /**
+     * W="女"
+     */
+    W("女"),
     /**
      * N="未知"
      */

@@ -1,5 +1,6 @@
 package com.tangyh.lamp.oauth.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.tangyh.basic.base.BaseEnum;
 import com.tangyh.basic.base.R;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,33 +59,27 @@ public class OauthGeneralController {
     private static final Map<String, Map<String, String>> ENUM_MAP = new HashMap<>(21);
     private static final Map<String, List<Option>> ENUM_LIST_MAP = new HashMap<>(21);
 
-
-    private static List<Option> findOptions(BaseEnum[] values) {
-        return Arrays.stream(values).map(item -> Option.builder().label(item.getDesc())
-                .value(item.getCode()).build()).collect(Collectors.toList());
-    }
-
     static {
         // 权限服务
-        ENUM_LIST_MAP.put(HttpMethod.class.getSimpleName(), findOptions(HttpMethod.values()));
-        ENUM_LIST_MAP.put(DataScopeType.class.getSimpleName(), findOptions(DataScopeType.values()));
-        ENUM_LIST_MAP.put(LogType.class.getSimpleName(), findOptions(LogType.values()));
-        ENUM_LIST_MAP.put(AuthorizeType.class.getSimpleName(), findOptions(AuthorizeType.values()));
-        ENUM_LIST_MAP.put(Sex.class.getSimpleName(), findOptions(Sex.values()));
-        ENUM_LIST_MAP.put(TenantTypeEnum.class.getSimpleName(), findOptions(TenantTypeEnum.values()));
-        ENUM_LIST_MAP.put(TenantStatusEnum.class.getSimpleName(), findOptions(TenantStatusEnum.values()));
-        ENUM_LIST_MAP.put(ApplicationAppTypeEnum.class.getSimpleName(), findOptions(ApplicationAppTypeEnum.values()));
+        ENUM_LIST_MAP.put(HttpMethod.class.getSimpleName(), mapOptions(HttpMethod.values()));
+        ENUM_LIST_MAP.put(DataScopeType.class.getSimpleName(), mapOptions(DataScopeType.values()));
+        ENUM_LIST_MAP.put(LogType.class.getSimpleName(), mapOptions(LogType.values()));
+        ENUM_LIST_MAP.put(AuthorizeType.class.getSimpleName(), mapOptions(AuthorizeType.values()));
+        ENUM_LIST_MAP.put(Sex.class.getSimpleName(), mapOptions(Sex.values()));
+        ENUM_LIST_MAP.put(TenantTypeEnum.class.getSimpleName(), mapOptions(TenantTypeEnum.values()));
+        ENUM_LIST_MAP.put(TenantStatusEnum.class.getSimpleName(), mapOptions(TenantStatusEnum.values()));
+        ENUM_LIST_MAP.put(ApplicationAppTypeEnum.class.getSimpleName(), mapOptions(ApplicationAppTypeEnum.values()));
         // 租户服务
-        ENUM_LIST_MAP.put(TenantConnectTypeEnum.class.getSimpleName(), findOptions(TenantConnectTypeEnum.values()));
+        ENUM_LIST_MAP.put(TenantConnectTypeEnum.class.getSimpleName(), mapOptions(TenantConnectTypeEnum.values()));
         // 文件服务
-        ENUM_LIST_MAP.put(DataType.class.getSimpleName(), findOptions(HttpMethod.values()));
+        ENUM_LIST_MAP.put(DataType.class.getSimpleName(), mapOptions(HttpMethod.values()));
         //消息服务
-        ENUM_LIST_MAP.put(MsgType.class.getSimpleName(), findOptions(MsgType.values()));
-        ENUM_LIST_MAP.put(MsgBizType.class.getSimpleName(), findOptions(MsgBizType.values()));
-        ENUM_LIST_MAP.put(ProviderType.class.getSimpleName(), findOptions(ProviderType.values()));
-        ENUM_LIST_MAP.put(SourceType.class.getSimpleName(), findOptions(SourceType.values()));
-        ENUM_LIST_MAP.put(SendStatus.class.getSimpleName(), findOptions(SendStatus.values()));
-        ENUM_LIST_MAP.put(TaskStatus.class.getSimpleName(), findOptions(TaskStatus.values()));
+        ENUM_LIST_MAP.put(MsgType.class.getSimpleName(), mapOptions(MsgType.values()));
+        ENUM_LIST_MAP.put(MsgBizType.class.getSimpleName(), mapOptions(MsgBizType.values()));
+        ENUM_LIST_MAP.put(ProviderType.class.getSimpleName(), mapOptions(ProviderType.values()));
+        ENUM_LIST_MAP.put(SourceType.class.getSimpleName(), mapOptions(SourceType.values()));
+        ENUM_LIST_MAP.put(SendStatus.class.getSimpleName(), mapOptions(SendStatus.values()));
+        ENUM_LIST_MAP.put(TaskStatus.class.getSimpleName(), mapOptions(TaskStatus.values()));
 
         // 权限服务
         ENUM_MAP.put(HttpMethod.class.getSimpleName(), CollHelper.getMap(HttpMethod.values()));
@@ -105,6 +101,11 @@ public class OauthGeneralController {
         ENUM_MAP.put(SourceType.class.getSimpleName(), CollHelper.getMap(SourceType.values()));
         ENUM_MAP.put(SendStatus.class.getSimpleName(), CollHelper.getMap(SendStatus.values()));
         ENUM_MAP.put(TaskStatus.class.getSimpleName(), CollHelper.getMap(TaskStatus.values()));
+    }
+
+    private static List<Option> mapOptions(BaseEnum[] values) {
+        return Arrays.stream(values).map(item -> Option.builder().label(item.getDesc())
+                .text(item.getDesc()).value(item.getCode()).build()).collect(Collectors.toList());
     }
 
     @ApiOperation(value = "获取当前系统指定枚举 Map", notes = "获取当前系统指定枚举")
@@ -144,6 +145,25 @@ public class OauthGeneralController {
     public R<Map<String, List<Dictionary>>> list(@RequestBody String[] types) {
         return R.success(this.dictionaryService.listByTypes(types));
     }
+
+    private static Map<String, List<Option>> mapOptionByDict(Map<String, List<Dictionary>> map) {
+        if (CollUtil.isEmpty(map)) {
+            return Collections.emptyMap();
+        }
+        Map<String, List<Option>> newMap = new HashMap<>();
+        map.forEach((key, values) -> {
+            newMap.put(key, values.stream().map(item -> Option.builder().label(item.getName())
+                    .text(item.getName()).value(item.getCode()).build()).collect(Collectors.toList()));
+        });
+        return newMap;
+    }
+
+    @ApiOperation(value = "根据类型编码查询字典项", notes = "根据类型编码查询字典项")
+    @PostMapping("/dictionary/codeList")
+    public R<Map<String, List<Option>>> codeList(@RequestBody String[] types) {
+        return R.success(mapOptionByDict(dictionaryService.listByTypes(types)));
+    }
+
 
     @GetMapping("/parameter/value")
     public R<String> getValue(@RequestParam(value = "key") String key, @RequestParam(value = "defVal") String defVal) {

@@ -85,7 +85,7 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
     @GetMapping("/check")
     public R<Boolean> check(@RequestParam String tenantCode, @RequestParam String account) {
         ContextUtil.setTenant(tenantCode);
-        return success(baseService.check(account));
+        return success(baseService.check(null, account));
     }
 
     @Override

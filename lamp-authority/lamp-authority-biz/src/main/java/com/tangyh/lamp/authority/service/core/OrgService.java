@@ -32,4 +32,15 @@ public interface OrgService extends SuperCacheService<Org>, LoadService {
      */
     boolean remove(List<Long> ids);
 
+    /**
+     * 检测名称是否存在
+     *
+     * @param id   id
+     * @param name name
+     * @return boolean
+     * @author zuihou
+     * @date 2021/5/23 9:37 下午
+     * @create [2021/5/23 9:37 下午 ] [tangyh] [初始创建]
+     */
+    boolean check(Long id, String name);
 }

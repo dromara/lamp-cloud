@@ -2,6 +2,7 @@ package com.tangyh.lamp.authority.service.common.impl;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+
 import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.repository.CacheOps;
@@ -50,6 +51,7 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @Service
+
 @RequiredArgsConstructor
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
     private final UserService userService;

@@ -43,12 +43,12 @@ public class StationSaveDTO implements Serializable {
     @Size(max = 255, message = "名称长度不能超过255")
     private String name;
     /**
-     * 组织ID
+     * 组织
      * #c_org
      *
      * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织ID")
+    @ApiModelProperty(value = "组织")
     private Long orgId;
     /**
      * 状态

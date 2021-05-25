@@ -1,7 +1,6 @@
 package com.tangyh.lamp.authority.dto.auth;
 
 import com.tangyh.basic.base.entity.SuperEntity;
-import com.tangyh.basic.model.RemoteData;
 import com.tangyh.lamp.authority.enumeration.auth.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -70,25 +69,22 @@ public class UserUpdateBaseInfoDTO implements Serializable {
     private Sex sex;
     /**
      * 民族
-     *
      */
     @ApiModelProperty(value = "民族")
     @Size(max = 20, message = "民族长度不能超过20")
-    private RemoteData<String, String> nation;
+    private String nation;
     /**
      * 学历
-     *
      */
     @ApiModelProperty(value = "学历")
     @Size(max = 20, message = "学历长度不能超过20")
-    private RemoteData<String, String> education;
+    private String education;
     /**
      * 职位状态
-     *
      */
     @ApiModelProperty(value = "职位状态")
     @Size(max = 20, message = "职位状态长度不能超过20")
-    private RemoteData<String, String> positionStatus;
+    private String positionStatus;
     /**
      * 工作描述
      * 比如：  市长、管理员、局长等等   用于登陆展示

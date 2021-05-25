@@ -51,20 +51,20 @@ public class UserSaveDTO implements Serializable {
     @Size(max = 50, message = "姓名长度不能超过50")
     private String name;
     /**
-     * 组织ID
+     * 组织
      * #c_org
      *
      * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织ID")
+    @ApiModelProperty(value = "组织")
     private Long orgId;
     /**
-     * 岗位ID
+     * 岗位
      * #c_station
      *
      * @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
      */
-    @ApiModelProperty(value = "岗位ID")
+    @ApiModelProperty(value = "岗位")
     private Long stationId;
     /**
      * 邮箱
@@ -129,8 +129,7 @@ public class UserSaveDTO implements Serializable {
      * 密码
      */
     @ApiModelProperty(value = "密码")
-    @NotEmpty(message = "密码不能为空")
-    @Size(max = 64, message = "密码长度不能超过64")
+    @Size(min = 6, max = 64, message = "密码长度不能小于6或超过64")
     private String password;
 
 }

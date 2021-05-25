@@ -25,5 +25,6 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "Option", description = "下拉、多选组件选项")
 public class Option {
     private String label;
+    private String text;
     private String value;
 }
