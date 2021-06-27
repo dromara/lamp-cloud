@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.tangyh.lamp</groupId>
         <artifactId>lamp-msg</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
