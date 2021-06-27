@@ -1,7 +1,6 @@
 package com.tangyh.lamp.file.domain;
 
 
-import com.tangyh.lamp.file.enumeration.DataType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,11 +16,7 @@ public class FileDO {
     /**
      * 原始文件名
      */
-    private String submittedFileName;
-    /**
-     * 数据类型 IMAGE/VIDEO/AUDIO/DOC/OTHER/DIR
-     */
-    private DataType dataType;
+    private String originalFileName;
     /**
      * 文件访问链接
      */

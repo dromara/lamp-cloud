@@ -13,7 +13,6 @@
         <result column="app_id" jdbcType="VARCHAR" property="appId"/>
         <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="custom_code" jdbcType="VARCHAR" property="customCode"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="template_params" jdbcType="VARCHAR" property="templateParams"/>
@@ -24,8 +23,9 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,created_by,create_time,updated_by,update_time,
-        provider_type, app_id, app_secret, url, custom_code, name, content, template_params, template_code, sign_name, template_describe
+        id
+        ,created_by,create_time,updated_by,update_time,
+        provider_type, app_id, app_secret, url, name, content, template_params, template_code, sign_name, template_describe
     </sql>
 
 </mapper>

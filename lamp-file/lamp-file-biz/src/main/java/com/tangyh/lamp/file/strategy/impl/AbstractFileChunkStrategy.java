@@ -3,16 +3,14 @@ package com.tangyh.lamp.file.strategy.impl;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangyh.basic.base.R;
-import com.tangyh.basic.utils.DateUtils;
 import com.tangyh.basic.utils.StrPool;
 import com.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
 import com.tangyh.lamp.file.entity.Attachment;
-import com.tangyh.lamp.file.enumeration.IconType;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.FileChunkStrategy;
 import com.tangyh.lamp.file.strategy.FileLock;
-import com.tangyh.lamp.file.utils.FileDataTypeUtil;
+import com.tangyh.lamp.file.utils.FileTypeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -51,18 +49,6 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                 .eq(Attachment::getFileMd5, md5), false);
     }
 
-    /**
-     * 设置创建日期
-     *
-     * @param file 附件
-     */
-    private void setDate(Attachment file) {
-        LocalDateTime now = LocalDateTime.now();
-        file.setCreateMonth(DateUtils.formatAsYearMonthEn(now))
-                .setCreateWeek(DateUtils.formatAsYearWeekEn(now))
-                .setCreateDay(DateUtils.formatAsDateEn(now));
-    }
-
     @Override
     public Attachment md5Check(String md5, Long accountId) {
         Attachment file = md5Check(md5);
@@ -78,7 +64,6 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
                 .setCreateTime(LocalDateTime.now());
         file.setUpdateTime(LocalDateTime.now())
                 .setUpdatedBy(accountId);
-        setDate(file);
 
         fileService.save(file);
         return file;
@@ -101,15 +86,13 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
             //文件名
             Attachment filePo = result.getData();
 
-            filePo.setDataType(FileDataTypeUtil.getDataType(info.getContextType()))
-                    .setSubmittedFileName(info.getSubmittedFileName())
+            filePo
+                    .setOriginalFileName(info.getSubmittedFileName())
                     .setSize(info.getSize())
                     .setFileMd5(info.getMd5())
-                    .setContextType(info.getContextType())
-                    .setFilename(filename)
-                    .setExt(info.getExt())
-                    .setIcon(IconType.getIcon(info.getExt()).getIcon());
-            setDate(filePo);
+                    .setContentType(info.getContextType())
+                    .setUniqueFileName(filename)
+                    .setExt(info.getExt());
 
             fileService.save(filePo);
             return R.success(filePo);
@@ -118,7 +101,7 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
     }
 
     private R<Attachment> chunksMerge(FileChunksMergeDTO info, String fileName) {
-        String path = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
+        String path = FileTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
         int chunks = info.getChunks();
         String folder = info.getName();
         String md5 = info.getMd5();

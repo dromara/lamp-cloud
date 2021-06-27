@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 28/11/2020 22:52:34
+ Date: 28/06/2021 00:08:34
 */
 
 SET NAMES utf8mb4;
@@ -51,7 +51,7 @@ CREATE TABLE `c_area` (
   `sort_value` int(10) DEFAULT '1' COMMENT '排序',
   `longitude` varchar(255) DEFAULT '' COMMENT '经度',
   `latitude` varchar(255) DEFAULT '' COMMENT '维度',
-  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.AREA_LEVEL) RemoteData<String, String>',
+  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.AREA_LEVEL)',
   `source_` varchar(255) DEFAULT '' COMMENT '数据来源',
   `state` bit(1) DEFAULT b'0' COMMENT '状态',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
@@ -69,30 +69,52 @@ CREATE TABLE `c_area` (
 DROP TABLE IF EXISTS `c_attachment`;
 CREATE TABLE `c_attachment` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `biz_id` varchar(64) DEFAULT NULL COMMENT '业务ID',
+  `biz_id` varchar(255) DEFAULT NULL COMMENT '业务ID',
   `biz_type` varchar(255) DEFAULT '' COMMENT '业务类型 \n#AttachmentType',
-  `data_type` varchar(255) DEFAULT '' COMMENT '数据类型 \n#DataType{DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他}',
-  `submitted_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
-  `group_` varchar(255) DEFAULT '' COMMENT 'FastDFS返回的组\n用于FastDFS',
-  `path` varchar(255) DEFAULT '' COMMENT 'FastDFS的远程文件名\n用于FastDFS',
-  `relative_path` varchar(255) DEFAULT '' COMMENT '文件相对路径',
-  `url` varchar(255) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
+  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
+  `storage_type` varchar(255) DEFAULT NULL COMMENT '存储类型\nLOCAL FAST_DFS MIN_IO ALI \n',
+  `group_` varchar(255) DEFAULT '' COMMENT 'FastDFS中的组 MinIO中的bucket\n用于FastDFS 或 MinIO',
+  `path` varchar(255) DEFAULT '' COMMENT 'FastDFS的远程文件名 MinIO的文件路径\n用于FastDFS 和MinIO',
+  `url` varchar(500) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
+  `unique_file_name` varchar(255) DEFAULT '' COMMENT '唯一文件名\nUUID规则',
   `file_md5` varchar(255) DEFAULT '' COMMENT '文件md5值',
-  `context_type` varchar(255) DEFAULT '' COMMENT '文件上传类型\n取上传文件的值',
-  `filename` varchar(255) DEFAULT '' COMMENT '唯一文件名',
-  `ext` varchar(64) DEFAULT '' COMMENT '后缀\n (没有.)',
-  `size` bigint(20) DEFAULT '0' COMMENT '大小',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID \n#c_org',
-  `icon` varchar(64) DEFAULT '' COMMENT '图标',
-  `create_month` char(8) DEFAULT '' COMMENT '创建年月 \n格式：yyyy年MM周 用于统计',
-  `create_week` char(8) DEFAULT '' COMMENT '创建时处于当年的第几周 \n格式：yyyy年ww周 用于统计',
-  `create_day` char(11) DEFAULT '' COMMENT '创建年月日 \n格式： yyyy年MM月dd日',
+  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) DEFAULT '' COMMENT '文件原始类型',
+  `ext` varchar(64) DEFAULT '' COMMENT '后缀\n',
+  `size` bigint(20) DEFAULT '0' COMMENT '文件大小',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   `updated_by` bigint(20) DEFAULT NULL COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件';
+
+-- ----------------------------
+-- Table structure for c_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `c_dict`;
+CREATE TABLE `c_dict` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '字典ID',
+  `key` varchar(255) NOT NULL COMMENT '字典标识',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '字典名称',
+  `item_key` varchar(255) NOT NULL COMMENT '字典项标识',
+  `item_name` varchar(255) NOT NULL COMMENT '字典项名称',
+  `state` bit(1) DEFAULT b'1' COMMENT '状态',
+  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
+  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `icon` varchar(255) DEFAULT '' COMMENT '图标',
+  `css_style` varchar(255) DEFAULT '' COMMENT 'css样式',
+  `css_class` varchar(255) DEFAULT '' COMMENT 'css class',
+  `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_type_code` (`key`,`item_key`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
 
 -- ----------------------------
 -- Table structure for c_dictionary
@@ -210,7 +232,7 @@ DROP TABLE IF EXISTS `c_org`;
 CREATE TABLE `c_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `label` varchar(255) NOT NULL COMMENT '名称',
-  `type_` char(2) DEFAULT '' COMMENT '类型 \n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.ORG_TYPE) RemoteData<String, String>',
+  `type_` char(2) DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.ORG_TYPE)',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `tree_path` varchar(255) DEFAULT '' COMMENT '树结构',
@@ -222,6 +244,7 @@ CREATE TABLE `c_org` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_name` (`label`) USING HASH,
   FULLTEXT KEY `fu_path` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
@@ -253,7 +276,7 @@ CREATE TABLE `c_resource` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `code` varchar(500) DEFAULT '' COMMENT '编码',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID \n#c_menu',
+  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单\n#c_menu',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `readonly_` bit(1) DEFAULT b'1' COMMENT '内置',
   `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
@@ -305,8 +328,8 @@ CREATE TABLE `c_role_authority` (
 DROP TABLE IF EXISTS `c_role_org`;
 CREATE TABLE `c_role_org` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID \n#c_role',
-  `org_id` bigint(20) NOT NULL COMMENT '部门ID \n#c_org',
+  `role_id` bigint(20) NOT NULL COMMENT '角色\n#c_role',
+  `org_id` bigint(20) NOT NULL COMMENT '部门\n#c_org',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE,
@@ -320,14 +343,15 @@ DROP TABLE IF EXISTS `c_station`;
 CREATE TABLE `c_station` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID \n#c_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_name` (`name`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
@@ -338,23 +362,23 @@ CREATE TABLE `c_user` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `account` varchar(30) NOT NULL DEFAULT '' COMMENT '账号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID \n#c_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.tangyh.lamp.authority.entity.core.Org>',
-  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID \n#c_station\n@InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)',
+  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)',
   `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '内置',
   `email` varchar(255) DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT '' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `avatar` varchar(255) DEFAULT '' COMMENT '头像',
-  `nation` char(2) DEFAULT '' COMMENT '民族 \n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>',
-  `education` char(2) DEFAULT '' COMMENT '学历 \n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>',
-  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS) RemoteData<String, String>',
+  `nation` char(2) DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)',
+  `education` char(2) DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)',
+  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述',
   `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
   `password_error_num` int(10) DEFAULT '0' COMMENT '密码错误次数',
   `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
-  `salt` varchar(20) NOT NULL DEFAULT '' COMMENT '盐',
+  `salt` varchar(20) NOT NULL DEFAULT '' COMMENT '密码盐',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -370,8 +394,8 @@ CREATE TABLE `c_user` (
 DROP TABLE IF EXISTS `c_user_role`;
 CREATE TABLE `c_user_role` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID \n#c_role',
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID \n#c_user',
+  `role_id` bigint(20) NOT NULL COMMENT '角色\n#c_role',
+  `user_id` bigint(20) NOT NULL COMMENT '用户\n#c_user',
   `created_by` bigint(20) DEFAULT NULL COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -382,20 +406,17 @@ CREATE TABLE `c_user_role` (
 -- Table structure for undo_log
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
-CREATE TABLE IF NOT EXISTS `undo_log`
-(
-    `id`            BIGINT(20)   NOT NULL AUTO_INCREMENT COMMENT 'increment id',
-    `branch_id`     BIGINT(20)   NOT NULL COMMENT 'branch transaction id',
-    `xid`           VARCHAR(100) NOT NULL COMMENT 'global transaction id',
-    `context`       VARCHAR(128) NOT NULL COMMENT 'undo_log context,such as serialization',
-    `rollback_info` LONGBLOB     NOT NULL COMMENT 'rollback info',
-    `log_status`    INT(11)      NOT NULL COMMENT '0:normal status,1:defense status',
-    `log_created`   DATETIME(6)  NOT NULL COMMENT 'create datetime',
-    `log_modified`  DATETIME(6)  NOT NULL COMMENT 'modify datetime',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
-  DEFAULT CHARSET = utf8 COMMENT ='AT transaction mode undo table';
+CREATE TABLE `undo_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'increment id',
+  `branch_id` bigint(20) NOT NULL COMMENT 'branch transaction id',
+  `xid` varchar(100) NOT NULL COMMENT 'global transaction id',
+  `context` varchar(128) NOT NULL COMMENT 'undo_log context,such as serialization',
+  `rollback_info` longblob NOT NULL COMMENT 'rollback info',
+  `log_status` int(11) NOT NULL COMMENT '0:normal status,1:defense status',
+  `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
+  `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='AT transaction mode undo table';
 
 SET FOREIGN_KEY_CHECKS = 1;

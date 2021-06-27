@@ -1,5 +1,4 @@
-${AnsiColor.BRIGHT_YELLOW}
-oooo
+${AnsiColor.BRIGHT_YELLOW}oooo
 `888
  888   .oooo.   ooo. .oo.  .oo.   oo.ooooo.
  888  `P  )88b  `888P"Y88bP"Y88b   888' `88b
@@ -8,6 +7,8 @@ oooo
 o888o `Y888""8o o888o o888o o888o  888bod8P'
                                    888
                                   o888o
-Application Version: @project.description@ - @project.version@
 Spring Boot Version: ${spring-boot.version}
-${AnsiColor.DEFAULT}
+当前服务: ${spring.application.name}  激活环境: ${spring.profiles.active}
+nacos地址: http://${lamp.nacos.ip}:${lamp.nacos.port}/nacos
+nacos命名空间: ${lamp.nacos.namespace}
+版本所有©zuihou${AnsiColor.DEFAULT}

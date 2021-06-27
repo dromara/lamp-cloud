@@ -12,6 +12,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -53,17 +54,17 @@ public class RolePageQuery implements Serializable {
      * 状态
      */
     @ApiModelProperty(value = "状态")
-    private Boolean state;
+    private List<Boolean> state;
     /**
      * 内置角色
      */
     @ApiModelProperty(value = "内置角色")
-    private Boolean readonly;
+    private List<Boolean> readonly;
     /**
      * 数据权限
      * #DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}
      */
     @ApiModelProperty(value = "数据权限")
-    private DataScopeType dsType;
+    private List<DataScopeType> dsType;
 
 }

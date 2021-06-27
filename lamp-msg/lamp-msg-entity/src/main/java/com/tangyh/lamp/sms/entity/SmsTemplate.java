@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.tangyh.basic.base.entity.Entity;
+import com.tangyh.basic.model.EchoVO;
 import com.tangyh.lamp.sms.enumeration.ProviderType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,6 +20,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -29,7 +32,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * </p>
  *
  * @author zuihou
- * @since 2020-11-21
+ * @since 2021-06-23
  */
 @Data
 @NoArgsConstructor
@@ -39,17 +42,18 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @TableName("e_sms_template")
 @ApiModel(value = "SmsTemplate", description = "短信模板")
 @AllArgsConstructor
-public class SmsTemplate extends Entity<Long> {
+public class SmsTemplate extends Entity<Long> implements EchoVO {
 
     private static final long serialVersionUID = 1L;
-
+    @TableField(exist = false)
+    private Map<String, Object> echoMap = new HashMap<>();
     /**
      * 供应商类型
      * #ProviderType{ALI:OK,阿里云短信;TENCENT:0,腾讯云短信;BAIDU:1000,百度云短信}
      */
     @ApiModelProperty(value = "供应商类型")
-    @NotNull(message = "供应商类型不能为空")
-    @TableField("provider_type")
+    @NotNull(message = "请填写供应商类型")
+    @TableField(value = "provider_type")
     @Excel(name = "供应商类型", replace = {"OK_ALI", "0_TENCENT", "1000_BAIDU", "_null"})
     private ProviderType providerType;
 
@@ -57,7 +61,7 @@ public class SmsTemplate extends Entity<Long> {
      * 应用ID
      */
     @ApiModelProperty(value = "应用ID")
-    @NotEmpty(message = "应用ID不能为空")
+    @NotEmpty(message = "请填写应用ID")
     @Size(max = 255, message = "应用ID长度不能超过255")
     @TableField(value = "app_id", condition = LIKE)
     @Excel(name = "应用ID")
@@ -67,7 +71,7 @@ public class SmsTemplate extends Entity<Long> {
      * 应用密码
      */
     @ApiModelProperty(value = "应用密码")
-    @NotEmpty(message = "应用密码不能为空")
+    @NotEmpty(message = "请填写应用密码")
     @Size(max = 255, message = "应用密码长度不能超过255")
     @TableField(value = "app_secret", condition = LIKE)
     @Excel(name = "应用密码")
@@ -84,17 +88,6 @@ public class SmsTemplate extends Entity<Long> {
     private String url;
 
     /**
-     * 模板编码
-     * 用于api发送
-     */
-    @ApiModelProperty(value = "模板编码")
-    @NotEmpty(message = "模板编码不能为空")
-    @Size(max = 20, message = "模板编码长度不能超过20")
-    @TableField(value = "custom_code", condition = LIKE)
-    @Excel(name = "模板编码")
-    private String customCode;
-
-    /**
      * 模板名称
      */
     @ApiModelProperty(value = "模板名称")
@@ -107,7 +100,7 @@ public class SmsTemplate extends Entity<Long> {
      * 模板内容
      */
     @ApiModelProperty(value = "模板内容")
-    @NotEmpty(message = "模板内容不能为空")
+    @NotEmpty(message = "请填写模板内容")
     @Size(max = 255, message = "模板内容长度不能超过255")
     @TableField(value = "content", condition = LIKE)
     @Excel(name = "模板内容")
@@ -117,20 +110,20 @@ public class SmsTemplate extends Entity<Long> {
      * 模板参数
      */
     @ApiModelProperty(value = "模板参数")
-    @NotEmpty(message = "模板参数不能为空")
+    @NotEmpty(message = "请填写模板参数")
     @Size(max = 255, message = "模板参数长度不能超过255")
     @TableField(value = "template_params", condition = LIKE)
     @Excel(name = "模板参数")
     private String templateParams;
 
     /**
-     * 模板CODE
+     * 模板编码
      */
-    @ApiModelProperty(value = "模板CODE")
-    @NotEmpty(message = "模板CODE不能为空")
-    @Size(max = 50, message = "模板CODE长度不能超过50")
+    @ApiModelProperty(value = "模板编码")
+    @NotEmpty(message = "请填写模板编码")
+    @Size(max = 50, message = "模板编码长度不能超过50")
     @TableField(value = "template_code", condition = LIKE)
-    @Excel(name = "模板CODE")
+    @Excel(name = "模板编码")
     private String templateCode;
 
     /**
@@ -154,7 +147,7 @@ public class SmsTemplate extends Entity<Long> {
 
     @Builder
     public SmsTemplate(Long id, Long createdBy, LocalDateTime createTime, Long updatedBy, LocalDateTime updateTime,
-                       ProviderType providerType, String appId, String appSecret, String url, String customCode,
+                       ProviderType providerType, String appId, String appSecret, String url,
                        String name, String content, String templateParams, String templateCode, String signName, String templateDescribe) {
         this.id = id;
         this.createdBy = createdBy;
@@ -165,7 +158,6 @@ public class SmsTemplate extends Entity<Long> {
         this.appId = appId;
         this.appSecret = appSecret;
         this.url = url;
-        this.customCode = customCode;
         this.name = name;
         this.content = content;
         this.templateParams = templateParams;

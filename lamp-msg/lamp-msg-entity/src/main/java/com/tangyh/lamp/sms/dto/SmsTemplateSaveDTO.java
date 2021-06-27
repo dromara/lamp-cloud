@@ -23,7 +23,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author zuihou
- * @since 2020-11-21
+ * @since 2021-06-23
  */
 @Data
 @NoArgsConstructor
@@ -42,20 +42,20 @@ public class SmsTemplateSaveDTO implements Serializable {
      * #ProviderType{ALI:OK,阿里云短信;TENCENT:0,腾讯云短信;BAIDU:1000,百度云短信}
      */
     @ApiModelProperty(value = "供应商类型")
-    @NotNull(message = "供应商类型不能为空")
+    @NotNull(message = "请填写供应商类型")
     private ProviderType providerType;
     /**
      * 应用ID
      */
     @ApiModelProperty(value = "应用ID")
-    @NotEmpty(message = "应用ID不能为空")
+    @NotEmpty(message = "请填写应用ID")
     @Size(max = 255, message = "应用ID长度不能超过255")
     private String appId;
     /**
      * 应用密码
      */
     @ApiModelProperty(value = "应用密码")
-    @NotEmpty(message = "应用密码不能为空")
+    @NotEmpty(message = "请填写应用密码")
     @Size(max = 255, message = "应用密码长度不能超过255")
     private String appSecret;
     /**
@@ -65,13 +65,7 @@ public class SmsTemplateSaveDTO implements Serializable {
     @ApiModelProperty(value = "SMS服务域名")
     @Size(max = 255, message = "SMS服务域名长度不能超过255")
     private String url;
-    /**
-     * 模板编码
-     * 用于api发送
-     */
-    @ApiModelProperty(value = "模板编码")
-    @Size(max = 20, message = "模板编码长度不能超过20")
-    private String customCode;
+
     /**
      * 模板名称
      */
@@ -82,15 +76,15 @@ public class SmsTemplateSaveDTO implements Serializable {
      * 模板内容
      */
     @ApiModelProperty(value = "模板内容")
-    @NotEmpty(message = "模板内容不能为空")
+    @NotEmpty(message = "请填写模板内容")
     @Size(max = 255, message = "模板内容长度不能超过255")
     private String content;
     /**
-     * 模板CODE
+     * 模板编码
      */
-    @ApiModelProperty(value = "模板CODE")
-    @NotEmpty(message = "模板CODE不能为空")
-    @Size(max = 50, message = "模板CODE长度不能超过50")
+    @ApiModelProperty(value = "模板编码")
+    @NotEmpty(message = "请填写模板编码")
+    @Size(max = 50, message = "模板编码长度不能超过50")
     private String templateCode;
     /**
      * 签名

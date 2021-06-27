@@ -3,7 +3,9 @@ package com.tangyh.lamp.sms.entity;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.tangyh.basic.annotation.echo.Echo;
 import com.tangyh.basic.base.entity.Entity;
+import com.tangyh.basic.model.EchoVO;
 import com.tangyh.lamp.sms.enumeration.SourceType;
 import com.tangyh.lamp.sms.enumeration.TaskStatus;
 import io.swagger.annotations.ApiModel;
@@ -19,9 +21,13 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
+import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+import static com.tangyh.lamp.common.constant.EchoConstants.SMS_TEMPLATE_ID_CLASS;
 
 /**
  * <p>
@@ -30,7 +36,7 @@ import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
  * </p>
  *
  * @author zuihou
- * @since 2020-11-21
+ * @since 2021-06-23
  */
 @Data
 @NoArgsConstructor
@@ -40,18 +46,20 @@ import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 @TableName("e_sms_task")
 @ApiModel(value = "SmsTask", description = "发送任务")
 @AllArgsConstructor
-public class SmsTask extends Entity<Long> {
+public class SmsTask extends Entity<Long> implements EchoVO {
 
     private static final long serialVersionUID = 1L;
-
+    @TableField(exist = false)
+    private Map<String, Object> echoMap = new HashMap<>();
     /**
-     * 模板ID
+     * 短信模板
      * #e_sms_template
      */
-    @ApiModelProperty(value = "模板ID")
-    @NotNull(message = "模板ID不能为空")
-    @TableField("template_id")
-    @Excel(name = "模板ID")
+    @ApiModelProperty(value = "短信模板")
+    @NotNull(message = "请填写短信模板")
+    @TableField(value = "template_id")
+    @Excel(name = "短信模板")
+    @Echo(api = SMS_TEMPLATE_ID_CLASS, method = FIND_NAME_BY_IDS)
     private Long templateId;
 
     /**
@@ -60,29 +68,18 @@ public class SmsTask extends Entity<Long> {
      * #TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}
      */
     @ApiModelProperty(value = "执行状态")
-    @TableField("status")
+    @TableField(value = "status")
     @Excel(name = "执行状态", replace = {"等待执行_WAITING", "执行成功_SUCCESS", "执行失败_FAIL", "_null"})
     private TaskStatus status;
 
     /**
-     * 来源类型
+     * 发送渠道
      * #SourceType{APP:应用;SERVICE:服务}
      */
-    @ApiModelProperty(value = "来源类型")
-    @TableField("source_type")
-    @Excel(name = "来源类型", replace = {"应用_APP", "服务_SERVICE", "_null"})
+    @ApiModelProperty(value = "发送渠道")
+    @TableField(value = "source_type")
+    @Excel(name = "发送渠道", replace = {"应用_APP", "服务_SERVICE", "_null"})
     private SourceType sourceType;
-
-    /**
-     * 接收者手机号
-     * 群发用英文逗号分割.
-     * 支持2种 格式:1: 手机号,手机号  格式2: 姓名<手机号>,姓名<手机号>
-     */
-    @ApiModelProperty(value = "接收者手机号")
-    @Size(max = 65535, message = "接收者手机号长度不能超过65535")
-    @TableField("receiver")
-    @Excel(name = "接收者手机号")
-    private String receiver;
 
     /**
      * 主题
@@ -107,13 +104,13 @@ public class SmsTask extends Entity<Long> {
      * 发送时间
      */
     @ApiModelProperty(value = "发送时间")
-    @TableField("send_time")
+    @TableField(value = "send_time")
     @Excel(name = "发送时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime sendTime;
 
     /**
      * 发送内容
-     * 需要封装正确格式化: 您好，张三，您有一个新的快递。
+     * 需要封装正确格式化: 您s好，张三，您有一个新的快递。
      */
     @ApiModelProperty(value = "发送内容")
     @Size(max = 500, message = "发送内容长度不能超过500")
@@ -125,15 +122,15 @@ public class SmsTask extends Entity<Long> {
      * 是否草稿
      */
     @ApiModelProperty(value = "是否草稿")
-    @TableField("draft")
+    @TableField(value = "draft")
     @Excel(name = "是否草稿", replace = {"是_true", "否_false", "_null"})
     private Boolean draft;
 
 
     @Builder
     public SmsTask(Long id, Long createdBy, LocalDateTime createTime, Long updatedBy, LocalDateTime updateTime,
-                   Long templateId, TaskStatus status, SourceType sourceType, String receiver, String topic,
-                   String templateParams, LocalDateTime sendTime, String content, Boolean draft) {
+                   Long templateId, TaskStatus status, SourceType sourceType, String topic, String templateParams,
+                   LocalDateTime sendTime, String content, Boolean draft) {
         this.id = id;
         this.createdBy = createdBy;
         this.createTime = createTime;
@@ -142,7 +139,6 @@ public class SmsTask extends Entity<Long> {
         this.templateId = templateId;
         this.status = status;
         this.sourceType = sourceType;
-        this.receiver = receiver;
         this.topic = topic;
         this.templateParams = templateParams;
         this.sendTime = sendTime;

@@ -4,8 +4,8 @@ lamp:
     enabled: false
     ip: 127.0.0.1
     port: 5672
-    username: lamp
-    password: lamp
+    username: 'lamp'
+    password: 'lamp'
 
 spring:
   rabbitmq:

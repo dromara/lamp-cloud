@@ -3,6 +3,7 @@ package com.tangyh.lamp.file.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baidu.fsg.uid.UidGenerator;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangyh.basic.base.service.SuperServiceImpl;
@@ -10,16 +11,15 @@ import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.utils.BeanPlusUtil;
-import com.tangyh.basic.utils.DateUtils;
 import com.tangyh.lamp.file.biz.FileBiz;
 import com.tangyh.lamp.file.dao.AttachmentMapper;
 import com.tangyh.lamp.file.domain.FileDO;
 import com.tangyh.lamp.file.domain.FileDeleteDO;
-import com.tangyh.lamp.file.dto.AttachmentDTO;
+import com.tangyh.lamp.file.dto.AttachmentGetVO;
 import com.tangyh.lamp.file.dto.AttachmentResultDTO;
+import com.tangyh.lamp.file.dto.AttachmentUploadVO;
 import com.tangyh.lamp.file.dto.FilePageReqDTO;
 import com.tangyh.lamp.file.entity.Attachment;
-import com.tangyh.lamp.file.enumeration.DataType;
 import com.tangyh.lamp.file.enumeration.FileStorageType;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.service.AttachmentService;
@@ -31,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,28 +60,35 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
 
         // ${ew.customSqlSegment} 语法一定要手动eq like 等 不能用lbQ!
         LbqWrapper<Attachment> wrapper = Wraps.<Attachment>lbQ()
-                .like(Attachment::getSubmittedFileName, attachment.getSubmittedFileName())
+                .eq(Attachment::getFileType, attachment.getFileType())
+                .eq(Attachment::getStorageType, attachment.getStorageType())
+                .like(Attachment::getOriginalFileName, attachment.getOriginalFileName())
+                .like(Attachment::getContentType, attachment.getContentType())
+                .like(Attachment::getGroup, attachment.getGroup())
                 .like(Attachment::getBizType, attachment.getBizType())
                 .like(Attachment::getBizId, attachment.getBizId())
-                .eq(Attachment::getDataType, attachment.getDataType())
                 .orderByDesc(Attachment::getId);
         return baseMapper.selectPage(page, wrapper);
     }
 
     @Override
-    public AttachmentDTO upload(MultipartFile multipartFile, String tenant, Long id, String bizType, String bizId, Boolean isSingle) {
-        //根据业务类型来判断是否生成业务id
-        if (StrUtil.isNotEmpty(bizType) && StrUtil.isEmpty(bizId)) {
+    public Attachment upload(MultipartFile multipartFile, AttachmentUploadVO attachmentVO) {
+        String bizId = attachmentVO.getBizId();
+        String bizType = attachmentVO.getBizType();
+        Boolean single = attachmentVO.getSingle();
+        Long id = attachmentVO.getAttachmentId();
+
+        // 若前端没有生成业务id，我们生成后可以返回给前端，前端同一个页面下一次上传带上上次的bizId即可
+        if (StrUtil.isEmpty(bizId)) {
             bizId = String.valueOf(uidGenerator.getUid());
         }
-        Attachment attachment = fileStrategy.upload(multipartFile);
-
+        Attachment attachment = fileStrategy.upload(multipartFile, attachmentVO.getGroup(), attachmentVO.getBizType());
         attachment.setBizId(bizId);
         attachment.setBizType(bizType);
-        setDate(attachment);
+        attachment.setStorageType(attachmentVO.getStorageType() == null ? fileProperties.getType() : attachmentVO.getStorageType());
 
-        if (isSingle) {
-            super.remove(Wraps.<Attachment>lbQ().eq(Attachment::getBizId, bizId).eq(Attachment::getBizType, bizType));
+        if (single) {
+            super.remove(Wraps.<Attachment>lbQ().eq(Attachment::getBizId, attachmentVO.getBizId()).eq(Attachment::getBizType, bizType));
         }
 
         if (id != null && id > 0) {
@@ -92,19 +98,7 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
         } else {
             super.save(attachment);
         }
-
-        AttachmentDTO dto = BeanPlusUtil.toBean(attachment, AttachmentDTO.class);
-        dto.setDownloadUrlByBizId(fileProperties.getDownByBizId(bizId));
-        dto.setDownloadUrlById(fileProperties.getDownById(attachment.getId()));
-        dto.setDownloadUrlByUrl(fileProperties.getDownByUrl(attachment.getUrl(), attachment.getSubmittedFileName()));
-        return dto;
-    }
-
-    private void setDate(Attachment file) {
-        LocalDateTime now = LocalDateTime.now();
-        file.setCreateMonth(DateUtils.formatAsYearMonthEn(now));
-        file.setCreateWeek(DateUtils.formatAsYearWeekEn(now));
-        file.setCreateDay(DateUtils.formatAsDateEn(now));
+        return attachment;
     }
 
     @Override
@@ -118,16 +112,15 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
             return false;
         }
         boolean bool = super.removeByIds(ids);
-
-        boolean boolDel = fileStrategy.delete(list.stream().map((fi) -> FileDeleteDO.builder()
-                .relativePath(fi.getRelativePath())
-                .fileName(fi.getFilename())
-                .group(fi.getGroup())
-                .path(fi.getPath())
-                .file(false)
-                .build())
-                .collect(Collectors.toList()));
-        return bool && boolDel;
+        if (fileProperties.getDelFile()) {
+            boolean boolDel = fileStrategy.delete(list.stream().map((fi) -> FileDeleteDO.builder()
+                    .group(fi.getGroup())
+                    .path(fi.getPath())
+                    .build())
+                    .collect(Collectors.toList()));
+            return bool && boolDel;
+        }
+        return bool;
     }
 
     @Override
@@ -169,7 +162,13 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
             filename = "未知文件名.txt";
         }
         List<Attachment> list = Arrays.asList(Attachment.builder()
-                .url(url).submittedFileName(filename).size(0L).dataType(DataType.DOC).build());
+                .url(url).originalFileName(filename).size(0L).build());
+        down(request, response, list);
+    }
+
+    @Override
+    public void downloadByPath(HttpServletRequest request, HttpServletResponse response, String group, String path) throws Exception {
+        List<Attachment> list = list(Wraps.<Attachment>lbQ().eq(Attachment::getGroup, group).eq(Attachment::getPath, path));
         down(request, response, list);
     }
 
@@ -181,19 +180,17 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
         if (FileStorageType.MIN_IO.eq(fileProperties.getType())) {
             listDO = list.stream().map(file ->
                     FileDO.builder()
-                            .url(getUrl(file.getPath(), 172800))
-                            .submittedFileName(file.getSubmittedFileName())
+                            .url(getUrl(file.getGroup(), file.getPath(), 172800))
+                            .originalFileName(file.getOriginalFileName())
                             .size(file.getSize())
-                            .dataType(file.getDataType())
                             .build())
                     .collect(Collectors.toList());
         } else {
             listDO = list.stream().map(file ->
                     FileDO.builder()
                             .url(file.getUrl())
-                            .submittedFileName(file.getSubmittedFileName())
+                            .originalFileName(file.getOriginalFileName())
                             .size(file.getSize())
-                            .dataType(file.getDataType())
                             .build())
                     .collect(Collectors.toList());
         }
@@ -201,12 +198,12 @@ public class AttachmentServiceImpl extends SuperServiceImpl<AttachmentMapper, At
     }
 
     @Override
-    public List<String> getUrls(List<String> paths, Integer expiry) {
+    public List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry) {
         return fileStrategy.getUrls(paths, expiry);
     }
 
     @Override
-    public String getUrl(String path, Integer expiry) {
-        return fileStrategy.getUrl(path, expiry);
+    public String getUrl(String group, String path, Integer expiry) {
+        return fileStrategy.getUrl(group, path, expiry);
     }
 }

@@ -62,11 +62,7 @@ public class RoleSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "状态")
     private Boolean state;
-    /**
-     * 内置角色
-     */
-    @ApiModelProperty(value = "内置角色")
-    private Boolean readonly;
+
     /**
      * 数据权限
      * #DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}

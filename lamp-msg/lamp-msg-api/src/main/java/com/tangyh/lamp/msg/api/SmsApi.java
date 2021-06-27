@@ -4,7 +4,7 @@ package com.tangyh.lamp.msg.api;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.entity.SuperEntity;
 import com.tangyh.lamp.msg.api.fallback.SmsApiFallback;
-import com.tangyh.lamp.sms.dto.SmsSendTaskDTO;
+import com.tangyh.lamp.sms.dto.SmsTaskSaveDTO;
 import com.tangyh.lamp.sms.dto.VerificationCodeDTO;
 import com.tangyh.lamp.sms.entity.SmsTask;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -28,8 +28,8 @@ public interface SmsApi {
      * @param smsTaskDTO 短信参数
      * @return 短信任务
      */
-    @RequestMapping(value = "/smsTask/send", method = RequestMethod.POST)
-    R<SmsTask> send(@RequestBody SmsSendTaskDTO smsTaskDTO);
+    @RequestMapping(value = "/smsTask", method = RequestMethod.POST)
+    R<SmsTask> send(@RequestBody SmsTaskSaveDTO smsTaskDTO);
 
     /**
      * 发送验证码

@@ -56,7 +56,7 @@ public class RoleQueryDTO implements Serializable {
      * 状态
      */
     @ApiModelProperty(value = "状态")
-    private Boolean status;
+    private Boolean state;
     /**
      * 内置角色
      */

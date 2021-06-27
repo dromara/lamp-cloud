@@ -1,7 +1,11 @@
 package com.tangyh.lamp.sms.dao;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.mapper.SuperMapper;
+import com.tangyh.basic.base.request.PageParams;
+import com.tangyh.lamp.sms.dto.SmsTaskPageQuery;
 import com.tangyh.lamp.sms.entity.SmsTask;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,4 +22,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SmsTaskMapper extends SuperMapper<SmsTask> {
 
+    /**
+     * 自定义分页
+     *
+     * @param page  page 分页参数
+     * @param query query 条件
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<com.tangyh.lamp.sms.entity.SmsTask>
+     * @author tangyh
+     * @date 2021/6/23 11:23 下午
+     * @create [2021/6/23 11:23 下午 ] [tangyh] [初始创建]
+     */
+    IPage<SmsTask> pageSmsTask(IPage<SmsTask> page, @Param("param") PageParams<SmsTaskPageQuery> query);
 }

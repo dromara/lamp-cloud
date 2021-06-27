@@ -21,7 +21,7 @@ public class SmsDO {
     /**
      * 接受者手机号
      */
-    private String phone;
+    private String telNum;
     /**
      * 发送账号安全认证的Access Key ID
      */
@@ -35,7 +35,7 @@ public class SmsDO {
      */
     private String signName;
     /**
-     * 模板code
+     * 模板编码
      */
     private String templateCode;
     /**

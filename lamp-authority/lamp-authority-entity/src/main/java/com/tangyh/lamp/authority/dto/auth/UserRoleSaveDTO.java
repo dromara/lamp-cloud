@@ -11,7 +11,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -42,14 +41,13 @@ public class UserRoleSaveDTO implements Serializable {
      * #c_role
      */
     @ApiModelProperty(value = "角色ID")
-    @NotNull(message = "角色ID不能为空")
+    @NotNull(message = "请选择角色")
     private Long roleId;
     /**
      * 用户ID
      * #c_user
      */
     @ApiModelProperty(value = "用户ID")
-    @Size(min = 1, message = "用户不能为空")
     private List<Long> userIdList;
 
 }

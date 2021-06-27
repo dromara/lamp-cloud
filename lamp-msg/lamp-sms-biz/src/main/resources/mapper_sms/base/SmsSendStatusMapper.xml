@@ -11,21 +11,19 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="task_id" jdbcType="BIGINT" property="taskId"/>
         <result column="send_status" jdbcType="VARCHAR" property="sendStatus"/>
-        <result column="receiver" jdbcType="VARCHAR" property="receiver"/>
+        <result column="tel_num" jdbcType="VARCHAR" property="telNum"/>
         <result column="biz_id" jdbcType="VARCHAR" property="bizId"/>
         <result column="ext" jdbcType="VARCHAR" property="ext"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="message" jdbcType="VARCHAR" property="message"/>
         <result column="fee" jdbcType="INTEGER" property="fee"/>
-        <result column="create_month" jdbcType="CHAR" property="createMonth"/>
-        <result column="create_week" jdbcType="CHAR" property="createWeek"/>
-        <result column="create_date" jdbcType="CHAR" property="createDate"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,created_by,create_time,updated_by,update_time,
-        task_id, send_status, receiver, biz_id, ext, code, message, fee, create_month, create_week, create_date
+        id
+        ,created_by,create_time,updated_by,update_time,
+        task_id, send_status, tel_num, biz_id, ext, code, message, fee
     </sql>
 
 </mapper>

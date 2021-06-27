@@ -2,6 +2,7 @@ package com.tangyh.lamp.authority.service.auth.impl;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKey;
@@ -9,6 +10,7 @@ import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.security.constant.RoleConstant;
 import com.tangyh.basic.utils.BeanPlusUtil;
+import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.basic.utils.StrHelper;
 import com.tangyh.lamp.authority.dao.auth.RoleMapper;
 import com.tangyh.lamp.authority.dto.auth.RoleSaveDTO;
@@ -139,6 +141,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveRole(RoleSaveDTO data, Long userId) {
+        BizAssert.isFalse(StrUtil.isNotBlank(data.getCode()) && check(data.getCode()), "角色编码{}已存在", data.getCode());
         Role role = BeanPlusUtil.toBean(data, Role.class);
         role.setCode(StrHelper.getOrDef(data.getCode(), RandomUtil.randomString(8)));
         role.setReadonly(false);

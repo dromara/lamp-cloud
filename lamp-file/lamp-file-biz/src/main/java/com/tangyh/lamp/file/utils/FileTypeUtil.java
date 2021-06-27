@@ -2,7 +2,7 @@ package com.tangyh.lamp.file.utils;
 
 
 import cn.hutool.core.util.StrUtil;
-import com.tangyh.lamp.file.enumeration.DataType;
+import com.tangyh.lamp.file.enumeration.FileType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -17,15 +17,14 @@ import java.time.format.DateTimeFormatter;
  * @date 2019-05-06
  */
 @Slf4j
-public final class FileDataTypeUtil {
+public final class FileTypeUtil {
     private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy/MM");
 
-    private FileDataTypeUtil() {
+    private FileTypeUtil() {
     }
 
     private static final String IMAGE = "image";
     private static final String VIDEO = "video";
-    private static final String DIR = "application/x-director";
     private static final String AUDIO = "audio";
     private static final String TEXT = "text";
 
@@ -45,26 +44,24 @@ public final class FileDataTypeUtil {
     /**
      * 根据mine类型，返回文件类型
      *
-     * @param mime 类型
+     * @param contentType 类型
      * @author zuihou
      * @date 2019-05-06 13:41
      */
-    public static DataType getDataType(String mime) {
-        if (mime == null || "".equals(mime)) {
-            return DataType.OTHER;
+    public static FileType getFileType(String contentType) {
+        if (contentType == null || "".equals(contentType)) {
+            return FileType.OTHER;
         }
-        if (mime.contains(IMAGE)) {
-            return DataType.IMAGE;
-        } else if (mime.contains(TEXT) || StrUtil.startWithAny(mime, TEXT_MIME)) {
-            return DataType.DOC;
-        } else if (mime.contains(VIDEO)) {
-            return DataType.VIDEO;
-        } else if (mime.contains(DIR)) {
-            return DataType.DIR;
-        } else if (mime.contains(AUDIO)) {
-            return DataType.AUDIO;
+        if (contentType.contains(IMAGE)) {
+            return FileType.IMAGE;
+        } else if (contentType.contains(TEXT) || StrUtil.startWithAny(contentType, TEXT_MIME)) {
+            return FileType.DOC;
+        } else if (contentType.contains(VIDEO)) {
+            return FileType.VIDEO;
+        } else if (contentType.contains(AUDIO)) {
+            return FileType.AUDIO;
         } else {
-            return DataType.OTHER;
+            return FileType.OTHER;
         }
     }
 

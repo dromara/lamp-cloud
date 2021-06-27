@@ -1,16 +1,14 @@
 package com.tangyh.lamp.sms.controller;
 
 import cn.hutool.core.util.RandomUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.entity.SuperEntity;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.repository.CacheOps;
 import com.tangyh.lamp.common.cache.VerificationCodeCacheKeyBuilder;
+import com.tangyh.lamp.sms.dto.SmsTaskSaveDTO;
 import com.tangyh.lamp.sms.dto.VerificationCodeDTO;
-import com.tangyh.lamp.sms.entity.SmsTask;
 import com.tangyh.lamp.sms.enumeration.SourceType;
-import com.tangyh.lamp.sms.enumeration.TemplateCodeType;
 import com.tangyh.lamp.sms.service.SmsTaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 /**
  * 通用验证码
@@ -49,14 +50,16 @@ public class VerificationCodeController {
     public R<Boolean> send(@Validated @RequestBody VerificationCodeDTO data) {
         String code = RandomUtil.randomNumbers(6);
 
-        SmsTask smsTask = SmsTask.builder().build();
+        SmsTaskSaveDTO smsTask = SmsTaskSaveDTO.builder().build();
         smsTask.setSourceType(SourceType.SERVICE);
-        JSONObject param = new JSONObject();
+        LinkedHashMap<String, String> param = new LinkedHashMap();
         param.put("1", code);
-        smsTask.setTemplateParams(param.toString());
-        smsTask.setReceiver(data.getMobile());
+        smsTask.setTemplateParam(param);
+        smsTask.setTelNum(Arrays.asList(data.getMobile()));
+        // 请自行在SmsTemplate 表配置id=1的短信模板
+        smsTask.setTemplateId(1L);
         smsTask.setDraft(false);
-        smsTaskService.saveTask(smsTask, TemplateCodeType.COMMON_SMS);
+        smsTaskService.saveTask(smsTask);
 
         CacheKey cacheKey = new VerificationCodeCacheKeyBuilder().key(data.getType().name(), data.getMobile());
         cacheOps.set(cacheKey, code);
@@ -65,7 +68,6 @@ public class VerificationCodeController {
 
     /**
      * 对某种类型的验证码进行校验
-     *
      */
     @ApiOperation(value = "验证验证码", notes = "验证验证码")
     @PostMapping

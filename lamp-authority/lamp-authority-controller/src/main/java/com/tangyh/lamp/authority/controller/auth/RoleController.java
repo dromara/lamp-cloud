@@ -1,11 +1,15 @@
 package com.tangyh.lamp.authority.controller.auth;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.annotation.log.SysLog;
 import com.tangyh.basic.annotation.security.PreAuth;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.controller.SuperCacheController;
+import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.database.mybatis.auth.DataScopeType;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
+import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import com.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.lamp.authority.dto.auth.RoleAuthoritySaveDTO;
 import com.tangyh.lamp.authority.dto.auth.RolePageQuery;
@@ -27,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +62,21 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
     private final RoleOrgService roleOrgService;
     private final UserRoleService userRoleService;
 
+    @Override
+    public void query(PageParams<RolePageQuery> params, IPage<Role> page, Long defSize) {
+        RolePageQuery roleQuery = params.getModel();
+
+        QueryWrap<Role> wrap = handlerWrapper(null, params);
+
+        LbqWrapper<Role> wrapper = wrap.lambda();
+
+        wrapper.like(Role::getName, roleQuery.getName())
+                .like(Role::getCode, roleQuery.getCode())
+                .in(Role::getState, roleQuery.getState())
+                .in(Role::getReadonly, roleQuery.getReadonly())
+                .in(Role::getDsType, roleQuery.getDsType());
+        baseService.page(page, wrapper);
+    }
 
     /**
      * 查询角色
@@ -67,9 +85,9 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @return 查询结果
      */
     @ApiOperation(value = "查询角色", notes = "查询角色")
-    @GetMapping("/details/{id}")
+    @GetMapping("/details")
     @SysLog("查询角色")
-    public R<RoleQueryDTO> getDetails(@PathVariable Long id) {
+    public R<RoleQueryDTO> getDetails(@RequestParam Long id) {
         Role role = baseService.getByIdCache(id);
         RoleQueryDTO query = BeanPlusUtil.toBean(role, RoleQueryDTO.class);
         if (query.getDsType() != null && DataScopeType.CUSTOMIZE.eq(query.getDsType())) {
@@ -80,9 +98,9 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
     }
 
     @ApiOperation(value = "检测角色编码", notes = "检测角色编码")
-    @GetMapping("/check/{code}")
-    @SysLog("新增角色")
-    public R<Boolean> check(@PathVariable String code) {
+    @GetMapping("/check")
+    @SysLog("检测角色编码")
+    public R<Boolean> check(@RequestParam String code) {
         return success(baseService.check(code));
     }
 
@@ -111,7 +129,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @return 新增结果
      */
     @ApiOperation(value = "给用户分配角色", notes = "给用户分配角色")
-    @PostMapping("/user")
+    @PostMapping("/saveUserRole")
     @SysLog("给角色分配用户")
     @PreAuth("hasAnyPermission('{}config')")
     public R<Boolean> saveUserRole(@RequestBody UserRoleSaveDTO userRole) {
@@ -125,10 +143,10 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @return 新增结果
      */
     @ApiOperation(value = "查询角色的用户", notes = "查询角色的用户")
-    @GetMapping("/user/{roleId}")
+    @GetMapping("/userList")
     @SysLog("查询角色的用户")
     @PreAuth("hasAnyPermission('{}view')")
-    public R<List<Long>> findUserIdByRoleId(@PathVariable Long roleId) {
+    public R<List<Long>> findUserIdByRoleId(@RequestParam Long roleId) {
         List<UserRole> list = userRoleService.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
         return success(list.stream().mapToLong(UserRole::getUserId).boxed().collect(Collectors.toList()));
     }
@@ -140,10 +158,10 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @return 新增结果
      */
     @ApiOperation(value = "查询角色拥有的资源id集合", notes = "查询角色拥有的资源id集合")
-    @GetMapping("/authority/{roleId}")
+    @GetMapping("/resourceList")
     @SysLog("查询角色拥有的资源")
     @PreAuth("hasAnyPermission('{}view')")
-    public R<RoleAuthoritySaveDTO> findAuthorityIdByRoleId(@PathVariable Long roleId) {
+    public R<RoleAuthoritySaveDTO> findResourceListByRoleId(@RequestParam Long roleId) {
         List<RoleAuthority> list = roleAuthorityService.list(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleId));
         List<Long> menuIdList = list.stream().filter(item -> AuthorizeType.MENU.eq(item.getAuthorityType())).mapToLong(RoleAuthority::getAuthorityId).boxed().collect(Collectors.toList());
         List<Long> resourceIdList = list.stream().filter(item -> AuthorizeType.RESOURCE.eq(item.getAuthorityType())).mapToLong(RoleAuthority::getAuthorityId).boxed().collect(Collectors.toList());
@@ -161,7 +179,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @return 新增结果
      */
     @ApiOperation(value = "给角色配置权限", notes = "给角色配置权限")
-    @PostMapping("/authority")
+    @PostMapping("/saveResource")
     @SysLog("给角色配置权限")
     @PreAuth("hasAnyPermission('{}auth')")
     public R<Boolean> saveRoleAuthority(@RequestBody RoleAuthoritySaveDTO roleAuthoritySaveDTO) {

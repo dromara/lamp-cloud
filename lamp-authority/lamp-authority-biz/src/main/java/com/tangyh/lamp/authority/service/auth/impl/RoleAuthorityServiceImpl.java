@@ -57,21 +57,26 @@ public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapp
     public boolean saveUserRole(UserRoleSaveDTO userRole) {
         List<UserRole> oldUserRoleList = userRoleService.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, userRole.getRoleId()));
         userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, userRole.getRoleId()));
-        List<UserRole> list = userRole.getUserIdList()
-                .stream()
-                .map(userId -> UserRole.builder()
-                        .userId(userId)
-                        .roleId(userRole.getRoleId())
-                        .build())
-                .collect(Collectors.toList());
-        userRoleService.saveBatch(list);
+
+        Set<Long> delIdList = new HashSet<>();
+        if (CollUtil.isNotEmpty(userRole.getUserIdList())) {
+            List<UserRole> list = userRole.getUserIdList()
+                    .stream()
+                    .map(userId -> UserRole.builder()
+                            .userId(userId)
+                            .roleId(userRole.getRoleId())
+                            .build())
+                    .collect(Collectors.toList());
+            userRoleService.saveBatch(list);
+            delIdList.addAll(userRole.getUserIdList());
+        }
 
         /* 角色A -> u1 u2
             修改成
             角色A -> u3 u2
             所以， 应该清除 u1、u2、u3 的角色、菜单、资源
             */
-        Set<Long> delIdList = CollUtil.newHashSet(userRole.getUserIdList());
+
         if (!oldUserRoleList.isEmpty()) {
             delIdList.addAll(oldUserRoleList.stream().map(UserRole::getUserId).collect(Collectors.toSet()));
         }

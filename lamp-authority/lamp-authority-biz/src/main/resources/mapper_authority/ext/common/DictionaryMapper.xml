@@ -3,7 +3,7 @@
 <mapper namespace="com.tangyh.lamp.authority.dao.common.DictionaryMapper">
 
     <select id="pageType" resultType="com.tangyh.lamp.authority.entity.common.Dictionary" parameterType="map">
-        select type, label, max(state) state from c_dictionary
+        select type, label, max(state) state, min(create_time) create_time from c_dictionary
         <where>
             <if test="query.label != null and query.label != ''">
                 and (type like #{query.label,typeHandler=fullLike} or label like #{query.label,typeHandler=fullLike} or

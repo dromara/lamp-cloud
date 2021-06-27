@@ -20,17 +20,10 @@ public class FileDeleteDO {
      * fastdfs 的路径
      */
     private String path;
-    /**
-     * 唯一文件名
-     */
-    private String fileName;
-    /**
-     * 文件在服务器的绝对路径
-     */
-    private String relativePath;
-    private Long id;
-    /**
-     * 是否是云盘文件删除
-     */
-    private Boolean file;
+//    /**
+//     * 唯一文件名
+//     */
+//    private String uniqueFileName;
+
+//    private Long id;
 }

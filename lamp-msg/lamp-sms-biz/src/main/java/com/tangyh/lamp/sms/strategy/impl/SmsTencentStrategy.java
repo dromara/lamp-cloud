@@ -89,7 +89,7 @@ public class SmsTencentStrategy extends AbstractSmsStrategy {
                 paramList.add(val.getValue().toString());
             }
 
-            SmsSingleSenderResult singleSenderResult = singleSender.sendWithParam("86", smsDO.getPhone(),
+            SmsSingleSenderResult singleSenderResult = singleSender.sendWithParam("86", smsDO.getTelNum(),
                     Convert.toInt(smsDO.getTemplateCode()), paramList, smsDO.getSignName(), "", "");
             log.info("tencent result={}", singleSenderResult.toString());
             return SmsResult.build(ProviderType.TENCENT, String.valueOf(singleSenderResult.result),

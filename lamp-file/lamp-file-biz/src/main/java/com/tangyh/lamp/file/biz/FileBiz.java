@@ -5,7 +5,6 @@ import cn.hutool.core.util.StrUtil;
 import com.tangyh.basic.utils.CollHelper;
 import com.tangyh.basic.utils.StrPool;
 import com.tangyh.lamp.file.domain.FileDO;
-import com.tangyh.lamp.file.enumeration.DataType;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.utils.ZipUtils;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,7 @@ public class FileBiz {
 
 
     private static Predicate<FileDO> getFilePredicate() {
-        return file -> file != null && !DataType.DIR.eq(file.getDataType()) && StrUtil.isNotEmpty(file.getUrl());
+        return file -> file != null && StrUtil.isNotEmpty(file.getUrl());
     }
 
     public void down(List<FileDO> list, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -49,7 +48,7 @@ public class FileBiz {
         log.info("内网前缀地址 innerUriPrefix={}", innerUriPrefix);
         long fileSize = list.stream().filter(getFilePredicate())
                 .mapToLong(file -> Convert.toLong(file.getSize(), 0L)).sum();
-        String extName = list.get(0).getSubmittedFileName();
+        String extName = list.get(0).getOriginalFileName();
         if (list.size() > 1) {
             extName = StrUtil.subBefore(extName, ".", true) + "等.zip";
         }
@@ -71,7 +70,7 @@ public class FileBiz {
                 })
                 //循环处理相同的文件名
                 .forEach(file -> {
-                    String submittedFileName = file.getSubmittedFileName();
+                    String submittedFileName = file.getOriginalFileName();
                     if (map.containsKey(submittedFileName)) {
                         if (duplicateFile.containsKey(submittedFileName)) {
                             duplicateFile.put(submittedFileName, duplicateFile.get(submittedFileName) + 1);

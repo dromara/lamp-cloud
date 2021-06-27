@@ -1,6 +1,7 @@
 package com.tangyh.lamp.file.strategy;
 
 import com.tangyh.lamp.file.domain.FileDeleteDO;
+import com.tangyh.lamp.file.dto.AttachmentGetVO;
 import com.tangyh.lamp.file.entity.Attachment;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,10 +17,12 @@ public interface FileStrategy {
     /**
      * 文件上传
      *
-     * @param file 文件
+     * @param file    文件
+     * @param group   桶
+     * @param bizType 业务类型
      * @return 文件对象
      */
-    Attachment upload(MultipartFile file);
+    Attachment upload(MultipartFile file, String group, String bizType);
 
     /**
      * 删除源文件
@@ -36,14 +39,15 @@ public interface FileStrategy {
      * @param expiry
      * @return
      */
-    List<String> getUrls(List<String> paths, Integer expiry);
+    List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry);
 
     /**
      * 根据路径获取访问地址
      *
      * @param path
+     * @param group
      * @param expiry
      * @return
      */
-    String getUrl(String path, Integer expiry);
+    String getUrl(String group, String path, Integer expiry);
 }

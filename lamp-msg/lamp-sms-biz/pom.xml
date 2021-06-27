@@ -38,6 +38,10 @@
             <groupId>com.tangyh.basic</groupId>
             <artifactId>lamp-cache-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-echo-starter</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

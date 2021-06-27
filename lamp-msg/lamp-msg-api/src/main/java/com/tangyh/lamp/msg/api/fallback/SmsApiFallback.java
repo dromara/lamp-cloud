@@ -2,7 +2,7 @@ package com.tangyh.lamp.msg.api.fallback;
 
 import com.tangyh.basic.base.R;
 import com.tangyh.lamp.msg.api.SmsApi;
-import com.tangyh.lamp.sms.dto.SmsSendTaskDTO;
+import com.tangyh.lamp.sms.dto.SmsTaskSaveDTO;
 import com.tangyh.lamp.sms.dto.VerificationCodeDTO;
 import com.tangyh.lamp.sms.entity.SmsTask;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SmsApiFallback implements SmsApi {
     @Override
-    public R<SmsTask> send(SmsSendTaskDTO smsTaskDTO) {
+    public R<SmsTask> send(SmsTaskSaveDTO smsTaskDTO) {
         return R.timeout();
     }
 

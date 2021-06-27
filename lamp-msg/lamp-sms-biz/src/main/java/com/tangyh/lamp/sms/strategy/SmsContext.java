@@ -1,12 +1,12 @@
 package com.tangyh.lamp.sms.strategy;
 
 
-import com.tangyh.basic.base.R;
 import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.lamp.sms.dao.SmsTaskMapper;
 import com.tangyh.lamp.sms.dao.SmsTemplateMapper;
 import com.tangyh.lamp.sms.entity.SmsTask;
 import com.tangyh.lamp.sms.entity.SmsTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -44,7 +44,8 @@ public class SmsContext {
      * @param taskId 任务id
      * @return 任务id
      */
-    public String smsSend(Long taskId) {
+    @Async
+    public void smsSend(Long taskId) {
         SmsTask smsTask = smsTaskMapper.selectById(taskId);
         BizAssert.notNull(smsTask, "短信任务尚未保存成功");
 
@@ -55,11 +56,7 @@ public class SmsContext {
         SmsStrategy smsStrategy = smsContextStrategyMap.get(template.getProviderType().name());
         BizAssert.notNull(smsStrategy, "短信供应商不存在");
 
-        R<String> result = smsStrategy.sendSms(smsTask, template);
-        if (result.getIsSuccess()) {
-            return result.getData();
-        }
-        return null;
+        smsStrategy.sendSms(smsTask, template);
     }
 
 }

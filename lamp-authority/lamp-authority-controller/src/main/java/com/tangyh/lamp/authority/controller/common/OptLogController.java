@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,9 +68,9 @@ public class OptLogController extends SuperSimpleController<OptLogService, OptLo
             @ApiImplicitParam(name = "id", value = "主键", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
     })
     @ApiOperation(value = "单体查询", notes = "单体查询")
-    @GetMapping("/{id}")
+    @GetMapping("/get")
     @PreAuth("hasAnyPermission('{}view')")
-    public R<OptLogResult> get(@PathVariable Long id) {
+    public R<OptLogResult> get(@RequestParam Long id) {
         return success(baseService.getOptLogResultById(id));
     }
 

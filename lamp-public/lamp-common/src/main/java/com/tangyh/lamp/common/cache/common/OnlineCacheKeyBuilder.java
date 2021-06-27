@@ -5,7 +5,7 @@ import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.lamp.common.cache.CacheKeyDefinition;
 
 /**
- * 参数 KEY
+ * online:{userid} -> token (String)
  * <p>
  *
  * @author zuihou

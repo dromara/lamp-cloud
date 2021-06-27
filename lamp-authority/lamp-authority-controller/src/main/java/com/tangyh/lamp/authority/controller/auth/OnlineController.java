@@ -1,7 +1,10 @@
 package com.tangyh.lamp.authority.controller.auth;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tangyh.basic.annotation.security.PreAuth;
 import com.tangyh.basic.base.R;
+import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.lamp.authority.dto.auth.Online;
 import com.tangyh.lamp.authority.service.auth.OnlineService;
 import io.swagger.annotations.Api;
@@ -10,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +44,15 @@ public class OnlineController {
     @PreAuth("hasAnyPermission('{}view')")
     public R<List<Online>> list(@RequestParam(required = false) String name) {
         return R.success(onlineService.list(name));
+    }
+
+    @PostMapping(value = "/page")
+    @PreAuth("hasAnyPermission('{}view')")
+    public R<IPage<Online>> page(@RequestBody @Validated PageParams<Online> params) {
+        List<Online> list = onlineService.list(params.getModel().getName());
+        IPage<Online> page = new Page<>(1, list.size(), list.size());
+        page.setRecords(list);
+        return R.success(page);
     }
 
     @ApiOperation(value = "T人", notes = "T人")

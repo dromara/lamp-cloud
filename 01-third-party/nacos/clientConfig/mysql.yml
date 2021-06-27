@@ -85,7 +85,7 @@ spring:
         reset-enable: true    #允许清空统计数据
         login-username: lamp
         login-password: lamp
-
+        allow: ''
 
 mybatis-plus:
   mapper-locations:

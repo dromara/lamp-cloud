@@ -8,6 +8,7 @@ import cn.afterturn.easypoi.excel.entity.ExcelToHtmlParams;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.view.PoiBaseView;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.annotation.log.SysLog;
@@ -16,6 +17,8 @@ import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.base.request.PageUtil;
 import com.tangyh.basic.context.ContextUtil;
+import com.tangyh.basic.database.mybatis.conditions.Wraps;
+import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import com.tangyh.lamp.authority.api.UserBizApi;
 import com.tangyh.lamp.msg.dto.MsgPageResult;
 import com.tangyh.lamp.msg.dto.MsgQuery;
@@ -87,9 +90,11 @@ public class MsgController {
     @ApiOperation(value = "分页查询消息中心", notes = "分页查询消息中心")
     @PostMapping("/page")
     @SysLog(value = "'分页列表查询:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
-    public R<IPage<MsgPageResult>> page(@RequestBody @Validated PageParams<MsgQuery> params) {
-        IPage<MsgPageResult> page = params.buildPage();
-        query(params, page);
+    public R<IPage<Msg>> page(@RequestBody @Validated PageParams<MsgQuery> params) {
+        IPage<Msg> page = params.buildPage();
+        Msg model = BeanUtil.toBean(params.getModel(), Msg.class);
+        LbqWrapper<Msg> wraps = Wraps.lbq(model, params.getExtra(), Msg.class);
+        msgService.page(page, wraps);
         return R.success(page);
     }
 

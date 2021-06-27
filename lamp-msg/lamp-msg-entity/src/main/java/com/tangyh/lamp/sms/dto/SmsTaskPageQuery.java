@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zuihou
- * @since 2020-11-21
+ * @since 2021-06-23
  */
 @Data
 @NoArgsConstructor
@@ -37,10 +37,10 @@ public class SmsTaskPageQuery implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 模板ID
+     * 短信模板
      * #e_sms_template
      */
-    @ApiModelProperty(value = "模板ID")
+    @ApiModelProperty(value = "短信模板")
     private Long templateId;
     /**
      * 执行状态
@@ -50,18 +50,13 @@ public class SmsTaskPageQuery implements Serializable {
     @ApiModelProperty(value = "执行状态")
     private TaskStatus status;
     /**
-     * 来源类型
+     * 发送渠道
      * #SourceType{APP:应用;SERVICE:服务}
      */
-    @ApiModelProperty(value = "来源类型")
+    @ApiModelProperty(value = "发送渠道")
     private SourceType sourceType;
-    /**
-     * 接收者手机号
-     * 群发用英文逗号分割.
-     * 支持2种 格式:1: 手机号,手机号  格式2: 姓名<手机号>,姓名<手机号>
-     */
-    @ApiModelProperty(value = "接收者手机号")
-    private String receiver;
+    @ApiModelProperty(value = "接收者手机")
+    private String telNum;
     /**
      * 主题
      */

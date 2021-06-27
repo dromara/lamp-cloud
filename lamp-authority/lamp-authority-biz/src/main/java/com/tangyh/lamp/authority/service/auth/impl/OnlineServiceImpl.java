@@ -42,8 +42,8 @@ public class OnlineServiceImpl implements OnlineService {
 
     @Override
     public List<Online> list(String name) {
-        CacheKey pattern = new OnlineCacheKeyBuilder().key(StrPool.STAR);
-        Set<String> keys = cacheOps.keys(pattern.getKey());
+        String pattern = new OnlineCacheKeyBuilder().getPattern();
+        List<String> keys = cacheOps.scan(pattern);
 
         return keys.stream()
                 .map(key -> (Online) cacheOps.get(key))

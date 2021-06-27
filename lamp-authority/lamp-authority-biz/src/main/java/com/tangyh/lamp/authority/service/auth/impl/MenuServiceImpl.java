@@ -1,15 +1,23 @@
 package com.tangyh.lamp.authority.service.auth.impl;
 
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.Pair;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
+import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.basic.utils.DefValueHelper;
+import com.tangyh.basic.utils.TreeUtil;
 import com.tangyh.lamp.authority.dao.auth.MenuMapper;
+import com.tangyh.lamp.authority.dto.auth.MenuResourceTreeVO;
 import com.tangyh.lamp.authority.entity.auth.Menu;
+import com.tangyh.lamp.authority.entity.auth.Resource;
+import com.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
 import com.tangyh.lamp.authority.service.auth.MenuService;
 import com.tangyh.lamp.authority.service.auth.ResourceService;
 import com.tangyh.lamp.authority.service.auth.UserService;
@@ -71,15 +79,18 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
         List<Menu> visibleMenu = new ArrayList<>();
 
         List<Long> list = cacheOps.get(userMenuKey, k -> {
+            log.info("userMenuKey={}", userMenuKey.getKey());
             visibleMenu.addAll(baseMapper.findVisibleMenu(userId));
             return visibleMenu.stream().map(Menu::getId).collect(Collectors.toList());
         });
-
+        log.info("visibleMenu={}", visibleMenu.size());
         if (!visibleMenu.isEmpty()) {
             visibleMenu.forEach(this::setCache);
         } else {
+            log.info("list={}", list.size());
             visibleMenu.addAll(findByIds(list, this::listByIds));
         }
+        log.info("visibleMenu2={}", visibleMenu.size());
         return menuListFilterGroup(group, visibleMenu);
     }
 
@@ -134,4 +145,32 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
         }
         return true;
     }
+
+
+    @Override
+    public List<MenuResourceTreeVO> findMenuResourceTree() {
+        List<MenuResourceTreeVO> list = new ArrayList<>();
+        List<Menu> menus = super.list();
+        List<Resource> resources = resourceService.list();
+
+        List<MenuResourceTreeVO> menuList = menus.stream().map(item -> {
+            MenuResourceTreeVO menu = new MenuResourceTreeVO();
+            BeanPlusUtil.copyProperties(item, menu);
+            menu.setType(AuthorizeType.MENU);
+            return menu;
+        }).collect(Collectors.toList());
+        List<MenuResourceTreeVO> resourceList = resources.stream().map(item -> {
+            MenuResourceTreeVO menu = new MenuResourceTreeVO();
+            CopyOptions copyOptions = new CopyOptions();
+            copyOptions.setFieldMapping(MapUtil.of(Pair.of("name", "label"),
+                    Pair.of("name", "label"), Pair.of("menuId", "parentId")));
+            BeanPlusUtil.copyProperties(item, menu, copyOptions);
+            menu.setType(AuthorizeType.RESOURCE);
+            return menu;
+        }).collect(Collectors.toList());
+        list.addAll(menuList);
+        list.addAll(resourceList);
+        return TreeUtil.buildTree(list);
+    }
+
 }

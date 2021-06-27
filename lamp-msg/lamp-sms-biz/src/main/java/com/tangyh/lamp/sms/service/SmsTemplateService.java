@@ -1,6 +1,7 @@
 package com.tangyh.lamp.sms.service;
 
 import com.tangyh.basic.base.service.SuperService;
+import com.tangyh.basic.model.LoadService;
 import com.tangyh.lamp.sms.entity.SmsTemplate;
 
 /**
@@ -12,7 +13,7 @@ import com.tangyh.lamp.sms.entity.SmsTemplate;
  * @author zuihou
  * @date 2019-08-01
  */
-public interface SmsTemplateService extends SuperService<SmsTemplate> {
+public interface SmsTemplateService extends SuperService<SmsTemplate>, LoadService {
     /**
      * 保存模板，并且将模板内容解析成json格式
      *

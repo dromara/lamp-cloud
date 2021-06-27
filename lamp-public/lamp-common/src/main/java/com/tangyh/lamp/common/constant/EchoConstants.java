@@ -9,8 +9,12 @@ package com.tangyh.lamp.common.constant;
  * @date 2020年01月20日11:16:37
  */
 public class EchoConstants {
+    private EchoConstants() {
+    }
+
     public static final String FIND_NAME_BY_IDS = "findNameByIds";
     public static final String FIND_BY_IDS = "findByIds";
+
     /**
      * 数据字典项 feign查询类 全类名
      */
@@ -19,6 +23,7 @@ public class EchoConstants {
      * 数据字典项 service查询类
      */
     public static final String DICTIONARY_ITEM_CLASS = "dictionaryServiceImpl";
+
     /**
      * 组织 service查询类
      */
@@ -27,6 +32,7 @@ public class EchoConstants {
      * 组织 feign查询类
      */
     public static final String ORG_ID_FEIGN_CLASS = "com.tangyh.lamp.oauth.api.OrgApi";
+
     /**
      * 用户 service查询类
      */
@@ -35,6 +41,7 @@ public class EchoConstants {
      * 用户 feign查询类
      */
     public static final String USER_ID_FEIGN_CLASS = "com.tangyh.lamp.oauth.api.UserApi";
+
     /**
      * 组织 service查询类
      */
@@ -44,7 +51,10 @@ public class EchoConstants {
      */
     public static final String STATION_ID_FEIGN_CLASS = "com.tangyh.lamp.oauth.api.StationApi";
 
-    private EchoConstants() {
-    }
+
+    /**
+     * 短信模板 service查询类
+     */
+    public static final String SMS_TEMPLATE_ID_CLASS = "smsTemplateServiceImpl";
 
 }

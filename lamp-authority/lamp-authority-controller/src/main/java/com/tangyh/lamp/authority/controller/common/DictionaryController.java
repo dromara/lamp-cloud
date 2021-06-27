@@ -91,7 +91,7 @@ public class DictionaryController
     @ApiOperation(value = "删除-字典类型")
     @DeleteMapping(value = "/type")
     @PreAuth("hasAnyPermission('{}delete')")
-    public R<Boolean> deleteType(@RequestParam("types[]") List<String> types) {
+    public R<Boolean> deleteType(@RequestBody List<String> types) {
         return R.success(baseService.deleteType(types));
     }
 }

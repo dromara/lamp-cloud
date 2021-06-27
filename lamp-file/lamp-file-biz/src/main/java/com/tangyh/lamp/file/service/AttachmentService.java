@@ -2,8 +2,9 @@ package com.tangyh.lamp.file.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.service.SuperService;
-import com.tangyh.lamp.file.dto.AttachmentDTO;
+import com.tangyh.lamp.file.dto.AttachmentGetVO;
 import com.tangyh.lamp.file.dto.AttachmentResultDTO;
+import com.tangyh.lamp.file.dto.AttachmentUploadVO;
 import com.tangyh.lamp.file.dto.FilePageReqDTO;
 import com.tangyh.lamp.file.entity.Attachment;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,15 +26,11 @@ public interface AttachmentService extends SuperService<Attachment> {
     /**
      * 上传附件
      *
-     * @param file     文件
-     * @param tenant   租户
-     * @param id       附件id
-     * @param bizType  业务类型
-     * @param bizId    业务id
-     * @param isSingle 是否单个文件
+     * @param file         文件
+     * @param attachmentVO 参数
      * @return 附件
      */
-    AttachmentDTO upload(MultipartFile file, String tenant, Long id, String bizType, String bizId, Boolean isSingle);
+    Attachment upload(MultipartFile file, AttachmentUploadVO attachmentVO);
 
     /**
      * 删除附件
@@ -94,6 +91,19 @@ public interface AttachmentService extends SuperService<Attachment> {
     void downloadByUrl(HttpServletRequest request, HttpServletResponse response, String url, String filename) throws Exception;
 
     /**
+     * 根据文件path 和桶 下载文件
+     *
+     * @param request  request
+     * @param response response
+     * @param group    group
+     * @param path     path
+     * @author tangyh
+     * @date 2021/6/18 12:13 上午
+     * @create [2021/6/18 12:13 上午 ] [tangyh] [初始创建]
+     */
+    void downloadByPath(HttpServletRequest request, HttpServletResponse response, String group, String path) throws Exception;
+
+    /**
      * 查询附件分页数据，按权限
      *
      * @param page 分页参数
@@ -109,14 +119,17 @@ public interface AttachmentService extends SuperService<Attachment> {
      * @param expiry 过期时间
      * @return
      */
-    List<String> getUrls(List<String> paths, Integer expiry);
+    List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry);
 
     /**
      * 获取文件访问路径
      *
-     * @param paths  文件路径
+     * @param group  group
+     * @param path   文件路径
      * @param expiry 过期时间
      * @return
      */
-    String getUrl(String paths, Integer expiry);
+    String getUrl(String group, String path, Integer expiry);
+
+
 }

@@ -1,7 +1,8 @@
 package com.tangyh.lamp.authority.service.auth;
 
-import com.tangyh.lamp.authority.entity.auth.Menu;
 import com.tangyh.basic.base.service.SuperCacheService;
+import com.tangyh.lamp.authority.dto.auth.MenuResourceTreeVO;
+import com.tangyh.lamp.authority.entity.auth.Menu;
 
 import java.util.List;
 
@@ -43,10 +44,19 @@ public interface MenuService extends SuperCacheService<Menu> {
     /**
      * 查询用户可用菜单
      *
-     * @param group 组
+     * @param group  组
      * @param userId 用户id
      * @return 菜单
      */
     List<Menu> findVisibleMenu(String group, Long userId);
 
+    /**
+     * 查询系统所有的菜单和资源树
+     *
+     * @return java.util.List<com.tangyh.lamp.authority.dto.auth.MenuResourceTreeVO>
+     * @author tangyh
+     * @date 2021/6/6 11:41 上午
+     * @create [2021/6/6 11:41 上午 ] [tangyh] [初始创建]
+     */
+    List<MenuResourceTreeVO> findMenuResourceTree();
 }

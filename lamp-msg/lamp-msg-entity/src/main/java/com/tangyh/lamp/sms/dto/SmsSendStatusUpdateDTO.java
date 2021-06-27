@@ -24,7 +24,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author zuihou
- * @since 2020-11-21
+ * @since 2021-06-23
  */
 @Data
 @NoArgsConstructor
@@ -39,7 +39,7 @@ public class SmsSendStatusUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
-    @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
+    @NotNull(message = "请填写主键", groups = SuperEntity.Update.class)
     private Long id;
 
     /**
@@ -47,24 +47,24 @@ public class SmsSendStatusUpdateDTO implements Serializable {
      * #e_sms_task
      */
     @ApiModelProperty(value = "任务ID")
-    @NotNull(message = "任务ID不能为空")
+    @NotNull(message = "请填写任务ID")
     private Long taskId;
     /**
      * 发送状态
      * #SendStatus{WAITING:等待发送;SUCCESS:发送成功;FAIL:发送失败}
      */
     @ApiModelProperty(value = "发送状态")
-    @NotNull(message = "发送状态不能为空")
+    @NotNull(message = "请填写发送状态")
     private SendStatus sendStatus;
     /**
-     * 接收者手机号
+     * 接收者手机
      * 单个手机号
      * 阿里：发送回执ID,可根据该ID查询具体的发送状态  腾讯：sid 标识本次发送id，标识一次短信下发记录  百度：requestId 短信发送请求唯一流水ID
      */
-    @ApiModelProperty(value = "接收者手机号")
-    @NotEmpty(message = "接收者手机号不能为空")
-    @Size(max = 20, message = "接收者手机号长度不能超过20")
-    private String receiver;
+    @ApiModelProperty(value = "接收者手机")
+    @NotEmpty(message = "请填写接收者手机")
+    @Size(max = 20, message = "接收者手机长度不能超过20")
+    private String telNum;
     /**
      * 发送回执ID
      */
@@ -97,25 +97,4 @@ public class SmsSendStatusUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "短信计费的条数")
     private Integer fee;
-    /**
-     * 创建时年月
-     * 格式：yyyy-MM 用于统计
-     */
-    @ApiModelProperty(value = "创建时年月")
-    @Size(max = 7, message = "创建时年月长度不能超过7")
-    private String createMonth;
-    /**
-     * 创建时年周
-     * 创建时处于当年的第几周 yyyy-ww 用于统计
-     */
-    @ApiModelProperty(value = "创建时年周")
-    @Size(max = 7, message = "创建时年周长度不能超过7")
-    private String createWeek;
-    /**
-     * 创建时年月日
-     * 格式： yyyy-MM-dd 用于统计
-     */
-    @ApiModelProperty(value = "创建时年月日")
-    @Size(max = 10, message = "创建时年月日长度不能超过10")
-    private String createDate;
 }

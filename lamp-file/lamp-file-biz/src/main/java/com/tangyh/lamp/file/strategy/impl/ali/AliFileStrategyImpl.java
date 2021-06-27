@@ -7,21 +7,15 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
-import com.tangyh.basic.context.ContextUtil;
-import com.tangyh.basic.utils.StrPool;
 import com.tangyh.lamp.file.domain.FileDeleteDO;
+import com.tangyh.lamp.file.dto.AttachmentGetVO;
 import com.tangyh.lamp.file.entity.Attachment;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
-
-import static com.tangyh.basic.utils.DateUtils.DEFAULT_MONTH_FORMAT_SLASH;
 
 /**
  * @author zuihou
@@ -34,59 +28,57 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
     }
 
     @Override
-    protected void uploadFile(Attachment file, MultipartFile multipartFile) throws Exception {
+    protected void uploadFile(Attachment file, MultipartFile multipartFile, String bucket) throws Exception {
         FileServerProperties.Ali ali = fileProperties.getAli();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
                 ali.getAccessKeySecret());
-        String bucketName = ali.getBucketName();
-        if (!ossClient.doesBucketExist(bucketName)) {
-            ossClient.createBucket(bucketName);
+        if (StrUtil.isEmpty(bucket)) {
+            bucket = ali.getBucketName();
+        }
+        if (!ossClient.doesBucketExist(bucket)) {
+            ossClient.createBucket(bucket);
         }
 
         //生成文件名
-        String fileName = StrUtil.join(StrPool.EMPTY, UUID.randomUUID().toString(), StrPool.DOT, file.getExt());
-        //日期文件夹
-        String tenant = ContextUtil.getTenant();
-        String relativePath = tenant + StrPool.SLASH + LocalDate.now().format(DateTimeFormatter.ofPattern(DEFAULT_MONTH_FORMAT_SLASH));
-        // web服务器存放的绝对路径
-        String relativeFileName = relativePath + StrPool.SLASH + fileName;
+        String uniqueFileName = getUniqueFileName(file);
+
+        // 企业id/功能点/年/月/日/file
+        String path = getPath(uniqueFileName, file.getBizType());
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment;fileName=" + file.getSubmittedFileName());
-        metadata.setContentType(file.getContextType());
-        PutObjectRequest request = new PutObjectRequest(bucketName, relativeFileName, multipartFile.getInputStream(), metadata);
+        metadata.setContentDisposition("attachment;fileName=" + file.getOriginalFileName());
+        metadata.setContentType(file.getContentType());
+        PutObjectRequest request = new PutObjectRequest(bucket, path, multipartFile.getInputStream(), metadata);
         PutObjectResult result = ossClient.putObject(request);
 
         log.info("result={}", JSONObject.toJSONString(result));
 
-        String url = ali.getUriPrefix() + relativeFileName;
-        file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
-        file.setFilename(fileName);
-        file.setRelativePath(relativePath);
-
-        file.setGroup(result.getETag());
-        file.setPath(result.getRequestId());
+        String url = ali.getUriPrefix() + path;
+        file.setUniqueFileName(uniqueFileName);
+        file.setGroup(bucket);
+        file.setPath(path);
+        // TODO 这里可能有bug， 私有桶的文件url无法访问
+        file.setUrl(url);
 
         ossClient.shutdown();
     }
 
     @Override
-    protected void delete(List<FileDeleteDO> list, FileDeleteDO file) {
+    protected void delete(FileDeleteDO file) {
         FileServerProperties.Ali ali = fileProperties.getAli();
-        String bucketName = ali.getBucketName();
-        OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
-                ali.getAccessKeySecret());
-        ossClient.deleteObject(bucketName, file.getRelativePath() + StrPool.SLASH + file.getFileName());
+        String bucketName = StrUtil.isEmpty(file.getGroup()) ? ali.getBucketName() : file.getGroup();
+        OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(), ali.getAccessKeySecret());
+        ossClient.deleteObject(bucketName, file.getPath());
         ossClient.shutdown();
     }
 
     @Override
-    public List<String> getUrls(List<String> paths, Integer expiry) {
+    public List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry) {
         return null;
     }
 
     @Override
-    public String getUrl(String path, Integer expiry) {
+    public String getUrl(String bucket, String path, Integer expiry) {
         return null;
     }
 }

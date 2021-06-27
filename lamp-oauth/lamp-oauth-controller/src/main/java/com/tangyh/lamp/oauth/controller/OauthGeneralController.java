@@ -14,7 +14,7 @@ import com.tangyh.lamp.authority.enumeration.common.LogType;
 import com.tangyh.lamp.authority.service.common.DictionaryService;
 import com.tangyh.lamp.authority.service.common.ParameterService;
 import com.tangyh.lamp.common.enums.HttpMethod;
-import com.tangyh.lamp.file.enumeration.DataType;
+import com.tangyh.lamp.file.enumeration.FileType;
 import com.tangyh.lamp.msg.enumeration.MsgBizType;
 import com.tangyh.lamp.msg.enumeration.MsgType;
 import com.tangyh.lamp.oauth.controller.model.Option;
@@ -72,7 +72,7 @@ public class OauthGeneralController {
         // 租户服务
         ENUM_LIST_MAP.put(TenantConnectTypeEnum.class.getSimpleName(), mapOptions(TenantConnectTypeEnum.values()));
         // 文件服务
-        ENUM_LIST_MAP.put(DataType.class.getSimpleName(), mapOptions(HttpMethod.values()));
+        ENUM_LIST_MAP.put(FileType.class.getSimpleName(), mapOptions(HttpMethod.values()));
         //消息服务
         ENUM_LIST_MAP.put(MsgType.class.getSimpleName(), mapOptions(MsgType.values()));
         ENUM_LIST_MAP.put(MsgBizType.class.getSimpleName(), mapOptions(MsgBizType.values()));
@@ -93,7 +93,7 @@ public class OauthGeneralController {
         // 租户服务
         ENUM_MAP.put(TenantConnectTypeEnum.class.getSimpleName(), CollHelper.getMap(TenantConnectTypeEnum.values()));
         // 文件服务
-        ENUM_MAP.put(DataType.class.getSimpleName(), CollHelper.getMap(HttpMethod.values()));
+        ENUM_MAP.put(FileType.class.getSimpleName(), CollHelper.getMap(HttpMethod.values()));
         //消息服务
         ENUM_MAP.put(MsgType.class.getSimpleName(), CollHelper.getMap(MsgType.values()));
         ENUM_MAP.put(MsgBizType.class.getSimpleName(), CollHelper.getMap(MsgBizType.values()));
@@ -166,8 +166,15 @@ public class OauthGeneralController {
 
 
     @GetMapping("/parameter/value")
-    public R<String> getValue(@RequestParam(value = "key") String key, @RequestParam(value = "defVal") String defVal) {
+    @ApiOperation(value = "根据key获取系统参数", notes = "根据key获取系统参数")
+    public R<String> getValue(@RequestParam(value = "key") String key, @RequestParam(value = "defVal", required = false) String defVal) {
         return R.success(parameterService.getValue(key, defVal));
+    }
+
+    @PostMapping("/parameter/findParams")
+    @ApiOperation(value = "根据key批量获取系统参数", notes = "根据key批量获取系统参数")
+    public R<Map<String, String>> findParams(@RequestBody List<String> keys) {
+        return R.success(parameterService.findParams(keys));
     }
 }
 

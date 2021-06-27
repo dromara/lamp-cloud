@@ -7,6 +7,7 @@ import com.tangyh.basic.base.controller.SuperCacheController;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.basic.utils.TreeUtil;
+import com.tangyh.lamp.authority.dto.auth.MenuResourceTreeVO;
 import com.tangyh.lamp.authority.dto.auth.MenuSaveDTO;
 import com.tangyh.lamp.authority.dto.auth.MenuUpdateDTO;
 import com.tangyh.lamp.authority.entity.auth.Menu;
@@ -15,7 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,10 +65,20 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
      *
      */
     @ApiOperation(value = "查询系统所有的菜单", notes = "查询系统所有的菜单")
-    @GetMapping("/tree")
+    @PostMapping("/tree")
     @SysLog("查询系统所有的菜单")
     public R<List<Menu>> allTree() {
         List<Menu> list = baseService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortValue));
         return success(TreeUtil.buildTree(list));
+    }
+
+    /**
+     * 查询系统所有的菜单和资源树， 不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
+     */
+    @ApiOperation(value = "查询系统所有的菜单和资源树", notes = "查询系统所有的菜单和资源树")
+    @PostMapping("/menuResourceTree")
+    @SysLog("查询系统所有的菜单和资源树")
+    public R<List<MenuResourceTreeVO>> menuResourceTree() {
+        return success(baseService.findMenuResourceTree());
     }
 }

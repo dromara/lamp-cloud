@@ -1,22 +1,17 @@
 package com.tangyh.lamp.file.strategy.impl.local;
 
-import cn.hutool.core.util.StrUtil;
-import com.tangyh.basic.context.ContextUtil;
-import com.tangyh.basic.utils.StrPool;
 import com.tangyh.lamp.file.domain.FileDeleteDO;
+import com.tangyh.lamp.file.dto.AttachmentGetVO;
 import com.tangyh.lamp.file.entity.Attachment;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
-
-import static com.tangyh.basic.utils.DateUtils.DEFAULT_MONTH_FORMAT_SLASH;
 
 /**
  * @author zuihou
@@ -28,46 +23,41 @@ public class LocalFileStrategyImpl extends AbstractFileStrategy {
         super(fileProperties);
     }
 
+
     @Override
-    protected void uploadFile(Attachment file, MultipartFile multipartFile) throws Exception {
+    protected void uploadFile(Attachment file, MultipartFile multipartFile, String bucket) throws Exception {
         //生成文件名
-        String fileName = UUID.randomUUID().toString() + StrPool.DOT + file.getExt();
+        String uniqueFileName = getUniqueFileName(file);
 
-        String tenant = ContextUtil.getTenant();
+        String path = getPath(uniqueFileName, file.getBizType());
 
-        //日期文件夹
-        String relativePath = Paths.get(tenant, LocalDate.now().format(DateTimeFormatter.ofPattern(DEFAULT_MONTH_FORMAT_SLASH))).toString();
         // web服务器存放的绝对路径
-        String absolutePath = Paths.get(fileProperties.getStoragePath(), relativePath).toString();
+        String absolutePath = Paths.get(fileProperties.getStoragePath(), path).toString();
 
-        java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
-        org.apache.commons.io.FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
+        java.io.File outFile = new java.io.File(absolutePath);
+        FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
 
-        String url = fileProperties.getUriPrefix() +
-                relativePath +
-                StrPool.SLASH +
-                fileName;
-        //替换掉windows环境的\路径
-        url = StrUtil.replace(url, "\\\\", StrPool.SLASH);
-        url = StrUtil.replace(url, "\\", StrPool.SLASH);
+        String url = fileProperties.getUriPrefix() + path;
+
         file.setUrl(url);
-        file.setFilename(fileName);
-        file.setRelativePath(relativePath);
+        file.setUniqueFileName(uniqueFileName);
+        file.setPath(path);
+        file.setGroup(bucket);
     }
 
     @Override
-    protected void delete(List<FileDeleteDO> list, FileDeleteDO file) {
-        java.io.File ioFile = new java.io.File(Paths.get(fileProperties.getStoragePath(), file.getRelativePath(), file.getFileName()).toString());
-        org.apache.commons.io.FileUtils.deleteQuietly(ioFile);
+    protected void delete(FileDeleteDO file) {
+        File ioFile = new File(Paths.get(fileProperties.getStoragePath(), file.getPath()).toString());
+        FileUtils.deleteQuietly(ioFile);
     }
 
     @Override
-    public List<String> getUrls(List<String> paths, Integer expiry) {
+    public List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry) {
         return null;
     }
 
     @Override
-    public String getUrl(String path, Integer expiry) {
+    public String getUrl(String bucket, String path, Integer expiry) {
         return null;
     }
 }

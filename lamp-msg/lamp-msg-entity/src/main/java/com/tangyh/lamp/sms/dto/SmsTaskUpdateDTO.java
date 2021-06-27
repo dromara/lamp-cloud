@@ -1,9 +1,7 @@
 package com.tangyh.lamp.sms.dto;
 
-import com.alibaba.fastjson.JSONObject;
 import com.tangyh.basic.base.entity.SuperEntity;
 import com.tangyh.lamp.sms.enumeration.SourceType;
-import com.tangyh.lamp.sms.enumeration.TaskStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,6 +16,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zuihou
- * @since 2020-11-21
+ * @since 2021-06-23
  */
 @Data
 @NoArgsConstructor
@@ -39,39 +39,28 @@ import java.time.LocalDateTime;
 public class SmsTaskUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @ApiModelProperty(hidden = true)
+    private SourceType sourceType;
 
     @ApiModelProperty(value = "主键")
-    @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
+    @NotNull(message = "请填写主键", groups = SuperEntity.Update.class)
     private Long id;
 
     /**
-     * 模板ID
+     * 短信模板
      * #e_sms_template
      */
-    @ApiModelProperty(value = "模板ID")
-    @NotNull(message = "模板ID不能为空")
+    @ApiModelProperty(value = "短信模板")
+    @NotNull(message = "请填写短信模板")
     private Long templateId;
     /**
-     * 执行状态
-     * (手机号具体发送状态看sms_send_status表)
-     * #TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}
-     */
-    @ApiModelProperty(value = "执行状态")
-    private TaskStatus status;
-    /**
-     * 来源类型
-     * #SourceType{APP:应用;SERVICE:服务}
-     */
-    @ApiModelProperty(value = "来源类型")
-    private SourceType sourceType;
-    /**
-     * 接收者手机号
+     * 接收者手机
      * 群发用英文逗号分割.
      * 支持2种 格式:1: 手机号,手机号  格式2: 姓名<手机号>,姓名<手机号>
      */
-    @ApiModelProperty(value = "接收者手机号")
-    @Size(max = 65535, message = "接收者手机号长度不能超过65,535")
-    private String receiver;
+    @ApiModelProperty(value = "接收者手机")
+    @Size(min = 1, message = "请填写接收者手机")
+    private List<String> telNum;
     /**
      * 主题
      */
@@ -83,7 +72,7 @@ public class SmsTaskUpdateDTO implements Serializable {
      * 需要封装为{‘key’:’value’, ...}格式且key必须有序
      */
     @ApiModelProperty(value = "参数")
-    private JSONObject templateParam = new JSONObject(true);
+    private LinkedHashMap<String, String> templateParam;
     /**
      * 发送时间
      */
@@ -101,4 +90,5 @@ public class SmsTaskUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "是否草稿")
     private Boolean draft;
+
 }

@@ -1,7 +1,10 @@
 package com.tangyh.lamp.authority.service.common;
 
-import com.tangyh.lamp.authority.entity.common.Parameter;
 import com.tangyh.basic.base.service.SuperService;
+import com.tangyh.lamp.authority.entity.common.Parameter;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,4 +24,12 @@ public interface ParameterService extends SuperService<Parameter> {
      * @return 参数值
      */
     String getValue(String key, String defVal);
+
+    /**
+     * 根据参数键查询参数值
+     *
+     * @param keys 参数键
+     * @return 参数值
+     */
+    Map<String, String> findParams(List<String> keys);
 }

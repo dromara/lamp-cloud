@@ -16,12 +16,12 @@ import java.util.stream.Stream;
  * </p>
  *
  * @author zuihou
- * @date 2020-11-21
+ * @date 2021-06-23
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "SourceType", description = "来源类型-枚举")
+@ApiModel(value = "SourceType", description = "发送渠道-枚举")
 public enum SourceType implements BaseEnum {
 
     /**

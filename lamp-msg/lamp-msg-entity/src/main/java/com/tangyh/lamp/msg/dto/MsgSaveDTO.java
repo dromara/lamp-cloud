@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
@@ -37,6 +38,7 @@ public class MsgSaveDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "消息内容")
     @NotNull(message = "消息内容不能为空")
+    @Valid
     private MsgDTO msgDTO;
 
     /**

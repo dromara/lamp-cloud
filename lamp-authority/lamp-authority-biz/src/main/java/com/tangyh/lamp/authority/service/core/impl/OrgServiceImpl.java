@@ -11,8 +11,10 @@ import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.basic.utils.CollHelper;
+import com.tangyh.lamp.authority.dao.auth.UserMapper;
 import com.tangyh.lamp.authority.dao.core.OrgMapper;
 import com.tangyh.lamp.authority.entity.auth.RoleOrg;
+import com.tangyh.lamp.authority.entity.auth.User;
 import com.tangyh.lamp.authority.entity.core.Org;
 import com.tangyh.lamp.authority.service.auth.RoleOrgService;
 import com.tangyh.lamp.authority.service.core.OrgService;
@@ -45,6 +47,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implements OrgService {
     private final RoleOrgService roleOrgService;
+    private final UserMapper userMapper;
 
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
@@ -89,6 +92,9 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         if (ids.isEmpty()) {
             return true;
         }
+        Integer userCount = userMapper.selectCount(Wraps.<User>lbQ().in(User::getOrgId, ids));
+        BizAssert.isFalse(userCount > 0, "您选择的组织下还存在用户，禁止删除！请先情况改组织下所有用户后，在进行删除！");
+
         List<Org> list = this.findChildren(ids);
         List<Long> idList = list.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
 

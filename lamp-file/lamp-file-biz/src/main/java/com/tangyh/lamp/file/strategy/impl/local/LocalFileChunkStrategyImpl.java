@@ -11,7 +11,7 @@ import com.tangyh.lamp.file.entity.Attachment;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
-import com.tangyh.lamp.file.utils.FileDataTypeUtil;
+import com.tangyh.lamp.file.utils.FileTypeUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -47,11 +47,10 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 
     @Override
     protected void copyFile(Attachment file) {
-        String inputFile = Paths.get(fileProperties.getStoragePath(), file.getRelativePath(),
-                file.getFilename()).toString();
+        String inputFile = Paths.get(fileProperties.getStoragePath(), file.getPath()).toString();
 
-        String filename = randomFileName(file.getFilename());
-        String outputFile = Paths.get(fileProperties.getStoragePath(), file.getRelativePath(), filename).toString();
+        String filename = randomFileName(file.getUniqueFileName());
+        String outputFile = Paths.get(fileProperties.getStoragePath(), StrUtil.subBefore(file.getPath(), "/" + file.getUniqueFileName(), true), filename).toString();
 
         try {
             FileUtil.copy(inputFile, outputFile, true);
@@ -60,7 +59,7 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
             throw new BizException("复制文件异常");
         }
 
-        file.setFilename(filename);
+        file.setUniqueFileName(filename);
         String url = file.getUrl();
         String newUrl = StrUtil.subPre(url, StrUtil.lastIndexOfIgnoreCase(url, StrPool.SLASH) + 1);
         file.setUrl(newUrl + filename);
@@ -100,14 +99,13 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
             log.warn("文件[{}], fileName={}已经存在", info.getName(), fileName);
         }
 
-        String relativePath = FileDataTypeUtil.getRelativePath(Paths.get(fileProperties.getStoragePath()).toString(), outputFile.getAbsolutePath());
+        String relativePath = FileTypeUtil.getRelativePath(Paths.get(fileProperties.getStoragePath()).toString(), outputFile.getAbsolutePath());
         log.info("relativePath={}, getStoragePath={}, getAbsolutePath={}", relativePath, fileProperties.getStoragePath(), outputFile.getAbsolutePath());
         String url = fileProperties.getUriPrefix() +
                 relativePath +
                 StrPool.SLASH +
                 fileName;
         Attachment filePo = Attachment.builder()
-                .relativePath(relativePath)
                 .url(StrUtil.replace(url, "\\\\", StrPool.SLASH))
                 .build();
         return R.success(filePo);

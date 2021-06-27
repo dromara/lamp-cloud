@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -34,6 +35,9 @@ public class MsgQuery implements Serializable {
     private String content;
     @ApiModelProperty(value = "标题")
     private String title;
+
+    @ApiModelProperty(value = "作者")
+    private String author;
 
 //    @ApiModelProperty(value = "开始时间")
 //    private LocalDateTime startCreateTime;

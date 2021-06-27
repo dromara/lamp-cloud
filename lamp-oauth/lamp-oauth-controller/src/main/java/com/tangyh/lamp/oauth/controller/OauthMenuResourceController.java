@@ -11,6 +11,7 @@ import com.tangyh.basic.utils.StrPool;
 import com.tangyh.basic.utils.TreeUtil;
 import com.tangyh.lamp.authority.dto.auth.AuthorityResourceDTO;
 import com.tangyh.lamp.authority.dto.auth.ResourceQueryDTO;
+import com.tangyh.lamp.authority.dto.auth.RouterMeta;
 import com.tangyh.lamp.authority.dto.auth.VueRouter;
 import com.tangyh.lamp.authority.entity.auth.Menu;
 import com.tangyh.lamp.authority.entity.auth.Resource;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,6 +105,7 @@ public class OauthMenuResourceController {
             userId = sysUser.getId();
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
+        log.info("list={}", list.size());
         List<Menu> tree = TreeUtil.buildTree(list);
         return R.success(tree);
     }
@@ -122,6 +125,101 @@ public class OauthMenuResourceController {
         List<Menu> list = menuService.findVisibleMenu(group, userId);
         List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
         return R.success(TreeUtil.buildTree(treeList));
+    }
+
+    private List<VueRouter> test() {
+        List<VueRouter> list = new ArrayList<>();
+        VueRouter parent1 = new VueRouter();
+        parent1.setName("用户管理");
+        parent1.setComponent("lamp/org/user/index");
+        parent1.setPath("/org/user");
+        RouterMeta rm = new RouterMeta();
+        rm.setTitle(parent1.getName());
+        parent1.setMeta(rm);
+        list.add(parent1);
+
+        parent1 = new VueRouter();
+        parent1.setName("用户管理2");
+        parent1.setComponent("lamp/org/user/index");
+        parent1.setPath("/org/user2");
+        rm = new RouterMeta();
+        rm.setTitle(parent1.getName());
+        parent1.setMeta(rm);
+        List<VueRouter> childrens = new ArrayList<>();
+        VueRouter children = new VueRouter();
+        children.setName("我是用户管理2的隐藏菜单");
+        children.setComponent("lamp/org/user/index");
+        children.setPath("/org/user2/hideMenu");
+        rm = new RouterMeta();
+        rm.setTitle(children.getName());
+        rm.setCurrentActiveMenu("/system/user2");
+        rm.setHideMenu(true);
+        children.setMeta(rm);
+        childrens.add(children);
+        parent1.setChildren(childrens);
+        list.add(parent1);
+
+
+        parent1 = new VueRouter();
+        parent1.setName("系统管理");
+        parent1.setComponent("Layout");
+        parent1.setPath("/system");
+        rm = new RouterMeta();
+        rm.setTitle(parent1.getName());
+        parent1.setMeta(rm);
+
+        childrens = new ArrayList<>();
+        children = new VueRouter();
+        children.setName("角色管理");
+        children.setComponent("lamp/system/role/index");
+        children.setPath("/system/role");
+        rm = new RouterMeta();
+        rm.setTitle(children.getName());
+        children.setMeta(rm);
+
+        VueRouter roleAdd = new VueRouter();
+        roleAdd.setName("角色新增");
+        roleAdd.setComponent("lamp/system/role/RoleResource");
+        roleAdd.setPath("/system/role/add");
+        rm = new RouterMeta();
+        rm.setTitle(roleAdd.getName());
+        rm.setHideMenu(true);
+        rm.setCurrentActiveMenu("/system/role");
+        roleAdd.setMeta(rm);
+        List<VueRouter> roleAddChi = new ArrayList<>();
+        roleAddChi.add(roleAdd);
+        children.setChildren(roleAddChi);
+
+        childrens.add(children);
+
+        children = new VueRouter();
+        children.setName("菜单管理");
+        children.setComponent("lamp/system/menu/index");
+        children.setPath("/system/menu");
+        rm = new RouterMeta();
+        rm.setTitle(children.getName());
+        children.setMeta(rm);
+        childrens.add(children);
+
+
+        children = new VueRouter();
+        children.setName("隐藏菜单");
+        children.setComponent("lamp/system/parameter/index");
+        children.setPath("/system/parameter");
+        rm = new RouterMeta();
+        rm.setTitle(children.getName());
+        rm.setHideMenu(true);
+        // 如果是隐藏菜单，一定要配置CurrentActiveMenu
+        rm.setCurrentActiveMenu("/system/role");
+        children.setMeta(rm);
+
+        childrens.add(children);
+
+        parent1.setChildren(childrens);
+        list.add(parent1);
+
+
+        return list;
     }
 
 }

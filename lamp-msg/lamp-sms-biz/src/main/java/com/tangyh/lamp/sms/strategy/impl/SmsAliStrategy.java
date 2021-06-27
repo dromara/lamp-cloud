@@ -54,7 +54,7 @@ public class SmsAliStrategy extends AbstractSmsStrategy {
             //组装请求对象-具体描述见控制台-文档部分内容
             SendSmsRequest request = new SendSmsRequest();
             //必填:待发送手机号
-            request.setPhoneNumbers(smsDO.getPhone());
+            request.setPhoneNumbers(smsDO.getTelNum());
             //必填:短信签名-可在短信控制台中找到
             request.setSignName(smsDO.getSignName());
             //必填:短信模板-可在短信控制台中找到
@@ -73,7 +73,7 @@ public class SmsAliStrategy extends AbstractSmsStrategy {
             return SmsResult.build(ProviderType.ALI, sendSmsResponse.getCode(), sendSmsResponse.getBizId(),
                     sendSmsResponse.getRequestId(), sendSmsResponse.getMessage(), 0);
         } catch (ClientException e) {
-            log.warn("阿里短信发送失败:" + smsDO.getPhone(), e);
+            log.warn("阿里短信发送失败:" + smsDO.getTelNum(), e);
             return SmsResult.fail(e.getMessage());
         }
 

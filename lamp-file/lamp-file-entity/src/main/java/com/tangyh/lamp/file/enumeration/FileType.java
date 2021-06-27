@@ -21,13 +21,9 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "DataType", description = "数据类型-枚举")
-public enum DataType implements BaseEnum {
+@ApiModel(value = "FileType", description = "文件类型-枚举")
+public enum FileType implements BaseEnum {
 
-    /**
-     * DIR="目录"
-     */
-    DIR("目录"),
     /**
      * IMAGE="图片"
      */
@@ -57,20 +53,20 @@ public enum DataType implements BaseEnum {
     /**
      * 根据当前枚举的name匹配
      */
-    public static DataType match(String val, DataType def) {
+    public static FileType match(String val, FileType def) {
         return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
-    public static DataType get(String val) {
+    public static FileType get(String val) {
         return match(val, null);
     }
 
-    public boolean eq(DataType val) {
+    public boolean eq(FileType val) {
         return val != null && eq(val.name());
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "DIR,IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "DIR")
+    @ApiModelProperty(value = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
     public String getCode() {
         return this.name();
     }

@@ -4,7 +4,7 @@ lamp:
   redis:
     ip: 127.0.0.1
     port: 16379
-    password: SbtyMveYNfLzTks7H0apCmyStPzWJqjy
+    password: 'SbtyMveYNfLzTks7H0apCmyStPzWJqjy'
     database: 0
 
 spring:

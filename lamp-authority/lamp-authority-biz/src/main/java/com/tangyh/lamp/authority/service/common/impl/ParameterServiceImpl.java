@@ -1,5 +1,6 @@
 package com.tangyh.lamp.authority.service.common.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -24,7 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -117,5 +121,16 @@ public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Para
         };
         CacheKey cacheKey = new ParameterKeyCacheKeyBuilder().key(key);
         return cacheOps.get(cacheKey, loader);
+    }
+
+    @Override
+    public Map<String, String> findParams(List<String> keys) {
+        if (CollUtil.isEmpty(keys)) {
+            return Collections.emptyMap();
+        }
+        List<Parameter> list = list(Wraps.<Parameter>lbQ().in(Parameter::getKey, keys));
+        Map<String, String> map = new HashMap<>();
+        list.forEach(item -> map.put(item.getKey(), item.getValue()));
+        return map;
     }
 }

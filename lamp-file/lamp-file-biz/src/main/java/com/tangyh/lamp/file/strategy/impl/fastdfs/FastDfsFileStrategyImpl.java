@@ -5,13 +5,13 @@ import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.tangyh.lamp.file.dao.AttachmentMapper;
 import com.tangyh.lamp.file.domain.FileDeleteDO;
+import com.tangyh.lamp.file.dto.AttachmentGetVO;
 import com.tangyh.lamp.file.entity.Attachment;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author zuihou
@@ -29,7 +29,7 @@ public class FastDfsFileStrategyImpl extends AbstractFileStrategy {
     }
 
     @Override
-    protected void uploadFile(Attachment file, MultipartFile multipartFile) throws Exception {
+    protected void uploadFile(Attachment file, MultipartFile multipartFile, String bucket) throws Exception {
         StorePath storePath = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), file.getExt(), null);
         file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath());
         file.setGroup(storePath.getGroup());
@@ -37,24 +37,17 @@ public class FastDfsFileStrategyImpl extends AbstractFileStrategy {
     }
 
     @Override
-    protected void delete(List<FileDeleteDO> list, FileDeleteDO file) {
-        if (file.getFile()) {
-            List<Long> ids = list.stream().mapToLong(FileDeleteDO::getId).boxed().collect(Collectors.toList());
-            Integer count = attachmentMapper.countByGroup(ids, file.getGroup(), file.getPath());
-            if (count > 0) {
-                return;
-            }
-        }
+    protected void delete(FileDeleteDO file) {
         storageClient.deleteFile(file.getGroup(), file.getPath());
     }
 
     @Override
-    public List<String> getUrls(List<String> paths, Integer expiry) {
+    public List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry) {
         return null;
     }
 
     @Override
-    public String getUrl(String path, Integer expiry) {
+    public String getUrl(String bucket, String path, Integer expiry) {
         return null;
     }
 }

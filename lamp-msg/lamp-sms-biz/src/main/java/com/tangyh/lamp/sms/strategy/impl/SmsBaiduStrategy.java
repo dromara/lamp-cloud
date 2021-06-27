@@ -44,7 +44,7 @@ public class SmsBaiduStrategy extends AbstractSmsStrategy {
             //实例化请求对象
             SendMessageV2Request request = new SendMessageV2Request();
             request.withInvokeId(smsDO.getSignName())
-                    .withPhoneNumber(smsDO.getPhone())
+                    .withPhoneNumber(smsDO.getTelNum())
                     .withTemplateCode(smsDO.getTemplateCode())
                     .withContentVar(JSONObject.parseObject(smsDO.getTemplateParams(), Map.class));
 

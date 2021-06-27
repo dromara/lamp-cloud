@@ -11,14 +11,11 @@ import com.tangyh.lamp.sms.service.SmsSendStatusService;
 import com.tangyh.lamp.sms.strategy.SmsStrategy;
 import com.tangyh.lamp.sms.strategy.domain.SmsDO;
 import com.tangyh.lamp.sms.strategy.domain.SmsResult;
-import com.tangyh.lamp.sms.util.PhoneUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 抽象短信策略
@@ -51,25 +48,25 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
         log.info("templateParam={}", templateParam);
 
         try {
-            //解析接受者手机号
-            Set<String> phoneList = PhoneUtils.getPhone(task.getReceiver());
+            List<SmsSendStatus> list = smsSendStatusService.listByTaskId(task.getId());
 
-            List<SmsSendStatus> list = phoneList.stream().map((phone) -> {
+            list.stream().forEach(smsSendStatus -> {
                 //发送
                 SmsResult result = send(SmsDO.builder()
-                        .taskId(task.getId()).phone(phone).appId(appId).appSecret(appSecret)
-                        .signName(signName).templateCode(templateCode).endPoint(endPoint).templateParams(templateParam)
+                        .taskId(task.getId()).telNum(smsSendStatus.getTelNum()).appId(appId).appSecret(appSecret)
+                        .signName(signName).templateCode(templateCode).endPoint(endPoint)
+                        .templateParams(templateParam)
                         .build());
 
-                log.info("phone={}, result={}", phone, result);
-                return SmsSendStatus.builder()
-                        .taskId(task.getId()).receiver(phone).sendStatus(result.getSendStatus())
-                        .bizId(result.getBizId()).ext(result.getExt())
-                        .code(result.getCode()).message(result.getMessage()).fee(result.getFee()).build();
-            }).collect(Collectors.toList());
+                log.info("phone={}, result={}", smsSendStatus.getTelNum(), result);
+                smsSendStatus.setSendStatus(result.getSendStatus())
+                        .setBizId(result.getBizId()).setExt(result.getExt())
+                        .setCode(result.getCode()).setMessage(result.getMessage())
+                        .setFee(result.getFee());
+            });
 
             if (!list.isEmpty()) {
-                smsSendStatusService.saveBatch(list);
+                smsSendStatusService.updateBatchById(list);
             }
         } catch (Exception e) {
             log.warn("短信发送任务发送失败", e);

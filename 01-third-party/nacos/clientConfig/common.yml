@@ -6,7 +6,7 @@ lamp:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 3.2.2
+    version: 3.2.3
     contact:
       url: https://github.com/zuihou
       name: zuiou
@@ -59,7 +59,12 @@ lamp:
     height: 58
     len: 2
     charType: 2
-
+  async:
+    corePoolSize: 2
+    maxPoolSize: 50
+    queueCapacity: 10000
+    keepAliveSeconds: 300
+    threadNamePrefix: 'lamp-async-executor-'
 
 # knife4j 文档通用配置 详情看: Knife4jProperties
 knife4j:

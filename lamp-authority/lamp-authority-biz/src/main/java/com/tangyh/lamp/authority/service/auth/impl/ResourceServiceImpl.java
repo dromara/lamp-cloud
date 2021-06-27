@@ -113,7 +113,7 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
     @Transactional(rollbackFor = Exception.class)
     public boolean saveWithCache(Resource resource) {
         resource.setCode(StrHelper.getOrDef(resource.getCode(), RandomUtil.randomString(8)));
-        if (super.count(Wraps.<Resource>lbQ().eq(Resource::getCode, resource.getCode())) > 0) {
+        if (check(null, resource.getCode())) {
             throw BizException.validFail("编码[%s]重复", resource.getCode());
         }
 
@@ -124,5 +124,10 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
     @Override
     public List<Long> findMenuIdByResourceId(List<Long> resourceIdList) {
         return baseMapper.findMenuIdByResourceId(resourceIdList);
+    }
+
+    @Override
+    public Boolean check(Long id, String code) {
+        return super.count(Wraps.<Resource>lbQ().ne(Resource::getId, id).eq(Resource::getCode, code)) > 0;
     }
 }

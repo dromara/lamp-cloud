@@ -1,8 +1,12 @@
 package com.tangyh.lamp.sms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.base.service.SuperService;
+import com.tangyh.lamp.sms.dto.SmsTaskPageQuery;
+import com.tangyh.lamp.sms.dto.SmsTaskSaveDTO;
+import com.tangyh.lamp.sms.dto.SmsTaskUpdateDTO;
 import com.tangyh.lamp.sms.entity.SmsTask;
-import com.tangyh.lamp.sms.enumeration.TemplateCodeType;
 
 /**
  * <p>
@@ -20,14 +24,27 @@ public interface SmsTaskService extends SuperService<SmsTask> {
      * 保存任务
      *
      * @param smsTask 短信任务
-     * @param type    类型
+     * @return 短信任务
      */
-    void saveTask(SmsTask smsTask, TemplateCodeType type);
+    SmsTask saveTask(SmsTaskSaveDTO smsTask);
 
     /**
      * 修改短信任务
      *
      * @param smsTask 短信任务
+     * @return 短信任务
      */
-    void update(SmsTask smsTask);
+    SmsTask update(SmsTaskUpdateDTO smsTask);
+
+    /**
+     * 自定义分页
+     *
+     * @param page  page 分页参数
+     * @param query query 条件
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<com.tangyh.lamp.sms.entity.SmsTask>
+     * @author tangyh
+     * @date 2021/6/23 11:23 下午
+     * @create [2021/6/23 11:23 下午 ] [tangyh] [初始创建]
+     */
+    IPage<SmsTask> pageSmsTask(IPage<SmsTask> page, PageParams<SmsTaskPageQuery> query);
 }

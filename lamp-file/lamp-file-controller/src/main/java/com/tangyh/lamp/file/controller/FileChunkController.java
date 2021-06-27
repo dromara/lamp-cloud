@@ -12,7 +12,7 @@ import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.FileChunkStrategy;
 import com.tangyh.lamp.file.strategy.FileStrategy;
-import com.tangyh.lamp.file.utils.FileDataTypeUtil;
+import com.tangyh.lamp.file.utils.FileTypeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +69,7 @@ public class FileChunkController {
     @ResponseBody
     public R<Boolean> chunkCheck(@RequestBody FileChunkCheckDTO info) {
         log.info("info={}", info);
-        String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
+        String uploadFolder = FileTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
         //检查目标分片是否存在且完整
         boolean chunkCheck = wu.chunkCheck(Paths.get(uploadFolder, info.getName(), String.valueOf(info.getChunkIndex())).toString(), info.getSize());
         return R.success(chunkCheck);
@@ -84,7 +84,7 @@ public class FileChunkController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public R<String> uploadFile(FileUploadDTO info, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
-        String uploadFolder = FileDataTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
+        String uploadFolder = FileTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
         //验证请求不会包含数据上传，所以避免NullPoint这里要检查一下file变量是否为null
         if (file == null || file.isEmpty()) {
             log.error("请求参数不完整");
@@ -98,7 +98,7 @@ public class FileChunkController {
         文件大小 小于 单个分片时，会执行这里的代码
         */
         if (info.getChunks() == null || info.getChunks() <= 0) {
-            Attachment upload = fileStrategy.upload(file);
+            Attachment upload = fileStrategy.upload(file, null, null);
             upload.setFileMd5(info.getMd5());
             attachmentService.save(upload);
             return R.success(file.getOriginalFilename());

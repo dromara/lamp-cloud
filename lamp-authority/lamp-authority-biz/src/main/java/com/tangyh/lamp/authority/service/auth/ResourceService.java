@@ -56,4 +56,16 @@ public interface ResourceService extends SuperCacheService<Resource> {
      * @return 菜单id
      */
     List<Long> findMenuIdByResourceId(List<Long> resourceIdList);
+
+    /**
+     * 检测资源编码是否可用
+     *
+     * @param id   资源id
+     * @param code 资源编码
+     * @return java.lang.Boolean
+     * @author tangyh
+     * @date 2021/6/5 9:33 上午
+     * @create [2021/6/5 9:33 上午 ] [tangyh] [初始创建]
+     */
+    Boolean check(Long id, String code);
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangyh.lamp.sms.dao.SmsTaskMapper">
+    <select id="pageSmsTask" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from e_sms_task st
+        where 1=1
+        <if test="param.model.templateId != null">
+            and st.template_id = #{param.model.templateId}
+        </if>
+        <if test="param.model.topic != null and param.model.topic != ''">
+            and st.topic like #{param.model.topic, typeHandler=fullLike}
+        </if>
+        <if test="param.model.content != null and param.model.content != ''">
+            and st.content like #{param.model.content, typeHandler=fullLike}
+        </if>
+        <if test="param.extra.createTime_ed != null">
+            and st.create_time  <![CDATA[ <= ]]> #{param.extra.createTime_ed}
+        </if>
+        <if test="param.extra.createTime_st != null ">
+            and st.create_time > #{param.extra.createTime_st}
+        </if>
+        <if test="param.model.telNum != null and param.model.telNum != ''">
+            and EXISTS (
+            select 1 from e_sms_send_status sss where sss.task_id = st.id
+            and sss.tel_num like #{param.model.telNum, typeHandler=fullLike}
+            )
+        </if>
+    </select>
+
+</mapper>

@@ -50,9 +50,9 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
                 ali.getAccessKeySecret());
 
-        String sourceObjectName = file.getRelativePath() + StrPool.SLASH + file.getFilename();
-        String fileName = UUID.randomUUID().toString() + StrPool.DOT + file.getExt();
-        String destinationObjectName = file.getRelativePath() + StrPool.SLASH + fileName;
+        String sourceObjectName = file.getPath();
+        String fileName = UUID.randomUUID() + StrPool.DOT + file.getExt();
+        String destinationObjectName = StrUtil.subBefore(file.getPath(), "/" + file.getUniqueFileName(), true) + StrPool.SLASH + fileName;
         ObjectMetadata objectMetadata = ossClient.getObjectMetadata(sourceBucketName, sourceObjectName);
         // 获取被拷贝文件的大小。
 
@@ -70,8 +70,8 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
         log.info("total part count:{}", partCount);
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment;fileName=" + file.getSubmittedFileName());
-        metadata.setContentType(file.getContextType());
+        metadata.setContentDisposition("attachment;fileName=" + file.getOriginalFileName());
+        metadata.setContentType(file.getContentType());
         // 初始化拷贝任务。可以通过InitiateMultipartUploadRequest指定目标文件元信息。
         InitiateMultipartUploadRequest initiateMultipartUploadRequest = new InitiateMultipartUploadRequest(destinationBucketName, destinationObjectName, metadata);
         InitiateMultipartUploadResult initiateMultipartUploadResult = ossClient.initiateMultipartUpload(initiateMultipartUploadRequest);
@@ -102,12 +102,9 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
                 destinationBucketName, destinationObjectName, uploadId, partTags);
         ossClient.completeMultipartUpload(completeMultipartUploadRequest);
 
-        String url = ali.getUriPrefix() +
-                file.getRelativePath() +
-                StrPool.SLASH +
-                fileName;
+        String url = ali.getUriPrefix() + destinationObjectName;
         file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
-        file.setFilename(fileName);
+        file.setUniqueFileName(fileName);
 
         // 关闭OSSClient。
         ossClient.shutdown();
@@ -172,9 +169,8 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
                 StrPool.SLASH +
                 fileName;
         Attachment filePo = Attachment.builder()
-                .relativePath(relativePath)
-                .group(uploadResult.getETag())
-                .path(uploadResult.getRequestId())
+                .group(uploadResult.getBucketName())
+                .path(path)
                 .url(StrUtil.replace(url, "\\\\", StrPool.SLASH))
                 .build();
 

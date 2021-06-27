@@ -37,27 +37,15 @@ public class FileServerProperties {
      */
     private String storagePath = "/data/projects/uploadfile/file/";
     /**
-     * 内网通道前缀 主要用于解决某些服务器的无法访问外网ip的问题
+     * 内网通道前缀 主要用于解决文件服务器是内网服务器，无法访问外网ip的问题
      */
     private String innerUriPrefix = "";
-    private String downByUrl = "";
-    private String downByBizId = "";
-    private String downById = "";
+    /** 调用接口删除附件时，是否删除文件系统中的文件 */
+    private Boolean delFile = false;
 
     private Ali ali;
     private MinIo minIo;
 
-    public String getDownByUrl(Object... param) {
-        return String.format(downByUrl, param);
-    }
-
-    public String getDownByBizId(Object... param) {
-        return String.format(downByBizId, param);
-    }
-
-    public String getDownById(Object... param) {
-        return String.format(downById, param);
-    }
 
     public String getInnerUriPrefix() {
         return innerUriPrefix;

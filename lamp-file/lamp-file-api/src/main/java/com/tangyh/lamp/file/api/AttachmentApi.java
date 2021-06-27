@@ -2,7 +2,7 @@ package com.tangyh.lamp.file.api;
 
 
 import com.tangyh.basic.base.R;
-import com.tangyh.lamp.file.dto.AttachmentDTO;
+import com.tangyh.lamp.file.entity.Attachment;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +30,7 @@ public interface AttachmentApi {
      * @return 文件信息
      */
     @PostMapping(value = "/attachment/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    R<AttachmentDTO> upload(
+    R<Attachment> upload(
             @RequestPart(value = "file") MultipartFile file,
             @RequestParam(value = "isSingle", required = false, defaultValue = "false") Boolean isSingle,
             @RequestParam(value = "id", required = false) Long id,

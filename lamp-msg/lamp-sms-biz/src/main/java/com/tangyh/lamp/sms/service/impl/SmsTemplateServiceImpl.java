@@ -1,13 +1,11 @@
 package com.tangyh.lamp.sms.service.impl;
 
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.exception.BizException;
-import com.tangyh.basic.utils.StrHelper;
+import com.tangyh.basic.utils.CollHelper;
 import com.tangyh.lamp.sms.dao.SmsTemplateMapper;
 import com.tangyh.lamp.sms.entity.SmsTemplate;
 import com.tangyh.lamp.sms.service.SmsTemplateService;
@@ -15,10 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.tangyh.basic.exception.code.ExceptionCode.BASE_VALID_PARAM;
 
 /**
  * <p>
@@ -44,13 +43,25 @@ public class SmsTemplateServiceImpl extends SuperServiceImpl<SmsTemplateMapper, 
         JSONObject obj = new JSONObject(true);
         while (matcher.find()) {
             String key = matcher.group(1);
-            obj.put(key, "");
+            obj.set(key, "");
         }
         if (obj.isEmpty()) {
             throw BizException.wrap("模板内容解析失败，请认真详细内容格式");
         }
 
         return obj.toString();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(listByIds(ids), SmsTemplate::getId, SmsTemplate::getName);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(listByIds(ids), SmsTemplate::getId, org -> org);
     }
 
     private void buildParams(SmsTemplate smsTemplate) {
@@ -65,11 +76,6 @@ public class SmsTemplateServiceImpl extends SuperServiceImpl<SmsTemplateMapper, 
     @Transactional(rollbackFor = Exception.class)
     public void saveTemplate(SmsTemplate smsTemplate) {
         buildParams(smsTemplate);
-        int count = super.count(Wrappers.<SmsTemplate>lambdaQuery().eq(SmsTemplate::getCustomCode, smsTemplate.getCustomCode()));
-        if (count > 0) {
-            throw BizException.wrap(BASE_VALID_PARAM.build("自定义编码重复"));
-        }
-        smsTemplate.setCustomCode(StrHelper.getOrDef(smsTemplate.getCustomCode(), RandomUtil.randomString(8)));
         super.save(smsTemplate);
     }
 
