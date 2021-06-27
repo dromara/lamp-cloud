@@ -50,13 +50,11 @@
 核心技术采用Spring Cloud Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking等主要框架和中间件。
 希望能努力打造一套从 `Web基础框架` - `分布式微服务架构` - `持续集成` - `系统监测` 的解决方案。本项目旨在实现基础框架能力，不涉及具体业务。
 
-# lamp-cloud-plus 会员版项目演示地址
-- lamp-web-plus演示地址： https://tangyh.top
-- lamp-web演示地址： https://tangyh.top/lamp-web
-
-# lamp-boot-plus 会员版项目演示地址
-- lamp-web-plus演示地址： https://boot.tangyh.top
-- lamp-web演示地址： https://boot.tangyh.top/lamp-web
+# 会员版演示地址
+- 后端使用lamp-cloud-plus，前端使用lamp-web-plus。演示地址： https://tangyh.top
+- 后端使用lamp-cloud-plus，前端使用lamp-web。演示地址： https://tangyh.top/lamp-web
+- 后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址： https://boot.tangyh.top
+- 后端使用lamp-boot-plus， 前端使用lamp-web。演示地址： https://boot.tangyh.top/lamp-web
 
 # 演示账号
 - 以下内置账号仅限于内置的0000租户
