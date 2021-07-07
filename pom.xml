@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>3.2.3</version>
+    <version>3.2.4</version>
     <packaging>pom</packaging>
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -38,8 +38,8 @@
     </modules>
 
     <properties>
-        <lamp-util.version>3.2.3</lamp-util.version>
-        <lamp-project.version>3.2.3</lamp-project.version>
+        <lamp-util.version>3.2.4</lamp-util.version>
+        <lamp-project.version>3.2.4</lamp-project.version>
         <seata.version>1.3.0</seata.version>
         <!-- jdk8 将这里改成 8 -->
         <java.version>11</java.version>
