@@ -57,8 +57,10 @@ public class StationController extends SuperCacheController<StationService, Long
     }
 
     @Override
-    public void query(PageParams<StationPageQuery> params, IPage<Station> page, Long defSize) {
+    public IPage<Station> query(PageParams<StationPageQuery> params) {
+        IPage<Station> page = params.buildPage();
         baseService.findStationPage(page, params);
+        return page;
     }
 
     @Override

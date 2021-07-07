@@ -71,11 +71,12 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
         return success(resultVO);
     }
 
-
     @Override
-    public void query(PageParams<SmsTaskPageQuery> params, IPage<SmsTask> page, Long defSize) {
+    public IPage<SmsTask> query(PageParams<SmsTaskPageQuery> params) {
+        IPage<SmsTask> page = params.buildPage();
         baseService.pageSmsTask(page, params);
         echoService.action(page);
+        return page;
     }
 
 

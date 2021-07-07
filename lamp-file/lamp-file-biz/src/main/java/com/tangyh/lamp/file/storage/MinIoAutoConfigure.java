@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(FileServerProperties.class)
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "type", havingValue = "MIN_IO", matchIfMissing = true)
+@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "type", havingValue = "MIN_IO")
 @Slf4j
 public class MinIoAutoConfigure {
 

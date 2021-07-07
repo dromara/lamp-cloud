@@ -53,8 +53,7 @@ public class OptLogController extends SuperSimpleController<OptLogService, OptLo
     @PostMapping(value = "/page")
     @PreAuth("hasAnyPermission('{}view')")
     public R<IPage<OptLog>> page(@RequestBody @Validated PageParams<OptLog> params) {
-        IPage<OptLog> page = params.buildPage();
-        query(params, page, null);
+        IPage<OptLog> page = query(params);
         return R.success(page);
     }
 

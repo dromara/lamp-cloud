@@ -2,11 +2,11 @@ package com.tangyh.lamp.authority.service.auth.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
-
 import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.repository.CacheOps;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
+import com.tangyh.basic.utils.BizAssert;
 import com.tangyh.lamp.authority.dao.auth.ResourceMapper;
 import com.tangyh.lamp.authority.dao.auth.RoleAuthorityMapper;
 import com.tangyh.lamp.authority.dto.auth.RoleAuthoritySaveDTO;
@@ -44,7 +44,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapper, RoleAuthority> implements RoleAuthorityService {
 
@@ -87,6 +86,8 @@ public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveRoleAuthority(RoleAuthoritySaveDTO dto) {
+        BizAssert.isTrue(dto.getRoleId() != null, "请选择角色");
+
         //删除角色和资源的关联
         super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, dto.getRoleId()));
 

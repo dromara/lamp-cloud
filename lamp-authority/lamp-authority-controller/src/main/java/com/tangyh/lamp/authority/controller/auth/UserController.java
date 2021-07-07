@@ -291,12 +291,11 @@ public class UserController extends SuperCacheController<UserService, Long, User
     /**
      * 分页、导出、导出预览 方法的共用查询条件
      *
-     * @param params  分页参数
-     * @param page    分页对象
-     * @param defSize 默认查询条数
+     * @param params 分页参数
      */
     @Override
-    public void query(PageParams<UserPageQuery> params, IPage<User> page, Long defSize) {
+    public IPage<User> query(PageParams<UserPageQuery> params) {
+        IPage<User> page = params.buildPage();
         UserPageQuery userPage = params.getModel();
 
         QueryWrap<User> wrap = handlerWrapper(null, params);
@@ -325,6 +324,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
             item.setPassword(null);
             item.setSalt(null);
         });
+        return page;
     }
 
 }

@@ -63,7 +63,8 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
     private final UserRoleService userRoleService;
 
     @Override
-    public void query(PageParams<RolePageQuery> params, IPage<Role> page, Long defSize) {
+    public IPage<Role> query(PageParams<RolePageQuery> params) {
+        IPage<Role> page = params.buildPage();
         RolePageQuery roleQuery = params.getModel();
 
         QueryWrap<Role> wrap = handlerWrapper(null, params);
@@ -76,6 +77,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
                 .in(Role::getReadonly, roleQuery.getReadonly())
                 .in(Role::getDsType, roleQuery.getDsType());
         baseService.page(page, wrapper);
+        return page;
     }
 
     /**

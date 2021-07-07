@@ -65,8 +65,10 @@ public class AttachmentController extends SuperSimpleController<AttachmentServic
         implements QueryController<Attachment, Long, FilePageReqDTO>, DeleteController<Attachment, Long> {
 
     @Override
-    public void query(PageParams<FilePageReqDTO> params, IPage<Attachment> page, Long defSize) {
+    public IPage<Attachment> query(PageParams<FilePageReqDTO> params) {
+        IPage<Attachment> page = params.buildPage();
         baseService.page(page, params.getModel());
+        return page;
     }
 
     @Override

@@ -89,7 +89,8 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
     }
 
     @Override
-    public void query(PageParams<GlobalUserPageDTO> params, IPage<User> page, Long defSize) {
+    public IPage<User> query(PageParams<GlobalUserPageDTO> params) {
+        IPage<User> page = params.buildPage();
         GlobalUserPageDTO model = params.getModel();
         ContextUtil.setTenant(model.getTenantCode());
 
@@ -99,6 +100,7 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
             item.setPassword(null);
             item.setSalt(null);
         });
+        return page;
     }
 
 
