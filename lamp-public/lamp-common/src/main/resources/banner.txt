@@ -11,4 +11,4 @@ Spring Boot Version: ${spring-boot.version}
 当前服务: ${spring.application.name}  激活环境: ${spring.profiles.active}
 nacos地址: http://${lamp.nacos.ip}:${lamp.nacos.port}/nacos
 nacos命名空间: ${lamp.nacos.namespace}
-版本所有©zuihou${AnsiColor.DEFAULT}
+版本归 ©zuihou 所有${AnsiColor.DEFAULT}
