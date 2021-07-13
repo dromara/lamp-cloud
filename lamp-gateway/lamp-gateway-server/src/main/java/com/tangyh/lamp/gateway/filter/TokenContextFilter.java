@@ -36,6 +36,7 @@ import reactor.core.publisher.Mono;
 import static com.tangyh.basic.context.ContextConstants.BASIC_HEADER_KEY;
 import static com.tangyh.basic.context.ContextConstants.BEARER_HEADER_KEY;
 import static com.tangyh.basic.context.ContextConstants.JWT_KEY_CLIENT_ID;
+import static com.tangyh.basic.context.ContextConstants.JWT_KEY_SUB_TENANT;
 import static com.tangyh.basic.context.ContextConstants.JWT_KEY_TENANT;
 import static com.tangyh.basic.exception.code.ExceptionCode.JWT_NOT_LOGIN;
 import static com.tangyh.basic.exception.code.ExceptionCode.JWT_OFFLINE;
@@ -123,7 +124,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
         } catch (BizException e) {
             return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            return errorResponse(response, "验证token出错", R.FAIL_CODE, HttpStatus.BAD_REQUEST);
+            return errorResponse(response, "验证token出错", R.FAIL_CODE, HttpStatus.UNAUTHORIZED);
         }
 
         ServerHttpRequest build = mutate.build();
@@ -189,7 +190,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
     private void parseTenant(ServerHttpRequest request, ServerHttpRequest.Builder mutate) {
         // 判断是否忽略tenant
         if ("NONE".equals(multiTenantType)) {
-            addHeader(mutate, JWT_KEY_TENANT, StrPool.EMPTY);
+            addHeader(mutate, JWT_KEY_TENANT, "_NONE");
             MDC.put(JWT_KEY_TENANT, StrPool.EMPTY);
             return;
         }
@@ -201,11 +202,17 @@ public class TokenContextFilter implements WebFilter, Ordered {
             String tenant = JwtUtil.base64Decoder(base64Tenant);
 
             ContextUtil.setTenant(tenant);
-            addHeader(mutate, JWT_KEY_TENANT, ContextUtil.getTenant());
-            MDC.put(JWT_KEY_TENANT, ContextUtil.getTenant());
+            addHeader(mutate, JWT_KEY_TENANT, tenant);
+            MDC.put(JWT_KEY_TENANT, tenant);
         }
+        String base64SubTenant = getHeader(JWT_KEY_SUB_TENANT, request);
+        if (StrUtil.isNotEmpty(base64SubTenant)) {
+            String subTenant = JwtUtil.base64Decoder(base64SubTenant);
 
-
+            ContextUtil.setSubTenant(subTenant);
+            addHeader(mutate, JWT_KEY_SUB_TENANT, subTenant);
+            MDC.put(JWT_KEY_SUB_TENANT, subTenant);
+        }
     }
 
     private void addHeader(ServerHttpRequest.Builder mutate, String name, Object value) {

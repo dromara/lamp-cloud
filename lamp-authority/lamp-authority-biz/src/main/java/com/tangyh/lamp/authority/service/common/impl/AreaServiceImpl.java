@@ -1,7 +1,6 @@
 package com.tangyh.lamp.authority.service.common.impl;
 
 import cn.hutool.core.convert.Convert;
-
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;

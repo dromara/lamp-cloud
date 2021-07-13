@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.tangyh.lamp.common.constant.EchoConstants.FIND_BY_IDS;
 import static com.tangyh.lamp.common.constant.EchoConstants.ORG_ID_CLASS;
 
 /**
@@ -62,11 +61,11 @@ public class Station extends Entity<Long> implements EchoVO {
      * 组织
      * #c_org
      *
-     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
+     * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织")
     @TableField("org_id")
-    @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
+    @Echo(api = ORG_ID_CLASS, beanClass = Org.class)
     @Excel(name = "组织")
     private Long orgId;
 

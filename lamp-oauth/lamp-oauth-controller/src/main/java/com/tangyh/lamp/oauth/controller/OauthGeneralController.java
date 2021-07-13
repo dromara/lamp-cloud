@@ -1,6 +1,6 @@
 package com.tangyh.lamp.oauth.controller;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.tangyh.basic.base.BaseEnum;
 import com.tangyh.basic.base.R;
@@ -147,7 +147,7 @@ public class OauthGeneralController {
     }
 
     private static Map<String, List<Option>> mapOptionByDict(Map<String, List<Dictionary>> map) {
-        if (CollUtil.isEmpty(map)) {
+        if (MapUtil.isEmpty(map)) {
             return Collections.emptyMap();
         }
         Map<String, List<Option>> newMap = new HashMap<>();

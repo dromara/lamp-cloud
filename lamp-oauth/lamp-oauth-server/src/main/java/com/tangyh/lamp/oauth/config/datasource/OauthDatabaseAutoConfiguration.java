@@ -48,7 +48,7 @@ import static com.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
         annotationClass = Repository.class,
         sqlSessionFactoryRef = OauthDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class})
-@ConditionalOnExpression("!'DATASOURCE'.equals('${lamp.database.multiTenantType}')")
+@ConditionalOnExpression("!'DATASOURCE'.equals('${lamp.database.multiTenantType}') && !'DATASOURCE_COLUMN'.equals('${lamp.database.multiTenantType}') ")
 public class OauthDatabaseAutoConfiguration extends BaseMasterDatabaseConfiguration {
 
     public OauthDatabaseAutoConfiguration(MybatisPlusProperties properties,

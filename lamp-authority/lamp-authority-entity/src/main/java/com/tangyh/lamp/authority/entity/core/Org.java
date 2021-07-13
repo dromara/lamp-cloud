@@ -24,7 +24,7 @@ import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
-import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+
 
 /**
  * <p>
@@ -51,12 +51,12 @@ public class Org extends TreeEntity<Org, Long> implements EchoVO {
     /**
      * 类型
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.ORG_TYPE)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)
      */
     @ApiModelProperty(value = "类型")
     @Size(max = 2, message = "类型长度不能超过2")
     @TableField(value = "type_", condition = LIKE)
-    @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.ORG_TYPE)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.ORG_TYPE)
     @Excel(name = "类型")
     private String type;
 

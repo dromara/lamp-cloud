@@ -12,7 +12,6 @@ public class EchoConstants {
     private EchoConstants() {
     }
 
-    public static final String FIND_NAME_BY_IDS = "findNameByIds";
     public static final String FIND_BY_IDS = "findByIds";
 
     /**
@@ -50,7 +49,6 @@ public class EchoConstants {
      * 组织 feign查询类
      */
     public static final String STATION_ID_FEIGN_CLASS = "com.tangyh.lamp.oauth.api.StationApi";
-
 
     /**
      * 短信模板 service查询类

@@ -2,7 +2,6 @@ package com.tangyh.lamp.authority.service.common.impl;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.ImmutableMap;
 import com.tangyh.basic.base.entity.SuperEntity;
@@ -214,7 +213,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     }
 
     @Override
-    public Map<Serializable, Object> findNameByIds(Set<Serializable> types) {
+    public Map<Serializable, Object> findByIds(Set<Serializable> types) {
         if (types.isEmpty()) {
             return Collections.emptyMap();
         }
@@ -230,11 +229,6 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
             map.forEach((value, txt) -> codeValueMap.put(StrUtil.join(ips.getDictSeparator(), type, value), txt));
         });
         return codeValueMap;
-    }
-
-    @Override
-    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
-        return Collections.emptyMap();
     }
 
 }

@@ -20,7 +20,7 @@ import java.util.Set;
  * @date 2019/07/02
  */
 @FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", fallback = UserApiFallback.class
-        , path = "/user", qualifier = "userApi")
+        , path = "/user")
 public interface UserApi extends LoadService {
     /**
      * 根据用户id查询权限范围
@@ -30,16 +30,6 @@ public interface UserApi extends LoadService {
      */
     @RequestMapping(value = "/ds/{id}", method = RequestMethod.GET)
     Map<String, Object> getDataScopeById(@PathVariable("id") Long id);
-
-    /**
-     * 根据id查询 显示名
-     *
-     * @param ids 唯一键（可能不是主键ID)
-     * @return
-     */
-    @Override
-    @GetMapping("/findNameByIds")
-    Map<Serializable, Object> findNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 
     /**
      * 根据id查询实体

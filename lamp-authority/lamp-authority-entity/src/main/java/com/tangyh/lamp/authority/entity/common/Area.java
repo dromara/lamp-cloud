@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 import static com.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
-import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
+
 
 /**
  * <p>
@@ -89,12 +89,12 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
     /**
      * 行政区级
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.AREA_LEVEL)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.AREA_LEVEL)
      */
     @ApiModelProperty(value = "行政区级")
     @Size(max = 10, message = "行政区级长度不能超过10")
     @TableField(value = "level", condition = LIKE)
-    @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.AREA_LEVEL)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.AREA_LEVEL)
     @Excel(name = "行政区级")
     private String level;
 

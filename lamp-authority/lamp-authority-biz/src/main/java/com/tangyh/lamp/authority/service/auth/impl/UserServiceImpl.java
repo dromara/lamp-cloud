@@ -6,7 +6,6 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.request.PageParams;
 import com.tangyh.basic.base.request.PageUtil;
@@ -258,13 +257,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     }
 
     @Override
-    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findUser(ids), User::getId, User::getName);
-    }
-
-    @Override
     public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findUser(ids), User::getId, (user) -> user);
+        return CollHelper.uniqueIndex(findUser(ids), User::getId, User::getName);
     }
 
     @Override

@@ -26,7 +26,6 @@ import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
-import static com.tangyh.lamp.common.constant.EchoConstants.FIND_NAME_BY_IDS;
 import static com.tangyh.lamp.common.constant.EchoConstants.SMS_TEMPLATE_ID_CLASS;
 
 /**
@@ -59,7 +58,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
     @NotNull(message = "请填写短信模板")
     @TableField(value = "template_id")
     @Excel(name = "短信模板")
-    @Echo(api = SMS_TEMPLATE_ID_CLASS, method = FIND_NAME_BY_IDS)
+    @Echo(api = SMS_TEMPLATE_ID_CLASS)
     private Long templateId;
 
     /**

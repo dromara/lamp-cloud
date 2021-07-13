@@ -3,7 +3,6 @@ package com.tangyh.lamp.authority.service.core.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.annotation.echo.EchoResult;
 import com.tangyh.basic.base.request.PageParams;
@@ -87,13 +86,8 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
     }
 
     @Override
-    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findStation(ids), Station::getId, Station::getName);
-    }
-
-    @Override
     public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findStation(ids), Station::getId, station -> station);
+        return CollHelper.uniqueIndex(findStation(ids), Station::getId, Station::getName);
     }
 
     private List<Station> findStation(Set<Serializable> ids) {

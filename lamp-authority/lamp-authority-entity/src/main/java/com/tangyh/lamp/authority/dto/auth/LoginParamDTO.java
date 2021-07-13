@@ -31,6 +31,7 @@ public class LoginParamDTO {
     private String key;
     @ApiModelProperty(value = "验证码")
     private String code;
+
     @ApiModelProperty(value = "账号")
     private String account;
     @ApiModelProperty(value = "密码")

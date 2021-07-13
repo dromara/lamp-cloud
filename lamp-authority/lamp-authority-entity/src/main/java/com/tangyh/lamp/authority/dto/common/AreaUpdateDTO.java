@@ -88,7 +88,7 @@ public class AreaUpdateDTO implements Serializable {
     /**
      * 行政区级
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.AREA_LEVEL)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.AREA_LEVEL)
      */
     @ApiModelProperty(value = "行政区级")
     @Size(max = 10, message = "行政区级长度不能超过10")

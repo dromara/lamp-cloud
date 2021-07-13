@@ -2,7 +2,6 @@ package com.tangyh.lamp.sms.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
-
 import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.utils.CollHelper;
@@ -54,14 +53,8 @@ public class SmsTemplateServiceImpl extends SuperServiceImpl<SmsTemplateMapper, 
 
     @Transactional(readOnly = true)
     @Override
-    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(listByIds(ids), SmsTemplate::getId, SmsTemplate::getName);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
     public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(listByIds(ids), SmsTemplate::getId, org -> org);
+        return CollHelper.uniqueIndex(listByIds(ids), SmsTemplate::getId, SmsTemplate::getName);
     }
 
     private void buildParams(SmsTemplate smsTemplate) {

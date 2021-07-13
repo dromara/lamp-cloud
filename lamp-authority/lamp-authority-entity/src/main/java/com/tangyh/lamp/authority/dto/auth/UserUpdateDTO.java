@@ -60,7 +60,7 @@ public class UserUpdateDTO implements Serializable {
      * 组织
      * #c_org
      *
-     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
+     * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织")
     private Long orgId;
@@ -68,7 +68,7 @@ public class UserUpdateDTO implements Serializable {
      * 岗位
      * #c_station
      *
-     * @Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)
+     * @Echo(api = STATION_ID_CLASS)
      */
     @ApiModelProperty(value = "岗位")
     private Long stationId;
@@ -104,7 +104,7 @@ public class UserUpdateDTO implements Serializable {
     /**
      * 民族
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)
      */
     @ApiModelProperty(value = "民族")
     @Size(max = 2, message = "民族长度不能超过2")
@@ -112,7 +112,7 @@ public class UserUpdateDTO implements Serializable {
     /**
      * 学历
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)
      */
     @ApiModelProperty(value = "学历")
     @Size(max = 2, message = "学历长度不能超过2")
@@ -120,7 +120,7 @@ public class UserUpdateDTO implements Serializable {
     /**
      * 职位状态
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)
      */
     @ApiModelProperty(value = "职位状态")
     @Size(max = 2, message = "职位状态长度不能超过2")

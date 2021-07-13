@@ -52,7 +52,7 @@ public class StationUpdateDTO implements Serializable {
      * 组织
      * #c_org
      *
-     * @Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)
+     * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
     @ApiModelProperty(value = "组织")
     private Long orgId;

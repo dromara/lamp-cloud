@@ -41,26 +41,9 @@ public class EchoController {
         return userService.findByIds(ids);
     }
 
-    @ApiOperation(value = "根据id查询用户名称", notes = "根据id查询用户名称")
-    @GetMapping("/user/findNameByIds")
-    public Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Serializable> ids) {
-        return userService.findNameByIds(ids);
-    }
-
     @GetMapping("/station/findByIds")
     public Map<Serializable, Object> findStationByIds(@RequestParam("ids") Set<Serializable> ids) {
         return stationService.findByIds(ids);
-    }
-
-    @GetMapping("/station/findNameByIds")
-    public Map<Serializable, Object> findStationNameByIds(@RequestParam("ids") Set<Serializable> ids) {
-        return stationService.findNameByIds(ids);
-    }
-
-    @ApiOperation(value = "查询字典项", notes = "根据字典编码查询字典项")
-    @GetMapping("/dictionary/findNameByIds")
-    public Map<Serializable, Object> findDictionaryItem(@RequestParam Set<Serializable> codes) {
-        return this.dictionaryService.findNameByIds(codes);
     }
 
     @GetMapping("/org/findByIds")
@@ -68,10 +51,9 @@ public class EchoController {
         return orgService.findByIds(ids);
     }
 
-    @GetMapping("/org/findNameByIds")
-    public Map<Serializable, Object> findOrgNameByIds(@RequestParam("ids") Set<Serializable> ids) {
-        return orgService.findNameByIds(ids);
+    @ApiOperation(value = "查询字典项", notes = "根据字典编码查询字典项")
+    @GetMapping("/dictionary/findByIds")
+    public Map<Serializable, Object> findDictByIds(@RequestParam("ids") Set<Serializable> ids) {
+        return this.dictionaryService.findByIds(ids);
     }
-
-
 }

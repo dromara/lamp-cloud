@@ -41,7 +41,7 @@ public final class PhoneUtils {
     public static Set<String> getPhone(String receiverPhone, String regEx) {
         //判断参数类型
         if (!receiverPhone.contains(PHONE_SEPARATOR)) {
-            String[] list = StrUtil.split(receiverPhone, CONTACTS_SEPARATOR);
+            String[] list = StrUtil.splitToArray(receiverPhone, CONTACTS_SEPARATOR);
             return new LinkedHashSet<>(Arrays.asList(list));
         }
 

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>3.2.4</version>
+    <version>3.2.5</version>
     <packaging>pom</packaging>
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -38,8 +38,8 @@
     </modules>
 
     <properties>
-        <lamp-util.version>3.2.4</lamp-util.version>
-        <lamp-project.version>3.2.4</lamp-project.version>
+        <lamp-util.version>3.2.5</lamp-util.version>
+        <lamp-project.version>3.2.5</lamp-project.version>
         <seata.version>1.3.0</seata.version>
         <!-- jdk8 将这里改成 8 -->
         <java.version>11</java.version>
@@ -51,7 +51,7 @@
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
         <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
-        <spring-boot-maven-plugin.version>2.3.10.RELEASE</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>2.3.12.RELEASE</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>

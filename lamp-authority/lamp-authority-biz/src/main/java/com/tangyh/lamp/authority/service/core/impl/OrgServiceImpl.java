@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
@@ -111,11 +110,11 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         );
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
-        return CollHelper.uniqueIndex(findOrg(ids), Org::getId, Org::getLabel);
-    }
+//    @Transactional(readOnly = true)
+//    @Override
+//    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+//        return CollHelper.uniqueIndex(findOrg(ids), Org::getId, Org::getLabel);
+//    }
 
     @Transactional(readOnly = true)
     @Override

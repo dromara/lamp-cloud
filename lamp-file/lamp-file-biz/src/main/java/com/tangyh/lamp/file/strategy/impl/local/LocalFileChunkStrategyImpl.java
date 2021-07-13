@@ -41,8 +41,8 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
      * @return 随机名
      */
     private String randomFileName(String originalName) {
-        String[] ext = StrUtil.split(originalName, ".");
-        return UUID.randomUUID().toString() + StrPool.DOT + ext[ext.length - 1];
+        String[] ext = StrUtil.splitToArray(originalName, StrPool.DOT);
+        return UUID.randomUUID() + StrPool.DOT + ext[ext.length - 1];
     }
 
     @Override

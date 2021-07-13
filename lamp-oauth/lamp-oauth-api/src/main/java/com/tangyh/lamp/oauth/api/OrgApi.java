@@ -17,18 +17,8 @@ import java.util.Set;
  * @date 2019/08/02
  */
 @FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", path = "/org",
-        qualifier = "orgApi", fallback = OrgApiFallback.class)
+        fallback = OrgApiFallback.class)
 public interface OrgApi extends LoadService {
-
-    /**
-     * 根据id查询 显示名
-     *
-     * @param ids 唯一键（可能不是主键ID)
-     * @return
-     */
-    @Override
-    @GetMapping("/findNameByIds")
-    Map<Serializable, Object> findNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 
     /**
      * 根据id查询实体

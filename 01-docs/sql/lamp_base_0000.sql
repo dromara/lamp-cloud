@@ -50,24 +50,25 @@ COMMIT;
 -- Table structure for c_area
 -- ----------------------------
 DROP TABLE IF EXISTS `c_area`;
-CREATE TABLE `c_area` (
-  `id` bigint(20) NOT NULL COMMENT 'id',
-  `code` varchar(64) NOT NULL COMMENT '编码',
-  `label` varchar(255) NOT NULL COMMENT '名称',
-  `full_name` varchar(255) DEFAULT '' COMMENT '全名',
-  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
-  `longitude` varchar(255) DEFAULT '' COMMENT '经度',
-  `latitude` varchar(255) DEFAULT '' COMMENT '维度',
-  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.AREA_LEVEL)',
-  `source_` varchar(255) DEFAULT '' COMMENT '数据来源',
-  `state` bit(1) DEFAULT b'0' COMMENT '状态',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_code` (`code`) USING BTREE
+CREATE TABLE `c_area`
+(
+    `id`          bigint(20) NOT NULL COMMENT 'id',
+    `code`        varchar(64)  NOT NULL COMMENT '编码',
+    `label`       varchar(255) NOT NULL COMMENT '名称',
+    `full_name`   varchar(255) DEFAULT '' COMMENT '全名',
+    `sort_value`  int(10) DEFAULT '1' COMMENT '排序',
+    `longitude`   varchar(255) DEFAULT '' COMMENT '经度',
+    `latitude`    varchar(255) DEFAULT '' COMMENT '维度',
+    `level`       varchar(10)  DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.AREA_LEVEL)',
+    `source_`     varchar(255) DEFAULT '' COMMENT '数据来源',
+    `state`       bit(1)       DEFAULT b'0' COMMENT '状态',
+    `parent_id`   bigint(20) DEFAULT '0' COMMENT '父ID',
+    `create_time` datetime     DEFAULT NULL COMMENT '创建时间',
+    `created_by`  bigint(20) DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime     DEFAULT NULL COMMENT '更新时间',
+    `updated_by`  bigint(20) DEFAULT NULL COMMENT '更新人',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `uk_code` (`code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
 -- ----------------------------
@@ -386,23 +387,24 @@ CREATE TABLE `c_opt_log_ext` (
 -- Table structure for c_org
 -- ----------------------------
 DROP TABLE IF EXISTS `c_org`;
-CREATE TABLE `c_org` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `label` varchar(255) NOT NULL COMMENT '名称',
-  `type_` char(2) DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.ORG_TYPE)',
-  `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
-  `tree_path` varchar(255) DEFAULT '' COMMENT '树结构',
-  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
-  `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_name` (`label`) USING HASH,
-  FULLTEXT KEY `fu_path` (`tree_path`)
+CREATE TABLE `c_org`
+(
+    `id`           bigint(20) NOT NULL COMMENT 'ID',
+    `label`        varchar(255) NOT NULL COMMENT '名称',
+    `type_`        char(2)      DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)',
+    `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
+    `parent_id`    bigint(20) DEFAULT '0' COMMENT '父ID',
+    `tree_path`    varchar(255) DEFAULT '' COMMENT '树结构',
+    `sort_value`   int(10) DEFAULT '1' COMMENT '排序',
+    `state`        bit(1)       DEFAULT b'1' COMMENT '状态',
+    `describe_`    varchar(255) DEFAULT '' COMMENT '描述',
+    `create_time`  datetime     DEFAULT NULL COMMENT '创建时间',
+    `created_by`   bigint(20) DEFAULT NULL COMMENT '创建人',
+    `update_time`  datetime     DEFAULT NULL COMMENT '修改时间',
+    `updated_by`   bigint(20) DEFAULT NULL COMMENT '修改人',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `uk_name` (`label`) USING HASH,
+    FULLTEXT KEY `fu_path` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
 -- ----------------------------
@@ -1033,18 +1035,19 @@ CREATE TABLE `c_role_org` (
 -- Table structure for c_station
 -- ----------------------------
 DROP TABLE IF EXISTS `c_station`;
-CREATE TABLE `c_station` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)',
-  `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_name` (`name`) USING HASH
+CREATE TABLE `c_station`
+(
+    `id`          bigint(20) NOT NULL COMMENT 'ID',
+    `name`        varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+    `org_id`      bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
+    `state`       bit(1)                DEFAULT b'1' COMMENT '状态',
+    `describe_`   varchar(255)          DEFAULT '' COMMENT '描述',
+    `create_time` datetime              DEFAULT NULL COMMENT '创建时间',
+    `created_by`  bigint(20) DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime              DEFAULT NULL COMMENT '修改时间',
+    `updated_by`  bigint(20) DEFAULT NULL COMMENT '修改人',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `uk_name` (`name`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
@@ -1058,34 +1061,35 @@ COMMIT;
 -- Table structure for c_user
 -- ----------------------------
 DROP TABLE IF EXISTS `c_user`;
-CREATE TABLE `c_user` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `account` varchar(30) NOT NULL DEFAULT '' COMMENT '账号',
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, method = FIND_BY_IDS, beanClass = Org.class)',
-  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS)',
-  `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '内置',
-  `email` varchar(255) DEFAULT '' COMMENT '邮箱',
-  `mobile` varchar(20) DEFAULT '' COMMENT '手机',
-  `sex` varchar(1) DEFAULT '' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
-  `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `avatar` varchar(255) DEFAULT '' COMMENT '头像',
-  `nation` char(2) DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)',
-  `education` char(2) DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)',
-  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)',
-  `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述',
-  `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
-  `password_error_num` int(10) DEFAULT '0' COMMENT '密码错误次数',
-  `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
-  `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
-  `salt` varchar(20) NOT NULL DEFAULT '' COMMENT '密码盐',
-  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_account` (`account`) USING BTREE
+CREATE TABLE `c_user`
+(
+    `id`                       bigint(20) NOT NULL COMMENT 'ID',
+    `account`                  varchar(30) NOT NULL DEFAULT '' COMMENT '账号',
+    `name`                     varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
+    `org_id`                   bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
+    `station_id`               bigint(20) DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS)',
+    `readonly`                 bit(1)      NOT NULL DEFAULT b'0' COMMENT '内置',
+    `email`                    varchar(255)         DEFAULT '' COMMENT '邮箱',
+    `mobile`                   varchar(20)          DEFAULT '' COMMENT '手机',
+    `sex`                      varchar(1)           DEFAULT '' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
+    `state`                    bit(1)               DEFAULT b'1' COMMENT '状态',
+    `avatar`                   varchar(255)         DEFAULT '' COMMENT '头像',
+    `nation`                   char(2)              DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)',
+    `education`                char(2)              DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)',
+    `position_status`          char(2)              DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)',
+    `work_describe`            varchar(255)         DEFAULT '' COMMENT '工作描述',
+    `password_error_last_time` datetime             DEFAULT NULL COMMENT '最后一次输错密码时间',
+    `password_error_num`       int(10) DEFAULT '0' COMMENT '密码错误次数',
+    `password_expire_time`     datetime             DEFAULT NULL COMMENT '密码过期时间',
+    `password`                 varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
+    `salt`                     varchar(20) NOT NULL DEFAULT '' COMMENT '密码盐',
+    `last_login_time`          datetime             DEFAULT NULL COMMENT '最后登录时间',
+    `created_by`               bigint(20) DEFAULT NULL COMMENT '创建人id',
+    `create_time`              datetime             DEFAULT NULL COMMENT '创建时间',
+    `updated_by`               bigint(20) DEFAULT NULL COMMENT '更新人id',
+    `update_time`              datetime             DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `uk_account` (`account`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------
