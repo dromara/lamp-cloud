@@ -26,6 +26,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "TenantConnectDTO", description = "租户连接")
 public class TenantConnectDTO {
     @ApiModelProperty(value = "企业ID")
+    @NotNull(message = "ID不能为空")
     private Long id;
     @NotEmpty(message = "企业编码不能为空")
     private String tenant;
@@ -34,10 +35,10 @@ public class TenantConnectDTO {
      * REMOTE： 不同的数据库(物理)，需要先在DatasourceConfig表配置链接源信息，然后指定以下字段（xxxDatasource）
      */
     @ApiModelProperty(value = "连接类型", example = "LOCAL,REMOTE")
+    @NotNull(message = "连接类型不能为空")
     private TenantConnectTypeEnum connectType;
 
     @ApiModelProperty(value = "权限服务连接源")
-    @NotNull(message = "权限服务连接源不能为空")
     private Long authorityDatasource;
     @ApiModelProperty(value = "文件服务连接源")
     private Long fileDatasource;
