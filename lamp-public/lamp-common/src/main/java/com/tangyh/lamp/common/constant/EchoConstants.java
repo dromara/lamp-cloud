@@ -12,8 +12,6 @@ public class EchoConstants {
     private EchoConstants() {
     }
 
-    public static final String FIND_BY_IDS = "findByIds";
-
     /**
      * 数据字典项 feign查询类 全类名
      */
