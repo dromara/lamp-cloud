@@ -8,6 +8,7 @@ import com.tangyh.lamp.sms.entity.SmsTask;
 import com.tangyh.lamp.sms.entity.SmsTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,6 +46,7 @@ public class SmsContext {
      * @return 任务id
      */
     @Async
+    @Transactional(rollbackFor = Exception.class)
     public void smsSend(Long taskId) {
         SmsTask smsTask = smsTaskMapper.selectById(taskId);
         BizAssert.notNull(smsTask, "短信任务尚未保存成功");

@@ -6,15 +6,15 @@ import cn.hutool.core.util.StrUtil;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.utils.StrPool;
+import com.tangyh.lamp.file.dao.FileMapper;
 import com.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.entity.File;
 import com.tangyh.lamp.file.properties.FileServerProperties;
-import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
 import com.tangyh.lamp.file.utils.FileTypeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,9 +29,10 @@ import java.util.UUID;
  * @date 2020/11/22 5:02 下午
  */
 @Slf4j
+@Primary
 public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
-    public LocalFileChunkStrategyImpl(AttachmentService fileService, FileServerProperties fileProperties) {
-        super(fileService, fileProperties);
+    public LocalFileChunkStrategyImpl(FileMapper fileMapper, FileServerProperties fileProperties) {
+        super(fileMapper, fileProperties);
     }
 
     /**
@@ -46,11 +47,11 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
     }
 
     @Override
-    protected void copyFile(Attachment file) {
-        String inputFile = Paths.get(fileProperties.getStoragePath(), file.getPath()).toString();
+    protected void copyFile(File file) {
+        String inputFile = Paths.get(fileProperties.getLocal().getStoragePath(), file.getPath()).toString();
 
         String filename = randomFileName(file.getUniqueFileName());
-        String outputFile = Paths.get(fileProperties.getStoragePath(), StrUtil.subBefore(file.getPath(), "/" + file.getUniqueFileName(), true), filename).toString();
+        String outputFile = Paths.get(fileProperties.getLocal().getStoragePath(), StrUtil.subBefore(file.getPath(), "/" + file.getUniqueFileName(), true), filename).toString();
 
         try {
             FileUtil.copy(inputFile, outputFile, true);
@@ -67,7 +68,7 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 
 
     @Override
-    protected R<Attachment> merge(List<File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
+    protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
         //创建合并后的文件
         log.info("path={},fileName={}", path, fileName);
         java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
@@ -99,13 +100,13 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
             log.warn("文件[{}], fileName={}已经存在", info.getName(), fileName);
         }
 
-        String relativePath = FileTypeUtil.getRelativePath(Paths.get(fileProperties.getStoragePath()).toString(), outputFile.getAbsolutePath());
-        log.info("relativePath={}, getStoragePath={}, getAbsolutePath={}", relativePath, fileProperties.getStoragePath(), outputFile.getAbsolutePath());
-        String url = fileProperties.getUriPrefix() +
+        String relativePath = FileTypeUtil.getRelativePath(Paths.get(fileProperties.getLocal().getStoragePath()).toString(), outputFile.getAbsolutePath());
+        log.info("relativePath={}, getStoragePath={}, getAbsolutePath={}", relativePath, fileProperties.getLocal().getStoragePath(), outputFile.getAbsolutePath());
+        String url = fileProperties.getLocal().getEndpoint() +
                 relativePath +
                 StrPool.SLASH +
                 fileName;
-        Attachment filePo = Attachment.builder()
+        File filePo = File.builder()
                 .url(StrUtil.replace(url, "\\\\", StrPool.SLASH))
                 .build();
         return R.success(filePo);

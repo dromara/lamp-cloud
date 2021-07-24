@@ -1,11 +1,12 @@
 package com.tangyh.lamp.file.strategy;
 
-import com.tangyh.lamp.file.domain.FileDeleteDO;
-import com.tangyh.lamp.file.dto.AttachmentGetVO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.domain.FileDeleteBO;
+import com.tangyh.lamp.file.domain.FileGetUrlBO;
+import com.tangyh.lamp.file.entity.File;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文件策略接口
@@ -18,36 +19,33 @@ public interface FileStrategy {
      * 文件上传
      *
      * @param file    文件
-     * @param group   桶
+     * @param bucket  桶
      * @param bizType 业务类型
      * @return 文件对象
      */
-    Attachment upload(MultipartFile file, String group, String bizType);
+    File upload(MultipartFile file, String bucket, String bizType);
 
     /**
      * 删除源文件
      *
-     * @param list 列表
+     * @param fileDeleteBO 待删除文件
      * @return 是否成功
      */
-    boolean delete(List<FileDeleteDO> list);
+    boolean delete(FileDeleteBO fileDeleteBO);
 
     /**
      * 根据路径获取访问地址
      *
-     * @param paths
-     * @param expiry
+     * @param fileGets 文件查询对象
      * @return
      */
-    List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry);
+    Map<String, String> findUrl(List<FileGetUrlBO> fileGets);
 
     /**
      * 根据路径获取访问地址
      *
-     * @param path
-     * @param group
-     * @param expiry
+     * @param fileGet 文件查询对象
      * @return
      */
-    String getUrl(String group, String path, Integer expiry);
+    String getUrl(FileGetUrlBO fileGet);
 }

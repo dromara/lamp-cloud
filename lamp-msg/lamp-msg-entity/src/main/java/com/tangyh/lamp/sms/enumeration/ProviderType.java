@@ -36,6 +36,8 @@ public enum ProviderType implements BaseEnum {
      * 百度
      */
     BAIDU("1000", "百度云短信", "\\$\\{([^\\}]+)\\}"),
+
+    CL("0", "创蓝", "\\{([^\\}]+)\\}"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -61,6 +63,11 @@ public enum ProviderType implements BaseEnum {
     @ApiModelProperty(value = "编码", allowableValues = "ALI,TENCENT,BAIDU", example = "ALI")
     public String getCode() {
         return this.name();
+    }
+
+    @Override
+    public String getExtra() {
+        return this.getRegex();
     }
 
     public SendStatus getTaskStatus(String code) {

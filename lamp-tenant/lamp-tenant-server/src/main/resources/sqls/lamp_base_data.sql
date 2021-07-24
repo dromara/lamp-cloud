@@ -1,4 +1,4 @@
-INSERT INTO `c_application` VALUES (1, 'lamp_web', 'lamp_web_secret', 'http://tangyh.top:10000/zuihou-ui/', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
+INSERT INTO `c_application` VALUES (1, 'lamp_web', 'lamp_web_secret', 'https://tangyh.top', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
 
 INSERT INTO `c_parameter` VALUES (1, 'LoginPolicy', '登录策略', 'MANY', 'ONLY_ONE:一个用户只能登录一次; MANY:用户可以任意登录; ONLY_ONE_CLIENT:一个用户在一个应用只能登录一次', b'1', b'1', 1, '2020-04-02 21:56:19', 1, '2020-04-03 01:12:32');
 
@@ -76,155 +76,59 @@ INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `desc
 INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `describe_`, `sort_value`, `icon`, `css_style`, `css_class`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (98, 'NATION', '民族', '56', '布朗族', b'1', '', 55, '', '', '', b'1', 1, '2018-03-15 20:11:01', 1, '2018-03-15 20:11:04');
 INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `describe_`, `sort_value`, `icon`, `css_style`, `css_class`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (99, 'NATION', '民族', '57', '其他', b'1', '', 100, '', '', '', b'1', 3, '2020-03-09 23:38:29', 3, '2020-03-09 23:38:29');
 INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `describe_`, `sort_value`, `icon`, `css_style`, `css_class`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (110, 'POSITION_STATUS', '职位状态', '01', '在职', b'1', '', 1, '', '', '', b'1', 1, '2019-06-04 11:38:16', 1, '2019-06-04 11:38:16');
-INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `describe_`, `sort_value`, `icon`,
-                           `css_style`, `css_class`, `readonly_`, `created_by`, `create_time`, `updated_by`,
-                           `update_time`)
-VALUES (111, 'POSITION_STATUS', '职位状态', '02', '请假', b'1', '', 2, '', '', '', b'1', 3, '2020-03-09 23:39:30', 3,
-        '2020-03-09 23:39:30');
-INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `describe_`, `sort_value`, `icon`,
-                           `css_style`, `css_class`, `readonly_`, `created_by`, `create_time`, `updated_by`,
-                           `update_time`)
-VALUES (112, 'POSITION_STATUS', '职位状态', '03', '离职', b'1', '', 3, '', '', '', b'1', 1, '2019-06-04 11:38:50', 1,
-        '2019-06-04 11:38:50');
+INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `describe_`, `sort_value`, `icon`, `css_style`, `css_class`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (111, 'POSITION_STATUS', '职位状态', '02', '请假', b'1', '', 2, '', '', '', b'1', 3, '2020-03-09 23:39:30', 3, '2020-03-09 23:39:30');
+INSERT INTO `c_dictionary`(`id`, `type`, `label`, `code`, `name`, `state`, `describe_`, `sort_value`, `icon`, `css_style`, `css_class`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (112, 'POSITION_STATUS', '职位状态', '03', '离职', b'1', '', 3, '', '', '', b'1', 1, '2019-06-04 11:38:50', 1, '2019-06-04 11:38:50');
 
-INSERT INTO `c_role`
-VALUES (1, '超级管理员', 'SUPER_ADMIN', '内置管理员', b'1', b'1', 'ALL', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
-INSERT INTO `c_user`
-VALUES (1, 'lampAdmin', '内置管理员', 1, 1, b'1', '', '', 'M', b'1', '', '', '', '', '不想上班!', '2020-11-24 19:08:45', 0, NULL,
-        '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh',
-        '2020-11-24 19:08:45', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
-INSERT INTO `c_user_role`
-VALUES (1, 1, 1, 1, '2020-11-23 14:19:09');
+INSERT INTO `c_role` VALUES (1, '超级管理员', 'SUPER_ADMIN', '内置管理员', b'1', b'1', 'ALL', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
+INSERT INTO `c_user` VALUES (1, 'lampAdmin', '内置管理员', 1, 1, b'1', '', '', 'M', b'1', '', '', '', '', '不想上班!', '2020-11-24 19:08:45', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-24 19:08:45', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
+INSERT INTO `c_user_role` VALUES (1, 1, 1, 1, '2020-11-23 14:19:09');
 
-INSERT INTO `c_menu`
-VALUES (20, '工作台', '', b'0', '/workbench', 'Layout', b'1', 20, 'fa fa-tachometer', '', 0, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (30, '组织管理', '', b'0', '/org', 'Layout', b'1', 30, 'fa fa-users', '', 0, b'1', 1, '2020-11-23 11:47:31', 1,
-        '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (40, '资源中心', '', b'0', '/resources', 'Layout', b'1', 40, 'fa fa-cloud', '', 0, b'1', 1, '2020-11-23 11:47:31', 1,
-        '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (50, '流程管理', '', b'0', '/activiti', 'Layout', b'1', 50, 'fa fa-retweet', '', 0, b'1', 1, '2020-11-23 11:47:31',
-        1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (60, '系统设置', '', b'0', '/system', 'Layout', b'1', 60, 'fa fa-gears', '', 0, b'1', 1, '2020-11-23 11:47:31', 1,
-        '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (70, '网关管理', '', b'0', '/gateway', 'Layout', b'1', 70, 'fa fa-sort-amount-asc', '', 0, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (120, '通知公告', '', b'0', '/workbench/notice', 'lamp/workbench/notice/index', b'1', 10, '', '', 20, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (121, '待我审批', '', b'0', '/workbench/todo', 'lamp/workbench/todo/index', b'1', 20, '', '', 20, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (122, '我已审批', '', b'0', '/workbench/done', 'lamp/workbench/done/index', b'1', 30, '', '', 20, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (123, '我发起的', '', b'0', '/workbench/started', 'lamp/workbench/started/index', b'1', 40, '', '', 20, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (130, '机构管理', '', b'0', '/org/org', 'lamp/org/org/index', b'1', 10, '', '', 30, b'1', 1, '2020-11-23 11:47:31',
-        1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (131, '岗位管理', '', b'0', '/org/station', 'lamp/org/station/index', b'1', 20, '', '', 30, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (132, '用户管理', '', b'0', '/org/user', 'lamp/org/user/index', b'1', 30, '', '', 30, b'1', 1, '2020-11-23 11:47:31',
-        1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (140, '消息中心', '', b'0', '/resources/msg', 'lamp/resources/msg/index', b'1', 10, '', '', 40, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (141, '短信模版', '', b'0', '/resources/smsTemplate', 'lamp/resources/smsTemplate/index', b'1', 20, '', '', 40, b'1',
-        1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (142, '短信中心', '', b'0', '/resources/sms', 'lamp/resources/sms/index', b'1', 30, '', '', 40, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (143, '附件管理', '', b'0', '/resources/attachment', 'lamp/resources/attachment/index', b'1', 40, '', '', 40, b'1',
-        1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (150, '流程部署', '', b'0', '/activiti/deploymentManager', 'lamp/activiti/deploymentManager/index', b'1', 10, '', '',
-        50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (151, '模型管理', '', b'0', '/activiti/modelManager', 'lamp/activiti/modelManager/index', b'1', 20, '', '', 50, b'1',
-        1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (152, '请假流程', '', b'0', '/activiti/level', 'Layout', b'1', 30, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1,
-        '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (153, '请假管理', '', b'0', '/activiti/leave/instant', 'lamp/activiti/leave/instantManager/index', b'1', 1, '', '',
-        152, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (154, '请假任务', '', b'0', '/activiti/leave/ruTask', 'lamp/activiti/leave/ruTask/index', b'1', 2, '', '', 152, b'1',
-        1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (155, '报销流程', '', b'0', '/activiti/reimbursement', 'Layout', b'1', 40, '', '', 50, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (156, '报销管理', '', b'0', '/activiti/reimbursement/instantManager',
-        'lamp/activiti/reimbursement/instantManager/index', b'1', 1, '', '', 155, b'1', 1, '2020-11-23 11:47:31', 1,
-        '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (157, '报销任务', '', b'0', '/activiti/reimbursement/ruTask', 'lamp/activiti/reimbursement/ruTask/index', b'1', 2,
-        '', '', 155, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (160, '菜单管理', '', b'0', '/system/menu', 'lamp/system/menu/index', b'1', 10, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (161, '角色管理', '', b'0', '/system/role', 'lamp/system/role/index', b'1', 20, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (162, '字典管理', '', b'0', '/system/dictionary', 'lamp/system/dictionary/index', b'1', 30, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (163, '地区管理', '', b'0', '/system/area', 'lamp/system/area/index', b'1', 40, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (164, '参数管理', '', b'0', '/system/parameter', 'lamp/system/parameter/index', b'1', 50, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (165, '操作日志', '', b'0', '/system/optLog', 'lamp/system/optLog/index', b'1', 60, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (166, '登录日志', '', b'0', '/system/loginLog', 'lamp/system/loginLog/index', b'1', 70, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (167, '在线用户', '', b'0', '/system/online', 'lamp/system/online/index', b'1', 80, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (168, '应用管理', '', b'0', '/system/application', 'lamp/system/application/index', b'1', 90, '', '', 60, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (180, '限流规则', '', b'0', '/gateway/ratelimiter', 'lamp/gateway/ratelimiter/index', b'1', 10, '', '', 70, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu`
-VALUES (181, '阻止访问', '', b'0', '/gateway/blocklist', 'lamp/gateway/blocklist/index', b'1', 20, '', '', 70, b'1', 1,
-        '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (20, '工作台', '', b'0', '/workbench', 'Layout', b'1', 20, 'ant-design:dashboard-filled', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (30, '组织管理', '', b'0', '/org', 'Layout', b'1', 30, 'ant-design:cluster-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (40, '资源中心', '', b'0', '/resources', 'Layout', b'1', 40, 'ant-design:cloud-server-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (50, '流程管理', '', b'0', '/activiti', 'Layout', b'1', 50, 'tabler:chart-dots', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (60, '系统设置', '', b'0', '/system', 'Layout', b'1', 60, 'ant-design:setting-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (70, '网关管理', '', b'0', '/gateway', 'Layout', b'1', 70, 'ant-design:sliders-filled', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (120, '通知公告', '', b'0', '/workbench/notice', 'lamp/workbench/notice/index', b'1', 10, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (121, '待我审批', '', b'0', '/workbench/todo', 'lamp/workbench/todo/index', b'1', 20, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (122, '我已审批', '', b'0', '/workbench/done', 'lamp/workbench/done/index', b'1', 30, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (123, '我发起的', '', b'0', '/workbench/started', 'lamp/workbench/started/index', b'1', 40, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (130, '机构管理', '', b'0', '/org/org', 'lamp/org/org/index', b'1', 10, '', '', 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (131, '岗位管理', '', b'0', '/org/station', 'lamp/org/station/index', b'1', 20, '', '', 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (132, '用户管理', '', b'0', '/org/user', 'lamp/org/user/index', b'1', 30, '', '', 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (140, '消息中心', '', b'0', '/resources/msg', 'lamp/resources/msg/index', b'1', 10, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (141, '短信模版', '', b'0', '/resources/smsTemplate', 'lamp/resources/smsTemplate/index', b'1', 20, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (142, '短信中心', '', b'0', '/resources/sms', 'lamp/resources/sms/index', b'1', 30, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (143, '附件管理', '', b'0', '/resources/attachment', 'lamp/resources/attachment/index', b'1', 40, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (150, '流程部署', '', b'0', '/activiti/deploymentManager', 'lamp/activiti/deploymentManager/index', b'1', 10, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (151, '模型管理', '', b'0', '/activiti/modelManager', 'lamp/activiti/modelManager/index', b'1', 20, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (152, '请假流程', '', b'0', '/activiti/level', 'Layout', b'1', 30, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (153, '请假管理', '', b'0', '/activiti/leave/instant', 'lamp/activiti/leave/instantManager/index', b'1', 1, '', '', 152, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (154, '请假任务', '', b'0', '/activiti/leave/ruTask', 'lamp/activiti/leave/ruTask/index', b'1', 2, '', '', 152, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (155, '报销流程', '', b'0', '/activiti/reimbursement', 'Layout', b'1', 40, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (156, '报销管理', '', b'0', '/activiti/reimbursement/instantManager', 'lamp/activiti/reimbursement/instantManager/index', b'1', 1, '', '', 155, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (157, '报销任务', '', b'0', '/activiti/reimbursement/ruTask', 'lamp/activiti/reimbursement/ruTask/index', b'1', 2, '', '', 155, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (160, '菜单管理', '', b'0', '/system/menu', 'lamp/system/menu/index', b'1', 10, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (161, '角色管理', '', b'0', '/system/role', 'lamp/system/role/index', b'1', 20, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (162, '字典管理', '', b'0', '/system/dictionary', 'lamp/system/dictionary/index', b'1', 30, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (163, '地区管理', '', b'0', '/system/area', 'lamp/system/area/index', b'1', 40, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (164, '参数管理', '', b'0', '/system/parameter', 'lamp/system/parameter/index', b'1', 50, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (165, '操作日志', '', b'0', '/system/optLog', 'lamp/system/optLog/index', b'1', 60, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (166, '登录日志', '', b'0', '/system/loginLog', 'lamp/system/loginLog/index', b'1', 70, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (167, '在线用户', '', b'0', '/system/online', 'lamp/system/online/index', b'1', 80, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (168, '终端管理', '', b'0', '/system/application', 'lamp/system/application/index', b'1', 90, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (180, '限流规则', '', b'0', '/gateway/ratelimiter', 'lamp/gateway/ratelimiter/index', b'1', 10, '', '', 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (181, '阻止访问', '', b'0', '/gateway/blocklist', 'lamp/gateway/blocklist/index', b'1', 20, '', '', 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 
-INSERT INTO `c_resource`
-VALUES (1, 'authority:menu:add', '新增', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (2, 'authority:menu:edit', '编辑', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (3, 'authority:menu:delete', '删除', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (4, 'authority:menu:view;authority:resource:view', '查看', 160, '', b'1', 1, '2020-11-23 21:12:57', 1,
-        '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (5, 'authority:menu:import', '导入', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (6, 'authority:menu:export', '导出', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (7, 'authority:resource:add', '新增', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (8, 'authority:resource:edit', '编辑', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
-INSERT INTO `c_resource`
-VALUES (9, 'authority:resource:delete', '删除', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (1, 'authority:menu:add', '新增', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (2, 'authority:menu:edit', '编辑', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (3, 'authority:menu:delete', '删除', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (4, 'authority:menu:view;authority:resource:view', '查看', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (5, 'authority:menu:import', '导入', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (6, 'authority:menu:export', '导出', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (7, 'authority:resource:add', '新增', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (8, 'authority:resource:edit', '编辑', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
+INSERT INTO `c_resource` VALUES (9, 'authority:resource:delete', '删除', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
 INSERT INTO `c_resource` VALUES (10, 'authority:resource:view', '查看', 160, '', b'1', 1, '2020-11-23 21:12:57', 1, '2020-11-23 21:12:57');
 INSERT INTO `c_resource` VALUES (25938183673872491, 'authority:org:add', '新增', 130, '', b'1', 1, '2020-11-23 22:02:52', 1, '2020-11-23 22:02:52');
 INSERT INTO `c_resource` VALUES (25938183673872496, 'authority:org:edit', '编辑', 130, '', b'1', 1, '2020-11-23 22:03:13', 1, '2020-11-23 22:03:13');

@@ -77,6 +77,12 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
         return success(tenant);
     }
 
+    @Override
+    public R<Tenant> handlerUpdate(TenantUpdateDTO model) {
+        Tenant tenant = baseService.update(model);
+        return success(tenant);
+    }
+
     @ApiOperation(value = "检测租户是否存在", notes = "检测租户是否存在")
     @GetMapping("/check/{code}")
     public R<Boolean> check(@PathVariable("code") String code) {

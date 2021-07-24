@@ -1,63 +1,77 @@
 package com.tangyh.lamp.file.strategy.impl.local;
 
-import com.tangyh.lamp.file.domain.FileDeleteDO;
-import com.tangyh.lamp.file.dto.AttachmentGetVO;
-import com.tangyh.lamp.file.entity.Attachment;
+
+import com.tangyh.basic.database.mybatis.conditions.Wraps;
+import com.tangyh.basic.utils.CollHelper;
+import com.tangyh.lamp.file.dao.FileMapper;
+import com.tangyh.lamp.file.domain.FileDeleteBO;
+import com.tangyh.lamp.file.domain.FileGetUrlBO;
+import com.tangyh.lamp.file.entity.File;
+import com.tangyh.lamp.file.enumeration.FileStorageType;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.nio.file.Paths;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author zuihou
  * @date 2020/11/22 5:00 下午
  */
 @Slf4j
+
+@Component("LOCAL")
 public class LocalFileStrategyImpl extends AbstractFileStrategy {
-    public LocalFileStrategyImpl(FileServerProperties fileProperties) {
-        super(fileProperties);
+    public LocalFileStrategyImpl(FileServerProperties fileProperties, FileMapper fileMapper) {
+        super(fileProperties, fileMapper);
     }
 
-
     @Override
-    protected void uploadFile(Attachment file, MultipartFile multipartFile, String bucket) throws Exception {
+    protected void uploadFile(File file, MultipartFile multipartFile, String bucket) throws Exception {
+        FileServerProperties.Local local = fileProperties.getLocal();
+
         //生成文件名
         String uniqueFileName = getUniqueFileName(file);
-
-        String path = getPath(uniqueFileName, file.getBizType());
-
+        // 相对路径
+        String path = getPath(file.getBizType(), uniqueFileName);
         // web服务器存放的绝对路径
-        String absolutePath = Paths.get(fileProperties.getStoragePath(), path).toString();
+        String absolutePath = Paths.get(local.getStoragePath(), path).toString();
 
+        // 存储文件
         java.io.File outFile = new java.io.File(absolutePath);
         FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
 
-        String url = fileProperties.getUriPrefix() + path;
-
+        // 返回数据
+        String url = local.getEndpoint() + path;
         file.setUrl(url);
         file.setUniqueFileName(uniqueFileName);
         file.setPath(path);
-        file.setGroup(bucket);
+        file.setBucket(bucket);
+        file.setStorageType(FileStorageType.LOCAL);
     }
 
     @Override
-    protected void delete(FileDeleteDO file) {
-        File ioFile = new File(Paths.get(fileProperties.getStoragePath(), file.getPath()).toString());
+    public boolean delete(FileDeleteBO file) {
+        FileServerProperties.Local local = fileProperties.getLocal();
+        java.io.File ioFile = new java.io.File(Paths.get(local.getStoragePath(), file.getPath()).toString());
         FileUtils.deleteQuietly(ioFile);
+        return true;
     }
 
     @Override
-    public List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry) {
-        return null;
-    }
+    public Map<String, String> findUrl(List<FileGetUrlBO> fileGets) {
+        List<String> paths = fileGets.stream().map(FileGetUrlBO::getPath).collect(Collectors.toList());
+        List<File> list = fileMapper.selectList(Wraps.<File>lbQ().eq(File::getPath, paths));
 
-    @Override
-    public String getUrl(String bucket, String path, Integer expiry) {
-        return null;
+        Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(fileGets.size()));
+        list.forEach(item -> map.put(item.getPath(), item.getUrl()));
+        return map;
     }
 }

@@ -1,34 +1,45 @@
 package com.tangyh.lamp.file.strategy.impl.ali;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
-import com.tangyh.lamp.file.domain.FileDeleteDO;
-import com.tangyh.lamp.file.dto.AttachmentGetVO;
-import com.tangyh.lamp.file.entity.Attachment;
+
+import com.tangyh.basic.jackson.JsonUtil;
+import com.tangyh.basic.utils.CollHelper;
+import com.tangyh.lamp.file.dao.FileMapper;
+import com.tangyh.lamp.file.domain.FileDeleteBO;
+import com.tangyh.lamp.file.domain.FileGetUrlBO;
+import com.tangyh.lamp.file.entity.File;
+import com.tangyh.lamp.file.enumeration.FileStorageType;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zuihou
  * @date 2020/11/22 4:57 下午
  */
 @Slf4j
+
+@Component("ALI_OSS")
 public class AliFileStrategyImpl extends AbstractFileStrategy {
-    public AliFileStrategyImpl(FileServerProperties fileProperties) {
-        super(fileProperties);
+    public AliFileStrategyImpl(FileServerProperties fileProperties, FileMapper fileMapper) {
+        super(fileProperties, fileMapper);
     }
 
     @Override
-    protected void uploadFile(Attachment file, MultipartFile multipartFile, String bucket) throws Exception {
+    protected void uploadFile(File file, MultipartFile multipartFile, String bucket) throws Exception {
         FileServerProperties.Ali ali = fileProperties.getAli();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
                 ali.getAccessKeySecret());
@@ -43,7 +54,7 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         String uniqueFileName = getUniqueFileName(file);
 
         // 企业id/功能点/年/月/日/file
-        String path = getPath(uniqueFileName, file.getBizType());
+        String path = getPath(file.getBizType(), uniqueFileName);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentDisposition("attachment;fileName=" + file.getOriginalFileName());
@@ -51,34 +62,65 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         PutObjectRequest request = new PutObjectRequest(bucket, path, multipartFile.getInputStream(), metadata);
         PutObjectResult result = ossClient.putObject(request);
 
-        log.info("result={}", JSONObject.toJSONString(result));
+        log.info("result={}", JsonUtil.toJson(result));
 
-        String url = ali.getUriPrefix() + path;
         file.setUniqueFileName(uniqueFileName);
-        file.setGroup(bucket);
+        file.setBucket(bucket);
         file.setPath(path);
-        // TODO 这里可能有bug， 私有桶的文件url无法访问
-        file.setUrl(url);
+        file.setStorageType(FileStorageType.ALI_OSS);
 
         ossClient.shutdown();
     }
 
     @Override
-    protected void delete(FileDeleteDO file) {
+    public boolean delete(FileDeleteBO file) {
         FileServerProperties.Ali ali = fileProperties.getAli();
-        String bucketName = StrUtil.isEmpty(file.getGroup()) ? ali.getBucketName() : file.getGroup();
+        String bucketName = StrUtil.isEmpty(file.getBucket()) ? ali.getBucketName() : file.getBucket();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(), ali.getAccessKeySecret());
         ossClient.deleteObject(bucketName, file.getPath());
         ossClient.shutdown();
+        return true;
     }
 
     @Override
-    public List<String> getUrls(List<AttachmentGetVO> paths, Integer expiry) {
-        return null;
+    public Map<String, String> findUrl(List<FileGetUrlBO> fileGets) {
+        OSS ossClient = createOss();
+
+        Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(fileGets.size()));
+
+        for (FileGetUrlBO fileGet : fileGets) {
+            map.put(fileGet.getPath(), generatePresignedUrl(fileGet.getBucket(), fileGet.getPath()));
+        }
+        ossClient.shutdown();
+        return map;
     }
 
-    @Override
-    public String getUrl(String bucket, String path, Integer expiry) {
-        return null;
+    /**
+     * 获取一个ossclient
+     *
+     * @return
+     */
+    public OSS createOss() {
+        FileServerProperties.Ali ali = fileProperties.getAli();
+        String accessKeyId = ali.getAccessKeyId();
+        String accessKeySecret = ali.getAccessKeySecret();
+        String endPoint = ali.getEndpoint();
+        return new OSSClientBuilder().build(endPoint, accessKeyId, accessKeySecret);
+    }
+
+    /**
+     * 获取有访问权限的路径地址
+     *
+     * @param bucketName
+     * @param key
+     * @return
+     */
+    private String generatePresignedUrl(String bucketName, String key) {
+        FileServerProperties.Ali ali = fileProperties.getAli();
+        bucketName = StrUtil.isEmpty(bucketName) ? ali.getBucketName() : bucketName;
+        OSS oss = createOss();
+        Date date = new Date(System.currentTimeMillis() + ali.getExpiry());
+        URL url = oss.generatePresignedUrl(bucketName, key, date);
+        return url.toString();
     }
 }

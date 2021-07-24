@@ -191,6 +191,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
         // 判断是否忽略tenant
         if ("NONE".equals(multiTenantType)) {
             addHeader(mutate, JWT_KEY_TENANT, "_NONE");
+            ContextUtil.setTenant("_NONE");
             MDC.put(JWT_KEY_TENANT, StrPool.EMPTY);
             return;
         }

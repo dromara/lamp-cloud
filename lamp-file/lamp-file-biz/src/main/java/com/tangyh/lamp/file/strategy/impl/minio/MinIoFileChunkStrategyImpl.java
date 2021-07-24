@@ -1,14 +1,13 @@
 package com.tangyh.lamp.file.strategy.impl.minio;
 
 import com.tangyh.basic.base.R;
+import com.tangyh.lamp.file.dao.FileMapper;
 import com.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.entity.File;
 import com.tangyh.lamp.file.properties.FileServerProperties;
-import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,21 +21,21 @@ import java.util.List;
  */
 @Slf4j
 public class MinIoFileChunkStrategyImpl extends AbstractFileChunkStrategy {
-    public MinIoFileChunkStrategyImpl(AttachmentService fileService, FileServerProperties fileProperties) {
-        super(fileService, fileProperties);
+    public MinIoFileChunkStrategyImpl(FileMapper fileMapper, FileServerProperties fileProperties) {
+        super(fileMapper, fileProperties);
     }
 
 
     @Override
-    protected void copyFile(Attachment file) {
+    protected void copyFile(File file) {
 
     }
 
 
     @Override
-    protected R<Attachment> merge(List<File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
+    protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
 
-        Attachment filePo = Attachment.builder()
+        File filePo = File.builder()
 //                .relativePath(relativePath)
 //                .url(StrUtil.replace(url, "\\\\", StrPool.SLASH))
                 .build();

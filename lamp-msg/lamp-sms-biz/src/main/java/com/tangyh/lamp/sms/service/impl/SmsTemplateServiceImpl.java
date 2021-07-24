@@ -1,10 +1,13 @@
 package com.tangyh.lamp.sms.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
+
 import com.tangyh.basic.base.service.SuperServiceImpl;
 import com.tangyh.basic.exception.BizException;
+import com.tangyh.basic.jackson.JsonUtil;
+import com.tangyh.basic.model.Kv;
 import com.tangyh.basic.utils.CollHelper;
+import com.tangyh.basic.utils.StrPool;
 import com.tangyh.lamp.sms.dao.SmsTemplateMapper;
 import com.tangyh.lamp.sms.entity.SmsTemplate;
 import com.tangyh.lamp.sms.service.SmsTemplateService;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -39,16 +44,16 @@ public class SmsTemplateServiceImpl extends SuperServiceImpl<SmsTemplateMapper, 
         Matcher matcher = pattern.matcher(content);
 
         // 查找字符串中是否有匹配正则表达式的字符/字符串//有序， 目的是为了兼容 腾讯云参数
-        JSONObject obj = new JSONObject(true);
+        List<Kv> list = new ArrayList<>();
         while (matcher.find()) {
             String key = matcher.group(1);
-            obj.set(key, "");
+            list.add(Kv.builder().key(key).value(StrPool.EMPTY).build());
         }
-        if (obj.isEmpty()) {
+        if (list.isEmpty()) {
             throw BizException.wrap("模板内容解析失败，请认真详细内容格式");
         }
 
-        return obj.toString();
+        return JsonUtil.toJson(list);
     }
 
     @Transactional(readOnly = true)

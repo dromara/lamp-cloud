@@ -1,10 +1,10 @@
 package com.tangyh.lamp.sms.strategy.impl;
 
 import cn.hutool.core.convert.Convert;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.Feature;
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
+import com.tangyh.basic.jackson.JsonUtil;
+import com.tangyh.basic.model.Kv;
 import com.tangyh.lamp.sms.dao.SmsTaskMapper;
 import com.tangyh.lamp.sms.enumeration.ProviderType;
 import com.tangyh.lamp.sms.service.SmsSendStatusService;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 腾讯发送短信实现类
@@ -79,14 +79,11 @@ public class SmsTencentStrategy extends AbstractSmsStrategy {
             SmsSingleSender singleSender = new SmsSingleSender(Convert.toInt(smsDO.getAppId(), 0), smsDO.getAppSecret());
 
             String paramStr = smsDO.getTemplateParams();
-
-            JSONObject param = JSONObject.parseObject(paramStr, Feature.OrderedField);
-
-            Set<Map.Entry<String, Object>> sets = param.entrySet();
+            List<Kv> param = JsonUtil.parseArray(paramStr, Kv.class);
 
             ArrayList<String> paramList = new ArrayList<>();
-            for (Map.Entry<String, Object> val : sets) {
-                paramList.add(val.getValue().toString());
+            for (Kv kv : param) {
+                paramList.add(kv.getValue());
             }
 
             SmsSingleSenderResult singleSenderResult = singleSender.sendWithParam("86", smsDO.getTelNum(),

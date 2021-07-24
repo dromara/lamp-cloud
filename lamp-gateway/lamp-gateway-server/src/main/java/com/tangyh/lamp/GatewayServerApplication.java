@@ -4,6 +4,7 @@ package com.tangyh.lamp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,7 +21,9 @@ import static com.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
  * @author zuihou
  * @date 2017-12-13 15:02
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+        DataSourceAutoConfiguration.class
+})
 @EnableDiscoveryClient
 @ComponentScan({
         UTIL_PACKAGE, BUSINESS_PACKAGE
@@ -39,9 +42,10 @@ public class GatewayServerApplication {
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
                 InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port", "8080"),
+                env.getProperty("server.port"),
                 env.getProperty("server.servlet.context-path", ""),
                 env.getProperty("spring.mvc.servlet.path", "")
         );
     }
+
 }

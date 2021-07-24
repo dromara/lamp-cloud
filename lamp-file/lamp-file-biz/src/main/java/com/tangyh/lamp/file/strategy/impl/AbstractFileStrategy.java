@@ -4,8 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.tangyh.basic.context.ContextUtil;
 import com.tangyh.basic.exception.BizException;
 import com.tangyh.basic.utils.StrPool;
-import com.tangyh.lamp.file.domain.FileDeleteDO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.dao.FileMapper;
+import com.tangyh.lamp.file.domain.FileGetUrlBO;
+import com.tangyh.lamp.file.entity.File;
 import com.tangyh.lamp.file.properties.FileServerProperties;
 import com.tangyh.lamp.file.strategy.FileStrategy;
 import com.tangyh.lamp.file.utils.FileTypeUtil;
@@ -16,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Arrays;
 import java.util.StringJoiner;
 import java.util.UUID;
 
@@ -36,6 +37,7 @@ public abstract class AbstractFileStrategy implements FileStrategy {
 
     private static final String FILE_SPLIT = ".";
     protected final FileServerProperties fileProperties;
+    protected final FileMapper fileMapper;
 
     /**
      * 上传文件
@@ -44,20 +46,20 @@ public abstract class AbstractFileStrategy implements FileStrategy {
      * @return 附件
      */
     @Override
-    public Attachment upload(MultipartFile multipartFile, String bucket, String bizType) {
+    public File upload(MultipartFile multipartFile, String bucket, String bizType) {
         try {
             if (!StrUtil.contains(multipartFile.getOriginalFilename(), FILE_SPLIT)) {
                 throw BizException.wrap(BASE_VALID_PARAM.build("文件缺少后缀名"));
             }
 
-            Attachment file = Attachment.builder()
+            File file = File.builder()
                     .originalFileName(multipartFile.getOriginalFilename())
                     .contentType(multipartFile.getContentType())
                     .size(multipartFile.getSize())
                     .bizType(bizType)
-                    .ext(FilenameUtils.getExtension(multipartFile.getOriginalFilename()))
+                    .suffix(FilenameUtils.getExtension(multipartFile.getOriginalFilename()))
+                    .fileType(FileTypeUtil.getFileType(multipartFile.getContentType()))
                     .build();
-            file.setFileType(FileTypeUtil.getFileType(multipartFile.getContentType()));
             uploadFile(file, multipartFile, bucket);
             return file;
         } catch (Exception e) {
@@ -74,35 +76,12 @@ public abstract class AbstractFileStrategy implements FileStrategy {
      * @param bucket        bucket
      * @throws Exception 异常
      */
-    protected abstract void uploadFile(Attachment file, MultipartFile multipartFile, String bucket) throws Exception;
-
+    protected abstract void uploadFile(File file, MultipartFile multipartFile, String bucket) throws Exception;
 
     @Override
-    public boolean delete(List<FileDeleteDO> list) {
-        if (list.isEmpty()) {
-            return true;
-        }
-        boolean flag = false;
-        for (FileDeleteDO file : list) {
-            try {
-                delete(file);
-                flag = true;
-            } catch (Exception e) {
-                log.error("删除文件失败", e);
-            }
-        }
-        return flag;
+    public String getUrl(FileGetUrlBO fileGet) {
+        return findUrl(Arrays.asList(fileGet)).get(fileGet.getPath());
     }
-
-    /**
-     * 具体执行删除方法， 无需处理异常
-     *
-     * @param file 文件
-     * @author zuihou
-     * @date 2019-05-07
-     */
-    protected abstract void delete(FileDeleteDO file);
-
 
     /**
      * 获取年月日 2020/09/01
@@ -113,12 +92,17 @@ public abstract class AbstractFileStrategy implements FileStrategy {
         return LocalDate.now().format(DateTimeFormatter.ofPattern(SLASH_DATE_FORMAT));
     }
 
-    /** 企业/年/月/日/业务类型/唯一文件名 */
-    protected String getPath(String uniqueFileName, String bizType) {
-        return new StringJoiner(StrPool.SLASH).add(ContextUtil.getTenant()).add(getDateFolder()).add(bizType).add(uniqueFileName).toString();
+    /**
+     * 企业/年/月/日/业务类型/唯一文件名
+     */
+    protected String getPath(String bizType, String uniqueFileName) {
+        return new StringJoiner(StrPool.SLASH).add(String.valueOf(ContextUtil.getTenant()))
+                .add(bizType).add(getDateFolder()).add(uniqueFileName).toString();
     }
 
-    protected String getUniqueFileName(Attachment file) {
-        return UUID.randomUUID().toString().replace("-", "") + StrPool.DOT + file.getExt();
+    protected String getUniqueFileName(File file) {
+        return new StringJoiner(StrPool.DOT)
+                .add(UUID.randomUUID().toString().replace("-", ""))
+                .add(file.getSuffix()).toString();
     }
 }

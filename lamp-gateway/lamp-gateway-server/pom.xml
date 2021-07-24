@@ -5,7 +5,7 @@
     <parent>
         <artifactId>lamp-gateway</artifactId>
         <groupId>com.tangyh.lamp</groupId>
-        <version>3.2.5</version>
+        <version>3.3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -52,10 +52,6 @@
                     <artifactId>spring-boot-starter-undertow</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-zipkin-client-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>

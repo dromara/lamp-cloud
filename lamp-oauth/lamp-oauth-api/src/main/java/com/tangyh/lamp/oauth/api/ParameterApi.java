@@ -2,7 +2,6 @@ package com.tangyh.lamp.oauth.api;
 
 
 import com.tangyh.basic.base.R;
-import com.tangyh.lamp.oauth.api.hystrix.ParameterApiFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author zuihou
  * @date 2020年04月02日22:53:56
  */
-@FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", path = "/parameter",
-        qualifier = "parameterApi", fallback = ParameterApiFallback.class)
+@FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", path = "/parameter" /* ,fallback = ParameterApiFallback.class*/)
 public interface ParameterApi {
 
     /**

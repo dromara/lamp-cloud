@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 28/06/2021 00:08:47
+ Date: 21/07/2021 22:21:41
 */
 
 SET NAMES utf8mb4;
@@ -21,48 +21,46 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for b_order
 -- ----------------------------
 DROP TABLE IF EXISTS `b_order`;
-CREATE TABLE `b_order`
-(
-    `id`          bigint(20) NOT NULL COMMENT 'ID',
-    `name`        varchar(255) DEFAULT NULL COMMENT '名称',
-    `education`   varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = "orderServiceImpl",  dictType = DictionaryType.EDUCATION)',
-    `nation`      varchar(255) DEFAULT NULL COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS,  dictType = DictionaryType.NATION)',
-    `org_id`      bigint(20) DEFAULT NULL COMMENT '组织ID \n#c_org@Echo(api = ORG_ID_FEIGN_CLASS)',
-    `code`        varchar(255) DEFAULT NULL COMMENT '编号',
-    `create_time` datetime     DEFAULT NULL COMMENT '创建时间',
-    `created_by`  bigint(20) DEFAULT NULL COMMENT '创建人',
-    `update_time` datetime     DEFAULT NULL COMMENT '修改时间',
-    `updated_by`  bigint(20) DEFAULT NULL COMMENT '修改人',
-    PRIMARY KEY (`id`) USING BTREE
+CREATE TABLE `b_order` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `education` varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = "orderServiceImpl", method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)',
+  `nation` varchar(255) DEFAULT NULL COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID \n#c_org@Echo(api = ORG_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)',
+  `code` varchar(255) DEFAULT NULL COMMENT '编号',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单';
 
 -- ----------------------------
 -- Table structure for b_product
 -- ----------------------------
 DROP TABLE IF EXISTS `b_product`;
-CREATE TABLE `b_product`
-(
-    `id`          bigint(20) NOT NULL COMMENT 'ID',
-    `name`        varchar(24) NOT NULL COMMENT '名称',
-    `stock`       int(10) NOT NULL COMMENT '库存',
-    `create_time` datetime     DEFAULT NULL COMMENT '创建时间',
-    `created_by`  bigint(20) DEFAULT NULL COMMENT '创建人',
-    `update_time` datetime     DEFAULT NULL COMMENT '修改时间',
-    `updated_by`  bigint(20) DEFAULT NULL COMMENT '修改人',
-    `type_`       text COMMENT '商品类型 \n#ProductType{ordinary:普通;gift:赠品}',
-    `type2`       longtext COMMENT '商品类型2 \n#{ordinary:普通;gift:赠品;}',
-    `type3`       varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS,  dictType = DictionaryType.EDUCATION)',
-    `state`       bit(1)       DEFAULT NULL COMMENT '状态',
-    `test4`       tinyint(3) DEFAULT NULL COMMENT '测试',
-    `test5`       date         DEFAULT NULL COMMENT '时间',
-    `test6`       datetime     DEFAULT NULL COMMENT '日期',
-    `parent_id`   bigint(20) DEFAULT NULL COMMENT '父id',
-    `label`       varchar(255) DEFAULT NULL COMMENT '名称',
-    `sort_value`  int(10) DEFAULT NULL COMMENT '排序',
-    `test7`       char(10)     DEFAULT NULL COMMENT '测试字段 \n@InjectionField(api = "userApi", method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
-    `user_id`     bigint(20) DEFAULT NULL COMMENT '用户 \n@Echo(api = USER_ID_FEIGN_CLASS)',
-    `org_id`      bigint(20) DEFAULT NULL COMMENT '组织 \n@Echo(api = ORG_ID_FEIGN_CLASS)',
-    PRIMARY KEY (`id`) USING BTREE
+CREATE TABLE `b_product` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `name` varchar(24) NOT NULL COMMENT '名称',
+  `stock` int(10) NOT NULL COMMENT '库存',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `type_` text COMMENT '商品类型 \n#ProductType{ordinary:普通;gift:赠品}',
+  `type2` longtext COMMENT '商品类型2 \n#{ordinary:普通;gift:赠品;}',
+  `type3` varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)',
+  `state` bit(1) DEFAULT NULL COMMENT '状态',
+  `test4` tinyint(3) DEFAULT NULL COMMENT '测试',
+  `test5` date DEFAULT NULL COMMENT '时间',
+  `test6` datetime DEFAULT NULL COMMENT '日期',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '父id',
+  `label` varchar(255) DEFAULT NULL COMMENT '名称',
+  `sort_value` int(10) DEFAULT NULL COMMENT '排序',
+  `test7` char(10) DEFAULT NULL COMMENT '测试字段 \n@InjectionField(api = "userApi", method = USER_ID_NAME_METHOD) RemoteData<Long, String>',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户 \n@Echo(api = USER_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织 \n@Echo(api = ORG_ID_FEIGN_CLASS, method = FIND_NAME_BY_IDS)',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品';
 
 -- ----------------------------
@@ -168,23 +166,22 @@ CREATE TABLE `e_sms_send_status` (
 -- Table structure for e_sms_task
 -- ----------------------------
 DROP TABLE IF EXISTS `e_sms_task`;
-CREATE TABLE `e_sms_task`
-(
-    `id`              bigint(20) NOT NULL COMMENT '短信记录ID',
-    `template_id`     bigint(20) NOT NULL COMMENT '短信模板\n@Echo(api = SMS_TEMPLATE_ID_CLASS)\n#e_sms_template',
-    `status`          varchar(10)  DEFAULT '' COMMENT '执行状态 \n(手机号具体发送状态看sms_send_status表) \n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
-    `source_type`     varchar(10)  DEFAULT '' COMMENT '发送渠道\n#SourceType{APP:应用;SERVICE:服务}',
-    `topic`           varchar(255) DEFAULT '' COMMENT '主题',
-    `template_params` varchar(500) DEFAULT '' COMMENT '参数 \n需要封装为{‘key’:’value’, ...}格式且key必须有序',
-    `send_time`       datetime     DEFAULT NULL COMMENT '发送时间',
-    `content`         varchar(500) DEFAULT '' COMMENT '发送内容 \n需要封装正确格式化: 您好，张三，您有一个新的快递。',
-    `draft`           bit(1)       DEFAULT b'0' COMMENT '是否草稿',
-    `created_by`      bigint(20) DEFAULT NULL COMMENT '创建人ID',
-    `create_time`     datetime     DEFAULT NULL COMMENT '创建时间',
-    `updated_by`      bigint(20) DEFAULT NULL COMMENT '最后修改人',
-    `update_time`     datetime     DEFAULT NULL COMMENT '最后修改时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    KEY               `tempate_id_topic_content` (`template_id`,`topic`,`content`) USING BTREE
+CREATE TABLE `e_sms_task` (
+  `id` bigint(20) NOT NULL COMMENT '短信记录ID',
+  `template_id` bigint(20) NOT NULL COMMENT '短信模板\n@Echo(api = SMS_TEMPLATE_ID_CLASS)\n#e_sms_template',
+  `status` varchar(10) DEFAULT '' COMMENT '执行状态 \n(手机号具体发送状态看sms_send_status表) \n#TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
+  `source_type` varchar(10) DEFAULT '' COMMENT '发送渠道\n#SourceType{APP:应用;SERVICE:服务}',
+  `topic` varchar(255) DEFAULT '' COMMENT '主题',
+  `template_params` varchar(500) DEFAULT '' COMMENT '参数 \n需要封装为{‘key’:’value’, ...}格式且key必须有序',
+  `send_time` datetime DEFAULT NULL COMMENT '发送时间',
+  `content` varchar(500) DEFAULT '' COMMENT '发送内容 \n需要封装正确格式化: 您好，张三，您有一个新的快递。',
+  `draft` bit(1) DEFAULT b'0' COMMENT '是否草稿',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '最后修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `tempate_id_topic_content` (`template_id`,`topic`,`content`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='发送任务';
 
 -- ----------------------------

@@ -6,17 +6,13 @@ import cn.hutool.log.StaticLog;
 import com.tangyh.basic.context.ContextUtil;
 import com.tangyh.lamp.authority.entity.common.Area;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.jupiter.api.BeforeEach;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest
+//@ExtendWith(SpringExtension.class)
 @Slf4j
 public class CityParserTest {
     private static final String URL = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2018/index.html";
@@ -25,12 +21,12 @@ public class CityParserTest {
     @Resource
     SqlCityParserDecorator sqlCityParserDecorator;
 
-    @Before
+    @BeforeEach
     public void setTenant() {
         ContextUtil.setTenant("0000");
     }
 
-    @Test
+    //    @Test
     public void test() {
     }
 

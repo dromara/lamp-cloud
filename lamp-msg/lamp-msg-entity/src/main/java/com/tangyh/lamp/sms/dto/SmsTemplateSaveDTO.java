@@ -70,6 +70,7 @@ public class SmsTemplateSaveDTO implements Serializable {
      * 模板名称
      */
     @ApiModelProperty(value = "模板名称")
+    @NotEmpty(message = "请填写模板名称")
     @Size(max = 255, message = "模板名称长度不能超过255")
     private String name;
     /**

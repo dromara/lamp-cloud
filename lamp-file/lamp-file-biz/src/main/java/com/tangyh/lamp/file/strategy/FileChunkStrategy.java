@@ -3,7 +3,7 @@ package com.tangyh.lamp.file.strategy;
 
 import com.tangyh.basic.base.R;
 import com.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.entity.File;
 
 /**
  * 文件分片处理策略类
@@ -20,7 +20,7 @@ public interface FileChunkStrategy {
      * @param userId 用户id
      * @return 附件
      */
-    Attachment md5Check(String md5, Long userId);
+    File md5Check(String md5, Long userId);
 
     /**
      * 合并文件
@@ -28,5 +28,5 @@ public interface FileChunkStrategy {
      * @param merge 合并参数
      * @return 附件
      */
-    R<Attachment> chunksMerge(FileChunksMergeDTO merge);
+    R<File> chunksMerge(FileChunksMergeDTO merge);
 }

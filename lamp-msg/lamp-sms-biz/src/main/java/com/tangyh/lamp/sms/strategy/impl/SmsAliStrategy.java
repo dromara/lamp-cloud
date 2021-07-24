@@ -8,6 +8,8 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.tangyh.basic.jackson.JsonUtil;
+import com.tangyh.basic.model.Kv;
 import com.tangyh.lamp.sms.dao.SmsTaskMapper;
 import com.tangyh.lamp.sms.enumeration.ProviderType;
 import com.tangyh.lamp.sms.service.SmsSendStatusService;
@@ -15,6 +17,10 @@ import com.tangyh.lamp.sms.strategy.domain.SmsDO;
 import com.tangyh.lamp.sms.strategy.domain.SmsResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ali 发送短信实现类
@@ -60,7 +66,12 @@ public class SmsAliStrategy extends AbstractSmsStrategy {
             //必填:短信模板-可在短信控制台中找到
             request.setTemplateCode(smsDO.getTemplateCode());
             //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-            request.setTemplateParam(smsDO.getTemplateParams());
+            List<Kv> list = JsonUtil.parseArray(smsDO.getTemplateParams(), Kv.class);
+            Map<String, String> map = new LinkedHashMap<>();
+            for (Kv kv : list) {
+                map.put(kv.getKey(), kv.getValue());
+            }
+            request.setTemplateParam(JsonUtil.toJson(map));
 
             //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
             request.setOutId(String.valueOf(smsDO.getTaskId()));

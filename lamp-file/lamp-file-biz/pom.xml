@@ -5,7 +5,7 @@
     <parent>
         <artifactId>lamp-file</artifactId>
         <groupId>com.tangyh.lamp</groupId>
-        <version>3.2.5</version>
+        <version>3.3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>com.tangyh.basic</groupId>
-                <artifactId>lamp-boot-util</artifactId>
+            <artifactId>lamp-boot-util</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>
@@ -45,6 +45,12 @@
             <artifactId>mybatis-plus</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.huaweicloud</groupId>
+            <artifactId>esdk-obs-java</artifactId>
+        </dependency>
+
+
         <!-- 阿里云oss -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
@@ -65,6 +71,7 @@
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
         </dependency>
+
         <!--  FastDFS -->
         <dependency>
             <groupId>com.github.tobato</groupId>

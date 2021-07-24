@@ -1,5 +1,6 @@
 package com.tangyh.lamp.sms.dto;
 
+import com.tangyh.basic.model.Kv;
 import com.tangyh.lamp.sms.enumeration.SourceType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +17,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -66,7 +66,7 @@ public class SmsTaskSaveDTO implements Serializable {
      * 需要封装为{‘key’:’value’, ...}格式且key必须有序
      */
     @ApiModelProperty(value = "参数")
-    private LinkedHashMap<String, String> templateParam;
+    private List<Kv> templateParam;
 
     /**
      * 发送时间
@@ -93,7 +93,7 @@ public class SmsTaskSaveDTO implements Serializable {
      * @param templateParam 模版参数
      * @return 短信任务
      */
-    public SmsTaskSaveDTO build(Long templateId, LinkedHashMap templateParam, String... telNum) {
+    public SmsTaskSaveDTO build(Long templateId, List<Kv> templateParam, String... telNum) {
         return SmsTaskSaveDTO.builder()
                 .sourceType(SourceType.SERVICE)
                 .templateId(templateId)

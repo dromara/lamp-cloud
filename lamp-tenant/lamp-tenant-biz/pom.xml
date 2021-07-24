@@ -5,7 +5,7 @@
     <parent>
         <artifactId>lamp-tenant</artifactId>
         <groupId>com.tangyh.lamp</groupId>
-        <version>3.2.5</version>
+        <version>3.3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -24,7 +24,11 @@
             <artifactId>lamp-authority-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.tangyh.lamp</groupId>
+            <artifactId>lamp-file-sdk</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>
             <artifactId>lamp-mq-starter</artifactId>

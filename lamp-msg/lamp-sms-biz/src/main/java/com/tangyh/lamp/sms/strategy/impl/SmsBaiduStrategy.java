@@ -6,6 +6,8 @@ import com.baidubce.services.sms.SmsClient;
 import com.baidubce.services.sms.SmsClientConfiguration;
 import com.baidubce.services.sms.model.SendMessageV2Request;
 import com.baidubce.services.sms.model.SendMessageV2Response;
+import com.tangyh.basic.jackson.JsonUtil;
+import com.tangyh.basic.model.Kv;
 import com.tangyh.lamp.sms.dao.SmsTaskMapper;
 import com.tangyh.lamp.sms.enumeration.ProviderType;
 import com.tangyh.lamp.sms.service.SmsSendStatusService;
@@ -14,6 +16,8 @@ import com.tangyh.lamp.sms.strategy.domain.SmsResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,10 +47,16 @@ public class SmsBaiduStrategy extends AbstractSmsStrategy {
 
             //实例化请求对象
             SendMessageV2Request request = new SendMessageV2Request();
+
+            List<Kv> list = JsonUtil.parseArray(smsDO.getTemplateParams(), Kv.class);
+            Map<String, String> map = new LinkedHashMap<>();
+            for (Kv kv : list) {
+                map.put(kv.getKey(), kv.getValue());
+            }
             request.withInvokeId(smsDO.getSignName())
                     .withPhoneNumber(smsDO.getTelNum())
                     .withTemplateCode(smsDO.getTemplateCode())
-                    .withContentVar(JSONObject.parseObject(smsDO.getTemplateParams(), Map.class));
+                    .withContentVar(map);
 
             // 发送请求
             SendMessageV2Response response = smsClient.sendMessage(request);

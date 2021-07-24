@@ -317,5 +317,27 @@ INSERT INTO `xxl_job_user`
 VALUES (1, 'lamp', '263addb7611158a2c3db7c164a20cc2f', 1, NULL);
 COMMIT;
 
+-- ----------------------------
+-- Table structure for c_appendix
+-- ----------------------------
+DROP TABLE IF EXISTS `c_appendix`;
+CREATE TABLE `c_appendix` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `biz_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '业务id',
+  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
+  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
+  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
+  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
+  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
+  `size` bigint(20) DEFAULT '0' COMMENT '大小',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `created_by` bigint(20) NOT NULL COMMENT '创建人',
+  `update_time` datetime NOT NULL COMMENT '最后修改时间',
+  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='业务附件';
+
+
 SET
 FOREIGN_KEY_CHECKS = 1;

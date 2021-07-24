@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.tangyh.lamp</groupId>
+        <artifactId>lamp-cloud</artifactId>
+        <version>3.3.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>lamp-file-sdk</artifactId>
+    <name>${project.artifactId}</name>
+    <description>业务文件sdk</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.tangyh.lamp</groupId>
+            <artifactId>lamp-common</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-databases</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-boot-util</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-websocket</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+</project>

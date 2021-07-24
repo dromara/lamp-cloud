@@ -5,6 +5,7 @@ import com.tangyh.basic.base.R;
 import com.tangyh.basic.base.entity.SuperEntity;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.repository.CacheOps;
+import com.tangyh.basic.model.Kv;
 import com.tangyh.lamp.common.cache.VerificationCodeCacheKeyBuilder;
 import com.tangyh.lamp.sms.dto.SmsTaskSaveDTO;
 import com.tangyh.lamp.sms.dto.VerificationCodeDTO;
@@ -20,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 通用验证码
@@ -52,9 +54,9 @@ public class VerificationCodeController {
 
         SmsTaskSaveDTO smsTask = SmsTaskSaveDTO.builder().build();
         smsTask.setSourceType(SourceType.SERVICE);
-        LinkedHashMap<String, String> param = new LinkedHashMap();
-        param.put("1", code);
-        smsTask.setTemplateParam(param);
+        List<Kv> params = new ArrayList<>();
+        params.add(Kv.builder().key("1").value(code).build());
+        smsTask.setTemplateParam(params);
         smsTask.setTelNum(Arrays.asList(data.getMobile()));
         // 请自行在SmsTemplate 表配置id=1的短信模板
         smsTask.setTemplateId(1L);

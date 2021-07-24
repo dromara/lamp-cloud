@@ -1,11 +1,11 @@
 package com.tangyh.lamp.oauth.controller;
 
 
-import com.tangyh.lamp.authority.entity.common.OptLog;
-import com.tangyh.lamp.authority.service.common.OptLogService;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.log.entity.OptLogDTO;
 import com.tangyh.basic.utils.BeanPlusUtil;
+import com.tangyh.lamp.authority.entity.common.OptLog;
+import com.tangyh.lamp.authority.service.common.OptLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

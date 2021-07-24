@@ -73,4 +73,15 @@ public class CorsConfiguration {
     }
 
 
+//    /**
+//     * 升级版本后， 不加这个 gateway 使用feign会报错，不知道什么原因
+//     *
+//     * @return
+//     */
+//    @Bean
+//    public Decoder feignFormDecoder() {
+//        List<HttpMessageConverter<?>> converters = new RestTemplate().getMessageConverters();
+//        ObjectFactory<HttpMessageConverters> factory = () -> new HttpMessageConverters(converters);
+//        return new ResponseEntityDecoder(new SpringDecoder(factory));
+//    }
 }

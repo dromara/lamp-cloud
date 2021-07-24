@@ -49,5 +49,14 @@ public class SmsDO {
      * 阿里百度 是json
      */
     private String templateParams;
+    /**
+     * 短信内容
+     */
+    private String smsContent;
+    /**
+     * 模板内容
+     */
+    private String templateContent;
+
 
 }

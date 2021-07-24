@@ -65,6 +65,9 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
     @PreAuth("hasAnyPermission('{}view')")
     public R<SmsTaskResultVO> detail(@PathVariable Long id) {
         SmsTaskResultVO resultVO = BeanUtil.toBean(getBaseService().getById(id), SmsTaskResultVO.class);
+        if (resultVO == null) {
+            return R.success(null);
+        }
         List<SmsSendStatus> list = smsSendStatusService.list(Wraps.<SmsSendStatus>lbQ()
                 .eq(SmsSendStatus::getTaskId, id));
         resultVO.setTelNumList(list.stream().map(SmsSendStatus::getTelNum).collect(Collectors.toList()));

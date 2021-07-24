@@ -1,6 +1,7 @@
 package com.tangyh.lamp.common.cache.common;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
 import com.tangyh.lamp.common.cache.CacheKeyDefinition;
 
@@ -17,8 +18,13 @@ public class OnlineCacheKeyBuilder implements CacheKeyBuilder {
         return CacheKeyDefinition.ONLINE;
     }
 
-//    @Override
-//    public Duration getExpire() {
-//        return Duration.ofMinutes(15);
-//    }
+    /**
+     * 获取通配符
+     *
+     * @return key 前缀
+     */
+    @Override
+    public String getPattern() {
+        return StrUtil.format("{}:{}:*", getTenant(), getPrefix());
+    }
 }

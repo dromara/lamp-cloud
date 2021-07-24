@@ -1,6 +1,7 @@
 package com.tangyh.lamp.tenant.dto;
 
 import com.tangyh.basic.base.entity.SuperEntity;
+import com.tangyh.lamp.common.vo.save.AppendixSaveVO;
 import com.tangyh.lamp.tenant.enumeration.TenantConnectTypeEnum;
 import com.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 import com.tangyh.lamp.tenant.enumeration.TenantTypeEnum;
@@ -19,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -93,12 +95,10 @@ public class TenantUpdateDTO implements Serializable {
      */
     @ApiModelProperty(value = "有效期")
     private LocalDateTime expirationTime;
-    /**
-     * logo地址
-     */
     @ApiModelProperty(value = "logo地址")
-    @Size(max = 255, message = "logo地址长度不能超过255")
-    private String logo;
+    @Size(max = 1, message = "只能上传1个logo")
+    private List<AppendixSaveVO> logos;
+
     /**
      * 企业简介
      */

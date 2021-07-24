@@ -32,8 +32,9 @@ public enum FileStorageType implements BaseEnum {
      * minIO
      */
     MIN_IO("MinIO"),
-    ALI("阿里云OSS"),
-    QINIU("七牛云OSS"),
+    ALI_OSS("阿里云OSS"),
+    QINIU_OSS("七牛云OSS"),
+    HUAWEI_OSS("华为云OSS"),
     ;
 
     @ApiModelProperty(value = "描述")

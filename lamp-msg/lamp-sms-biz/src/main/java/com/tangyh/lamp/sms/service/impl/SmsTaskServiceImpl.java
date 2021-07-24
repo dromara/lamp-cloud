@@ -3,7 +3,6 @@ package com.tangyh.lamp.sms.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tangyh.basic.base.R;
@@ -13,8 +12,11 @@ import com.tangyh.basic.context.ContextConstants;
 import com.tangyh.basic.context.ContextUtil;
 import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.exception.BizException;
+import com.tangyh.basic.jackson.JsonUtil;
+import com.tangyh.basic.model.Kv;
 import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.basic.utils.BizAssert;
+import com.tangyh.basic.utils.StrPool;
 import com.tangyh.lamp.common.api.JobApi;
 import com.tangyh.lamp.common.constant.JobConstant;
 import com.tangyh.lamp.common.dto.XxlJobInfoVO;
@@ -38,7 +40,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -68,23 +69,50 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
     private final SmsTemplateService smsTemplateService;
     private final SmsSendStatusService smsSendStatusService;
 
-    private static String processTemplate(String template, String regex, LinkedHashMap<String, String> params) {
-        log.info("regex={}, template={}", regex, template);
-        log.info("params={}", params.toString());
+    private static String processTemplate(String template, String regex, List<Kv> params) {
+        log.info("regex={}, template={}, params={}", regex, template, params);
+        if (StrUtil.isEmpty(template)) {
+            return StrPool.EMPTY;
+        }
+        if (CollUtil.isEmpty(params)) {
+            return StrPool.EMPTY;
+        }
+
         StringBuffer sb = new StringBuffer();
         Matcher m = Pattern.compile(regex).matcher(template);
+        int index = 0;
         while (m.find()) {
-            String key = m.group(1);
-            String value = params.get(key);
+            String value = "";
+            if (index + 1 <= params.size()) {
+                Kv kv = params.get(index);
+                value = kv.getValue();
+            }
             value = value == null ? "" : value;
             if (value.contains("$")) {
                 value = value.replaceAll("\\$", "\\\\\\$");
             }
             m.appendReplacement(sb, value);
+            index++;
         }
         m.appendTail(sb);
+        if (index < params.size()) {
+            throw BizException.wrap("模板中识别出的参数个数: {} 少于传入的参数个数: {}", params.size(), index);
+        } else if (index > params.size()) {
+            throw BizException.wrap("模板中识别出的参数个数: {} 多于传入的参数个数: {}", params.size(), index);
+        }
         return sb.toString();
     }
+
+//    public static void main(String[] args) {
+//        List<Kv> list = new ArrayList<>();
+//        list.add(Kv.builder().key("$var").value("atg").build());
+//        list.add(Kv.builder().key("$var").value("1234").build());
+//        list.add(Kv.builder().key("$var").value("01").build());
+//        list.add(Kv.builder().key("$var").value("5").build());
+//        list.add(Kv.builder().key("$var").value("5").build());
+//        processTemplate("{$var}您好！验证码是：{$var}(序号{$var})，有效时间为{$var}分钟。", ProviderType.CL.getRegex(), list);
+////        processTemplate("使用 ${xx} 作为占位符。", ProviderType.ALI.getRegex(), list);
+//    }
 
     @Override
     @Transactional(readOnly = true)
@@ -101,7 +129,7 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
         validAndInit(data);
 
         SmsTask smsTask = BeanPlusUtil.toBean(data, SmsTask.class);
-        smsTask.setTemplateParams(JSONUtil.toJsonStr(data.getTemplateParam()));
+        smsTask.setTemplateParams(JsonUtil.toJson(data.getTemplateParam()));
         send(smsTask, (task) -> {
             this.save(task);
             List<SmsSendStatus> list = data.getTelNum().stream().map(telNum -> {
@@ -136,13 +164,7 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
             BizAssert.isTrue(flag, BASE_VALID_PARAM.build("定时发送时间至少在当前时间的5分钟之后"));
         }
 
-//        String templateParams = smsTask.getTemplateParams();
-////        JSONObject obj = JSONObject.parseObject(templateParams, Feature.OrderedField);
-//        JSONObject obj = new JSONObject(templateParams, true);
-//        BizAssert.notNull(obj, BASE_VALID_PARAM.build("短信参数格式必须为严格的json字符串"));
-
         if (StrUtil.isEmpty(smsTask.getContent())) {
-//            smsTask.setContent(content(template.getProviderType(), template.getContent(), smsTask.getTemplateParams()));
             smsTask.setContent(processTemplate(template.getContent(), template.getProviderType().getRegex(), smsTask.getTemplateParam()));
         } else if (smsTask.getContent().length() > 500) {
             throw new BizException(BASE_VALID_PARAM.getCode(), "发送内容不能超过500字");

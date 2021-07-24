@@ -1,9 +1,0 @@
-lamp:
-  swagger:
-    docket:
-      tenant:
-        title: 租户模块
-        base-package: com.tangyh.lamp.tenant.controller
-
-server:
-  port: 8778

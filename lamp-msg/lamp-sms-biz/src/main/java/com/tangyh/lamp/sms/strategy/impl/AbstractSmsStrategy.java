@@ -56,6 +56,8 @@ public abstract class AbstractSmsStrategy implements SmsStrategy {
                         .taskId(task.getId()).telNum(smsSendStatus.getTelNum()).appId(appId).appSecret(appSecret)
                         .signName(signName).templateCode(templateCode).endPoint(endPoint)
                         .templateParams(templateParam)
+                        .templateContent(template.getContent())
+                        .smsContent(task.getContent())
                         .build());
 
                 log.info("phone={}, result={}", smsSendStatus.getTelNum(), result);

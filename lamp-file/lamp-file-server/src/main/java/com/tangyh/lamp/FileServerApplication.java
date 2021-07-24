@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,7 +23,6 @@ import static com.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableHystrix
 @ComponentScan({
         UTIL_PACKAGE, BUSINESS_PACKAGE
 })
@@ -46,9 +44,9 @@ public class FileServerApplication {
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
                 InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port", "8080"),
+                env.getProperty("server.port"),
                 "127.0.0.1",
-                env.getProperty("server.port", "8080"));
+                env.getProperty("server.port"));
 
     }
 }

@@ -15,10 +15,10 @@ import com.aliyun.oss.model.UploadPartRequest;
 import com.aliyun.oss.model.UploadPartResult;
 import com.tangyh.basic.base.R;
 import com.tangyh.basic.utils.StrPool;
+import com.tangyh.lamp.file.dao.FileMapper;
 import com.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.entity.File;
 import com.tangyh.lamp.file.properties.FileServerProperties;
-import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -38,12 +38,12 @@ import java.util.UUID;
  */
 @Slf4j
 public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
-    public AliFileChunkStrategyImpl(AttachmentService fileService, FileServerProperties fileProperties) {
-        super(fileService, fileProperties);
+    public AliFileChunkStrategyImpl(FileMapper fileMapper, FileServerProperties fileProperties) {
+        super(fileMapper, fileProperties);
     }
 
     @Override
-    protected void copyFile(Attachment file) {
+    protected void copyFile(File file) {
         FileServerProperties.Ali ali = fileProperties.getAli();
         String sourceBucketName = ali.getBucketName();
         String destinationBucketName = ali.getBucketName();
@@ -51,7 +51,7 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
                 ali.getAccessKeySecret());
 
         String sourceObjectName = file.getPath();
-        String fileName = UUID.randomUUID() + StrPool.DOT + file.getExt();
+        String fileName = UUID.randomUUID() + StrPool.DOT + file.getSuffix();
         String destinationObjectName = StrUtil.subBefore(file.getPath(), "/" + file.getUniqueFileName(), true) + StrPool.SLASH + fileName;
         ObjectMetadata objectMetadata = ossClient.getObjectMetadata(sourceBucketName, sourceObjectName);
         // 获取被拷贝文件的大小。
@@ -111,7 +111,7 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
     }
 
     @Override
-    protected R<Attachment> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
+    protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
         FileServerProperties.Ali ali = fileProperties.getAli();
         String bucketName = ali.getBucketName();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
@@ -168,8 +168,8 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
                 relativePath +
                 StrPool.SLASH +
                 fileName;
-        Attachment filePo = Attachment.builder()
-                .group(uploadResult.getBucketName())
+        File filePo = File.builder()
+                .bucket(uploadResult.getBucketName())
                 .path(path)
                 .url(StrUtil.replace(url, "\\\\", StrPool.SLASH))
                 .build();

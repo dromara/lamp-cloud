@@ -1,6 +1,7 @@
 package com.tangyh.lamp.tenant.service.impl;
 
 import cn.hutool.core.convert.Convert;
+
 import com.tangyh.basic.base.service.SuperCacheServiceImpl;
 import com.tangyh.basic.cache.model.CacheKey;
 import com.tangyh.basic.cache.model.CacheKeyBuilder;
@@ -8,9 +9,11 @@ import com.tangyh.basic.database.mybatis.conditions.Wraps;
 import com.tangyh.basic.utils.BeanPlusUtil;
 import com.tangyh.lamp.common.cache.tenant.TenantCacheKeyBuilder;
 import com.tangyh.lamp.common.cache.tenant.TenantCodeCacheKeyBuilder;
+import com.tangyh.lamp.file.service.AppendixService;
 import com.tangyh.lamp.tenant.dao.TenantMapper;
 import com.tangyh.lamp.tenant.dto.TenantConnectDTO;
 import com.tangyh.lamp.tenant.dto.TenantSaveDTO;
+import com.tangyh.lamp.tenant.dto.TenantUpdateDTO;
 import com.tangyh.lamp.tenant.entity.Tenant;
 import com.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 import com.tangyh.lamp.tenant.enumeration.TenantTypeEnum;
@@ -42,6 +45,7 @@ import static com.tangyh.basic.utils.BizAssert.isFalse;
 public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenant> implements TenantService {
 
     private final InitSystemContext initSystemContext;
+    private final AppendixService appendixService;
 
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
@@ -77,8 +81,19 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         // defaults 库
         save(tenant);
 
+        appendixService.save(tenant.getId(), data.getLogos());
+
         CacheKey cacheKey = new TenantCodeCacheKeyBuilder().key(tenant.getCode());
         cacheOps.set(cacheKey, tenant.getId());
+        return tenant;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Tenant update(TenantUpdateDTO model) {
+        Tenant tenant = BeanPlusUtil.toBean(model, Tenant.class);
+        super.updateById(tenant);
+        appendixService.save(tenant.getId(), model.getLogos());
         return tenant;
     }
 
@@ -109,6 +124,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         if (tenantCodeList.isEmpty()) {
             return true;
         }
+        appendixService.removeByBizId(ids);
         return removeByIds(ids);
     }
 
@@ -119,6 +135,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         if (tenantCodeList.isEmpty()) {
             return true;
         }
+        appendixService.removeByBizId(ids);
         removeByIds(ids);
         return initSystemContext.delete(ids, tenantCodeList);
     }

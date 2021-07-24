@@ -6,7 +6,8 @@ ALTER TABLE `b_order` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4
 ALTER TABLE `b_product` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
 ALTER TABLE `c_application` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
 ALTER TABLE `c_area` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
-ALTER TABLE `c_attachment` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
+ALTER TABLE `c_file` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
+ALTER TABLE `c_appendix` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
 ALTER TABLE `c_dictionary` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
 ALTER TABLE `c_login_log` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
 ALTER TABLE `c_menu` ADD COLUMN `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '租户编码' ;
@@ -56,6 +57,8 @@ ALTER TABLE `c_user_role` ADD UNIQUE INDEX `uk_user_role`(`tenant_code`, `role_i
 -- 修改数据
 update c_application set tenant_code = '0000';
 update c_dictionary set tenant_code = '0000';
+update c_appendix set tenant_code = '0000';
+update c_file set tenant_code = '0000';
 update c_menu set tenant_code = '0000';
 update c_org set tenant_code = '0000';
 update c_parameter set tenant_code = '0000';

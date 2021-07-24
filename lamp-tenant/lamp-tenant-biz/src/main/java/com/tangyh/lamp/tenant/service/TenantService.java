@@ -3,6 +3,7 @@ package com.tangyh.lamp.tenant.service;
 import com.tangyh.basic.base.service.SuperCacheService;
 import com.tangyh.lamp.tenant.dto.TenantConnectDTO;
 import com.tangyh.lamp.tenant.dto.TenantSaveDTO;
+import com.tangyh.lamp.tenant.dto.TenantUpdateDTO;
 import com.tangyh.lamp.tenant.entity.Tenant;
 import com.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 
@@ -33,6 +34,14 @@ public interface TenantService extends SuperCacheService<Tenant> {
      * @return 租户
      */
     Tenant save(TenantSaveDTO data);
+
+    /**
+     * 修改
+     *
+     * @param model 租户保存数据
+     * @return 租户
+     */
+    Tenant update(TenantUpdateDTO model);
 
     /**
      * 根据编码获取

@@ -11,11 +11,32 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 28/06/2021 00:04:16
+ Date: 21/07/2021 22:22:16
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for c_appendix
+-- ----------------------------
+DROP TABLE IF EXISTS `c_appendix`;
+CREATE TABLE `c_appendix` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `biz_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '业务id',
+  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
+  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
+  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
+  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
+  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
+  `size` bigint(20) DEFAULT '0' COMMENT '大小',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `created_by` bigint(20) NOT NULL COMMENT '创建人',
+  `update_time` datetime NOT NULL COMMENT '最后修改时间',
+  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='业务附件';
 
 -- ----------------------------
 -- Table structure for c_application
@@ -43,32 +64,31 @@ CREATE TABLE `c_application` (
 -- Records of c_application
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_application` VALUES (1, 'lamp_web', 'lamp_web_secret', 'http://tangyh.top:10000/zuihou-ui/', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
+INSERT INTO `c_application` VALUES (1, 'lamp_web', 'lamp_web_secret', 'https://tangyh.top', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
 COMMIT;
 
 -- ----------------------------
 -- Table structure for c_area
 -- ----------------------------
 DROP TABLE IF EXISTS `c_area`;
-CREATE TABLE `c_area`
-(
-    `id`          bigint(20) NOT NULL COMMENT 'id',
-    `code`        varchar(64)  NOT NULL COMMENT '编码',
-    `label`       varchar(255) NOT NULL COMMENT '名称',
-    `full_name`   varchar(255) DEFAULT '' COMMENT '全名',
-    `sort_value`  int(10) DEFAULT '1' COMMENT '排序',
-    `longitude`   varchar(255) DEFAULT '' COMMENT '经度',
-    `latitude`    varchar(255) DEFAULT '' COMMENT '维度',
-    `level`       varchar(10)  DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.AREA_LEVEL)',
-    `source_`     varchar(255) DEFAULT '' COMMENT '数据来源',
-    `state`       bit(1)       DEFAULT b'0' COMMENT '状态',
-    `parent_id`   bigint(20) DEFAULT '0' COMMENT '父ID',
-    `create_time` datetime     DEFAULT NULL COMMENT '创建时间',
-    `created_by`  bigint(20) DEFAULT NULL COMMENT '创建人',
-    `update_time` datetime     DEFAULT NULL COMMENT '更新时间',
-    `updated_by`  bigint(20) DEFAULT NULL COMMENT '更新人',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `uk_code` (`code`) USING BTREE
+CREATE TABLE `c_area` (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `code` varchar(64) NOT NULL COMMENT '编码',
+  `label` varchar(255) NOT NULL COMMENT '名称',
+  `full_name` varchar(255) DEFAULT '' COMMENT '全名',
+  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `longitude` varchar(255) DEFAULT '' COMMENT '经度',
+  `latitude` varchar(255) DEFAULT '' COMMENT '维度',
+  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.AREA_LEVEL)',
+  `source_` varchar(255) DEFAULT '' COMMENT '数据来源',
+  `state` bit(1) DEFAULT b'0' COMMENT '状态',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_code` (`code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
 -- ----------------------------
@@ -232,6 +252,31 @@ INSERT INTO `c_dictionary` VALUES (112, 'POSITION_STATUS', '职位状态', '03',
 COMMIT;
 
 -- ----------------------------
+-- Table structure for c_file
+-- ----------------------------
+DROP TABLE IF EXISTS `c_file`;
+CREATE TABLE `c_file` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
+  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
+  `storage_type` varchar(255) DEFAULT NULL COMMENT '存储类型\nLOCAL FAST_DFS MIN_IO ALI \n',
+  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
+  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
+  `url` varchar(255) DEFAULT NULL COMMENT '文件访问地址',
+  `unique_file_name` varchar(255) DEFAULT '' COMMENT '唯一文件名',
+  `file_md5` varchar(255) DEFAULT NULL COMMENT '文件md5',
+  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
+  `suffix` varchar(255) DEFAULT '' COMMENT '后缀',
+  `size` bigint(20) DEFAULT '0' COMMENT '大小',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `created_by` bigint(20) NOT NULL COMMENT '创建人',
+  `update_time` datetime NOT NULL COMMENT '最后修改时间',
+  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='增量文件上传日志';
+
+-- ----------------------------
 -- Table structure for c_login_log
 -- ----------------------------
 DROP TABLE IF EXISTS `c_login_log`;
@@ -322,7 +367,7 @@ INSERT INTO `c_menu` VALUES (164, '参数管理', '', b'0', '/system/parameter',
 INSERT INTO `c_menu` VALUES (165, '操作日志', '', b'0', '/system/optLog', 'lamp/system/optLog/index', b'1', 60, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (166, '登录日志', '', b'0', '/system/loginLog', 'lamp/system/loginLog/index', b'1', 70, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (167, '在线用户', '', b'0', '/system/online', 'lamp/system/online/index', b'1', 80, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (168, '应用管理', '', b'0', '/system/application', 'lamp/system/application/index', b'1', 90, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (168, '终端管理', '', b'0', '/system/application', 'lamp/system/application/index', b'1', 90, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (180, '限流规则', '', b'0', '/gateway/ratelimiter', 'lamp/gateway/ratelimiter/index', b'1', 10, '', '', 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (181, '阻止访问', '', b'0', '/gateway/blocklist', 'lamp/gateway/blocklist/index', b'1', 20, '', '', 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (190, '定时任务', '', b'0', 'http://127.0.0.1:8767/xxl-job-admin', 'Layout', b'1', 10, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
@@ -387,24 +432,23 @@ CREATE TABLE `c_opt_log_ext` (
 -- Table structure for c_org
 -- ----------------------------
 DROP TABLE IF EXISTS `c_org`;
-CREATE TABLE `c_org`
-(
-    `id`           bigint(20) NOT NULL COMMENT 'ID',
-    `label`        varchar(255) NOT NULL COMMENT '名称',
-    `type_`        char(2)      DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)',
-    `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
-    `parent_id`    bigint(20) DEFAULT '0' COMMENT '父ID',
-    `tree_path`    varchar(255) DEFAULT '' COMMENT '树结构',
-    `sort_value`   int(10) DEFAULT '1' COMMENT '排序',
-    `state`        bit(1)       DEFAULT b'1' COMMENT '状态',
-    `describe_`    varchar(255) DEFAULT '' COMMENT '描述',
-    `create_time`  datetime     DEFAULT NULL COMMENT '创建时间',
-    `created_by`   bigint(20) DEFAULT NULL COMMENT '创建人',
-    `update_time`  datetime     DEFAULT NULL COMMENT '修改时间',
-    `updated_by`   bigint(20) DEFAULT NULL COMMENT '修改人',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `uk_name` (`label`) USING HASH,
-    FULLTEXT KEY `fu_path` (`tree_path`)
+CREATE TABLE `c_org` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `label` varchar(255) NOT NULL COMMENT '名称',
+  `type_` char(2) DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.ORG_TYPE)',
+  `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
+  `tree_path` varchar(255) DEFAULT '' COMMENT '树结构',
+  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `state` bit(1) DEFAULT b'1' COMMENT '状态',
+  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_name` (`label`) USING HASH,
+  FULLTEXT KEY `fu_path` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
 -- ----------------------------
@@ -1035,19 +1079,18 @@ CREATE TABLE `c_role_org` (
 -- Table structure for c_station
 -- ----------------------------
 DROP TABLE IF EXISTS `c_station`;
-CREATE TABLE `c_station`
-(
-    `id`          bigint(20) NOT NULL COMMENT 'ID',
-    `name`        varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-    `org_id`      bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
-    `state`       bit(1)                DEFAULT b'1' COMMENT '状态',
-    `describe_`   varchar(255)          DEFAULT '' COMMENT '描述',
-    `create_time` datetime              DEFAULT NULL COMMENT '创建时间',
-    `created_by`  bigint(20) DEFAULT NULL COMMENT '创建人',
-    `update_time` datetime              DEFAULT NULL COMMENT '修改时间',
-    `updated_by`  bigint(20) DEFAULT NULL COMMENT '修改人',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `uk_name` (`name`) USING HASH
+CREATE TABLE `c_station` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, beanClass = Org.class)',
+  `state` bit(1) DEFAULT b'1' COMMENT '状态',
+  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_name` (`name`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
@@ -1061,35 +1104,34 @@ COMMIT;
 -- Table structure for c_user
 -- ----------------------------
 DROP TABLE IF EXISTS `c_user`;
-CREATE TABLE `c_user`
-(
-    `id`                       bigint(20) NOT NULL COMMENT 'ID',
-    `account`                  varchar(30) NOT NULL DEFAULT '' COMMENT '账号',
-    `name`                     varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
-    `org_id`                   bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
-    `station_id`               bigint(20) DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS)',
-    `readonly`                 bit(1)      NOT NULL DEFAULT b'0' COMMENT '内置',
-    `email`                    varchar(255)         DEFAULT '' COMMENT '邮箱',
-    `mobile`                   varchar(20)          DEFAULT '' COMMENT '手机',
-    `sex`                      varchar(1)           DEFAULT '' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
-    `state`                    bit(1)               DEFAULT b'1' COMMENT '状态',
-    `avatar`                   varchar(255)         DEFAULT '' COMMENT '头像',
-    `nation`                   char(2)              DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)',
-    `education`                char(2)              DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)',
-    `position_status`          char(2)              DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)',
-    `work_describe`            varchar(255)         DEFAULT '' COMMENT '工作描述',
-    `password_error_last_time` datetime             DEFAULT NULL COMMENT '最后一次输错密码时间',
-    `password_error_num`       int(10) DEFAULT '0' COMMENT '密码错误次数',
-    `password_expire_time`     datetime             DEFAULT NULL COMMENT '密码过期时间',
-    `password`                 varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
-    `salt`                     varchar(20) NOT NULL DEFAULT '' COMMENT '密码盐',
-    `last_login_time`          datetime             DEFAULT NULL COMMENT '最后登录时间',
-    `created_by`               bigint(20) DEFAULT NULL COMMENT '创建人id',
-    `create_time`              datetime             DEFAULT NULL COMMENT '创建时间',
-    `updated_by`               bigint(20) DEFAULT NULL COMMENT '更新人id',
-    `update_time`              datetime             DEFAULT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `uk_account` (`account`) USING BTREE
+CREATE TABLE `c_user` (
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `account` varchar(30) NOT NULL DEFAULT '' COMMENT '账号',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, beanClass = Org.class)',
+  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS)',
+  `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '内置',
+  `email` varchar(255) DEFAULT '' COMMENT '邮箱',
+  `mobile` varchar(20) DEFAULT '' COMMENT '手机',
+  `sex` varchar(1) DEFAULT '' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
+  `state` bit(1) DEFAULT b'1' COMMENT '状态',
+  `avatar` varchar(255) DEFAULT '' COMMENT '头像',
+  `nation` char(2) DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.NATION)',
+  `education` char(2) DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.EDUCATION)',
+  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.POSITION_STATUS)',
+  `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述',
+  `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
+  `password_error_num` int(10) DEFAULT '0' COMMENT '密码错误次数',
+  `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
+  `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
+  `salt` varchar(20) NOT NULL DEFAULT '' COMMENT '密码盐',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_account` (`account`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------
@@ -1097,8 +1139,8 @@ CREATE TABLE `c_user`
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_user` VALUES (1, 'lampAdmin', '内置管理员', 1, 1, b'1', '15217781234@qq.com', '15217781234', 'M', b'1', '17e420c250804efe904a09a33796d5a10.jpg', '01', '01', '01', '不想上班!', '2020-11-24 19:08:45', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-24 19:08:45', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
-INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1, 1, b'0', '5', '3', 'M', b'1', '20180414165815.jpg', '02', '04', '03', '不想上班!', '2021-06-27 22:57:04', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-06-27 22:57:04', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:25:23');
-INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', 'W', b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2021-06-22 16:22:19', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-06-22 16:22:19', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:22:34');
+INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1, 1, b'0', '5', '3', 'M', b'1', '20180414165815.jpg', '02', '04', '03', '不想上班!', '2021-07-21 15:31:34', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-07-21 15:31:34', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:25:23');
+INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', 'W', b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2021-07-20 23:34:03', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-07-20 23:34:03', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:22:34');
 INSERT INTO `c_user` VALUES (4, 'general', '普通管理员', 1, 1, b'0', '', '', 'N', b'1', '', '01', '01', '01', '不想上班!', '2020-11-30 16:13:41', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-30 16:13:41', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
 INSERT INTO `c_user` VALUES (5, 'normal', '普通用户', 1, 1, b'0', '', '', 'M', b'1', '', '02', '02', '02', '不想上班!', '2020-11-30 16:15:10', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-30 16:15:10', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
 COMMIT;

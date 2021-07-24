@@ -6,13 +6,13 @@ import com.tangyh.basic.context.ContextUtil;
 import com.tangyh.lamp.file.dto.chunk.FileChunkCheckDTO;
 import com.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
 import com.tangyh.lamp.file.dto.chunk.FileUploadDTO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.entity.File;
 import com.tangyh.lamp.file.manager.WebUploader;
 import com.tangyh.lamp.file.properties.FileServerProperties;
-import com.tangyh.lamp.file.service.AttachmentService;
-import com.tangyh.lamp.file.strategy.FileChunkStrategy;
-import com.tangyh.lamp.file.strategy.FileStrategy;
+import com.tangyh.lamp.file.service.FileService;
+import com.tangyh.lamp.file.strategy.FileContext;
 import com.tangyh.lamp.file.utils.FileTypeUtil;
+import com.tangyh.lamp.file.vo.param.FileUploadVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +41,8 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 public class FileChunkController {
     private final FileServerProperties fileProperties;
-    private final AttachmentService attachmentService;
-    private final FileStrategy fileStrategy;
-    private final FileChunkStrategy fileChunkStrategy;
+    private final FileContext fileContext;
+    private final FileService fileService;
     private final WebUploader wu;
 
 
@@ -57,7 +56,7 @@ public class FileChunkController {
     @ResponseBody
     public R<Boolean> saveMd5Check(@RequestParam(name = "md5") String md5) {
         Long accountId = ContextUtil.getUserId();
-        Attachment file = fileChunkStrategy.md5Check(md5, accountId);
+        File file = fileContext.md5Check(md5, accountId);
         return R.success(file != null);
     }
 
@@ -69,7 +68,7 @@ public class FileChunkController {
     @ResponseBody
     public R<Boolean> chunkCheck(@RequestBody FileChunkCheckDTO info) {
         log.info("info={}", info);
-        String uploadFolder = FileTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
+        String uploadFolder = FileTypeUtil.getUploadPathPrefix(fileProperties.getLocal().getStoragePath());
         //检查目标分片是否存在且完整
         boolean chunkCheck = wu.chunkCheck(Paths.get(uploadFolder, info.getName(), String.valueOf(info.getChunkIndex())).toString(), info.getSize());
         return R.success(chunkCheck);
@@ -84,7 +83,7 @@ public class FileChunkController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public R<String> uploadFile(FileUploadDTO info, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
-        String uploadFolder = FileTypeUtil.getUploadPathPrefix(fileProperties.getStoragePath());
+        String uploadFolder = FileTypeUtil.getUploadPathPrefix(fileProperties.getLocal().getStoragePath());
         //验证请求不会包含数据上传，所以避免NullPoint这里要检查一下file变量是否为null
         if (file == null || file.isEmpty()) {
             log.error("请求参数不完整");
@@ -98,9 +97,9 @@ public class FileChunkController {
         文件大小 小于 单个分片时，会执行这里的代码
         */
         if (info.getChunks() == null || info.getChunks() <= 0) {
-            Attachment upload = fileStrategy.upload(file, null, null);
+            File upload = fileContext.upload(file, new FileUploadVO());
             upload.setFileMd5(info.getMd5());
-            attachmentService.save(upload);
+            fileService.save(upload);
             return R.success(file.getOriginalFilename());
         } else {
             //为上传的文件准备好对应的位置
@@ -127,9 +126,9 @@ public class FileChunkController {
     @RequestMapping(value = "/merge", method = RequestMethod.POST)
     @ResponseBody
     @SysLog("上传大文件")
-    public R<Attachment> saveChunksMerge(@RequestBody FileChunksMergeDTO info) {
+    public R<File> saveChunksMerge(@RequestBody FileChunksMergeDTO info) {
         log.info("info={}", info);
-        return fileChunkStrategy.chunksMerge(info);
+        return fileContext.chunksMerge(info);
     }
 
 }

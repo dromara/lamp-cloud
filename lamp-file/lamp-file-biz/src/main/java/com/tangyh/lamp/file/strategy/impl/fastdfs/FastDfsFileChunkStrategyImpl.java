@@ -3,15 +3,14 @@ package com.tangyh.lamp.file.strategy.impl.fastdfs;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.AppendFileStorageClient;
 import com.tangyh.basic.base.R;
+import com.tangyh.lamp.file.dao.FileMapper;
 import com.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
-import com.tangyh.lamp.file.entity.Attachment;
+import com.tangyh.lamp.file.entity.File;
 import com.tangyh.lamp.file.properties.FileServerProperties;
-import com.tangyh.lamp.file.service.AttachmentService;
 import com.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -24,13 +23,13 @@ import java.util.List;
 public class FastDfsFileChunkStrategyImpl extends AbstractFileChunkStrategy {
     protected final AppendFileStorageClient storageClient;
 
-    public FastDfsFileChunkStrategyImpl(AttachmentService fileService, FileServerProperties fileProperties, AppendFileStorageClient storageClient) {
-        super(fileService, fileProperties);
+    public FastDfsFileChunkStrategyImpl(FileMapper fileMapper, FileServerProperties fileProperties, AppendFileStorageClient storageClient) {
+        super(fileMapper, fileProperties);
         this.storageClient = storageClient;
     }
 
     @Override
-    protected void copyFile(Attachment file) {
+    protected void copyFile(File file) {
         // 由于大文件下载然后在上传会内存溢出， 所以 FastDFS 不复制，删除时通过业务手段
 //            DownloadByteArray callback = new DownloadByteArray();
 //            byte[] content = storageClient.downloadFile(file.getGroup(), file.getPath(), callback);
@@ -42,7 +41,7 @@ public class FastDfsFileChunkStrategyImpl extends AbstractFileChunkStrategy {
     }
 
     @Override
-    protected R<Attachment> merge(List<File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
+    protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
         StorePath storePath = null;
 
         long start = System.currentTimeMillis();
@@ -64,11 +63,11 @@ public class FastDfsFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 
         long end = System.currentTimeMillis();
         log.info("上传耗时={}", (end - start));
-        String url = fileProperties.getUriPrefix() +
+        String url = fileProperties.getLocal().getEndpoint() +
                 storePath.getFullPath();
-        Attachment filePo = Attachment.builder()
+        File filePo = File.builder()
                 .url(url)
-                .group(storePath.getGroup())
+                .bucket(storePath.getGroup())
                 .path(storePath.getPath())
                 .build();
         return R.success(filePo);
