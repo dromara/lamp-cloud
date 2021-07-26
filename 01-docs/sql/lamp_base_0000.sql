@@ -376,7 +376,6 @@ INSERT INTO `c_menu` VALUES (192, 'nacos', '', b'0', 'http://127.0.0.1:8848/naco
 INSERT INTO `c_menu` VALUES (193, '服务监控', '', b'0', 'http://127.0.0.1:8762/lamp-monitor', 'Layout', b'1', 40, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (194, '数据库监控', '', b'0', '/developer/db', 'lamp/developer/db/index', b'1', 50, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (195, '缓存监控', '', b'0', 'https://github.com/junegunn/redis-stat', 'Layout', b'1', 60, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (196, 'zipkin监控', '', b'0', 'http://127.0.0.1:8772/zipkin', 'Layout', b'1', 70, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (197, 'SkyWalking监控', '', b'0', 'http://127.0.0.1:12080', 'Layout', b'1', 80, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (210, '在线文档', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud', 'Layout', b'1', 10, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
 INSERT INTO `c_menu` VALUES (211, '会员版', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/2003629', 'Layout', b'1', 20, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
@@ -777,7 +776,6 @@ INSERT INTO `c_role_authority` VALUES (26578833880646045, 192, 'MENU', 2, '2020-
 INSERT INTO `c_role_authority` VALUES (26578833880646046, 193, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646047, 194, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646048, 195, 'MENU', 2, '2020-11-25 17:13:10', 2);
-INSERT INTO `c_role_authority` VALUES (26578833880646049, 196, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646050, 197, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646051, 70, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646052, 80, 'MENU', 2, '2020-11-25 17:13:10', 2);
