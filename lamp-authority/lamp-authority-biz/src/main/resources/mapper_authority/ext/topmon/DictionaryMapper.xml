@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.authority.dao.common.DictionaryMapper">
+
+    <select id="pageType" resultType="top.tangyh.lamp.authority.entity.common.Dictionary" parameterType="map">
+        select type, label, max(state) state, min(create_time) create_time from c_dictionary
+        <where>
+            <if test="query.label != null and query.label != ''">
+                and (type like #{query.label,typeHandler=fullLike} or label like #{query.label,typeHandler=fullLike} or
+                name like #{query.label,typeHandler=fullLike})
+            </if>
+            <if test="query.state != null ">
+                and state = #{query.state}
+            </if>
+        </where>
+        group by type
+    </select>
+
+</mapper>
