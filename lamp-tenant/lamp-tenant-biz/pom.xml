@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>lamp-tenant</artifactId>
-        <groupId>com.tangyh.lamp</groupId>
-        <version>3.3.0</version>
+        <groupId>top.tangyh.lamp</groupId>
+        <version>3.4.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -15,31 +15,31 @@
     <description>租户服务业务模块</description>
     <dependencies>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-tenant-entity</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-authority-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-file-sdk</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
+            <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-mq-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
+            <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-databases</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
+            <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-boot-util</artifactId>
         </dependency>
 

@@ -4,8 +4,8 @@
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
 
     <mapping date-format="yyyy-MM-dd HH:mm:ss">
-        <class-a>com.tangyh.lamp.authority.entity.auth.Menu</class-a>
-        <class-b>com.tangyh.lamp.authority.dto.auth.VueRouter</class-b>
+        <class-a>top.tangyh.lamp.authority.entity.auth.Menu</class-a>
+        <class-b>top.tangyh.lamp.authority.dto.auth.VueRouter</class-b>
         <field>
             <a>label</a>
             <b>meta.title</b>

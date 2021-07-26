@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tangyh.lamp.sms.dao.SmsTemplateMapper">
+<mapper namespace="top.tangyh.lamp.sms.dao.SmsTemplateMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.tangyh.lamp.sms.entity.SmsTemplate">
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.sms.entity.SmsTemplate">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>

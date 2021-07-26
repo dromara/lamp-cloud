@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>lamp-oauth</artifactId>
-        <groupId>com.tangyh.lamp</groupId>
-        <version>3.3.0</version>
+        <groupId>top.tangyh.lamp</groupId>
+        <version>3.4.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -15,23 +15,23 @@
     <description>认证服务业务模块</description>
     <dependencies>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-authority-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-tenant-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <!-- jwt 只有认证服务需要使用 -->
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
+            <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-jwt-starter</artifactId>
         </dependency>
         <!-- log 只有认证服务biz模块引用，其他服务都在controller模块 -->
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
+            <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-log-starter</artifactId>
         </dependency>
 

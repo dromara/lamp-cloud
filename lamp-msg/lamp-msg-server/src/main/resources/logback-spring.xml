@@ -4,22 +4,22 @@
     表示服务器运行时，日志异步打印出来，增加服务器的效率 -->
     <include resource="logback/defaults-async.xml"/>
 
-    <logger name="com.tangyh.lamp.msg.controller" additivity="true" level="${log.level.controller}">
+    <logger name="top.tangyh.lamp.msg.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="com.tangyh.lamp.msg.service" additivity="true" level="${log.level.service}">
+    <logger name="top.tangyh.lamp.msg.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
     </logger>
-    <logger name="com.tangyh.lamp.msg.dao" additivity="false" level="${log.level.dao}">
+    <logger name="top.tangyh.lamp.msg.dao" additivity="false" level="${log.level.dao}">
         <appender-ref ref="ASYNC_DAO_APPENDER"/>
     </logger>
-    <logger name="com.tangyh.lamp.sms.controller" additivity="true" level="${log.level.controller}">
+    <logger name="top.tangyh.lamp.sms.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="com.tangyh.lamp.sms.service" additivity="true" level="${log.level.service}">
+    <logger name="top.tangyh.lamp.sms.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
     </logger>
-    <logger name="com.tangyh.lamp.sms.dao" additivity="false" level="${log.level.dao}">
+    <logger name="top.tangyh.lamp.sms.dao" additivity="false" level="${log.level.dao}">
         <appender-ref ref="ASYNC_DAO_APPENDER"/>
     </logger>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tangyh.lamp.authority.dao.auth.ResourceMapper">
+<mapper namespace="top.tangyh.lamp.authority.dao.auth.ResourceMapper">
 
     <select id="findVisibleResource" parameterType="map" resultMap="BaseResultMap">
         SELECT
@@ -14,7 +14,7 @@
         )
     </select>
 
-    <insert id="saveOrUpdateUnique" parameterType="com.tangyh.lamp.authority.entity.auth.Resource">
+    <insert id="saveOrUpdateUnique" parameterType="top.tangyh.lamp.authority.entity.auth.Resource">
     insert into c_resource ( id, created_by, create_time, updated_by, update_time,
         code, name, menu_id, describe_)
     values (#{id,jdbcType=BIGINT}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},#{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},

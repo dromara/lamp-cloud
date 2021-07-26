@@ -4,7 +4,7 @@
     表示服务器运行时，日志异步打印出来，增加服务器的效率 -->
     <include resource="logback/defaults-async.xml"/>
 
-    <logger name="com.tangyh.lamp.gateway" additivity="true" level="INFO">
+    <logger name="top.tangyh.lamp.gateway" additivity="true" level="INFO">
         <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
     </logger>
 

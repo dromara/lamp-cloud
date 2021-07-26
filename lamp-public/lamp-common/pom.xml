@@ -3,21 +3,21 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.tangyh.lamp</groupId>
+        <groupId>top.tangyh.lamp</groupId>
         <artifactId>lamp-cloud</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.tangyh.lamp</groupId>
+    <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-common</artifactId>
     <name>${project.artifactId}</name>
     <description>公共模块</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
+            <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-core</artifactId>
         </dependency>
         <dependency>

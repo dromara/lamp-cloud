@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.tangyh.lamp</groupId>
+    <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>3.3.0</version>
+    <version>3.4.0</version>
     <packaging>pom</packaging>
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -39,8 +39,8 @@
     </modules>
 
     <properties>
-        <lamp-util.version>3.3.0</lamp-util.version>
-        <lamp-project.version>3.3.0</lamp-project.version>
+        <lamp-util.version>3.4.0</lamp-util.version>
+        <lamp-project.version>3.4.0</lamp-project.version>
         <seata.version>1.3.0</seata.version>
         <!-- jdk8 将这里改成 8 -->
         <maven.compiler.source>11</maven.compiler.source>
@@ -61,10 +61,10 @@
             <!--
             注意： lamp-cloud和lamp-boot都依赖于lamp-util项目，请一定要先编译（mvn install) lamp-util项目，然后在编译 lamp-cloud 或者 lamp-boot。
             注意： lamp-cloud和lamp-boot项目代码结构基本一致、实现的功能完全一致，请不要在同一个IDE的工作空间同时导入 lamp-cloud 和 lamp-boot 项目！！！
-            注意：com.tangyh.basic:lamp-xxx 相关的依赖，全部在lamp-util项目。 下载地址： https://github.com/zuihou
+            注意：top.tangyh.basic:lamp-xxx 相关的依赖，全部在lamp-util项目。 下载地址： https://github.com/zuihou
             -->
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-dependencies</artifactId>
                 <version>${lamp-util.version}</version>
                 <type>pom</type>
@@ -72,87 +72,87 @@
             </dependency>
 
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-all</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-annotation</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-boot-util</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-cache-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-security-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-core</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-databases</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-dozer-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-echo-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-jwt-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-log-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-mq-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-swagger2-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-validator-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-xss-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.tangyh.basic</groupId>
+                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-cloud-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>

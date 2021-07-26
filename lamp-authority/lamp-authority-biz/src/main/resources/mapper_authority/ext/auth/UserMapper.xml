@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tangyh.lamp.authority.dao.auth.UserMapper">
+<mapper namespace="top.tangyh.lamp.authority.dao.auth.UserMapper">
 
     <select id="findUserByRoleId" resultMap="BaseResultMap" parameterType="map">
         SELECT u.id as id, account, name, mobile, sex

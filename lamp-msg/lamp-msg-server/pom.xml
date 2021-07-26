@@ -3,9 +3,9 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.tangyh.lamp</groupId>
+        <groupId>top.tangyh.lamp</groupId>
         <artifactId>lamp-msg</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -17,23 +17,23 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-sms-controller</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-msg-controller</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-authority-api</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
+            <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-all</artifactId>
         </dependency>
 
