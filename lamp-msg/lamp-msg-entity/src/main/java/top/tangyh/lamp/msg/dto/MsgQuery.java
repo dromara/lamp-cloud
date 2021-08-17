@@ -1,13 +1,16 @@
 package top.tangyh.lamp.msg.dto;
 
-import top.tangyh.lamp.msg.enumeration.MsgBizType;
-import top.tangyh.lamp.msg.enumeration.MsgType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
+import top.tangyh.lamp.msg.enumeration.MsgBizType;
+import top.tangyh.lamp.msg.enumeration.MsgType;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -19,7 +22,11 @@ import java.io.Serializable;
 
 @Data
 @ToString
+@Accessors(chain = true)
 @ApiModel(value = "MsgQuery", description = "消息分页参数")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MsgQuery implements Serializable {
     private static final long serialVersionUID = -2054606159972155030L;
     @ApiModelProperty(value = "接收人ID")
@@ -38,10 +45,5 @@ public class MsgQuery implements Serializable {
 
     @ApiModelProperty(value = "作者")
     private String author;
-
-//    @ApiModelProperty(value = "开始时间")
-//    private LocalDateTime startCreateTime;
-//    @ApiModelProperty(value = "结束时间")
-//    private LocalDateTime endCreateTime;
 
 }

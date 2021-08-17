@@ -35,7 +35,7 @@ public class FastDfsFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 //            byte[] content = storageClient.downloadFile(file.getGroup(), file.getPath(), callback);
 //            InputStream in = new ByteArrayInputStream(content);
 //            StorePath storePath = storageClient.uploadFile(file.getGroup(), in, file.getSize(), file.getExt());
-//            file.setUrl(fileProperties.getUriPrefix() + storePath.getFullPath());
+//            file.setUrl(fileProperties.getUrlPrefix() + storePath.getFullPath());
 //            file.setGroup(storePath.getGroup());
 //            file.setPath(storePath.getPath());
     }
@@ -63,8 +63,7 @@ public class FastDfsFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 
         long end = System.currentTimeMillis();
         log.info("上传耗时={}", (end - start));
-        String url = fileProperties.getLocal().getEndpoint() +
-                storePath.getFullPath();
+        String url = fileProperties.getFastDfs().getUrlPrefix() + storePath.getFullPath();
         File filePo = File.builder()
                 .url(url)
                 .bucket(storePath.getGroup())

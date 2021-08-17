@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 21/07/2021 22:22:16
+ Date: 16/08/2021 21:10:17
 */
 
 SET NAMES utf8mb4;
@@ -90,33 +90,6 @@ CREATE TABLE `c_area` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_code` (`code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
-
--- ----------------------------
--- Table structure for c_attachment
--- ----------------------------
-DROP TABLE IF EXISTS `c_attachment`;
-CREATE TABLE `c_attachment` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `biz_id` varchar(255) DEFAULT NULL COMMENT '业务ID',
-  `biz_type` varchar(255) DEFAULT '' COMMENT '业务类型 \n#AttachmentType',
-  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
-  `storage_type` varchar(255) DEFAULT NULL COMMENT '存储类型\nLOCAL FAST_DFS MIN_IO ALI \n',
-  `group_` varchar(255) DEFAULT '' COMMENT 'FastDFS中的组 MinIO中的bucket\n用于FastDFS 或 MinIO',
-  `path` varchar(255) DEFAULT '' COMMENT 'FastDFS的远程文件名 MinIO的文件路径\n用于FastDFS 和MinIO',
-  `url` varchar(500) DEFAULT '' COMMENT '文件访问链接\n需要通过nginx配置路由，才能访问',
-  `unique_file_name` varchar(255) DEFAULT '' COMMENT '唯一文件名\nUUID规则',
-  `file_md5` varchar(255) DEFAULT '' COMMENT '文件md5值',
-  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
-  `content_type` varchar(255) DEFAULT '' COMMENT '文件原始类型',
-  `ext` varchar(64) DEFAULT '' COMMENT '后缀\n',
-  `size` bigint(20) DEFAULT '0' COMMENT '文件大小',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '最后修改人',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件';
 
 -- ----------------------------
 -- Table structure for c_dict
@@ -275,6 +248,34 @@ CREATE TABLE `c_file` (
   `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='增量文件上传日志';
+
+-- ----------------------------
+-- Records of c_file
+-- ----------------------------
+BEGIN;
+INSERT INTO `c_file` VALUES (1417872122813874176, 'BASE_FILE', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_FILE/2021/07/21/40b8f820e74d49049d08cf7dc316e79e.png', '0000/BASE_FILE/2021/07/21/40b8f820e74d49049d08cf7dc316e79e.png', '40b8f820e74d49049d08cf7dc316e79e.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:40:32', 2, '2021-07-21 23:40:32', 2);
+INSERT INTO `c_file` VALUES (1417872209908596736, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/21/4e2f299b24ee46809a7d3bd94c0650da.png', '0000/USER_AVATAR/2021/07/21/4e2f299b24ee46809a7d3bd94c0650da.png', '4e2f299b24ee46809a7d3bd94c0650da.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:40:52', 2, '2021-07-21 23:40:52', 2);
+INSERT INTO `c_file` VALUES (1417872713925525504, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/21/b020303bff054342ae96d910c9c56cb5.png', '0000/USER_AVATAR/2021/07/21/b020303bff054342ae96d910c9c56cb5.png', 'b020303bff054342ae96d910c9c56cb5.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:42:52', 2, '2021-07-21 23:42:52', 2);
+INSERT INTO `c_file` VALUES (1417873360792059904, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/21/af7c6ff562a3467c812b06a568ee228d.png', '0000/USER_AVATAR/2021/07/21/af7c6ff562a3467c812b06a568ee228d.png', 'af7c6ff562a3467c812b06a568ee228d.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:45:27', 2, '2021-07-21 23:45:27', 2);
+INSERT INTO `c_file` VALUES (1417874903289298944, 'TENANT_LOGO', 'IMAGE', 'MIN_IO', 'dev', '0000/TENANT_LOGO/2021/07/21/c04943adb6b54c4596d1b9c23d342e45.png', '0000/TENANT_LOGO/2021/07/21/c04943adb6b54c4596d1b9c23d342e45.png', 'c04943adb6b54c4596d1b9c23d342e45.png', NULL, 'zuihou-admin-cloud后端功能介绍.png', 'image/png', 'png', 505044, '2021-07-21 23:51:34', 3, '2021-07-21 23:51:34', 3);
+INSERT INTO `c_file` VALUES (1417875462838812672, 'TENANT_LOGO', 'IMAGE', 'MIN_IO', 'dev', '0000/TENANT_LOGO/2021/07/21/07bcd84c13974126be3e774d69518556.png', '0000/TENANT_LOGO/2021/07/21/07bcd84c13974126be3e774d69518556.png', '07bcd84c13974126be3e774d69518556.png', NULL, 'zuihou-admin-cloud功能介绍.png', 'image/png', 'png', 368296, '2021-07-21 23:53:48', 3, '2021-07-21 23:53:48', 3);
+INSERT INTO `c_file` VALUES (1418756607709282304, '每个业务定义一个唯一字符串，建议：库名_表名_字段名', 'IMAGE', 'MIN_IO', 'dev', '0000/每个业务定义一个唯一字符串，建议：库名_表名_字段名/2021/07/24/30cfb050e5bb40868cc66ea66006a083.png', '0000/每个业务定义一个唯一字符串，建议：库名_表名_字段名/2021/07/24/30cfb050e5bb40868cc66ea66006a083.png', '30cfb050e5bb40868cc66ea66006a083.png', NULL, '调用流程.png', 'image/png', 'png', 276776, '2021-07-24 10:15:09', 2, '2021-07-24 10:15:09', 2);
+INSERT INTO `c_file` VALUES (1420332786971049984, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/28/2e5a3a5dd8b54640bd747dd1022981f0.png', 'https://static.tangyh.top/0000/USER_AVATAR/2021/07/28/2e5a3a5dd8b54640bd747dd1022981f0.png', '2e5a3a5dd8b54640bd747dd1022981f0.png', NULL, '盘江logo.png', 'image/png', 'png', 35654, '2021-07-28 18:38:20', 2, '2021-07-28 18:38:20', 2);
+INSERT INTO `c_file` VALUES (1420354108497330176, '1111', 'IMAGE', 'FAST_DFS', 'group1', 'M00/00/00/J2xt6mEBR3eAYEf_AACLRqeHcOQ175.png', 'http://fastdfs.tangyh.top/group1/M00/00/00/J2xt6mEBR3eAYEf_AACLRqeHcOQ175.png', '', NULL, '盘江logo.png', 'image/png', 'png', 35654, '2021-07-28 20:03:03', 1, '2021-07-28 20:03:03', 1);
+INSERT INTO `c_file` VALUES (1420398326485876736, '123', 'IMAGE', 'FAST_DFS', 'group1', 'M00/00/00/oYYBAGEBcKWAWMI6ABLOfYMJlvk885.jpg', 'https://fastdfs.tangyh.top/group1/M00/00/00/oYYBAGEBcKWAWMI6ABLOfYMJlvk885.jpg', '', NULL, 'zuihou-admin-cloud后端功能介绍.jpg', 'image/jpeg', 'jpg', 1232509, '2021-07-28 22:58:45', 1, '2021-07-28 22:58:45', 1);
+INSERT INTO `c_file` VALUES (1424298393659768832, 'BASE_FILE', 'IMAGE', 'FAST_DFS', 'group1', 'M00/00/00/oYYBAGEPoN6ADZrDAAASb7pSOzk860.jpg', 'https://fastdfs.tangyh.top/group1/M00/00/00/oYYBAGEPoN6ADZrDAAASb7pSOzk860.jpg', '', NULL, '2.jpg', 'image/jpeg', 'jpg', 4719, '2021-08-08 17:16:14', 2, '2021-08-08 17:16:14', 2);
+INSERT INTO `c_file` VALUES (1426435412154384384, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/3d5da8d46f6249a8a0e7b99c38818a5e.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/3d5da8d46f6249a8a0e7b99c38818a5e.jpg', '3d5da8d46f6249a8a0e7b99c38818a5e.jpg', NULL, '2.jpg', 'image/png', 'jpg', 22964, '2021-08-14 14:47:59', 2, '2021-08-14 14:47:59', 2);
+INSERT INTO `c_file` VALUES (1426435532182781952, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/490a76fa20394cacaa87a718be4f09ef.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/490a76fa20394cacaa87a718be4f09ef.jpg', '490a76fa20394cacaa87a718be4f09ef.jpg', NULL, '2.jpg', 'image/png', 'jpg', 22964, '2021-08-14 14:48:27', 2, '2021-08-14 14:48:27', 2);
+INSERT INTO `c_file` VALUES (1426438060488261632, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/d108613df7c54445a7c6c1e3cde9a49c.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/d108613df7c54445a7c6c1e3cde9a49c.jpg', 'd108613df7c54445a7c6c1e3cde9a49c.jpg', NULL, '2.jpg', 'image/png', 'jpg', 24199, '2021-08-14 14:58:30', 2, '2021-08-14 14:58:30', 2);
+INSERT INTO `c_file` VALUES (1426473317027545088, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/f1fcde88289247da96be7744e4501291.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/f1fcde88289247da96be7744e4501291.png', 'f1fcde88289247da96be7744e4501291.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 17:18:36', 2, '2021-08-14 17:18:36', 2);
+INSERT INTO `c_file` VALUES (1426473580710854656, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/93ed20abe8454c91a2cce54e8e84ea3e.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/93ed20abe8454c91a2cce54e8e84ea3e.png', '93ed20abe8454c91a2cce54e8e84ea3e.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 17:19:39', 2, '2021-08-14 17:19:39', 2);
+INSERT INTO `c_file` VALUES (1426477103263514624, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/738e999278d74acbb41e7eef35d958c3.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/738e999278d74acbb41e7eef35d958c3.png', '738e999278d74acbb41e7eef35d958c3.png', NULL, '小程序识别demo.png', 'image/png', 'png', 6504, '2021-08-14 17:33:39', 2, '2021-08-14 17:33:39', 2);
+INSERT INTO `c_file` VALUES (1426480137452388352, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/1c2a7cece6f844a5b342e6223365f3db.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/1c2a7cece6f844a5b342e6223365f3db.jpg', '1c2a7cece6f844a5b342e6223365f3db.jpg', NULL, '2.jpg', 'image/png', 'jpg', 19521, '2021-08-14 17:45:42', 2, '2021-08-14 17:45:42', 2);
+INSERT INTO `c_file` VALUES (1426480519146635264, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/c620be89e67741d7bc41c37ad4a4867b.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/c620be89e67741d7bc41c37ad4a4867b.png', 'c620be89e67741d7bc41c37ad4a4867b.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 17:47:13', 2, '2021-08-14 17:47:13', 2);
+INSERT INTO `c_file` VALUES (1426558962936840192, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/acc7f20168bc4489a00c22b0ea381978.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/acc7f20168bc4489a00c22b0ea381978.jpg', 'acc7f20168bc4489a00c22b0ea381978.jpg', NULL, '2.jpg', 'image/png', 'jpg', 24199, '2021-08-14 22:58:56', 2, '2021-08-14 22:58:56', 2);
+INSERT INTO `c_file` VALUES (1426563431594459136, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/1caccaffe96a4da6af35b8c55e2a6b32.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/1caccaffe96a4da6af35b8c55e2a6b32.png', '1caccaffe96a4da6af35b8c55e2a6b32.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 23:16:41', 2, '2021-08-14 23:16:41', 2);
+INSERT INTO `c_file` VALUES (1426564046869495808, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/fdb2bb0f67ab49349cb79f0428b06767.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/fdb2bb0f67ab49349cb79f0428b06767.jpg', 'fdb2bb0f67ab49349cb79f0428b06767.jpg', NULL, '2.jpg', 'image/png', 'jpg', 22422, '2021-08-14 23:19:08', 2, '2021-08-14 23:19:08', 2);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for c_login_log
@@ -1038,25 +1039,6 @@ INSERT INTO `c_role_authority` VALUES (1401793536692584448, 121, 'MENU', 0, '202
 INSERT INTO `c_role_authority` VALUES (1401793536692584449, 122, 'MENU', 0, '2021-06-07 14:49:58', 2);
 INSERT INTO `c_role_authority` VALUES (1401793536696778752, 123, 'MENU', 0, '2021-06-07 14:49:58', 2);
 INSERT INTO `c_role_authority` VALUES (1401793536696778753, 30, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793578031644672, 25938183673872491, 'RESOURCE', 1401106547731333120, '2021-06-07 14:50:08', 2);
-INSERT INTO `c_role_authority` VALUES (1401793578031644673, 130, 'MENU', 1401106547731333120, '2021-06-07 14:50:08', 2);
-INSERT INTO `c_role_authority` VALUES (1401793578035838976, 30, 'MENU', 1401106547731333120, '2021-06-07 14:50:08', 2);
-INSERT INTO `c_role_authority` VALUES (1401796782312128512, 25938183673872440, 'RESOURCE', 1401105465810616320, '2021-06-07 15:02:52', 2);
-INSERT INTO `c_role_authority` VALUES (1401796782312128513, 25938183673872445, 'RESOURCE', 1401105465810616320, '2021-06-07 15:02:52', 2);
-INSERT INTO `c_role_authority` VALUES (1401796782312128514, 10, 'MENU', 1401105465810616320, '2021-06-07 15:02:52', 2);
-INSERT INTO `c_role_authority` VALUES (1401796782312128515, 110, 'MENU', 1401105465810616320, '2021-06-07 15:02:52', 2);
-INSERT INTO `c_role_authority` VALUES (1401882022011469824, 224, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
-INSERT INTO `c_role_authority` VALUES (1401882022019858432, 100, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
-INSERT INTO `c_role_authority` VALUES (1401882022019858433, 220, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
-INSERT INTO `c_role_authority` VALUES (1401882022019858434, 221, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
-INSERT INTO `c_role_authority` VALUES (1401882022019858435, 222, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
-INSERT INTO `c_role_authority` VALUES (1401882022024052736, 223, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
-INSERT INTO `c_role_authority` VALUES (1401884591014281216, 25938183673872460, 'RESOURCE', 1401884493064699904, '2021-06-07 20:51:47', 2);
-INSERT INTO `c_role_authority` VALUES (1401884591014281217, 110, 'MENU', 1401884493064699904, '2021-06-07 20:51:47', 2);
-INSERT INTO `c_role_authority` VALUES (1408620582760611840, 20, 'MENU', 1408618647575855104, '2021-06-26 10:58:12', 2);
-INSERT INTO `c_role_authority` VALUES (1408620582773194752, 120, 'MENU', 1408618647575855104, '2021-06-26 10:58:12', 2);
-INSERT INTO `c_role_authority` VALUES (1408620582802554880, 121, 'MENU', 1408618647575855104, '2021-06-26 10:58:13', 2);
-INSERT INTO `c_role_authority` VALUES (1408620582802554881, 122, 'MENU', 1408618647575855104, '2021-06-26 10:58:13', 2);
 COMMIT;
 
 -- ----------------------------
@@ -1096,6 +1078,7 @@ CREATE TABLE `c_station` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_station` VALUES (1, '总经理', 1, b'1', '', '2020-11-23 00:06:20', 1, '2020-11-23 00:06:25', 1);
+INSERT INTO `c_station` VALUES (1426742937089212416, '1', 1, b'1', '1', '2021-08-15 11:09:58', 2, '2021-08-15 11:09:58', 2);
 COMMIT;
 
 -- ----------------------------
@@ -1137,10 +1120,10 @@ CREATE TABLE `c_user` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_user` VALUES (1, 'lampAdmin', '内置管理员', 1, 1, b'1', '15217781234@qq.com', '15217781234', 'M', b'1', '17e420c250804efe904a09a33796d5a10.jpg', '01', '01', '01', '不想上班!', '2020-11-24 19:08:45', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-24 19:08:45', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
-INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1, 1, b'0', '5', '3', 'M', b'1', '20180414165815.jpg', '02', '04', '03', '不想上班!', '2021-07-21 15:31:34', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-07-21 15:31:34', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:25:23');
-INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', 'W', b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2021-07-20 23:34:03', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-07-20 23:34:03', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:22:34');
+INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1, 1, b'0', '53@qq.com', '3', 'M', b'1', 'https://static.tangyh.top/0000/USER_AVATAR/2021/07/28/2e5a3a5dd8b54640bd747dd1022981f0.png', '01', '07', '01', '不想上班!11', '2021-08-15 22:45:10', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-08-15 22:45:10', 1, '2020-11-22 23:03:15', 2, '2021-08-15 11:13:18');
+INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', 'W', b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2021-07-21 23:46:05', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-07-21 23:46:05', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:22:34');
 INSERT INTO `c_user` VALUES (4, 'general', '普通管理员', 1, 1, b'0', '', '', 'N', b'1', '', '01', '01', '01', '不想上班!', '2020-11-30 16:13:41', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-30 16:13:41', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
-INSERT INTO `c_user` VALUES (5, 'normal', '普通用户', 1, 1, b'0', '', '', 'M', b'1', '', '02', '02', '02', '不想上班!', '2020-11-30 16:15:10', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-30 16:15:10', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
+INSERT INTO `c_user` VALUES (5, 'normal', '普通用户', 1, 1, b'0', '', '', 'M', b'1', '', '02', '02', '02', '不想上班!', '2020-11-30 16:15:10', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-30 16:15:10', 1, '2020-11-22 23:03:15', 2, '2021-07-21 23:45:29');
 COMMIT;
 
 -- ----------------------------

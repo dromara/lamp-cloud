@@ -1,6 +1,5 @@
 package top.tangyh.lamp.common.vo.save;
 
-import top.tangyh.lamp.common.enums.FileType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.lamp.common.enums.FileType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -53,7 +53,6 @@ public class AppendixSaveVO implements Serializable {
      * 文件类型
      */
     @ApiModelProperty(value = "文件类型")
-    @Size(max = 255, message = "文件类型长度不能超过255")
     private FileType fileType;
     /**
      * 桶

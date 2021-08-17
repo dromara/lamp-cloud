@@ -1,6 +1,5 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import top.tangyh.basic.base.entity.SuperEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.base.entity.SuperEntity;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -44,15 +44,16 @@ public class UserUpdatePasswordDTO implements Serializable {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "旧密码")
-    @Size(max = 64, message = "旧密码长度不能超过64")
+    @ApiModelProperty(value = "当前密码")
+    @NotEmpty(message = "当前密码不能为空")
+    @Size(max = 64, message = "当前密码长度不能超过64")
     private String oldPassword;
     /**
      * 密码
      */
     @ApiModelProperty(value = "密码")
     @NotEmpty(message = "密码不能为空")
-    @Size(max = 64, message = "密码长度不能超过64")
+    @Size(min = 6, max = 64, message = "密码长度不能超过64")
     private String password;
 
     /**
@@ -60,7 +61,7 @@ public class UserUpdatePasswordDTO implements Serializable {
      */
     @ApiModelProperty(value = "确认密码")
     @NotEmpty(message = "确认密码不能为空")
-    @Size(max = 64, message = "确认密码长度不能超过64")
+    @Size(min = 6, max = 64, message = "确认密码长度不能超过64")
     private String confirmPassword;
     /**
      * 租户编码

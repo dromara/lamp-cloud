@@ -9,31 +9,6 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import top.tangyh.basic.annotation.log.SysLog;
-import top.tangyh.basic.annotation.security.PreAuth;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.base.controller.SuperCacheController;
-import top.tangyh.basic.base.entity.SuperEntity;
-import top.tangyh.basic.base.request.PageParams;
-import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
-import top.tangyh.basic.echo.core.EchoService;
-import top.tangyh.basic.utils.BizAssert;
-import top.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
-import top.tangyh.lamp.authority.controller.poi.UserExcelDictHandlerImpl;
-import top.tangyh.lamp.authority.dto.auth.UserExcelVO;
-import top.tangyh.lamp.authority.dto.auth.UserPageQuery;
-import top.tangyh.lamp.authority.dto.auth.UserRoleDTO;
-import top.tangyh.lamp.authority.dto.auth.UserSaveDTO;
-import top.tangyh.lamp.authority.dto.auth.UserUpdateAvatarDTO;
-import top.tangyh.lamp.authority.dto.auth.UserUpdateBaseInfoDTO;
-import top.tangyh.lamp.authority.dto.auth.UserUpdateDTO;
-import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
-import top.tangyh.lamp.authority.entity.auth.User;
-import top.tangyh.lamp.authority.entity.core.Org;
-import top.tangyh.lamp.authority.service.auth.UserService;
-import top.tangyh.lamp.authority.service.core.OrgService;
-import top.tangyh.lamp.common.constant.BizConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -51,6 +26,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import top.tangyh.basic.annotation.log.SysLog;
+import top.tangyh.basic.annotation.security.PreAuth;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.base.controller.SuperCacheController;
+import top.tangyh.basic.base.entity.SuperEntity;
+import top.tangyh.basic.base.request.PageParams;
+import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
+import top.tangyh.basic.echo.core.EchoService;
+import top.tangyh.basic.utils.ArgumentAssert;
+import top.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
+import top.tangyh.lamp.authority.controller.poi.UserExcelDictHandlerImpl;
+import top.tangyh.lamp.authority.dto.auth.UserExcelVO;
+import top.tangyh.lamp.authority.dto.auth.UserPageQuery;
+import top.tangyh.lamp.authority.dto.auth.UserRoleDTO;
+import top.tangyh.lamp.authority.dto.auth.UserSaveDTO;
+import top.tangyh.lamp.authority.dto.auth.UserUpdateAvatarDTO;
+import top.tangyh.lamp.authority.dto.auth.UserUpdateBaseInfoDTO;
+import top.tangyh.lamp.authority.dto.auth.UserUpdateDTO;
+import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
+import top.tangyh.lamp.authority.entity.auth.User;
+import top.tangyh.lamp.authority.entity.core.Org;
+import top.tangyh.lamp.authority.service.auth.UserService;
+import top.tangyh.lamp.authority.service.core.OrgService;
+import top.tangyh.lamp.common.constant.BizConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -162,10 +162,8 @@ public class UserController extends SuperCacheController<UserService, Long, User
     @ApiOperation(value = "修改头像", notes = "修改头像")
     @PutMapping("/avatar")
     @SysLog("'修改头像:' + #p0.id")
-    public R<User> avatar(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateAvatarDTO data) {
-        User user = BeanUtil.toBean(data, User.class);
-        baseService.updateById(user);
-        return success(user);
+    public R<Boolean> avatar(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateAvatarDTO data) {
+        return success(baseService.updateAvatar(data));
     }
 
     /**
@@ -275,7 +273,8 @@ public class UserController extends SuperCacheController<UserService, Long, User
 
         Set<String> accounts = new HashSet<>();
         List<User> userList = list.stream().map(item -> {
-            BizAssert.isFalse(accounts.contains(item.getAccount()), StrUtil.format("Excel中存在重复的账号: {}", item.getAccount()));
+            ArgumentAssert.notContain(accounts, item.getAccount(), "Excel中存在重复的账号: {}", item.getAccount());
+
             accounts.add(item.getAccount());
             User user = new User();
             BeanUtil.copyProperties(item, user);
@@ -295,7 +294,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      */
     @Override
     public IPage<User> query(PageParams<UserPageQuery> params) {
-        IPage<User> page = params.buildPage();
+        IPage<User> page = params.buildPage(User.class);
         UserPageQuery userPage = params.getModel();
 
         QueryWrap<User> wrap = handlerWrapper(null, params);

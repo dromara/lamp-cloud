@@ -54,7 +54,7 @@ logging:
     path: '@logging.file.path@'
     name: ${logging.file.path}/${spring.application.name}/root.log
   level:
-    com.baomidou.dynamic: debug
+    com.baomidou.dynamic: info
   config: classpath:logback-spring.xml
 
 # 用于/actuator/info

@@ -3,19 +3,19 @@ package top.tangyh.lamp.file.service.impl;
 import cn.hutool.core.collection.CollUtil;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.base.service.SuperServiceImpl;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.entity.File;
 import top.tangyh.lamp.file.service.FileService;
 import top.tangyh.lamp.file.strategy.FileContext;
 import top.tangyh.lamp.file.vo.param.FileUploadVO;
 import top.tangyh.lamp.file.vo.result.FileResultVO;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +48,6 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, File> implemen
     @Transactional(rollbackFor = Exception.class)
     public FileResultVO upload(MultipartFile file, FileUploadVO fileUploadVO) {
         File fileFile = fileContext.upload(file, fileUploadVO);
-//        fileFile.setStorageType(fileUploadVO.getStorageType());
         save(fileFile);
         return BeanPlusUtil.toBean(fileFile, FileResultVO.class);
     }
@@ -80,7 +79,7 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, File> implemen
     @Override
     public void download(HttpServletRequest request, HttpServletResponse response, List<Long> ids) throws Exception {
         List<File> list = listByIds(ids);
-        BizAssert.notEmpty(list, "请配置正确的文件存储类型");
+        ArgumentAssert.notEmpty(list, "请配置正确的文件存储类型");
 
         fileContext.download(request, response, list);
     }

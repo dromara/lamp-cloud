@@ -1,15 +1,8 @@
 package top.tangyh.lamp.file.strategy.impl.minio;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 
-import top.tangyh.basic.utils.CollHelper;
-import top.tangyh.lamp.file.dao.FileMapper;
-import top.tangyh.lamp.file.domain.FileDeleteBO;
-import top.tangyh.lamp.file.domain.FileGetUrlBO;
-import top.tangyh.lamp.file.entity.File;
-import top.tangyh.lamp.file.enumeration.FileStorageType;
-import top.tangyh.lamp.file.properties.FileServerProperties;
-import top.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 import io.minio.BucketExistsArgs;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MakeBucketArgs;
@@ -21,10 +14,20 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import top.tangyh.basic.utils.CollHelper;
+import top.tangyh.basic.utils.StrPool;
+import top.tangyh.lamp.file.dao.FileMapper;
+import top.tangyh.lamp.file.domain.FileDeleteBO;
+import top.tangyh.lamp.file.domain.FileGetUrlBO;
+import top.tangyh.lamp.file.entity.File;
+import top.tangyh.lamp.file.enumeration.FileStorageType;
+import top.tangyh.lamp.file.properties.FileServerProperties;
+import top.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author zuihou
@@ -82,7 +85,7 @@ public class MinIoFileStrategyImpl extends AbstractFileStrategy {
         file.setBucket(bucket);
         file.setPath(path);
         file.setUniqueFileName(uniqueFileName);
-        file.setUrl(path);
+        file.setUrl(fileProperties.getMinIo().getUrlPrefix() + path);
         file.setStorageType(FileStorageType.MIN_IO);
     }
 
@@ -98,15 +101,24 @@ public class MinIoFileStrategyImpl extends AbstractFileStrategy {
     @SneakyThrows
     public Map<String, String> findUrl(List<FileGetUrlBO> fileGets) {
         FileServerProperties.MinIo minIo = fileProperties.getMinIo();
+        Set<String> publicBucket = fileProperties.getPublicBucket();
 
         Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(fileGets.size()));
-        for (FileGetUrlBO attachmentGet : fileGets) {
-            Integer expiry = minIo.getExpiry();
-            String bucket = StrUtil.isEmpty(attachmentGet.getBucket()) ? minIo.getBucket() : attachmentGet.getBucket();
+        for (FileGetUrlBO fileGet : fileGets) {
+            String bucket = StrUtil.isEmpty(fileGet.getBucket()) ? minIo.getBucket() : fileGet.getBucket();
 
-            String url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                    .bucket(bucket).object(attachmentGet.getPath()).method(Method.GET).expiry(expiry).build());
-            map.put(attachmentGet.getPath(), url);
+            if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
+                StringBuilder url = new StringBuilder(minIo.getUrlPrefix())
+                        .append(fileGet.getBucket())
+                        .append(StrPool.SLASH)
+                        .append(fileGet.getPath());
+                map.put(fileGet.getPath(), url.toString());
+            } else {
+                Integer expiry = minIo.getExpiry();
+                String url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                        .bucket(bucket).object(fileGet.getPath()).method(Method.GET).expiry(expiry).build());
+                map.put(fileGet.getPath(), url);
+            }
         }
 
         return map;

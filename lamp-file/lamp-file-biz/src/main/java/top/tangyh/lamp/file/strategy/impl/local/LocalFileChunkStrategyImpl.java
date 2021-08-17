@@ -102,7 +102,7 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 
         String relativePath = FileTypeUtil.getRelativePath(Paths.get(fileProperties.getLocal().getStoragePath()).toString(), outputFile.getAbsolutePath());
         log.info("relativePath={}, getStoragePath={}, getAbsolutePath={}", relativePath, fileProperties.getLocal().getStoragePath(), outputFile.getAbsolutePath());
-        String url = fileProperties.getLocal().getEndpoint() +
+        String url = fileProperties.getLocal().getUrlPrefix() +
                 relativePath +
                 StrPool.SLASH +
                 fileName;

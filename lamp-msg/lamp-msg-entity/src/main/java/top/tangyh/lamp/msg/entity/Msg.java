@@ -3,9 +3,6 @@ package top.tangyh.lamp.msg.entity;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.lamp.msg.enumeration.MsgBizType;
-import top.tangyh.lamp.msg.enumeration.MsgType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -15,6 +12,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.base.entity.Entity;
+import top.tangyh.lamp.msg.enumeration.MsgBizType;
+import top.tangyh.lamp.msg.enumeration.MsgType;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -63,7 +63,7 @@ public class Msg extends Entity<Long> {
 
     /**
      * 消息类型
-     * #MsgType{WAIT:待办;NOTIFY:通知;PUBLICITY:公告;WARN:预警;}
+     * #MsgType{TO_DO:待办;NOTIFY:通知;NOTICE:公告;EARLY_WARNING:预警;}
      */
     @ApiModelProperty(value = "消息类型")
     @NotNull(message = "消息类型不能为空")

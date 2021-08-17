@@ -6,11 +6,15 @@ import cn.hutool.core.lang.Pair;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
 import top.tangyh.basic.utils.DefValueHelper;
 import top.tangyh.basic.utils.TreeUtil;
 import top.tangyh.lamp.authority.dao.auth.MenuMapper;
@@ -23,10 +27,6 @@ import top.tangyh.lamp.authority.service.auth.ResourceService;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.common.cache.auth.MenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +119,7 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
     @Transactional(rollbackFor = Exception.class)
     public boolean updateWithCache(Menu menu) {
         Menu old = getById(menu);
-        BizAssert.notNull(old, "菜单不存在");
+        ArgumentAssert.notNull(old, "您修改的菜单已不存在");
 
         Boolean oldIsPublic = DefValueHelper.getOrDef(old.getIsGeneral(), false);
         Boolean newIsPublic = DefValueHelper.getOrDef(menu.getIsGeneral(), false);

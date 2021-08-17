@@ -1,17 +1,5 @@
 package top.tangyh.lamp.file.controller;
 
-import cn.hutool.core.util.ArrayUtil;
-import top.tangyh.basic.annotation.log.SysLog;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.base.controller.DeleteController;
-import top.tangyh.basic.base.controller.QueryController;
-import top.tangyh.basic.base.controller.SuperSimpleController;
-import top.tangyh.basic.utils.BizAssert;
-import top.tangyh.lamp.file.entity.File;
-import top.tangyh.lamp.file.service.FileService;
-import top.tangyh.lamp.file.vo.param.FileParamVO;
-import top.tangyh.lamp.file.vo.param.FileUploadVO;
-import top.tangyh.lamp.file.vo.result.FileResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -24,6 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import top.tangyh.basic.annotation.log.SysLog;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.base.controller.DeleteController;
+import top.tangyh.basic.base.controller.QueryController;
+import top.tangyh.basic.base.controller.SuperSimpleController;
+import top.tangyh.basic.utils.ArgumentAssert;
+import top.tangyh.lamp.file.entity.File;
+import top.tangyh.lamp.file.service.FileService;
+import top.tangyh.lamp.file.vo.param.FileParamVO;
+import top.tangyh.lamp.file.vo.param.FileUploadVO;
+import top.tangyh.lamp.file.vo.result.FileResultVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +46,7 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_MULTIPA
 @Validated
 @RestController
 @RequestMapping("/file")
-@Api(value = "FileFileController", tags = "增量文件上传日志")
+@Api(value = "FileFileController", tags = "文件实时上传")
 public class FileController extends SuperSimpleController<FileService, File>
         implements QueryController<File, Long, FileParamVO>, DeleteController<File, Long> {
 
@@ -103,7 +102,8 @@ public class FileController extends SuperSimpleController<FileService, File>
     @PostMapping(value = "/download", produces = "application/octet-stream")
     @SysLog("下载附件")
     public void download(@RequestBody List<Long> ids, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BizAssert.isTrue(ArrayUtil.isNotEmpty(ids), "附件id不能为空");
+        ArgumentAssert.notEmpty(ids, "请选择至少一个附件");
         baseService.download(request, response, ids);
     }
+
 }

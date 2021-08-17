@@ -1,6 +1,8 @@
 package top.tangyh.lamp.sms.strategy.impl;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.model.Kv;
 import top.tangyh.lamp.sms.dao.SmsTaskMapper;
@@ -9,8 +11,6 @@ import top.tangyh.lamp.sms.service.SmsSendStatusService;
 import top.tangyh.lamp.sms.strategy.domain.SmsDO;
 import top.tangyh.lamp.sms.strategy.domain.SmsResult;
 import top.tangyh.lamp.sms.strategy.domain.cl.ClSendResult;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,23 +43,23 @@ public class SmsClStrategy extends AbstractSmsStrategy {
     private static ClSendResult sendSmsByPost(String path, String postContent) throws IOException {
         ClSendResult clSendResult = new ClSendResult();
         URL url = new URL(path);
-        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        httpURLConnection.setRequestMethod("POST");
-        httpURLConnection.setConnectTimeout(10000);
-        httpURLConnection.setReadTimeout(10000);
-        httpURLConnection.setDoOutput(true);
-        httpURLConnection.setDoInput(true);
-        httpURLConnection.setRequestProperty("Charset", "UTF-8");
-        httpURLConnection.setRequestProperty("Content-Type", "application/json");
-        httpURLConnection.connect();
-        OutputStream os = httpURLConnection.getOutputStream();
+        HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+        httpUrlConnection.setRequestMethod("POST");
+        httpUrlConnection.setConnectTimeout(10000);
+        httpUrlConnection.setReadTimeout(10000);
+        httpUrlConnection.setDoOutput(true);
+        httpUrlConnection.setDoInput(true);
+        httpUrlConnection.setRequestProperty("Charset", "UTF-8");
+        httpUrlConnection.setRequestProperty("Content-Type", "application/json");
+        httpUrlConnection.connect();
+        OutputStream os = httpUrlConnection.getOutputStream();
         os.write(postContent.getBytes("UTF-8"));
         os.flush();
         StringBuilder sb = new StringBuilder();
-        int httpRspCode = httpURLConnection.getResponseCode();
+        int httpRspCode = httpUrlConnection.getResponseCode();
         if (httpRspCode == HttpURLConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(httpURLConnection.getInputStream(), "utf-8"));
+                    new InputStreamReader(httpUrlConnection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
                 sb.append(line);

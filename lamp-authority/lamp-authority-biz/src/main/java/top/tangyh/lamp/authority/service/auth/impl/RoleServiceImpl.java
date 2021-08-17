@@ -4,13 +4,17 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.security.constant.RoleConstant;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
 import top.tangyh.basic.utils.StrHelper;
 import top.tangyh.lamp.authority.dao.auth.RoleMapper;
 import top.tangyh.lamp.authority.dto.auth.RoleSaveDTO;
@@ -30,10 +34,6 @@ import top.tangyh.lamp.common.cache.auth.RoleResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserRoleCacheKeyBuilder;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,7 +141,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveRole(RoleSaveDTO data, Long userId) {
-        BizAssert.isFalse(StrUtil.isNotBlank(data.getCode()) && check(data.getCode()), "角色编码{}已存在", data.getCode());
+        ArgumentAssert.isFalse(StrUtil.isNotBlank(data.getCode()) && check(data.getCode()), "角色编码{}已存在", data.getCode());
         Role role = BeanPlusUtil.toBean(data, Role.class);
         role.setCode(StrHelper.getOrDef(data.getCode(), RandomUtil.randomString(8)));
         role.setReadonly(false);

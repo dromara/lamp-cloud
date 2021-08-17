@@ -1,6 +1,5 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import top.tangyh.basic.base.entity.SuperEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,9 +9,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.base.entity.SuperEntity;
+import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -41,10 +42,16 @@ public class UserUpdateAvatarDTO implements Serializable {
     private Long id;
 
     /**
-     * 头像
+     * 上传的头像
      */
-    @ApiModelProperty(value = "头像")
-    @Size(max = 255, message = "头像长度不能超过255")
+    @ApiModelProperty(value = "上传的头像")
+    @Valid
+    private AppendixSaveVO appendixAvatar;
+
+    /**
+     * 选择的头像
+     */
+    @ApiModelProperty(value = "选择的头像")
     private String avatar;
 
 }

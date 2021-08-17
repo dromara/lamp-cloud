@@ -1,10 +1,5 @@
 package top.tangyh.lamp.oauth.controller;
 
-import top.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.security.feign.UserQuery;
-import top.tangyh.basic.security.model.SysUser;
-import top.tangyh.lamp.authority.service.auth.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -16,6 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
+import top.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.security.feign.UserQuery;
+import top.tangyh.basic.security.model.SysUser;
+import top.tangyh.lamp.authority.service.auth.UserService;
 
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import java.util.Map;
 @RequestMapping("/user")
 @Api(value = "User", tags = "用户")
 @AllArgsConstructor
+@ApiIgnore
 public class OauthUserController {
     private final UserService userService;
 

@@ -1,11 +1,11 @@
 package top.tangyh.lamp.msg.enumeration;
 
-import top.tangyh.basic.base.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.base.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -25,21 +25,21 @@ import java.util.stream.Stream;
 public enum MsgType implements BaseEnum {
 
     /**
-     * WAIT="待办"
+     * TO_DO="待办"
      */
-    WAIT("待办"),
+    TO_DO("待办"),
     /**
      * NOTIFY="通知"
      */
     NOTIFY("通知"),
     /**
-     * PUBLICITY="公告"
+     * NOTICE="公告"
      */
-    PUBLICITY("公告"),
+    NOTICE("公告"),
     /**
-     * WARN="预警"
+     * EARLY_WARNING="预警"
      */
-    WARN("预警"),
+    EARLY_WARNING("预警"),
     ;
 
     @ApiModelProperty(value = "描述")
@@ -62,7 +62,7 @@ public enum MsgType implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "WAIT,NOTIFY,PUBLICITY,WARN", example = "WAIT")
+    @ApiModelProperty(value = "编码", allowableValues = "TO_DO,NOTIFY,NOTICE,EARLY_WARNING", example = "TO_DO")
     public String getCode() {
         return this.name();
     }

@@ -1,10 +1,5 @@
 package top.tangyh.lamp.oauth.controller;
 
-import top.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
-import top.tangyh.lamp.authority.service.auth.UserService;
-import top.tangyh.lamp.authority.service.common.DictionaryService;
-import top.tangyh.lamp.authority.service.core.OrgService;
-import top.tangyh.lamp.authority.service.core.StationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -12,6 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
+import top.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
+import top.tangyh.lamp.authority.service.auth.UserService;
+import top.tangyh.lamp.authority.service.common.DictionaryService;
+import top.tangyh.lamp.authority.service.core.OrgService;
+import top.tangyh.lamp.authority.service.core.StationService;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.Set;
 @AllArgsConstructor
 @IgnoreResponseBodyAdvice
 @Api(value = "数据注入查询接口", tags = "数据注入查询接口， 不建议前端调用")
+@ApiIgnore
 public class EchoController {
     private final DictionaryService dictionaryService;
     private final OrgService orgService;

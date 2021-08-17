@@ -5,20 +5,20 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Multimap;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.common.vo.result.AppendixResultVO;
 import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
 import top.tangyh.lamp.file.entity.Appendix;
 import top.tangyh.lamp.file.mapper.AppendixMapper;
 import top.tangyh.lamp.file.service.AppendixService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +42,7 @@ public class AppendixServiceImpl extends SuperServiceImpl<AppendixMapper, Append
 
     @Override
     public Multimap<Map<Long, String>, AppendixResultVO> listByBizId(Long bizId, String... bizType) {
-        BizAssert.notNull(bizId, "请传入对象id");
+        ArgumentAssert.notNull(bizId, "请传入业务id");
         LbqWrapper<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId)
                 .in(Appendix::getBizType, bizType);
         List<Appendix> list = list(wrap);
@@ -55,7 +55,7 @@ public class AppendixServiceImpl extends SuperServiceImpl<AppendixMapper, Append
 
     @Override
     public List<AppendixResultVO> listByBizId(Long bizId, String bizType) {
-        BizAssert.notNull(bizId, "请传入对象id");
+        ArgumentAssert.notNull(bizId, "请传入业务id");
         LbqWrapper<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId)
                 .eq(Appendix::getBizType, bizType);
         return BeanPlusUtil.toBeanList(list(wrap), AppendixResultVO.class);
@@ -63,8 +63,8 @@ public class AppendixServiceImpl extends SuperServiceImpl<AppendixMapper, Append
 
     @Override
     public AppendixResultVO getBiz(Long bizId, String bizType) {
-        BizAssert.notNull(bizId, "请传入对象id");
-        BizAssert.notEmpty(bizType, "请传入功能点");
+        ArgumentAssert.notNull(bizId, "请传入业务id");
+        ArgumentAssert.notEmpty(bizType, "请传入功能点");
         LbqWrapper<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId)
                 .eq(Appendix::getBizType, bizType);
         List<Appendix> list = list(wrap);
@@ -142,7 +142,7 @@ public class AppendixServiceImpl extends SuperServiceImpl<AppendixMapper, Append
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByBizId(Long bizId, String bizType) {
-        BizAssert.isFalse(bizId == null && StrUtil.isEmpty(bizType), "请传入对象id或功能点");
+        ArgumentAssert.isFalse(bizId == null && StrUtil.isEmpty(bizType), "请传入对象id或功能点");
         return remove(Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId).eq(Appendix::getBizType, bizType));
     }
 

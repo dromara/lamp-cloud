@@ -3,6 +3,17 @@ package top.tangyh.lamp.sms.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
@@ -18,20 +29,11 @@ import top.tangyh.lamp.sms.entity.SmsSendStatus;
 import top.tangyh.lamp.sms.entity.SmsTask;
 import top.tangyh.lamp.sms.service.SmsSendStatusService;
 import top.tangyh.lamp.sms.service.SmsTaskService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_PATH;
 
 /**
  * <p>
@@ -57,7 +59,7 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
     private final EchoService echoService;
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "主键", dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "id", value = "主键", dataType = "long", paramType = PARAM_TYPE_PATH),
     })
     @ApiOperation(value = "详情", notes = "单体查询")
     @GetMapping("/detail/{id}")
@@ -76,7 +78,7 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
 
     @Override
     public IPage<SmsTask> query(PageParams<SmsTaskPageQuery> params) {
-        IPage<SmsTask> page = params.buildPage();
+        IPage<SmsTask> page = params.buildPage(SmsTask.class);
         baseService.pageSmsTask(page, params);
         echoService.action(page);
         return page;

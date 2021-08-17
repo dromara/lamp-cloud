@@ -1,11 +1,6 @@
 package top.tangyh.lamp.oauth.controller;
 
 
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.log.entity.OptLogDTO;
-import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.lamp.authority.entity.common.OptLog;
-import top.tangyh.lamp.authority.service.common.OptLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -15,6 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.log.entity.OptLogDTO;
+import top.tangyh.basic.utils.BeanPlusUtil;
+import top.tangyh.lamp.authority.entity.common.OptLog;
+import top.tangyh.lamp.authority.service.common.OptLogService;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/optLog")
 @Api(value = "OptLog", tags = "系统日志")
 @AllArgsConstructor
+@ApiIgnore
 public class OauthOptLogController {
 
     private final OptLogService optLogService;

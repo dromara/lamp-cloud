@@ -15,6 +15,7 @@
  */
 package top.tangyh.lamp.oauth.granter;
 
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.database.properties.DatabaseProperties;
 import top.tangyh.basic.jwt.TokenUtil;
@@ -23,8 +24,9 @@ import top.tangyh.lamp.authority.dto.auth.LoginParamDTO;
 import top.tangyh.lamp.authority.service.auth.ApplicationService;
 import top.tangyh.lamp.authority.service.auth.OnlineService;
 import top.tangyh.lamp.authority.service.auth.UserService;
+import top.tangyh.lamp.common.properties.SystemProperties;
+import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.tenant.service.TenantService;
-import org.springframework.stereotype.Component;
 
 import static top.tangyh.lamp.oauth.granter.PasswordTokenGranter.GRANT_TYPE;
 
@@ -40,10 +42,10 @@ public class PasswordTokenGranter extends AbstractTokenGranter implements TokenG
 
     public static final String GRANT_TYPE = "password";
 
-    public PasswordTokenGranter(TokenUtil tokenUtil, UserService userService, TenantService tenantService,
+    public PasswordTokenGranter(TokenUtil tokenUtil, UserService userService, TenantService tenantService, AppendixService appendixService,
                                 ApplicationService applicationService, DatabaseProperties databaseProperties,
-                                OnlineService onlineService) {
-        super(tokenUtil, userService, tenantService, applicationService, databaseProperties, onlineService);
+                                OnlineService onlineService, SystemProperties systemProperties) {
+        super(tokenUtil, userService, tenantService, applicationService, databaseProperties, onlineService, systemProperties, appendixService);
     }
 
     @Override

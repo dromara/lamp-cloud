@@ -16,6 +16,7 @@
 
 package top.tangyh.lamp.oauth.granter;
 
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.context.ContextConstants;
 import top.tangyh.basic.database.properties.DatabaseProperties;
@@ -29,10 +30,11 @@ import top.tangyh.lamp.authority.entity.auth.User;
 import top.tangyh.lamp.authority.service.auth.ApplicationService;
 import top.tangyh.lamp.authority.service.auth.OnlineService;
 import top.tangyh.lamp.authority.service.auth.UserService;
+import top.tangyh.lamp.common.properties.SystemProperties;
+import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.oauth.event.LoginEvent;
 import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
 import top.tangyh.lamp.tenant.service.TenantService;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -50,10 +52,11 @@ public class RefreshTokenGranter extends AbstractTokenGranter implements TokenGr
 
     public static final String GRANT_TYPE = "refresh_token";
 
-    public RefreshTokenGranter(TokenUtil tokenUtil, UserService userService, TenantService tenantService,
+    public RefreshTokenGranter(TokenUtil tokenUtil, UserService userService, TenantService tenantService, AppendixService appendixService,
                                ApplicationService applicationService, DatabaseProperties databaseProperties,
-                               OnlineService onlineService) {
-        super(tokenUtil, userService, tenantService, applicationService, databaseProperties, onlineService);
+                               OnlineService onlineService, SystemProperties systemProperties) {
+        super(tokenUtil, userService, tenantService, applicationService,
+                databaseProperties, onlineService, systemProperties, appendixService);
     }
 
     @Override

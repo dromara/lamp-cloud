@@ -45,8 +45,8 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
     @Override
     protected void copyFile(File file) {
         FileServerProperties.Ali ali = fileProperties.getAli();
-        String sourceBucketName = ali.getBucketName();
-        String destinationBucketName = ali.getBucketName();
+        String sourceBucketName = ali.getBucket();
+        String destinationBucketName = ali.getBucket();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
                 ali.getAccessKeySecret());
 
@@ -102,7 +102,7 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
                 destinationBucketName, destinationObjectName, uploadId, partTags);
         ossClient.completeMultipartUpload(completeMultipartUploadRequest);
 
-        String url = ali.getUriPrefix() + destinationObjectName;
+        String url = ali.getUrlPrefix() + destinationObjectName;
         file.setUrl(StrUtil.replace(url, "\\\\", StrPool.SLASH));
         file.setUniqueFileName(fileName);
 
@@ -113,7 +113,7 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
     @Override
     protected R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
         FileServerProperties.Ali ali = fileProperties.getAli();
-        String bucketName = ali.getBucketName();
+        String bucketName = ali.getBucket();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
                 ali.getAccessKeySecret());
 
@@ -164,7 +164,7 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
 
         CompleteMultipartUploadResult uploadResult = ossClient.completeMultipartUpload(completeMultipartUploadRequest);
 
-        String url = ali.getUriPrefix() +
+        String url = ali.getUrlPrefix() +
                 relativePath +
                 StrPool.SLASH +
                 fileName;

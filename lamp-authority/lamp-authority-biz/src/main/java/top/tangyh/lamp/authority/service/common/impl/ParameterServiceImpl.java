@@ -5,12 +5,16 @@ import cn.hutool.core.util.StrUtil;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
-import top.tangyh.basic.utils.BizAssert;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.SpringUtils;
 import top.tangyh.lamp.authority.dao.common.ParameterMapper;
 import top.tangyh.lamp.authority.entity.common.Parameter;
@@ -18,10 +22,6 @@ import top.tangyh.lamp.authority.event.ParameterUpdateEvent;
 import top.tangyh.lamp.authority.event.model.ParameterUpdate;
 import top.tangyh.lamp.authority.service.common.ParameterService;
 import top.tangyh.lamp.common.cache.common.ParameterKeyCacheKeyBuilder;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -51,7 +51,7 @@ public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Para
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Parameter model) {
-        BizAssert.isFalse(check(model.getKey()), "参数key重复");
+        ArgumentAssert.isFalse(check(model.getKey()), "参数key重复");
 
         boolean bool = SqlHelper.retBool(baseMapper.insert(model));
         if (bool) {
@@ -70,7 +70,7 @@ public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Para
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(Parameter model) {
         int count = count(Wraps.<Parameter>lbQ().eq(Parameter::getKey, model.getKey()).ne(Parameter::getId, model.getId()));
-        BizAssert.isFalse(count > 0, StrUtil.format("参数key[{}]已经存在，请勿重复创建", model.getKey()));
+        ArgumentAssert.isFalse(count > 0, StrUtil.format("参数key[{}]已经存在，请勿重复创建", model.getKey()));
 
         boolean bool = SqlHelper.retBool(getBaseMapper().updateById(model));
         if (bool) {

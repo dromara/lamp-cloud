@@ -122,9 +122,9 @@ public class TokenContextFilter implements WebFilter, Ordered {
                 return token;
             }
         } catch (BizException e) {
-            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.UNAUTHORIZED);
+            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return errorResponse(response, "验证token出错", R.FAIL_CODE, HttpStatus.UNAUTHORIZED);
+            return errorResponse(response, "验证token出错", R.FAIL_CODE, HttpStatus.BAD_REQUEST);
         }
 
         ServerHttpRequest build = mutate.build();

@@ -1,14 +1,19 @@
-${AnsiColor.BRIGHT_YELLOW}oooo
-`888
- 888   .oooo.   ooo. .oo.  .oo.   oo.ooooo.
- 888  `P  )88b  `888P"Y88bP"Y88b   888' `88b
- 888   .oP"888   888   888   888   888   888
- 888  d8(  888   888   888   888   888   888
-o888o `Y888""8o o888o o888o o888o  888bod8P'
-                                   888
-                                  o888o
+${AnsiColor.BRIGHT_YELLOW}
+  ,--,                         ____
+,--.'|                       ,'  , `.,-.----.
+|  | :                    ,-+-,.' _ |\    /  \
+:  : '                 ,-+-. ;   , |||   :    |
+|  ' |     ,--.--.    ,--.'|'   |  |||   | .\ :
+'  | |    /       \  |   |  ,', |  |,.   : |: |
+|  | :   .--.  .-. | |   | /  | |--' |   |  \ :
+'  : |__  \__\/: . . |   : |  | ,    |   : .  |
+|  | '.'| ," .--.; | |   : |  |/     :     |`-'
+;  :    ;/  /  ,.  | |   | |`-'      :   : :
+|  ,   /;  :   .'   \|   ;/          |   | :
+ ---`-' |  ,     .-./'---'           `---'.|
+         `--`---'                      `---`
+
 Spring Boot Version: ${spring-boot.version}
-当前服务: ${spring.application.name}  激活环境: ${spring.profiles.active} 当前版本: ${info.version}
-nacos地址: http://${lamp.nacos.ip}:${lamp.nacos.port}/nacos
-nacos命名空间: ${lamp.nacos.namespace}
-版本和最终解释权归 ©zuihou 所有${AnsiColor.DEFAULT}
+当前服务: ${spring.application.name}   激活环境: ${spring.profiles.active}   当前版本: ${info.version}
+nacos访问地址: http://${lamp.nacos.ip}:${lamp.nacos.port}/nacos    nacos命名空间: ${lamp.nacos.namespace}
+版权和最终解释权归 ©zuihou(https://github.com/zuihou) 所有${AnsiColor.DEFAULT}

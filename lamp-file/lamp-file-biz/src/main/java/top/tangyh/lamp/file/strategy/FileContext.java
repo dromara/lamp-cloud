@@ -3,9 +3,12 @@ package top.tangyh.lamp.file.strategy;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
-import top.tangyh.basic.utils.BizAssert;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.file.dao.FileMapper;
@@ -17,9 +20,6 @@ import top.tangyh.lamp.file.enumeration.FileStorageType;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.utils.ZipUtils;
 import top.tangyh.lamp.file.vo.param.FileUploadVO;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,7 +78,7 @@ public class FileContext {
     private FileStrategy getFileStrategy(FileStorageType storageType) {
         storageType = storageType == null ? fileServerProperties.getStorageType() : storageType;
         FileStrategy fileStrategy = contextStrategyMap.get(storageType.name());
-        BizAssert.notNull(fileStrategy, "请配置正确的文件存储类型");
+        ArgumentAssert.notNull(fileStrategy, "请配置正确的文件存储类型");
         return fileStrategy;
     }
 
@@ -153,16 +153,12 @@ public class FileContext {
             }
             File fileFile = files.get(0);
 
-            if (FileStorageType.LOCAL.eq(fileFile.getStorageType())) {
-                map.put(id, fileFile.getUrl());
-            } else {
-                FileStrategy fileStrategy = getFileStrategy(fileFile.getStorageType());
-                map.put(id, fileStrategy.getUrl(FileGetUrlBO.builder()
-                        .bucket(fileFile.getBucket())
-                        .path(fileFile.getPath())
-                        .originalFileName(fileFile.getOriginalFileName())
-                        .build()));
-            }
+            FileStrategy fileStrategy = getFileStrategy(fileFile.getStorageType());
+            map.put(id, fileStrategy.getUrl(FileGetUrlBO.builder()
+                    .bucket(fileFile.getBucket())
+                    .path(fileFile.getPath())
+                    .originalFileName(fileFile.getOriginalFileName())
+                    .build()));
         });
         return map;
     }
@@ -213,7 +209,7 @@ public class FileContext {
     private FileChunkStrategy getFileChunkStrategy(FileStorageType storageType) {
         storageType = storageType == null ? fileServerProperties.getStorageType() : storageType;
         FileChunkStrategy fileStrategy = contextChunkStrategyMap.get(storageType.name());
-        BizAssert.notNull(fileStrategy, "请配置正确的文件存储类型");
+        ArgumentAssert.notNull(fileStrategy, "请配置正确的文件存储类型");
         return fileStrategy;
     }
 

@@ -1,18 +1,6 @@
 package top.tangyh.lamp.tenant.controller;
 
 
-import top.tangyh.basic.annotation.log.SysLog;
-import top.tangyh.basic.annotation.security.PreAuth;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.base.controller.SuperCacheController;
-import top.tangyh.basic.database.mybatis.conditions.Wraps;
-import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
-import top.tangyh.lamp.tenant.dto.TenantPageQuery;
-import top.tangyh.lamp.tenant.dto.TenantSaveDTO;
-import top.tangyh.lamp.tenant.dto.TenantUpdateDTO;
-import top.tangyh.lamp.tenant.entity.Tenant;
-import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
-import top.tangyh.lamp.tenant.service.TenantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import top.tangyh.basic.annotation.log.SysLog;
+import top.tangyh.basic.annotation.security.PreAuth;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.base.controller.SuperCacheController;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
+import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
+import top.tangyh.lamp.tenant.dto.TenantPageQuery;
+import top.tangyh.lamp.tenant.dto.TenantSaveDTO;
+import top.tangyh.lamp.tenant.dto.TenantUpdateDTO;
+import top.tangyh.lamp.tenant.entity.Tenant;
+import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
+import top.tangyh.lamp.tenant.service.TenantService;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -100,7 +100,7 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
     @ApiOperation(value = "删除租户和基础租户数据，请谨慎操作")
     @DeleteMapping("/deleteAll")
     @PreAuth("hasAnyRole('PT_ADMIN')")
-    public R<Boolean> deleteAll(@RequestParam("ids[]") List<Long> ids) {
+    public R<Boolean> deleteAll(@RequestBody List<Long> ids) {
         return success(baseService.deleteAll(ids));
     }
 

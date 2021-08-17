@@ -1,5 +1,17 @@
 package top.tangyh.lamp.file.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.context.ContextUtil;
@@ -13,17 +25,6 @@ import top.tangyh.lamp.file.service.FileService;
 import top.tangyh.lamp.file.strategy.FileContext;
 import top.tangyh.lamp.file.utils.FileTypeUtil;
 import top.tangyh.lamp.file.vo.param.FileUploadVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Paths;
 
@@ -39,6 +40,8 @@ import java.nio.file.Paths;
 @RequestMapping("/chunk")
 @Api(value = "文件续传+秒传", tags = "文件续传+秒传功能，所有方法均需要webuploder.js插件进行配合使用， 且4个方法需要配合使用，单核接口没有意义")
 @RequiredArgsConstructor
+@ApiIgnore
+@Deprecated
 public class FileChunkController {
     private final FileServerProperties fileProperties;
     private final FileContext fileContext;
@@ -120,7 +123,7 @@ public class FileChunkController {
      * 分片通过nio合并， 合并成功后，将文件上传至fastdfs
      * nio合并优点： 有效防止大文件的内存溢出
      *
-     * @param info
+     * @param info 分片合并参数
      */
     @ApiOperation(value = "分片合并", notes = "所有分片上传成功后，调用该接口对分片进行合并")
     @RequestMapping(value = "/merge", method = RequestMethod.POST)

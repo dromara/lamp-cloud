@@ -2,19 +2,6 @@ package top.tangyh.lamp.authority.controller.core;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import top.tangyh.basic.annotation.log.SysLog;
-import top.tangyh.basic.annotation.security.PreAuth;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.base.controller.SuperCacheController;
-import top.tangyh.basic.database.mybatis.conditions.Wraps;
-import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
-import top.tangyh.basic.utils.TreeUtil;
-import top.tangyh.lamp.authority.dto.core.OrgPageQuery;
-import top.tangyh.lamp.authority.dto.core.OrgSaveDTO;
-import top.tangyh.lamp.authority.dto.core.OrgUpdateDTO;
-import top.tangyh.lamp.authority.entity.core.Org;
-import top.tangyh.lamp.authority.service.core.OrgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -24,6 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import top.tangyh.basic.annotation.log.SysLog;
+import top.tangyh.basic.annotation.security.PreAuth;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.base.controller.SuperCacheController;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
+import top.tangyh.basic.utils.ArgumentAssert;
+import top.tangyh.basic.utils.BeanPlusUtil;
+import top.tangyh.basic.utils.TreeUtil;
+import top.tangyh.lamp.authority.dto.core.OrgPageQuery;
+import top.tangyh.lamp.authority.dto.core.OrgSaveDTO;
+import top.tangyh.lamp.authority.dto.core.OrgUpdateDTO;
+import top.tangyh.lamp.authority.entity.core.Org;
+import top.tangyh.lamp.authority.service.core.OrgService;
 
 import java.util.List;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
             org.setTreePath(EMPTY);
         } else {
             Org parent = this.baseService.getByIdCache(org.getParentId());
-            BizAssert.notNull(parent, "父组织不能为空");
+            ArgumentAssert.notNull(parent, "请正确填写父级组织");
 
             org.setTreePath(StrUtil.join(DEF_ROOT_PATH, parent.getTreePath(), parent.getId()));
         }

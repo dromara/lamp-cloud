@@ -8,6 +8,7 @@ import top.tangyh.basic.model.LoadService;
 import top.tangyh.basic.security.feign.UserQuery;
 import top.tangyh.basic.security.model.SysUser;
 import top.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;
+import top.tangyh.lamp.authority.dto.auth.UserUpdateAvatarDTO;
 import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
 import top.tangyh.lamp.authority.entity.auth.User;
 
@@ -26,6 +27,16 @@ import java.util.Set;
  * @date 2019-07-03
  */
 public interface UserService extends SuperCacheService<User>, LoadService {
+    /**
+     * 修改头像
+     *
+     * @param data 头像信息
+     * @return java.lang.Boolean 是否成功
+     * @author tangyh
+     * @date 2021/7/27 9:36 下午
+     * @create [2021/7/27 9:36 下午 ] [tangyh] [初始创建]
+     */
+    Boolean updateAvatar(UserUpdateAvatarDTO data);
 
     /**
      * 根据用户id 查询数据范围

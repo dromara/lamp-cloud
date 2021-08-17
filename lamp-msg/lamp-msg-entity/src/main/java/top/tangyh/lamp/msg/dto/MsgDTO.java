@@ -1,7 +1,5 @@
 package top.tangyh.lamp.msg.dto;
 
-import top.tangyh.lamp.msg.enumeration.MsgBizType;
-import top.tangyh.lamp.msg.enumeration.MsgType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -11,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.lamp.msg.enumeration.MsgBizType;
+import top.tangyh.lamp.msg.enumeration.MsgType;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -50,7 +50,7 @@ public class MsgDTO implements Serializable {
     private MsgBizType bizType;
     /**
      * 消息类型
-     * #MsgType{WAIT:待办;NOTIFY:通知;PUBLICITY:公告;WARN:预警;}
+     * #MsgType{TO_DO:待办;NOTIFY:通知;NOTICE:公告;EARLY_WARNING:预警;}
      */
     @ApiModelProperty(value = "消息类型")
     @NotNull(message = "消息类型不能为空")
@@ -127,7 +127,7 @@ public class MsgDTO implements Serializable {
                                    String title, String content, String handlerUrl) {
         return MsgDTO.builder()
                 .bizType(bizType).bizId(bizId)
-                .msgType(MsgType.WAIT)
+                .msgType(MsgType.TO_DO)
                 .title(title).content(content)
                 .handlerUrl(handlerUrl)
                 .build();
@@ -147,7 +147,7 @@ public class MsgDTO implements Serializable {
                                    String title, String content, String handlerUrl) {
         return MsgDTO.builder()
                 .bizType(bizType).bizId(bizId)
-                .msgType(MsgType.WARN)
+                .msgType(MsgType.EARLY_WARNING)
                 .title(title).content(content)
                 .handlerUrl(handlerUrl)
                 .build();
@@ -167,7 +167,7 @@ public class MsgDTO implements Serializable {
                                         String title, String content, String handlerUrl) {
         return MsgDTO.builder()
                 .bizType(bizType).bizId(bizId)
-                .msgType(MsgType.PUBLICITY)
+                .msgType(MsgType.NOTICE)
                 .title(title).content(content)
                 .handlerUrl(handlerUrl)
                 .build();

@@ -3,7 +3,11 @@ package top.tangyh.lamp.authority.service.core.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.annotation.echo.EchoResult;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
@@ -11,16 +15,13 @@ import top.tangyh.basic.cache.model.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.auth.DataScope;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import top.tangyh.basic.utils.BizAssert;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.authority.dao.core.StationMapper;
 import top.tangyh.lamp.authority.dto.core.StationPageQuery;
 import top.tangyh.lamp.authority.entity.core.Station;
 import top.tangyh.lamp.authority.service.core.StationService;
 import top.tangyh.lamp.common.cache.core.StationCacheKeyBuilder;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -57,14 +58,14 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Station model) {
-        BizAssert.isFalse(check(null, model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
+        ArgumentAssert.isFalse(check(null, model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
         return super.save(model);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(Station model) {
-        BizAssert.isFalse(check(model.getId(), model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
+        ArgumentAssert.isFalse(check(model.getId(), model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
         return super.updateById(model);
     }
 

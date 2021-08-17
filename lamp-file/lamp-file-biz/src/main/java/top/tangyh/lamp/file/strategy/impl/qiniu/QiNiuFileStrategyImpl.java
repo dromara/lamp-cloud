@@ -1,5 +1,6 @@
 package top.tangyh.lamp.file.strategy.impl.qiniu;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 
 import com.qiniu.http.Response;
@@ -9,8 +10,13 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.utils.CollHelper;
+import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.domain.FileDeleteBO;
 import top.tangyh.lamp.file.domain.FileGetUrlBO;
@@ -18,14 +24,11 @@ import top.tangyh.lamp.file.entity.File;
 import top.tangyh.lamp.file.enumeration.FileStorageType;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author zuihou
@@ -35,7 +38,6 @@ import java.util.Map;
 
 @Component("QINIU_OSS")
 public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
-    private final static String DOMAIN = "qiniu.tangyh.top";
     private static StringMap PUT_POLICY = new StringMap();
 
     static {
@@ -94,6 +96,7 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
             file.setBucket(bucket);
             file.setPath(path);
         }
+        file.setUrl(qiNiu.getUrlPrefix() + path);
         file.setStorageType(FileStorageType.QINIU_OSS);
     }
 
@@ -114,16 +117,25 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
         Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(fileGets.size()));
 
         FileServerProperties.QiNiu qiNiu = fileProperties.getQiNiu();
+        Set<String> publicBucket = fileProperties.getPublicBucket();
 
         for (FileGetUrlBO fileGet : fileGets) {
-            DownloadUrl url = new DownloadUrl(DOMAIN, false, fileGet.getPath());
-            url.setAttname(fileGet.getOriginalFileName());
-            long deadline = System.currentTimeMillis() / 1000 + qiNiu.getExpiry();
-            String urlString = url.buildURL(auth, deadline);
+            String bucket = StrUtil.isEmpty(fileGet.getBucket()) ? qiNiu.getBucket() : fileGet.getBucket();
 
-            map.put(fileGet.getPath(), urlString);
+            if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
+                StringBuilder url = new StringBuilder(qiNiu.getUrlPrefix())
+                        .append(fileGet.getBucket())
+                        .append(StrPool.SLASH)
+                        .append(fileGet.getPath());
+                map.put(fileGet.getPath(), url.toString());
+            } else {
+                DownloadUrl url = new DownloadUrl(qiNiu.getDomain(), false, fileGet.getPath());
+                url.setAttname(fileGet.getOriginalFileName());
+                long deadline = System.currentTimeMillis() / 1000 + qiNiu.getExpiry();
+                String urlString = url.buildURL(auth, deadline);
+                map.put(fileGet.getPath(), urlString);
+            }
         }
-
         return map;
     }
 

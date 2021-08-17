@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>3.4.0</version>
+    <version>3.5.0</version>
     <packaging>pom</packaging>
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -39,9 +39,8 @@
     </modules>
 
     <properties>
-        <lamp-util.version>3.4.0</lamp-util.version>
-        <lamp-project.version>3.4.0</lamp-project.version>
-        <seata.version>1.3.0</seata.version>
+        <lamp-util.version>3.5.0</lamp-util.version>
+        <lamp-project.version>3.5.0</lamp-project.version>
         <!-- jdk8 将这里改成 8 -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -157,11 +156,6 @@
                 <version>${lamp-util.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-spring-boot-starter</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

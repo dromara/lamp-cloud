@@ -2,6 +2,17 @@ package top.tangyh.lamp.authority.controller.common;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperController;
@@ -15,18 +26,6 @@ import top.tangyh.lamp.authority.dto.common.DictionaryUpdateDTO;
 import top.tangyh.lamp.authority.entity.common.Dictionary;
 import top.tangyh.lamp.authority.service.common.DictionaryService;
 import top.tangyh.lamp.common.constant.DefValConstants;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class DictionaryController
     @PostMapping(value = "/pageType")
     @PreAuth("hasAnyPermission('{}view')")
     public R<IPage<Dictionary>> pageType(@RequestBody @Validated PageParams<DictionaryPageQuery> params) {
-        IPage<Dictionary> page = params.buildPage();
+        IPage<Dictionary> page = params.buildPage(Dictionary.class);
         baseService.pageType(page, params.getModel());
         return R.success(page);
     }

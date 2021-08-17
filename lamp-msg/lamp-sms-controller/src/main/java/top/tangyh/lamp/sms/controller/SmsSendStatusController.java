@@ -2,6 +2,11 @@ package top.tangyh.lamp.sms.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.base.controller.QueryController;
 import top.tangyh.basic.base.controller.SuperSimpleController;
 import top.tangyh.basic.base.request.PageParams;
@@ -10,11 +15,6 @@ import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import top.tangyh.lamp.sms.dto.SmsSendStatusPageQuery;
 import top.tangyh.lamp.sms.entity.SmsSendStatus;
 import top.tangyh.lamp.sms.service.SmsSendStatusService;
-import io.swagger.annotations.Api;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -35,7 +35,7 @@ public class SmsSendStatusController extends SuperSimpleController<SmsSendStatus
 
     @Override
     public IPage<SmsSendStatus> query(PageParams<SmsSendStatusPageQuery> params) {
-        IPage<SmsSendStatus> page = params.buildPage();
+        IPage<SmsSendStatus> page = params.buildPage(SmsSendStatus.class);
         QueryWrap<SmsSendStatus> wrap = Wraps.q(null, params.getExtra(), getEntityClass());
         SmsSendStatusPageQuery pageQuery = params.getModel();
         wrap.lambda()

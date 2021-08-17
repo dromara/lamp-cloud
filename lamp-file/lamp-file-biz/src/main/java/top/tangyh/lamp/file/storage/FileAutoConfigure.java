@@ -4,13 +4,13 @@ import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
-import top.tangyh.lamp.file.properties.FileServerProperties;
 import io.minio.MinioClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.tangyh.lamp.file.properties.FileServerProperties;
 
 
 /**
@@ -47,20 +47,19 @@ public class FileAutoConfigure {
     @Bean
     public com.qiniu.storage.Configuration qiNiuConfig() {
         FileServerProperties.QiNiu qiNiu = fileServerProperties.getQiNiu();
-        if ("z0".equals(qiNiu.getZone())) {
-            return new com.qiniu.storage.Configuration(Region.region0());
-        } else if ("z1".equals(qiNiu.getZone())) {
-            return new com.qiniu.storage.Configuration(Region.region1());
-        } else if ("z2".equals(qiNiu.getZone())) {
-            return new com.qiniu.storage.Configuration(Region.region2());
-        } else if ("na0".equals(qiNiu.getZone())) {
-            return new com.qiniu.storage.Configuration(Region.regionNa0());
-        } else if ("as0".equals(qiNiu.getZone())) {
-            return new com.qiniu.storage.Configuration(Region.regionAs0());
-        } else {
-            return new com.qiniu.storage.Configuration(Region.region0());
+        switch (qiNiu.getZone()) {
+            case z1:
+                return new com.qiniu.storage.Configuration(Region.region1());
+            case z2:
+                return new com.qiniu.storage.Configuration(Region.region2());
+            case na0:
+                return new com.qiniu.storage.Configuration(Region.regionNa0());
+            case as0:
+                return new com.qiniu.storage.Configuration(Region.regionAs0());
+            case z0:
+            default:
+                return new com.qiniu.storage.Configuration(Region.region0());
         }
-
     }
 
     /**

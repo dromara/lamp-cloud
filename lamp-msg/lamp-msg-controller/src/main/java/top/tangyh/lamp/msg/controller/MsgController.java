@@ -9,8 +9,23 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.view.PoiBaseView;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
@@ -27,21 +42,6 @@ import top.tangyh.lamp.msg.entity.Msg;
 import top.tangyh.lamp.msg.enumeration.MsgType;
 import top.tangyh.lamp.msg.service.MsgService;
 import top.tangyh.lamp.oauth.api.RoleApi;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,13 +74,13 @@ public class MsgController {
 
     /**
      * 根据用户权限查询 消息
-     * WAIT:待办
+     * TO_DO:待办
      * NOTIFY:通知;
-     * WARN:预警;
+     * EARLY_WARNING:预警;
      * 已读： msg_receive表有数据且是否已读字段为已读
      * 未读： msg_receive表无数据且是否已读字段为未读
      * <p>
-     * PUBLICITY:公示公告;  默认发给所有人
+     * NOTICE:公示公告;  默认发给所有人
      * 已读：msg_receive表有数据且是否已读字段为已读
      * 未读：msg_receive表无数据
      *
@@ -91,7 +91,7 @@ public class MsgController {
     @PostMapping("/page")
     @SysLog(value = "'分页列表查询:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
     public R<IPage<Msg>> page(@RequestBody @Validated PageParams<MsgQuery> params) {
-        IPage<Msg> page = params.buildPage();
+        IPage<Msg> page = params.buildPage(Msg.class);
         Msg model = BeanUtil.toBean(params.getModel(), Msg.class);
         LbqWrapper<Msg> wraps = Wraps.lbq(model, params.getExtra(), Msg.class);
         msgService.page(page, wraps);
@@ -168,18 +168,6 @@ public class MsgController {
     }
 
     /**
-     * 标记消息为已读
-     *
-     * @param msgCenterIds 主表id
-     * @return 是否成功
-     */
-    @ApiOperation(value = "标记消息为已读", notes = "标记消息为已读")
-    @PostMapping(value = "/mark")
-    public R<Boolean> mark(@RequestBody List<Long> msgCenterIds) {
-        return R.success(msgService.mark(msgCenterIds, ContextUtil.getUserId()));
-    }
-
-    /**
      * 查询消息中心
      *
      * @param id 主键id
@@ -212,11 +200,15 @@ public class MsgController {
                 data.setUserIdList(new HashSet<>(result.getData()));
             }
         }
-        if (MsgType.PUBLICITY.eq(data.getMsgDTO().getMsgType())) {
+        if (MsgType.NOTICE.eq(data.getMsgDTO().getMsgType()) || MsgType.NOTIFY.eq(data.getMsgDTO().getMsgType())) {
             R<List<Long>> result = userBizApi.findAllUserId();
             if (result.getIsSuccess()) {
                 data.setUserIdList(new HashSet<>(result.getData()));
             }
+        }
+
+        if (CollUtil.isEmpty(data.getUserIdList())) {
+            return R.fail("请至少选择一个接收者");
         }
 
         return R.success(msgService.saveMsg(data));
@@ -228,10 +220,10 @@ public class MsgController {
      * @param ids 主键id
      * @return 删除结果
      */
-    @ApiOperation(value = "删除消息中心", notes = "根据id物理删除消息中心")
+    @ApiOperation(value = "删除消息", notes = "根据id物理删除消息")
     @DeleteMapping
-    @SysLog("删除消息中心")
-    public R<Boolean> delete(@RequestParam(value = "ids[]") List<Long> ids) {
+    @SysLog("删除消息")
+    public R<Boolean> delete(@RequestBody List<Long> ids) {
         return R.success(msgService.delete(ids, ContextUtil.getUserId()));
     }
 

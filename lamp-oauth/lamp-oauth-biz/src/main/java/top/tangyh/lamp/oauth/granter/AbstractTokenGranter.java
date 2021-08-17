@@ -16,6 +16,8 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.extra.servlet.ServletUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.boot.utils.WebUtils;
 import top.tangyh.basic.context.ContextUtil;
@@ -26,8 +28,9 @@ import top.tangyh.basic.jwt.TokenUtil;
 import top.tangyh.basic.jwt.model.AuthInfo;
 import top.tangyh.basic.jwt.model.JwtUserInfo;
 import top.tangyh.basic.jwt.utils.JwtUtil;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
+import top.tangyh.basic.utils.DateUtils;
 import top.tangyh.basic.utils.SpringUtils;
 import top.tangyh.basic.utils.StrHelper;
 import top.tangyh.basic.utils.StrPool;
@@ -38,20 +41,20 @@ import top.tangyh.lamp.authority.entity.auth.User;
 import top.tangyh.lamp.authority.service.auth.ApplicationService;
 import top.tangyh.lamp.authority.service.auth.OnlineService;
 import top.tangyh.lamp.authority.service.auth.UserService;
+import top.tangyh.lamp.common.constant.AppendixType;
+import top.tangyh.lamp.common.properties.SystemProperties;
+import top.tangyh.lamp.common.vo.result.AppendixResultVO;
+import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.oauth.event.LoginEvent;
 import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
-import top.tangyh.lamp.oauth.utils.TimeUtils;
 import top.tangyh.lamp.tenant.entity.Tenant;
 import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 import top.tangyh.lamp.tenant.service.TenantService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
 import static top.tangyh.basic.context.ContextConstants.BASIC_HEADER_KEY;
-import static top.tangyh.basic.utils.BizAssert.gt;
-import static top.tangyh.basic.utils.BizAssert.notNull;
+import static top.tangyh.basic.utils.ArgumentAssert.notNull;
 
 /**
  * 验证码TokenGranter
@@ -67,6 +70,9 @@ public abstract class AbstractTokenGranter implements TokenGranter {
     protected final ApplicationService applicationService;
     protected final DatabaseProperties databaseProperties;
     protected final OnlineService onlineService;
+    protected final SystemProperties systemProperties;
+    protected final AppendixService appendixService;
+
 
     /**
      * 处理登录逻辑
@@ -82,9 +88,9 @@ public abstract class AbstractTokenGranter implements TokenGranter {
         if (!MultiTenantType.NONE.eq(databaseProperties.getMultiTenantType())) {
             Tenant tenant = this.tenantService.getByCode(ContextUtil.getTenant());
             notNull(tenant, "企业不存在");
-            BizAssert.equals(TenantStatusEnum.NORMAL, tenant.getStatus(), "企业不可用~");
+            ArgumentAssert.equals(TenantStatusEnum.NORMAL, tenant.getStatus(), "企业不可用~");
             if (tenant.getExpirationTime() != null) {
-                gt(LocalDateTime.now(), tenant.getExpirationTime(), "企业服务已到期~");
+                ArgumentAssert.isFalse(LocalDateTime.now().isAfter(tenant.getExpirationTime()), "企业服务已到期!");
             }
         }
 
@@ -156,6 +162,11 @@ public abstract class AbstractTokenGranter implements TokenGranter {
             return R.fail(ExceptionCode.JWT_USER_INVALID);
         }
 
+        // 方便开发、测试、演示环境 开发者登录别人的账号，生产环境禁用。
+        if (!systemProperties.getVerifyPassword()) {
+            return R.success(user);
+        }
+
         String passwordMd5 = SecureUtil.sha256(password + user.getSalt());
         if (!passwordMd5.equalsIgnoreCase(user.getPassword())) {
             String msg = "用户名或密码错误!";
@@ -177,13 +188,13 @@ public abstract class AbstractTokenGranter implements TokenGranter {
             return R.fail(msg);
         }
 
-        //TODO 用户锁定
-        Integer maxPasswordErrorNum = 0;
+        // 用户锁定
+        Integer maxPasswordErrorNum = systemProperties.getMaxPasswordErrorNum();
         Integer passwordErrorNum = Convert.toInt(user.getPasswordErrorNum(), 0);
-        if (maxPasswordErrorNum > 0 && passwordErrorNum > maxPasswordErrorNum) {
-            log.info("当前错误次数{}, 最大次数:{}", passwordErrorNum, maxPasswordErrorNum);
+        if (maxPasswordErrorNum > 0 && passwordErrorNum >= maxPasswordErrorNum) {
+            log.info("[{}][{}], 输错密码次数：{}, 最大限制次数:{}", user.getName(), user.getId(), passwordErrorNum, maxPasswordErrorNum);
 
-            LocalDateTime passwordErrorLockTime = TimeUtils.getPasswordErrorLockTime("0");
+            LocalDateTime passwordErrorLockTime = DateUtils.conversionDateTime(systemProperties.getPasswordErrorLockUserTime());
             log.info("passwordErrorLockTime={}", passwordErrorLockTime);
             if (passwordErrorLockTime.isAfter(user.getPasswordErrorLastTime())) {
                 // 登录失败事件
@@ -192,7 +203,6 @@ public abstract class AbstractTokenGranter implements TokenGranter {
                 return R.fail(msg);
             }
         }
-
         return R.success(user);
     }
 
@@ -205,7 +215,8 @@ public abstract class AbstractTokenGranter implements TokenGranter {
     protected AuthInfo createToken(User user) {
         JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName());
         AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo, null);
-        authInfo.setAvatar(user.getAvatar());
+        AppendixResultVO appendixResultVO = appendixService.getBiz(user.getId(), AppendixType.Authority.BASE_USER_AVATAR);
+        authInfo.setAvatarId(appendixResultVO != null ? appendixResultVO.getId() : null);
         authInfo.setWorkDescribe(user.getWorkDescribe());
         return authInfo;
     }

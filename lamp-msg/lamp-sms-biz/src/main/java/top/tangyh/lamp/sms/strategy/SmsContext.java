@@ -1,14 +1,14 @@
 package top.tangyh.lamp.sms.strategy;
 
 
-import top.tangyh.basic.utils.BizAssert;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.lamp.sms.dao.SmsTaskMapper;
 import top.tangyh.lamp.sms.dao.SmsTemplateMapper;
 import top.tangyh.lamp.sms.entity.SmsTask;
 import top.tangyh.lamp.sms.entity.SmsTemplate;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,14 +49,14 @@ public class SmsContext {
     @Transactional(rollbackFor = Exception.class)
     public void smsSend(Long taskId) {
         SmsTask smsTask = smsTaskMapper.selectById(taskId);
-        BizAssert.notNull(smsTask, "短信任务尚未保存成功");
+        ArgumentAssert.notNull(smsTask, "短信任务尚未保存成功");
 
         SmsTemplate template = smsTemplateMapper.selectById(smsTask.getTemplateId());
-        BizAssert.notNull(template, "短信模板为空");
+        ArgumentAssert.notNull(template, "短信模板为空");
 
         // 根据短信任务选择的服务商，动态选择短信服务商策略类来具体发送短信
         SmsStrategy smsStrategy = smsContextStrategyMap.get(template.getProviderType().name());
-        BizAssert.notNull(smsStrategy, "短信供应商不存在");
+        ArgumentAssert.notNull(smsStrategy, "短信供应商不存在");
 
         smsStrategy.sendSms(smsTask, template);
     }

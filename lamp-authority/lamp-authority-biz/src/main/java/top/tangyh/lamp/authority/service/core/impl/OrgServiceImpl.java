@@ -4,11 +4,16 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import top.tangyh.basic.utils.BizAssert;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.authority.dao.auth.UserMapper;
 import top.tangyh.lamp.authority.dao.core.OrgMapper;
@@ -18,10 +23,6 @@ import top.tangyh.lamp.authority.entity.core.Org;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.cache.core.OrgCacheKeyBuilder;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -63,14 +64,14 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Org model) {
-        BizAssert.isFalse(check(null, model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
+        ArgumentAssert.isFalse(check(null, model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
         return super.save(model);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(Org model) {
-        BizAssert.isFalse(check(model.getId(), model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
+        ArgumentAssert.isFalse(check(model.getId(), model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
         return super.updateById(model);
     }
 
@@ -92,7 +93,7 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
             return true;
         }
         Integer userCount = userMapper.selectCount(Wraps.<User>lbQ().in(User::getOrgId, ids));
-        BizAssert.isFalse(userCount > 0, "您选择的组织下还存在用户，禁止删除！请先情况改组织下所有用户后，在进行删除！");
+        ArgumentAssert.isFalse(userCount > 0, "您选择的组织下还存在用户，禁止删除！请先情况改组织下所有用户后，在进行删除！");
 
         List<Org> list = this.findChildren(ids);
         List<Long> idList = list.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());

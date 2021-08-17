@@ -6,7 +6,12 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.request.PageUtil;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
@@ -22,13 +27,14 @@ import top.tangyh.basic.security.model.SysOrg;
 import top.tangyh.basic.security.model.SysRole;
 import top.tangyh.basic.security.model.SysStation;
 import top.tangyh.basic.security.model.SysUser;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.authority.dao.auth.UserMapper;
 import top.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;
 import top.tangyh.lamp.authority.dto.auth.ResourceQueryDTO;
+import top.tangyh.lamp.authority.dto.auth.UserUpdateAvatarDTO;
 import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
 import top.tangyh.lamp.authority.entity.auth.Resource;
 import top.tangyh.lamp.authority.entity.auth.Role;
@@ -50,10 +56,7 @@ import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserRoleCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.BizConstant;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import top.tangyh.lamp.file.service.AppendixService;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -94,7 +97,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     private final UserRoleService userRoleService;
     private final RoleOrgService roleOrgService;
     private final OrgService orgService;
-
+    private final AppendixService appendixService;
 
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
@@ -118,10 +121,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Transactional(rollbackFor = Exception.class)
     public Boolean updatePassword(UserUpdatePasswordDTO data) {
         User user = getById(data.getId());
-        BizAssert.notNull(user, "用户不存在");
-        BizAssert.isTrue(user.getId().equals(ContextUtil.getUserId()), "只能修改自己的密码");
+        ArgumentAssert.notNull(user, "用户不存在");
+        ArgumentAssert.equals(user.getId(), ContextUtil.getUserId(), "只能修改自己的密码");
         String oldPassword = SecureUtil.sha256(data.getOldPassword() + user.getSalt());
-        BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
+        ArgumentAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
         return reset(data);
     }
@@ -129,9 +132,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean reset(UserUpdatePasswordDTO data) {
-        BizAssert.equals(data.getConfirmPassword(), data.getPassword(), "密码和重复密码不一致");
+        ArgumentAssert.equals(data.getConfirmPassword(), data.getPassword(), "密码和重复密码不一致");
         User user = getById(data.getId());
-        BizAssert.notNull(user, "用户不存在");
+        ArgumentAssert.notNull(user, "用户不存在");
         String defPassword = SecureUtil.sha256(data.getPassword() + user.getSalt());
         super.update(Wraps.<User>lbU()
                 .set(User::getPassword, defPassword)
@@ -221,7 +224,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public User saveUser(User user) {
-        BizAssert.isFalse(check(null, user.getAccount()), StrUtil.format("账号{}已经存在", user.getAccount()));
+        ArgumentAssert.isFalse(check(null, user.getAccount()), "账号{}已经存在", user.getAccount());
         user.setSalt(RandomUtil.randomString(20));
         if (StrUtil.isEmpty(user.getPassword())) {
             user.setPassword(DEF_PASSWORD);
@@ -320,7 +323,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean initUser(User user) {
-        BizAssert.isFalse(check(null, user.getAccount()), StrUtil.format("账号{}已经存在", user.getAccount()));
+        ArgumentAssert.isFalse(check(null, user.getAccount()), "账号{}已经存在", user.getAccount());
         this.saveUser(user);
         return userRoleService.initAdmin(user.getId());
     }
@@ -329,5 +332,15 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Transactional(readOnly = true)
     public Integer todayUserCount() {
         return count(Wraps.<User>lbQ().leFooter(User::getCreateTime, LocalDateTime.now()).geHeader(User::getCreateTime, LocalDateTime.now()));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateAvatar(UserUpdateAvatarDTO data) {
+        ArgumentAssert.isFalse(StrUtil.isEmpty(data.getAvatar()) && data.getAppendixAvatar() == null, "请上传或选择头像");
+        if (StrUtil.isNotEmpty(data.getAvatar())) {
+            return updateById(User.builder().avatar(data.getAvatar()).id(data.getId()).build());
+        }
+        return appendixService.save(data.getId(), data.getAppendixAvatar());
     }
 }

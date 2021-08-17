@@ -1,6 +1,17 @@
 package top.tangyh.lamp.authority.controller.auth;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
@@ -25,17 +36,6 @@ import top.tangyh.lamp.authority.service.auth.RoleAuthorityService;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.auth.RoleService;
 import top.tangyh.lamp.authority.service.auth.UserRoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,7 +64,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
 
     @Override
     public IPage<Role> query(PageParams<RolePageQuery> params) {
-        IPage<Role> page = params.buildPage();
+        IPage<Role> page = params.buildPage(Role.class);
         RolePageQuery roleQuery = params.getModel();
 
         QueryWrap<Role> wrap = handlerWrapper(null, params);

@@ -2,10 +2,15 @@ package top.tangyh.lamp.tenant.service.impl;
 
 import cn.hutool.core.convert.Convert;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.lamp.common.cache.tenant.TenantCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.tenant.TenantCodeCacheKeyBuilder;
@@ -19,15 +24,9 @@ import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 import top.tangyh.lamp.tenant.enumeration.TenantTypeEnum;
 import top.tangyh.lamp.tenant.service.TenantService;
 import top.tangyh.lamp.tenant.strategy.InitSystemContext;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.function.Function;
-
-import static top.tangyh.basic.utils.BizAssert.isFalse;
 
 /**
  * <p>
@@ -72,7 +71,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
     @Transactional(rollbackFor = Exception.class)
     public Tenant save(TenantSaveDTO data) {
         // defaults 库
-        isFalse(check(data.getCode()), "编码重复，请重新输入");
+        ArgumentAssert.isFalse(check(data.getCode()), "编码重复，请重新输入");
 
         // 1， 保存租户 (默认库)
         Tenant tenant = BeanPlusUtil.toBean(data, Tenant.class);

@@ -3,6 +3,10 @@ package top.tangyh.lamp.msg.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.context.ContextUtil;
@@ -16,10 +20,6 @@ import top.tangyh.lamp.msg.entity.Msg;
 import top.tangyh.lamp.msg.entity.MsgReceive;
 import top.tangyh.lamp.msg.service.MsgReceiveService;
 import top.tangyh.lamp.msg.service.MsgService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,7 +57,6 @@ public class MsgServiceImpl extends SuperServiceImpl<MsgMapper, Msg> implements 
         info.setAuthor(getOrDef(info.getAuthor(), ContextUtil.getName()));
         super.save(info);
 
-        //公式公告，不会指定接收人
         Set<Long> userIdList = data.getUserIdList();
         if (CollectionUtil.isNotEmpty(userIdList)) {
             List<MsgReceive> receiveList = userIdList.stream().filter(userId -> userId != null && !userId.equals(-1L)).map(userId -> MsgReceive.builder()
@@ -94,16 +93,16 @@ public class MsgServiceImpl extends SuperServiceImpl<MsgMapper, Msg> implements 
      * <p>
      * 其他的更新状态
      *
-     * @param msgCenterIds 主表id
-     * @param userId       用户id
+     * @param msgIds 主表id
+     * @param userId 用户id
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean mark(List<Long> msgCenterIds, Long userId) {
-        if (CollectionUtil.isEmpty(msgCenterIds) || userId == null) {
+    public boolean mark(List<Long> msgIds, Long userId) {
+        if (CollectionUtil.isEmpty(msgIds) || userId == null) {
             return true;
         }
-        List<Msg> list = super.listByIds(msgCenterIds);
+        List<Msg> list = super.listByIds(msgIds);
 
         //其他类型的修改状态
         if (!list.isEmpty()) {

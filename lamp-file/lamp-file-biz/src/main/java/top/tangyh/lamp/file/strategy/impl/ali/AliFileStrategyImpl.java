@@ -1,5 +1,6 @@
 package top.tangyh.lamp.file.strategy.impl.ali;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -7,8 +8,12 @@ import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.utils.CollHelper;
+import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.domain.FileDeleteBO;
 import top.tangyh.lamp.file.domain.FileGetUrlBO;
@@ -16,15 +21,13 @@ import top.tangyh.lamp.file.entity.File;
 import top.tangyh.lamp.file.enumeration.FileStorageType;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author zuihou
@@ -44,7 +47,7 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(),
                 ali.getAccessKeySecret());
         if (StrUtil.isEmpty(bucket)) {
-            bucket = ali.getBucketName();
+            bucket = ali.getBucket();
         }
         if (!ossClient.doesBucketExist(bucket)) {
             ossClient.createBucket(bucket);
@@ -63,7 +66,8 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         PutObjectResult result = ossClient.putObject(request);
 
         log.info("result={}", JsonUtil.toJson(result));
-
+        String url = ali.getUrlPrefix() + path;
+        file.setUrl(url);
         file.setUniqueFileName(uniqueFileName);
         file.setBucket(bucket);
         file.setPath(path);
@@ -75,7 +79,7 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
     @Override
     public boolean delete(FileDeleteBO file) {
         FileServerProperties.Ali ali = fileProperties.getAli();
-        String bucketName = StrUtil.isEmpty(file.getBucket()) ? ali.getBucketName() : file.getBucket();
+        String bucketName = StrUtil.isEmpty(file.getBucket()) ? ali.getBucket() : file.getBucket();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(), ali.getAccessKeySecret());
         ossClient.deleteObject(bucketName, file.getPath());
         ossClient.shutdown();
@@ -85,11 +89,23 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
     @Override
     public Map<String, String> findUrl(List<FileGetUrlBO> fileGets) {
         OSS ossClient = createOss();
-
+        Set<String> publicBucket = fileProperties.getPublicBucket();
+        FileServerProperties.Ali ali = fileProperties.getAli();
         Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(fileGets.size()));
 
+
         for (FileGetUrlBO fileGet : fileGets) {
-            map.put(fileGet.getPath(), generatePresignedUrl(fileGet.getBucket(), fileGet.getPath()));
+            String bucket = StrUtil.isEmpty(fileGet.getBucket()) ? ali.getBucket() : fileGet.getBucket();
+
+            if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
+                StringBuilder url = new StringBuilder(ali.getUrlPrefix())
+                        .append(fileGet.getBucket())
+                        .append(StrPool.SLASH)
+                        .append(fileGet.getPath());
+                map.put(fileGet.getPath(), url.toString());
+            } else {
+                map.put(fileGet.getPath(), generatePresignedUrl(bucket, fileGet.getPath()));
+            }
         }
         ossClient.shutdown();
         return map;
@@ -117,7 +133,6 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
      */
     private String generatePresignedUrl(String bucketName, String key) {
         FileServerProperties.Ali ali = fileProperties.getAli();
-        bucketName = StrUtil.isEmpty(bucketName) ? ali.getBucketName() : bucketName;
         OSS oss = createOss();
         Date date = new Date(System.currentTimeMillis() + ali.getExpiry());
         URL url = oss.generatePresignedUrl(bucketName, key, date);

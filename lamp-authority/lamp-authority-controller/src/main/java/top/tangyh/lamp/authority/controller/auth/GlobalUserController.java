@@ -3,6 +3,20 @@ package top.tangyh.lamp.authority.controller.auth;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperController;
@@ -18,20 +32,6 @@ import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
 import top.tangyh.lamp.authority.entity.auth.User;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.common.constant.BizConstant;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -90,7 +90,7 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
 
     @Override
     public IPage<User> query(PageParams<GlobalUserPageDTO> params) {
-        IPage<User> page = params.buildPage();
+        IPage<User> page = params.buildPage(User.class);
         GlobalUserPageDTO model = params.getModel();
         ContextUtil.setTenant(model.getTenantCode());
 

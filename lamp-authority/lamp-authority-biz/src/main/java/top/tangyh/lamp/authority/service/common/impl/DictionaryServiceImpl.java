@@ -2,8 +2,13 @@ package top.tangyh.lamp.authority.service.common.impl;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.ImmutableMap;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.cache.model.CacheHashKey;
@@ -12,8 +17,8 @@ import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.echo.properties.EchoProperties;
 import top.tangyh.basic.exception.BizException;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.authority.dao.common.DictionaryMapper;
 import top.tangyh.lamp.authority.dto.common.DictionaryPageQuery;
@@ -22,10 +27,6 @@ import top.tangyh.lamp.authority.entity.common.Dictionary;
 import top.tangyh.lamp.authority.service.common.DictionaryService;
 import top.tangyh.lamp.common.cache.common.DictionaryTypeCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.DefValConstants;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -118,7 +119,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Dictionary model) {
         int count = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType()).eq(Dictionary::getCode, model.getCode()));
-        BizAssert.isFalse(count > 0, StrUtil.format("字典[{}]已经存在，请勿重复创建", model.getCode()));
+        ArgumentAssert.isFalse(count > 0, StrUtil.format("字典[{}]已经存在，请勿重复创建", model.getCode()));
 
         Dictionary type = getOne(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType()).eq(Dictionary::getCode, DefValConstants.DICT_PLACEHOLDER));
         boolean bool;
@@ -149,9 +150,9 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     private boolean update(Dictionary model, Function<Dictionary, Boolean> function) {
         int count = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType())
                 .eq(Dictionary::getCode, model.getCode()).ne(Dictionary::getId, model.getId()));
-        BizAssert.isFalse(count > 0, StrUtil.format("字典[{}]已经存在，请勿重复创建", model.getCode()));
+        ArgumentAssert.isFalse(count > 0, StrUtil.format("字典[{}]已经存在，请勿重复创建", model.getCode()));
         Dictionary old = getById(model.getId());
-        BizAssert.notNull(old, "字典不存在或已被删除！");
+        ArgumentAssert.notNull(old, "字典不存在或已被删除！");
         boolean bool = function.apply(model);
 
         CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashKey(model.getType());
@@ -162,7 +163,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     @Override
     public boolean removeById(Serializable id) {
         Dictionary model = getById(id);
-        BizAssert.notNull(model, "字典项不存在");
+        ArgumentAssert.notNull(model, "字典项不存在");
         boolean remove = super.removeById(id);
 
         CacheHashKey typeKey = new DictionaryTypeCacheKeyBuilder().hashFieldKey(model.getCode(), model.getType());

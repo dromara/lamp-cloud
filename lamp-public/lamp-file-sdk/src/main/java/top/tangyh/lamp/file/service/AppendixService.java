@@ -1,12 +1,13 @@
 package top.tangyh.lamp.file.service;
 
+import cn.hutool.core.map.MapUtil;
 import com.google.common.collect.Multimap;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import top.tangyh.basic.base.service.SuperService;
 import top.tangyh.lamp.common.vo.result.AppendixResultVO;
 import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
 import top.tangyh.lamp.file.entity.Appendix;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public interface AppendixService extends SuperService<Appendix> {
      * @return
      */
     default Map<Long, String> buildBiz(@NonNull Long bizId, @NonNull String bizType) {
-        HashMap<Long, String> map = new HashMap<>();
+        HashMap<Long, String> map = MapUtil.newHashMap();
         map.put(bizId, bizType);
         return map;
     }

@@ -5,6 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperServiceImpl;
@@ -14,8 +18,8 @@ import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.exception.BizException;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.model.Kv;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.basic.utils.BizAssert;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.common.api.JobApi;
 import top.tangyh.lamp.common.constant.JobConstant;
@@ -34,10 +38,6 @@ import top.tangyh.lamp.sms.service.SmsSendStatusService;
 import top.tangyh.lamp.sms.service.SmsTaskService;
 import top.tangyh.lamp.sms.service.SmsTemplateService;
 import top.tangyh.lamp.sms.strategy.SmsContext;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -152,16 +152,16 @@ public class SmsTaskServiceImpl extends SuperServiceImpl<SmsTaskMapper, SmsTask>
         SmsTemplate template;
 
         template = smsTemplateService.getById(smsTask.getTemplateId());
-        BizAssert.notNull(template, BASE_VALID_PARAM.build("请选择正确的短信模板"));
+        ArgumentAssert.notNull(template, "请选择正确的短信模板");
 
 
         //1，验证必要参数
-        BizAssert.isFalse(CollUtil.isEmpty(smsTask.getTelNum()), BASE_VALID_PARAM.build("请填写短信接收人"));
+        ArgumentAssert.notEmpty(smsTask.getTelNum(), "请填写短信接收人");
 
         // 验证定时发送的时间，至少大于（当前时间+5分钟） ，是为了防止 定时调度或者是保存数据跟不上
         if (smsTask.getSendTime() != null) {
             boolean flag = LocalDateTime.now().plusMinutes(4).isBefore(smsTask.getSendTime());
-            BizAssert.isTrue(flag, BASE_VALID_PARAM.build("定时发送时间至少在当前时间的5分钟之后"));
+            ArgumentAssert.isTrue(flag, "定时发送时间至少在当前时间的5分钟之后");
         }
 
         if (StrUtil.isEmpty(smsTask.getContent())) {
