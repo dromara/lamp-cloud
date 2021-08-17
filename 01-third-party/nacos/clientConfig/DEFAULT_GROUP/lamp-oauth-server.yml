@@ -1,0 +1,10 @@
+server:
+  port: 8773
+
+lamp:
+  swagger:
+    title: 认证服务
+    base-package: top.tangyh.lamp
+  authentication:
+    expire: 28800               # token有效期为8小时
+    refreshExpire: 86400        # 刷新token有效期为24小时

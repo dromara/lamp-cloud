@@ -1,0 +1,20 @@
+lamp:
+  database:
+    tenantDatabasePrefix: lamp_extend
+  swagger:
+    docket:
+      msg:
+        title: 消息服务
+        base-package: top.tangyh.lamp.msg.controller;top.tangyh.lamp.sms.controller
+  cache:
+    def:
+      keyPrefix: ${spring.profiles.active}
+    configs:
+      lamp:
+        timeToLive: 1h
+        keyPrefix: aaa
+      test:
+        timeToLive: 2h
+
+server:
+  port: 8768

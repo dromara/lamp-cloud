@@ -1,0 +1,85 @@
+lamp:
+  log:
+    enabled: false
+  webmvc:
+    enabled: false
+  database:
+    tenantDatabasePrefix: lamp_extend
+  ignore:
+    token:
+      - /ds/**
+      - /**/noToken/**
+      - /**/druid
+      - /verification
+      - /verification/send
+spring:
+  autoconfigure:
+    exclude: io.seata.integration.http.HttpAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  cloud:
+    gateway:
+      x-forwarded:
+        prefixEnabled: false
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: oauth
+          uri: lb://lamp-oauth-server
+          predicates:
+            - Path=/oauth/**
+          filters:
+            - StripPrefix=1
+        - id: tenant
+          uri: lb://lamp-tenant-server
+          predicates:
+            - Path=/tenant/**
+          filters:
+            - StripPrefix=1
+        - id: file
+          uri: lb://lamp-file-server
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=1
+        - id: authority
+          uri: lb://lamp-authority-server
+          predicates:
+            - Path=/authority/**
+          filters:
+            - StripPrefix=1
+        - id: msg
+          uri: lb://lamp-msg-server
+          predicates:
+            - Path=/msg/**
+          filters:
+            - StripPrefix=1
+        - id: activiti
+          uri: lb://lamp-activiti-server
+          predicates:
+            - Path=/activiti/**
+          filters:
+            - StripPrefix=1
+        - id: demo
+          uri: lb://lamp-demo-server
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
+        - id: example
+          uri: lb://lamp-example-server
+          predicates:
+            - Path=/example/**
+          filters:
+            - StripPrefix=1
+      # default-filters:
+      #   - name: Hystrix
+      #     args:
+      #       name: default
+      #       fallbackUri: 'forward:/fallback'
+
+
+server:
+  port: 8760
+  servlet:
+    context-path: /api

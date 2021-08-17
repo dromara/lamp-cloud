@@ -1,0 +1,22 @@
+server:
+  port: 8762
+  servlet:
+    context-path: /${spring.application.name}   # 监控系统项目名
+
+spring:
+  security:
+    user:
+      name: lamp
+      password: lamp
+      roles: USER
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
