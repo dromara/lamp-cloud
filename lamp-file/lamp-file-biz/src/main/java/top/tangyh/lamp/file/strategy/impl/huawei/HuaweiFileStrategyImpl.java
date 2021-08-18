@@ -133,20 +133,24 @@ public class HuaweiFileStrategyImpl extends AbstractFileStrategy {
                 huawei.getEndpoint())) {
             for (FileGetUrlBO fileGet : fileGets) {
                 String bucket = StrUtil.isEmpty(fileGet.getBucket()) ? huawei.getBucket() : fileGet.getBucket();
-
-                if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
-                    StringBuilder url = new StringBuilder(huawei.getUrlPrefix())
-                            .append(fileGet.getBucket())
-                            .append(StrPool.SLASH)
-                            .append(fileGet.getPath());
-                    map.put(fileGet.getPath(), url.toString());
-                } else {
-                    TemporarySignatureRequest req = new TemporarySignatureRequest(HttpMethodEnum.GET, 300);
-                    req.setBucketName(fileGet.getBucket());
-                    req.setObjectKey(fileGet.getPath());
-                    req.setExpires(huawei.getExpiry());
-                    TemporarySignatureResponse res = obsClient.createTemporarySignature(req);
-                    map.put(fileGet.getPath(), res.getSignedUrl());
+                try {
+                    if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
+                        StringBuilder url = new StringBuilder(huawei.getUrlPrefix())
+                                .append(fileGet.getBucket())
+                                .append(StrPool.SLASH)
+                                .append(fileGet.getPath());
+                        map.put(fileGet.getPath(), url.toString());
+                    } else {
+                        TemporarySignatureRequest req = new TemporarySignatureRequest(HttpMethodEnum.GET, 300);
+                        req.setBucketName(fileGet.getBucket());
+                        req.setObjectKey(fileGet.getPath());
+                        req.setExpires(huawei.getExpiry());
+                        TemporarySignatureResponse res = obsClient.createTemporarySignature(req);
+                        map.put(fileGet.getPath(), res.getSignedUrl());
+                    }
+                } catch (Exception e) {
+                    log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, , 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
+                    map.put(fileGet.getPath(), StrPool.EMPTY);
                 }
             }
         }

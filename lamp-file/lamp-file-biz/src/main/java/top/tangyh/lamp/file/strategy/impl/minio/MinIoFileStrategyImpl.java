@@ -106,18 +106,22 @@ public class MinIoFileStrategyImpl extends AbstractFileStrategy {
         Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(fileGets.size()));
         for (FileGetUrlBO fileGet : fileGets) {
             String bucket = StrUtil.isEmpty(fileGet.getBucket()) ? minIo.getBucket() : fileGet.getBucket();
-
-            if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
-                StringBuilder url = new StringBuilder(minIo.getUrlPrefix())
-                        .append(fileGet.getBucket())
-                        .append(StrPool.SLASH)
-                        .append(fileGet.getPath());
-                map.put(fileGet.getPath(), url.toString());
-            } else {
-                Integer expiry = minIo.getExpiry();
-                String url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                        .bucket(bucket).object(fileGet.getPath()).method(Method.GET).expiry(expiry).build());
-                map.put(fileGet.getPath(), url);
+            try {
+                if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
+                    StringBuilder url = new StringBuilder(minIo.getUrlPrefix())
+                            .append(fileGet.getBucket())
+                            .append(StrPool.SLASH)
+                            .append(fileGet.getPath());
+                    map.put(fileGet.getPath(), url.toString());
+                } else {
+                    Integer expiry = minIo.getExpiry();
+                    String url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                            .bucket(bucket).object(fileGet.getPath()).method(Method.GET).expiry(expiry).build());
+                    map.put(fileGet.getPath(), url);
+                }
+            } catch (Exception e) {
+                log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, , 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
+                map.put(fileGet.getPath(), StrPool.EMPTY);
             }
         }
 
