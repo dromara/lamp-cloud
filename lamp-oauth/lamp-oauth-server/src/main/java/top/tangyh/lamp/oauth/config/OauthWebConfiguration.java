@@ -14,7 +14,7 @@ import top.tangyh.lamp.common.properties.SystemProperties;
  * @date 2017-12-15 14:42
  */
 @Configuration
-@EnableConfigurationProperties({SystemProperties.class})
+@EnableConfigurationProperties(SystemProperties.class)
 public class OauthWebConfiguration extends BaseConfig {
 
     /**
