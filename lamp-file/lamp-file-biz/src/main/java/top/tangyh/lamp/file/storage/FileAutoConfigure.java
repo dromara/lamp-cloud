@@ -76,7 +76,7 @@ public class FileAutoConfigure {
      * @return
      */
     @Bean
-    public Auth auth() {
+    public Auth getQiniuAuth() {
         FileServerProperties.QiNiu qiNiu = fileServerProperties.getQiNiu();
         return Auth.create(qiNiu.getAccessKey(), qiNiu.getSecretKey());
     }
@@ -86,7 +86,7 @@ public class FileAutoConfigure {
      */
     @Bean
     public BucketManager bucketManager() {
-        return new BucketManager(auth(), qiNiuConfig());
+        return new BucketManager(getQiniuAuth(), qiNiuConfig());
     }
 
 }
