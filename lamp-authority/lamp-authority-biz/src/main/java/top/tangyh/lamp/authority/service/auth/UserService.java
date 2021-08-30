@@ -193,5 +193,5 @@ public interface UserService extends SuperCacheService<User>, LoadService {
      *
      * @return
      */
-    Integer todayUserCount();
+    Long todayUserCount();
 }

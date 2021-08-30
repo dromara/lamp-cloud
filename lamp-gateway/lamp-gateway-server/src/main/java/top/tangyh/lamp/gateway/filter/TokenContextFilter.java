@@ -2,19 +2,6 @@ package top.tangyh.lamp.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.cache.model.CacheKey;
-import top.tangyh.basic.cache.repository.CacheOps;
-import top.tangyh.basic.context.ContextConstants;
-import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.basic.exception.BizException;
-import top.tangyh.basic.jwt.TokenUtil;
-import top.tangyh.basic.jwt.model.AuthInfo;
-import top.tangyh.basic.jwt.utils.JwtUtil;
-import top.tangyh.basic.utils.StrPool;
-import top.tangyh.lamp.common.cache.common.TokenUserIdCacheKeyBuilder;
-import top.tangyh.lamp.common.constant.BizConstant;
-import top.tangyh.lamp.common.properties.IgnoreProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -32,6 +19,20 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.cache.model.CacheKey;
+import top.tangyh.basic.cache.repository.CacheOps;
+import top.tangyh.basic.context.ContextConstants;
+import top.tangyh.basic.context.ContextUtil;
+import top.tangyh.basic.exception.BizException;
+import top.tangyh.basic.exception.UnauthorizedException;
+import top.tangyh.basic.jwt.TokenUtil;
+import top.tangyh.basic.jwt.model.AuthInfo;
+import top.tangyh.basic.jwt.utils.JwtUtil;
+import top.tangyh.basic.utils.StrPool;
+import top.tangyh.lamp.common.cache.common.TokenUserIdCacheKeyBuilder;
+import top.tangyh.lamp.common.constant.BizConstant;
+import top.tangyh.lamp.common.properties.IgnoreProperties;
 
 import static top.tangyh.basic.context.ContextConstants.BASIC_HEADER_KEY;
 import static top.tangyh.basic.context.ContextConstants.BEARER_HEADER_KEY;
@@ -113,7 +114,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
             //1, 解码 请求头中的租户信息
             parseTenant(request, mutate);
 
-            // 2,解码 Authorization 后面完善
+            // 2,解码 Authorization
             parseClient(request, mutate);
 
             // 3，解码 并验证 token
@@ -121,6 +122,8 @@ public class TokenContextFilter implements WebFilter, Ordered {
             if (token != null) {
                 return token;
             }
+        } catch (UnauthorizedException e) {
+            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.UNAUTHORIZED);
         } catch (BizException e) {
             return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -188,13 +191,14 @@ public class TokenContextFilter implements WebFilter, Ordered {
     }
 
     private void parseTenant(ServerHttpRequest request, ServerHttpRequest.Builder mutate) {
-        // 判断是否忽略tenant
+        // NONE模式 直接忽略tenant
         if ("NONE".equals(multiTenantType)) {
             addHeader(mutate, JWT_KEY_TENANT, "_NONE");
             ContextUtil.setTenant("_NONE");
             MDC.put(JWT_KEY_TENANT, StrPool.EMPTY);
             return;
         }
+        // 使请求忽略验证请求中的 租户编码(tenant) 参数
         if (isIgnoreTenant(request.getPath().toString())) {
             return;
         }

@@ -1,4 +1,4 @@
-package top.tangyh.lamp.common.enums;
+package top.tangyh.lamp.common.enumeration;
 
 import top.tangyh.basic.base.BaseEnum;
 import io.swagger.annotations.ApiModel;

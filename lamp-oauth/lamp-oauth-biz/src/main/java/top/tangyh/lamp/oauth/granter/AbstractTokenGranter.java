@@ -215,7 +215,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
     protected AuthInfo createToken(User user) {
         JwtUserInfo userInfo = new JwtUserInfo(user.getId(), user.getAccount(), user.getName());
         AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo, null);
-        AppendixResultVO appendixResultVO = appendixService.getBiz(user.getId(), AppendixType.Authority.BASE_USER_AVATAR);
+        AppendixResultVO appendixResultVO = appendixService.getByBiz(user.getId(), AppendixType.Authority.BASE_USER_AVATAR);
         authInfo.setAvatarId(appendixResultVO != null ? appendixResultVO.getId() : null);
         authInfo.setWorkDescribe(user.getWorkDescribe());
         return authInfo;

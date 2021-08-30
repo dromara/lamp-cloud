@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.lamp.authority.enumeration.common.LogType;
-import top.tangyh.lamp.common.enums.HttpMethod;
+import top.tangyh.lamp.common.enumeration.HttpMethod;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

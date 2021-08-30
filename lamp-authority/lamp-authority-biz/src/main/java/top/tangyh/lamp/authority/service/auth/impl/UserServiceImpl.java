@@ -330,7 +330,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
     @Override
     @Transactional(readOnly = true)
-    public Integer todayUserCount() {
+    public Long todayUserCount() {
         return count(Wraps.<User>lbQ().leFooter(User::getCreateTime, LocalDateTime.now()).geHeader(User::getCreateTime, LocalDateTime.now()));
     }
 

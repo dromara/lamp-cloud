@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import top.tangyh.lamp.common.enums.FileType;
+import top.tangyh.lamp.common.enumeration.FileType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

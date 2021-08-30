@@ -69,7 +69,7 @@ public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Para
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(Parameter model) {
-        int count = count(Wraps.<Parameter>lbQ().eq(Parameter::getKey, model.getKey()).ne(Parameter::getId, model.getId()));
+        long count = count(Wraps.<Parameter>lbQ().eq(Parameter::getKey, model.getKey()).ne(Parameter::getId, model.getId()));
         ArgumentAssert.isFalse(count > 0, StrUtil.format("参数key[{}]已经存在，请勿重复创建", model.getKey()));
 
         boolean bool = SqlHelper.retBool(getBaseMapper().updateById(model));

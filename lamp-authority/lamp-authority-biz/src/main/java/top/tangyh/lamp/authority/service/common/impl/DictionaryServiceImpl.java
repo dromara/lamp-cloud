@@ -62,7 +62,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Dictionary saveType(DictionaryTypeSaveDTO dictType) {
-        int typeCount = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, dictType.getType()));
+        long typeCount = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, dictType.getType()));
         if (typeCount > 0) {
             throw BizException.validFail("字典类型[%s]已存在", dictType.getType());
         }
@@ -118,7 +118,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Dictionary model) {
-        int count = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType()).eq(Dictionary::getCode, model.getCode()));
+        long count = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType()).eq(Dictionary::getCode, model.getCode()));
         ArgumentAssert.isFalse(count > 0, StrUtil.format("字典[{}]已经存在，请勿重复创建", model.getCode()));
 
         Dictionary type = getOne(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType()).eq(Dictionary::getCode, DefValConstants.DICT_PLACEHOLDER));
@@ -148,7 +148,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     }
 
     private boolean update(Dictionary model, Function<Dictionary, Boolean> function) {
-        int count = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType())
+        long count = count(Wraps.<Dictionary>lbQ().eq(Dictionary::getType, model.getType())
                 .eq(Dictionary::getCode, model.getCode()).ne(Dictionary::getId, model.getId()));
         ArgumentAssert.isFalse(count > 0, StrUtil.format("字典[{}]已经存在，请勿重复创建", model.getCode()));
         Dictionary old = getById(model.getId());

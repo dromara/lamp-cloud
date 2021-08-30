@@ -45,7 +45,7 @@ public class AreaController extends SuperCacheController<AreaService, Long, Area
     @GetMapping("/check/{code}")
     @SysLog("检测地区编码是否重复")
     public R<Boolean> check(@RequestParam(required = false) Long id, @PathVariable String code) {
-        int count = baseService.count(Wraps.<Area>lbQ().eq(Area::getCode, code).ne(Area::getId, id));
+        long count = baseService.count(Wraps.<Area>lbQ().eq(Area::getCode, code).ne(Area::getId, id));
         return success(count > 0);
     }
 

@@ -77,8 +77,7 @@ public class MsgServiceImpl extends SuperServiceImpl<MsgMapper, Msg> implements 
                 .in(MsgReceive::getMsgId, ids));
 
         for (Long msgCenterId : ids) {
-            int count = msgReceiveService.count(Wraps.<MsgReceive>lbQ()
-                    .eq(MsgReceive::getMsgId, msgCenterId));
+            long count = msgReceiveService.count(Wraps.<MsgReceive>lbQ().eq(MsgReceive::getMsgId, msgCenterId));
             log.info("count={}", count);
             if (count <= 0) {
                 super.remove(Wraps.<Msg>lbQ().eq(Msg::getId, msgCenterId));

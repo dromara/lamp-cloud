@@ -1,11 +1,5 @@
 package top.tangyh.lamp.file.controller;
 
-import top.tangyh.basic.annotation.log.SysLog;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.base.controller.SuperSimpleController;
-import top.tangyh.lamp.common.vo.result.AppendixResultVO;
-import top.tangyh.lamp.file.entity.Appendix;
-import top.tangyh.lamp.file.service.AppendixService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import top.tangyh.basic.annotation.log.SysLog;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.base.controller.SuperSimpleController;
+import top.tangyh.lamp.common.vo.result.AppendixResultVO;
+import top.tangyh.lamp.file.entity.Appendix;
+import top.tangyh.lamp.file.service.AppendixService;
 
 import java.util.List;
 
@@ -45,6 +45,6 @@ public class AppendixController extends SuperSimpleController<AppendixService, A
     @PostMapping(value = "/listByBizId")
     @SysLog("根据业务id 和 业务类型查询附件信息")
     public R<List<AppendixResultVO>> listByBizId(@RequestParam Long bizId, @RequestParam(required = false) String bizType) {
-        return R.success(baseService.listByBizId(bizId, bizType));
+        return R.success(baseService.listByBizIdAndBizType(bizId, bizType));
     }
 }

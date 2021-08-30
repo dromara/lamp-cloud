@@ -1,17 +1,23 @@
 package top.tangyh.lamp.file.service;
 
-import cn.hutool.core.map.MapUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Multimap;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.service.SuperService;
+import top.tangyh.basic.model.EchoVO;
 import top.tangyh.lamp.common.vo.result.AppendixResultVO;
 import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
 import top.tangyh.lamp.file.entity.Appendix;
 
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -24,6 +30,39 @@ import java.util.Map;
  * @create [2021-06-30] [tangyh] [初始创建]
  */
 public interface AppendixService extends SuperService<Appendix> {
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    class AppendixBizKey implements Serializable {
+        private Long bizId;
+        private String bizType;
+    }
+
+    /**
+     * 回显附件
+     *
+     * @param page     分页数据
+     * @param bizTypes 业务类型
+     * @author tangyh
+     * @date 2021/8/28 3:53 下午
+     * @create [2021/8/28 3:53 下午 ] [tangyh] [初始创建]
+     */
+    <T extends SuperEntity<Long> & EchoVO> void echoAppendix(IPage<T> page, String... bizTypes);
+
+    /**
+     * 回显附件
+     *
+     * @param list     列表数据
+     * @param bizTypes 业务类型
+     * @author tangyh
+     * @date 2021/8/28 3:53 下午
+     * @create [2021/8/28 3:53 下午 ] [tangyh] [初始创建]
+     */
+    <T extends SuperEntity<Long> & EchoVO> void echoAppendix(List<T> list, String... bizTypes);
+
     /**
      * 构建 listByObjectId 方法的key
      *
@@ -31,10 +70,8 @@ public interface AppendixService extends SuperService<Appendix> {
      * @param bizType 功能点
      * @return
      */
-    default Map<Long, String> buildBiz(@NonNull Long bizId, @NonNull String bizType) {
-        HashMap<Long, String> map = MapUtil.newHashMap();
-        map.put(bizId, bizType);
-        return map;
+    default AppendixBizKey buildBiz(@NonNull Long bizId, @NonNull String bizType) {
+        return AppendixBizKey.builder().bizId(bizId).bizType(bizType).build();
     }
 
     /**
@@ -47,7 +84,20 @@ public interface AppendixService extends SuperService<Appendix> {
      * @param bizType 功能点
      * @return
      */
-    Multimap<Map<Long, String>, AppendixResultVO> listByBizId(@NonNull Long bizId, @Nullable String... bizType);
+    Multimap<AppendixBizKey, AppendixResultVO> listByBizId(@NonNull Long bizId, @Nullable String... bizType);
+
+    /**
+     * 根据对象id 和 任意个功能点 查询附件
+     * <p>
+     * 返回值为：
+     * bizId + bizType -> [附件, ...]
+     *
+     * @param bizIds  对象id
+     * @param bizType 功能点
+     * @return
+     */
+    Multimap<AppendixBizKey, AppendixResultVO> listByBizIds(@NonNull List<Long> bizIds, @Nullable String... bizType);
+
 
     /**
      * 根据对象id 和 功能点 查询附件
@@ -58,7 +108,7 @@ public interface AppendixService extends SuperService<Appendix> {
      * @param bizType 功能点
      * @return
      */
-    List<AppendixResultVO> listByBizId(@NonNull Long bizId, @NonNull String bizType);
+    List<AppendixResultVO> listByBizIdAndBizType(@NonNull Long bizId, @NonNull String bizType);
 
     /**
      * 根据对象id 和 功能点查询附件， 若查到多个附件，也只返回一个。
@@ -69,7 +119,7 @@ public interface AppendixService extends SuperService<Appendix> {
      * @param bizType
      * @return
      */
-    AppendixResultVO getBiz(@NonNull Long bizId, @NonNull String bizType);
+    AppendixResultVO getByBiz(@NonNull Long bizId, @NonNull String bizType);
 
     /**
      * 新增附件信息

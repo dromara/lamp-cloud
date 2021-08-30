@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.database.mybatis.auth.DataScopeType;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.security.constant.RoleConstant;
 import top.tangyh.basic.utils.ArgumentAssert;
@@ -163,10 +164,12 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
 
     private void saveRoleOrg(Long userId, Role role, List<Long> orgList) {
         // 根据 数据范围类型 和 勾选的组织ID， 重新计算全量的组织ID
-        List<Long> orgIds = dataScopeContext.getOrgIdsForDataScope(orgList, role.getDsType(), userId);
-        if (orgIds != null && !orgIds.isEmpty()) {
-            List<RoleOrg> list = orgIds.stream().map(orgId -> RoleOrg.builder().orgId(orgId).roleId(role.getId()).build()).collect(Collectors.toList());
-            roleOrgService.saveBatch(list);
+        if (DataScopeType.CUSTOMIZE.eq(role.getDsType())) {
+            List<Long> orgIds = dataScopeContext.getOrgIdsForDataScope(orgList, role.getDsType(), userId);
+            if (orgIds != null && !orgIds.isEmpty()) {
+                List<RoleOrg> list = orgIds.stream().map(orgId -> RoleOrg.builder().orgId(orgId).roleId(role.getId()).build()).collect(Collectors.toList());
+                roleOrgService.saveBatch(list);
+            }
         }
     }
 

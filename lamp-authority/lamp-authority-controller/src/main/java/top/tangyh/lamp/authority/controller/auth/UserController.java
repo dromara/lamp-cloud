@@ -5,16 +5,19 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.collect.Multimap;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +38,7 @@ import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import top.tangyh.basic.echo.core.EchoService;
+import top.tangyh.basic.model.EchoVO;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
 import top.tangyh.lamp.authority.controller.poi.UserExcelDictHandlerImpl;
@@ -51,11 +55,14 @@ import top.tangyh.lamp.authority.entity.core.Org;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.constant.BizConstant;
+import top.tangyh.lamp.common.vo.result.AppendixResultVO;
+import top.tangyh.lamp.file.service.AppendixService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.groups.Default;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,6 +92,7 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 public class UserController extends SuperCacheController<UserService, Long, User, UserPageQuery, UserSaveDTO, UserUpdateDTO> {
     private final OrgService orgService;
     private final EchoService echoService;
+    private final AppendixService appendixService;
     private final ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
     private final UserExcelDictHandlerImpl userExcelDictHandlerIImpl;
 
@@ -323,6 +331,9 @@ public class UserController extends SuperCacheController<UserService, Long, User
             item.setPassword(null);
             item.setSalt(null);
         });
+
+        appendixService.echoAppendix(page);
+
         return page;
     }
 

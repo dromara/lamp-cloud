@@ -1,6 +1,6 @@
 package top.tangyh.lamp.file.vo.param;
 
-import top.tangyh.lamp.common.enums.FileType;
+import top.tangyh.lamp.common.enumeration.FileType;
 import top.tangyh.lamp.file.enumeration.FileStorageType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

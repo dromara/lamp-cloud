@@ -2,7 +2,7 @@ package top.tangyh.lamp.file.utils;
 
 
 import cn.hutool.core.util.StrUtil;
-import top.tangyh.lamp.common.enums.FileType;
+import top.tangyh.lamp.common.enumeration.FileType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;

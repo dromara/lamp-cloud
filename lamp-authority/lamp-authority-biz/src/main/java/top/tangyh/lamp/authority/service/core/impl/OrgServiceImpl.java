@@ -92,7 +92,7 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         if (ids.isEmpty()) {
             return true;
         }
-        Integer userCount = userMapper.selectCount(Wraps.<User>lbQ().in(User::getOrgId, ids));
+        Long userCount = userMapper.selectCount(Wraps.<User>lbQ().in(User::getOrgId, ids));
         ArgumentAssert.isFalse(userCount > 0, "您选择的组织下还存在用户，禁止删除！请先情况改组织下所有用户后，在进行删除！");
 
         List<Org> list = this.findChildren(ids);
