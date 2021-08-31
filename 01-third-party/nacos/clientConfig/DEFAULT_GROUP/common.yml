@@ -4,7 +4,7 @@ lamp:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 3.5.0
+    version: 3.5.1
     contact:
       url: https://github.com/zuihou
       name: zuiou
@@ -126,7 +126,7 @@ feign:
   hystrix:
     enabled: false
   sentinel:
-    enabled: true    
+    enabled: true
     #支持压缩的mime types
   compression:  # 请求压缩
     request:
