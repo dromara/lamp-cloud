@@ -66,12 +66,11 @@ public class AppendixServiceImpl extends SuperServiceImpl<AppendixMapper, Append
         Set<String> bizTypeSet = CollUtil.newHashSet();
         map.forEach((biz, item) -> bizTypeSet.add(biz.getBizType()));
 
-        list.forEach(item -> {
-            bizTypeSet.forEach(bizType -> {
-                Collection<AppendixResultVO> colls = map.get(buildBiz(item.getId(), bizType));
-                item.getEchoMap().put(bizType, colls);
-            });
-        });
+        list.forEach(item ->
+                bizTypeSet.forEach(bizType ->
+                        item.getEchoMap().put(bizType, map.get(buildBiz(item.getId(), bizType)))
+                )
+        );
     }
 
     @Override
