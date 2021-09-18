@@ -41,7 +41,7 @@ spring:
     dynamic:
       enabled: false  # 这里一定要写成false，无论是什么模式
       # 从这里开始(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
-      # 联系微信：tyh306479363开通
+      # 联系微信：tyh306479353 购买开通
     # 从这里结束(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
     druid:
       enable: true
