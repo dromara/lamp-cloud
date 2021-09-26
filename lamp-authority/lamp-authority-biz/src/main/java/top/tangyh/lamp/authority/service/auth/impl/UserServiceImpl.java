@@ -120,6 +120,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updatePassword(UserUpdatePasswordDTO data) {
+        ArgumentAssert.notEmpty(data.getOldPassword(), "当前密码不能为空");
         User user = getById(data.getId());
         ArgumentAssert.notNull(user, "用户不存在");
         ArgumentAssert.equals(user.getId(), ContextUtil.getUserId(), "只能修改自己的密码");
