@@ -96,7 +96,7 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
             file.setBucket(bucket);
             file.setPath(path);
         }
-        file.setUrl(qiNiu.getUrlPrefix() + path);
+        file.setUrl(qiNiu.getUrlPrefix() + bucket + StrPool.SLASH + path);
         file.setStorageType(FileStorageType.QINIU_OSS);
     }
 

@@ -66,7 +66,7 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         PutObjectResult result = ossClient.putObject(request);
 
         log.info("result={}", JsonUtil.toJson(result));
-        String url = ali.getUrlPrefix() + path;
+        String url = ali.getUrlPrefix() + bucket + StrPool.SLASH + path;
         file.setUrl(url);
         file.setUniqueFileName(uniqueFileName);
         file.setBucket(bucket);

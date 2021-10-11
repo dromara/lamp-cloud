@@ -45,9 +45,9 @@ public class OauthOptLogController {
      */
     @PostMapping
     @ApiOperation(value = "保存系统日志", notes = "保存系统日志不为空的字段")
-    public R<OptLog> save(@RequestBody OptLogDTO data) {
+    public R<OptLogDTO> save(@RequestBody OptLogDTO data) {
         optLogService.save(data);
-        return R.success(BeanPlusUtil.toBean(data, OptLog.class));
+        return R.success(BeanPlusUtil.toBean(data, OptLogDTO.class));
     }
 
 }

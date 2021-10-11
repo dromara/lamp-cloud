@@ -85,7 +85,7 @@ public class MinIoFileStrategyImpl extends AbstractFileStrategy {
         file.setBucket(bucket);
         file.setPath(path);
         file.setUniqueFileName(uniqueFileName);
-        file.setUrl(fileProperties.getMinIo().getUrlPrefix() + path);
+        file.setUrl(fileProperties.getMinIo().getUrlPrefix() + bucket + StrPool.SLASH + path);
         file.setStorageType(FileStorageType.MIN_IO);
     }
 

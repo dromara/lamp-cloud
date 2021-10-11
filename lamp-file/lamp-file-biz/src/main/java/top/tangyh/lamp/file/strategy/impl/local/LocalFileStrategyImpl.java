@@ -50,7 +50,7 @@ public class LocalFileStrategyImpl extends AbstractFileStrategy {
         FileUtils.writeByteArrayToFile(outFile, multipartFile.getBytes());
 
         // 返回数据
-        String url = local.getUrlPrefix() + path;
+        String url = local.getUrlPrefix() + bucket + StrPool.SLASH + path;
         file.setUrl(url);
         file.setUniqueFileName(uniqueFileName);
         file.setPath(path);

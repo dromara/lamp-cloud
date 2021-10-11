@@ -90,7 +90,7 @@ public class HuaweiFileStrategyImpl extends AbstractFileStrategy {
             request.setMetadata(metadata);
             obsClient.putObject(request);
 
-            String url = huawei.getUrlPrefix() + path;
+            String url = huawei.getUrlPrefix() + bucket + StrPool.SLASH + path;
             file.setUrl(url);
         }
         file.setBucket(bucket);
