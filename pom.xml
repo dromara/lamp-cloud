@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>3.5.3</version>
+    <version>3.5.4</version>
     <packaging>pom</packaging>
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -39,8 +39,8 @@
     </modules>
 
     <properties>
-        <lamp-util.version>3.5.3</lamp-util.version>
-        <lamp-project.version>3.5.3</lamp-project.version>
+        <lamp-util.version>3.5.4</lamp-util.version>
+        <lamp-project.version>3.5.4</lamp-project.version>
         <!-- jdk8 将这里改成 8 -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
