@@ -210,6 +210,8 @@ public class TokenContextFilter implements WebFilter, Ordered {
             addHeader(mutate, JWT_KEY_TENANT, tenant);
             MDC.put(JWT_KEY_TENANT, tenant);
         }
+
+        // 3.x 无需JWT_KEY_SUB_TENANT参数，请忽略
         String base64SubTenant = getHeader(JWT_KEY_SUB_TENANT, request);
         if (StrUtil.isNotEmpty(base64SubTenant)) {
             String subTenant = JwtUtil.base64Decoder(base64SubTenant);
