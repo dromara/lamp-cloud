@@ -14,6 +14,10 @@
 
 [点我了解项目详细介绍](简介.md)
 
+# 推广
+- 阿里云服务器折扣场：[点我进入](https://www.aliyun.com/activity/1111?userCode=uk5ga6sq)
+- 阿里云服务器优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
+- 阿里云服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
 
 ## 工具集
 
