@@ -13,10 +13,9 @@
 `灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，由"工具集"、"后端"、"前端"组成，包含以下几个子项目
 
 [点我了解项目详细介绍](简介.md)
-
 # 推广
-- 阿里云服务器折扣场：[点我进入](https://www.aliyun.com/activity/1111?userCode=uk5ga6sq)
-- 阿里云服务器优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
+- 阿里云服务器双11折扣：[点我进入](https://www.aliyun.com/activity/1111?userCode=uk5ga6sq)
+- 阿里云服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
 - 阿里云服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
 
 ## 工具集
