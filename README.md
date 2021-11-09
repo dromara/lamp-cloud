@@ -40,7 +40,6 @@
 | --- | --- | --- | --- | --- |
 | lamp-web-plus(强烈推荐！👏👏👏) | [lamp-web-plus](https://gitee.com/zuihou111/lamp-web-plus) | [lamp-web-plus](https://github.com/zuihou/lamp-web-plus) | 基于 vue-vben-admin （vue 3 + ant design vue 2） | https://tangyh.top |
 | lamp-web | [lamp-web](https://gitee.com/zuihou111/lamp-web) | [lamp-web](https://github.com/zuihou/lamp-web) | 基于 vue-admin-element (element-ui) | https://tangyh.top/lamp-web |
-| lamp-web-beautiful(停更) | [lamp-web-beautiful](https://gitee.com/zuihou111/lamp-web-beautiful) | [lamp-web-beautiful](https://github.com/zuihou/lamp-web-beautiful) | 基于 vue-admin-beautiful | 无 |
 
 # lamp-cloud 简介
 
@@ -54,10 +53,9 @@
 希望能努力打造一套从 `Web基础框架` - `分布式微服务架构` - `持续集成` - `系统监测` 的解决方案。本项目旨在实现基础框架能力，不涉及具体业务。
 
 # 会员版演示地址
-- 后端使用lamp-cloud-plus，前端使用lamp-web-plus。演示地址： https://tangyh.top
-- 后端使用lamp-cloud-plus，前端使用lamp-web。演示地址： https://tangyh.top/lamp-web
-- 后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址： https://boot.tangyh.top
-- 后端使用lamp-boot-plus， 前端使用lamp-web。演示地址： https://boot.tangyh.top/lamp-web
+- 4.0：后端使用lamp-cloud-pro， 前端使用lamp-web-pro。演示地址： https://tangyh.top
+- 3.x：后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址：  https://boot.tangyh.top
+- 3.x：后端使用lamp-boot-plus， 前端使用lamp-web。演示地址：  https://boot.tangyh.top/lamp-web
 
 # 演示账号
 - 以下内置账号仅限于内置的0000租户
