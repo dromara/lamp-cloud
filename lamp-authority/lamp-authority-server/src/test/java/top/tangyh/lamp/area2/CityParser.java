@@ -2,6 +2,7 @@ package top.tangyh.lamp.area2;
 
 
 import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.log.StaticLog;
 import top.tangyh.lamp.authority.entity.common.Area;
@@ -33,8 +34,9 @@ public class CityParser implements ICityParser {
     }
 
     private List<Area> parseProvince(String url) {
-
-        String htmlStr = HttpUtil.get(url, CHARSET);
+        HttpRequest get = HttpUtil.createGet(url);
+        byte[] bytes = get.charset(CHARSET).execute().bodyBytes();
+        String htmlStr = HttpUtil.getString(bytes, CHARSET, false);
         Document document = Jsoup.parse(htmlStr);
 
         // 获取 class='provincetr' 的元素
@@ -66,7 +68,9 @@ public class CityParser implements ICityParser {
     }
 
     private List<Area> parseCity(String provinceName, String url) {
-        String htmlStr = HttpUtil.get(url, CHARSET);
+        HttpRequest get = HttpUtil.createGet(url);
+        byte[] bytes = get.charset(CHARSET).execute().bodyBytes();
+        String htmlStr = HttpUtil.getString(bytes, CHARSET, false);
         Document document = Jsoup.parse(htmlStr);
         Elements trs = document.getElementsByClass("citytr");
 
@@ -94,10 +98,15 @@ public class CityParser implements ICityParser {
     }
 
     private List<Area> parseCounty(String fullName, String url) {
-        String htmlStr = HttpUtil.get(url, CHARSET);
+        HttpRequest get = HttpUtil.createGet(url);
+        byte[] bytes = get.charset(CHARSET).execute().bodyBytes();
+        String htmlStr = HttpUtil.getString(bytes, CHARSET, false);
         Document document = Jsoup.parse(htmlStr);
         Elements trs = document.getElementsByClass("countytr");
 
+        if (trs.isEmpty()) {
+            return parseTowntr(fullName, url);
+        }
         List<Area> counties = new LinkedList<Area>();
         int sort = 1;
         for (Element tr : trs) {
@@ -131,7 +140,9 @@ public class CityParser implements ICityParser {
      * @return
      */
     public List<Area> parseTowntr(String fullName, String url) {
-        String htmlStr = HttpUtil.get(url, CHARSET);
+        HttpRequest get = HttpUtil.createGet(url);
+        byte[] bytes = get.charset(CHARSET).execute().bodyBytes();
+        String htmlStr = HttpUtil.getString(bytes, CHARSET, false);
         Document document = Jsoup.parse(htmlStr);
         Elements trs = document.getElementsByClass("towntr");
 
@@ -169,7 +180,9 @@ public class CityParser implements ICityParser {
      * @return
      */
     public List<Area> parseVillagetr(String fullName, String url) {
-        String htmlStr = HttpUtil.get(url, CHARSET);
+        HttpRequest get = HttpUtil.createGet(url);
+        byte[] bytes = get.charset(CHARSET).execute().bodyBytes();
+        String htmlStr = HttpUtil.getString(bytes, CHARSET, false);
         Document document = Jsoup.parse(htmlStr);
         Elements trs = document.getElementsByClass("villagetr");
 
