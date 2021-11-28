@@ -82,12 +82,12 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     private void fillOrg(Org org) {
         if (org.getParentId() == null || org.getParentId() <= 0) {
             org.setParentId(DEF_PARENT_ID);
-            org.setTreePath(EMPTY);
+            org.setTreePath(DEF_ROOT_PATH);
         } else {
             Org parent = this.baseService.getByIdCache(org.getParentId());
             ArgumentAssert.notNull(parent, "请正确填写父级组织");
 
-            org.setTreePath(StrUtil.join(DEF_ROOT_PATH, parent.getTreePath(), parent.getId()));
+            org.setTreePath(TreeUtil.getTreePath(parent.getTreePath(), parent.getId()));
         }
     }
 
