@@ -63,6 +63,9 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
 
     private Stream<SwaggerResource> swaggerResources(RouteDefinition route) {
         try {
+            if (route.getUri().getHost() == null) {
+                return null;
+            }
             // knife4j 官方提供的demo中，只能聚合group=default的文档，我这里做了增强，能聚合所有group
             List<ServiceInstance> instances = discoveryClient.getInstances(route.getUri().getHost());
             if (CollUtil.isEmpty(instances)) {
