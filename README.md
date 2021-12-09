@@ -9,6 +9,11 @@
 [![Star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
 [![Fork](https://gitee.com/zuihou111/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/zuihou111/lamp-cloud/members)
 
+
+# 大家好，今年的开源中国投票又开始了，赶快动动手指给lamp-cloud投票吧！～
+
+投票地址：  https://www.oschina.net/project/top_cn_2021/?id=545
+
 # lamp 项目名字由来
 `灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，由"工具集"、"后端"、"前端"组成，包含以下几个子项目
 
