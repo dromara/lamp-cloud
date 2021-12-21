@@ -9,19 +9,18 @@
 [![Star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
 [![Fork](https://gitee.com/zuihou111/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/zuihou111/lamp-cloud/members)
 
-
-# 大家好，今年的开源中国投票又开始了，赶快动动手指给lamp-cloud投票吧！～
-
-投票地址：  https://www.oschina.net/project/top_cn_2021/?id=545
-
-# lamp 项目名字由来
-`灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，由"工具集"、"后端"、"前端"组成，包含以下几个子项目
-
-[点我了解项目详细介绍](简介.md)
 # 推广
 - 阿里云服务器双11折扣：[点我进入](https://www.aliyun.com/activity/1111?userCode=uk5ga6sq)
 - 阿里云服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
 - 阿里云服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
+
+# lamp 项目名字由来
+在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。 走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
+我和媳妇相视一笑，然后一起说：哈哈，就用这个名字！！！
+
+[点我了解项目详细介绍](简介.md)
+
+`灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，由"工具集"、"后端"、"前端"组成，包含以下几个子项目
 
 ## 工具集
 
