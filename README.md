@@ -10,12 +10,14 @@
 [![Fork](https://gitee.com/zuihou111/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/zuihou111/lamp-cloud/members)
 
 # 推广
-- 超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
-- 阿里云服务器双11折扣：[点我进入](https://www.aliyun.com/activity/1111?userCode=uk5ga6sq)
-- 阿里云服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
-- 阿里云服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
+- 【阿里云】超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
+- 【阿里云】服务器折扣：[点我进入](https://www.aliyun.com/activity/1111?userCode=uk5ga6sq)
+- 【阿里云】服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
+- 【阿里云】服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
+- 【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
+- 【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
 - 通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud) 一份。
-  
+
 # lamp 项目名字由来
 在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。 走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
 我和媳妇相视一笑，然后一起说：哈哈，就用这个名字！！！
