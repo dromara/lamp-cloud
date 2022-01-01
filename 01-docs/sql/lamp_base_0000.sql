@@ -64,7 +64,7 @@ CREATE TABLE `c_application` (
 -- Records of c_application
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_application` VALUES (1, 'lamp_web', 'lamp_web_secret', 'https://tangyh.top', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
+INSERT INTO `c_application` VALUES (1, 'lamp_web', 'lamp_web_secret', 'https://pro.tangyh.top', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
 COMMIT;
 
 -- ----------------------------
