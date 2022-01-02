@@ -11,12 +11,14 @@
 
 # 推广
 - 【阿里云】超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
-- 【阿里云】服务器折扣：[点我进入](https://www.aliyun.com/activity/1111?userCode=uk5ga6sq)
 - 【阿里云】服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
 - 【阿里云】服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
 - 【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
 - 【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
 - 通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud) 一份。
+
+# 官网
+[https://tangyh.top](https://tangyh.top)
 
 # lamp 项目名字由来
 在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。 走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
@@ -49,9 +51,6 @@
 | lamp-web-plus(强烈推荐！👏👏👏) | [lamp-web-plus](https://gitee.com/zuihou111/lamp-web-plus) | [lamp-web-plus](https://github.com/zuihou/lamp-web-plus) | 基于 vue-vben-admin （vue 3 + ant design vue 2） | https://pro.tangyh.top |
 | lamp-web | [lamp-web](https://gitee.com/zuihou111/lamp-web) | [lamp-web](https://github.com/zuihou/lamp-web) | 基于 vue-admin-element (element-ui) | https://pro.tangyh.top/lamp-web |
 
-# 官网
-[https://tangyh.top](https://tangyh.top)
-
 # lamp-cloud 简介
 
 `lamp-cloud`只是`lamp`项目的其中一个项目，她基于`jdk11/jdk8` + `SpringCloud`  + `SpringBoot` 开发，
@@ -64,17 +63,18 @@
 希望能努力打造一套从 `Web基础框架` - `分布式微服务架构` - `持续集成` - `系统监测` 的解决方案。本项目旨在实现基础框架能力，不涉及具体业务。
 
 # 会员版演示地址
-- 4.0版本：后端使用lamp-cloud-pro， 前端使用lamp-web-pro。演示地址：   https://pro.tangyh.top
-- 3.x版本：后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址：  https://boot.tangyh.top
-- 3.x版本：后端使用lamp-boot-plus， 前端使用lamp-web。演示地址：     https://boot.tangyh.top/lamp-web
+- 官网：[https://tangyh.top](https://tangyh.top)
+- 4.0版本：后端使用lamp-cloud-pro， 前端使用lamp-web-pro。演示地址：   [https://pro.tangyh.top](https://pro.tangyh.top)
+- 3.x版本：后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址：  [https://boot.tangyh.top](https://boot.tangyh.top)
+- 3.x版本：后端使用lamp-boot-plus， 前端使用lamp-web。演示地址：     [https://boot.tangyh.top/lamp-web](https://boot.tangyh.top/lamp-web)
 
 > 4.0 企业版源码已经发布，开源版和个人版(4.0功能可能有所不同)发布暂缓，详情咨询作者
 
 
 # 快速上手
-- 入门到精通，参考文档： https://www.kancloud.cn/zuihou/zuihou-admin-cloud
-- 发现bug和建议，请提交issue： https://github.com/zuihou/lamp-cloud/issues
-- 常见问题，请参考Discussions： https://github.com/zuihou/lamp-cloud/discussions
+- 入门到精通，参考 [在线文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
+- 发现bug和建议，请提交 [issue](https://github.com/zuihou/lamp-cloud/issues)
+- 常见问题，请参考 [Discussions](https://github.com/zuihou/lamp-cloud/discussions)
 
 # 项目截图：
 
@@ -88,9 +88,9 @@
 | ![预览.png](01-docs/image/1000star.png) | ![预览.png](01-docs/image/软著V2.5.0.jpg) |
 
 # 会员版
-本项目分为开源版和会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
+本项目分为开源版、个人学习版和企业商用版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 个人和企业版源码在私有gitlab托管，购买后开通账号。
 
-会员版和开源版区别请看：[会员版](会员版.md)
+区别请看：[会员版](https://tangyh.top/pages/vip/)
 
 # 开源协议
 Apache Licence 2.0 Licence是著名的非盈利开源组织Apache采用的协议。该协议和BSD类似，同样鼓励代码共享和尊重原作者的著作权，同样允许代码修改，再发布（作为开源或商业软件）。 需要满足的条件如下：
