@@ -20,6 +20,7 @@ import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
 import top.tangyh.lamp.tenant.dto.TenantSaveDTO;
 import top.tangyh.lamp.tenant.dto.TenantUpdateDTO;
 import top.tangyh.lamp.tenant.entity.Tenant;
+import top.tangyh.lamp.tenant.enumeration.TenantConnectTypeEnum;
 import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
 import top.tangyh.lamp.tenant.enumeration.TenantTypeEnum;
 import top.tangyh.lamp.tenant.service.TenantService;
@@ -77,6 +78,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         Tenant tenant = BeanPlusUtil.toBean(data, Tenant.class);
         tenant.setStatus(TenantStatusEnum.WAIT_INIT);
         tenant.setType(TenantTypeEnum.CREATE);
+        tenant.setConnectType(TenantConnectTypeEnum.LOCAL);
         // defaults 库
         save(tenant);
 
