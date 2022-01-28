@@ -28,6 +28,7 @@ public enum AuthorizeType implements BaseEnum {
      * MENU="菜单"
      */
     MENU("菜单"),
+    DATA("数据"),
     /**
      * RESOURCE="资源"
      */

@@ -1,5 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -9,10 +11,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.annotation.echo.Echo;
+import top.tangyh.lamp.common.constant.DictionaryType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
 
 /**
  * <p>
@@ -51,14 +58,14 @@ public class MenuSaveDTO implements Serializable {
      * 路径
      */
     @ApiModelProperty(value = "地址栏地址")
-    @NotEmpty(message = "请填写地址栏地址")
+//    @NotEmpty(message = "请填写地址栏地址")
     @Size(max = 255, message = "地址栏地址长度不能超过255")
     private String path;
     /**
      * 组件
      */
     @ApiModelProperty(value = "页面代码地址")
-    @NotEmpty(message = "请填写页面代码地址")
+//    @NotEmpty(message = "请填写页面代码地址")
     @Size(max = 255, message = "页面代码地址长度不能超过255")
     private String component;
     /**
@@ -93,4 +100,29 @@ public class MenuSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "内置")
     private Boolean readonly;
+    /**
+     * 类型;[20-菜单 60-数据]
+     */
+    @ApiModelProperty(value = "类型")
+    @Size(max = 2, message = "类型长度不能超过{max}")
+    private String resourceType;
+    /**
+     * 数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]
+     */
+    @ApiModelProperty(value = "数据范围")
+    @Size(max = 2, message = "数据范围长度不能超过{max}")
+    private String dataScope;
+    /**
+     * 实现类;自定义实现类全类名
+     */
+    @ApiModelProperty(value = "实现类")
+    @Size(max = 255, message = "实现类长度不能超过{max}")
+    private String customClass;
+
+    /**
+     * 是否默认
+     */
+    @ApiModelProperty(value = "是否默认")
+    private Boolean isDef;
+
 }

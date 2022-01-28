@@ -1,8 +1,9 @@
 package top.tangyh.lamp.authority.dao.core;
 
-import top.tangyh.lamp.authority.entity.core.Org;
-import top.tangyh.basic.base.mapper.SuperMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import top.tangyh.basic.base.mapper.SuperMapper;
+import top.tangyh.lamp.authority.entity.core.Org;
 
 /**
  * <p>
@@ -15,5 +16,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OrgMapper extends SuperMapper<Org> {
-
+    /**
+     * 根据 用户ID 查找 部门ID
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    Org getDeptByUserId(@Param("userId") Long userId);
 }

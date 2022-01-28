@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1
+ Source Server         : 10.10.10.169
  Source Server Type    : MySQL
- Source Server Version : 50722
- Source Host           : 127.0.0.1:3306
+ Source Server Version : 80022
+ Source Host           : 10.10.10.169:3306
  Source Schema         : lamp_base_0000
 
  Target Server Type    : MySQL
- Target Server Version : 50722
+ Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 16/08/2021 21:10:17
+ Date: 27/01/2022 15:45:00
 */
 
 SET NAMES utf8mb4;
@@ -22,28 +22,28 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_appendix`;
 CREATE TABLE `c_appendix` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `biz_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '业务id',
-  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
-  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
-  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
-  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
-  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
-  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
-  `size` bigint(20) DEFAULT '0' COMMENT '大小',
+  `id` bigint NOT NULL COMMENT 'ID',
+  `biz_id` bigint NOT NULL DEFAULT '0' COMMENT '业务id',
+  `biz_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '业务类型',
+  `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件类型',
+  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '桶',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件相对地址',
+  `original_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件类型',
+  `size` bigint DEFAULT '0' COMMENT '大小',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `created_by` bigint(20) NOT NULL COMMENT '创建人',
+  `created_by` bigint NOT NULL COMMENT '创建人',
   `update_time` datetime NOT NULL COMMENT '最后修改时间',
-  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
+  `updated_by` bigint NOT NULL COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='业务附件';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='业务附件';
 
 -- ----------------------------
 -- Table structure for c_application
 -- ----------------------------
 DROP TABLE IF EXISTS `c_application`;
 CREATE TABLE `c_application` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `client_id` varchar(24) DEFAULT '' COMMENT '客户端ID',
   `client_secret` varchar(32) DEFAULT '' COMMENT '客户端密码',
   `website` varchar(100) DEFAULT '' COMMENT '官网',
@@ -52,19 +52,20 @@ CREATE TABLE `c_application` (
   `app_type` varchar(10) DEFAULT '' COMMENT '类型 \n#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}',
   `describe_` varchar(200) DEFAULT '' COMMENT '备注',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_client_id` (`client_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用';
 
 -- ----------------------------
 -- Records of c_application
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_application` VALUES (1, 'lamp_web', 'lamp_web_secret', 'https://pro.tangyh.top', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
+INSERT INTO `c_application` VALUES (1, 'lamp_web_plus', 'lamp_web_plus_secret', 'https://tangyh.top', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
+INSERT INTO `c_application` VALUES (2, 'lamp_web', 'lamp_web_plus', 'https://tangyh.top', 'lamp快速开发平台', NULL, 'PC', '内置', b'1', 1, '2020-04-02 15:05:14', 1, '2020-04-02 15:05:17');
 COMMIT;
 
 -- ----------------------------
@@ -72,75 +73,75 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_area`;
 CREATE TABLE `c_area` (
-  `id` bigint(20) NOT NULL COMMENT 'id',
+  `id` bigint NOT NULL COMMENT 'id',
   `code` varchar(64) NOT NULL COMMENT '编码',
   `label` varchar(255) NOT NULL COMMENT '名称',
   `full_name` varchar(255) DEFAULT '' COMMENT '全名',
-  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `sort_value` int DEFAULT '1' COMMENT '排序',
   `longitude` varchar(255) DEFAULT '' COMMENT '经度',
   `latitude` varchar(255) DEFAULT '' COMMENT '维度',
-  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.AREA_LEVEL)',
+  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.AREA_LEVEL)',
   `source_` varchar(255) DEFAULT '' COMMENT '数据来源',
   `state` bit(1) DEFAULT b'0' COMMENT '状态',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
+  `parent_id` bigint DEFAULT '0' COMMENT '父ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_code` (`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='地区表';
 
 -- ----------------------------
 -- Table structure for c_dict
 -- ----------------------------
 DROP TABLE IF EXISTS `c_dict`;
 CREATE TABLE `c_dict` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `parent_id` bigint(20) DEFAULT NULL COMMENT '字典ID',
+  `id` bigint NOT NULL COMMENT 'ID',
+  `parent_id` bigint DEFAULT NULL COMMENT '字典ID',
   `key` varchar(255) NOT NULL COMMENT '字典标识',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '字典名称',
   `item_key` varchar(255) NOT NULL COMMENT '字典项标识',
   `item_name` varchar(255) NOT NULL COMMENT '字典项名称',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
-  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `sort_value` int DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '图标',
   `css_style` varchar(255) DEFAULT '' COMMENT 'css样式',
   `css_class` varchar(255) DEFAULT '' COMMENT 'css class',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_type_code` (`key`,`item_key`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
 
 -- ----------------------------
 -- Table structure for c_dictionary
 -- ----------------------------
 DROP TABLE IF EXISTS `c_dictionary`;
 CREATE TABLE `c_dictionary` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `type` varchar(255) NOT NULL COMMENT '类型',
   `label` varchar(255) NOT NULL DEFAULT '' COMMENT '类型标签',
   `code` varchar(64) NOT NULL COMMENT '编码',
   `name` varchar(64) NOT NULL COMMENT '名称',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
-  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `sort_value` int DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '图标',
   `css_style` varchar(255) DEFAULT '' COMMENT 'css样式',
   `css_class` varchar(255) DEFAULT '' COMMENT 'css class',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_type_code` (`type`,`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
 
 -- ----------------------------
 -- Records of c_dictionary
@@ -222,6 +223,18 @@ INSERT INTO `c_dictionary` VALUES (99, 'NATION', '民族', '57', '其他', b'1',
 INSERT INTO `c_dictionary` VALUES (110, 'POSITION_STATUS', '职位状态', '01', '在职', b'1', '', 1, '', '', '', b'1', 1, '2019-06-04 11:38:16', 1, '2019-06-04 11:38:16');
 INSERT INTO `c_dictionary` VALUES (111, 'POSITION_STATUS', '职位状态', '02', '请假', b'1', '', 2, '', '', '', b'1', 3, '2020-03-09 23:39:30', 3, '2020-03-09 23:39:30');
 INSERT INTO `c_dictionary` VALUES (112, 'POSITION_STATUS', '职位状态', '03', '离职', b'1', '', 3, '', '', '', b'1', 1, '2019-06-04 11:38:50', 1, '2019-06-04 11:38:50');
+INSERT INTO `c_dictionary` VALUES (1486198107023605760, 'RESOURCE_TYPE', '资源类型', '20', '菜单', b'1', '', 2, '', '', '', b'1', 2, '2022-01-26 12:43:36', 2, '2022-01-26 12:46:58');
+INSERT INTO `c_dictionary` VALUES (1486198623417925632, 'RESOURCE_DATA_SCOPE', '数据范围', '01', '全部', b'1', '', 1, '', '', '', b'1', 2, '2022-01-26 12:45:39', 2, '2022-01-26 12:47:45');
+INSERT INTO `c_dictionary` VALUES (1486198858865180672, 'ROLE_CATEGORY', '角色类别', '10', '功能角色', b'1', '', 1, '', '', '', b'1', 2, '2022-01-26 12:46:35', 2, '2022-01-26 12:51:54');
+INSERT INTO `c_dictionary` VALUES (1486198996287356928, 'RESOURCE_TYPE', '资源类型', '60', '数据', b'1', '', 6, '', '', '', b'1', 2, '2022-01-26 12:47:08', 2, '2022-01-26 12:47:08');
+INSERT INTO `c_dictionary` VALUES (1486199651718660096, 'RESOURCE_DATA_SCOPE', '数据范围', '02', '本单位及子级', b'1', '', 2, '', '', '', b'1', 2, '2022-01-26 12:49:44', 2, '2022-01-26 12:49:44');
+INSERT INTO `c_dictionary` VALUES (1486199679237488640, 'RESOURCE_DATA_SCOPE', '数据范围', '03', '本单位', b'1', '', 3, '', '', '', b'1', 2, '2022-01-26 12:49:50', 2, '2022-01-26 12:49:50');
+INSERT INTO `c_dictionary` VALUES (1486199726792507392, 'RESOURCE_DATA_SCOPE', '数据范围', '04', '本部门及子级', b'1', '', 4, '', '', '', b'1', 2, '2022-01-26 12:50:02', 2, '2022-01-26 12:50:02');
+INSERT INTO `c_dictionary` VALUES (1486199753644441600, 'RESOURCE_DATA_SCOPE', '数据范围', '05', '本部门', b'1', '', 5, '', '', '', b'1', 2, '2022-01-26 12:50:08', 2, '2022-01-26 12:50:08');
+INSERT INTO `c_dictionary` VALUES (1486199809227358208, 'RESOURCE_DATA_SCOPE', '数据范围', '06', '个人', b'1', '', 6, '', '', '', b'1', 2, '2022-01-26 12:50:21', 2, '2022-01-26 12:50:21');
+INSERT INTO `c_dictionary` VALUES (1486199838218387456, 'RESOURCE_DATA_SCOPE', '数据范围', '07', '自定义', b'1', '', 7, '', '', '', b'1', 2, '2022-01-26 12:50:28', 2, '2022-01-26 12:53:23');
+INSERT INTO `c_dictionary` VALUES (1486200233623814144, 'ROLE_CATEGORY', '角色类别', '20', '桌面角色', b'1', '', 2, '', '', '', b'1', 2, '2022-01-26 12:52:03', 2, '2022-01-26 12:52:03');
+INSERT INTO `c_dictionary` VALUES (1486200358744096768, 'ROLE_CATEGORY', '角色类别', '30', '数据角色', b'1', '', 3, '', '', '', b'1', 2, '2022-01-26 12:52:32', 2, '2022-01-26 12:52:32');
 COMMIT;
 
 -- ----------------------------
@@ -229,52 +242,37 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_file`;
 CREATE TABLE `c_file` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
-  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
-  `storage_type` varchar(255) DEFAULT NULL COMMENT '存储类型\nLOCAL FAST_DFS MIN_IO ALI \n',
-  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
-  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
-  `url` varchar(255) DEFAULT NULL COMMENT '文件访问地址',
-  `unique_file_name` varchar(255) DEFAULT '' COMMENT '唯一文件名',
-  `file_md5` varchar(255) DEFAULT NULL COMMENT '文件md5',
-  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
-  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
-  `suffix` varchar(255) DEFAULT '' COMMENT '后缀',
-  `size` bigint(20) DEFAULT '0' COMMENT '大小',
+  `id` bigint NOT NULL COMMENT 'ID',
+  `biz_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '业务类型',
+  `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件类型',
+  `storage_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '存储类型\nLOCAL FAST_DFS MIN_IO ALI \n',
+  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '桶',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件相对地址',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件访问地址',
+  `unique_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '唯一文件名',
+  `file_md5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件md5',
+  `original_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件类型',
+  `suffix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '后缀',
+  `size` bigint DEFAULT '0' COMMENT '大小',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `created_by` bigint(20) NOT NULL COMMENT '创建人',
+  `created_by` bigint NOT NULL COMMENT '创建人',
   `update_time` datetime NOT NULL COMMENT '最后修改时间',
-  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
+  `updated_by` bigint NOT NULL COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='增量文件上传日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='增量文件上传日志';
 
 -- ----------------------------
 -- Records of c_file
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_file` VALUES (1417872122813874176, 'BASE_FILE', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_FILE/2021/07/21/40b8f820e74d49049d08cf7dc316e79e.png', '0000/BASE_FILE/2021/07/21/40b8f820e74d49049d08cf7dc316e79e.png', '40b8f820e74d49049d08cf7dc316e79e.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:40:32', 2, '2021-07-21 23:40:32', 2);
-INSERT INTO `c_file` VALUES (1417872209908596736, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/21/4e2f299b24ee46809a7d3bd94c0650da.png', '0000/USER_AVATAR/2021/07/21/4e2f299b24ee46809a7d3bd94c0650da.png', '4e2f299b24ee46809a7d3bd94c0650da.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:40:52', 2, '2021-07-21 23:40:52', 2);
-INSERT INTO `c_file` VALUES (1417872713925525504, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/21/b020303bff054342ae96d910c9c56cb5.png', '0000/USER_AVATAR/2021/07/21/b020303bff054342ae96d910c9c56cb5.png', 'b020303bff054342ae96d910c9c56cb5.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:42:52', 2, '2021-07-21 23:42:52', 2);
-INSERT INTO `c_file` VALUES (1417873360792059904, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/21/af7c6ff562a3467c812b06a568ee228d.png', '0000/USER_AVATAR/2021/07/21/af7c6ff562a3467c812b06a568ee228d.png', 'af7c6ff562a3467c812b06a568ee228d.png', NULL, '32x32.png', 'image/png', 'png', 2953, '2021-07-21 23:45:27', 2, '2021-07-21 23:45:27', 2);
-INSERT INTO `c_file` VALUES (1417874903289298944, 'TENANT_LOGO', 'IMAGE', 'MIN_IO', 'dev', '0000/TENANT_LOGO/2021/07/21/c04943adb6b54c4596d1b9c23d342e45.png', '0000/TENANT_LOGO/2021/07/21/c04943adb6b54c4596d1b9c23d342e45.png', 'c04943adb6b54c4596d1b9c23d342e45.png', NULL, 'zuihou-admin-cloud后端功能介绍.png', 'image/png', 'png', 505044, '2021-07-21 23:51:34', 3, '2021-07-21 23:51:34', 3);
-INSERT INTO `c_file` VALUES (1417875462838812672, 'TENANT_LOGO', 'IMAGE', 'MIN_IO', 'dev', '0000/TENANT_LOGO/2021/07/21/07bcd84c13974126be3e774d69518556.png', '0000/TENANT_LOGO/2021/07/21/07bcd84c13974126be3e774d69518556.png', '07bcd84c13974126be3e774d69518556.png', NULL, 'zuihou-admin-cloud功能介绍.png', 'image/png', 'png', 368296, '2021-07-21 23:53:48', 3, '2021-07-21 23:53:48', 3);
-INSERT INTO `c_file` VALUES (1418756607709282304, '每个业务定义一个唯一字符串，建议：库名_表名_字段名', 'IMAGE', 'MIN_IO', 'dev', '0000/每个业务定义一个唯一字符串，建议：库名_表名_字段名/2021/07/24/30cfb050e5bb40868cc66ea66006a083.png', '0000/每个业务定义一个唯一字符串，建议：库名_表名_字段名/2021/07/24/30cfb050e5bb40868cc66ea66006a083.png', '30cfb050e5bb40868cc66ea66006a083.png', NULL, '调用流程.png', 'image/png', 'png', 276776, '2021-07-24 10:15:09', 2, '2021-07-24 10:15:09', 2);
-INSERT INTO `c_file` VALUES (1420332786971049984, 'USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/USER_AVATAR/2021/07/28/2e5a3a5dd8b54640bd747dd1022981f0.png', 'https://static.tangyh.top/0000/USER_AVATAR/2021/07/28/2e5a3a5dd8b54640bd747dd1022981f0.png', '2e5a3a5dd8b54640bd747dd1022981f0.png', NULL, '盘江logo.png', 'image/png', 'png', 35654, '2021-07-28 18:38:20', 2, '2021-07-28 18:38:20', 2);
-INSERT INTO `c_file` VALUES (1420354108497330176, '1111', 'IMAGE', 'FAST_DFS', 'group1', 'M00/00/00/J2xt6mEBR3eAYEf_AACLRqeHcOQ175.png', 'http://fastdfs.tangyh.top/group1/M00/00/00/J2xt6mEBR3eAYEf_AACLRqeHcOQ175.png', '', NULL, '盘江logo.png', 'image/png', 'png', 35654, '2021-07-28 20:03:03', 1, '2021-07-28 20:03:03', 1);
-INSERT INTO `c_file` VALUES (1420398326485876736, '123', 'IMAGE', 'FAST_DFS', 'group1', 'M00/00/00/oYYBAGEBcKWAWMI6ABLOfYMJlvk885.jpg', 'https://fastdfs.tangyh.top/group1/M00/00/00/oYYBAGEBcKWAWMI6ABLOfYMJlvk885.jpg', '', NULL, 'zuihou-admin-cloud后端功能介绍.jpg', 'image/jpeg', 'jpg', 1232509, '2021-07-28 22:58:45', 1, '2021-07-28 22:58:45', 1);
-INSERT INTO `c_file` VALUES (1424298393659768832, 'BASE_FILE', 'IMAGE', 'FAST_DFS', 'group1', 'M00/00/00/oYYBAGEPoN6ADZrDAAASb7pSOzk860.jpg', 'https://fastdfs.tangyh.top/group1/M00/00/00/oYYBAGEPoN6ADZrDAAASb7pSOzk860.jpg', '', NULL, '2.jpg', 'image/jpeg', 'jpg', 4719, '2021-08-08 17:16:14', 2, '2021-08-08 17:16:14', 2);
-INSERT INTO `c_file` VALUES (1426435412154384384, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/3d5da8d46f6249a8a0e7b99c38818a5e.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/3d5da8d46f6249a8a0e7b99c38818a5e.jpg', '3d5da8d46f6249a8a0e7b99c38818a5e.jpg', NULL, '2.jpg', 'image/png', 'jpg', 22964, '2021-08-14 14:47:59', 2, '2021-08-14 14:47:59', 2);
-INSERT INTO `c_file` VALUES (1426435532182781952, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/490a76fa20394cacaa87a718be4f09ef.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/490a76fa20394cacaa87a718be4f09ef.jpg', '490a76fa20394cacaa87a718be4f09ef.jpg', NULL, '2.jpg', 'image/png', 'jpg', 22964, '2021-08-14 14:48:27', 2, '2021-08-14 14:48:27', 2);
-INSERT INTO `c_file` VALUES (1426438060488261632, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/d108613df7c54445a7c6c1e3cde9a49c.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/d108613df7c54445a7c6c1e3cde9a49c.jpg', 'd108613df7c54445a7c6c1e3cde9a49c.jpg', NULL, '2.jpg', 'image/png', 'jpg', 24199, '2021-08-14 14:58:30', 2, '2021-08-14 14:58:30', 2);
-INSERT INTO `c_file` VALUES (1426473317027545088, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/f1fcde88289247da96be7744e4501291.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/f1fcde88289247da96be7744e4501291.png', 'f1fcde88289247da96be7744e4501291.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 17:18:36', 2, '2021-08-14 17:18:36', 2);
-INSERT INTO `c_file` VALUES (1426473580710854656, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/93ed20abe8454c91a2cce54e8e84ea3e.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/93ed20abe8454c91a2cce54e8e84ea3e.png', '93ed20abe8454c91a2cce54e8e84ea3e.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 17:19:39', 2, '2021-08-14 17:19:39', 2);
-INSERT INTO `c_file` VALUES (1426477103263514624, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/738e999278d74acbb41e7eef35d958c3.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/738e999278d74acbb41e7eef35d958c3.png', '738e999278d74acbb41e7eef35d958c3.png', NULL, '小程序识别demo.png', 'image/png', 'png', 6504, '2021-08-14 17:33:39', 2, '2021-08-14 17:33:39', 2);
-INSERT INTO `c_file` VALUES (1426480137452388352, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/1c2a7cece6f844a5b342e6223365f3db.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/1c2a7cece6f844a5b342e6223365f3db.jpg', '1c2a7cece6f844a5b342e6223365f3db.jpg', NULL, '2.jpg', 'image/png', 'jpg', 19521, '2021-08-14 17:45:42', 2, '2021-08-14 17:45:42', 2);
-INSERT INTO `c_file` VALUES (1426480519146635264, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/c620be89e67741d7bc41c37ad4a4867b.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/c620be89e67741d7bc41c37ad4a4867b.png', 'c620be89e67741d7bc41c37ad4a4867b.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 17:47:13', 2, '2021-08-14 17:47:13', 2);
-INSERT INTO `c_file` VALUES (1426558962936840192, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/acc7f20168bc4489a00c22b0ea381978.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/acc7f20168bc4489a00c22b0ea381978.jpg', 'acc7f20168bc4489a00c22b0ea381978.jpg', NULL, '2.jpg', 'image/png', 'jpg', 24199, '2021-08-14 22:58:56', 2, '2021-08-14 22:58:56', 2);
-INSERT INTO `c_file` VALUES (1426563431594459136, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/1caccaffe96a4da6af35b8c55e2a6b32.png', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/1caccaffe96a4da6af35b8c55e2a6b32.png', '1caccaffe96a4da6af35b8c55e2a6b32.png', NULL, '小程序识别demo.png', 'image/png', 'png', 7107, '2021-08-14 23:16:41', 2, '2021-08-14 23:16:41', 2);
-INSERT INTO `c_file` VALUES (1426564046869495808, 'BASE_USER_AVATAR', 'IMAGE', 'MIN_IO', 'dev', '0000/BASE_USER_AVATAR/2021/08/14/fdb2bb0f67ab49349cb79f0428b06767.jpg', 'https://static.tangyh.top/0000/BASE_USER_AVATAR/2021/08/14/fdb2bb0f67ab49349cb79f0428b06767.jpg', 'fdb2bb0f67ab49349cb79f0428b06767.jpg', NULL, '2.jpg', 'image/png', 'jpg', 22422, '2021-08-14 23:19:08', 2, '2021-08-14 23:19:08', 2);
+INSERT INTO `c_file` VALUES (1417297073723670528, '附件管理', 'DOC', 'MIN_IO', 'dev', '0000/附件管理/2021/07/20/5e0a46d3cf2047889af3bae176482e7e.xls', '0000/附件管理/2021/07/20/5e0a46d3cf2047889af3bae176482e7e.xls', '5e0a46d3cf2047889af3bae176482e7e.xls', NULL, '【姓名】_【身份证号】的专项附加扣除信息.xls', 'application/vnd.ms-excel', 'xls', 30720, '2021-07-20 09:35:29', 3, '2021-07-20 09:35:29', 3);
+INSERT INTO `c_file` VALUES (1417297075200065536, '附件管理', 'IMAGE', 'MIN_IO', 'dev', '0000/附件管理/2021/07/20/128feb4caed147429e3b0ffd1d97b2e9.jpg', '0000/附件管理/2021/07/20/128feb4caed147429e3b0ffd1d97b2e9.jpg', '128feb4caed147429e3b0ffd1d97b2e9.jpg', NULL, '步骤条.jpg', 'image/jpeg', 'jpg', 386416, '2021-07-20 09:35:29', 3, '2021-07-20 09:35:29', 3);
+INSERT INTO `c_file` VALUES (1424744338084069376, 'EXTEND_MSG_CONTENT', 'IMAGE', 'MIN_IO', 'public', '0000/EXTEND_MSG_CONTENT/2021/08/09/3f3b42c8454d436a9a8595aee0869ada.png', 'https://static.tangyh.top/0000/EXTEND_MSG_CONTENT/2021/08/09/3f3b42c8454d436a9a8595aee0869ada.png', '3f3b42c8454d436a9a8595aee0869ada.png', NULL, '微信截图_20210708184102.png', 'image/png', 'png', 66490, '2021-08-09 22:48:15', 2, '2021-08-09 22:48:15', 2);
+INSERT INTO `c_file` VALUES (1424745864479375360, 'EXTEND_MSG_CONTENT', 'IMAGE', 'MIN_IO', 'public', '0000/EXTEND_MSG_CONTENT/2021/08/09/129dd3c0a08f447f858c53ee5dacbee9.png', 'https://static.tangyh.top/0000/EXTEND_MSG_CONTENT/2021/08/09/129dd3c0a08f447f858c53ee5dacbee9.png', '129dd3c0a08f447f858c53ee5dacbee9.png', NULL, '微信截图_20210708184102.png', 'image/png', 'png', 66490, '2021-08-09 22:54:19', 2, '2021-08-09 22:54:19', 2);
+INSERT INTO `c_file` VALUES (1452580038783270912, 'BASE_FILE', 'DOC', 'MIN_IO', 'dev', '0000/BASE_FILE/2021/10/25/2e568f26a7be44a2bccdc4627bbc3c14.xls', 'https://static.tangyh.top/dev/0000/BASE_FILE/2021/10/25/2e568f26a7be44a2bccdc4627bbc3c14.xls', '2e568f26a7be44a2bccdc4627bbc3c14.xls', NULL, '数据字典模板0.xls', 'application/vnd.ms-excel', 'xls', 22016, '2021-10-25 18:17:24', 2, '2021-10-25 18:17:24', 2);
+INSERT INTO `c_file` VALUES (1452580215111811072, 'BASE_FILE', 'DOC', 'MIN_IO', 'dev', '0000/BASE_FILE/2021/10/25/16fc64e4644f4cec9418ce788cf7369e.png', 'https://static.tangyh.top/dev/0000/BASE_FILE/2021/10/25/16fc64e4644f4cec9418ce788cf7369e.png', '16fc64e4644f4cec9418ce788cf7369e.png', NULL, 'test.png', 'application/vnd.ms-excel', 'png', 22528, '2021-10-25 18:18:06', 2, '2021-10-25 18:18:06', 2);
+INSERT INTO `c_file` VALUES (1455157950074060800, '123', 'DOC', 'LOCAL', '123', '0000/123/2021/11/01/de42e2de22a54e79bdab360bbf5e3909.xlsx', 'http://127.0.0.1/file/123/0000/123/2021/11/01/de42e2de22a54e79bdab360bbf5e3909.xlsx', 'de42e2de22a54e79bdab360bbf5e3909.xlsx', NULL, '20210714.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx', 54869, '2021-11-01 21:01:05', 2, '2021-11-01 21:01:05', 2);
 COMMIT;
 
 -- ----------------------------
@@ -282,9 +280,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_login_log`;
 CREATE TABLE `c_login_log` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `request_ip` varchar(50) DEFAULT '' COMMENT '登录IP',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '登录人ID',
+  `user_id` bigint DEFAULT NULL COMMENT '登录人ID',
   `user_name` varchar(50) DEFAULT '' COMMENT '登录人姓名',
   `account` varchar(30) DEFAULT '' COMMENT '登录人账号',
   `description` varchar(255) DEFAULT '' COMMENT '登录描述',
@@ -295,100 +293,120 @@ CREATE TABLE `c_login_log` (
   `operating_system` varchar(255) DEFAULT '' COMMENT '操作系统',
   `location` varchar(50) DEFAULT '' COMMENT '登录地点',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
 
 -- ----------------------------
 -- Table structure for c_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `c_menu`;
 CREATE TABLE `c_menu` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `label` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
+  `resource_type` char(2) DEFAULT NULL COMMENT '[20-菜单 60-数据]@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS,dictType = DictionaryType.Tenant.RESOURCE_TYPE)',
+  `tree_grade` int DEFAULT NULL COMMENT '树层级',
+  `tree_path` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '树路径',
   `describe_` varchar(200) DEFAULT '' COMMENT '描述',
   `is_general` bit(1) DEFAULT b'0' COMMENT '通用菜单 \nTrue表示无需分配所有人就可以访问的',
-  `path` varchar(255) DEFAULT '' COMMENT '路径',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '路径',
   `component` varchar(255) DEFAULT '' COMMENT '组件',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `sort_value` int DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
   `group_` varchar(20) DEFAULT '' COMMENT '分组',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父级菜单ID',
+  `data_scope` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]',
+  `custom_class` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '实现类',
+  `is_def` bit(1) DEFAULT b'0' COMMENT '是否默认',
+  `parent_id` bigint DEFAULT '0' COMMENT '父级菜单ID',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_path` (`path`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='菜单';
 
 -- ----------------------------
 -- Records of c_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_menu` VALUES (10, '租户设置', '', b'0', '/tenant', 'Layout', b'1', 10, 'ant-design:group-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (20, '工作台', '', b'0', '/workbench', 'Layout', b'1', 20, 'ant-design:dashboard-filled', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (30, '组织管理', '', b'0', '/org', 'Layout', b'1', 30, 'ant-design:cluster-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (40, '资源中心', '', b'0', '/resources', 'Layout', b'1', 40, 'ant-design:cloud-server-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (50, '流程管理', '', b'0', '/activiti', 'Layout', b'1', 50, 'tabler:chart-dots', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (60, '系统设置', '', b'0', '/system', 'Layout', b'1', 60, 'ant-design:setting-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (70, '网关管理', '', b'0', '/gateway', 'Layout', b'1', 70, 'ant-design:sliders-filled', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (80, '开发者管理', '', b'0', '/developer', 'Layout', b'1', 80, 'ant-design:bug-filled', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (90, '了解lamp', '', b'1', '/community', 'Layout', b'1', 90, 'ant-design:github-filled', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (100, '更多功能', '', b'1', '/more', 'Layout', b'1', 100, 'ant-design:appstore-add-outlined', '', 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (110, '租户管理', '', b'0', '/tenant/tenant', 'lamp/tenant/tenant/index', b'1', 20, '', '', 10, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-25 16:20:26');
-INSERT INTO `c_menu` VALUES (111, '超级用户', '', b'0', '/tenant/user', 'lamp/tenant/user/index', b'1', 30, '', '', 10, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-25 16:20:30');
-INSERT INTO `c_menu` VALUES (112, '数据源配置', '', b'0', '/tenant/datasourceConfig', 'lamp/tenant/datasourceConfig/index', b'1', 10, '', '', 10, b'0', 1, '2020-11-25 16:20:21', 1, '2020-11-25 16:20:21');
-INSERT INTO `c_menu` VALUES (120, '通知公告', '', b'0', '/workbench/notice', 'lamp/workbench/notice/index', b'1', 10, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (121, '待我审批', '', b'0', '/workbench/todo', 'lamp/workbench/todo/index', b'1', 20, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (122, '我已审批', '', b'0', '/workbench/done', 'lamp/workbench/done/index', b'1', 30, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (123, '我发起的', '', b'0', '/workbench/started', 'lamp/workbench/started/index', b'1', 40, '', '', 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (130, '机构管理', '', b'0', '/org/org', 'lamp/org/org/index', b'1', 10, '', '', 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (131, '岗位管理', '', b'0', '/org/station', 'lamp/org/station/index', b'1', 20, '', '', 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (132, '用户管理', '', b'0', '/org/user', 'lamp/org/user/index', b'1', 30, '', '', 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (140, '消息中心', '', b'0', '/resources/msg', 'lamp/resources/msg/index', b'1', 10, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (141, '短信模版', '', b'0', '/resources/smsTemplate', 'lamp/resources/smsTemplate/index', b'1', 20, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (142, '短信中心', '', b'0', '/resources/sms', 'lamp/resources/sms/index', b'1', 30, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (143, '附件管理', '', b'0', '/resources/attachment', 'lamp/resources/attachment/index', b'1', 40, '', '', 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (150, '流程部署', '', b'0', '/activiti/deploymentManager', 'lamp/activiti/deploymentManager/index', b'1', 10, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (151, '模型管理', '', b'0', '/activiti/modelManager', 'lamp/activiti/modelManager/index', b'1', 20, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (152, '请假流程', '', b'0', '/activiti/level', 'Layout', b'1', 30, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (153, '请假管理', '', b'0', '/activiti/leave/instant', 'lamp/activiti/leave/instantManager/index', b'1', 1, '', '', 152, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (154, '请假任务', '', b'0', '/activiti/leave/ruTask', 'lamp/activiti/leave/ruTask/index', b'1', 2, '', '', 152, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (155, '报销流程', '', b'0', '/activiti/reimbursement', 'Layout', b'1', 40, '', '', 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (156, '报销管理', '', b'0', '/activiti/reimbursement/instantManager', 'lamp/activiti/reimbursement/instantManager/index', b'1', 1, '', '', 155, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (157, '报销任务', '', b'0', '/activiti/reimbursement/ruTask', 'lamp/activiti/reimbursement/ruTask/index', b'1', 2, '', '', 155, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (160, '菜单管理', '', b'0', '/system/menu', 'lamp/system/menu/index', b'1', 10, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (161, '角色管理', '', b'0', '/system/role', 'lamp/system/role/index', b'1', 20, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (162, '字典管理', '', b'0', '/system/dictionary', 'lamp/system/dictionary/index', b'1', 30, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (163, '地区管理', '', b'0', '/system/area', 'lamp/system/area/index', b'1', 40, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (164, '参数管理', '', b'0', '/system/parameter', 'lamp/system/parameter/index', b'1', 50, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (165, '操作日志', '', b'0', '/system/optLog', 'lamp/system/optLog/index', b'1', 60, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (166, '登录日志', '', b'0', '/system/loginLog', 'lamp/system/loginLog/index', b'1', 70, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (167, '在线用户', '', b'0', '/system/online', 'lamp/system/online/index', b'1', 80, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (168, '终端管理', '', b'0', '/system/application', 'lamp/system/application/index', b'1', 90, '', '', 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (180, '限流规则', '', b'0', '/gateway/ratelimiter', 'lamp/gateway/ratelimiter/index', b'1', 10, '', '', 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (181, '阻止访问', '', b'0', '/gateway/blocklist', 'lamp/gateway/blocklist/index', b'1', 20, '', '', 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (190, '定时任务', '', b'0', 'http://127.0.0.1:8767/xxl-job-admin', 'Layout', b'1', 10, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (191, '接口文档', '', b'0', 'http://127.0.0.1:8760/api/gate/doc.html', 'Layout', b'1', 20, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (192, 'nacos', '', b'0', 'http://127.0.0.1:8848/nacos', 'Layout', b'1', 30, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (193, '服务监控', '', b'0', 'http://127.0.0.1:8762/lamp-monitor', 'Layout', b'1', 40, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (194, '数据库监控', '', b'0', '/developer/db', 'lamp/developer/db/index', b'1', 50, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (195, '缓存监控', '', b'0', 'https://github.com/junegunn/redis-stat', 'Layout', b'1', 60, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (197, 'SkyWalking监控', '', b'0', 'http://127.0.0.1:12080', 'Layout', b'1', 80, '', '', 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (210, '在线文档', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud', 'Layout', b'1', 10, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (211, '会员版', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/2003629', 'Layout', b'1', 20, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (212, '获取源码', '', b'1', 'https://github.com/zuihou', 'Layout', b'1', 30, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 2, '2020-12-01 11:34:20');
-INSERT INTO `c_menu` VALUES (213, '问题反馈', '', b'1', 'https://github.com/zuihou/lamp-cloud/issues', 'Layout', b'1', 40, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (214, '更新日志', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/1465302', 'Layout', b'1', 50, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (215, '蓝图', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/2003640', 'Layout', b'1', 60, '', '', 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (220, '多级菜单', '', b'1', '/more/multiMenu', 'Layout', b'1', 1, '', '', 100, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (221, '菜单1-1', '', b'1', '/more/multiMenu/menu1-1', 'Layout', b'1', 1, '', '', 220, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (222, '菜单1-1-1', '', b'1', '/more/multiMenu/menu1-1/menu1-1-1', 'lamp/more/multiMenu/menu1-1/menu1-1-1/index', b'1', 1, '', '', 221, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (223, '菜单1-1-2', '', b'1', '/more/multiMenu/menu1-1/menu1-1-2', 'lamp/more/multiMenu/menu1-1/menu1-1-2/index', b'1', 2, '', '', 221, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
-INSERT INTO `c_menu` VALUES (224, '菜单1-2', '', b'1', '/more/multiMenu/menu1-2', 'lamp/more/multiMenu/menu1-2/index', b'1', 2, '', '', 220, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (10, '租户设置', '20', 0, ',', '', b'0', '/tenant', 'Layout', b'1', 10, 'ant-design:group-outlined', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (20, '工作台', '20', 0, ',', '', b'0', '/workbench', 'Layout', b'1', 20, 'ant-design:dashboard-filled', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (30, '组织管理', '20', 0, ',', '', b'0', '/org', 'Layout', b'1', 30, 'ant-design:cluster-outlined', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (40, '资源中心', '20', 0, ',', '', b'0', '/resources', 'Layout', b'1', 40, 'ant-design:cloud-server-outlined', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (50, '流程管理', '20', 0, ',', '', b'0', '/activiti', 'Layout', b'1', 50, 'tabler:chart-dots', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (60, '系统设置', '20', 0, ',', '', b'0', '/system', 'Layout', b'1', 60, 'ant-design:setting-outlined', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (70, '网关管理', '20', 0, ',', '', b'0', '/gateway', 'Layout', b'1', 70, 'ant-design:sliders-filled', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (80, '开发者管理', '20', 0, ',', '', b'0', '/developer', 'Layout', b'1', 80, 'ant-design:bug-filled', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (90, '了解lamp', '20', 0, ',', '', b'1', '/community', 'Layout', b'1', 90, 'ant-design:github-filled', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (100, '更多功能', '20', 0, ',', '', b'1', '/more', 'Layout', b'1', 100, 'ant-design:appstore-add-outlined', '', NULL, NULL, NULL, 0, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (110, '租户管理', '20', 1, ',10,', '', b'0', '/tenant/tenant', 'lamp/tenant/tenant/index', b'1', 20, '', '', NULL, NULL, NULL, 10, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-25 16:20:26');
+INSERT INTO `c_menu` VALUES (111, '超级用户', '20', 1, ',10,', '', b'0', '/tenant/user', 'lamp/tenant/user/index', b'1', 30, '', '', NULL, NULL, NULL, 10, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-25 16:20:30');
+INSERT INTO `c_menu` VALUES (112, '数据源配置', '20', 1, ',10,', '', b'0', '/tenant/datasourceConfig', 'lamp/tenant/datasourceConfig/index', b'1', 10, '', '', NULL, NULL, NULL, 10, b'0', 1, '2020-11-25 16:20:21', 1, '2020-11-25 16:20:21');
+INSERT INTO `c_menu` VALUES (120, '通知公告', '20', 1, ',20,', '', b'0', '/workbench/notice', 'lamp/workbench/notice/index', b'1', 10, '', '', NULL, NULL, NULL, 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (121, '待我审批', '20', 1, ',20,', '', b'0', '/workbench/todo', 'lamp/workbench/todo/index', b'1', 20, '', '', NULL, NULL, NULL, 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (122, '我已审批', '20', 1, ',20,', '', b'0', '/workbench/done', 'lamp/workbench/done/index', b'1', 30, '', '', NULL, NULL, NULL, 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (123, '我发起的', '20', 1, ',20,', '', b'0', '/workbench/started', 'lamp/workbench/started/index', b'1', 40, '', '', NULL, NULL, NULL, 20, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (130, '机构管理', '20', 1, ',30,', '', b'0', '/org/org', 'lamp/org/org/index', b'1', 10, '', '', NULL, NULL, NULL, 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (131, '岗位管理', '20', 1, ',30,', '', b'0', '/org/station', 'lamp/org/station/index', b'1', 20, '', '', NULL, NULL, NULL, 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (132, '用户管理', '20', 1, ',30,', '', b'0', '/org/user', 'lamp/org/user/index', b'1', 30, '', '', NULL, NULL, NULL, 30, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (140, '消息中心', '20', 1, ',40,', '', b'0', '/resources/msg', 'lamp/resources/msg/index', b'1', 10, '', '', NULL, NULL, NULL, 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (141, '短信模版', '20', 1, ',40,', '', b'0', '/resources/smsTemplate', 'lamp/resources/smsTemplate/index', b'1', 20, '', '', NULL, NULL, NULL, 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (142, '短信中心', '20', 1, ',40,', '', b'0', '/resources/sms', 'lamp/resources/sms/index', b'1', 30, '', '', NULL, NULL, NULL, 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (143, '附件管理', '20', 1, ',40,', '', b'0', '/resources/attachment', 'lamp/resources/attachment/index', b'1', 40, '', '', NULL, NULL, NULL, 40, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (150, '流程部署', '20', 1, ',50,', '', b'0', '/activiti/deploymentManager', 'lamp/activiti/deploymentManager/index', b'1', 10, '', '', NULL, NULL, NULL, 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (151, '模型管理', '20', 1, ',50,', '', b'0', '/activiti/modelManager', 'lamp/activiti/modelManager/index', b'1', 20, '', '', NULL, NULL, NULL, 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (152, '请假流程', '20', 1, ',50,', '', b'0', '/activiti/level', 'Layout', b'1', 30, '', '', NULL, NULL, NULL, 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (153, '请假管理', '20', 2, ',50,152,', '', b'0', '/activiti/leave/instant', 'lamp/activiti/leave/instantManager/index', b'1', 1, '', '', NULL, NULL, NULL, 152, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (154, '请假任务', '20', 2, ',50,152,', '', b'0', '/activiti/leave/ruTask', 'lamp/activiti/leave/ruTask/index', b'1', 2, '', '', NULL, NULL, NULL, 152, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (155, '报销流程', '20', 1, ',50,', '', b'0', '/activiti/reimbursement', 'Layout', b'1', 40, '', '', NULL, NULL, NULL, 50, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (156, '报销管理', '20', 2, ',50,155,', '', b'0', '/activiti/reimbursement/instantManager', 'lamp/activiti/reimbursement/instantManager/index', b'1', 1, '', '', NULL, NULL, NULL, 155, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (157, '报销任务', '20', 2, ',50,155,', '', b'0', '/activiti/reimbursement/ruTask', 'lamp/activiti/reimbursement/ruTask/index', b'1', 2, '', '', NULL, NULL, NULL, 155, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (160, '菜单管理', '20', 1, ',60,', '', b'0', '/system/menu', 'lamp/system/menu/index', b'1', 10, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (161, '角色管理', '20', 1, ',60,', '', b'0', '/system/role', 'lamp/system/role/index', b'1', 20, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (162, '字典管理', '20', 1, ',60,', '', b'0', '/system/dictionary', 'lamp/system/dictionary/index', b'1', 30, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (163, '地区管理', '20', 1, ',60,', '', b'0', '/system/area', 'lamp/system/area/index', b'1', 40, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (164, '参数管理', '20', 1, ',60,', '', b'0', '/system/parameter', 'lamp/system/parameter/index', b'1', 50, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (165, '操作日志', '20', 1, ',60,', '', b'0', '/system/optLog', 'lamp/system/optLog/index', b'1', 60, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (166, '登录日志', '20', 1, ',60,', '', b'0', '/system/loginLog', 'lamp/system/loginLog/index', b'1', 70, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (167, '在线用户', '20', 1, ',60,', '', b'0', '/system/online', 'lamp/system/online/index', b'1', 80, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (168, '应用管理', '20', 1, ',60,', '', b'0', '/system/application', 'lamp/system/application/index', b'1', 90, '', '', NULL, NULL, NULL, 60, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (180, '限流规则', '20', 1, ',70,', '', b'0', '/gateway/ratelimiter', 'lamp/gateway/ratelimiter/index', b'1', 10, '', '', NULL, NULL, NULL, 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (181, '阻止访问', '20', 1, ',70,', '', b'0', '/gateway/blocklist', 'lamp/gateway/blocklist/index', b'1', 20, '', '', NULL, NULL, NULL, 70, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (190, '定时任务', '20', 1, ',80,', '', b'0', 'http://127.0.0.1:8767/xxl-job-admin', 'Layout', b'1', 10, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (191, '接口文档', '20', 1, ',80,', '', b'0', 'http://127.0.0.1:8760/api/gate/doc.html', 'Layout', b'1', 20, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (192, 'nacos', '20', 1, ',80,', '', b'0', 'http://127.0.0.1:8848/nacos', 'Layout', b'1', 30, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (193, '服务监控', '20', 1, ',80,', '', b'0', 'http://127.0.0.1:8762/lamp-monitor', 'Layout', b'1', 40, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (194, '数据库监控', '20', 1, ',80,', '', b'0', '/developer/db', 'lamp/developer/db/index', b'1', 50, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (195, '缓存监控', '20', 1, ',80,', '', b'0', 'https://github.com/junegunn/redis-stat', 'Layout', b'1', 60, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (196, 'zipkin监控', '20', 1, ',80,', '', b'0', 'http://127.0.0.1:8772/zipkin', 'Layout', b'1', 70, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (197, 'SkyWalking监控', '20', 1, ',80,', '', b'0', 'http://127.0.0.1:12080', 'Layout', b'1', 80, '', '', NULL, NULL, NULL, 80, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (210, '在线文档', '20', 1, ',90,', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud', 'Layout', b'1', 10, '', '', NULL, NULL, NULL, 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (211, '会员版', '20', 1, ',90,', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/2003629', 'Layout', b'1', 20, '', '', NULL, NULL, NULL, 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (212, '获取源码', '20', 1, ',90,', '', b'1', 'https://github.com/zuihou', 'Layout', b'1', 30, '', '', NULL, NULL, NULL, 90, b'1', 1, '2020-11-23 11:47:31', 2, '2020-12-01 11:34:20');
+INSERT INTO `c_menu` VALUES (213, '问题反馈', '20', 1, ',90,', '', b'1', 'https://github.com/zuihou/lamp-cloud/issues', 'Layout', b'1', 40, '', '', NULL, NULL, NULL, 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (214, '更新日志', '20', 1, ',90,', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/1465302', 'Layout', b'1', 50, '', '', NULL, NULL, NULL, 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (215, '蓝图', '20', 1, ',90,', '', b'1', 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/2003640', 'Layout', b'1', 60, '', '', NULL, NULL, NULL, 90, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (220, '多级菜单', '20', 1, ',100,', '', b'1', '/more/multiMenu', 'Layout', b'1', 1, '', '', NULL, NULL, NULL, 100, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (221, '菜单1-1', '20', 2, ',100,220,', '', b'1', '/more/multiMenu/menu1-1', 'Layout', b'1', 1, '', '', NULL, NULL, NULL, 220, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (222, '菜单1-1-1', '20', 3, ',100,220,221,', '', b'1', '/more/multiMenu/menu1-1/menu1-1-1', 'lamp/more/multiMenu/menu1-1/menu1-1-1/index', b'1', 1, '', '', NULL, NULL, NULL, 221, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (223, '菜单1-1-2', '20', 3, ',100,220,221,', '', b'1', '/more/multiMenu/menu1-1/menu1-1-2', 'lamp/more/multiMenu/menu1-1/menu1-1-2/index', b'1', 2, '', '', NULL, NULL, NULL, 221, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (224, '菜单1-2', '20', 2, ',100,220,', '', b'1', '/more/multiMenu/menu1-2', 'lamp/more/multiMenu/menu1-2/index', b'1', 2, '', '', NULL, NULL, NULL, 220, b'1', 1, '2020-11-23 11:47:31', 1, '2020-11-23 11:47:31');
+INSERT INTO `c_menu` VALUES (1486201050779090944, '查看全部', '60', 2, ',30,132,', '', b'0', NULL, NULL, b'1', 1, '', '', '01', NULL, b'0', 132, b'1', 2, '2022-01-26 12:55:17', 2, '2022-01-26 12:55:17');
+INSERT INTO `c_menu` VALUES (1486201491877265408, '查看本单位及子单位', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 2, '', '', '02', NULL, b'0', 132, b'1', 2, '2022-01-26 12:57:03', 2, '2022-01-26 12:57:03');
+INSERT INTO `c_menu` VALUES (1486201562119274496, '查看本单位', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 3, '', '', '06', NULL, b'0', 132, b'1', 2, '2022-01-26 12:57:19', 2, '2022-01-26 12:57:19');
+INSERT INTO `c_menu` VALUES (1486201715840516096, '查看本部门及子部门', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 4, '', '', '04', NULL, b'0', 132, b'1', 2, '2022-01-26 12:57:56', 2, '2022-01-26 12:57:56');
+INSERT INTO `c_menu` VALUES (1486201804327747584, '查看本部门', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 5, '', '', '05', NULL, b'0', 132, b'1', 2, '2022-01-26 12:58:17', 2, '2022-01-26 12:58:17');
+INSERT INTO `c_menu` VALUES (1486201872350969856, '查看个人', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 6, '', '', '06', NULL, b'1', 132, b'1', 2, '2022-01-26 12:58:33', 2, '2022-01-26 12:58:33');
+INSERT INTO `c_menu` VALUES (1486201971705643008, '查看自定义数据', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 7, '', '', '07', 'DATA_SCOPE_MY_TEST', b'0', 132, b'1', 2, '2022-01-26 12:58:57', 2, '2022-01-26 12:59:07');
+INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486619304207056896, '查看全部', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 1, '', '', '01', NULL, b'0', 131, b'1', 2, '2022-01-27 16:37:17', 2, '2022-01-27 16:37:17');
+INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486619392048365568, '查看本单位及子单位', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 2, '', '', '02', NULL, b'0', 131, b'1', 2, '2022-01-27 16:37:38', 2, '2022-01-27 16:37:38');
+INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620313587286016, '查看本单位', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 3, '', '', '03', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:17', 2, '2022-01-27 16:41:17');
+INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620425789112320, '查看本部门及子部门', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 4, '', '', '04', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:44', 2, '2022-01-27 16:41:44');
+INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620477806870528, '查看本部门', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 5, '', '', '05', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:57', 2, '2022-01-27 16:41:57');
+INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620546081751040, '查看个人', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 6, '', '', '06', NULL, b'1', 131, b'1', 2, '2022-01-27 16:42:13', 2, '2022-01-27 16:42:13');
 COMMIT;
 
 -- ----------------------------
@@ -396,7 +414,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_opt_log`;
 CREATE TABLE `c_opt_log` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `request_ip` varchar(50) DEFAULT '' COMMENT '操作IP',
   `type` varchar(5) DEFAULT '' COMMENT '日志类型 \n#LogType{OPT:操作类型;EX:异常类型}',
   `user_name` varchar(50) DEFAULT '' COMMENT '操作人',
@@ -407,55 +425,59 @@ CREATE TABLE `c_opt_log` (
   `http_method` varchar(10) DEFAULT '' COMMENT '请求类型 \n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
   `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
   `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
-  `consuming_time` bigint(20) DEFAULT NULL COMMENT '消耗时间',
+  `consuming_time` bigint DEFAULT NULL COMMENT '消耗时间',
   `ua` varchar(500) DEFAULT '' COMMENT '浏览器',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志';
 
 -- ----------------------------
 -- Table structure for c_opt_log_ext
 -- ----------------------------
 DROP TABLE IF EXISTS `c_opt_log_ext`;
 CREATE TABLE `c_opt_log_ext` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `params` longtext COMMENT '请求参数',
   `result` longtext COMMENT '返回值',
   `ex_detail` longtext COMMENT '异常描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志扩展';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志扩展';
 
 -- ----------------------------
 -- Table structure for c_org
 -- ----------------------------
 DROP TABLE IF EXISTS `c_org`;
 CREATE TABLE `c_org` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `label` varchar(255) NOT NULL COMMENT '名称',
-  `type_` char(2) DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.ORG_TYPE)',
+  `type_` char(2) DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
+  `parent_id` bigint DEFAULT '0' COMMENT '父ID',
   `tree_path` varchar(255) DEFAULT '' COMMENT '树结构',
-  `sort_value` int(10) DEFAULT '1' COMMENT '排序',
+  `sort_value` int DEFAULT '1' COMMENT '排序',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `updated_by` bigint DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_name` (`label`) USING HASH,
+  UNIQUE KEY `uk_name` (`label`),
   FULLTEXT KEY `fu_path` (`tree_path`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='组织';
 
 -- ----------------------------
 -- Records of c_org
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_org` VALUES (1, '最后集团', '01', '', 0, '', 1, b'1', '', '2020-11-23 00:05:55', 1, '2020-11-23 00:05:59', 1);
+INSERT INTO `c_org` VALUES (1, '最后集团', '01', '', 0, ',', 1, b'1', '', '2020-11-23 00:05:55', 1, '2020-11-23 00:05:59', 1);
+INSERT INTO `c_org` VALUES (1415864548283383808, '1', '01', '1', 0, ',', 1, b'1', '', '2021-07-16 10:43:08', 2, '2021-07-16 10:43:08', 2);
+INSERT INTO `c_org` VALUES (1415864576410386432, '1-1', '02', '', 1415864548283383808, ',1415864548283383808,', 1, b'1', '', '2021-07-16 10:43:15', 2, '2021-07-16 10:43:15', 2);
+INSERT INTO `c_org` VALUES (1415864608656195584, '1-2', '02', '', 1415864548283383808, ',1415864548283383808,', 1, b'1', '', '2021-07-16 10:43:23', 2, '2021-07-16 10:43:23', 2);
+INSERT INTO `c_org` VALUES (1415864637190045696, '1-1-1', '02', '', 1415864576410386432, ',1415864548283383808,1415864576410386432,', 1, b'1', '', '2021-07-16 10:43:30', 2, '2021-07-16 10:43:30', 2);
 COMMIT;
 
 -- ----------------------------
@@ -463,20 +485,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_parameter`;
 CREATE TABLE `c_parameter` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `key_` varchar(255) NOT NULL COMMENT '参数键',
   `value` varchar(255) NOT NULL COMMENT '参数值',
   `name` varchar(255) NOT NULL COMMENT '参数名称',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_key` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='参数配置';
 
 -- ----------------------------
 -- Records of c_parameter
@@ -490,19 +512,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_resource`;
 CREATE TABLE `c_resource` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `code` varchar(500) DEFAULT '' COMMENT '编码',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单\n#c_menu',
+  `menu_id` bigint DEFAULT NULL COMMENT '菜单\n#c_menu',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `readonly_` bit(1) DEFAULT b'1' COMMENT '内置',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_code` (`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='资源';
 
 -- ----------------------------
 -- Records of c_resource
@@ -605,29 +627,30 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_role`;
 CREATE TABLE `c_role` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
+  `category` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色类别;[10-功能角色 20-桌面角色 30-数据角色]',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
   `code` varchar(20) DEFAULT '' COMMENT '编码',
   `describe_` varchar(100) DEFAULT '' COMMENT '描述',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置角色',
-  `ds_type` varchar(20) NOT NULL DEFAULT '' COMMENT '数据权限 \n#DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_code` (`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色';
 
 -- ----------------------------
 -- Records of c_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_role` VALUES (1, '超级管理员', 'SUPER_ADMIN', '内置管理员(二次开发必须保留)', b'1', b'1', 'ALL', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
-INSERT INTO `c_role` VALUES (2, '平台管理员', 'PT_ADMIN', '内置运营专用平台管理员(二次开发必须保留)', b'1', b'1', 'ALL', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
-INSERT INTO `c_role` VALUES (3, '普通管理员', 'GENERAL_ADMIN', '演示用的', b'1', b'1', 'THIS_LEVEL_CHILDREN', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
-INSERT INTO `c_role` VALUES (4, '普通用户', 'NORMAL', '演示用的', b'1', b'1', 'SELF', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
+INSERT INTO `c_role` VALUES (1, '10', '超级管理员', 'SUPER_ADMIN', '内置管理员(二次开发必须保留)', b'1', b'1', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
+INSERT INTO `c_role` VALUES (2, '10', '平台管理员', 'PT_ADMIN', '内置运营专用平台管理员(二次开发必须保留)', b'1', b'1', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
+INSERT INTO `c_role` VALUES (3, '10', '普通管理员', 'GENERAL_ADMIN', '演示用的', b'1', b'1', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
+INSERT INTO `c_role` VALUES (4, '10', '普通用户', 'NORMAL', '演示用的', b'1', b'1', 1, '2020-11-22 23:46:00', 1, '2020-11-22 23:46:00');
+INSERT INTO `c_role` VALUES (1486215142227050496, '30', 'TEST', 'TEST', '', b'1', b'0', 2, '2022-01-26 13:51:17', 2, '2022-01-26 13:51:17');
 COMMIT;
 
 -- ----------------------------
@@ -635,15 +658,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_role_authority`;
 CREATE TABLE `c_role_authority` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
-  `authority_id` bigint(20) NOT NULL COMMENT '资源id \n#c_resource #c_menu',
+  `id` bigint NOT NULL COMMENT '主键',
+  `authority_id` bigint NOT NULL COMMENT '资源id \n#c_resource #c_menu',
   `authority_type` varchar(10) NOT NULL COMMENT '权限类型 \n#AuthorizeType{MENU:菜单;RESOURCE:资源;}',
-  `role_id` bigint(20) NOT NULL COMMENT '角色id \n#c_role',
+  `role_id` bigint NOT NULL COMMENT '角色id \n#c_role',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_role_authority` (`authority_id`,`authority_type`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色的资源';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色的资源';
 
 -- ----------------------------
 -- Records of c_role_authority
@@ -777,6 +800,7 @@ INSERT INTO `c_role_authority` VALUES (26578833880646045, 192, 'MENU', 2, '2020-
 INSERT INTO `c_role_authority` VALUES (26578833880646046, 193, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646047, 194, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646048, 195, 'MENU', 2, '2020-11-25 17:13:10', 2);
+INSERT INTO `c_role_authority` VALUES (26578833880646049, 196, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646050, 197, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646051, 70, 'MENU', 2, '2020-11-25 17:13:10', 2);
 INSERT INTO `c_role_authority` VALUES (26578833880646052, 80, 'MENU', 2, '2020-11-25 17:13:10', 2);
@@ -974,71 +998,67 @@ INSERT INTO `c_role_authority` VALUES (28369762228634012, 120, 'MENU', 3, '2020-
 INSERT INTO `c_role_authority` VALUES (28369762228634013, 121, 'MENU', 3, '2020-11-30 11:22:51', 2);
 INSERT INTO `c_role_authority` VALUES (28369762228634014, 122, 'MENU', 3, '2020-11-30 11:22:51', 2);
 INSERT INTO `c_role_authority` VALUES (28369762228634015, 123, 'MENU', 3, '2020-11-30 11:22:51', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634030, 25938183673872601, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634031, 25938183673872537, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634032, 25938183673872506, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634033, 25938183673872542, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634034, 25938183673872496, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634035, 25938183673872528, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634036, 25938183673872562, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634037, 25938183673872627, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634038, 25938183673872596, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634039, 25938183673872501, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634040, 25938183673872552, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634041, 25938183673872491, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634042, 25938183673872523, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634043, 25938183673872557, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634044, 25938183673872622, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634045, 25938183673872513, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634046, 25938183673872610, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634047, 25938183673872547, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634048, 25938183673872518, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634049, 25938183673872615, 'RESOURCE', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634050, 130, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634051, 131, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634052, 132, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634053, 50, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634054, 20, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634055, 120, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634056, 152, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634057, 121, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634058, 153, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634059, 122, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634060, 154, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634061, 123, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634062, 155, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634063, 156, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634064, 157, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (28369762228634065, 30, 'MENU', 4, '2020-11-30 11:23:19', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536633864192, 25938183673872506, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536642252800, 25938183673872496, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536642252801, 25938183673872562, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536646447104, 25938183673872627, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536646447105, 25938183673872501, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536646447106, 25938183673872552, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536650641408, 25938183673872491, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536654835712, 25938183673872557, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536654835713, 25938183673872622, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536659030016, 25938183673872610, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536659030017, 25938183673872547, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536663224320, 25938183673872615, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536663224321, 25938183673872601, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536667418624, 25938183673872537, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536671612928, 25938183673872542, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536671612929, 25938183673872528, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536675807232, 25938183673872596, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536675807233, 25938183673872523, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536680001536, 25938183673872513, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536680001537, 25938183673872518, 'RESOURCE', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536684195840, 130, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536684195841, 131, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536684195842, 132, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536684195843, 20, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536688390144, 120, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536692584448, 121, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536692584449, 122, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536696778752, 123, 'MENU', 0, '2021-06-07 14:49:58', 2);
-INSERT INTO `c_role_authority` VALUES (1401793536696778753, 30, 'MENU', 0, '2021-06-07 14:49:58', 2);
+INSERT INTO `c_role_authority` VALUES (1401793578031644672, 25938183673872491, 'RESOURCE', 1401106547731333120, '2021-06-07 14:50:08', 2);
+INSERT INTO `c_role_authority` VALUES (1401793578031644673, 130, 'MENU', 1401106547731333120, '2021-06-07 14:50:08', 2);
+INSERT INTO `c_role_authority` VALUES (1401793578035838976, 30, 'MENU', 1401106547731333120, '2021-06-07 14:50:08', 2);
+INSERT INTO `c_role_authority` VALUES (1401796782312128512, 25938183673872440, 'RESOURCE', 1401105465810616320, '2021-06-07 15:02:52', 2);
+INSERT INTO `c_role_authority` VALUES (1401796782312128513, 25938183673872445, 'RESOURCE', 1401105465810616320, '2021-06-07 15:02:52', 2);
+INSERT INTO `c_role_authority` VALUES (1401796782312128514, 10, 'MENU', 1401105465810616320, '2021-06-07 15:02:52', 2);
+INSERT INTO `c_role_authority` VALUES (1401796782312128515, 110, 'MENU', 1401105465810616320, '2021-06-07 15:02:52', 2);
+INSERT INTO `c_role_authority` VALUES (1401882022011469824, 224, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
+INSERT INTO `c_role_authority` VALUES (1401882022019858432, 100, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
+INSERT INTO `c_role_authority` VALUES (1401882022019858433, 220, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
+INSERT INTO `c_role_authority` VALUES (1401882022019858434, 221, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
+INSERT INTO `c_role_authority` VALUES (1401882022019858435, 222, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
+INSERT INTO `c_role_authority` VALUES (1401882022024052736, 223, 'MENU', 1401107652259348480, '2021-06-07 20:41:34', 2);
+INSERT INTO `c_role_authority` VALUES (1401884591014281216, 25938183673872460, 'RESOURCE', 1401884493064699904, '2021-06-07 20:51:47', 2);
+INSERT INTO `c_role_authority` VALUES (1401884591014281217, 110, 'MENU', 1401884493064699904, '2021-06-07 20:51:47', 2);
+INSERT INTO `c_role_authority` VALUES (1408620582760611840, 20, 'MENU', 1408618647575855104, '2021-06-26 10:58:12', 2);
+INSERT INTO `c_role_authority` VALUES (1408620582773194752, 120, 'MENU', 1408618647575855104, '2021-06-26 10:58:12', 2);
+INSERT INTO `c_role_authority` VALUES (1408620582802554880, 121, 'MENU', 1408618647575855104, '2021-06-26 10:58:13', 2);
+INSERT INTO `c_role_authority` VALUES (1408620582802554881, 122, 'MENU', 1408618647575855104, '2021-06-26 10:58:13', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826061230080, 25938183673872601, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826090590208, 25938183673872537, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826098978816, 25938183673872506, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826103173120, 25938183673872542, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826107367424, 25938183673872496, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826115756032, 25938183673872528, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826119950336, 25938183673872562, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826124144640, 25938183673872627, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826128338944, 25938183673872596, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826132533248, 25938183673872501, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826136727552, 25938183673872552, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826136727553, 25938183673872491, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826145116160, 25938183673872523, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826153504768, 25938183673872557, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826157699072, 25938183673872622, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826166087680, 25938183673872513, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826174476288, 25938183673872610, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826178670592, 25938183673872547, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826182864896, 25938183673872518, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826187059200, 25938183673872615, 'RESOURCE', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826191253504, 130, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826195447808, 131, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826199642112, 132, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826203836416, 50, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826203836417, 20, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826216419328, 120, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826216419329, 152, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826224807936, 121, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826224807937, 153, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826229002240, 122, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826233196544, 154, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826233196545, 123, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826237390848, 155, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826241585152, 156, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826241585153, 157, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486319826245779456, 30, 'MENU', 4, '2022-01-26 20:47:16', 2);
+INSERT INTO `c_role_authority` VALUES (1486321523068239872, 132, 'MENU', 0, '2022-01-26 20:54:00', 2);
+INSERT INTO `c_role_authority` VALUES (1486321523076628480, 1486201050779090944, 'MENU', 0, '2022-01-26 20:54:00', 2);
+INSERT INTO `c_role_authority` VALUES (1486321523085017088, 30, 'MENU', 0, '2022-01-26 20:54:00', 2);
+INSERT INTO `c_role_authority` VALUES (1486566765113638912, 1486201491877265408, 'MENU', 1486215142227050496, '2022-01-27 13:08:31', 2);
+INSERT INTO `c_role_authority` VALUES (1486566765113638913, 132, 'MENU', 1486215142227050496, '2022-01-27 13:08:31', 2);
+INSERT INTO `c_role_authority` VALUES (1486566765113638914, 30, 'MENU', 1486215142227050496, '2022-01-27 13:08:31', 2);
 COMMIT;
 
 -- ----------------------------
@@ -1046,39 +1066,39 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_role_org`;
 CREATE TABLE `c_role_org` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色\n#c_role',
-  `org_id` bigint(20) NOT NULL COMMENT '部门\n#c_org',
+  `id` bigint NOT NULL COMMENT 'ID',
+  `role_id` bigint NOT NULL COMMENT '角色\n#c_role',
+  `org_id` bigint NOT NULL COMMENT '部门\n#c_org',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_role_org` (`org_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色组织关系';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色组织关系';
 
 -- ----------------------------
 -- Table structure for c_station
 -- ----------------------------
 DROP TABLE IF EXISTS `c_station`;
 CREATE TABLE `c_station` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, beanClass = Org.class)',
+  `org_id` bigint DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `updated_by` bigint DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_name` (`name`) USING HASH
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
+  UNIQUE KEY `uk_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='岗位';
 
 -- ----------------------------
 -- Records of c_station
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_station` VALUES (1, '总经理', 1, b'1', '', '2020-11-23 00:06:20', 1, '2020-11-23 00:06:25', 1);
-INSERT INTO `c_station` VALUES (1426742937089212416, '1', 1, b'1', '1', '2021-08-15 11:09:58', 2, '2021-08-15 11:09:58', 2);
+INSERT INTO `c_station` VALUES (1415864686808662016, '1-1', 1415864576410386432, b'1', '', '2021-07-16 10:43:41', 2, '2021-07-16 10:43:41', 2);
 COMMIT;
 
 -- ----------------------------
@@ -1086,44 +1106,44 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_user`;
 CREATE TABLE `c_user` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL COMMENT 'ID',
   `account` varchar(30) NOT NULL DEFAULT '' COMMENT '账号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS, beanClass = Org.class)',
-  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS)',
+  `org_id` bigint DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
+  `station_id` bigint DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS)',
   `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '内置',
   `email` varchar(255) DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `sex` varchar(1) DEFAULT '' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `avatar` varchar(255) DEFAULT '' COMMENT '头像',
-  `nation` char(2) DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.NATION)',
-  `education` char(2) DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.EDUCATION)',
-  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.POSITION_STATUS)',
+  `nation` char(2) DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)',
+  `education` char(2) DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)',
+  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述',
   `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
-  `password_error_num` int(10) DEFAULT '0' COMMENT '密码错误次数',
+  `password_error_num` int DEFAULT '0' COMMENT '密码错误次数',
   `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
   `salt` varchar(20) NOT NULL DEFAULT '' COMMENT '密码盐',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_account` (`account`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户';
 
 -- ----------------------------
 -- Records of c_user
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_user` VALUES (1, 'lampAdmin', '内置管理员', 1, 1, b'1', '15217781234@qq.com', '15217781234', 'M', b'1', '17e420c250804efe904a09a33796d5a10.jpg', '01', '01', '01', '不想上班!', '2020-11-24 19:08:45', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-24 19:08:45', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
-INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1, 1, b'0', '53@qq.com', '3', 'M', b'1', 'https://static.tangyh.top/0000/USER_AVATAR/2021/07/28/2e5a3a5dd8b54640bd747dd1022981f0.png', '01', '07', '01', '不想上班!11', '2021-08-15 22:45:10', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-08-15 22:45:10', 1, '2020-11-22 23:03:15', 2, '2021-08-15 11:13:18');
-INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', 'W', b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2021-07-21 23:46:05', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-07-21 23:46:05', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:22:34');
-INSERT INTO `c_user` VALUES (4, 'general', '普通管理员', 1, 1, b'0', '', '', 'N', b'1', '', '01', '01', '01', '不想上班!', '2020-11-30 16:13:41', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-30 16:13:41', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
-INSERT INTO `c_user` VALUES (5, 'normal', '普通用户', 1, 1, b'0', '', '', 'M', b'1', '', '02', '02', '02', '不想上班!', '2020-11-30 16:15:10', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-30 16:15:10', 1, '2020-11-22 23:03:15', 2, '2021-07-21 23:45:29');
+INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1, 1, b'0', '5', '3', 'M', b'1', '20180414165815.jpg', '02', '04', '03', '不想上班!', '2022-01-27 12:18:09', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-01-27 12:18:09', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:25:23');
+INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', 'W', b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2021-08-13 00:11:18', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-08-13 00:11:18', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:22:34');
+INSERT INTO `c_user` VALUES (4, 'general', '普通管理员', 1415864637190045696, 1, b'0', '', '', 'N', b'1', '', '01', '01', '01', '不想上班!', '2021-08-13 00:15:14', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-08-13 00:15:14', 1, '2020-11-22 23:03:15', 5, '2022-01-27 12:59:24');
+INSERT INTO `c_user` VALUES (5, 'normal', '普通用户', 1415864576410386432, 1, b'0', '', '', 'M', b'1', '', '02', '02', '02', '不想上班!', '2022-01-27 12:21:39', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-01-27 12:21:39', 1, '2020-11-22 23:03:15', 5, '2022-01-27 12:59:43');
 COMMIT;
 
 -- ----------------------------
@@ -1131,14 +1151,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_user_role`;
 CREATE TABLE `c_user_role` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色\n#c_role',
-  `user_id` bigint(20) NOT NULL COMMENT '用户\n#c_user',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人ID',
+  `id` bigint NOT NULL COMMENT 'ID',
+  `role_id` bigint NOT NULL COMMENT '角色\n#c_role',
+  `user_id` bigint NOT NULL COMMENT '用户\n#c_user',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_user_role` (`role_id`,`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色分配\n账号角色绑定';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色分配\n账号角色绑定';
 
 -- ----------------------------
 -- Records of c_user_role
@@ -1149,6 +1169,7 @@ INSERT INTO `c_user_role` VALUES (2, 1, 2, 1, '2020-11-23 14:19:11');
 INSERT INTO `c_user_role` VALUES (3, 2, 3, 1, '2020-11-23 14:19:14');
 INSERT INTO `c_user_role` VALUES (4, 3, 4, 1, '2020-11-23 14:19:14');
 INSERT INTO `c_user_role` VALUES (5, 4, 5, 1, '2020-11-23 14:19:14');
+INSERT INTO `c_user_role` VALUES (1486564088677924864, 1486215142227050496, 5, 2, '2022-01-27 12:57:52');
 COMMIT;
 
 -- ----------------------------
@@ -1156,12 +1177,12 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'increment id',
-  `branch_id` bigint(20) NOT NULL COMMENT 'branch transaction id',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'increment id',
+  `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
   `xid` varchar(100) NOT NULL COMMENT 'global transaction id',
   `context` varchar(128) NOT NULL COMMENT 'undo_log context,such as serialization',
   `rollback_info` longblob NOT NULL COMMENT 'rollback info',
-  `log_status` int(11) NOT NULL COMMENT '0:normal status,1:defense status',
+  `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
   `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
   `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
   PRIMARY KEY (`id`) USING BTREE,

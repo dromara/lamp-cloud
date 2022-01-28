@@ -9,18 +9,18 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="category" jdbcType="VARCHAR" property="category"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
         <result column="state" jdbcType="BIT" property="state"/>
         <result column="readonly_" jdbcType="BIT" property="readonly"/>
-        <result column="ds_type" jdbcType="VARCHAR" property="dsType"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,created_by,create_time,updated_by,update_time,
-        name, code, describe_, state, readonly_, ds_type
+        id,created_by,create_time,updated_by,update_time, category,
+        name, code, describe_, state, readonly_
     </sql>
 
 </mapper>

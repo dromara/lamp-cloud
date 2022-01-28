@@ -12,7 +12,6 @@ import top.tangyh.basic.annotation.echo.EchoResult;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
-import top.tangyh.basic.database.mybatis.auth.DataScope;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.utils.ArgumentAssert;
@@ -83,7 +82,7 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
                 .like(Station::getDescribe, station.getDescribe())
                 .eq(Station::getOrgId, station.getOrgId())
                 .eq(Station::getState, station.getState());
-        return baseMapper.findStationPage(page, wrapper, new DataScope());
+        return baseMapper.findStationPage(page, wrapper);
     }
 
     @Override

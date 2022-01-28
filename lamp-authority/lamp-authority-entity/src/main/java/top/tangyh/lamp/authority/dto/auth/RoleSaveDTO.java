@@ -1,6 +1,5 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import top.tangyh.basic.database.mybatis.auth.DataScopeType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
@@ -62,14 +60,12 @@ public class RoleSaveDTO implements Serializable {
      */
     @ApiModelProperty(value = "状态")
     private Boolean state;
-
     /**
-     * 数据权限
-     * #DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}
+     * 角色类别;[10-功能角色 20-桌面角色 30-数据角色]
      */
-    @ApiModelProperty(value = "数据权限")
-    @NotNull(message = "数据权限不能为空")
-    private DataScopeType dsType;
+    @ApiModelProperty(value = "角色类别")
+    @Size(max = 2, message = "角色类别长度不能超过{max}")
+    private String category;
     /**
      * 关联的组织
      */

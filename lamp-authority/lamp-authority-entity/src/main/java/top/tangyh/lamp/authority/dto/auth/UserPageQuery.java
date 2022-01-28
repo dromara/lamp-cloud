@@ -150,4 +150,8 @@ public class UserPageQuery implements Serializable {
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime lastLoginTime;
 
+    @ApiModelProperty(value = "范围")
+    private String scope;
+    @ApiModelProperty(value = "角色id")
+    private String roleId;
 }

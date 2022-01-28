@@ -20,12 +20,18 @@
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="group_" jdbcType="VARCHAR" property="group"/>
         <result column="readonly_" jdbcType="BIT" property="readonly"/>
+        <result column="resource_type" jdbcType="VARCHAR" property="resourceType"/>
+        <result column="is_def" jdbcType="BIT" property="isDef"/>
+        <result column="custom_class" jdbcType="VARCHAR" property="customClass"/>
+        <result column="data_scope" jdbcType="VARCHAR" property="dataScope"/>
+        <result column="tree_grade" jdbcType="VARCHAR" property="treeGrade"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,label,sort_value,parent_id,created_by,create_time,updated_by,update_time,
-        describe_, is_general, path, component, state, icon, group_, readonly_
+        id,label,sort_value,parent_id,created_by,create_time,updated_by,update_time, tree_grade, tree_path,
+        describe_, is_general, path, component, state, icon, group_, readonly_, resource_type, is_def, custom_class, data_scope
     </sql>
 
 </mapper>

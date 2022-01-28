@@ -3,8 +3,6 @@ package top.tangyh.lamp.authority.entity.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.basic.database.mybatis.auth.DataScopeType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,13 +12,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.annotation.echo.Echo;
+import top.tangyh.basic.base.entity.Entity;
+import top.tangyh.lamp.common.constant.DictionaryType;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
 
 /**
  * <p>
@@ -42,7 +43,14 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 public class Role extends Entity<Long> {
 
     private static final long serialVersionUID = 1L;
-
+    /**
+     * 角色类别;[10-功能角色 20-桌面角色 30-数据角色]
+     */
+    @ApiModelProperty(value = "角色类别")
+    @TableField(value = "`category`", condition = LIKE)
+    @Size(max = 2, message = "角色类别长度不能超过{max}")
+    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = DictionaryType.RESOURCE_TYPE)
+    private String category;
     /**
      * 名称
      */
@@ -87,20 +95,9 @@ public class Role extends Entity<Long> {
     @Excel(name = "内置角色", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;
 
-    /**
-     * 数据权限
-     * #DataScopeType{ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;}
-     */
-    @ApiModelProperty(value = "数据权限")
-    @NotNull(message = "数据权限不能为空")
-    @TableField("ds_type")
-    @Excel(name = "数据权限", replace = {"全部_ALL", "本级_THIS_LEVEL", "本级以及子级_THIS_LEVEL_CHILDREN", "自定义_CUSTOMIZE", "个人_SELF", "_null"})
-    private DataScopeType dsType;
-
-
     @Builder
     public Role(Long id, Long createdBy, LocalDateTime createTime, Long updatedBy, LocalDateTime updateTime,
-                String name, String code, String describe, Boolean state, Boolean readonly, DataScopeType dsType) {
+                String name, String code, String describe, Boolean state, Boolean readonly, String category) {
         this.id = id;
         this.createdBy = createdBy;
         this.createTime = createTime;
@@ -111,7 +108,7 @@ public class Role extends Entity<Long> {
         this.describe = describe;
         this.state = state;
         this.readonly = readonly;
-        this.dsType = dsType;
+        this.category = category;
     }
 
 }

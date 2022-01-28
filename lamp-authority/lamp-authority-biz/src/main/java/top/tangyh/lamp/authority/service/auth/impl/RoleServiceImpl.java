@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
-import top.tangyh.basic.database.mybatis.auth.DataScopeType;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.security.constant.RoleConstant;
 import top.tangyh.basic.utils.ArgumentAssert;
@@ -28,7 +27,6 @@ import top.tangyh.lamp.authority.service.auth.RoleAuthorityService;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.auth.RoleService;
 import top.tangyh.lamp.authority.service.auth.UserRoleService;
-import top.tangyh.lamp.authority.strategy.DataScopeContext;
 import top.tangyh.lamp.common.cache.auth.RoleCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.RoleMenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.RoleResourceCacheKeyBuilder;
@@ -54,10 +52,8 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> implements RoleService {
-    private final RoleOrgService roleOrgService;
     private final RoleAuthorityService roleAuthorityService;
     private final UserRoleService userRoleService;
-    private final DataScopeContext dataScopeContext;
 
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
@@ -86,8 +82,6 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
         }
         // 橘色
         boolean removeFlag = removeByIds(ids);
-        // 角色组织
-        roleOrgService.remove(Wraps.<RoleOrg>lbQ().in(RoleOrg::getRoleId, ids));
         // 角色权限
         roleAuthorityService.remove(Wraps.<RoleAuthority>lbQ().in(RoleAuthority::getRoleId, ids));
 
@@ -147,8 +141,6 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
         role.setCode(StrHelper.getOrDef(data.getCode(), RandomUtil.randomString(8)));
         role.setReadonly(false);
         save(role);
-
-        saveRoleOrg(userId, role, data.getOrgList());
     }
 
     @Override
@@ -157,20 +149,6 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<RoleMapper, Role> imp
         Role role = BeanPlusUtil.toBean(data, Role.class);
         updateById(role);
 
-        roleOrgService.remove(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, data.getId()));
-        saveRoleOrg(userId, role, data.getOrgList());
-
-    }
-
-    private void saveRoleOrg(Long userId, Role role, List<Long> orgList) {
-        // 根据 数据范围类型 和 勾选的组织ID， 重新计算全量的组织ID
-        if (DataScopeType.CUSTOMIZE.eq(role.getDsType())) {
-            List<Long> orgIds = dataScopeContext.getOrgIdsForDataScope(orgList, role.getDsType(), userId);
-            if (orgIds != null && !orgIds.isEmpty()) {
-                List<RoleOrg> list = orgIds.stream().map(orgId -> RoleOrg.builder().orgId(orgId).roleId(role.getId()).build()).collect(Collectors.toList());
-                roleOrgService.saveBatch(list);
-            }
-        }
     }
 
     @Override

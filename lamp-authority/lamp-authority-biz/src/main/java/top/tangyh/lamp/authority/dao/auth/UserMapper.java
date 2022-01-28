@@ -3,13 +3,12 @@ package top.tangyh.lamp.authority.dao.auth;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import top.tangyh.basic.base.mapper.SuperMapper;
-import top.tangyh.basic.base.request.PageParams;
-import top.tangyh.basic.database.mybatis.auth.DataScope;
-import top.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;
-import top.tangyh.lamp.authority.entity.auth.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import top.tangyh.basic.base.mapper.SuperMapper;
+import top.tangyh.basic.base.request.PageParams;
+import top.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;
+import top.tangyh.lamp.authority.entity.auth.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,12 +45,11 @@ public interface UserMapper extends SuperMapper<User> {
     /**
      * 带数据权限的分页查询
      *
-     * @param page      分页对象
-     * @param wrapper   查询条件
-     * @param dataScope 数据权限番位
+     * @param page    分页对象
+     * @param wrapper 查询条件
      * @return 分页用户数据
      */
-    IPage<User> findPage(IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper, DataScope dataScope);
+    IPage<User> findPage(IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper);
 
     /**
      * 重置 密码错误次数

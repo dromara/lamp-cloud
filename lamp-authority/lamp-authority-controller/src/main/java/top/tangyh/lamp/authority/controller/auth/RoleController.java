@@ -17,23 +17,23 @@ import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperCacheController;
 import top.tangyh.basic.base.request.PageParams;
-import top.tangyh.basic.database.mybatis.auth.DataScopeType;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
+import top.tangyh.basic.echo.core.EchoService;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.lamp.authority.dto.auth.RoleAuthoritySaveDTO;
 import top.tangyh.lamp.authority.dto.auth.RolePageQuery;
 import top.tangyh.lamp.authority.dto.auth.RoleQueryDTO;
 import top.tangyh.lamp.authority.dto.auth.RoleSaveDTO;
 import top.tangyh.lamp.authority.dto.auth.RoleUpdateDTO;
+import top.tangyh.lamp.authority.dto.auth.RoleUserSaveVO;
 import top.tangyh.lamp.authority.dto.auth.UserRoleSaveDTO;
 import top.tangyh.lamp.authority.entity.auth.Role;
 import top.tangyh.lamp.authority.entity.auth.RoleAuthority;
 import top.tangyh.lamp.authority.entity.auth.UserRole;
 import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
 import top.tangyh.lamp.authority.service.auth.RoleAuthorityService;
-import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.auth.RoleService;
 import top.tangyh.lamp.authority.service.auth.UserRoleService;
 
@@ -59,8 +59,13 @@ import java.util.stream.Collectors;
 public class RoleController extends SuperCacheController<RoleService, Long, Role, RolePageQuery, RoleSaveDTO, RoleUpdateDTO> {
 
     private final RoleAuthorityService roleAuthorityService;
-    private final RoleOrgService roleOrgService;
+    private final EchoService echoService;
     private final UserRoleService userRoleService;
+
+    @Override
+    public void handlerResult(IPage<Role> page) {
+        echoService.action(page);
+    }
 
     @Override
     public IPage<Role> query(PageParams<RolePageQuery> params) {
@@ -75,7 +80,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
                 .like(Role::getCode, roleQuery.getCode())
                 .in(Role::getState, roleQuery.getState())
                 .in(Role::getReadonly, roleQuery.getReadonly())
-                .in(Role::getDsType, roleQuery.getDsType());
+                .in(Role::getCategory, roleQuery.getCategory());
         baseService.page(page, wrapper);
         return page;
     }
@@ -92,10 +97,6 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
     public R<RoleQueryDTO> getDetails(@RequestParam Long id) {
         Role role = baseService.getByIdCache(id);
         RoleQueryDTO query = BeanPlusUtil.toBean(role, RoleQueryDTO.class);
-        if (query.getDsType() != null && DataScopeType.CUSTOMIZE.eq(query.getDsType())) {
-            List<Long> orgList = roleOrgService.listOrgByRoleId(role.getId());
-            query.setOrgList(orgList);
-        }
         return success(query);
     }
 
@@ -134,8 +135,23 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
     @PostMapping("/saveUserRole")
     @SysLog("给角色分配用户")
     @PreAuth("hasAnyPermission('{}config')")
+    @Deprecated
     public R<Boolean> saveUserRole(@RequestBody UserRoleSaveDTO userRole) {
         return success(roleAuthorityService.saveUserRole(userRole));
+    }
+
+    /**
+     * 给用户分配角色给角色绑定用户
+     *
+     * @param roleUser 用户角色授权对象
+     * @return 新增结果
+     */
+    @ApiOperation(value = "给角色绑定用户", notes = "给角色绑定用户")
+    @PostMapping("/saveRoleUser")
+    @SysLog("给角色绑定用户")
+    @PreAuth("hasAnyPermission('{}config')")
+    public R<List<Long>> saveUserRole(@RequestBody RoleUserSaveVO roleUser) {
+        return success(roleAuthorityService.saveRoleUser(roleUser));
     }
 
     /**

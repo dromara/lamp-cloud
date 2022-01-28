@@ -1,9 +1,11 @@
 package top.tangyh.lamp.authority.service.auth.impl;
 
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Pair;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -13,24 +15,32 @@ import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.DefValueHelper;
 import top.tangyh.basic.utils.TreeUtil;
+import top.tangyh.basic.utils.ValidatorUtil;
 import top.tangyh.lamp.authority.dao.auth.MenuMapper;
 import top.tangyh.lamp.authority.dto.auth.MenuResourceTreeVO;
 import top.tangyh.lamp.authority.entity.auth.Menu;
 import top.tangyh.lamp.authority.entity.auth.Resource;
+import top.tangyh.lamp.authority.entity.auth.ResourceDataScope;
 import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
+import top.tangyh.lamp.authority.enumeration.auth.ResourceTypeEnum;
 import top.tangyh.lamp.authority.service.auth.MenuService;
 import top.tangyh.lamp.authority.service.auth.ResourceService;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.common.cache.auth.MenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
+import top.tangyh.lamp.common.constant.DefValConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static top.tangyh.basic.utils.StrPool.DEF_PARENT_ID;
 
@@ -55,6 +65,18 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
         return new MenuCacheKeyBuilder();
+    }
+
+    @Override
+    public ResourceDataScope getDataScopeByPath(String path, List<Long> idList) {
+        ResourceDataScope dataScopeByPath = null;
+        if (CollUtil.isNotEmpty(idList)) {
+            dataScopeByPath = baseMapper.getDataScopeByPath(path, idList);
+        }
+        if (dataScopeByPath == null) {
+            dataScopeByPath = baseMapper.getDefDataScopeByPath(path);
+        }
+        return dataScopeByPath;
     }
 
     /**
@@ -118,9 +140,19 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateWithCache(Menu menu) {
+        if (StrUtil.containsAny(menu.getResourceType(), ResourceTypeEnum.MENU.getCode())) {
+            ArgumentAssert.notEmpty(menu.getPath(), "【地址栏路径】不能为空");
+            ArgumentAssert.notEmpty(menu.getComponent(), "【页面路径】不能为空");
+            ArgumentAssert.isFalse(checkName(menu.getId(), menu.getLabel()), "【名称】:{}重复", menu.getLabel());
+            if (!ValidatorUtil.isUrl(menu.getPath())) {
+                ArgumentAssert.isFalse(checkPath(menu.getId(), menu.getPath()), "【地址栏路径】:{}重复", menu.getPath());
+            }
+        }
         Menu old = getById(menu);
         ArgumentAssert.notNull(old, "您修改的菜单已不存在");
+        checkGeneral(menu, true);
 
+        fill(menu);
         Boolean oldIsPublic = DefValueHelper.getOrDef(old.getIsGeneral(), false);
         Boolean newIsPublic = DefValueHelper.getOrDef(menu.getIsGeneral(), false);
         if (!oldIsPublic.equals(newIsPublic)) {
@@ -131,12 +163,34 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
         return this.updateById(menu);
     }
 
+    public Boolean checkPath(Long id, String path) {
+        return baseMapper.selectCount(Wraps.<Menu>lbQ().ne(Menu::getId, id).eq(Menu::getPath, path)) > 0;
+    }
+
+    public Boolean checkName(Long id, String name) {
+        return baseMapper.selectCount(Wraps.<Menu>lbQ().ne(Menu::getId, id)
+                .in(Menu::getResourceType, ResourceTypeEnum.MENU.getCode()).eq(Menu::getLabel, name)) > 0;
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveWithCache(Menu menu) {
+        if (StrUtil.containsAny(menu.getResourceType(), ResourceTypeEnum.MENU.getCode())) {
+            ArgumentAssert.notEmpty(menu.getPath(), "请填写【地址栏路径】");
+            ArgumentAssert.notEmpty(menu.getComponent(), "请填写【页面路径】");
+            ArgumentAssert.isFalse(checkName(null, menu.getLabel()), "【名称】:{}重复", menu.getLabel());
+            if (!ValidatorUtil.isUrl(menu.getPath())) {
+                ArgumentAssert.isFalse(checkPath(null, menu.getPath()), "【地址栏路径】:{}重复", menu.getPath());
+            }
+        }
+
+        fill(menu);
         menu.setState(Convert.toBool(menu.getState(), true));
         menu.setIsGeneral(Convert.toBool(menu.getIsGeneral(), false));
         menu.setParentId(Convert.toLong(menu.getParentId(), DEF_PARENT_ID));
+
+        checkGeneral(menu, false);
+
         save(menu);
 
         if (menu.getIsGeneral()) {
@@ -146,11 +200,54 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
         return true;
     }
 
+    private void checkGeneral(Menu data, boolean isUpdate) {
+        if (data.getIsGeneral() == null) {
+            return;
+        }
+
+        if (data.getIsGeneral()) {
+            // isGeneral 子节点 改成是，父节点全是
+            if (!TreeUtil.isRoot(data.getParentId())) {
+                Menu parent = getById(data.getParentId());
+                ArgumentAssert.notNull(parent, "父节点不存在");
+                ArgumentAssert.isTrue(parent.getIsGeneral(), "请先将父节点{} “公共资源”字段修改为：“是”，在修改本节点", parent.getLabel());
+            }
+            return;
+        }
+
+        if (isUpdate) {
+            // isGeneral 父节点 改成否，子节点全否
+            List<Menu> childrenList = findChildrenByParentId(data.getId());
+            if (CollUtil.isNotEmpty(childrenList)) {
+                childrenList.forEach(item -> {
+                    ArgumentAssert.isFalse(item.getIsGeneral(), "请先将子节点{} “公共资源”字段修改为：“否”，在修改本节点", item.getLabel());
+                });
+            }
+        }
+    }
+
+    public List<Menu> findChildrenByParentId(Long parentId) {
+        ArgumentAssert.notNull(parentId, "parentId 不能为空");
+        return list(Wraps.<Menu>lbQ().in(Menu::getParentId, parentId).orderByAsc(Menu::getSortValue));
+    }
+
+    private void fill(Menu resource) {
+        if (resource.getParentId() == null || resource.getParentId() <= 0) {
+            resource.setParentId(DefValConstants.PARENT_ID);
+            resource.setTreePath(DefValConstants.ROOT_PATH);
+            resource.setTreeGrade(DefValConstants.TREE_GRADE);
+        } else {
+            Menu parent = getByIdCache(resource.getParentId());
+            ArgumentAssert.notNull(parent, "请正确填写父级");
+            resource.setTreeGrade(parent.getTreeGrade() + 1);
+            resource.setTreePath(TreeUtil.getTreePath(parent.getTreePath(), parent.getId()));
+        }
+    }
 
     @Override
     public List<MenuResourceTreeVO> findMenuResourceTree() {
         List<MenuResourceTreeVO> list = new ArrayList<>();
-        List<Menu> menus = super.list();
+        List<Menu> menus = super.list(Wraps.<Menu>lbQ().eq(Menu::getResourceType, ResourceTypeEnum.MENU.getCode()));
         List<Resource> resources = resourceService.list();
 
         List<MenuResourceTreeVO> menuList = menus.stream().map(item -> {
@@ -171,6 +268,39 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
         list.addAll(menuList);
         list.addAll(resourceList);
         return TreeUtil.buildTree(list);
+    }
+
+    @Override
+    public List<MenuResourceTreeVO> findMenuDataScopeTree() {
+        List<Menu> datas = super.list(Wraps.<Menu>lbQ().eq(Menu::getResourceType, ResourceTypeEnum.DATA.getCode()));
+
+        // 将id和treePath截取后 合并成list，其中treePath存放的是该节点的所有父节点ID
+        Stream<Long> dataScopeIdStream = datas.parallelStream().map(Menu::getId);
+        Stream<Long> parentIdStream = datas.parallelStream()
+                .map(item -> StrUtil.splitToArray(item.getTreePath(), DefValConstants.ROOT_PATH)) // 将父节点路径截取为父ID数组
+                .flatMap(Arrays::stream) // 数组流 转 字符串流
+                .filter(ObjectUtil::isNotEmpty) // 去除空数据
+                .map(Convert::toLong) // 类型转换
+                ;
+        // 合并 数据权限ID 和 父ID
+        List<Long> resourceIdList = Stream.concat(dataScopeIdStream, parentIdStream).distinct().collect(Collectors.toList());
+        if (CollUtil.isEmpty(resourceIdList)) {
+            return Collections.emptyList();
+        }
+        List<Menu> menus = listByIds(resourceIdList);
+
+        List<MenuResourceTreeVO> menuList = menus.stream().map(item -> {
+            MenuResourceTreeVO menu = new MenuResourceTreeVO();
+            BeanPlusUtil.copyProperties(item, menu);
+            if (ResourceTypeEnum.DATA.eq(item.getResourceType())) {
+                menu.setType(AuthorizeType.DATA);
+            } else {
+                menu.setType(AuthorizeType.MENU);
+            }
+            return menu;
+        }).collect(Collectors.toList());
+
+        return TreeUtil.buildTree(menuList);
     }
 
 }

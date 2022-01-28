@@ -25,6 +25,14 @@ public interface BizConstant {
     String INIT_ROLE_CODE = "SUPER_ADMIN";
 
     /**
+     * 绑定范围 已绑定
+     */
+    String SCOPE_BIND = "1";
+    /**
+     * 绑定范围 未绑定
+     */
+    String SCOPE_UN_BIND = "2";
+    /**
      * 演示用的组织ID
      */
     Long DEMO_ORG_ID = 101L;

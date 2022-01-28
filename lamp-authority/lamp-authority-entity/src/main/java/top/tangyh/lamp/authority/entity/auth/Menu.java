@@ -3,7 +3,6 @@ package top.tangyh.lamp.authority.entity.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.base.entity.TreeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,11 +12,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.annotation.echo.Echo;
+import top.tangyh.basic.base.entity.TreeEntity;
+import top.tangyh.lamp.common.constant.DictionaryType;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.EQUAL;
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
 
 /**
  * <p>
@@ -48,6 +52,15 @@ public class Menu extends TreeEntity<Menu, Long> {
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
     private String describe;
+    /**
+     * 类型;[20-菜单 60-数据]
+     */
+    @ApiModelProperty(value = "类型")
+    @Size(max = 2, message = "类型长度不能超过{max}")
+    @TableField(value = "resource_type", condition = LIKE)
+    @Excel(name = "类型")
+    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = DictionaryType.RESOURCE_TYPE)
+    private String resourceType;
 
     /**
      * 通用菜单
@@ -110,11 +123,45 @@ public class Menu extends TreeEntity<Menu, Long> {
     @Excel(name = "内置", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;
 
+    /**
+     * 数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]
+     */
+    @ApiModelProperty(value = "数据范围")
+    @TableField(value = "`data_scope`", condition = LIKE)
+    @Size(max = 2, message = "数据范围长度不能超过{max}")
+    private String dataScope;
+    /**
+     * 实现类;自定义实现类全类名
+     */
+    @ApiModelProperty(value = "实现类")
+    @TableField(value = "`custom_class`", condition = LIKE)
+    @Size(max = 255, message = "实现类长度不能超过{max}")
+    private String customClass;
+
+    /**
+     * 是否默认
+     */
+    @ApiModelProperty(value = "是否默认")
+    @TableField(value = "`is_def`")
+    private Boolean isDef;
+
+    /**
+     * 树层级
+     */
+    @ApiModelProperty(value = "树层级")
+    @TableField(value = "tree_grade", condition = EQUAL)
+    private Integer treeGrade;
+    /**
+     * 树路径;用id拼接树结构
+     */
+    @ApiModelProperty(value = "树路径")
+    @TableField(value = "tree_path", condition = LIKE)
+    private String treePath;
 
     @Builder
     public Menu(Long id, String label, Integer sortValue, Long parentId, Long createdBy, LocalDateTime createTime, Long updatedBy, LocalDateTime updateTime,
-                String describe, Boolean isGeneral, String path, String component, Boolean state,
-                String icon, String group, Boolean readonly) {
+                String describe, Boolean isGeneral, String path, String component, Boolean state, String resourceType,
+                String icon, String group, Boolean readonly, String dataScope, String customClass, Boolean isDef, Integer treeGrade, String treePath) {
         this.id = id;
         this.label = label;
         this.sortValue = sortValue;
@@ -129,8 +176,14 @@ public class Menu extends TreeEntity<Menu, Long> {
         this.component = component;
         this.state = state;
         this.icon = icon;
+        this.resourceType = resourceType;
         this.group = group;
         this.readonly = readonly;
+        this.dataScope = dataScope;
+        this.customClass = customClass;
+        this.isDef = isDef;
+        this.treeGrade = treeGrade;
+        this.treePath = treePath;
     }
 
 }

@@ -43,4 +43,46 @@ public interface OrgService extends SuperCacheService<Org>, LoadService {
      * @create [2021/5/23 9:37 下午 ] [tangyh] [初始创建]
      */
     boolean check(Long id, String name);
+
+
+
+    /**
+     * 查询员工主部门ID
+     *
+     * @param userId 员工ID
+     * @return
+     */
+    Long getMainDeptIdByUserId(Long userId);
+
+    /**
+     * 查询员工主部门及其所有的子部门ID
+     *
+     * @param userId 员工ID
+     * @return
+     */
+    List<Long> findDeptAndChildrenIdByUserId(Long userId);
+
+    /**
+     * 查询员工主部门
+     *
+     * @param userId 员工ID
+     * @return
+     */
+    Org getMainCompanyByUserId(Long userId);
+
+    /**
+     * 查询员工主部门的所属单位 ID
+     *
+     * @param userId 员工ID
+     * @return
+     */
+    Long getMainCompanyIdByUserId(Long userId);
+
+    /**
+     * 查询员工主部门所属单位以及单位的所有子组织 ID
+     *
+     * @param userId 员工ID
+     * @return
+     */
+    List<Long> findCompanyAndChildrenIdByUserId(Long userId);
 }

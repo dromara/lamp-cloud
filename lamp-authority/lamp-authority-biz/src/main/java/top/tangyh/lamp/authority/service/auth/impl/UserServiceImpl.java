@@ -1,7 +1,6 @@
 package top.tangyh.lamp.authority.service.auth.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -18,8 +17,6 @@ import top.tangyh.basic.base.service.SuperCacheServiceImpl;
 import top.tangyh.basic.cache.model.CacheKey;
 import top.tangyh.basic.cache.model.CacheKeyBuilder;
 import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.basic.database.mybatis.auth.DataScope;
-import top.tangyh.basic.database.mybatis.auth.DataScopeType;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.security.feign.UserQuery;
@@ -38,10 +35,8 @@ import top.tangyh.lamp.authority.dto.auth.UserUpdateAvatarDTO;
 import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
 import top.tangyh.lamp.authority.entity.auth.Resource;
 import top.tangyh.lamp.authority.entity.auth.Role;
-import top.tangyh.lamp.authority.entity.auth.RoleOrg;
 import top.tangyh.lamp.authority.entity.auth.User;
 import top.tangyh.lamp.authority.entity.auth.UserRole;
-import top.tangyh.lamp.authority.entity.core.Org;
 import top.tangyh.lamp.authority.entity.core.Station;
 import top.tangyh.lamp.authority.service.auth.ResourceService;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
@@ -61,13 +56,11 @@ import top.tangyh.lamp.file.service.AppendixService;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -113,7 +106,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
 
     @Override
     public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
-        return baseMapper.findPage(page, wrapper, new DataScope());
+        return baseMapper.findPage(page, wrapper);
     }
 
 
@@ -168,35 +161,35 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
         List<Role> list = roleService.findRoleByUserId(userId);
 
         // 找到 dsType 最大的角色， dsType越大，角色拥有的权限最大
-        Optional<Role> max = list.stream().max(Comparator.comparingInt(item -> item.getDsType().getVal()));
+//        Optional<Role> max = list.stream().max(Comparator.comparingInt(item -> item.getDsType().getVal()));
 
-        DataScopeType dsType;
-        if (max.isPresent()) {
-            Role role = max.get();
-            dsType = role.getDsType();
-            map.put("dsType", dsType.getVal());
-            if (DataScopeType.CUSTOMIZE.eq(dsType)) {
-                LbqWrapper<RoleOrg> wrapper = Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId).eq(RoleOrg::getRoleId, role.getId());
-                List<RoleOrg> roleOrgList = roleOrgService.list(wrapper);
-
-                orgIds = roleOrgList.stream().mapToLong(RoleOrg::getOrgId).boxed().collect(Collectors.toList());
-            } else if (DataScopeType.THIS_LEVEL.eq(dsType)) {
-                User user = getByIdCache(userId);
-                if (user != null) {
-                    Long orgId = user.getOrgId();
-                    if (orgId != null) {
-                        orgIds.add(orgId);
-                    }
-                }
-            } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(dsType)) {
-                User user = getByIdCache(userId);
-                if (user != null) {
-                    Long orgId = user.getOrgId();
-                    List<Org> orgList = orgService.findChildren(CollUtil.newArrayList(orgId));
-                    orgIds = orgList.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
-                }
-            }
-        }
+//        DataScopeType dsType;
+//        if (max.isPresent()) {
+//            Role role = max.get();
+//            dsType = role.getDsType();
+//            map.put("dsType", dsType.getVal());
+//            if (DataScopeType.CUSTOMIZE.eq(dsType)) {
+//                LbqWrapper<RoleOrg> wrapper = Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId).eq(RoleOrg::getRoleId, role.getId());
+//                List<RoleOrg> roleOrgList = roleOrgService.list(wrapper);
+//
+//                orgIds = roleOrgList.stream().mapToLong(RoleOrg::getOrgId).boxed().collect(Collectors.toList());
+//            } else if (DataScopeType.THIS_LEVEL.eq(dsType)) {
+//                User user = getByIdCache(userId);
+//                if (user != null) {
+//                    Long orgId = user.getOrgId();
+//                    if (orgId != null) {
+//                        orgIds.add(orgId);
+//                    }
+//                }
+//            } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(dsType)) {
+//                User user = getByIdCache(userId);
+//                if (user != null) {
+//                    Long orgId = user.getOrgId();
+//                    List<Org> orgList = orgService.findChildren(CollUtil.newArrayList(orgId));
+//                    orgIds = orgList.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
+//                }
+//            }
+//        }
         map.put("orgIds", orgIds);
         return map;
     }

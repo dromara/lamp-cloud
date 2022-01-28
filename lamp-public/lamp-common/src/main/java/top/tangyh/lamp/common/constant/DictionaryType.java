@@ -24,6 +24,14 @@ public final class DictionaryType {
      */
     public static final String AREA_LEVEL = "AREA_LEVEL";
     /**
+     * 资源类型
+     */
+    public static final String RESOURCE_TYPE = "RESOURCE_TYPE";
+    /**
+     * 角色类别
+     */
+    public static final String ROLE_CATEGORY = "ROLE_CATEGORY";
+    /**
      * 机构类型
      */
     public static final String ORG_TYPE = "ORG_TYPE";

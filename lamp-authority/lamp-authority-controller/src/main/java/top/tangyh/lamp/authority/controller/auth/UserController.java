@@ -5,19 +5,16 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.google.common.collect.Multimap;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +35,6 @@ import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import top.tangyh.basic.echo.core.EchoService;
-import top.tangyh.basic.model.EchoVO;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
 import top.tangyh.lamp.authority.controller.poi.UserExcelDictHandlerImpl;
@@ -55,14 +51,12 @@ import top.tangyh.lamp.authority.entity.core.Org;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.constant.BizConstant;
-import top.tangyh.lamp.common.vo.result.AppendixResultVO;
 import top.tangyh.lamp.file.service.AppendixService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.groups.Default;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -323,6 +317,17 @@ public class UserController extends SuperCacheController<UserService, Long, User
                 .in(User::getNation, userPage.getNation())
                 .in(User::getSex, userPage.getSex())
                 .eq(User::getState, userPage.getState());
+
+        if (StrUtil.equalsAny(userPage.getScope(), BizConstant.SCOPE_BIND, BizConstant.SCOPE_UN_BIND) && userPage.getRoleId() != null) {
+            String sql = " select ur.employee_id from c_user_role ur where ur.user_id = s.id \n" +
+                    "  and ur.role_id =   " + userPage.getRoleId();
+            if (BizConstant.SCOPE_BIND.equals(userPage.getScope())) {
+                wrapper.inSql(User::getId, sql);
+            } else {
+                wrapper.notInSql(User::getId, sql);
+            }
+        }
+
         baseService.findPage(page, wrapper);
         // 手动注入
         echoService.action(page);
@@ -335,6 +340,53 @@ public class UserController extends SuperCacheController<UserService, Long, User
         appendixService.echoAppendix(page);
 
         return page;
+    }
+
+    @ApiOperation(value = "分页查询所有用户", notes = "分页查询所有用户")
+    @PostMapping("/pageAll")
+    @SysLog(value = "'分页列表查询:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
+    public R<IPage<User>> pageAll(@RequestBody @Validated PageParams<UserPageQuery> params) {
+        IPage<User> page = params.buildPage(User.class);
+        UserPageQuery userPage = params.getModel();
+
+        QueryWrap<User> wrap = handlerWrapper(null, params);
+
+        LbqWrapper<User> wrapper = wrap.lambda();
+        if (userPage.getOrgId() != null && userPage.getOrgId() > 0) {
+            List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrgId()));
+            wrapper.in(User::getOrgId, children.stream().map(Org::getId).collect(Collectors.toList()));
+        }
+        wrapper.like(User::getName, userPage.getName())
+                .like(User::getAccount, userPage.getAccount())
+                .eq(User::getReadonly, false)
+                .like(User::getEmail, userPage.getEmail())
+                .like(User::getMobile, userPage.getMobile())
+                .eq(User::getStationId, userPage.getStationId())
+                .in(User::getPositionStatus, userPage.getPositionStatus())
+                .in(User::getEducation, userPage.getEducation())
+                .in(User::getNation, userPage.getNation())
+                .in(User::getSex, userPage.getSex())
+                .eq(User::getState, userPage.getState());
+
+        if (StrUtil.equalsAny(userPage.getScope(), BizConstant.SCOPE_BIND, BizConstant.SCOPE_UN_BIND) && userPage.getRoleId() != null) {
+            String sql = " select ur.user_id from c_user_role ur where ur.user_id = c_user.id \n" +
+                    "  and ur.role_id =   " + userPage.getRoleId();
+            if (BizConstant.SCOPE_BIND.equals(userPage.getScope())) {
+                wrapper.inSql(User::getId, sql);
+            } else {
+                wrapper.notInSql(User::getId, sql);
+            }
+        }
+
+        baseService.page(page, wrapper);
+        // 手动注入
+        echoService.action(page);
+
+        page.getRecords().forEach(item -> {
+            item.setPassword(null);
+            item.setSalt(null);
+        });
+        return R.success(page);
     }
 
 }

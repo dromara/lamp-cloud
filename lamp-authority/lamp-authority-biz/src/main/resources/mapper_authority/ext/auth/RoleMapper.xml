@@ -4,7 +4,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="R_Column_List">
-        r.id,  r.name, r.code, r.describe_, r.state, r.readonly_, r.ds_type
+        r.id,  r.name, r.code, r.describe_, r.state, r.readonly_, r.category
     </sql>
 
     <select id="findRoleByUserId" parameterType="map" resultMap="BaseResultMap">

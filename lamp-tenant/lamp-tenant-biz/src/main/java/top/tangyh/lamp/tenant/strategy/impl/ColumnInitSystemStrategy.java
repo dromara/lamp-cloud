@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.basic.database.mybatis.auth.DataScopeType;
 import top.tangyh.lamp.authority.entity.auth.Application;
 import top.tangyh.lamp.authority.entity.auth.Menu;
 import top.tangyh.lamp.authority.entity.auth.Resource;
@@ -18,6 +17,7 @@ import top.tangyh.lamp.authority.entity.common.Dictionary;
 import top.tangyh.lamp.authority.entity.common.Parameter;
 import top.tangyh.lamp.authority.enumeration.auth.ApplicationAppTypeEnum;
 import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
+import top.tangyh.lamp.authority.enumeration.auth.RoleCategoryEnum;
 import top.tangyh.lamp.authority.enumeration.auth.Sex;
 import top.tangyh.lamp.authority.service.auth.ApplicationService;
 import top.tangyh.lamp.authority.service.auth.MenuService;
@@ -125,7 +125,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 
     private boolean initApplication() {
         List<Application> list = new ArrayList<>();
-        list.add(Application.builder().clientId("lamp_web").clientSecret("lamp_web_secret").website("https://pro.tangyh.top/lamp-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
+        list.add(Application.builder().clientId("lamp_web").clientSecret("lamp_web_secret").website("http://tangyh.top:10000/lamp-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
         return applicationService.saveBatch(list);
     }
 
@@ -156,7 +156,7 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
     }
 
     private boolean initRole(Long roleId) {
-        Role role = Role.builder().id(roleId).name("超级管理员").code("SUPER_ADMIN").describe("内置超级管理员").dsType(DataScopeType.ALL).readonly(true).build();
+        Role role = Role.builder().id(roleId).name("超级管理员").code("SUPER_ADMIN").describe("内置超级管理员").category(RoleCategoryEnum.FUNCTION.getCode()).readonly(true).build();
         return roleService.save(role);
     }
 

@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import top.tangyh.lamp.authority.dao.core.OrgMapper;
 import top.tangyh.lamp.authority.entity.auth.RoleOrg;
 import top.tangyh.lamp.authority.entity.auth.User;
 import top.tangyh.lamp.authority.entity.core.Org;
+import top.tangyh.lamp.authority.enumeration.auth.OrgTypeEnum;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.cache.core.OrgCacheKeyBuilder;
@@ -31,6 +33,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static top.tangyh.basic.utils.StrPool.DEF_ROOT_PATH;
 
 /**
  * <p>
@@ -111,15 +115,76 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         );
     }
 
-//    @Transactional(readOnly = true)
-//    @Override
-//    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
-//        return CollHelper.uniqueIndex(findOrg(ids), Org::getId, Org::getLabel);
-//    }
-
     @Transactional(readOnly = true)
     @Override
     public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
         return CollHelper.uniqueIndex(findOrg(ids), Org::getId, org -> org);
     }
+
+
+    @Override
+    public Long getMainDeptIdByUserId(Long userId) {
+        Org baseOrg = baseMapper.getDeptByUserId(userId);
+        return baseOrg != null ? baseOrg.getId() : null;
+    }
+
+    @Override
+    public List<Long> findDeptAndChildrenIdByUserId(Long userId) {
+        Org baseOrg = baseMapper.getDeptByUserId(userId);
+        if (baseOrg == null) {
+            return Collections.emptyList();
+        }
+        String parentIdStr = DEF_ROOT_PATH + baseOrg.getId() + DEF_ROOT_PATH;
+        List<Org> list = list(Wraps.<Org>lbQ().like(Org::getTreePath, parentIdStr));
+        list.add(baseOrg);
+        return list.stream().map(Org::getId).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long getMainCompanyIdByUserId(Long userId) {
+        Org mainCompany = getMainCompanyByUserId(userId);
+        return mainCompany != null ? mainCompany.getId() : null;
+    }
+
+    @Override
+    public Org getMainCompanyByUserId(Long userId) {
+        Org baseOrg = baseMapper.getDeptByUserId(userId);
+        if (baseOrg == null) {
+            return null;
+        }
+        if (OrgTypeEnum.COMPANY.eq(baseOrg.getType())) {
+            return baseOrg;
+        }
+        List<String> parentIdStrList = StrUtil.split(baseOrg.getTreePath(), DEF_ROOT_PATH, true, true);
+        List<Long> parentIdList = Convert.toList(Long.class, parentIdStrList);
+        List<Org> parentList = listByIds(parentIdList);
+        ImmutableMap<Long, Org> map = CollHelper.uniqueIndex(parentList, Org::getId, org -> org);
+        return getMainCompany(map, baseOrg.getParentId());
+    }
+
+
+    private static Org getMainCompany(ImmutableMap<Long, Org> map, Long parentId) {
+        Org parent = map.get(parentId);
+        if (parent == null) {
+            return null;
+        }
+        if (OrgTypeEnum.COMPANY.eq(parent.getType())) {
+            return parent;
+        }
+
+        return getMainCompany(map, parent.getParentId());
+    }
+
+    @Override
+    public List<Long> findCompanyAndChildrenIdByUserId(Long userId) {
+        Org mainCompany = getMainCompanyByUserId(userId);
+        if (mainCompany == null) {
+            return Collections.emptyList();
+        }
+        String parentIdStr = DEF_ROOT_PATH + mainCompany.getId() + DEF_ROOT_PATH;
+        List<Org> list = list(Wraps.<Org>lbQ().like(Org::getTreePath, parentIdStr));
+        list.add(mainCompany);
+        return list.stream().map(Org::getId).collect(Collectors.toList());
+    }
+
 }

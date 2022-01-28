@@ -3,11 +3,10 @@ package top.tangyh.lamp.authority.dao.core;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import top.tangyh.lamp.authority.entity.core.Station;
-import top.tangyh.basic.base.mapper.SuperMapper;
-import top.tangyh.basic.database.mybatis.auth.DataScope;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import top.tangyh.basic.base.mapper.SuperMapper;
+import top.tangyh.lamp.authority.entity.core.Station;
 
 /**
  * <p>
@@ -23,10 +22,9 @@ public interface StationMapper extends SuperMapper<Station> {
     /**
      * 分页查询岗位信息（含角色）
      *
-     * @param page 分页
+     * @param page         分页
      * @param queryWrapper 参数包装器
-     * @param dataScope 数据权限
      * @return 分页数据
      */
-    IPage<Station> findStationPage(IPage<Station> page, @Param(Constants.WRAPPER) Wrapper<Station> queryWrapper, DataScope dataScope);
+    IPage<Station> findStationPage(IPage<Station> page, @Param(Constants.WRAPPER) Wrapper<Station> queryWrapper);
 }

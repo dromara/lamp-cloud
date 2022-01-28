@@ -15,6 +15,10 @@ public interface DefValConstants {
      */
     String ROOT_PATH = StrPool.DEF_ROOT_PATH;
     /**
+     * 默认树层级
+     */
+    Integer TREE_GRADE = 0;
+    /**
      * 默认的父id
      */
     Long PARENT_ID = StrPool.DEF_PARENT_ID;

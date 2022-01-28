@@ -15,6 +15,7 @@ import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.lamp.authority.dao.auth.ResourceMapper;
 import top.tangyh.lamp.authority.dao.auth.RoleAuthorityMapper;
 import top.tangyh.lamp.authority.dto.auth.RoleAuthoritySaveDTO;
+import top.tangyh.lamp.authority.dto.auth.RoleUserSaveVO;
 import top.tangyh.lamp.authority.dto.auth.UserRoleSaveDTO;
 import top.tangyh.lamp.authority.entity.auth.RoleAuthority;
 import top.tangyh.lamp.authority.entity.auth.UserRole;
@@ -52,6 +53,35 @@ public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapp
     private final UserRoleService userRoleService;
     private final ResourceMapper resourceMapper;
     private final CacheOps cacheOps;
+
+    @Override
+    public List<Long> selectDataScopeIdFromRoleByUserId(Long userId, String category) {
+        return baseMapper.selectDataScopeIdFromRoleByUserId(userId, category);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Long> saveRoleUser(RoleUserSaveVO saveVO) {
+        ArgumentAssert.notEmpty(saveVO.getUserIdList(), "请选择用户");
+        if (saveVO.getFlag() == null) {
+            saveVO.setFlag(true);
+        }
+
+        userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, saveVO.getRoleId()).in(UserRole::getUserId, saveVO.getUserIdList()));
+        if (saveVO.getFlag()) {
+            List<UserRole> list = saveVO.getUserIdList().stream().map(employeeId ->
+                    UserRole.builder().userId(employeeId).roleId(saveVO.getRoleId()).build()).collect(Collectors.toList());
+            userRoleService.saveBatch(list);
+        }
+        return findUserIdByRoleId(saveVO.getRoleId());
+    }
+
+    @Override
+    public List<Long> findUserIdByRoleId(Long roleId) {
+        return userRoleService.listObjs(Wraps.<UserRole>lbQ()
+                        .select(UserRole::getUserId).eq(UserRole::getRoleId, roleId),
+                Convert::toLong);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
