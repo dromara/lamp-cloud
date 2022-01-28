@@ -43,11 +43,11 @@ CREATE TABLE `c_datasource_config`
 BEGIN;
 INSERT INTO `c_datasource_config`
 VALUES (1339508377687949312, '1111-基础服务', 'root', 'root',
-        'jdbc:mysql://127.0.0.1:3306/lamp_base_ddddd?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true',
+        'jdbc:mysql://127.0.0.1:3306/lamp_base_ddddd?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true',
         'com.mysql.cj.jdbc.Driver', '2020-12-17 17:50:59', 3, '2021-01-03 20:21:30', 3);
 INSERT INTO `c_datasource_config`
 VALUES (1345706960036560896, '1111-扩展服务', 'root', 'root',
-        'jdbc:mysql://127.0.0.1:3306/lamp_extend_ddddd?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true',
+        'jdbc:mysql://127.0.0.1:3306/lamp_extend_ddddd?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true',
         'com.mysql.cj.jdbc.Driver', '2021-01-03 20:21:56', 3, '2021-01-03 20:21:56', 3);
 COMMIT;
 
