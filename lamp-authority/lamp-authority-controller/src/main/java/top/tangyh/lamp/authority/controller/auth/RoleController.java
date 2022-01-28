@@ -82,6 +82,8 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
                 .in(Role::getReadonly, roleQuery.getReadonly())
                 .in(Role::getCategory, roleQuery.getCategory());
         baseService.page(page, wrapper);
+
+        handlerResult(page);
         return page;
     }
 
