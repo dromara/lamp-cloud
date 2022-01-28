@@ -5,7 +5,7 @@
     <parent>
         <artifactId>lamp-authority</artifactId>
         <groupId>top.tangyh.lamp</groupId>
-        <version>3.5.8</version>
+        <version>3.6.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
