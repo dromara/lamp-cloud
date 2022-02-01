@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.authority.dao.core.OrgMapper">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="O_Column_List">
+        o.id,o.label,o.parent_id,o.sort_value,o.create_time,o.created_by,o.update_time,o.updated_by,
+        o.type_, o.abbreviation, o.tree_path, o.state, o.describe_
+    </sql>
+
+    <select id="getDeptByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="O_Column_List"/>
+        from c_org o left join c_user e on o.id = e.org_id
+        where e.id = #{userId}
+    </select>
+
+</mapper>
