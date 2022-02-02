@@ -125,7 +125,8 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 
     private boolean initApplication() {
         List<Application> list = new ArrayList<>();
-        list.add(Application.builder().clientId("lamp_web").clientSecret("lamp_web_secret").website("http://tangyh.top:10000/lamp-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
+        list.add(Application.builder().clientId("lamp_web").clientSecret("lamp_web_secret").website("https://tangyh.top").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
+        list.add(Application.builder().clientId("lamp_web_plus").clientSecret("lamp_web_plus_secret").website("https://tangyh.top").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
         return applicationService.saveBatch(list);
     }
 
