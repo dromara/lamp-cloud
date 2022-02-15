@@ -14,14 +14,17 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
+import top.tangyh.basic.model.EchoVO;
 import top.tangyh.lamp.common.constant.DictionaryType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
+import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
 
 /**
  * <p>
@@ -40,8 +43,10 @@ import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIG
 @TableName("c_role")
 @ApiModel(value = "Role", description = "角色")
 @AllArgsConstructor
-public class Role extends Entity<Long> {
+public class Role extends Entity<Long> implements EchoVO {
 
+    @TableField(exist = false)
+    private Map<String, Object> echoMap = new HashMap<>();
     private static final long serialVersionUID = 1L;
     /**
      * 角色类别;[10-功能角色 20-桌面角色 30-数据角色]
@@ -49,7 +54,7 @@ public class Role extends Entity<Long> {
     @ApiModelProperty(value = "角色类别")
     @TableField(value = "`category`", condition = LIKE)
     @Size(max = 2, message = "角色类别长度不能超过{max}")
-    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = DictionaryType.RESOURCE_TYPE)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.ROLE_CATEGORY)
     private String category;
     /**
      * 名称
