@@ -17,6 +17,7 @@ import top.tangyh.lamp.authority.entity.common.Dictionary;
 import top.tangyh.lamp.authority.entity.common.Parameter;
 import top.tangyh.lamp.authority.enumeration.auth.ApplicationAppTypeEnum;
 import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
+import top.tangyh.lamp.authority.enumeration.auth.ResourceTypeEnum;
 import top.tangyh.lamp.authority.enumeration.auth.RoleCategoryEnum;
 import top.tangyh.lamp.authority.enumeration.auth.Sex;
 import top.tangyh.lamp.authority.service.auth.ApplicationService;
@@ -281,96 +282,96 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         Long systemId = uidGenerator.getUid();
         Long gatewayId = uidGenerator.getUid();
         // 1级菜单
-        menuList.add(Menu.builder().id(workbenchId).label("工作台").path("/workbench").component("Layout").icon("fa fa-tachometer").sortValue(20).readonly(true).build());
-        menuList.add(Menu.builder().id(organizationId).label("组织管理").path("/org").component("Layout").icon("fa fa-users").sortValue(30).readonly(true).build());
-        menuList.add(Menu.builder().id(resourcesId).label("资源中心").path("/resources").component("Layout").icon("fa fa-cloud").sortValue(40).readonly(true).build());
-        menuList.add(Menu.builder().id(activitiId).label("流程管理").path("/activiti").component("Layout").icon("fa fa-retweet").sortValue(50).readonly(true).build());
-        menuList.add(Menu.builder().id(systemId).label("系统设置").path("/system").component("Layout").icon("fa fa-gears").sortValue(60).readonly(true).build());
-        menuList.add(Menu.builder().id(gatewayId).label("网关管理").path("/gateway").component("Layout").icon("fa fa-sort-amount-asc").sortValue(70).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(workbenchId).label("工作台").path("/workbench").component("Layout").icon("fa fa-tachometer").sortValue(20).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(organizationId).label("组织管理").path("/org").component("Layout").icon("fa fa-users").sortValue(30).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(resourcesId).label("资源中心").path("/resources").component("Layout").icon("fa fa-cloud").sortValue(40).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(activitiId).label("流程管理").path("/activiti").component("Layout").icon("fa fa-retweet").sortValue(50).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(systemId).label("系统设置").path("/system").component("Layout").icon("fa fa-gears").sortValue(60).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(gatewayId).label("网关管理").path("/gateway").component("Layout").icon("fa fa-sort-amount-asc").sortValue(70).readonly(true).build());
 
         // 工作台
         Long noticeId = uidGenerator.getUid();
         menuMap.put(NOTICE, noticeId);
-        menuList.add(Menu.builder().id(noticeId).parentId(workbenchId).label("通知公告").path("/workbench/notice").component("lamp/workbench/notice/index").sortValue(10).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(noticeId).parentId(workbenchId).label("通知公告").path("/workbench/notice").component("lamp/workbench/notice/index").sortValue(10).readonly(true).build());
         Long todoId = uidGenerator.getUid();
         menuMap.put(TODO, todoId);
-        menuList.add(Menu.builder().id(todoId).parentId(workbenchId).label("待我审批").path("/workbench/todo").component("lamp/workbench/todo/index").sortValue(20).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(todoId).parentId(workbenchId).label("待我审批").path("/workbench/todo").component("lamp/workbench/todo/index").sortValue(20).readonly(true).build());
         Long doneId = uidGenerator.getUid();
         menuMap.put(DONE, doneId);
-        menuList.add(Menu.builder().id(doneId).parentId(workbenchId).label("我已审批").path("/workbench/done").component("lamp/workbench/done/index").sortValue(30).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(doneId).parentId(workbenchId).label("我已审批").path("/workbench/done").component("lamp/workbench/done/index").sortValue(30).readonly(true).build());
         Long startedId = uidGenerator.getUid();
         menuMap.put(STARTED, startedId);
-        menuList.add(Menu.builder().id(startedId).parentId(workbenchId).label("我发起的").path("/workbench/started").component("lamp/workbench/started/index").sortValue(40).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(startedId).parentId(workbenchId).label("我发起的").path("/workbench/started").component("lamp/workbench/started/index").sortValue(40).readonly(true).build());
 
         // 组织管理
         Long orgId = uidGenerator.getUid();
         menuMap.put(ORG, orgId);
-        menuList.add(Menu.builder().id(orgId).parentId(organizationId).label("机构管理").path("/org/org").component("lamp/org/org/index").sortValue(10).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(orgId).parentId(organizationId).label("机构管理").path("/org/org").component("lamp/org/org/index").sortValue(10).readonly(true).build());
         Long stationId = uidGenerator.getUid();
         menuMap.put(STATION, stationId);
-        menuList.add(Menu.builder().id(stationId).parentId(organizationId).label("岗位管理").path("/org/station").component("lamp/org/station/index").sortValue(20).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(stationId).parentId(organizationId).label("岗位管理").path("/org/station").component("lamp/org/station/index").sortValue(20).readonly(true).build());
         Long userId = uidGenerator.getUid();
         menuMap.put(USER, userId);
-        menuList.add(Menu.builder().id(userId).parentId(organizationId).label("用户管理").path("/org/user").component("lamp/org/user/index").sortValue(30).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(userId).parentId(organizationId).label("用户管理").path("/org/user").component("lamp/org/user/index").sortValue(30).readonly(true).build());
 
         // 资源中心
         Long msgId = uidGenerator.getUid();
         menuMap.put(MSG, msgId);
-        menuList.add(Menu.builder().id(msgId).parentId(resourcesId).label("消息中心").path("/resources/msg").component("lamp/resources/msg/index").sortValue(10).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(msgId).parentId(resourcesId).label("消息中心").path("/resources/msg").component("lamp/resources/msg/index").sortValue(10).readonly(true).build());
         Long smsTemplateId = uidGenerator.getUid();
         menuMap.put(SMS_TEMPLATE, smsTemplateId);
-        menuList.add(Menu.builder().id(smsTemplateId).parentId(resourcesId).label("短信模版").path("/resources/smsTemplate").component("lamp/resources/smsTemplate/index").sortValue(20).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(smsTemplateId).parentId(resourcesId).label("短信模版").path("/resources/smsTemplate").component("lamp/resources/smsTemplate/index").sortValue(20).readonly(true).build());
         Long smsId = uidGenerator.getUid();
         menuMap.put(SMS, smsId);
-        menuList.add(Menu.builder().id(smsId).parentId(resourcesId).label("短信中心").path("/resources/sms").component("lamp/resources/sms/index").sortValue(30).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(smsId).parentId(resourcesId).label("短信中心").path("/resources/sms").component("lamp/resources/sms/index").sortValue(30).readonly(true).build());
         Long attachmentId = uidGenerator.getUid();
         menuMap.put(ATTACHMENT, attachmentId);
-        menuList.add(Menu.builder().id(attachmentId).parentId(resourcesId).label("附件管理").path("/resources/attachment").component("lamp/resources/attachment/index").sortValue(40).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(attachmentId).parentId(resourcesId).label("附件管理").path("/resources/attachment").component("lamp/resources/attachment/index").sortValue(40).readonly(true).build());
 
         // 流程管理
         Long leaveId = uidGenerator.getUid();
         Long reId = uidGenerator.getUid();
-        menuList.add(Menu.builder().parentId(activitiId).label("流程部署").path("/activiti/deploymentManager").component("lamp/activiti/deploymentManager/index").sortValue(10).readonly(true).build());
-        menuList.add(Menu.builder().parentId(activitiId).label("模型管理").path("/activiti/modelManager").component("lamp/activiti/modelManager/index").sortValue(20).readonly(true).build());
-        menuList.add(Menu.builder().id(leaveId).parentId(activitiId).label("请假流程").path("/activiti/leave").component("Layout").sortValue(30).readonly(true).build());
-        menuList.add(Menu.builder().id(reId).parentId(activitiId).label("报销流程").path("/activiti/reimbursement").component("lamp/activiti/reimbursement/Index").sortValue(40).readonly(true).build());
-        menuList.add(Menu.builder().parentId(leaveId).label("请假管理").path("/activiti/leave/instant").component("lamp/activiti/leave/instantManager/index").sortValue(1).readonly(true).build());
-        menuList.add(Menu.builder().parentId(leaveId).label("请假任务").path("/activiti/leave/ruTask").component("lamp/activiti/leave/ruTask/index").sortValue(2).readonly(true).build());
-        menuList.add(Menu.builder().parentId(reId).label("报销管理").path("/activiti/reimbursement/instantManager").component("lamp/activiti/reimbursement/instantManager/index").sortValue(1).readonly(true).build());
-        menuList.add(Menu.builder().parentId(reId).label("报销任务").path("/activiti/reimbursement/ruTask").component("lamp/activiti/reimbursement/ruTask/index").sortValue(2).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(activitiId).label("流程部署").path("/activiti/deploymentManager").component("lamp/activiti/deploymentManager/index").sortValue(10).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(activitiId).label("模型管理").path("/activiti/modelManager").component("lamp/activiti/modelManager/index").sortValue(20).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(leaveId).parentId(activitiId).label("请假流程").path("/activiti/leave").component("Layout").sortValue(30).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(reId).parentId(activitiId).label("报销流程").path("/activiti/reimbursement").component("lamp/activiti/reimbursement/Index").sortValue(40).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(leaveId).label("请假管理").path("/activiti/leave/instant").component("lamp/activiti/leave/instantManager/index").sortValue(1).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(leaveId).label("请假任务").path("/activiti/leave/ruTask").component("lamp/activiti/leave/ruTask/index").sortValue(2).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(reId).label("报销管理").path("/activiti/reimbursement/instantManager").component("lamp/activiti/reimbursement/instantManager/index").sortValue(1).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(reId).label("报销任务").path("/activiti/reimbursement/ruTask").component("lamp/activiti/reimbursement/ruTask/index").sortValue(2).readonly(true).build());
 
         // 系统管理
         Long menuId = uidGenerator.getUid();
         menuMap.put(MENU, menuId);
-        menuList.add(Menu.builder().id(menuId).parentId(systemId).label("菜单管理").path("/system/menu").component("lamp/system/menu/index").sortValue(10).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(menuId).parentId(systemId).label("菜单管理").path("/system/menu").component("lamp/system/menu/index").sortValue(10).readonly(true).build());
         Long roleId = uidGenerator.getUid();
         menuMap.put(ROLE, roleId);
-        menuList.add(Menu.builder().id(roleId).parentId(systemId).label("角色管理").path("/system/role").component("lamp/system/role/index").sortValue(20).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(roleId).parentId(systemId).label("角色管理").path("/system/role").component("lamp/system/role/index").sortValue(20).readonly(true).build());
         Long dictionaryId = uidGenerator.getUid();
         menuMap.put(DICTIONARY, dictionaryId);
-        menuList.add(Menu.builder().id(dictionaryId).parentId(systemId).label("字典管理").path("/system/dictionary").component("lamp/system/dictionary/index").sortValue(30).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(dictionaryId).parentId(systemId).label("字典管理").path("/system/dictionary").component("lamp/system/dictionary/index").sortValue(30).readonly(true).build());
         Long areaId = uidGenerator.getUid();
         menuMap.put(AREA, areaId);
-        menuList.add(Menu.builder().id(areaId).parentId(systemId).label("地区管理").path("/system/area").component("lamp/system/area/index").sortValue(40).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(areaId).parentId(systemId).label("地区管理").path("/system/area").component("lamp/system/area/index").sortValue(40).readonly(true).build());
         Long parameterId = uidGenerator.getUid();
         menuMap.put(PARAMETER, parameterId);
-        menuList.add(Menu.builder().id(parameterId).parentId(systemId).label("参数管理").path("/system/parameter").component("lamp/system/parameter/index").sortValue(50).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(parameterId).parentId(systemId).label("参数管理").path("/system/parameter").component("lamp/system/parameter/index").sortValue(50).readonly(true).build());
         Long optLogId = uidGenerator.getUid();
         menuMap.put(OPT_LOG, optLogId);
-        menuList.add(Menu.builder().id(optLogId).parentId(systemId).label("操作日志").path("/system/optLog").component("lamp/system/optLog/index").sortValue(60).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(optLogId).parentId(systemId).label("操作日志").path("/system/optLog").component("lamp/system/optLog/index").sortValue(60).readonly(true).build());
         Long loginLogId = uidGenerator.getUid();
         menuMap.put(LOGIN_LOG, loginLogId);
-        menuList.add(Menu.builder().id(loginLogId).parentId(systemId).label("登录日志").path("/system/loginLog").component("lamp/system/loginLog/index").sortValue(70).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(loginLogId).parentId(systemId).label("登录日志").path("/system/loginLog").component("lamp/system/loginLog/index").sortValue(70).readonly(true).build());
         Long onlineId = uidGenerator.getUid();
         menuMap.put(ONLINE, onlineId);
-        menuList.add(Menu.builder().id(onlineId).parentId(systemId).label("在线用户").path("/system/online").component("lamp/system/online/index").sortValue(80).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(onlineId).parentId(systemId).label("在线用户").path("/system/online").component("lamp/system/online/index").sortValue(80).readonly(true).build());
         Long applicationApi = uidGenerator.getUid();
         menuMap.put(APPLICATION, applicationApi);
-        menuList.add(Menu.builder().id(applicationApi).parentId(systemId).label("应用管理").path("/system/application").component("lamp/system/application/index").sortValue(90).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).id(applicationApi).parentId(systemId).label("应用管理").path("/system/application").component("lamp/system/application/index").sortValue(90).readonly(true).build());
 
         // 网关管理
-        menuList.add(Menu.builder().parentId(gatewayId).label("限流规则").path("/gateway/ratelimiter").component("lamp/gateway/ratelimiter/index").sortValue(10).readonly(true).build());
-        menuList.add(Menu.builder().parentId(gatewayId).label("阻止访问").path("/gateway/blocklist").component("lamp/gateway/blocklist/index").sortValue(20).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(gatewayId).label("限流规则").path("/gateway/ratelimiter").component("lamp/gateway/ratelimiter/index").sortValue(10).readonly(true).build());
+        menuList.add(Menu.builder().resourceType(ResourceTypeEnum.MENU.getCode()).parentId(gatewayId).label("阻止访问").path("/gateway/blocklist").component("lamp/gateway/blocklist/index").sortValue(20).readonly(true).build());
         return menuService.saveBatch(menuList);
     }
 
