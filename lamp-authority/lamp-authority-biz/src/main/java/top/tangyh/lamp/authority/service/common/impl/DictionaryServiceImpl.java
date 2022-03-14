@@ -172,11 +172,11 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     }
 
     @Override
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
+    public boolean removeByIds(Collection<?> idList) {
         if (idList.isEmpty()) {
             return true;
         }
-        List<Dictionary> list = listByIds(idList);
+        List<Dictionary> list = listByIds((Collection<Long>)idList);
         boolean remove = super.removeByIds(idList);
         CacheHashKey[] hashKeys = list.stream().map(model -> new DictionaryTypeCacheKeyBuilder().hashKey(model.getType())).toArray(CacheHashKey[]::new);
         cachePlusOps.del(hashKeys);

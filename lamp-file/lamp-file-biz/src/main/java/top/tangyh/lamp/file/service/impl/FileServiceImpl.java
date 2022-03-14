@@ -64,7 +64,7 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, File> implemen
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeByIds(Collection<? extends Serializable> ids) {
+    public boolean removeByIds(Collection<?> ids) {
         if (CollUtil.isEmpty(ids)) {
             return false;
         }

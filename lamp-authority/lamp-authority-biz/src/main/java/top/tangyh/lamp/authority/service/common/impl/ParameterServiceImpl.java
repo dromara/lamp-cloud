@@ -2,7 +2,6 @@ package top.tangyh.lamp.authority.service.common.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
@@ -87,11 +86,11 @@ public class ParameterServiceImpl extends SuperServiceImpl<ParameterMapper, Para
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
+    public boolean removeByIds(Collection<?> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             return true;
         }
-        List<Parameter> parameterList = super.listByIds(idList);
+        List<Parameter> parameterList = super.listByIds((Collection<Long>) idList);
         if (parameterList.isEmpty()) {
             return true;
         }
