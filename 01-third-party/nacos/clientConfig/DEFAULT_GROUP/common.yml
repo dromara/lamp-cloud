@@ -1,10 +1,15 @@
 lamp:
+  system:
+    # 登录时否验证密码有效性 （常用于开发环境快速登录）
+    verifyPassword: true
+    # 登录时否验证验证码有效性 （常用于开发环境快速登录）
+    verifyCaptcha: true
   # swagger 文档通用配置， 主要配置了全局参数、版本号信息、联系人信息  详情看: SwaggerProperties
   swagger:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    version: 3.6.1
+    version: 3.6.2
     contact:
       url: https://github.com/zuihou
       name: zuiou
@@ -93,6 +98,10 @@ server:
     direct-buffers: true  # 是否分配的直接内存
 
 spring:
+  mvc:
+    pathmatch:
+      # 升级springboot2.6.6后临时处理，防止swagger报错
+      matching-strategy: ANT_PATH_MATCHER
   lifecycle:
     # 优雅停机宽限期时间
     timeout-per-shutdown-phase: 30s

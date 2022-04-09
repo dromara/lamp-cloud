@@ -148,20 +148,26 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
 
     @Override
     public Org getMainCompanyByUserId(Long userId) {
+        // 用户所在部门
         Org baseOrg = baseMapper.getDeptByUserId(userId);
         if (baseOrg == null) {
             return null;
         }
+        // 用户直接挂在单位上，就直接返回此单位
         if (OrgTypeEnum.COMPANY.eq(baseOrg.getType())) {
             return baseOrg;
         }
+        // 用户挂在部门上，就向上查询单位
         List<String> parentIdStrList = StrUtil.split(baseOrg.getTreePath(), DEF_ROOT_PATH, true, true);
         List<Long> parentIdList = Convert.toList(Long.class, parentIdStrList);
+        // 若部门上级没有单位直接返回部门
+        if (CollUtil.isEmpty(parentIdList)) {
+            return baseOrg;
+        }
         List<Org> parentList = listByIds(parentIdList);
         ImmutableMap<Long, Org> map = CollHelper.uniqueIndex(parentList, Org::getId, org -> org);
         return getMainCompany(map, baseOrg.getParentId());
     }
-
 
     private static Org getMainCompany(ImmutableMap<Long, Org> map, Long parentId) {
         Org parent = map.get(parentId);
