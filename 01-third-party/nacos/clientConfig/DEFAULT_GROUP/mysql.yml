@@ -107,6 +107,7 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
+    defaultEnumTypeHandler: top.tangyh.basic.database.mybatis.handlers.MybatisEnumTypeHandler
 
 # 分布式事务相关
 seata:
