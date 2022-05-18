@@ -3,10 +3,10 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>lamp-cloud</artifactId>
         <groupId>top.tangyh.lamp</groupId>
-        <version>3.6.2</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>lamp-dependencies-parent</artifactId>
+        <version>3.7.0</version>
+        <relativePath>../lamp-dependencies-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

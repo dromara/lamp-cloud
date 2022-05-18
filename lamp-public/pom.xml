@@ -8,17 +8,18 @@
         <version>3.7.0</version>
         <relativePath>../lamp-dependencies-parent/pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lamp-tenant</artifactId>
-    <name>${project.artifactId}</name>
-    <description>权限服务</description>
+    <groupId>top.tangyh.lamp</groupId>
+    <artifactId>lamp-public</artifactId>
+
+    <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>业务相关公共模块</description>
     <modules>
-        <module>lamp-tenant-entity</module>
-        <module>lamp-tenant-biz</module>
-        <module>lamp-tenant-controller</module>
-        <module>lamp-tenant-server</module>
+        <module>lamp-common</module>
+        <module>lamp-common-api</module>
+        <module>lamp-file-sdk</module>
     </modules>
 
 </project>
