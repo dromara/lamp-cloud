@@ -1,6 +1,6 @@
 package top.tangyh.lamp.oauth.api;
 
-import top.tangyh.basic.model.LoadService;
+import top.tangyh.basic.interfaces.echo.LoadService;
 import top.tangyh.lamp.oauth.api.hystrix.UserApiFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

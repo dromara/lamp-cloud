@@ -15,6 +15,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-mvc</artifactId>
+        </dependency>
+        <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-common</artifactId>
             <version>${lamp-project.version}</version>

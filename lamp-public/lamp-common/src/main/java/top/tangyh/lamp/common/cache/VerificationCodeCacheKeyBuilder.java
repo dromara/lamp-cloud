@@ -1,7 +1,7 @@
 package top.tangyh.lamp.common.cache;
 
 
-import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 
 import java.time.Duration;
 

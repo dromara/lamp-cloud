@@ -1,6 +1,6 @@
 package top.tangyh.lamp.oauth.controller.model;
 
-import top.tangyh.basic.base.BaseEnum;
+import top.tangyh.basic.interfaces.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.basic.model.EchoVO;
+import top.tangyh.basic.interfaces.echo.EchoVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

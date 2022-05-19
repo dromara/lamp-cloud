@@ -1,7 +1,7 @@
 package top.tangyh.lamp.sms.service;
 
 import top.tangyh.basic.base.service.SuperService;
-import top.tangyh.basic.model.LoadService;
+import top.tangyh.basic.interfaces.echo.LoadService;
 import top.tangyh.lamp.sms.entity.SmsTemplate;
 
 /**

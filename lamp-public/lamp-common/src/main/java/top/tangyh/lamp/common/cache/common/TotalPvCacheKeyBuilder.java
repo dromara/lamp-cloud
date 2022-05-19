@@ -1,8 +1,8 @@
 package top.tangyh.lamp.common.cache.common;
 
 
-import top.tangyh.basic.cache.model.CacheKey;
-import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.model.cache.CacheKey;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.lamp.common.cache.CacheKeyDefinition;
 
 /**

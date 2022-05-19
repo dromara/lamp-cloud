@@ -23,13 +23,13 @@ import top.tangyh.lamp.authority.dto.core.OrgSaveDTO;
 import top.tangyh.lamp.authority.dto.core.OrgUpdateDTO;
 import top.tangyh.lamp.authority.entity.core.Org;
 import top.tangyh.lamp.authority.service.core.OrgService;
+import top.tangyh.lamp.common.constant.DefValConstants;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static top.tangyh.basic.utils.StrPool.DEF_PARENT_ID;
-import static top.tangyh.basic.utils.StrPool.DEF_ROOT_PATH;
 import static top.tangyh.basic.utils.StrPool.EMPTY;
 import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
 import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
@@ -81,7 +81,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     private void fillOrg(Org org) {
         if (org.getParentId() == null || org.getParentId() <= 0) {
             org.setParentId(DEF_PARENT_ID);
-            org.setTreePath(DEF_ROOT_PATH);
+            org.setTreePath(DefValConstants.ROOT_PATH);
         } else {
             Org parent = this.baseService.getByIdCache(org.getParentId());
             ArgumentAssert.notNull(parent, "请正确填写父级组织");

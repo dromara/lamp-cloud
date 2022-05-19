@@ -2,7 +2,7 @@ package top.tangyh.lamp.authority.service.common.impl;
 
 
 import top.tangyh.basic.base.service.SuperServiceImpl;
-import top.tangyh.basic.log.entity.OptLogDTO;
+import top.tangyh.basic.model.log.OptLogDTO;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.lamp.authority.dao.common.OptLogExtMapper;
 import top.tangyh.lamp.authority.dao.common.OptLogMapper;

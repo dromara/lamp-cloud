@@ -1,6 +1,6 @@
 package top.tangyh.lamp.common.cache.tenant;
 
-import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.common.cache.CacheKeyDefinition;
 

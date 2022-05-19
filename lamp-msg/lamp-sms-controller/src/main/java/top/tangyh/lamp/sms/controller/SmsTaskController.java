@@ -20,7 +20,7 @@ import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperController;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
-import top.tangyh.basic.echo.core.EchoService;
+import top.tangyh.basic.interfaces.echo.EchoService;
 import top.tangyh.lamp.sms.dto.SmsTaskPageQuery;
 import top.tangyh.lamp.sms.dto.SmsTaskResultVO;
 import top.tangyh.lamp.sms.dto.SmsTaskSaveDTO;

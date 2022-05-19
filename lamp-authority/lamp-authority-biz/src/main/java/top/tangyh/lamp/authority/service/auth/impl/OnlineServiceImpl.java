@@ -3,7 +3,7 @@ package top.tangyh.lamp.authority.service.auth.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
-import top.tangyh.basic.cache.model.CacheKey;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.cache.repository.CachePlusOps;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.authority.dto.auth.Online;

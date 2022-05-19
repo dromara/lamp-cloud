@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
-import top.tangyh.basic.cache.model.CacheKey;
-import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.model.cache.CacheKey;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.exception.BizException;
 import top.tangyh.basic.utils.StrHelper;

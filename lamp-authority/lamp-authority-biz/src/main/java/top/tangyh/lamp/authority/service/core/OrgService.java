@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.service.core;
 
 import top.tangyh.basic.base.service.SuperCacheService;
-import top.tangyh.basic.model.LoadService;
+import top.tangyh.basic.interfaces.echo.LoadService;
 import top.tangyh.lamp.authority.entity.core.Org;
 
 import java.util.List;

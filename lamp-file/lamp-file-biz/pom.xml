@@ -22,6 +22,10 @@
 
         <dependency>
             <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-mvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-boot-util</artifactId>
         </dependency>
         <dependency>

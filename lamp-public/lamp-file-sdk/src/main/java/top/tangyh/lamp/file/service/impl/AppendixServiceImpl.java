@@ -13,7 +13,7 @@ import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import top.tangyh.basic.model.EchoVO;
+import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.CollHelper;

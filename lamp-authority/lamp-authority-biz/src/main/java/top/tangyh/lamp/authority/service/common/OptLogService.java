@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.service.common;
 
 import top.tangyh.basic.base.service.SuperService;
-import top.tangyh.basic.log.entity.OptLogDTO;
+import top.tangyh.basic.model.log.OptLogDTO;
 import top.tangyh.lamp.authority.dto.common.OptLogResult;
 import top.tangyh.lamp.authority.entity.common.OptLog;
 

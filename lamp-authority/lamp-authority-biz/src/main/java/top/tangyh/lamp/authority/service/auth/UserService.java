@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheService;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import top.tangyh.basic.model.LoadService;
+import top.tangyh.basic.interfaces.echo.LoadService;
 import top.tangyh.basic.security.feign.UserQuery;
 import top.tangyh.basic.security.model.SysUser;
 import top.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;

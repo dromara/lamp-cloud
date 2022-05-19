@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.service.SuperServiceImpl;
-import top.tangyh.basic.cache.model.CacheHashKey;
+import top.tangyh.basic.model.cache.CacheHashKey;
 import top.tangyh.basic.cache.repository.CachePlusOps;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;

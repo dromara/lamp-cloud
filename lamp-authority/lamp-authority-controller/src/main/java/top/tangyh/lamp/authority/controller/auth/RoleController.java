@@ -20,7 +20,7 @@ import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
-import top.tangyh.basic.echo.core.EchoService;
+import top.tangyh.basic.interfaces.echo.EchoService;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.lamp.authority.dto.auth.RoleAuthoritySaveDTO;
 import top.tangyh.lamp.authority.dto.auth.RolePageQuery;

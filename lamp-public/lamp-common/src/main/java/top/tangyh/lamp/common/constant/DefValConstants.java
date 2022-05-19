@@ -13,7 +13,7 @@ public interface DefValConstants {
     /**
      * 默认的根节点path
      */
-    String ROOT_PATH = StrPool.DEF_ROOT_PATH;
+    String ROOT_PATH = StrPool.COMMA;
     /**
      * 默认树层级
      */

@@ -11,7 +11,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.service.SuperService;
-import top.tangyh.basic.model.EchoVO;
+import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.common.vo.result.AppendixResultVO;
 import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
 import top.tangyh.lamp.file.entity.Appendix;

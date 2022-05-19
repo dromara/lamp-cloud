@@ -34,7 +34,7 @@ import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
-import top.tangyh.basic.echo.core.EchoService;
+import top.tangyh.basic.interfaces.echo.EchoService;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.lamp.authority.controller.poi.ExcelUserVerifyHandlerImpl;
 import top.tangyh.lamp.authority.controller.poi.UserExcelDictHandlerImpl;

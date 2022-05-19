@@ -2,7 +2,7 @@ package top.tangyh.lamp.authority.service.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import top.tangyh.basic.base.service.SuperService;
-import top.tangyh.basic.model.LoadService;
+import top.tangyh.basic.interfaces.echo.LoadService;
 import top.tangyh.lamp.authority.dto.common.DictionaryPageQuery;
 import top.tangyh.lamp.authority.dto.common.DictionaryTypeSaveDTO;
 import top.tangyh.lamp.authority.entity.common.Dictionary;

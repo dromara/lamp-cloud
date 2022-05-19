@@ -3,7 +3,7 @@ package top.tangyh.lamp.oauth.controller;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
-import top.tangyh.basic.base.BaseEnum;
+import top.tangyh.basic.interfaces.BaseEnum;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.utils.ClassUtils;
 import top.tangyh.basic.utils.CollHelper;

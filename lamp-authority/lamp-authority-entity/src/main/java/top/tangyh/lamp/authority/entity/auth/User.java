@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.basic.model.EchoVO;
+import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.authority.entity.core.Org;
 import top.tangyh.lamp.authority.enumeration.auth.Sex;
 import top.tangyh.lamp.common.constant.DictionaryType;

@@ -20,7 +20,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.cache.model.CacheKey;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.context.ContextConstants;
 import top.tangyh.basic.context.ContextUtil;

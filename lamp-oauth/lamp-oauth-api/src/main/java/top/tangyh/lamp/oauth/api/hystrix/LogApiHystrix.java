@@ -2,7 +2,7 @@ package top.tangyh.lamp.oauth.api.hystrix;
 
 import top.tangyh.lamp.oauth.api.LogApi;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.log.entity.OptLogDTO;
+import top.tangyh.basic.model.log.OptLogDTO;
 import org.springframework.stereotype.Component;
 
 /**

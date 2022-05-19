@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.basic.model.EchoVO;
+import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.sms.enumeration.SourceType;
 import top.tangyh.lamp.sms.enumeration.TaskStatus;
 import io.swagger.annotations.ApiModel;

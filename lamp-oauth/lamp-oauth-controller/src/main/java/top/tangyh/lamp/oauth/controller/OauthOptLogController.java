@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.log.entity.OptLogDTO;
+import top.tangyh.basic.model.log.OptLogDTO;
 import top.tangyh.basic.utils.BeanPlusUtil;
-import top.tangyh.lamp.authority.entity.common.OptLog;
 import top.tangyh.lamp.authority.service.common.OptLogService;
 
 /**

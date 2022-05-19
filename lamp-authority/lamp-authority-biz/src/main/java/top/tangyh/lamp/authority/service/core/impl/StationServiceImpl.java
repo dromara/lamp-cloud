@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.annotation.echo.EchoResult;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
-import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.utils.ArgumentAssert;

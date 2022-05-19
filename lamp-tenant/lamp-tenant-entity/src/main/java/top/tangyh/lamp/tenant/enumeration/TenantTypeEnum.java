@@ -1,6 +1,6 @@
 package top.tangyh.lamp.tenant.enumeration;
 
-import top.tangyh.basic.base.BaseEnum;
+import top.tangyh.basic.interfaces.BaseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

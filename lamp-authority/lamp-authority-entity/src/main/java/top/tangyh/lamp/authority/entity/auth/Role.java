@@ -14,7 +14,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.basic.model.EchoVO;
+import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.common.constant.DictionaryType;
 
 import javax.validation.constraints.NotEmpty;

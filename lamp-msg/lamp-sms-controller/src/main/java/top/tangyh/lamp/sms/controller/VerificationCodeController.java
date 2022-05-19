@@ -3,7 +3,7 @@ package top.tangyh.lamp.sms.controller;
 import cn.hutool.core.util.RandomUtil;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.entity.SuperEntity;
-import top.tangyh.basic.cache.model.CacheKey;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.model.Kv;
 import top.tangyh.lamp.common.cache.VerificationCodeCacheKeyBuilder;

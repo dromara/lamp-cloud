@@ -3,7 +3,7 @@ package top.tangyh.lamp.authority.service.core;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheService;
-import top.tangyh.basic.model.LoadService;
+import top.tangyh.basic.interfaces.echo.LoadService;
 import top.tangyh.lamp.authority.dto.core.StationPageQuery;
 import top.tangyh.lamp.authority.entity.core.Station;
 

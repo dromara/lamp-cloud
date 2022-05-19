@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
-import top.tangyh.basic.cache.model.CacheKeyBuilder;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.utils.ArgumentAssert;
@@ -25,6 +25,7 @@ import top.tangyh.lamp.authority.enumeration.auth.OrgTypeEnum;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.cache.core.OrgCacheKeyBuilder;
+import top.tangyh.lamp.common.constant.DefValConstants;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -34,7 +35,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static top.tangyh.basic.utils.StrPool.DEF_ROOT_PATH;
 
 /**
  * <p>
@@ -134,7 +134,7 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         if (baseOrg == null) {
             return Collections.emptyList();
         }
-        String parentIdStr = DEF_ROOT_PATH + baseOrg.getId() + DEF_ROOT_PATH;
+        String parentIdStr = DefValConstants.ROOT_PATH + baseOrg.getId() + DefValConstants.ROOT_PATH;
         List<Org> list = list(Wraps.<Org>lbQ().like(Org::getTreePath, parentIdStr));
         list.add(baseOrg);
         return list.stream().map(Org::getId).collect(Collectors.toList());
@@ -158,7 +158,7 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
             return baseOrg;
         }
         // 用户挂在部门上，就向上查询单位
-        List<String> parentIdStrList = StrUtil.split(baseOrg.getTreePath(), DEF_ROOT_PATH, true, true);
+        List<String> parentIdStrList = StrUtil.split(baseOrg.getTreePath(), DefValConstants.ROOT_PATH, true, true);
         List<Long> parentIdList = Convert.toList(Long.class, parentIdStrList);
         // 若部门上级没有单位直接返回部门
         if (CollUtil.isEmpty(parentIdList)) {
@@ -187,7 +187,7 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         if (mainCompany == null) {
             return Collections.emptyList();
         }
-        String parentIdStr = DEF_ROOT_PATH + mainCompany.getId() + DEF_ROOT_PATH;
+        String parentIdStr = DefValConstants.ROOT_PATH + mainCompany.getId() + DefValConstants.ROOT_PATH;
         List<Org> list = list(Wraps.<Org>lbQ().like(Org::getTreePath, parentIdStr));
         list.add(mainCompany);
         return list.stream().map(Org::getId).collect(Collectors.toList());

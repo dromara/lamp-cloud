@@ -1,7 +1,7 @@
 package top.tangyh.lamp.oauth.api;
 
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.log.entity.OptLogDTO;
+import top.tangyh.basic.model.log.OptLogDTO;
 import top.tangyh.lamp.oauth.api.hystrix.LogApiHystrix;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;

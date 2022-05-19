@@ -2,7 +2,7 @@ package top.tangyh.lamp.oauth.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.cache.model.CacheKey;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.exception.BizException;
 import top.tangyh.lamp.common.cache.common.CaptchaCacheKeyBuilder;
