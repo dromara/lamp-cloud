@@ -1,7 +1,5 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -11,15 +9,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import top.tangyh.basic.annotation.echo.Echo;
-import top.tangyh.lamp.common.constant.DictionaryType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
 
 /**
  * <p>

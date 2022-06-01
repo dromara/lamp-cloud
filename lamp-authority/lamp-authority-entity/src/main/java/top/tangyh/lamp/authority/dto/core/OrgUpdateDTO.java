@@ -64,7 +64,7 @@ public class OrgUpdateDTO implements Serializable {
     /**
      * 类型
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
      */
     @ApiModelProperty(value = "类型")
     @Size(max = 2, message = "类型长度不能超过2")

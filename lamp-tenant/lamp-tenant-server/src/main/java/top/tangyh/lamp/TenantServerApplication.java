@@ -1,6 +1,5 @@
 package top.tangyh.lamp;
 
-import top.tangyh.basic.security.annotation.EnableLoginArgResolver;
 import top.tangyh.basic.validator.annotation.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -38,7 +37,6 @@ import static top.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
 })
 @Slf4j
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
-@EnableLoginArgResolver
 @EnableFormValidator
 public class TenantServerApplication {
     public static void main(String[] args) throws UnknownHostException {

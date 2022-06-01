@@ -7,8 +7,8 @@ import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.authority.entity.core.Org;
-import top.tangyh.lamp.authority.enumeration.auth.Sex;
-import top.tangyh.lamp.common.constant.DictionaryType;
+import top.tangyh.lamp.model.enumeration.Sex;
+import top.tangyh.lamp.model.constant.EchoDictType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -27,9 +27,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
-import static top.tangyh.lamp.common.constant.EchoConstants.ORG_ID_CLASS;
-import static top.tangyh.lamp.common.constant.EchoConstants.STATION_ID_CLASS;
+import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
+import static top.tangyh.lamp.model.constant.EchoApi.ORG_ID_CLASS;
+import static top.tangyh.lamp.model.constant.EchoApi.STATION_ID_CLASS;
 
 /**
  * <p>
@@ -152,36 +152,36 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 民族
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)
      */
     @ApiModelProperty(value = "民族")
     @Size(max = 2, message = "民族长度不能超过2")
     @TableField(value = "nation", condition = LIKE)
-    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.NATION)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.NATION)
     @Excel(name = "民族")
     private String nation;
 
     /**
      * 学历
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)
      */
     @ApiModelProperty(value = "学历")
     @Size(max = 2, message = "学历长度不能超过2")
     @TableField(value = "education", condition = LIKE)
-    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.EDUCATION)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.EDUCATION)
     @Excel(name = "学历")
     private String education;
 
     /**
      * 职位状态
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)
      */
     @ApiModelProperty(value = "职位状态")
     @Size(max = 2, message = "职位状态长度不能超过2")
     @TableField(value = "position_status", condition = LIKE)
-    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.POSITION_STATUS)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.POSITION_STATUS)
     @Excel(name = "职位状态")
     private String positionStatus;
 

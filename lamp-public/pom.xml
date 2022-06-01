@@ -20,6 +20,9 @@
         <module>lamp-common</module>
         <module>lamp-common-api</module>
         <module>lamp-file-sdk</module>
+        <module>lamp-model</module>
+        <module>lamp-security-sdk</module>
+        <module>lamp-userinfo-sdk</module>
     </modules>
 
 </project>

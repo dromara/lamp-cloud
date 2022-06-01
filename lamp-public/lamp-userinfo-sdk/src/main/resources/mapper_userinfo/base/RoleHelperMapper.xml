@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.userinfo.dao.RoleHelperMapper">
+
+    <resultMap id="SysRoleResultMap" type="top.tangyh.lamp.model.entity.base.SysRole">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="category" jdbcType="VARCHAR" property="category"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="readonly_" jdbcType="BIT" property="readonly"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="SysRole_Column_List">
+        r.id,r.created_by,r.create_time,r.updated_by,r.update_time, r.category,
+        r.name, r.code, r.describe_, r.state, r.readonly_
+    </sql>
+
+</mapper>

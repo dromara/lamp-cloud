@@ -59,27 +59,23 @@ public class TenantDatasourceConfig extends SuperEntity<Long> {
     @TableField("datasource_config_id")
     @Excel(name = "数据源id")
     private Long datasourceConfigId;
-
     /**
-     * 服务
+     * 数据库名前缀
      */
-    @ApiModelProperty(value = "服务")
-    @NotEmpty(message = "服务不能为空")
-    @Size(max = 100, message = "服务长度不能超过100")
-    @TableField(value = "application", condition = LIKE)
-    @Excel(name = "服务")
-    private String application;
+    @ApiModelProperty(value = "数据库名前缀")
+    @TableField(value = "db_prefix", condition = LIKE)
+    private String dbPrefix;
 
 
     @Builder
     public TenantDatasourceConfig(Long id, LocalDateTime createTime, Long createdBy,
-                                  Long tenantId, Long datasourceConfigId, String application) {
+                                  Long tenantId, Long datasourceConfigId, String dbPrefix) {
         this.id = id;
         this.createTime = createTime;
         this.createdBy = createdBy;
         this.tenantId = tenantId;
         this.datasourceConfigId = datasourceConfigId;
-        this.application = application;
+        this.dbPrefix = dbPrefix;
     }
 
 }

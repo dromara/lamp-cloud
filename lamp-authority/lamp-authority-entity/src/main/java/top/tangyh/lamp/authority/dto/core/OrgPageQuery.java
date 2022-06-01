@@ -62,7 +62,7 @@ public class OrgPageQuery implements Serializable {
     /**
      * 类型
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
      */
     @ApiModelProperty(value = "类型")
     private String type;

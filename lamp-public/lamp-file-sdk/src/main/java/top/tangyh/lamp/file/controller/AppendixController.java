@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperSimpleController;
-import top.tangyh.lamp.common.vo.result.AppendixResultVO;
+import top.tangyh.lamp.model.vo.result.AppendixResultVO;
 import top.tangyh.lamp.file.entity.Appendix;
 import top.tangyh.lamp.file.service.AppendixService;
 

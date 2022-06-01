@@ -5,7 +5,7 @@ import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
 import top.tangyh.lamp.tenant.dto.TenantSaveDTO;
 import top.tangyh.lamp.tenant.dto.TenantUpdateDTO;
 import top.tangyh.lamp.tenant.entity.Tenant;
-import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantStatusEnum;
 
 import java.util.List;
 

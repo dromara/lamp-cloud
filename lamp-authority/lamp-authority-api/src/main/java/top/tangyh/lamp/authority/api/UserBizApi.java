@@ -1,12 +1,12 @@
 package top.tangyh.lamp.authority.api;
 
-import top.tangyh.lamp.authority.api.hystrix.UserBizApiFallback;
-import top.tangyh.lamp.authority.entity.auth.User;
-import top.tangyh.basic.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.tangyh.basic.base.R;
+import top.tangyh.lamp.authority.api.hystrix.UserBizApiFallback;
+import top.tangyh.lamp.authority.entity.auth.User;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2019/07/02
  */
 @FeignClient(name = "${lamp.feign.authority-server:lamp-authority-server}", fallback = UserBizApiFallback.class
-        , path = "/user", qualifier = "userBizApi")
+        , path = "/user")
 public interface UserBizApi {
 
     /**

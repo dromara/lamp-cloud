@@ -7,15 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import top.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.security.feign.UserQuery;
-import top.tangyh.basic.security.model.SysUser;
 import top.tangyh.lamp.authority.service.auth.UserService;
 
 import java.util.Map;
@@ -38,18 +33,6 @@ import java.util.Map;
 @ApiIgnore
 public class OauthUserController {
     private final UserService userService;
-
-    /**
-     * 单体查询用户
-     *
-     * @param id 主键id
-     * @return 查询结果
-     */
-    @ApiOperation(value = "查询用户详细", notes = "查询用户详细")
-    @PostMapping(value = "/anno/id/{id}")
-    public R<SysUser> getById(@PathVariable Long id, @RequestBody UserQuery query) {
-        return R.success(userService.getSysUserById(id, query));
-    }
 
     /**
      * 根据用户id，查询用户权限范围

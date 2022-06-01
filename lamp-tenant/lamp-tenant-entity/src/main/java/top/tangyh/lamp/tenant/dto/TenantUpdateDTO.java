@@ -1,10 +1,10 @@
 package top.tangyh.lamp.tenant.dto;
 
 import top.tangyh.basic.base.entity.SuperEntity;
-import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
-import top.tangyh.lamp.tenant.enumeration.TenantConnectTypeEnum;
-import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
-import top.tangyh.lamp.tenant.enumeration.TenantTypeEnum;
+import top.tangyh.lamp.model.vo.save.AppendixSaveVO;
+import top.tangyh.lamp.model.enumeration.system.TenantConnectTypeEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantStatusEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

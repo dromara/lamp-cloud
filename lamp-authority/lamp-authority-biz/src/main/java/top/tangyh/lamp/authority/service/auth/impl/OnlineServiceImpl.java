@@ -12,6 +12,7 @@ import top.tangyh.lamp.authority.service.common.ParameterService;
 import top.tangyh.lamp.common.cache.common.OnlineCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.common.TokenUserIdCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.BizConstant;
+
 import top.tangyh.lamp.common.constant.ParameterKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

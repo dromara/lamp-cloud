@@ -20,13 +20,16 @@
             <artifactId>lamp-authority-controller</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-oauth-api</artifactId>
+            <artifactId>lamp-security-sdk</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-userinfo-sdk</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-all</artifactId>
@@ -37,6 +40,7 @@
             <artifactId>easypoi-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- 测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

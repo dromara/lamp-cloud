@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
-import top.tangyh.lamp.common.constant.DictionaryType;
+import top.tangyh.lamp.model.constant.EchoDictType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
+import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 
 /**
  * <p>
@@ -54,7 +54,7 @@ public class Role extends Entity<Long> implements EchoVO {
     @ApiModelProperty(value = "角色类别")
     @TableField(value = "`category`", condition = LIKE)
     @Size(max = 2, message = "角色类别长度不能超过{max}")
-    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.ROLE_CATEGORY)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.ROLE_CATEGORY)
     private String category;
     /**
      * 名称

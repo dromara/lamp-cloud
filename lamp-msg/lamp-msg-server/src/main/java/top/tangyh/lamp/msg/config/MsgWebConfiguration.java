@@ -2,10 +2,10 @@ package top.tangyh.lamp.msg.config;
 
 import top.tangyh.basic.boot.config.BaseConfig;
 import top.tangyh.basic.log.event.SysLogListener;
-import top.tangyh.lamp.oauth.api.LogApi;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.tangyh.lamp.common.api.LogApi;
 
 /**
  * @author zuihou

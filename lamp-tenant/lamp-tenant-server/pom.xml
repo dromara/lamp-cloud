@@ -22,15 +22,23 @@
         </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-oauth-api</artifactId>
+            <artifactId>lamp-common-api</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-all</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-security-sdk</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-userinfo-sdk</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-spring-boot-starter</artifactId>

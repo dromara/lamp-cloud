@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dao.auth;
 
 import top.tangyh.basic.base.mapper.SuperMapper;
-import top.tangyh.lamp.authority.dto.auth.ResourceQueryDTO;
+import top.tangyh.lamp.model.vo.query.ResourceQueryDTO;
 import top.tangyh.lamp.authority.entity.auth.Resource;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

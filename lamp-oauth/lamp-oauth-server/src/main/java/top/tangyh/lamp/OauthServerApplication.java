@@ -1,6 +1,5 @@
 package top.tangyh.lamp;
 
-import top.tangyh.basic.security.annotation.EnableLoginArgResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,7 +30,6 @@ import static top.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
         UTIL_PACKAGE, BUSINESS_PACKAGE
 })
 @Slf4j
-@EnableLoginArgResolver
 public class OauthServerApplication {
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext application = SpringApplication.run(OauthServerApplication.class, args);

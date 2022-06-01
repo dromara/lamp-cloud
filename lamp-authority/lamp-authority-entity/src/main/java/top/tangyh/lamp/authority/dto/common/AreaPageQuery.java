@@ -67,7 +67,7 @@ public class AreaPageQuery implements Serializable {
     /**
      * 行政区级
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.AREA_LEVEL)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)
      */
     @ApiModelProperty(value = "行政区级")
     private String level;

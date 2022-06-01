@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    top.tangyh.lamp.security.config.SecurityConfiguration

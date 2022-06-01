@@ -17,13 +17,13 @@ import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.CollHelper;
-import top.tangyh.lamp.common.vo.result.AppendixResultVO;
-import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
+
 import top.tangyh.lamp.file.entity.Appendix;
 import top.tangyh.lamp.file.mapper.AppendixMapper;
 import top.tangyh.lamp.file.service.AppendixService;
+import top.tangyh.lamp.model.vo.result.AppendixResultVO;
+import top.tangyh.lamp.model.vo.save.AppendixSaveVO;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

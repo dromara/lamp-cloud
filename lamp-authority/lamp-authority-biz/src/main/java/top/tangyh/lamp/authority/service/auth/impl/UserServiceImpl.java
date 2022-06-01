@@ -1,6 +1,5 @@
 package top.tangyh.lamp.authority.service.auth.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -19,25 +18,15 @@ import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
-import top.tangyh.basic.security.feign.UserQuery;
-import top.tangyh.basic.security.model.SysOrg;
-import top.tangyh.basic.security.model.SysRole;
-import top.tangyh.basic.security.model.SysStation;
-import top.tangyh.basic.security.model.SysUser;
 import top.tangyh.basic.utils.ArgumentAssert;
-import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.CollHelper;
-import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.authority.dao.auth.UserMapper;
 import top.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;
-import top.tangyh.lamp.authority.dto.auth.ResourceQueryDTO;
 import top.tangyh.lamp.authority.dto.auth.UserUpdateAvatarDTO;
 import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
-import top.tangyh.lamp.authority.entity.auth.Resource;
 import top.tangyh.lamp.authority.entity.auth.Role;
 import top.tangyh.lamp.authority.entity.auth.User;
 import top.tangyh.lamp.authority.entity.auth.UserRole;
-import top.tangyh.lamp.authority.entity.core.Station;
 import top.tangyh.lamp.authority.service.auth.ResourceService;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.auth.RoleService;
@@ -51,6 +40,7 @@ import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserRoleCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.BizConstant;
+
 import top.tangyh.lamp.file.service.AppendixService;
 
 import java.io.Serializable;
@@ -270,43 +260,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     public List<User> findUserById(List<Long> ids) {
         return findUser(new HashSet<>(ids));
     }
-
-    @Override
-    public SysUser getSysUserById(Long id, UserQuery query) {
-        User user = getByIdCache(id);
-        if (user == null) {
-            return null;
-        }
-        SysUser sysUser = BeanUtil.toBean(user, SysUser.class);
-
-        sysUser.setOrgId(user.getOrgId());
-        sysUser.setStationId(user.getStationId());
-
-        if (query.getFull() || query.getOrg()) {
-            sysUser.setOrg(BeanUtil.toBean(orgService.getByIdCache(user.getOrgId()), SysOrg.class));
-        }
-
-        if (query.getFull() || query.getStation()) {
-            Station station = stationService.getByIdCache(user.getStationId());
-            if (station != null) {
-                SysStation sysStation = BeanUtil.toBean(station, SysStation.class);
-                sysStation.setOrgId(station.getOrgId());
-                sysUser.setStation(sysStation);
-            }
-        }
-
-        if (query.getFull() || query.getRoles()) {
-            List<Role> list = roleService.findRoleByUserId(id);
-            sysUser.setRoles(BeanPlusUtil.toBeanList(list, SysRole.class));
-        }
-        if (query.getFull() || query.getResource()) {
-            List<Resource> resourceList = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(id).build());
-            sysUser.setResources(CollHelper.split(resourceList, Resource::getCode, StrPool.SEMICOLON));
-        }
-
-        return sysUser;
-    }
-
 
     @Override
     @Transactional(readOnly = true)

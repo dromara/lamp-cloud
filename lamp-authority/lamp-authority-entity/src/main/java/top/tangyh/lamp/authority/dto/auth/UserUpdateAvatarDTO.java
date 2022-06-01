@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import top.tangyh.basic.base.entity.SuperEntity;
-import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
+import top.tangyh.lamp.model.vo.save.AppendixSaveVO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

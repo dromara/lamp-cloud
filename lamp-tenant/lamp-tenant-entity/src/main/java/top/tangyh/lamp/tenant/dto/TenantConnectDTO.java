@@ -1,6 +1,6 @@
 package top.tangyh.lamp.tenant.dto;
 
-import top.tangyh.lamp.tenant.enumeration.TenantConnectTypeEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantConnectTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -38,14 +38,11 @@ public class TenantConnectDTO {
     @NotNull(message = "连接类型不能为空")
     private TenantConnectTypeEnum connectType;
 
-    @ApiModelProperty(value = "权限服务连接源")
-    private Long authorityDatasource;
-    @ApiModelProperty(value = "文件服务连接源")
-    private Long fileDatasource;
-    @ApiModelProperty(value = "消息服务连接源")
-    private Long msgDatasource;
-    @ApiModelProperty(value = "认证服务连接源")
-    private Long oauthDatasource;
-    @ApiModelProperty(value = "网关服务连接源")
-    private Long gateDatasource;
+    /**
+     * 数据源id
+     */
+    @ApiModelProperty(value = "基础库数据源配置")
+    private Long baseDatasourceId;
+    @ApiModelProperty(value = "扩展库数据源配置")
+    private Long extendDatasourceId;
 }

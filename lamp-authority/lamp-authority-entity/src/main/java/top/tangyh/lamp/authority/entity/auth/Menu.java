@@ -14,14 +14,14 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.TreeEntity;
-import top.tangyh.lamp.common.constant.DictionaryType;
+import top.tangyh.lamp.model.constant.EchoDictType;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.EQUAL;
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_FEIGN_CLASS;
+import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_FEIGN_CLASS;
 
 /**
  * <p>
@@ -59,7 +59,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     @Size(max = 2, message = "类型长度不能超过{max}")
     @TableField(value = "resource_type", condition = LIKE)
     @Excel(name = "类型")
-    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = DictionaryType.RESOURCE_TYPE)
+    @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.RESOURCE_TYPE)
     private String resourceType;
 
     /**

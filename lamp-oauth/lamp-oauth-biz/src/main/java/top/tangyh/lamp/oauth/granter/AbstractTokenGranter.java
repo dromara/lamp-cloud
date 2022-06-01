@@ -43,12 +43,12 @@ import top.tangyh.lamp.authority.service.auth.OnlineService;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.common.constant.AppendixType;
 import top.tangyh.lamp.common.properties.SystemProperties;
-import top.tangyh.lamp.common.vo.result.AppendixResultVO;
+import top.tangyh.lamp.model.vo.result.AppendixResultVO;
 import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.oauth.event.LoginEvent;
 import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
 import top.tangyh.lamp.tenant.entity.Tenant;
-import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantStatusEnum;
 import top.tangyh.lamp.tenant.service.TenantService;
 
 import java.time.LocalDateTime;

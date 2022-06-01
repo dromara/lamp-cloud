@@ -1,6 +1,6 @@
 package top.tangyh.lamp.tenant.dto;
 
-import top.tangyh.lamp.common.vo.save.AppendixSaveVO;
+import top.tangyh.lamp.model.vo.save.AppendixSaveVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

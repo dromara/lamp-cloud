@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static top.tangyh.lamp.common.constant.EchoConstants.ORG_ID_CLASS;
+import static top.tangyh.lamp.model.constant.EchoApi.ORG_ID_CLASS;
 
 /**
  * <p>

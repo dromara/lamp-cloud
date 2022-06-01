@@ -1,6 +1,6 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import top.tangyh.lamp.authority.enumeration.auth.Sex;
+import top.tangyh.lamp.model.enumeration.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -96,21 +96,21 @@ public class UserPageQuery implements Serializable {
     /**
      * 民族
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)
      */
     @ApiModelProperty(value = "民族")
     private List<String> nation;
     /**
      * 学历
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)
      */
     @ApiModelProperty(value = "学历")
     private List<String> education;
     /**
      * 职位状态
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)
      */
     @ApiModelProperty(value = "职位状态")
     private List<String> positionStatus;

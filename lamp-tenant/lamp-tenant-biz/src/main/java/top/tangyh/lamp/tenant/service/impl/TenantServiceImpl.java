@@ -7,22 +7,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.model.cache.CacheKeyBuilder;
-import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.lamp.common.cache.tenant.TenantCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.tenant.TenantCodeCacheKeyBuilder;
+
 import top.tangyh.lamp.file.service.AppendixService;
+import top.tangyh.lamp.model.enumeration.system.TenantConnectTypeEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantStatusEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantTypeEnum;
 import top.tangyh.lamp.tenant.dao.TenantMapper;
 import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
 import top.tangyh.lamp.tenant.dto.TenantSaveDTO;
 import top.tangyh.lamp.tenant.dto.TenantUpdateDTO;
 import top.tangyh.lamp.tenant.entity.Tenant;
-import top.tangyh.lamp.tenant.enumeration.TenantConnectTypeEnum;
-import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
-import top.tangyh.lamp.tenant.enumeration.TenantTypeEnum;
 import top.tangyh.lamp.tenant.service.TenantService;
 import top.tangyh.lamp.tenant.strategy.InitSystemContext;
 
@@ -40,7 +41,6 @@ import java.util.function.Function;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenant> implements TenantService {
 
@@ -78,7 +78,7 @@ public class TenantServiceImpl extends SuperCacheServiceImpl<TenantMapper, Tenan
         Tenant tenant = BeanPlusUtil.toBean(data, Tenant.class);
         tenant.setStatus(TenantStatusEnum.WAIT_INIT);
         tenant.setType(TenantTypeEnum.CREATE);
-        tenant.setConnectType(TenantConnectTypeEnum.LOCAL);
+        tenant.setConnectType(TenantConnectTypeEnum.SYSTEM);
         // defaults 库
         save(tenant);
 

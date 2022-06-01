@@ -3,7 +3,7 @@ package top.tangyh.lamp.authority.dto.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.handler.inter.IExcelDataModel;
 import cn.afterturn.easypoi.handler.inter.IExcelModel;
-import top.tangyh.lamp.authority.enumeration.auth.Sex;
+import top.tangyh.lamp.model.enumeration.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

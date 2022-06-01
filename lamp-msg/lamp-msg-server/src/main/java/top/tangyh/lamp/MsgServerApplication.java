@@ -1,6 +1,5 @@
 package top.tangyh.lamp;
 
-import top.tangyh.basic.security.annotation.EnableLoginArgResolver;
 import top.tangyh.basic.validator.annotation.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -34,7 +33,6 @@ import static top.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
         UTIL_PACKAGE, BUSINESS_PACKAGE
 })
 @Slf4j
-@EnableLoginArgResolver
 @EnableFormValidator
 public class MsgServerApplication {
     public static void main(String[] args) throws UnknownHostException {

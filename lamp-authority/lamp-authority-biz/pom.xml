@@ -24,7 +24,10 @@
             <artifactId>lamp-file-sdk</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-mvc</artifactId>
+        </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-databases</artifactId>
@@ -42,17 +45,17 @@
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-boot-util</artifactId>
         </dependency>
-
-        <!-- user 只有权限服务 放在biz层， 其他服务都在controller模块 -->
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
-            <artifactId>lamp-security-starter</artifactId>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-security-sdk</artifactId>
+            <version>${lamp-project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

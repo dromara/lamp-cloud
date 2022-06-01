@@ -369,7 +369,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
                 .eq(User::getState, userPage.getState());
 
         if (StrUtil.equalsAny(userPage.getScope(), BizConstant.SCOPE_BIND, BizConstant.SCOPE_UN_BIND) && userPage.getRoleId() != null) {
-            String sql = " select ur.user_id from c_user_role ur where ur.user_id = c_user.id \n" +
+            String sql = " select ur.user_id from c_user_role ur where ur.user_id = s.id \n" +
                     "  and ur.role_id =   " + userPage.getRoleId();
             if (BizConstant.SCOPE_BIND.equals(userPage.getScope())) {
                 wrapper.inSql(User::getId, sql);
@@ -378,7 +378,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
             }
         }
 
-        baseService.page(page, wrapper);
+        baseService.findPage(page, wrapper);
         // 手动注入
         echoService.action(page);
 

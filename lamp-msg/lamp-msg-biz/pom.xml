@@ -20,14 +20,13 @@
             <artifactId>lamp-msg-entity</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>top.tangyh.basic</groupId>
-            <artifactId>lamp-databases</artifactId>
-        </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-mvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-databases</artifactId>
         </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>
@@ -43,8 +42,12 @@
             <artifactId>mybatis-plus</artifactId>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
 
+    </dependencies>
 
 
 </project>

@@ -41,7 +41,7 @@ import top.tangyh.lamp.msg.dto.MsgSaveDTO;
 import top.tangyh.lamp.msg.entity.Msg;
 import top.tangyh.lamp.msg.enumeration.MsgType;
 import top.tangyh.lamp.msg.service.MsgService;
-import top.tangyh.lamp.oauth.api.RoleApi;
+import top.tangyh.lamp.authority.api.RoleApi;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

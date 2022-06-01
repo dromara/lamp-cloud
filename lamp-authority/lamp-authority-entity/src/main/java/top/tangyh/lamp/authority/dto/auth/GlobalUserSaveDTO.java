@@ -1,6 +1,6 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import top.tangyh.lamp.authority.enumeration.auth.Sex;
+import top.tangyh.lamp.model.enumeration.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

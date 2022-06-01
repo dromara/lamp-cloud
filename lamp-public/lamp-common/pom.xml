@@ -20,6 +20,11 @@
             <artifactId>lamp-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-model</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
         </dependency>

@@ -21,13 +21,18 @@
         </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-authority-biz</artifactId>
+            <artifactId>lamp-file-sdk</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-file-sdk</artifactId>
+            <artifactId>lamp-authority-biz</artifactId>
             <version>${lamp-project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-mvc</artifactId>
         </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>
@@ -40,7 +45,7 @@
 
         <dependency>
             <groupId>top.tangyh.basic</groupId>
-                <artifactId>lamp-boot-util</artifactId>
+            <artifactId>lamp-boot-util</artifactId>
         </dependency>
 
         <dependency>

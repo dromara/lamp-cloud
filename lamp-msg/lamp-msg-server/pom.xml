@@ -15,7 +15,11 @@
     <description>消息服务启动模块</description>
 
     <dependencies>
-
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-common-api</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-sms-controller</artifactId>
@@ -31,10 +35,19 @@
             <artifactId>lamp-authority-api</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-security-sdk</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-userinfo-sdk</artifactId>
+            <version>${lamp-project.version}</version>
         </dependency>
 
         <dependency>

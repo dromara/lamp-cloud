@@ -3,7 +3,7 @@ package top.tangyh.lamp.authority.controller.common;
 import com.baidu.fsg.uid.UidGenerator;
 import top.tangyh.basic.annotation.user.LoginUser;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.security.model.SysUser;
+import top.tangyh.lamp.model.entity.base.SysUser;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.authority.service.common.LoginLogService;
 import io.swagger.annotations.Api;

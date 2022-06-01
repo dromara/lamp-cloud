@@ -23,13 +23,13 @@ import top.tangyh.lamp.tenant.dto.TenantPageQuery;
 import top.tangyh.lamp.tenant.dto.TenantSaveDTO;
 import top.tangyh.lamp.tenant.dto.TenantUpdateDTO;
 import top.tangyh.lamp.tenant.entity.Tenant;
-import top.tangyh.lamp.tenant.enumeration.TenantStatusEnum;
+import top.tangyh.lamp.model.enumeration.system.TenantStatusEnum;
 import top.tangyh.lamp.tenant.service.TenantService;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import static top.tangyh.lamp.tenant.enumeration.TenantStatusEnum.NORMAL;
+import static top.tangyh.lamp.model.enumeration.system.TenantStatusEnum.NORMAL;
 
 /**
  * <p>

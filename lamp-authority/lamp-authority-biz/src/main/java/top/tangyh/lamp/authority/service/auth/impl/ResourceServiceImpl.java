@@ -10,7 +10,8 @@ import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.exception.BizException;
 import top.tangyh.basic.utils.StrHelper;
 import top.tangyh.lamp.authority.dao.auth.ResourceMapper;
-import top.tangyh.lamp.authority.dto.auth.ResourceQueryDTO;
+
+import top.tangyh.lamp.model.vo.query.ResourceQueryDTO;
 import top.tangyh.lamp.authority.entity.auth.Resource;
 import top.tangyh.lamp.authority.service.auth.ResourceService;
 import top.tangyh.lamp.authority.service.auth.RoleAuthorityService;

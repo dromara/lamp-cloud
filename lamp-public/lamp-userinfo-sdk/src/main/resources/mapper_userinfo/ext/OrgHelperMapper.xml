@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.userinfo.dao.OrgHelperMapper">
+    <select id="findOrgByEmployeeId" resultMap="BaseResultMap">
+        select
+        <include refid="Alias_Column_List"/>
+        from base_org o left join base_employee_org_rel e on o.id = e.org_id
+        where e.id = #{employeeId}
+    </select>
+</mapper>

@@ -3,7 +3,7 @@ package top.tangyh.lamp.file.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.lamp.common.enumeration.FileType;
+import top.tangyh.lamp.model.enumeration.base.FileType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

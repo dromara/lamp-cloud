@@ -11,7 +11,7 @@ import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.authority.entity.common.Dictionary;
 import top.tangyh.lamp.authority.service.common.DictionaryService;
 import top.tangyh.lamp.authority.service.common.ParameterService;
-import top.tangyh.lamp.oauth.controller.model.Option;
+import top.tangyh.lamp.model.vo.result.Option;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

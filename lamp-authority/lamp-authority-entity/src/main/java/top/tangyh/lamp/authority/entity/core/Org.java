@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
-import top.tangyh.lamp.common.constant.DictionaryType;
+import top.tangyh.lamp.model.constant.EchoDictType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static top.tangyh.lamp.common.constant.EchoConstants.DICTIONARY_ITEM_CLASS;
+import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 
 
 /**
@@ -51,12 +51,12 @@ public class Org extends TreeEntity<Org, Long> implements EchoVO {
     /**
      * 类型
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
      */
     @ApiModelProperty(value = "类型")
     @Size(max = 2, message = "类型长度不能超过2")
     @TableField(value = "type_", condition = LIKE)
-    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = DictionaryType.ORG_TYPE)
+    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.ORG_TYPE)
     @Excel(name = "类型")
     private String type;
 

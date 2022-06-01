@@ -28,6 +28,7 @@ import top.tangyh.lamp.authority.service.common.DictionaryService;
 import top.tangyh.lamp.common.cache.common.DictionaryTypeCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.DefValConstants;
 
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -176,7 +177,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         if (idList.isEmpty()) {
             return true;
         }
-        List<Dictionary> list = listByIds((Collection<Long>)idList);
+        List<Dictionary> list = listByIds((Collection<Long>)  idList);
         boolean remove = super.removeByIds(idList);
         CacheHashKey[] hashKeys = list.stream().map(model -> new DictionaryTypeCacheKeyBuilder().hashKey(model.getType())).toArray(CacheHashKey[]::new);
         cachePlusOps.del(hashKeys);

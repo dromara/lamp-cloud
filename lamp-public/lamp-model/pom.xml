@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>top.tangyh.lamp</groupId>
+        <artifactId>lamp-public</artifactId>
+        <version>3.7.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lamp-model</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <resources>
+            <!-- 必须将constant下的源文件打包进去，否则代码生成器无法正常工作 -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>top/tangyh/lamp/model/constant/*.java</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>

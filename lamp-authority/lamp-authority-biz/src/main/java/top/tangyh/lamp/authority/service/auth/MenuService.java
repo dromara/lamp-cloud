@@ -24,6 +24,7 @@ public interface MenuService extends SuperCacheService<Menu> {
      * @param path   前端页面路径
      * @return
      */
+    @Deprecated
     ResourceDataScope getDataScopeByPath(String path, List<Long> idList);
 
     /**

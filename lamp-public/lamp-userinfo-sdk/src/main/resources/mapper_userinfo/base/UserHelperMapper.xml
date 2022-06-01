@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.userinfo.dao.UserHelperMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="SysUserResultMap" type="top.tangyh.lamp.model.entity.base.SysUser">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
+        <result column="station_id" jdbcType="BIGINT" property="stationId"/>
+        <result column="readonly" jdbcType="BIT" property="readonly"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="nation" jdbcType="CHAR" property="nation"/>
+        <result column="education" jdbcType="CHAR" property="education"/>
+        <result column="position_status" jdbcType="CHAR" property="positionStatus"/>
+        <result column="work_describe" jdbcType="VARCHAR" property="workDescribe"/>
+        <result column="password_error_last_time" jdbcType="TIMESTAMP" property="passwordErrorLastTime"/>
+        <result column="password_error_num" jdbcType="INTEGER" property="passwordErrorNum"/>
+        <result column="password_expire_time" jdbcType="TIMESTAMP" property="passwordExpireTime"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="SysUser_Column_List">
+        u.id
+        ,u.created_by,u.create_time,u.updated_by,u.update_time,
+        u.account, u.name, u.org_id, u.station_id, u.readonly, u.email, u.mobile, u.sex, u.state, u.avatar,
+        u.nation, u.education, u.position_status,
+        u.work_describe, u.password_error_last_time, u.password_error_num, u.password_expire_time, u.last_login_time
+    </sql>
+
+</mapper>

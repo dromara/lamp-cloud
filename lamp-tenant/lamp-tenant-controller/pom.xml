@@ -19,10 +19,7 @@
             <artifactId>lamp-tenant-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>top.tangyh.basic</groupId>
-            <artifactId>lamp-security-starter</artifactId>
-        </dependency>
     </dependencies>
+
 
 </project>

@@ -27,6 +27,7 @@ import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.cache.core.OrgCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.DefValConstants;
 
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -168,6 +169,7 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         ImmutableMap<Long, Org> map = CollHelper.uniqueIndex(parentList, Org::getId, org -> org);
         return getMainCompany(map, baseOrg.getParentId());
     }
+
 
     private static Org getMainCompany(ImmutableMap<Long, Org> map, Long parentId) {
         Org parent = map.get(parentId);

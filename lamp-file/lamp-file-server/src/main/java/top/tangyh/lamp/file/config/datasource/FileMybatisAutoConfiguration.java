@@ -6,10 +6,10 @@ import top.tangyh.basic.database.datasource.BaseMybatisConfiguration;
 import top.tangyh.basic.database.mybatis.auth.DataScopeInnerInterceptor;
 import top.tangyh.basic.database.properties.DatabaseProperties;
 import top.tangyh.basic.utils.SpringUtils;
-import top.tangyh.lamp.oauth.api.UserApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import top.tangyh.lamp.common.api.UserApi;
 
 import java.util.ArrayList;
 import java.util.List;

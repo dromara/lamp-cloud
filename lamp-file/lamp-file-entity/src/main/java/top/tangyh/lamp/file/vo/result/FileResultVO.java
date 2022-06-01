@@ -1,6 +1,6 @@
 package top.tangyh.lamp.file.vo.result;
 
-import top.tangyh.lamp.common.enumeration.FileType;
+import top.tangyh.lamp.model.enumeration.base.FileType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

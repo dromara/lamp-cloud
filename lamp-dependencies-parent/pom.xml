@@ -90,11 +90,6 @@
             </dependency>
             <dependency>
                 <groupId>top.tangyh.basic</groupId>
-                <artifactId>lamp-security-starter</artifactId>
-                <version>${lamp-util.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-mvc</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>

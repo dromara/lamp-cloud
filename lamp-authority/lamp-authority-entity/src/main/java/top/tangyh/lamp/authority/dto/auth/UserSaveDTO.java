@@ -1,6 +1,6 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import top.tangyh.lamp.authority.enumeration.auth.Sex;
+import top.tangyh.lamp.model.enumeration.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -98,7 +98,7 @@ public class UserSaveDTO implements Serializable {
     /**
      * 民族
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)
      */
     @ApiModelProperty(value = "民族")
     @Size(max = 2, message = "民族长度不能超过2")
@@ -106,7 +106,7 @@ public class UserSaveDTO implements Serializable {
     /**
      * 学历
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)
      */
     @ApiModelProperty(value = "学历")
     @Size(max = 2, message = "学历长度不能超过2")
@@ -114,7 +114,7 @@ public class UserSaveDTO implements Serializable {
     /**
      * 职位状态
      *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)
+     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)
      */
     @ApiModelProperty(value = "职位状态")
     @Size(max = 2, message = "职位状态长度不能超过2")

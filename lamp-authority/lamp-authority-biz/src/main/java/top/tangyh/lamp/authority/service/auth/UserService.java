@@ -5,8 +5,6 @@ import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheService;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.interfaces.echo.LoadService;
-import top.tangyh.basic.security.feign.UserQuery;
-import top.tangyh.basic.security.model.SysUser;
 import top.tangyh.lamp.authority.dto.auth.GlobalUserPageDTO;
 import top.tangyh.lamp.authority.dto.auth.UserUpdateAvatarDTO;
 import top.tangyh.lamp.authority.dto.auth.UserUpdatePasswordDTO;
@@ -138,15 +136,6 @@ public interface UserService extends SuperCacheService<User>, LoadService {
      * @return 重置了多少行
      */
     int resetPassErrorNum(Long id);
-
-    /**
-     * 根据id 查询用户详情
-     *
-     * @param id    用户Id
-     * @param query 查询参数
-     * @return 系统用户
-     */
-    SysUser getSysUserById(Long id, UserQuery query);
 
     /**
      * 查询所有用户的id
