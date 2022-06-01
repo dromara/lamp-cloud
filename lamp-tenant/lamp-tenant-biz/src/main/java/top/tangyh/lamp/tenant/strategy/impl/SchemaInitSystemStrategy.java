@@ -43,7 +43,8 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
     /**
      * 需要初始化的sql文件在classpath中的路径
      */
-    private static final String SQL_RESOURCE_PATH = "sqls/%s.sql";
+    private static final String SCHEMA_PATH = "schema/{}.sql";
+    private static final String DATA_PATH = "data/{}.sql";
 
     /**
      * 需要初始化的库
@@ -83,7 +84,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
 
             useDb(tenant, runner, tenantDatabasePrefix);
             String dataScript = tenantDatabasePrefix + "_" + tenant;
-            runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, dataScript)));
+            runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, dataScript)));
         } catch (Exception e) {
             log.error("重置数据失败", e);
             return false;
@@ -100,7 +101,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
         try {
             for (String database : INIT_DATABASE_LIST) {
                 this.useDb(tenant, runner, database);
-                runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, database)));
+                runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, database)));
             }
         } catch (Exception e) {
             log.error("初始化表失败", e);
@@ -119,8 +120,8 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
         try {
             for (String database : INIT_DATABASE_LIST) {
                 this.useDb(tenant, runner, database);
-                String dataScript = database + "_data";
-                runner.runScript(Resources.getResourceAsReader(String.format(SQL_RESOURCE_PATH, dataScript)));
+                String dataScript = database;
+                runner.runScript(Resources.getResourceAsReader(StrUtil.format(DATA_PATH, dataScript)));
             }
         } catch (Exception e) {
             log.error("初始化数据失败", e);
@@ -159,7 +160,6 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
             // runner.setLogWriter(null);
 
             Resources.setCharset(StandardCharsets.UTF_8);
-
 //            设置分隔符 runner.setDelimiter(";");
             runner.setFullLineDelimiter(false);
             return runner;

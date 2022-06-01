@@ -1,4 +1,6 @@
 lamp:
+  swagger:
+    version: @project.version@
   nacos:
     ip: ${NACOS_IP:@nacos.ip@}
     port: ${NACOS_PORT:@nacos.port@}
