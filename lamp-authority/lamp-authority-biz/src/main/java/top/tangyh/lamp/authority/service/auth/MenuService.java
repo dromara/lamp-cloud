@@ -3,7 +3,6 @@ package top.tangyh.lamp.authority.service.auth;
 import top.tangyh.basic.base.service.SuperCacheService;
 import top.tangyh.lamp.authority.dto.auth.MenuResourceTreeVO;
 import top.tangyh.lamp.authority.entity.auth.Menu;
-import top.tangyh.lamp.authority.entity.auth.ResourceDataScope;
 
 import java.util.List;
 
@@ -17,15 +16,6 @@ import java.util.List;
  * @date 2019-07-03
  */
 public interface MenuService extends SuperCacheService<Menu> {
-    /**
-     * 根据资源ID查询
-     *
-     * @param idList 数据权限id
-     * @param path   前端页面路径
-     * @return
-     */
-    @Deprecated
-    ResourceDataScope getDataScopeByPath(String path, List<Long> idList);
 
     /**
      * 根据ID删除

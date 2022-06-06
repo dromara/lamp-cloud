@@ -131,5 +131,6 @@ public class UserSaveDTO implements Serializable {
     @ApiModelProperty(value = "密码")
     @Size(min = 6, max = 64, message = "密码长度不能小于6或超过64")
     private String password;
+    private Long createdOrgId;
 
 }

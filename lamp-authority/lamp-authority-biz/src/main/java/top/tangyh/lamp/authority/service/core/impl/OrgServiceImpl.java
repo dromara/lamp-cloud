@@ -4,16 +4,15 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
-import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.authority.dao.auth.UserMapper;
@@ -21,12 +20,11 @@ import top.tangyh.lamp.authority.dao.core.OrgMapper;
 import top.tangyh.lamp.authority.entity.auth.RoleOrg;
 import top.tangyh.lamp.authority.entity.auth.User;
 import top.tangyh.lamp.authority.entity.core.Org;
-import top.tangyh.lamp.authority.enumeration.auth.OrgTypeEnum;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.cache.core.OrgCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.DefValConstants;
-
+import top.tangyh.lamp.model.enumeration.base.OrgTypeEnum;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -48,7 +46,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implements OrgService {
     private final RoleOrgService roleOrgService;

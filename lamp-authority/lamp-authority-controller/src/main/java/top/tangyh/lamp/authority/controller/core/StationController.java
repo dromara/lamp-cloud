@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +16,15 @@ import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperCacheController;
 import top.tangyh.basic.base.request.PageParams;
+import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.lamp.authority.dto.core.StationPageQuery;
 import top.tangyh.lamp.authority.dto.core.StationSaveDTO;
 import top.tangyh.lamp.authority.dto.core.StationUpdateDTO;
 import top.tangyh.lamp.authority.entity.core.Station;
 import top.tangyh.lamp.authority.service.core.StationService;
+import top.tangyh.lamp.model.entity.base.SysUser;
+import top.tangyh.lamp.userinfo.service.UserHelperService;
 
 import java.util.List;
 import java.util.Map;
@@ -44,8 +48,9 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @RequestMapping("/station")
 @Api(value = "Station", tags = "岗位")
 @PreAuth(replace = "authority:station:")
+@RequiredArgsConstructor
 public class StationController extends SuperCacheController<StationService, Long, Station, StationPageQuery, StationSaveDTO, StationUpdateDTO> {
-
+    private final UserHelperService userHelperService;
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
             @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
@@ -54,6 +59,15 @@ public class StationController extends SuperCacheController<StationService, Long
     @GetMapping("/check")
     public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
         return success(baseService.check(id, name));
+    }
+
+    @Override
+    public R<Station> handlerSave(StationSaveDTO model) {
+        SysUser sysUser = userHelperService.getUserByIdCache(ContextUtil.getUserId());
+        if (sysUser!= null) {
+            model.setCreatedOrgId(sysUser.getOrgId());
+        }
+        return super.handlerSave(model);
     }
 
     @Override

@@ -2,29 +2,22 @@ package top.tangyh.lamp.authority.service.auth.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
-
-import top.tangyh.basic.base.service.SuperCacheServiceImpl;
-import top.tangyh.basic.model.cache.CacheKey;
-import top.tangyh.basic.model.cache.CacheKeyBuilder;
-import top.tangyh.basic.database.mybatis.conditions.Wraps;
-import top.tangyh.basic.exception.BizException;
-import top.tangyh.basic.utils.StrHelper;
-import top.tangyh.lamp.authority.dao.auth.ResourceMapper;
-
-import top.tangyh.lamp.model.vo.query.ResourceQueryDTO;
-import top.tangyh.lamp.authority.entity.auth.Resource;
-import top.tangyh.lamp.authority.service.auth.ResourceService;
-import top.tangyh.lamp.authority.service.auth.RoleAuthorityService;
-import top.tangyh.lamp.common.cache.auth.ResourceCacheKeyBuilder;
-import top.tangyh.lamp.common.cache.auth.UserResourceCacheKeyBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.tangyh.basic.base.service.SuperCacheServiceImpl;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
+import top.tangyh.basic.exception.BizException;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
+import top.tangyh.basic.utils.StrHelper;
+import top.tangyh.lamp.authority.dao.auth.ResourceMapper;
+import top.tangyh.lamp.authority.entity.auth.Resource;
+import top.tangyh.lamp.authority.service.auth.ResourceService;
+import top.tangyh.lamp.authority.service.auth.RoleAuthorityService;
+import top.tangyh.lamp.common.cache.auth.ResourceCacheKeyBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +31,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
@@ -47,40 +39,6 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<ResourceMapper, R
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
         return new ResourceCacheKeyBuilder();
-    }
-
-    /**
-     * 查询用户的可用资源
-     * <p>
-     * 注意：什么地方需要清除 USER_MENU 缓存
-     * 给用户重新分配角色时， 角色重新分配资源/菜单时
-     *
-     * @param resource 资源对象
-     * @return 用户的可用资源
-     */
-    @Override
-    public List<Resource> findVisibleResource(ResourceQueryDTO resource) {
-        CacheKey userResourceKey = new UserResourceCacheKeyBuilder().key(resource.getUserId());
-
-        List<Resource> visibleResource = new ArrayList<>();
-        List<Long> list = cacheOps.get(userResourceKey, k -> {
-            visibleResource.addAll(baseMapper.findVisibleResource(resource));
-            return visibleResource.stream().map(Resource::getId).collect(Collectors.toList());
-        });
-
-        if (!visibleResource.isEmpty()) {
-            visibleResource.forEach(this::setCache);
-        } else {
-            visibleResource.addAll(findByIds(list, this::listByIds));
-        }
-        return resourceListFilterGroup(resource.getMenuId(), visibleResource);
-    }
-
-    private List<Resource> resourceListFilterGroup(Long menuId, List<Resource> visibleResource) {
-        if (menuId == null) {
-            return visibleResource;
-        }
-        return visibleResource.stream().filter(item -> Objects.equals(menuId, item.getMenuId())).collect(Collectors.toList());
     }
 
     @Override

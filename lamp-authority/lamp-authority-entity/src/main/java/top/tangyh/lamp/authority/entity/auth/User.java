@@ -3,12 +3,6 @@ package top.tangyh.lamp.authority.entity.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.annotation.echo.Echo;
-import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.basic.interfaces.echo.EchoVO;
-import top.tangyh.lamp.authority.entity.core.Org;
-import top.tangyh.lamp.model.enumeration.Sex;
-import top.tangyh.lamp.model.constant.EchoDictType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,6 +12,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.annotation.echo.Echo;
+import top.tangyh.basic.base.entity.Entity;
+import top.tangyh.basic.interfaces.echo.EchoVO;
+import top.tangyh.lamp.authority.entity.core.Org;
+import top.tangyh.lamp.model.constant.EchoDictType;
+import top.tangyh.lamp.model.enumeration.Sex;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -240,13 +240,16 @@ public class User extends Entity<Long> implements EchoVO {
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
 
+    @ApiModelProperty(value = "创建者所属机构")
+    @TableField(value = "created_org_id", condition = LIKE)
+    private Long createdOrgId;
 
     @Builder
     public User(Long id, Long createdBy, LocalDateTime createTime, Long updatedBy, LocalDateTime updateTime,
                 String account, String name, Long orgId, Long stationId, Boolean readonly,
                 String email, String mobile, Sex sex, Boolean state, String avatar, String nation,
                 String education, String positionStatus, String workDescribe, LocalDateTime passwordErrorLastTime, Integer passwordErrorNum, LocalDateTime passwordExpireTime,
-                String password, String salt, LocalDateTime lastLoginTime) {
+                String password, String salt, LocalDateTime lastLoginTime, Long createdOrgId) {
         this.id = id;
         this.createdBy = createdBy;
         this.createTime = createTime;
@@ -272,6 +275,7 @@ public class User extends Entity<Long> implements EchoVO {
         this.password = password;
         this.salt = salt;
         this.lastLoginTime = lastLoginTime;
+        this.createdOrgId = createdOrgId;
     }
 
 }

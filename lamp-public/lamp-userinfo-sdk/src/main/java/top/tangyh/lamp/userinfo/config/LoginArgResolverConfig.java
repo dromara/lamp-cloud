@@ -1,10 +1,10 @@
 package top.tangyh.lamp.userinfo.config;
 
-import org.springframework.context.annotation.Configuration;
-import top.tangyh.lamp.userinfo.resolver.ContextArgumentResolver;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.tangyh.lamp.userinfo.resolver.ContextArgumentResolver;
 
 import java.util.List;
 

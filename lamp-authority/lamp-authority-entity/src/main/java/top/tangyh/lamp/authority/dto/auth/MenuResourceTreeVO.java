@@ -27,7 +27,7 @@ public class MenuResourceTreeVO extends TreeEntity<MenuResourceTreeVO, Long> {
     private AuthorizeType type;
     private String code;
     private String icon;
-
+    private Boolean isDef;
     /**
      * 描述
      */

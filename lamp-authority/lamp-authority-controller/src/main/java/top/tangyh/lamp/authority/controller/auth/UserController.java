@@ -32,6 +32,7 @@ import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperCacheController;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.request.PageParams;
+import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
 import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import top.tangyh.basic.interfaces.echo.EchoService;
@@ -52,6 +53,8 @@ import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.common.constant.BizConstant;
 import top.tangyh.lamp.file.service.AppendixService;
+import top.tangyh.lamp.model.entity.base.SysUser;
+import top.tangyh.lamp.userinfo.service.UserHelperService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -89,7 +92,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
     private final AppendixService appendixService;
     private final ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
     private final UserExcelDictHandlerImpl userExcelDictHandlerIImpl;
-
+    private final UserHelperService userHelperService;
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
             @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
@@ -110,6 +113,10 @@ public class UserController extends SuperCacheController<UserService, Long, User
     public R<User> handlerSave(UserSaveDTO data) {
         User user = BeanUtil.toBean(data, User.class);
         user.setReadonly(false);
+        SysUser sysUser = userHelperService.getUserByIdCache(ContextUtil.getUserId());
+        if (sysUser!= null) {
+            data.setCreatedOrgId(sysUser.getOrgId());
+        }
         baseService.saveUser(user);
         return success(user);
     }

@@ -29,48 +29,5 @@
         ) tmp ORDER BY sort_value asc
     </select>
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="DataScopeResultMap" type="top.tangyh.lamp.authority.entity.auth.ResourceDataScope">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
-        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
-        <result column="data_scope" jdbcType="CHAR" property="dataScope"/>
-        <result column="custom_class" jdbcType="VARCHAR" property="customClass"/>
-        <result column="is_def" jdbcType="BIT" property="isDef"/>
-    </resultMap>
-
-    <sql id="DataScope_R_Column_List">
-        r.id,r.label,r.parent_id,r.sort_value,r.created_by,r.create_time,r.updated_by,r.update_time,
-        r.data_scope, r.custom_class, r.is_def,  r.tree_grade, r.tree_path
-    </sql>
-    <select id="getDataScopeByPath" parameterType="java.util.Map" resultMap="DataScopeResultMap">
-        SELECT
-        <include refid="DataScope_R_Column_List"/>
-        FROM c_menu r
-        LEFT JOIN c_menu menu on menu.id = r.parent_id
-        WHERE menu.path = #{path}
-        and menu.state = true
-        and r.id in
-        <foreach close=")" collection="idList" item="id" open="(" separator=",">
-            #{id}
-        </foreach>
-        ORDER BY r.sort_value ASC LIMIT 1
-    </select>
-
-    <select id="getDefDataScopeByPath" parameterType="java.util.Map" resultMap="DataScopeResultMap">
-        SELECT
-        <include refid="DataScope_R_Column_List"/>
-        FROM c_menu r
-        LEFT JOIN c_menu menu on menu.id = r.parent_id
-        WHERE menu.path = #{path}
-        and menu.state = true
-        and r.is_def = true
-        ORDER BY r.sort_value ASC LIMIT 1
-    </select>
 
 </mapper>

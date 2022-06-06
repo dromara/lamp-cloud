@@ -27,11 +27,11 @@ public enum OrgTypeEnum implements BaseEnum {
     /**
      * 单位
      */
-    COMPANY("10", "单位"),
+    COMPANY("01", "单位"),
     /**
      * 部门
      */
-    DEPT("20", "部门"),
+    DEPT("02", "部门"),
     ;
 
     private String code;

@@ -86,10 +86,13 @@ public class Station extends Entity<Long> implements EchoVO {
     @Excel(name = "描述")
     private String describe;
 
+    @ApiModelProperty(value = "创建者所属机构")
+    @TableField(value = "created_org_id", condition = LIKE)
+    private Long createdOrgId;
 
     @Builder
     public Station(Long id, LocalDateTime createTime, Long createdBy, LocalDateTime updateTime, Long updatedBy,
-                   String name, Long orgId, Boolean state, String describe) {
+                   String name, Long orgId, Boolean state, String describe, Long createdOrgId) {
         this.id = id;
         this.createTime = createTime;
         this.createdBy = createdBy;
@@ -99,6 +102,7 @@ public class Station extends Entity<Long> implements EchoVO {
         this.orgId = orgId;
         this.state = state;
         this.describe = describe;
+        this.createdOrgId = createdOrgId;
     }
 
 }

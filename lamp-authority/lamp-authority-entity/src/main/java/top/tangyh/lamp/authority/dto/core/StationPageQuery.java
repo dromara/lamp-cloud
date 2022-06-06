@@ -56,5 +56,5 @@ public class StationPageQuery implements Serializable {
      */
     @ApiModelProperty(value = "描述")
     private String describe;
-
+    private Long createdOrgId;
 }

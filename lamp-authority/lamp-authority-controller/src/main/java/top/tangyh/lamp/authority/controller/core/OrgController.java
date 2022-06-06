@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperCacheController;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
+import top.tangyh.basic.interfaces.echo.EchoService;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.TreeUtil;
@@ -50,7 +52,9 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @RequestMapping("/org")
 @Api(value = "Org", tags = "组织")
 @PreAuth(replace = "authority:org:")
+@RequiredArgsConstructor
 public class OrgController extends SuperCacheController<OrgService, Long, Org, OrgPageQuery, OrgSaveDTO, OrgUpdateDTO> {
+    private final EchoService echoService;
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
             @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
@@ -111,6 +115,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
                              @RequestParam(value = "state", required = false) Boolean state) {
         List<Org> list = this.baseService.list(Wraps.<Org>lbQ()
                 .like(Org::getLabel, name).eq(Org::getState, state).orderByAsc(Org::getSortValue));
+        echoService.action(list);
         return this.success(TreeUtil.buildTree(list));
     }
 

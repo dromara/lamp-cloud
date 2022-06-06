@@ -7,15 +7,14 @@ import cn.hutool.core.lang.Pair;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.model.cache.CacheKeyBuilder;
-import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.DefValueHelper;
@@ -25,7 +24,6 @@ import top.tangyh.lamp.authority.dao.auth.MenuMapper;
 import top.tangyh.lamp.authority.dto.auth.MenuResourceTreeVO;
 import top.tangyh.lamp.authority.entity.auth.Menu;
 import top.tangyh.lamp.authority.entity.auth.Resource;
-import top.tangyh.lamp.authority.entity.auth.ResourceDataScope;
 import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
 import top.tangyh.lamp.authority.enumeration.auth.ResourceTypeEnum;
 import top.tangyh.lamp.authority.service.auth.MenuService;
@@ -34,7 +32,6 @@ import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.common.cache.auth.MenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.DefValConstants;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +53,6 @@ import static top.tangyh.basic.utils.StrPool.DEF_PARENT_ID;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> implements MenuService {
 
@@ -66,18 +62,6 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
         return new MenuCacheKeyBuilder();
-    }
-
-    @Override
-    public ResourceDataScope getDataScopeByPath(String path, List<Long> idList) {
-        ResourceDataScope dataScopeByPath = null;
-        if (CollUtil.isNotEmpty(idList)) {
-            dataScopeByPath = baseMapper.getDataScopeByPath(path, idList);
-        }
-        if (dataScopeByPath == null) {
-            dataScopeByPath = baseMapper.getDefDataScopeByPath(path);
-        }
-        return dataScopeByPath;
     }
 
     /**
@@ -102,18 +86,18 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<MenuMapper, Menu> imp
         List<Menu> visibleMenu = new ArrayList<>();
 
         List<Long> list = cacheOps.get(userMenuKey, k -> {
-            log.info("userMenuKey={}", userMenuKey.getKey());
+            log.debug("userMenuKey={}", userMenuKey.getKey());
             visibleMenu.addAll(baseMapper.findVisibleMenu(userId));
             return visibleMenu.stream().map(Menu::getId).collect(Collectors.toList());
         });
-        log.info("visibleMenu={}", visibleMenu.size());
+        log.debug("visibleMenu={}", visibleMenu.size());
         if (!visibleMenu.isEmpty()) {
             visibleMenu.forEach(this::setCache);
         } else {
-            log.info("list={}", list.size());
+            log.debug("list={}", list.size());
             visibleMenu.addAll(findByIds(list, this::listByIds));
         }
-        log.info("visibleMenu2={}", visibleMenu.size());
+        log.debug("visibleMenu2={}", visibleMenu.size());
         return menuListFilterGroup(group, visibleMenu);
     }
 

@@ -1,7 +1,6 @@
 package top.tangyh.lamp.authority.service.auth;
 
 import top.tangyh.basic.base.service.SuperCacheService;
-import top.tangyh.lamp.model.vo.query.ResourceQueryDTO;
 import top.tangyh.lamp.authority.entity.auth.Resource;
 
 import java.util.List;
@@ -16,15 +15,6 @@ import java.util.List;
  * @date 2019-07-03
  */
 public interface ResourceService extends SuperCacheService<Resource> {
-
-    /**
-     * 查询 拥有的资源
-     *
-     * @param resource 查询条件
-     * @return 资源
-     */
-    @Deprecated
-    List<Resource> findVisibleResource(ResourceQueryDTO resource);
 
     /**
      * 根据ID删除

@@ -13,12 +13,13 @@
         <result column="org_id" jdbcType="BIGINT" property="orgId"/>
         <result column="state" jdbcType="BIT" property="state"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
+        <result column="created_org_id" jdbcType="BIGINT" property="createdOrgId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,create_time,created_by,update_time,updated_by,
-        name, org_id, state, describe_
+        name, org_id, state, describe_, created_org_id
     </sql>
 
 </mapper>

@@ -1,23 +1,6 @@
 package top.tangyh.lamp.oauth.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import top.tangyh.basic.annotation.user.LoginUser;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.dozer.DozerUtils;
-import top.tangyh.lamp.model.entity.base.SysUser;
-import top.tangyh.basic.utils.CollHelper;
-import top.tangyh.basic.utils.StrPool;
-import top.tangyh.basic.utils.TreeUtil;
-import top.tangyh.lamp.authority.dto.auth.AuthorityResourceDTO;
-import top.tangyh.lamp.model.vo.query.ResourceQueryDTO;
-import top.tangyh.lamp.authority.dto.auth.RouterMeta;
-import top.tangyh.lamp.authority.dto.auth.VueRouter;
-import top.tangyh.lamp.authority.entity.auth.Menu;
-import top.tangyh.lamp.authority.entity.auth.Resource;
-import top.tangyh.lamp.authority.entity.auth.Role;
-import top.tangyh.lamp.authority.service.auth.MenuService;
-import top.tangyh.lamp.authority.service.auth.ResourceService;
-import top.tangyh.lamp.authority.service.auth.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,7 +11,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+import top.tangyh.basic.annotation.user.LoginUser;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.dozer.DozerUtils;
+import top.tangyh.basic.utils.CollHelper;
+import top.tangyh.basic.utils.StrPool;
+import top.tangyh.basic.utils.TreeUtil;
+import top.tangyh.lamp.authority.dto.auth.AuthorityResourceDTO;
+import top.tangyh.lamp.authority.dto.auth.RouterMeta;
+import top.tangyh.lamp.authority.dto.auth.VueRouter;
+import top.tangyh.lamp.authority.entity.auth.Menu;
+import top.tangyh.lamp.authority.entity.auth.Role;
+import top.tangyh.lamp.authority.service.auth.MenuService;
+import top.tangyh.lamp.authority.service.auth.RoleService;
+import top.tangyh.lamp.model.entity.base.SysResource;
+import top.tangyh.lamp.model.entity.base.SysUser;
+import top.tangyh.lamp.model.vo.query.ResourceQueryDTO;
 import top.tangyh.lamp.security.properties.SecurityProperties;
+import top.tangyh.lamp.userinfo.service.ResourceHelperService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @Api(value = "OauthMenuResource", tags = "资源")
 public class OauthMenuResourceController {
     private final DozerUtils dozer;
-    private final ResourceService resourceService;
+    private final ResourceHelperService resourceHelperService;
     private final MenuService menuService;
     private final RoleService roleService;
     private final SecurityProperties securityProperties;
@@ -76,11 +76,11 @@ public class OauthMenuResourceController {
         if (resource.getUserId() == null) {
             resource.setUserId(sysUser.getId());
         }
-        List<Resource> resourceList = resourceService.findVisibleResource(resource);
+        List<SysResource> resourceList = resourceHelperService.findVisibleResource(resource);
         List<Role> roleList = roleService.findRoleByUserId(resource.getUserId());
         return R.success(AuthorityResourceDTO.builder()
                 .roleList(roleList.parallelStream().filter(ObjectUtil::isNotEmpty).map(Role::getCode).distinct().collect(Collectors.toList()))
-                .resourceList(CollHelper.split(resourceList, Resource::getCode, StrPool.SEMICOLON))
+                .resourceList(CollHelper.split(resourceList, SysResource::getCode, StrPool.SEMICOLON))
                 .caseSensitive(securityProperties.getCaseSensitive())
                 .enabled(securityProperties.getEnabled())
                 .build());

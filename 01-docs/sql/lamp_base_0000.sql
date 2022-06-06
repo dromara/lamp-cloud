@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 10.10.10.169
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
- Source Server Version : 80022
- Source Host           : 10.10.10.169:3306
+ Source Server Version : 50722
+ Source Host           : 127.0.0.1:3306
  Source Schema         : lamp_base_0000
 
  Target Server Type    : MySQL
- Target Server Version : 80022
+ Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 27/01/2022 15:45:00
+ Date: 05/06/2022 23:35:17
 */
 
 SET NAMES utf8mb4;
@@ -22,28 +22,28 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_appendix`;
 CREATE TABLE `c_appendix` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `biz_id` bigint NOT NULL DEFAULT '0' COMMENT '业务id',
-  `biz_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '业务类型',
-  `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件类型',
-  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '桶',
-  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件相对地址',
-  `original_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '原始文件名',
-  `content_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件类型',
-  `size` bigint DEFAULT '0' COMMENT '大小',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `biz_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '业务id',
+  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
+  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
+  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
+  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
+  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
+  `size` bigint(20) DEFAULT '0' COMMENT '大小',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `created_by` bigint NOT NULL COMMENT '创建人',
+  `created_by` bigint(20) NOT NULL COMMENT '创建人',
   `update_time` datetime NOT NULL COMMENT '最后修改时间',
-  `updated_by` bigint NOT NULL COMMENT '最后修改人',
+  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='业务附件';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='业务附件';
 
 -- ----------------------------
 -- Table structure for c_application
 -- ----------------------------
 DROP TABLE IF EXISTS `c_application`;
 CREATE TABLE `c_application` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `client_id` varchar(24) DEFAULT '' COMMENT '客户端ID',
   `client_secret` varchar(32) DEFAULT '' COMMENT '客户端密码',
   `website` varchar(100) DEFAULT '' COMMENT '官网',
@@ -52,13 +52,13 @@ CREATE TABLE `c_application` (
   `app_type` varchar(10) DEFAULT '' COMMENT '类型 \n#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}',
   `describe_` varchar(200) DEFAULT '' COMMENT '备注',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_client_id` (`client_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用';
 
 -- ----------------------------
 -- Records of c_application
@@ -73,75 +73,49 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_area`;
 CREATE TABLE `c_area` (
-  `id` bigint NOT NULL COMMENT 'id',
+  `id` bigint(20) NOT NULL COMMENT 'id',
   `code` varchar(64) NOT NULL COMMENT '编码',
   `label` varchar(255) NOT NULL COMMENT '名称',
   `full_name` varchar(255) DEFAULT '' COMMENT '全名',
-  `sort_value` int DEFAULT '1' COMMENT '排序',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `longitude` varchar(255) DEFAULT '' COMMENT '经度',
   `latitude` varchar(255) DEFAULT '' COMMENT '维度',
-  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.AREA_LEVEL)',
+  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)',
   `source_` varchar(255) DEFAULT '' COMMENT '数据来源',
   `state` bit(1) DEFAULT b'0' COMMENT '状态',
-  `parent_id` bigint DEFAULT '0' COMMENT '父ID',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_code` (`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='地区表';
-
--- ----------------------------
--- Table structure for c_dict
--- ----------------------------
-DROP TABLE IF EXISTS `c_dict`;
-CREATE TABLE `c_dict` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `parent_id` bigint DEFAULT NULL COMMENT '字典ID',
-  `key` varchar(255) NOT NULL COMMENT '字典标识',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '字典名称',
-  `item_key` varchar(255) NOT NULL COMMENT '字典项标识',
-  `item_name` varchar(255) NOT NULL COMMENT '字典项名称',
-  `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `describe_` varchar(255) DEFAULT '' COMMENT '描述',
-  `sort_value` int DEFAULT '1' COMMENT '排序',
-  `icon` varchar(255) DEFAULT '' COMMENT '图标',
-  `css_style` varchar(255) DEFAULT '' COMMENT 'css样式',
-  `css_class` varchar(255) DEFAULT '' COMMENT 'css class',
-  `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_type_code` (`key`,`item_key`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
 -- ----------------------------
 -- Table structure for c_dictionary
 -- ----------------------------
 DROP TABLE IF EXISTS `c_dictionary`;
 CREATE TABLE `c_dictionary` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `type` varchar(255) NOT NULL COMMENT '类型',
   `label` varchar(255) NOT NULL DEFAULT '' COMMENT '类型标签',
   `code` varchar(64) NOT NULL COMMENT '编码',
   `name` varchar(64) NOT NULL COMMENT '名称',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
-  `sort_value` int DEFAULT '1' COMMENT '排序',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '图标',
   `css_style` varchar(255) DEFAULT '' COMMENT 'css样式',
   `css_class` varchar(255) DEFAULT '' COMMENT 'css class',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_type_code` (`type`,`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
 
 -- ----------------------------
 -- Records of c_dictionary
@@ -242,37 +216,31 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_file`;
 CREATE TABLE `c_file` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `biz_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '业务类型',
-  `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件类型',
-  `storage_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '存储类型\nLOCAL FAST_DFS MIN_IO ALI \n',
-  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '桶',
-  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件相对地址',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件访问地址',
-  `unique_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '唯一文件名',
-  `file_md5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件md5',
-  `original_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '原始文件名',
-  `content_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '文件类型',
-  `suffix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '后缀',
-  `size` bigint DEFAULT '0' COMMENT '大小',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
+  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
+  `storage_type` varchar(255) DEFAULT NULL COMMENT '存储类型\nLOCAL FAST_DFS MIN_IO ALI \n',
+  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
+  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
+  `url` varchar(255) DEFAULT NULL COMMENT '文件访问地址',
+  `unique_file_name` varchar(255) DEFAULT '' COMMENT '唯一文件名',
+  `file_md5` varchar(255) DEFAULT NULL COMMENT '文件md5',
+  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
+  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
+  `suffix` varchar(255) DEFAULT '' COMMENT '后缀',
+  `size` bigint(20) DEFAULT '0' COMMENT '大小',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `created_by` bigint NOT NULL COMMENT '创建人',
+  `created_by` bigint(20) NOT NULL COMMENT '创建人',
   `update_time` datetime NOT NULL COMMENT '最后修改时间',
-  `updated_by` bigint NOT NULL COMMENT '最后修改人',
+  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='增量文件上传日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='增量文件上传日志';
 
 -- ----------------------------
 -- Records of c_file
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_file` VALUES (1417297073723670528, '附件管理', 'DOC', 'MIN_IO', 'dev', '0000/附件管理/2021/07/20/5e0a46d3cf2047889af3bae176482e7e.xls', '0000/附件管理/2021/07/20/5e0a46d3cf2047889af3bae176482e7e.xls', '5e0a46d3cf2047889af3bae176482e7e.xls', NULL, '【姓名】_【身份证号】的专项附加扣除信息.xls', 'application/vnd.ms-excel', 'xls', 30720, '2021-07-20 09:35:29', 3, '2021-07-20 09:35:29', 3);
-INSERT INTO `c_file` VALUES (1417297075200065536, '附件管理', 'IMAGE', 'MIN_IO', 'dev', '0000/附件管理/2021/07/20/128feb4caed147429e3b0ffd1d97b2e9.jpg', '0000/附件管理/2021/07/20/128feb4caed147429e3b0ffd1d97b2e9.jpg', '128feb4caed147429e3b0ffd1d97b2e9.jpg', NULL, '步骤条.jpg', 'image/jpeg', 'jpg', 386416, '2021-07-20 09:35:29', 3, '2021-07-20 09:35:29', 3);
-INSERT INTO `c_file` VALUES (1424744338084069376, 'EXTEND_MSG_CONTENT', 'IMAGE', 'MIN_IO', 'public', '0000/EXTEND_MSG_CONTENT/2021/08/09/3f3b42c8454d436a9a8595aee0869ada.png', 'https://static.tangyh.top/0000/EXTEND_MSG_CONTENT/2021/08/09/3f3b42c8454d436a9a8595aee0869ada.png', '3f3b42c8454d436a9a8595aee0869ada.png', NULL, '微信截图_20210708184102.png', 'image/png', 'png', 66490, '2021-08-09 22:48:15', 2, '2021-08-09 22:48:15', 2);
-INSERT INTO `c_file` VALUES (1424745864479375360, 'EXTEND_MSG_CONTENT', 'IMAGE', 'MIN_IO', 'public', '0000/EXTEND_MSG_CONTENT/2021/08/09/129dd3c0a08f447f858c53ee5dacbee9.png', 'https://static.tangyh.top/0000/EXTEND_MSG_CONTENT/2021/08/09/129dd3c0a08f447f858c53ee5dacbee9.png', '129dd3c0a08f447f858c53ee5dacbee9.png', NULL, '微信截图_20210708184102.png', 'image/png', 'png', 66490, '2021-08-09 22:54:19', 2, '2021-08-09 22:54:19', 2);
-INSERT INTO `c_file` VALUES (1452580038783270912, 'BASE_FILE', 'DOC', 'MIN_IO', 'dev', '0000/BASE_FILE/2021/10/25/2e568f26a7be44a2bccdc4627bbc3c14.xls', 'https://static.tangyh.top/dev/0000/BASE_FILE/2021/10/25/2e568f26a7be44a2bccdc4627bbc3c14.xls', '2e568f26a7be44a2bccdc4627bbc3c14.xls', NULL, '数据字典模板0.xls', 'application/vnd.ms-excel', 'xls', 22016, '2021-10-25 18:17:24', 2, '2021-10-25 18:17:24', 2);
-INSERT INTO `c_file` VALUES (1452580215111811072, 'BASE_FILE', 'DOC', 'MIN_IO', 'dev', '0000/BASE_FILE/2021/10/25/16fc64e4644f4cec9418ce788cf7369e.png', 'https://static.tangyh.top/dev/0000/BASE_FILE/2021/10/25/16fc64e4644f4cec9418ce788cf7369e.png', '16fc64e4644f4cec9418ce788cf7369e.png', NULL, 'test.png', 'application/vnd.ms-excel', 'png', 22528, '2021-10-25 18:18:06', 2, '2021-10-25 18:18:06', 2);
-INSERT INTO `c_file` VALUES (1455157950074060800, '123', 'DOC', 'LOCAL', '123', '0000/123/2021/11/01/de42e2de22a54e79bdab360bbf5e3909.xlsx', 'http://127.0.0.1/file/123/0000/123/2021/11/01/de42e2de22a54e79bdab360bbf5e3909.xlsx', 'de42e2de22a54e79bdab360bbf5e3909.xlsx', NULL, '20210714.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx', 54869, '2021-11-01 21:01:05', 2, '2021-11-01 21:01:05', 2);
+INSERT INTO `c_file` VALUES (1531859537911349248, 'BASE_FILE', 'DOC', 'LOCAL', 'dev', '0000/BASE_FILE/2022/06/01/0bd3aee387bb49f9b17bd429145cda87.xlsx', 'http://127.0.0.1/file/dev/0000/BASE_FILE/2022/06/01/0bd3aee387bb49f9b17bd429145cda87.xlsx', '0bd3aee387bb49f9b17bd429145cda87.xlsx', NULL, '用户列表.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx', 13663, '2022-06-01 12:45:49', 2, '2022-06-01 12:45:49', 2);
 COMMIT;
 
 -- ----------------------------
@@ -280,9 +248,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_login_log`;
 CREATE TABLE `c_login_log` (
-  `id` bigint NOT NULL COMMENT '主键',
+  `id` bigint(20) NOT NULL COMMENT '主键',
   `request_ip` varchar(50) DEFAULT '' COMMENT '登录IP',
-  `user_id` bigint DEFAULT NULL COMMENT '登录人ID',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '登录人ID',
   `user_name` varchar(50) DEFAULT '' COMMENT '登录人姓名',
   `account` varchar(30) DEFAULT '' COMMENT '登录人账号',
   `description` varchar(255) DEFAULT '' COMMENT '登录描述',
@@ -293,40 +261,40 @@ CREATE TABLE `c_login_log` (
   `operating_system` varchar(255) DEFAULT '' COMMENT '操作系统',
   `location` varchar(50) DEFAULT '' COMMENT '登录地点',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
 
 -- ----------------------------
 -- Table structure for c_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `c_menu`;
 CREATE TABLE `c_menu` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `label` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
-  `resource_type` char(2) DEFAULT NULL COMMENT '[20-菜单 60-数据]@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS,dictType = DictionaryType.Tenant.RESOURCE_TYPE)',
-  `tree_grade` int DEFAULT NULL COMMENT '树层级',
-  `tree_path` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '树路径',
+  `resource_type` char(2) DEFAULT NULL COMMENT '[20-菜单 60-数据];\n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS,dictType = EchoDictType.RESOURCE_TYPE)',
+  `tree_grade` int(11) DEFAULT NULL COMMENT '树层级',
+  `tree_path` varchar(512) DEFAULT NULL COMMENT '树路径',
   `describe_` varchar(200) DEFAULT '' COMMENT '描述',
   `is_general` bit(1) DEFAULT b'0' COMMENT '通用菜单 \nTrue表示无需分配所有人就可以访问的',
-  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '路径',
+  `path` varchar(255) DEFAULT NULL COMMENT '路径',
   `component` varchar(255) DEFAULT '' COMMENT '组件',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
-  `sort_value` int DEFAULT '1' COMMENT '排序',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
   `group_` varchar(20) DEFAULT '' COMMENT '分组',
-  `data_scope` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]',
-  `custom_class` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '实现类',
+  `data_scope` char(2) DEFAULT NULL COMMENT '数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]',
+  `custom_class` varchar(255) DEFAULT NULL COMMENT '实现类',
   `is_def` bit(1) DEFAULT b'0' COMMENT '是否默认',
-  `parent_id` bigint DEFAULT '0' COMMENT '父级菜单ID',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父级菜单ID',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_path` (`path`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='菜单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
 
 -- ----------------------------
 -- Records of c_menu
@@ -401,12 +369,12 @@ INSERT INTO `c_menu` VALUES (1486201715840516096, '查看本部门及子部门',
 INSERT INTO `c_menu` VALUES (1486201804327747584, '查看本部门', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 5, '', '', '05', NULL, b'0', 132, b'1', 2, '2022-01-26 12:58:17', 2, '2022-01-26 12:58:17');
 INSERT INTO `c_menu` VALUES (1486201872350969856, '查看个人', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 6, '', '', '06', NULL, b'1', 132, b'1', 2, '2022-01-26 12:58:33', 2, '2022-01-26 12:58:33');
 INSERT INTO `c_menu` VALUES (1486201971705643008, '查看自定义数据', '60', 2, ',30,132,', '', b'0', NULL, '', b'1', 7, '', '', '07', 'DATA_SCOPE_MY_TEST', b'0', 132, b'1', 2, '2022-01-26 12:58:57', 2, '2022-01-26 12:59:07');
-INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486619304207056896, '查看全部', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 1, '', '', '01', NULL, b'0', 131, b'1', 2, '2022-01-27 16:37:17', 2, '2022-01-27 16:37:17');
-INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486619392048365568, '查看本单位及子单位', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 2, '', '', '02', NULL, b'0', 131, b'1', 2, '2022-01-27 16:37:38', 2, '2022-01-27 16:37:38');
-INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620313587286016, '查看本单位', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 3, '', '', '03', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:17', 2, '2022-01-27 16:41:17');
-INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620425789112320, '查看本部门及子部门', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 4, '', '', '04', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:44', 2, '2022-01-27 16:41:44');
-INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620477806870528, '查看本部门', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 5, '', '', '05', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:57', 2, '2022-01-27 16:41:57');
-INSERT INTO `c_menu`(`id`, `label`, `resource_type`, `tree_grade`, `tree_path`, `describe_`, `is_general`, `path`, `component`, `state`, `sort_value`, `icon`, `group_`, `data_scope`, `custom_class`, `is_def`, `parent_id`, `readonly_`, `created_by`, `create_time`, `updated_by`, `update_time`) VALUES (1486620546081751040, '查看个人', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 6, '', '', '06', NULL, b'1', 131, b'1', 2, '2022-01-27 16:42:13', 2, '2022-01-27 16:42:13');
+INSERT INTO `c_menu` VALUES (1486619304207056896, '查看全部', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 1, '', '', '01', NULL, b'0', 131, b'1', 2, '2022-01-27 16:37:17', 2, '2022-01-27 16:37:17');
+INSERT INTO `c_menu` VALUES (1486619392048365568, '查看本单位及子单位', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 2, '', '', '02', NULL, b'0', 131, b'1', 2, '2022-01-27 16:37:38', 2, '2022-01-27 16:37:38');
+INSERT INTO `c_menu` VALUES (1486620313587286016, '查看本单位', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 3, '', '', '03', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:17', 2, '2022-01-27 16:41:17');
+INSERT INTO `c_menu` VALUES (1486620425789112320, '查看本部门及子部门', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 4, '', '', '04', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:44', 2, '2022-01-27 16:41:44');
+INSERT INTO `c_menu` VALUES (1486620477806870528, '查看本部门', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 5, '', '', '05', NULL, b'0', 131, b'1', 2, '2022-01-27 16:41:57', 2, '2022-01-27 16:41:57');
+INSERT INTO `c_menu` VALUES (1486620546081751040, '查看个人', '60', 2, ',30,131,', '', b'0', NULL, '', b'1', 6, '', '', '06', NULL, b'1', 131, b'1', 2, '2022-01-27 16:42:13', 2, '2022-01-27 16:42:13');
 COMMIT;
 
 -- ----------------------------
@@ -414,7 +382,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_opt_log`;
 CREATE TABLE `c_opt_log` (
-  `id` bigint NOT NULL COMMENT '主键',
+  `id` bigint(20) NOT NULL COMMENT '主键',
   `request_ip` varchar(50) DEFAULT '' COMMENT '操作IP',
   `type` varchar(5) DEFAULT '' COMMENT '日志类型 \n#LogType{OPT:操作类型;EX:异常类型}',
   `user_name` varchar(50) DEFAULT '' COMMENT '操作人',
@@ -425,49 +393,49 @@ CREATE TABLE `c_opt_log` (
   `http_method` varchar(10) DEFAULT '' COMMENT '请求类型 \n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
   `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
   `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
-  `consuming_time` bigint DEFAULT NULL COMMENT '消耗时间',
+  `consuming_time` bigint(20) DEFAULT NULL COMMENT '消耗时间',
   `ua` varchar(500) DEFAULT '' COMMENT '浏览器',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志';
 
 -- ----------------------------
 -- Table structure for c_opt_log_ext
 -- ----------------------------
 DROP TABLE IF EXISTS `c_opt_log_ext`;
 CREATE TABLE `c_opt_log_ext` (
-  `id` bigint NOT NULL COMMENT '主键',
+  `id` bigint(20) NOT NULL COMMENT '主键',
   `params` longtext COMMENT '请求参数',
   `result` longtext COMMENT '返回值',
   `ex_detail` longtext COMMENT '异常描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志扩展';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志扩展';
 
 -- ----------------------------
 -- Table structure for c_org
 -- ----------------------------
 DROP TABLE IF EXISTS `c_org`;
 CREATE TABLE `c_org` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `label` varchar(255) NOT NULL COMMENT '名称',
-  `type_` char(2) DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.ORG_TYPE)',
+  `type_` char(2) DEFAULT '' COMMENT '类型 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)',
   `abbreviation` varchar(255) DEFAULT '' COMMENT '简称',
-  `parent_id` bigint DEFAULT '0' COMMENT '父ID',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
   `tree_path` varchar(255) DEFAULT '' COMMENT '树结构',
-  `sort_value` int DEFAULT '1' COMMENT '排序',
+  `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '修改人',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_name` (`label`),
   FULLTEXT KEY `fu_path` (`tree_path`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='组织';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
 -- ----------------------------
 -- Records of c_org
@@ -478,6 +446,11 @@ INSERT INTO `c_org` VALUES (1415864548283383808, '1', '01', '1', 0, ',', 1, b'1'
 INSERT INTO `c_org` VALUES (1415864576410386432, '1-1', '02', '', 1415864548283383808, ',1415864548283383808,', 1, b'1', '', '2021-07-16 10:43:15', 2, '2021-07-16 10:43:15', 2);
 INSERT INTO `c_org` VALUES (1415864608656195584, '1-2', '02', '', 1415864548283383808, ',1415864548283383808,', 1, b'1', '', '2021-07-16 10:43:23', 2, '2021-07-16 10:43:23', 2);
 INSERT INTO `c_org` VALUES (1415864637190045696, '1-1-1', '02', '', 1415864576410386432, ',1415864548283383808,1415864576410386432,', 1, b'1', '', '2021-07-16 10:43:30', 2, '2021-07-16 10:43:30', 2);
+INSERT INTO `c_org` VALUES (1533406176778125312, '办公室', '02', '', 1, ',1,', 1, b'1', '', '2022-06-05 19:11:37', 2, '2022-06-05 19:11:37', 2);
+INSERT INTO `c_org` VALUES (1533406241466875904, '综合部', '02', '', 1, ',1,', 2, b'1', '', '2022-06-05 19:11:52', 2, '2022-06-05 19:11:52', 2);
+INSERT INTO `c_org` VALUES (1533406367992250368, '最后集团贵阳分公司', '01', '', 1, ',1,', 10, b'1', '', '2022-06-05 19:12:22', 2, '2022-06-05 21:41:33', 2);
+INSERT INTO `c_org` VALUES (1533438004188676096, '研发部', '02', '', 1533406367992250368, ',1533406367992250368,1,', 1, b'1', '', '2022-06-05 21:18:05', 2, '2022-06-05 21:18:05', 2);
+INSERT INTO `c_org` VALUES (1533438039630544896, '产品部', '02', '', 1533406367992250368, ',1533406367992250368,1,', 2, b'1', '', '2022-06-05 21:18:13', 2, '2022-06-05 21:18:13', 2);
 COMMIT;
 
 -- ----------------------------
@@ -485,20 +458,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_parameter`;
 CREATE TABLE `c_parameter` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `key_` varchar(255) NOT NULL COMMENT '参数键',
   `value` varchar(255) NOT NULL COMMENT '参数值',
   `name` varchar(255) NOT NULL COMMENT '参数名称',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_key` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='参数配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数配置';
 
 -- ----------------------------
 -- Records of c_parameter
@@ -512,19 +485,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_resource`;
 CREATE TABLE `c_resource` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `code` varchar(500) DEFAULT '' COMMENT '编码',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `menu_id` bigint DEFAULT NULL COMMENT '菜单\n#c_menu',
+  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单\n#c_menu',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `readonly_` bit(1) DEFAULT b'1' COMMENT '内置',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_code` (`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='资源';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
 
 -- ----------------------------
 -- Records of c_resource
@@ -627,20 +600,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_role`;
 CREATE TABLE `c_role` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `category` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色类别;[10-功能角色 20-桌面角色 30-数据角色]',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `category` char(2) DEFAULT NULL COMMENT '角色类别;[10-功能角色 20-桌面角色 30-数据角色]',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
   `code` varchar(20) DEFAULT '' COMMENT '编码',
   `describe_` varchar(100) DEFAULT '' COMMENT '描述',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly_` bit(1) DEFAULT b'0' COMMENT '内置角色',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_code` (`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
 -- Records of c_role
@@ -658,15 +631,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_role_authority`;
 CREATE TABLE `c_role_authority` (
-  `id` bigint NOT NULL COMMENT '主键',
-  `authority_id` bigint NOT NULL COMMENT '资源id \n#c_resource #c_menu',
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `authority_id` bigint(20) NOT NULL COMMENT '资源id \n#c_resource #c_menu',
   `authority_type` varchar(10) NOT NULL COMMENT '权限类型 \n#AuthorizeType{MENU:菜单;RESOURCE:资源;}',
-  `role_id` bigint NOT NULL COMMENT '角色id \n#c_role',
+  `role_id` bigint(20) NOT NULL COMMENT '角色id \n#c_role',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_role_authority` (`authority_id`,`authority_type`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色的资源';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色的资源';
 
 -- ----------------------------
 -- Records of c_role_authority
@@ -1056,9 +1029,11 @@ INSERT INTO `c_role_authority` VALUES (1486319826245779456, 30, 'MENU', 4, '2022
 INSERT INTO `c_role_authority` VALUES (1486321523068239872, 132, 'MENU', 0, '2022-01-26 20:54:00', 2);
 INSERT INTO `c_role_authority` VALUES (1486321523076628480, 1486201050779090944, 'MENU', 0, '2022-01-26 20:54:00', 2);
 INSERT INTO `c_role_authority` VALUES (1486321523085017088, 30, 'MENU', 0, '2022-01-26 20:54:00', 2);
-INSERT INTO `c_role_authority` VALUES (1486566765113638912, 1486201491877265408, 'MENU', 1486215142227050496, '2022-01-27 13:08:31', 2);
-INSERT INTO `c_role_authority` VALUES (1486566765113638913, 132, 'MENU', 1486215142227050496, '2022-01-27 13:08:31', 2);
-INSERT INTO `c_role_authority` VALUES (1486566765113638914, 30, 'MENU', 1486215142227050496, '2022-01-27 13:08:31', 2);
+INSERT INTO `c_role_authority` VALUES (1533464117128462336, 1486201491877265408, 'MENU', 1486215142227050496, '2022-06-05 23:01:51', 2);
+INSERT INTO `c_role_authority` VALUES (1533464117132656640, 131, 'MENU', 1486215142227050496, '2022-06-05 23:01:51', 2);
+INSERT INTO `c_role_authority` VALUES (1533464117132656641, 1486620477806870528, 'MENU', 1486215142227050496, '2022-06-05 23:01:51', 2);
+INSERT INTO `c_role_authority` VALUES (1533464117136850944, 132, 'MENU', 1486215142227050496, '2022-06-05 23:01:51', 2);
+INSERT INTO `c_role_authority` VALUES (1533464117136850945, 30, 'MENU', 1486215142227050496, '2022-06-05 23:01:51', 2);
 COMMIT;
 
 -- ----------------------------
@@ -1066,39 +1041,42 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_role_org`;
 CREATE TABLE `c_role_org` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `role_id` bigint NOT NULL COMMENT '角色\n#c_role',
-  `org_id` bigint NOT NULL COMMENT '部门\n#c_org',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色\n#c_role',
+  `org_id` bigint(20) NOT NULL COMMENT '部门\n#c_org',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_role_org` (`org_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色组织关系';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色组织关系';
 
 -- ----------------------------
 -- Table structure for c_station
 -- ----------------------------
 DROP TABLE IF EXISTS `c_station`;
 CREATE TABLE `c_station` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-  `org_id` bigint DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `describe_` varchar(255) DEFAULT '' COMMENT '描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '修改人',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `created_org_id` bigint(20) DEFAULT NULL COMMENT '创建者所属机构',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='岗位';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
 -- Records of c_station
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_station` VALUES (1, '总经理', 1, b'1', '', '2020-11-23 00:06:20', 1, '2020-11-23 00:06:25', 1);
-INSERT INTO `c_station` VALUES (1415864686808662016, '1-1', 1415864576410386432, b'1', '', '2021-07-16 10:43:41', 2, '2021-07-16 10:43:41', 2);
+INSERT INTO `c_station` VALUES (1, '总经理', 1, b'1', '', '2020-11-23 00:06:20', 1, '2020-11-23 00:06:25', 1, 1);
+INSERT INTO `c_station` VALUES (1415864686808662016, '1-1', 1415864576410386432, b'1', '', '2021-07-16 10:43:41', 2, '2021-07-16 10:43:41', 2, 1);
+INSERT INTO `c_station` VALUES (1533445633120141312, 'general创建的', 1415864608656195584, b'1', '', '2022-06-05 21:48:24', 4, '2022-06-05 21:48:24', 4, 1415864608656195584);
+INSERT INTO `c_station` VALUES (1533445687008559104, 'general创建的2', 1, b'1', '', '2022-06-05 21:48:36', 4, '2022-06-05 21:48:36', 4, 1415864608656195584);
 COMMIT;
 
 -- ----------------------------
@@ -1106,44 +1084,45 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_user`;
 CREATE TABLE `c_user` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
   `account` varchar(30) NOT NULL DEFAULT '' COMMENT '账号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
-  `org_id` bigint DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
-  `station_id` bigint DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS)',
+  `org_id` bigint(20) DEFAULT NULL COMMENT '组织\n#c_org\n@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)',
+  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位\n#c_station\n@Echo(api = STATION_ID_CLASS)',
   `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '内置',
   `email` varchar(255) DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
-  `sex` varchar(1) DEFAULT '' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
+  `sex` varchar(1) DEFAULT 'M' COMMENT '性别 \n#Sex{W:女;M:男;N:未知}',
   `state` bit(1) DEFAULT b'1' COMMENT '状态',
   `avatar` varchar(255) DEFAULT '' COMMENT '头像',
-  `nation` char(2) DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.NATION)',
-  `education` char(2) DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.EDUCATION)',
-  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = DictionaryType.POSITION_STATUS)',
+  `nation` char(2) DEFAULT '' COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)',
+  `education` char(2) DEFAULT '' COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)',
+  `position_status` char(2) DEFAULT '' COMMENT '职位状态 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)',
   `work_describe` varchar(255) DEFAULT '' COMMENT '工作描述',
   `password_error_last_time` datetime DEFAULT NULL COMMENT '最后一次输错密码时间',
-  `password_error_num` int DEFAULT '0' COMMENT '密码错误次数',
+  `password_error_num` int(11) DEFAULT '0' COMMENT '密码错误次数',
   `password_expire_time` datetime DEFAULT NULL COMMENT '密码过期时间',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
   `salt` varchar(20) NOT NULL DEFAULT '' COMMENT '密码盐',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人id',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `created_org_id` bigint(20) DEFAULT NULL COMMENT '创建者所属机构',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_account` (`account`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------
 -- Records of c_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_user` VALUES (1, 'lampAdmin', '内置管理员', 1, 1, b'1', '15217781234@qq.com', '15217781234', 'M', b'1', '17e420c250804efe904a09a33796d5a10.jpg', '01', '01', '01', '不想上班!', '2020-11-24 19:08:45', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-24 19:08:45', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15');
-INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1, 1, b'0', '5', '3', 'M', b'1', '20180414165815.jpg', '02', '04', '03', '不想上班!', '2022-01-27 12:18:09', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-01-27 12:18:09', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:25:23');
-INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', 'W', b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2021-08-13 00:11:18', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-08-13 00:11:18', 1, '2020-11-22 23:03:15', 3, '2021-05-24 20:22:34');
-INSERT INTO `c_user` VALUES (4, 'general', '普通管理员', 1415864637190045696, 1, b'0', '', '', 'N', b'1', '', '01', '01', '01', '不想上班!', '2021-08-13 00:15:14', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2021-08-13 00:15:14', 1, '2020-11-22 23:03:15', 5, '2022-01-27 12:59:24');
-INSERT INTO `c_user` VALUES (5, 'normal', '普通用户', 1415864576410386432, 1, b'0', '', '', 'M', b'1', '', '02', '02', '02', '不想上班!', '2022-01-27 12:21:39', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-01-27 12:21:39', 1, '2020-11-22 23:03:15', 5, '2022-01-27 12:59:43');
+INSERT INTO `c_user` VALUES (1, 'lampAdmin', '内置管理员', 1, 1, b'1', '15217781234@qq.com', '15217781234', NULL, b'1', '17e420c250804efe904a09a33796d5a10.jpg', '01', '01', '01', '不想上班!', '2020-11-24 19:08:45', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2020-11-24 19:08:45', 1, '2020-11-22 23:03:15', 1, '2020-11-22 23:03:15', 1);
+INSERT INTO `c_user` VALUES (2, 'lamp', '超级管理员', 1533406176778125312, 1, b'0', '5', '3', '', b'1', '20180414165815.jpg', '02', '04', '03', '不想上班!', '2022-06-05 19:06:23', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-06-05 19:06:23', 1, '2020-11-22 23:03:15', 2, '2022-06-05 23:02:13', 1);
+INSERT INTO `c_user` VALUES (3, 'lamp_pt', '平台管理员', 1, 1, b'0', '2', '3', NULL, b'1', 'a3b10296862e40edb811418d64455d00.jpeg', '05', '06', '02', '不想上班!', '2022-06-01 12:46:59', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-06-01 12:46:59', 1, '2020-11-22 23:03:15', 2, '2022-06-05 21:46:27', 1);
+INSERT INTO `c_user` VALUES (4, 'general', '普通管理员', 1415864608656195584, 1, b'0', '', '', 'N', b'1', '', '01', '01', '01', '不想上班!', '2022-06-05 21:47:47', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-06-05 21:47:47', 1, '2020-11-22 23:03:15', 2, '2022-06-05 21:46:08', 1);
+INSERT INTO `c_user` VALUES (5, 'normal', '普通用户', 1533438004188676096, 1, b'0', '', '', 'M', b'1', '', '02', '02', '02', '不想上班!', '2022-01-27 12:21:39', 0, NULL, '0d70cc96860681487869a0304139d3410044298da40fe5b2d7acff76f83d79c8', 'ki5pj8dv44i14yu4nbhh', '2022-01-27 12:21:39', 1, '2020-11-22 23:03:15', 2, '2022-06-05 21:46:20', 1);
 COMMIT;
 
 -- ----------------------------
@@ -1151,14 +1130,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_user_role`;
 CREATE TABLE `c_user_role` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `role_id` bigint NOT NULL COMMENT '角色\n#c_role',
-  `user_id` bigint NOT NULL COMMENT '用户\n#c_user',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `id` bigint(20) NOT NULL COMMENT 'ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色\n#c_role',
+  `user_id` bigint(20) NOT NULL COMMENT '用户\n#c_user',
+  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_user_role` (`role_id`,`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色分配\n账号角色绑定';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色分配\n账号角色绑定';
 
 -- ----------------------------
 -- Records of c_user_role
@@ -1169,7 +1148,7 @@ INSERT INTO `c_user_role` VALUES (2, 1, 2, 1, '2020-11-23 14:19:11');
 INSERT INTO `c_user_role` VALUES (3, 2, 3, 1, '2020-11-23 14:19:14');
 INSERT INTO `c_user_role` VALUES (4, 3, 4, 1, '2020-11-23 14:19:14');
 INSERT INTO `c_user_role` VALUES (5, 4, 5, 1, '2020-11-23 14:19:14');
-INSERT INTO `c_user_role` VALUES (1486564088677924864, 1486215142227050496, 5, 2, '2022-01-27 12:57:52');
+INSERT INTO `c_user_role` VALUES (1533405569933639680, 1486215142227050496, 2, 2, '2022-06-05 19:09:12');
 COMMIT;
 
 -- ----------------------------
@@ -1177,12 +1156,12 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'increment id',
-  `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'increment id',
+  `branch_id` bigint(20) NOT NULL COMMENT 'branch transaction id',
   `xid` varchar(100) NOT NULL COMMENT 'global transaction id',
   `context` varchar(128) NOT NULL COMMENT 'undo_log context,such as serialization',
   `rollback_info` longblob NOT NULL COMMENT 'rollback info',
-  `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
+  `log_status` int(11) NOT NULL COMMENT '0:normal status,1:defense status',
   `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
   `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
   PRIMARY KEY (`id`) USING BTREE,

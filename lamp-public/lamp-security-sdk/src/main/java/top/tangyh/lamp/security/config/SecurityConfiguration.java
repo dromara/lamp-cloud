@@ -1,14 +1,14 @@
 package top.tangyh.lamp.security.config;
 
-import top.tangyh.lamp.security.aspect.UriSecurityPreAuthAspect;
-import top.tangyh.lamp.security.aspect.VerifyAuthFunction;
-import top.tangyh.lamp.security.properties.SecurityProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import top.tangyh.lamp.security.aspect.UriSecurityPreAuthAspect;
+import top.tangyh.lamp.security.aspect.VerifyAuthFunction;
+import top.tangyh.lamp.security.properties.SecurityProperties;
 import top.tangyh.lamp.userinfo.feign.UserResolverService;
 
 /**

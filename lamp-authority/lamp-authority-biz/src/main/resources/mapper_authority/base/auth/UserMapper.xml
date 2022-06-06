@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="top.tangyh.lamp.authority.entity.auth.User">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_org_id" jdbcType="BIGINT" property="createdOrgId"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -34,7 +35,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        ,created_by,create_time,updated_by,update_time,
+        ,created_by,create_time,updated_by,update_time, created_org_id,
         account, name, org_id, station_id, readonly, email, mobile, sex, state, avatar, nation, education, position_status, work_describe, password_error_last_time, password_error_num, password_expire_time, password, salt, last_login_time
     </sql>
 

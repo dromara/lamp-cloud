@@ -12,6 +12,7 @@ import top.tangyh.lamp.model.entity.base.SysUser;
  * @create [2022/4/24 11:25 AM ] [tangyh] [初始创建]
  */
 @Repository
+@InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 public interface UserHelperMapper extends SuperMapper<SysUser> {
 
 }
