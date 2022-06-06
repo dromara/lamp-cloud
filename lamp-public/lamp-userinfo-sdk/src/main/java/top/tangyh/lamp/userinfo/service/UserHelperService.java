@@ -1,9 +1,7 @@
 package top.tangyh.lamp.userinfo.service;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import top.tangyh.lamp.common.constant.DsConstant;
 import top.tangyh.lamp.model.entity.base.SysOrg;
 import top.tangyh.lamp.model.entity.base.SysStation;
 import top.tangyh.lamp.model.entity.base.SysUser;
@@ -27,17 +25,14 @@ public class UserHelperService {
     private final OrgHelperMapper orgHelperMapper;
     private final StationHelperMapper stationHelperMapper;
 
-    @DS(DsConstant.BASE_TENANT)
     public SysUser getUserByIdCache(Long userId) {
         return userHelperMapper.selectById(userId);
     }
 
-    @DS(DsConstant.BASE_TENANT)
     public SysOrg getOrgByIdCache(Long orgId) {
         return orgHelperMapper.selectById(orgId);
     }
 
-    @DS(DsConstant.BASE_TENANT)
     public SysStation getStationByIdCache(Long positionId) {
         return stationHelperMapper.selectById(positionId);
     }

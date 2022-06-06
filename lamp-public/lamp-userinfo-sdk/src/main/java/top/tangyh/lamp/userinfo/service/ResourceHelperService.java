@@ -1,13 +1,11 @@
 package top.tangyh.lamp.userinfo.service;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.lamp.common.cache.auth.ResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserResourceCacheKeyBuilder;
-import top.tangyh.lamp.common.constant.DsConstant;
 import top.tangyh.lamp.model.entity.base.SysResource;
 import top.tangyh.lamp.model.vo.query.ResourceQueryDTO;
 import top.tangyh.lamp.userinfo.dao.ResourceHelperMapper;
@@ -46,7 +44,6 @@ public class ResourceHelperService {
      * @param resource 资源对象
      * @return 用户的可用资源
      */
-    @DS(DsConstant.BASE_TENANT)
     public List<SysResource> findVisibleResource(ResourceQueryDTO resource) {
         CacheKey userResourceKey = new UserResourceCacheKeyBuilder().key(resource.getUserId());
 
