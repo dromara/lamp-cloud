@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 01/06/2022 09:30:04
+ Date: 06/06/2022 10:24:42
 */
 
 SET NAMES utf8mb4;
@@ -349,6 +349,7 @@ CREATE TABLE `c_station` (
   `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `created_org_id` bigint(20) DEFAULT NULL COMMENT '创建者所属机构',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
@@ -383,6 +384,7 @@ CREATE TABLE `c_user` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `created_org_id` bigint(20) DEFAULT NULL COMMENT '创建者所属机构',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_account` (`account`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
