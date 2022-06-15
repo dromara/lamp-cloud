@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.utils.ArgumentAssert;
-import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.userinfo.dao.RoleHelperMapper;
 
 import java.util.Arrays;
@@ -35,26 +34,16 @@ public class RoleHelperService {
         ContextUtil.setDatabaseBase();
         ArgumentAssert.notEmpty(codes, "请传递角色编码");
         long count = roleHelperMapper.countRoleFormRole(Arrays.asList(codes), employeeId);
-        if (count > 0) {
-            return true;
-        }
-        long mainOrgCount = roleHelperMapper.countRoleFormMainOrg(Arrays.asList(codes), employeeId);
-        return mainOrgCount > 0 ? true : roleHelperMapper.countRoleFormOrg(Arrays.asList(codes), employeeId) > 0;
+        return count > 0;
     }
 
-    public List<Long> listResourceId(Long employeeId, Long applicationId) {
+    public List<Long> listResourceId(Long employeeId) {
         ContextUtil.setDatabaseBase();
-        List<Long> resourceIdRoleList = roleHelperMapper.selectResourceIdFromRoleByUserId(employeeId, applicationId);
-        List<Long> resourceIdMainOrgList = roleHelperMapper.selectResourceIdFromMainOrgByUserId(employeeId, applicationId);
-        List<Long> resourceIdOrgList = roleHelperMapper.selectResourceIdFromOrgByUserId(employeeId, applicationId);
-        return CollHelper.addAllUnique(resourceIdRoleList, resourceIdMainOrgList, resourceIdOrgList);
+        return roleHelperMapper.selectResourceIdFromRoleByUserId(employeeId);
     }
 
     public List<String> findRoleCodeByUserId(Long userId) {
         ContextUtil.setDatabaseBase();
-        List<String> resourceIdRoleList = roleHelperMapper.selectRoleCodeFromRoleByUserId(userId);
-        List<String> resourceIdMainOrgList = roleHelperMapper.selectRoleCodeFromMainOrgByUserId(userId);
-        List<String> resourceIdOrgList = roleHelperMapper.selectRoleCodeFromOrgByUserId(userId);
-        return CollHelper.addAllUnique(resourceIdRoleList, resourceIdMainOrgList, resourceIdOrgList);
+        return roleHelperMapper.selectRoleCodeFromRoleByUserId(userId);
     }
 }

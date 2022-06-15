@@ -4,105 +4,29 @@
 
     <select id="selectRoleCodeFromRoleByUserId" parameterType="map" resultType="java.lang.String">
         SELECT DISTINCT r.code
-        FROM base_role r
-                 INNER JOIN base_employee_role_rel err on err.role_id = r.id
-        WHERE err.employee_id = #{userId}
+        FROM c_role r
+                 INNER JOIN c_user_role err on err.role_id = r.id
+        WHERE err.user_id = #{userId}
           and r.state = true
-    </select>
-    <select id="selectRoleCodeFromMainOrgByUserId" parameterType="map" resultType="java.lang.String">
-        SELECT DISTINCT r.code
-        FROM base_role r
-                 INNER JOIN base_org_role_rel orr on orr.role_id = r.id
-                 INNER JOIN base_org o on o.id = orr.org_id
-                 INNER JOIN base_employee e on e.main_org_id = o.id
-        where e.id = #{userId}
-          and r.state = true
-          and o.state = true
-    </select>
-    <select id="selectRoleCodeFromOrgByUserId" parameterType="map" resultType="java.lang.String">
-        SELECT DISTINCT r.code
-        FROM base_role r
-                 INNER JOIN base_org_role_rel orr on orr.role_id = r.id
-                 INNER JOIN base_org o on o.id = orr.org_id
-                 INNER JOIN base_employee_org_rel eor on eor.org_id = o.id
-        where eor.employee_id = #{userId}
-          and r.state = true
-          and o.state = true
     </select>
 
     <select id="countRoleFormRole" parameterType="map" resultType="java.lang.Long">
-        select count(r.id) from base_role r inner join base_employee_role_rel berr on berr.role_id = r.id
+        select count(r.id) from c_role r inner join c_user_role berr on berr.role_id = r.id
         where r.state = true and r.`code` in
         <foreach close=")" collection="codes" item="id" open="(" separator=",">
             #{id}
         </foreach>
-        and berr.employee_id = #{userId}
-    </select>
-    <select id="countRoleFormOrg" parameterType="map" resultType="java.lang.Long">
-        select count(r.id) from base_role r
-        INNER JOIN base_org_role_rel borr on borr.role_id = r.id
-        inner join base_employee_org_rel beor on beor.org_id = borr.org_id
-        where r.state = true and r.`code` in
-        <foreach close=")" collection="codes" item="id" open="(" separator=",">
-            #{id}
-        </foreach>
-        and beor.employee_id = #{userId}
-    </select>
-    <select id="countRoleFormMainOrg" parameterType="map" resultType="java.lang.Long">
-        select count(r.id) from base_role r
-        INNER JOIN base_org_role_rel borr on borr.role_id = r.id
-        inner join base_employee e on e.main_org_id = borr.org_id
-        where r.state = true and r.`code` in
-        <foreach close=")" collection="codes" item="id" open="(" separator=",">
-            #{id}
-        </foreach>
-        and e.id = #{userId}
+        and berr.user_id = #{userId}
     </select>
 
     <select id="selectResourceIdFromRoleByUserId" parameterType="map" resultType="java.lang.Long">
-        SELECT DISTINCT rrr.resource_id
-        FROM base_role_resource_rel rrr
-        INNER JOIN base_role r on r.id = rrr.role_id
-        INNER JOIN base_employee_role_rel err on err.role_id = r.id
+        SELECT DISTINCT rrr.authority_id
+        FROM c_role_authority rrr
+        INNER JOIN c_role r on r.id = rrr.role_id
+        INNER JOIN c_user_role err on err.role_id = r.id
         <where>
-            <if test="applicationId != null">
-                and rrr.application_id = #{applicationId}
-            </if>
-            and err.employee_id = #{userId}
+            and err.user_id = #{userId}
             and r.state = true
-        </where>
-    </select>
-
-    <select id="selectResourceIdFromOrgByUserId" parameterType="map" resultType="java.lang.Long">
-        SELECT DISTINCT rrr.resource_id
-        FROM base_role_resource_rel rrr
-        INNER JOIN base_role r on r.id = rrr.role_id
-        INNER JOIN base_org_role_rel orr on orr.role_id = r.id
-        INNER JOIN base_org o on o.id = orr.org_id
-        INNER JOIN base_employee_org_rel eor on eor.org_id = o.id
-        <where>
-            <if test="applicationId != null">
-                and rrr.application_id = #{applicationId}
-            </if>
-            and eor.employee_id = #{userId}
-            and r.state = true
-            and o.state = true
-        </where>
-    </select>
-    <select id="selectResourceIdFromMainOrgByUserId" parameterType="map" resultType="java.lang.Long">
-        SELECT DISTINCT rrr.resource_id
-        FROM base_role_resource_rel rrr
-        INNER JOIN base_role r on r.id = rrr.role_id
-        INNER JOIN base_org_role_rel orr on orr.role_id = r.id
-        INNER JOIN base_org o on o.id = orr.org_id
-        INNER JOIN base_employee e on e.main_org_id = o.id
-        <where>
-            <if test="applicationId != null">
-                and rrr.application_id = #{applicationId}
-            </if>
-            and e.id = #{userId}
-            and r.state = true
-            and o.state = true
         </where>
     </select>
 </mapper>
