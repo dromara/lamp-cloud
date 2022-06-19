@@ -169,7 +169,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
 
         String passwordMd5 = SecureUtil.sha256(password + user.getSalt());
         if (!passwordMd5.equalsIgnoreCase(user.getPassword())) {
-            String msg = "用户名或密码错误!";
+            String msg = StrUtil.format("用户名或密码错误{}次!", (user.getPasswordErrorNum() + 1));
             // 密码错误事件
             SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.pwdError(user.getId(), msg)));
             return R.fail(msg);
@@ -194,11 +194,18 @@ public abstract class AbstractTokenGranter implements TokenGranter {
         if (maxPasswordErrorNum > 0 && passwordErrorNum >= maxPasswordErrorNum) {
             log.info("[{}][{}], 输错密码次数：{}, 最大限制次数:{}", user.getName(), user.getId(), passwordErrorNum, maxPasswordErrorNum);
 
-            LocalDateTime passwordErrorLockTime = DateUtils.conversionDateTime(systemProperties.getPasswordErrorLockUserTime());
-            log.info("passwordErrorLockTime={}", passwordErrorLockTime);
-            if (passwordErrorLockTime.isAfter(user.getPasswordErrorLastTime())) {
+            /*
+             * (最后一次输错密码的时间 + 锁定时间) 与 (当前时间) 比较
+             * (最后一次输错密码的时间 + 锁定时间) > (当前时间) 表示未解锁
+             * (最后一次输错密码的时间 + 锁定时间) < (当前时间) 表示自动解锁，并重置错误次数和最后一次错误时间
+             */
+
+            LocalDateTime passwordErrorLockExpireTime = DateUtils.conversionDateTime(user.getPasswordErrorLastTime(), systemProperties.getPasswordErrorLockUserTime());
+            log.info("密码最后一次输错后，解锁时间: {}", passwordErrorLockExpireTime);
+            // passwordErrorLockTime(锁定到期时间) > 当前时间
+            if (passwordErrorLockExpireTime.isAfter(LocalDateTime.now())) {
                 // 登录失败事件
-                String msg = StrUtil.format("密码连续输错次数已达到{}次,用户已被锁定~", maxPasswordErrorNum);
+                String msg = StrUtil.format("密码连续输错次数已超过最大限制：{}次,用户将被锁定至: {}", maxPasswordErrorNum, passwordErrorLockExpireTime);
                 SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.fail(user.getId(), msg)));
                 return R.fail(msg);
             }
