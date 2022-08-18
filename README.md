@@ -70,11 +70,16 @@
 
 > 4.0 企业版源码已经发布，开源版和个人版(4.0功能可能有所不同)发布暂缓，详情咨询作者
 
-
 # 快速上手
 - 入门到精通，参考 [在线文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
 - 发现bug和建议，请提交 [issue](https://github.com/zuihou/lamp-cloud/issues)
 - 常见问题，请参考 [Discussions](https://github.com/zuihou/lamp-cloud/discussions)
+
+# 作者参与过或PR过的项目
+- [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin)
+- [x-easypdf](https://gitee.com/dromara/x-easypdf)
+- [J2Cache](https://gitee.com/ld/J2Cache)
+- [dynamic-datasource-spring-boot-starter](https://gitee.com/baomidou/dynamic-datasource-spring-boot-starter)
 
 # 项目截图：
 
