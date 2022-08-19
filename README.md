@@ -79,7 +79,6 @@
 - [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin)
 - [x-easypdf](https://gitee.com/dromara/x-easypdf)
 - [J2Cache](https://gitee.com/ld/J2Cache)
-- [dynamic-datasource-spring-boot-starter](https://gitee.com/baomidou/dynamic-datasource-spring-boot-starter)
 
 # 项目截图：
 
