@@ -9,7 +9,7 @@
                  INNER JOIN c_user_role er on er.role_id = r.id
         WHERE r.category = #{category}
           and er.user_id = #{userId}
-          and r.state = true
+          and r.state = 1
     </select>
 
 </mapper>

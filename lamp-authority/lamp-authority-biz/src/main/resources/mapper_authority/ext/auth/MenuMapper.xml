@@ -13,16 +13,16 @@
         from (
         SELECT
         <include refid="V_Column_List"/>
-        from c_menu where state = true and is_general = true and resource_type = '20'
+        from c_menu where state = 1 and is_general = 1 and resource_type = '20'
         UNION ALL
         SELECT
         <include refid="V_Column_List"/>
-        from c_menu where state = true and is_general = false
+        from c_menu where state = 1 and is_general = 0
         and id in (
         SELECT distinct authority_id FROM c_role_authority ra
         INNER JOIN c_user_role ur on ra.role_id = ur.role_id
         INNER JOIN c_role r on r.id = ra.role_id
-        where ur.user_id = #{userId, jdbcType=BIGINT} and r.state = true
+        where ur.user_id = #{userId, jdbcType=BIGINT} and r.state = 1
         and ra.authority_type = 'MENU'
         and c_menu.resource_type = '20'
         )

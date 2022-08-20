@@ -7,12 +7,12 @@
         FROM c_role r
                  INNER JOIN c_user_role err on err.role_id = r.id
         WHERE err.user_id = #{userId}
-          and r.state = true
+          and r.state = 1
     </select>
 
     <select id="countRoleFormRole" parameterType="map" resultType="java.lang.Long">
         select count(r.id) from c_role r inner join c_user_role berr on berr.role_id = r.id
-        where r.state = true and r.`code` in
+        where r.state = 1 and r.code in
         <foreach close=")" collection="codes" item="id" open="(" separator=",">
             #{id}
         </foreach>
@@ -26,7 +26,7 @@
         INNER JOIN c_user_role err on err.role_id = r.id
         <where>
             and err.user_id = #{userId}
-            and r.state = true
+            and r.state = 1
         </where>
     </select>
 </mapper>

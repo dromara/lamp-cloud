@@ -193,7 +193,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<UserMapper, User> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void incrPasswordErrorNumById(Long id) {
-        baseMapper.incrPasswordErrorNumById(id);
+        baseMapper.incrPasswordErrorNumById(id, LocalDateTime.now());
         delCache(id);
     }
 

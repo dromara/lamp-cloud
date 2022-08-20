@@ -127,14 +127,14 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]
      */
     @ApiModelProperty(value = "数据范围")
-    @TableField(value = "`data_scope`", condition = LIKE)
+    @TableField(value = "data_scope", condition = LIKE)
     @Size(max = 2, message = "数据范围长度不能超过{max}")
     private String dataScope;
     /**
      * 实现类;自定义实现类全类名
      */
     @ApiModelProperty(value = "实现类")
-    @TableField(value = "`custom_class`", condition = LIKE)
+    @TableField(value = "custom_class", condition = LIKE)
     @Size(max = 255, message = "实现类长度不能超过{max}")
     private String customClass;
 
@@ -142,7 +142,7 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 是否默认
      */
     @ApiModelProperty(value = "是否默认")
-    @TableField(value = "`is_def`")
+    @TableField(value = "is_def")
     private Boolean isDef;
 
     /**

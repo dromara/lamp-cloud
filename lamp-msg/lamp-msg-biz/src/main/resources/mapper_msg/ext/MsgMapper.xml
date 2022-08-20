@@ -32,10 +32,10 @@
                 and rece.user_id = #{param.model.userId, jdbcType=BIGINT}
             </if>
             <if test="param.model.isRead == true">
-                and rece.is_read = true
+                and rece.is_read = 1
             </if>
             <if test="param.model.isRead == false">
-                and rece.is_read = false
+                and rece.is_read = 0
             </if>
             <if test="param.model.msgType != null">
                 and info.msg_type = #{param.model.msgType, jdbcType=VARCHAR}

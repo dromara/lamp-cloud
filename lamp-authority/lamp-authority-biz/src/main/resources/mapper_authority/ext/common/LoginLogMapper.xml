@@ -25,7 +25,7 @@
     </select>
 
     <select id="findLastTenDaysVisitCount" resultType="map" parameterType="map">
-        select login_date , count(1) `count` from
+        select login_date , count(1) count from
         ( select id, login_date from c_login_log where create_time >= #{tenDays}
         <if test="account != null and account != ''">
             and account = #{account}
@@ -34,12 +34,12 @@
     </select>
 
     <select id="findByBrowser" resultType="map">
-        select browser, count(id) `count`
+        select browser, count(id) count
         from c_login_log
         group by browser
     </select>
     <select id="findByOperatingSystem" resultType="map">
-        select operating_system,count(id) `count` from c_login_log group by operating_system
+        select operating_system,count(id) count from c_login_log group by operating_system
     </select>
 
     <delete id="clearLog" parameterType="map">

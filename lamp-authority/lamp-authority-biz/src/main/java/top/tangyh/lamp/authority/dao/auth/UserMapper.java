@@ -40,7 +40,7 @@ public interface UserMapper extends SuperMapper<User> {
      * @param id 用户id
      * @return 被修改了几行数据
      */
-    int incrPasswordErrorNumById(@Param("id") Long id);
+    int incrPasswordErrorNumById(@Param("id") Long id, @Param("now") LocalDateTime now);
 
     /**
      * 带数据权限的分页查询
