@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static top.tangyh.lamp.model.constant.Condition.LIKE;
 import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 import static top.tangyh.lamp.model.constant.EchoApi.ORG_ID_CLASS;
 import static top.tangyh.lamp.model.constant.EchoApi.STATION_ID_CLASS;

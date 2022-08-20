@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static top.tangyh.lamp.model.constant.Condition.LIKE;
 import static top.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**

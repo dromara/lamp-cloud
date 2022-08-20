@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static top.tangyh.lamp.model.constant.Condition.LIKE;
 import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 
 /**

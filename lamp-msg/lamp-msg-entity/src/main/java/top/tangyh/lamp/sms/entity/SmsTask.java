@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static top.tangyh.lamp.model.constant.Condition.LIKE;
 import static top.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 import static top.tangyh.lamp.model.constant.EchoApi.SMS_TEMPLATE_ID_CLASS;
 
