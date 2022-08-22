@@ -1,37 +1,35 @@
 package top.tangyh.lamp.tenant.strategy.impl;
 
 import cn.hutool.core.util.StrUtil;
-import top.tangyh.basic.database.properties.DatabaseProperties;
-import top.tangyh.basic.exception.BizException;
-import top.tangyh.basic.utils.StrPool;
-import top.tangyh.lamp.tenant.dao.InitDbMapper;
-import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
-import top.tangyh.lamp.tenant.strategy.InitSystemStrategy;
+import com.baomidou.mybatisplus.annotation.DbType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.tangyh.basic.database.properties.DatabaseProperties;
+import top.tangyh.basic.exception.BizException;
+import top.tangyh.basic.utils.DbPlusUtil;
+import top.tangyh.basic.utils.StrPool;
+import top.tangyh.lamp.tenant.dao.InitDbMapper;
+import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
+import top.tangyh.lamp.tenant.strategy.InitSystemStrategy;
 
 import javax.sql.DataSource;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.util.Arrays;
 import java.util.List;
-
-import static top.tangyh.lamp.common.constant.BizConstant.BASE_DATABASE;
-import static top.tangyh.lamp.common.constant.BizConstant.EXTEND_DATABASE;
 
 /**
  * 初始化系统
  * <p>
  * 初始化规则：
- * lamp-authority-server/src/main/resources/sql 路径存放8个sql文件 (每个库对应一个文件)
- * lamp_base.sql            # 基础库：权限、消息，短信，邮件，文件等
- * data_lamp_base.sql       # 基础库数据： 如初始用户，初始角色，初始菜单
+ * 表结构： lamp-tenant-server/src/main/resources/schema/{数据库类型}/{数据库前缀}.sql
+ * 租户初始数据： lamp-tenant-server/src/main/resources/data/{数据库类型}/{数据库前缀}.sql
+ * <p>
+ * 不支持ORACLE！
  *
  * @author zuihou
  * @date 2019/10/25
@@ -43,34 +41,28 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
     /**
      * 需要初始化的sql文件在classpath中的路径
      */
-    private static final String SCHEMA_PATH = "schema/{}.sql";
-    private static final String DATA_PATH = "data/{}.sql";
-
-    /**
-     * 需要初始化的库
-     * 可能不同的服务，会连接不同的库
-     */
-    private static final List<String> INIT_DATABASE_LIST = Arrays.asList(BASE_DATABASE, EXTEND_DATABASE);
+    private static final String SCHEMA_PATH = "schema/{}/{}.sql";
+    private static final String DATA_PATH = "data/{}/{}.sql";
 
     private final DataSource dataSource;
     private final InitDbMapper initDbMapper;
     private final DatabaseProperties databaseProperties;
 
-    @Value("${lamp.mysql.database}")
-    private String defaultDatabase;
 
+    private String getDefDatabase() {
+        return DbPlusUtil.getDatabase(dataSource);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean initConnect(TenantConnectDTO tenantConnect) {
         String tenant = tenantConnect.getTenant();
-        this.initDatabases(tenant);
+        this.initDatabase(tenant);
         ScriptRunner runner = this.getScriptRunner();
-        this.initTables(runner, tenant);
+        this.initSchema(runner, tenant);
         this.initData(runner, tenant);
         // 切换为默认数据源
         this.resetDatabase(runner);
-
         return true;
     }
 
@@ -79,12 +71,10 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
         ScriptRunner runner;
         try {
             runner = getScriptRunner();
-
             String tenantDatabasePrefix = databaseProperties.getTenantDatabasePrefix();
-
             useDb(tenant, runner, tenantDatabasePrefix);
-            String dataScript = tenantDatabasePrefix + "_" + tenant;
-            runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, dataScript)));
+            String dataScript = tenantDatabasePrefix + StrUtil.UNDERLINE + tenant;
+            runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, getDbType().getDb(), dataScript)));
         } catch (Exception e) {
             log.error("重置数据失败", e);
             return false;
@@ -93,20 +83,24 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
     }
 
 
-    public void initDatabases(String tenant) {
-        INIT_DATABASE_LIST.forEach((database) -> this.initDbMapper.createDatabase(StrUtil.join(StrUtil.UNDERLINE, database, tenant)));
+    public void initDatabase(String tenant) {
+        databaseProperties.getInitDatabasePrefix().forEach(database -> this.initDbMapper.createDatabase(StrUtil.join(StrUtil.UNDERLINE, database, tenant)));
     }
 
-    public void initTables(ScriptRunner runner, String tenant) {
+    public void initSchema(ScriptRunner runner, String tenant) {
         try {
-            for (String database : INIT_DATABASE_LIST) {
+            for (String database : databaseProperties.getInitDatabasePrefix()) {
                 this.useDb(tenant, runner, database);
-                runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, database)));
+                runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, getDbType().getDb(), database)));
             }
         } catch (Exception e) {
             log.error("初始化表失败", e);
             throw new BizException("初始化表失败", e);
         }
+    }
+
+    private DbType getDbType() {
+        return DbPlusUtil.getDbType(dataSource);
     }
 
     /**
@@ -118,10 +112,10 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
      */
     public void initData(ScriptRunner runner, String tenant) {
         try {
-            for (String database : INIT_DATABASE_LIST) {
+            for (String database : databaseProperties.getInitDatabasePrefix()) {
                 this.useDb(tenant, runner, database);
                 String dataScript = database;
-                runner.runScript(Resources.getResourceAsReader(StrUtil.format(DATA_PATH, dataScript)));
+                runner.runScript(Resources.getResourceAsReader(StrUtil.format(DATA_PATH, getDbType().getDb(), dataScript)));
             }
         } catch (Exception e) {
             log.error("初始化数据失败", e);
@@ -131,7 +125,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
 
     public void resetDatabase(ScriptRunner runner) {
         try {
-            runner.runScript(new StringReader(StrUtil.format("use {};", this.defaultDatabase)));
+            runner.runScript(new StringReader(StrUtil.format("use {};", getDefDatabase())));
         } catch (Exception e) {
             log.error("切换为默认数据源失败", e);
             throw new BizException("切换为默认数据源失败", e);
@@ -160,7 +154,8 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
             // runner.setLogWriter(null);
 
             Resources.setCharset(StandardCharsets.UTF_8);
-//            设置分隔符 runner.setDelimiter(";");
+//            设置分隔符
+            runner.setDelimiter(databaseProperties.getDelimiter());
             runner.setFullLineDelimiter(false);
             return runner;
         } catch (Exception ex) {
@@ -175,7 +170,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
             return true;
         }
 
-        INIT_DATABASE_LIST.forEach(prefix -> tenantCodeList.forEach(tenant -> {
+        databaseProperties.getInitDatabasePrefix().forEach(prefix -> tenantCodeList.forEach(tenant -> {
             String database = prefix + StrPool.UNDERSCORE + tenant;
             initDbMapper.dropDatabase(database);
         }));

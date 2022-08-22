@@ -23,6 +23,7 @@
         <module>lamp-model</module>
         <module>lamp-security-sdk</module>
         <module>lamp-userinfo-sdk</module>
+        <module>lamp-saas-mode</module>
     </modules>
 
 </project>

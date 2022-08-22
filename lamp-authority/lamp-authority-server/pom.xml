@@ -17,6 +17,11 @@
     <dependencies>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-saas-mode</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-authority-controller</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
