@@ -82,7 +82,7 @@ public class Appendix extends Entity<Long> {
     /**
      * 大小
      */
-    @TableField(value = "size")
+    @TableField(value = "size_")
     private Long size;
 
 
