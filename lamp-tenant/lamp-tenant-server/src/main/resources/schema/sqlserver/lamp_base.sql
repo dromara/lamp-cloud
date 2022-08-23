@@ -1,2841 +1,635 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 172.26.3.67
- Source Server Type    : SQL Server
- Source Server Version : 15004236
- Source Host           : 117.187.194.249:1433
- Source Catalog        : lamp_base_1
- Source Schema         : dbo
-
- Target Server Type    : SQL Server
- Target Server Version : 15004236
- File Encoding         : 65001
-
- Date: 22/08/2022 23:07:25
-*/
-
-
--- ----------------------------
--- Table structure for base_dict
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_dict]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_dict]
-GO
-
-CREATE TABLE [dbo].[base_dict] (
-  [id] bigint  NOT NULL,
-  [parent_id] bigint  NOT NULL,
-  [parent_key] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [key_] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [classify] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('20') NOT NULL,
-  [name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [state] bit DEFAULT ((1)) NULL,
-  [remark] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [sort_value] int DEFAULT ((1)) NULL,
-  [icon] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [css_style] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [css_class] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_dict] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属字典',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'parent_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属字典标识',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'parent_key'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'标识',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'key_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'分类;[10-系统字典 20-业务字典]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Tenant.DICT_CLASSIFY)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'classify'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'名称',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'状态',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'state'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'remark'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'排序',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'sort_value'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'图标',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'icon'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'css样式',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'css_style'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'css类元素',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'css_class'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'字典',
-'SCHEMA', N'dbo',
-'TABLE', N'base_dict'
-GO
-
-
--- ----------------------------
--- Table structure for base_employee
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_employee]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_employee]
-GO
-
-CREATE TABLE [dbo].[base_employee] (
-  [id] bigint  NOT NULL,
-  [is_default] bit DEFAULT ((0)) NOT NULL,
-  [position_id] bigint  NULL,
-  [user_id] bigint  NOT NULL,
-  [main_org_id] bigint  NULL,
-  [real_name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [active_status] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('20') NULL,
-  [position_status] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('10') NULL,
-  [state] bit DEFAULT ((1)) NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_employee] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'是否默认员工;[0-否 1-是]',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'is_default'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属岗位',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'position_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'用户',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'user_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属主机构',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'main_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'真实姓名',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'real_name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'激活状态;[10-未激活 20-已激活]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Global.ACTIVE_STATUS)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'active_status'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'职位状态;[10-在职 20-离职]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.POSITION_STATUS)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'position_status'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'状态;[0-禁用 1-启用]',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'state'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'员工',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee'
-GO
-
-
--- ----------------------------
--- Table structure for base_employee_org_rel
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_employee_org_rel]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_employee_org_rel]
-GO
-
-CREATE TABLE [dbo].[base_employee_org_rel] (
-  [id] bigint  NOT NULL,
-  [org_id] bigint  NOT NULL,
-  [employee_id] bigint  NOT NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_employee_org_rel] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'关联机构',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'关联员工',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'employee_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'员工所在部门',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_org_rel'
-GO
-
-
--- ----------------------------
--- Table structure for base_employee_role_rel
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_employee_role_rel]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_employee_role_rel]
-GO
-
-CREATE TABLE [dbo].[base_employee_role_rel] (
-  [id] bigint  NOT NULL,
-  [role_id] bigint  NOT NULL,
-  [employee_id] bigint  NOT NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_employee_role_rel] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'拥有角色;#base_role',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'role_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属员工;#base_employee',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'employee_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'员工的角色',
-'SCHEMA', N'dbo',
-'TABLE', N'base_employee_role_rel'
-GO
-
-
--- ----------------------------
--- Table structure for base_operation_log
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_operation_log]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_operation_log]
-GO
-
-CREATE TABLE [dbo].[base_operation_log] (
-  [id] bigint  NOT NULL,
-  [request_ip] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [type] varchar(5) COLLATE Chinese_PRC_CI_AS DEFAULT ('OPT') NULL,
-  [user_name] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [description] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [class_path] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [action_method] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [request_uri] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [http_method] varchar(10) COLLATE Chinese_PRC_CI_AS DEFAULT ('GET') NULL,
-  [start_time] datetime  NULL,
-  [finish_time] datetime  NULL,
-  [consuming_time] bigint DEFAULT ((0)) NULL,
-  [ua] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_operation_log] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'主键',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'操作IP',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'request_ip'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'日志类型;#LogType{OPT:操作类型;EX:异常类型}',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'操作人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'user_name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'操作描述',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'description'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'类路径',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'class_path'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'请求方法',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'action_method'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'请求地址',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'request_uri'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'请求类型;#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'http_method'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'开始时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'start_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'完成时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'finish_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消耗时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'consuming_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'浏览器',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'ua'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'操作日志',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log'
-GO
-
-
--- ----------------------------
--- Table structure for base_operation_log_ext
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_operation_log_ext]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_operation_log_ext]
-GO
-
-CREATE TABLE [dbo].[base_operation_log_ext] (
-  [id] bigint  NOT NULL,
-  [params] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [result] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [ex_detail] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_operation_log_ext] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'主键',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'请求参数',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'params'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'返回值',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'result'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'异常描述',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'ex_detail'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'操作日志扩展',
-'SCHEMA', N'dbo',
-'TABLE', N'base_operation_log_ext'
-GO
-
-
--- ----------------------------
--- Table structure for base_org
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_org]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_org]
-GO
-
-CREATE TABLE [dbo].[base_org] (
-  [id] bigint  NOT NULL,
-  [name] varchar(255) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [type_] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('10') NULL,
-  [short_name] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [parent_id] bigint  NULL,
-  [tree_grade] int DEFAULT ((0)) NULL,
-  [tree_path] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [sort_value] int DEFAULT ((1)) NULL,
-  [state] bit DEFAULT ((1)) NULL,
-  [remarks] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_org] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'名称',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'类型;[10-单位 20-部门]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.ORG_TYPE)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'type_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'简称',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'short_name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'父组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'parent_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'树层级',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'tree_grade'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'树路径;用id拼接树结构',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'tree_path'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'排序',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'sort_value'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'状态;[0-禁用 1-启用]',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'state'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'remarks'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org'
-GO
-
-
--- ----------------------------
--- Table structure for base_org_role_rel
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_org_role_rel]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_org_role_rel]
-GO
-
-CREATE TABLE [dbo].[base_org_role_rel] (
-  [id] bigint  NOT NULL,
-  [org_id] bigint  NOT NULL,
-  [role_id] bigint  NOT NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_org_role_rel] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属部门;#base_org',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'拥有角色;#base_role',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'role_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'组织的角色',
-'SCHEMA', N'dbo',
-'TABLE', N'base_org_role_rel'
-GO
-
-
--- ----------------------------
--- Table structure for base_parameter
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_parameter]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_parameter]
-GO
-
-CREATE TABLE [dbo].[base_parameter] (
-  [id] bigint  NOT NULL,
-  [key_] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [value] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [remarks] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [state] bit DEFAULT ((1)) NULL,
-  [param_type] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('20') NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_parameter] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'参数键',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'key_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'参数值',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'value'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'参数名称',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'remarks'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'状态',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'state'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'类型;[10-系统参数 20-业务参数]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Tenant.PARAMETER_TYPE)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'param_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人id',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'更新人id',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'个性参数',
-'SCHEMA', N'dbo',
-'TABLE', N'base_parameter'
-GO
-
-
--- ----------------------------
--- Table structure for base_position
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_position]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_position]
-GO
-
-CREATE TABLE [dbo].[base_position] (
-  [id] bigint  NOT NULL,
-  [name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [org_id] bigint  NULL,
-  [state] bit DEFAULT ((1)) NULL,
-  [remarks] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_position] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'名称',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属组织;#base_org@Echo(api = EchoApi.ORG_ID_CLASS)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'状态;0-禁用 1-启用',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'state'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'remarks'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'岗位',
-'SCHEMA', N'dbo',
-'TABLE', N'base_position'
-GO
-
-
--- ----------------------------
--- Table structure for base_role
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_role]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_role]
-GO
-
-CREATE TABLE [dbo].[base_role] (
-  [id] bigint  NOT NULL,
-  [category] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('10') NOT NULL,
-  [type_] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('20') NOT NULL,
-  [name] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [code] varchar(20) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [remarks] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [state] bit DEFAULT ((1)) NULL,
-  [readonly_] bit DEFAULT ((0)) NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_role] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'角色类别;[10-功能角色 20-桌面角色 30-数据角色]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.ROLE_CATEGORY)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'category'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'角色类型;[10-系统角色 20-自定义角色]; 
-@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Global.DATA_TYPE)',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'type_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'名称',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'编码',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'code'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'remarks'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'状态',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'state'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'内置角色',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'readonly_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'角色',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role'
-GO
-
-
--- ----------------------------
--- Table structure for base_role_resource_rel
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[base_role_resource_rel]') AND type IN ('U'))
-	DROP TABLE [dbo].[base_role_resource_rel]
-GO
-
-CREATE TABLE [dbo].[base_role_resource_rel] (
-  [id] bigint  NOT NULL,
-  [resource_id] bigint  NOT NULL,
-  [application_id] bigint  NOT NULL,
-  [role_id] bigint  NOT NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[base_role_resource_rel] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'主键',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'拥有资源;#def_resource',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'resource_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属应用;#def_application',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'application_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属角色;#base_role',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'role_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'角色的资源',
-'SCHEMA', N'dbo',
-'TABLE', N'base_role_resource_rel'
-GO
-
-
--- ----------------------------
--- Table structure for com_appendix
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[com_appendix]') AND type IN ('U'))
-	DROP TABLE [dbo].[com_appendix]
-GO
-
-CREATE TABLE [dbo].[com_appendix] (
-  [id] bigint  NOT NULL,
-  [biz_id] bigint  NOT NULL,
-  [biz_type] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [file_type] varchar(10) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [bucket] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [path] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [original_file_name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [content_type] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [created_time] datetime  NOT NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NOT NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL,
-  [size_] bigint DEFAULT ((0)) NULL
-)
-GO
-
-ALTER TABLE [dbo].[com_appendix] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务id',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'biz_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务类型;同一个业务，不同的字段，需要分别设置不同的业务类型',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'biz_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件类型;#FileType{IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他;}',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'file_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'桶',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'bucket'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件相对地址',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'path'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'原始文件名',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'original_file_name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件类型',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'content_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'大小',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix',
-'COLUMN', N'size_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务附件',
-'SCHEMA', N'dbo',
-'TABLE', N'com_appendix'
-GO
-
-
--- ----------------------------
--- Table structure for com_file
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[com_file]') AND type IN ('U'))
-	DROP TABLE [dbo].[com_file]
-GO
-
-CREATE TABLE [dbo].[com_file] (
-  [id] bigint  NOT NULL,
-  [biz_type] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [file_type] varchar(10) COLLATE Chinese_PRC_CI_AS DEFAULT ('OTHER') NULL,
-  [storage_type] varchar(30) COLLATE Chinese_PRC_CI_AS DEFAULT ('LOCAL') NULL,
-  [bucket] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [path] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [url] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [unique_file_name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [file_md5] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [original_file_name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [content_type] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [suffix] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
-  [created_time] datetime  NOT NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NOT NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL,
-  [size_] bigint DEFAULT ((0)) NULL
-)
-GO
-
-ALTER TABLE [dbo].[com_file] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务类型;同一个业务，不同的字段，需要分别设置不同的业务类型',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'biz_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件类型;#FileType{IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他;}',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'file_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'存储类型;#FileStorageType{LOCAL:本地;FAST_DFS:FastDFS;MIN_IO:MinIO;ALI_OSS:阿里云OSS;QINIU_OSS:七牛云OSS;HUAWEI_OSS:华为云OSS;}',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'storage_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'桶',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'bucket'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件相对地址',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'path'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件访问地址',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'url'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'唯一文件名',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'unique_file_name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件md5',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'file_md5'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'原始文件名',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'original_file_name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'文件类型',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'content_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'后缀',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'suffix'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人组织',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'大小',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file',
-'COLUMN', N'size_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'增量文件上传日志',
-'SCHEMA', N'dbo',
-'TABLE', N'com_file'
-GO
-
-
--- ----------------------------
--- Table structure for extend_interface_log
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[extend_interface_log]') AND type IN ('U'))
-	DROP TABLE [dbo].[extend_interface_log]
-GO
-
-CREATE TABLE [dbo].[extend_interface_log] (
-  [id] bigint  NOT NULL,
-  [interface_id] bigint  NOT NULL,
-  [name] varchar(255) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [success_count] int DEFAULT ((0)) NULL,
-  [fail_count] int DEFAULT ((0)) NULL,
-  [last_exec_time] datetime  NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[extend_interface_log] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接口ID;
-#extend_interface',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'interface_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接口名称',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'成功次数',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'success_count'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'失败次数',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'fail_count'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后执行时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'last_exec_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接口执行日志',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_log'
-GO
-
-
--- ----------------------------
--- Table structure for extend_interface_logging
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[extend_interface_logging]') AND type IN ('U'))
-	DROP TABLE [dbo].[extend_interface_logging]
-GO
-
-CREATE TABLE [dbo].[extend_interface_logging] (
-  [id] bigint  NOT NULL,
-  [log_id] bigint  NOT NULL,
-  [exec_time] datetime  NOT NULL,
-  [status] char(2) COLLATE Chinese_PRC_CI_AS DEFAULT ('01') NULL,
-  [params] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [result] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [error_msg] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [biz_id] bigint  NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[extend_interface_logging] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接口日志ID;
-#extend_interface_log',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'log_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'执行时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'exec_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'执行状态;[01-初始化 02-成功 03-失败]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.MSG_INTERFACE_LOGGING_STATUS)',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'status'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'请求参数',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'params'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接口返回',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'result'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'异常信息',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'error_msg'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'biz_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接口执行日志记录',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_interface_logging'
-GO
-
-
--- ----------------------------
--- Table structure for extend_msg
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[extend_msg]') AND type IN ('U'))
-	DROP TABLE [dbo].[extend_msg]
-GO
-
-CREATE TABLE [dbo].[extend_msg] (
-  [id] bigint  NOT NULL,
-  [template_code] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [type] char(2) COLLATE Chinese_PRC_CI_AS  NULL,
-  [status] varchar(10) COLLATE Chinese_PRC_CI_AS  NULL,
-  [channel] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [param] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [title] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [content] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [send_time] datetime  NULL,
-  [biz_id] bigint  NULL,
-  [biz_type] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [remind_mode] char(2) COLLATE Chinese_PRC_CI_AS  NULL,
-  [author] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[extend_msg] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'短信记录ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消息模板;
-#extend_msg_template',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'template_code'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消息类型;[01-短信 02-邮件 03-站内信];@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.MSG_TEMPLATE_TYPE)',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'执行状态;
-#TaskStatus{DRAFT:草稿;WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'status'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'发送渠道;
-#SourceType{APP:应用;SERVICE:服务}',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'channel'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'参数;需要封装为[{‘key’:‘‘,;’value’:‘‘}, {’key2’:‘‘, ’value2’:‘‘}]格式',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'param'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'标题',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'title'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'发送内容',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'content'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'发送时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'send_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'biz_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务类型',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'biz_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'提醒方式;@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.NOTICE_REMIND_MODE)[01-待办 02-预警 03-提醒]',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'remind_mode'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'发布人姓名',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'author'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人所属机构',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消息',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg'
-GO
-
-
--- ----------------------------
--- Table structure for extend_msg_recipient
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[extend_msg_recipient]') AND type IN ('U'))
-	DROP TABLE [dbo].[extend_msg_recipient]
-GO
-
-CREATE TABLE [dbo].[extend_msg_recipient] (
-  [id] bigint  NOT NULL,
-  [msg_id] bigint  NOT NULL,
-  [recipient] varchar(255) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [ext] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL
-)
-GO
-
-ALTER TABLE [dbo].[extend_msg_recipient] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'任务ID;
-#extend_msg',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'msg_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接收人;
-可能是手机号、邮箱、用户ID等',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'recipient'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'扩展信息',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'ext'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消息接收人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_recipient'
-GO
-
-
--- ----------------------------
--- Table structure for extend_msg_template
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[extend_msg_template]') AND type IN ('U'))
-	DROP TABLE [dbo].[extend_msg_template]
-GO
-
-CREATE TABLE [dbo].[extend_msg_template] (
-  [id] bigint  NOT NULL,
-  [interface_id] bigint  NOT NULL,
-  [type] char(2) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [code] varchar(255) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [name] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [state] bit  NULL,
-  [template_code] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [sign] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [title] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [content] text COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [script] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [param] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [remarks] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [target_] char(2) COLLATE Chinese_PRC_CI_AS  NULL,
-  [auto_read] bit DEFAULT ((1)) NULL,
-  [remind_mode] char(2) COLLATE Chinese_PRC_CI_AS  NULL,
-  [url] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [created_by] bigint  NULL,
-  [created_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [updated_time] datetime  NULL
-)
-GO
-
-ALTER TABLE [dbo].[extend_msg_template] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'模板ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接口ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'interface_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消息类型;[01-短信 02-邮件 03-站内信];@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.MSG_TEMPLATE_TYPE)',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'模板标识',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'code'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'模板名称',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'name'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'状态',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'state'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'模板编码',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'template_code'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'签名',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'sign'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'标题',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'title'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'模板内容',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'content'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'脚本',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'script'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'模板参数',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'param'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'remarks'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'打开方式;@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.NOTICE_TARGET)[01-页面 02-弹窗 03-新开窗口]',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'target_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'自动已读',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'auto_read'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'提醒方式;@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.NOTICE_REMIND_MODE)[01-待办 02-预警 03-提醒]',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'remind_mode'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'跳转地址',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'url'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消息模板',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_msg_template'
-GO
-
-
--- ----------------------------
--- Table structure for extend_notice
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[extend_notice]') AND type IN ('U'))
-	DROP TABLE [dbo].[extend_notice]
-GO
-
-CREATE TABLE [dbo].[extend_notice] (
-  [id] bigint  NOT NULL,
-  [msg_id] bigint  NULL,
-  [biz_id] varchar(64) COLLATE Chinese_PRC_CI_AS  NULL,
-  [biz_type] varchar(64) COLLATE Chinese_PRC_CI_AS  NULL,
-  [recipient_id] bigint  NOT NULL,
-  [remind_mode] char(2) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [title] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [content] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [author] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [url] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [target_] char(2) COLLATE Chinese_PRC_CI_AS  NULL,
-  [auto_read] bit  NULL,
-  [handle_time] datetime  NULL,
-  [read_time] datetime  NULL,
-  [is_read] bit DEFAULT ((0)) NULL,
-  [is_handle] bit DEFAULT ((0)) NULL,
-  [created_time] datetime  NULL,
-  [created_by] bigint  NULL,
-  [updated_time] datetime  NULL,
-  [updated_by] bigint  NULL,
-  [created_org_id] bigint  NULL
-)
-GO
-
-ALTER TABLE [dbo].[extend_notice] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'消息ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'msg_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务ID',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'biz_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'业务类型',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'biz_type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'接收人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'recipient_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'提醒方式;@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.NOTICE_REMIND_MODE)[01-待办 02-预警 03-提醒]',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'remind_mode'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'标题',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'title'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'内容',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'content'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'发布人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'author'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'处理地址',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'url'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'打开方式;@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.NOTICE_TARGET)[01-页面 02-弹窗 03-新开窗口]',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'target_'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'自动已读',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'auto_read'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'处理时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'handle_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'读取时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'read_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'是否已读',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'is_read'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'是否处理',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'is_handle'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'created_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人id',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'created_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改时间',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'updated_time'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后修改人',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'updated_by'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属组织',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice',
-'COLUMN', N'created_org_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'通知表',
-'SCHEMA', N'dbo',
-'TABLE', N'extend_notice'
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_dict
--- ----------------------------
-ALTER TABLE [dbo].[base_dict] ADD CONSTRAINT [PK__base_dic__3213E83FDB52DBAB] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_employee
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_emp_user_id]
-ON [dbo].[base_employee] (
-  [user_id] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_employee
--- ----------------------------
-ALTER TABLE [dbo].[base_employee] ADD CONSTRAINT [PK__base_emp__3213E83FDC56619B] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_employee_org_rel
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_employee_org]
-ON [dbo].[base_employee_org_rel] (
-  [org_id] ASC,
-  [employee_id] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_employee_org_rel
--- ----------------------------
-ALTER TABLE [dbo].[base_employee_org_rel] ADD CONSTRAINT [PK__base_emp__3213E83FB4FDD9A8] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_employee_role_rel
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_err_role_employee]
-ON [dbo].[base_employee_role_rel] (
-  [role_id] ASC,
-  [employee_id] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_employee_role_rel
--- ----------------------------
-ALTER TABLE [dbo].[base_employee_role_rel] ADD CONSTRAINT [PK__base_emp__3213E83FC73D72DB] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_operation_log
--- ----------------------------
-ALTER TABLE [dbo].[base_operation_log] ADD CONSTRAINT [PK__base_ope__3213E83FC9BBE7DC] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_operation_log_ext
--- ----------------------------
-ALTER TABLE [dbo].[base_operation_log_ext] ADD CONSTRAINT [PK__base_ope__3213E83F55840A0A] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_org
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_org_name]
-ON [dbo].[base_org] (
-  [name] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_org
--- ----------------------------
-ALTER TABLE [dbo].[base_org] ADD CONSTRAINT [PK__base_org__3213E83FCAC40BC9] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_org_role_rel
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_org_role]
-ON [dbo].[base_org_role_rel] (
-  [org_id] ASC,
-  [role_id] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_org_role_rel
--- ----------------------------
-ALTER TABLE [dbo].[base_org_role_rel] ADD CONSTRAINT [PK__base_org__3213E83FC7437233] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_parameter
--- ----------------------------
-ALTER TABLE [dbo].[base_parameter] ADD CONSTRAINT [PK__base_par__3213E83F84241E46] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_position
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_name]
-ON [dbo].[base_position] (
-  [name] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_position
--- ----------------------------
-ALTER TABLE [dbo].[base_position] ADD CONSTRAINT [PK__base_pos__3213E83FB002A158] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_role
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_code]
-ON [dbo].[base_role] (
-  [code] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_role
--- ----------------------------
-ALTER TABLE [dbo].[base_role] ADD CONSTRAINT [PK__base_rol__3213E83F12C57C95] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table base_role_resource_rel
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [uk_role_resource]
-ON [dbo].[base_role_resource_rel] (
-  [resource_id] ASC,
-  [role_id] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table base_role_resource_rel
--- ----------------------------
-ALTER TABLE [dbo].[base_role_resource_rel] ADD CONSTRAINT [PK__base_rol__3213E83F15AF3C6C] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table com_appendix
--- ----------------------------
-ALTER TABLE [dbo].[com_appendix] ADD CONSTRAINT [PK__com_appe__3213E83FE2F94C1D] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table com_file
--- ----------------------------
-ALTER TABLE [dbo].[com_file] ADD CONSTRAINT [PK__com_file__3213E83F020C486A] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table extend_interface_log
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [UK_EIL_INTERFACE_ID]
-ON [dbo].[extend_interface_log] (
-  [interface_id] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table extend_interface_log
--- ----------------------------
-ALTER TABLE [dbo].[extend_interface_log] ADD CONSTRAINT [PK__extend_i__3213E83F0B7E5045] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table extend_interface_logging
--- ----------------------------
-ALTER TABLE [dbo].[extend_interface_logging] ADD CONSTRAINT [PK__extend_i__3213E83FF8C01FA1] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table extend_msg
--- ----------------------------
-CREATE NONCLUSTERED INDEX [tempate_id_topic_content]
-ON [dbo].[extend_msg] (
-  [template_code] ASC,
-  [title] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table extend_msg
--- ----------------------------
-ALTER TABLE [dbo].[extend_msg] ADD CONSTRAINT [PK__extend_m__3213E83F2DC811FE] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table extend_msg_recipient
--- ----------------------------
-CREATE NONCLUSTERED INDEX [task_id_tel_num]
-ON [dbo].[extend_msg_recipient] (
-  [msg_id] ASC,
-  [recipient] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table extend_msg_recipient
--- ----------------------------
-ALTER TABLE [dbo].[extend_msg_recipient] ADD CONSTRAINT [PK__extend_m__3213E83F024D1CAC] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Indexes structure for table extend_msg_template
--- ----------------------------
-CREATE UNIQUE NONCLUSTERED INDEX [UK_EX_MSG_TEMPLATE_CODE]
-ON [dbo].[extend_msg_template] (
-  [code] ASC
-)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table extend_msg_template
--- ----------------------------
-ALTER TABLE [dbo].[extend_msg_template] ADD CONSTRAINT [PK__extend_m__3213E83FF81D58B4] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table extend_notice
--- ----------------------------
-ALTER TABLE [dbo].[extend_notice] ADD CONSTRAINT [PK__extend_n__3213E83F8A3F0518] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_appendix]') AND type in (N'U')) DROP TABLE [dbo].[c_appendix];
+CREATE TABLE [dbo].[c_appendix](
+    id BIGINT NOT NULL,
+    biz_id BIGINT NOT NULL DEFAULT  0,
+    biz_type VARCHAR(255) NOT NULL,
+    file_type VARCHAR(255),
+    bucket VARCHAR(255),
+    path VARCHAR(255),
+    original_file_name VARCHAR(255),
+    content_type VARCHAR(255),
+    size_ BIGINT DEFAULT  0,
+    create_time DATETIME NOT NULL,
+    created_by BIGINT,
+    update_time DATETIME NOT NULL,
+    updated_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '业务附件', 'SCHEMA', dbo, 'table', c_appendix, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_appendix, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '业务id', 'SCHEMA', dbo, 'table', c_appendix, 'column', biz_id;
+EXEC sp_addextendedproperty 'MS_Description', '业务类型', 'SCHEMA', dbo, 'table', c_appendix, 'column', biz_type;
+EXEC sp_addextendedproperty 'MS_Description', '文件类型', 'SCHEMA', dbo, 'table', c_appendix, 'column', file_type;
+EXEC sp_addextendedproperty 'MS_Description', '桶', 'SCHEMA', dbo, 'table', c_appendix, 'column', bucket;
+EXEC sp_addextendedproperty 'MS_Description', '文件相对地址', 'SCHEMA', dbo, 'table', c_appendix, 'column', path;
+EXEC sp_addextendedproperty 'MS_Description', '原始文件名', 'SCHEMA', dbo, 'table', c_appendix, 'column', original_file_name;
+EXEC sp_addextendedproperty 'MS_Description', '文件类型', 'SCHEMA', dbo, 'table', c_appendix, 'column', content_type;
+EXEC sp_addextendedproperty 'MS_Description', '大小', 'SCHEMA', dbo, 'table', c_appendix, 'column', size_;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_appendix, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_appendix, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', c_appendix, 'column', update_time;
+EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 'table', c_appendix, 'column', updated_by;
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_application]') AND type in (N'U')) DROP TABLE [dbo].[c_application];
+CREATE TABLE [dbo].[c_application](
+    id BIGINT NOT NULL,
+    client_id VARCHAR(24),
+    client_secret VARCHAR(32),
+    website VARCHAR(100),
+    name VARCHAR(255) NOT NULL,
+    icon VARCHAR(255),
+    app_type VARCHAR(10),
+    describe_ VARCHAR(200),
+    state BIT DEFAULT  1,
+    created_by BIGINT,
+    create_time DATETIME,
+    updated_by BIGINT,
+    update_time DATETIME,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '应用', 'SCHEMA', dbo, 'table', c_application, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_application, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '客户端ID', 'SCHEMA', dbo, 'table', c_application, 'column', client_id;
+EXEC sp_addextendedproperty 'MS_Description', '客户端密码', 'SCHEMA', dbo, 'table', c_application, 'column', client_secret;
+EXEC sp_addextendedproperty 'MS_Description', '官网', 'SCHEMA', dbo, 'table', c_application, 'column', website;
+EXEC sp_addextendedproperty 'MS_Description', '应用名称', 'SCHEMA', dbo, 'table', c_application, 'column', name;
+EXEC sp_addextendedproperty 'MS_Description', '应用图标', 'SCHEMA', dbo, 'table', c_application, 'column', icon;
+EXEC sp_addextendedproperty 'MS_Description', '类型;
+#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}', 'SCHEMA', dbo, 'table', c_application, 'column', app_type;
+EXEC sp_addextendedproperty 'MS_Description', '备注', 'SCHEMA', dbo, 'table', c_application, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_application, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_application, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_application, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'table', c_application, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_application, 'column', update_time;
+
+
+CREATE UNIQUE INDEX uk_client_id ON c_application(client_id);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_area]') AND type in (N'U')) DROP TABLE [dbo].[c_area];
+CREATE TABLE [dbo].[c_area](
+    id BIGINT NOT NULL,
+    code VARCHAR(64) NOT NULL,
+    label VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255),
+    sort_value INT DEFAULT  1,
+    longitude VARCHAR(255),
+    latitude VARCHAR(255),
+    level VARCHAR(10),
+    source_ VARCHAR(255),
+    state BIT DEFAULT  0,
+    parent_id BIGINT DEFAULT  0,
+    create_time DATETIME,
+    created_by BIGINT,
+    update_time DATETIME,
+    updated_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '地区表', 'SCHEMA', dbo, 'table', c_area, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'id', 'SCHEMA', dbo, 'table', c_area, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '编码', 'SCHEMA', dbo, 'table', c_area, 'column', code;
+EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_area, 'column', label;
+EXEC sp_addextendedproperty 'MS_Description', '全名', 'SCHEMA', dbo, 'table', c_area, 'column', full_name;
+EXEC sp_addextendedproperty 'MS_Description', '排序', 'SCHEMA', dbo, 'table', c_area, 'column', sort_value;
+EXEC sp_addextendedproperty 'MS_Description', '经度', 'SCHEMA', dbo, 'table', c_area, 'column', longitude;
+EXEC sp_addextendedproperty 'MS_Description', '维度', 'SCHEMA', dbo, 'table', c_area, 'column', latitude;
+EXEC sp_addextendedproperty 'MS_Description', '行政区级;
+@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)', 'SCHEMA', dbo, 'table', c_area, 'column', level;
+EXEC sp_addextendedproperty 'MS_Description', '数据来源', 'SCHEMA', dbo, 'table', c_area, 'column', source_;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_area, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '父ID', 'SCHEMA', dbo, 'table', c_area, 'column', parent_id;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_area, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_area, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_area, 'column', update_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人', 'SCHEMA', dbo, 'table', c_area, 'column', updated_by;
+
+
+CREATE UNIQUE INDEX uk_code ON c_area(code);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_dictionary]') AND type in (N'U')) DROP TABLE [dbo].[c_dictionary];
+CREATE TABLE [dbo].[c_dictionary](
+    id BIGINT NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    label VARCHAR(255) NOT NULL,
+    code VARCHAR(64) NOT NULL,
+    name VARCHAR(64) NOT NULL,
+    state BIT DEFAULT  1,
+    describe_ VARCHAR(255),
+    sort_value INT DEFAULT  1,
+    icon VARCHAR(255),
+    css_style VARCHAR(255),
+    css_class VARCHAR(255),
+    readonly_ BIT DEFAULT  0,
+    created_by BIGINT,
+    create_time DATETIME,
+    updated_by BIGINT,
+    update_time DATETIME,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '字典项', 'SCHEMA', dbo, 'table', c_dictionary, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_dictionary, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '类型', 'SCHEMA', dbo, 'table', c_dictionary, 'column', type;
+EXEC sp_addextendedproperty 'MS_Description', '类型标签', 'SCHEMA', dbo, 'table', c_dictionary, 'column', label;
+EXEC sp_addextendedproperty 'MS_Description', '编码', 'SCHEMA', dbo, 'table', c_dictionary, 'column', code;
+EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_dictionary, 'column', name;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_dictionary, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', dbo, 'table', c_dictionary, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '排序', 'SCHEMA', dbo, 'table', c_dictionary, 'column', sort_value;
+EXEC sp_addextendedproperty 'MS_Description', '图标', 'SCHEMA', dbo, 'table', c_dictionary, 'column', icon;
+EXEC sp_addextendedproperty 'MS_Description', 'css样式', 'SCHEMA', dbo, 'table', c_dictionary, 'column', css_style;
+EXEC sp_addextendedproperty 'MS_Description', 'css;class', 'SCHEMA', dbo, 'table', c_dictionary, 'column', css_class;
+EXEC sp_addextendedproperty 'MS_Description', '内置', 'SCHEMA', dbo, 'table', c_dictionary, 'column', readonly_;
+EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_dictionary, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_dictionary, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'table', c_dictionary, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_dictionary, 'column', update_time;
+
+
+CREATE UNIQUE INDEX uk_type_code ON c_dictionary(type,code);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_file]') AND type in (N'U')) DROP TABLE [dbo].[c_file];
+CREATE TABLE [dbo].[c_file](
+    id BIGINT NOT NULL,
+    biz_type VARCHAR(255) NOT NULL,
+    file_type VARCHAR(255),
+    storage_type VARCHAR(255),
+    bucket VARCHAR(255),
+    path VARCHAR(255),
+    url VARCHAR(255),
+    unique_file_name VARCHAR(255),
+    file_md5 VARCHAR(255),
+    original_file_name VARCHAR(255),
+    content_type VARCHAR(255),
+    suffix VARCHAR(255),
+    size_ BIGINT DEFAULT  0,
+    create_time DATETIME NOT NULL,
+    created_by BIGINT NOT NULL,
+    update_time DATETIME NOT NULL,
+    updated_by BIGINT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '增量文件上传日志', 'SCHEMA', dbo, 'table', c_file, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_file, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '业务类型', 'SCHEMA', dbo, 'table', c_file, 'column', biz_type;
+EXEC sp_addextendedproperty 'MS_Description', '文件类型', 'SCHEMA', dbo, 'table', c_file, 'column', file_type;
+EXEC sp_addextendedproperty 'MS_Description', '存储类型
+LOCAL;FAST_DFS MIN_IO ALI', 'SCHEMA', dbo, 'table', c_file, 'column', storage_type;
+EXEC sp_addextendedproperty 'MS_Description', '桶', 'SCHEMA', dbo, 'table', c_file, 'column', bucket;
+EXEC sp_addextendedproperty 'MS_Description', '文件相对地址', 'SCHEMA', dbo, 'table', c_file, 'column', path;
+EXEC sp_addextendedproperty 'MS_Description', '文件访问地址', 'SCHEMA', dbo, 'table', c_file, 'column', url;
+EXEC sp_addextendedproperty 'MS_Description', '唯一文件名', 'SCHEMA', dbo, 'table', c_file, 'column', unique_file_name;
+EXEC sp_addextendedproperty 'MS_Description', '文件md5', 'SCHEMA', dbo, 'table', c_file, 'column', file_md5;
+EXEC sp_addextendedproperty 'MS_Description', '原始文件名', 'SCHEMA', dbo, 'table', c_file, 'column', original_file_name;
+EXEC sp_addextendedproperty 'MS_Description', '文件类型', 'SCHEMA', dbo, 'table', c_file, 'column', content_type;
+EXEC sp_addextendedproperty 'MS_Description', '后缀', 'SCHEMA', dbo, 'table', c_file, 'column', suffix;
+EXEC sp_addextendedproperty 'MS_Description', '大小', 'SCHEMA', dbo, 'table', c_file, 'column', size_;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_file, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_file, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', c_file, 'column', update_time;
+EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 'table', c_file, 'column', updated_by;
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_login_log]') AND type in (N'U')) DROP TABLE [dbo].[c_login_log];
+CREATE TABLE [dbo].[c_login_log](
+    id BIGINT NOT NULL,
+    request_ip VARCHAR(50),
+    user_id BIGINT,
+    user_name VARCHAR(50),
+    account VARCHAR(30),
+    description VARCHAR(255),
+    login_date CHAR(10),
+    ua TEXT,
+    browser VARCHAR(255),
+    browser_version VARCHAR(255),
+    operating_system VARCHAR(255),
+    location VARCHAR(255),
+    create_time DATETIME,
+    created_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '登录日志', 'SCHEMA', dbo, 'table', c_login_log, null, null;
+EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_login_log, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '登录IP', 'SCHEMA', dbo, 'table', c_login_log, 'column', request_ip;
+EXEC sp_addextendedproperty 'MS_Description', '登录人ID', 'SCHEMA', dbo, 'table', c_login_log, 'column', user_id;
+EXEC sp_addextendedproperty 'MS_Description', '登录人姓名', 'SCHEMA', dbo, 'table', c_login_log, 'column', user_name;
+EXEC sp_addextendedproperty 'MS_Description', '登录人账号', 'SCHEMA', dbo, 'table', c_login_log, 'column', account;
+EXEC sp_addextendedproperty 'MS_Description', '登录描述', 'SCHEMA', dbo, 'table', c_login_log, 'column', description;
+EXEC sp_addextendedproperty 'MS_Description', '登录时间', 'SCHEMA', dbo, 'table', c_login_log, 'column', login_date;
+EXEC sp_addextendedproperty 'MS_Description', '浏览器请求头', 'SCHEMA', dbo, 'table', c_login_log, 'column', ua;
+EXEC sp_addextendedproperty 'MS_Description', '浏览器名称', 'SCHEMA', dbo, 'table', c_login_log, 'column', browser;
+EXEC sp_addextendedproperty 'MS_Description', '浏览器版本', 'SCHEMA', dbo, 'table', c_login_log, 'column', browser_version;
+EXEC sp_addextendedproperty 'MS_Description', '操作系统', 'SCHEMA', dbo, 'table', c_login_log, 'column', operating_system;
+EXEC sp_addextendedproperty 'MS_Description', '登录地点', 'SCHEMA', dbo, 'table', c_login_log, 'column', location;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_login_log, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_login_log, 'column', created_by;
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_menu]') AND type in (N'U')) DROP TABLE [dbo].[c_menu];
+CREATE TABLE [dbo].[c_menu](
+    id BIGINT NOT NULL,
+    label VARCHAR(20) NOT NULL,
+    resource_type CHAR(2),
+    tree_grade INT,
+    tree_path VARCHAR(512),
+    describe_ VARCHAR(200),
+    is_general BIT DEFAULT  0,
+    path VARCHAR(255),
+    component VARCHAR(255),
+    state BIT DEFAULT  1,
+    sort_value INT DEFAULT  1,
+    icon VARCHAR(255),
+    group_ VARCHAR(20),
+    data_scope CHAR(2),
+    custom_class VARCHAR(255),
+    is_def BIT DEFAULT  0,
+    parent_id BIGINT DEFAULT  0,
+    readonly_ BIT DEFAULT  0,
+    created_by BIGINT,
+    create_time DATETIME,
+    updated_by BIGINT,
+    update_time DATETIME,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '菜单', 'SCHEMA', dbo, 'table', c_menu, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_menu, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_menu, 'column', label;
+EXEC sp_addextendedproperty 'MS_Description', '资源类型;[20-菜单 60-数据];@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS,dictType = EchoDictType.RESOURCE_TYPE)', 'SCHEMA', dbo, 'table', c_menu, 'column', resource_type;
+EXEC sp_addextendedproperty 'MS_Description', '树层级', 'SCHEMA', dbo, 'table', c_menu, 'column', tree_grade;
+EXEC sp_addextendedproperty 'MS_Description', '树路径', 'SCHEMA', dbo, 'table', c_menu, 'column', tree_path;
+EXEC sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', dbo, 'table', c_menu, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '通用菜单;True表示无需分配所有人就可以访问的', 'SCHEMA', dbo, 'table', c_menu, 'column', is_general;
+EXEC sp_addextendedproperty 'MS_Description', '路径', 'SCHEMA', dbo, 'table', c_menu, 'column', path;
+EXEC sp_addextendedproperty 'MS_Description', '组件', 'SCHEMA', dbo, 'table', c_menu, 'column', component;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_menu, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '排序', 'SCHEMA', dbo, 'table', c_menu, 'column', sort_value;
+EXEC sp_addextendedproperty 'MS_Description', '菜单图标', 'SCHEMA', dbo, 'table', c_menu, 'column', icon;
+EXEC sp_addextendedproperty 'MS_Description', '分组', 'SCHEMA', dbo, 'table', c_menu, 'column', group_;
+EXEC sp_addextendedproperty 'MS_Description', '数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]', 'SCHEMA', dbo, 'table', c_menu, 'column', data_scope;
+EXEC sp_addextendedproperty 'MS_Description', '实现类', 'SCHEMA', dbo, 'table', c_menu, 'column', custom_class;
+EXEC sp_addextendedproperty 'MS_Description', '是否默认', 'SCHEMA', dbo, 'table', c_menu, 'column', is_def;
+EXEC sp_addextendedproperty 'MS_Description', '父级菜单ID', 'SCHEMA', dbo, 'table', c_menu, 'column', parent_id;
+EXEC sp_addextendedproperty 'MS_Description', '内置', 'SCHEMA', dbo, 'table', c_menu, 'column', readonly_;
+EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_menu, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_menu, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'table', c_menu, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_menu, 'column', update_time;
+
+
+CREATE UNIQUE INDEX uk_path ON c_menu(path);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_opt_log]') AND type in (N'U')) DROP TABLE [dbo].[c_opt_log];
+CREATE TABLE [dbo].[c_opt_log](
+    id BIGINT NOT NULL,
+    request_ip VARCHAR(50),
+    type VARCHAR(5),
+    user_name VARCHAR(50),
+    description VARCHAR(255),
+    class_path VARCHAR(255),
+    action_method VARCHAR(50),
+    request_uri VARCHAR(50),
+    http_method VARCHAR(10),
+    start_time DATETIME,
+    finish_time DATETIME,
+    consuming_time BIGINT,
+    ua VARCHAR(500),
+    create_time DATETIME,
+    created_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '系统日志', 'SCHEMA', dbo, 'table', c_opt_log, null, null;
+EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_opt_log, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '操作IP', 'SCHEMA', dbo, 'table', c_opt_log, 'column', request_ip;
+EXEC sp_addextendedproperty 'MS_Description', '日志类型;
+#LogType{OPT:操作类型;EX:异常类型}', 'SCHEMA', dbo, 'table', c_opt_log, 'column', type;
+EXEC sp_addextendedproperty 'MS_Description', '操作人', 'SCHEMA', dbo, 'table', c_opt_log, 'column', user_name;
+EXEC sp_addextendedproperty 'MS_Description', '操作描述', 'SCHEMA', dbo, 'table', c_opt_log, 'column', description;
+EXEC sp_addextendedproperty 'MS_Description', '类路径', 'SCHEMA', dbo, 'table', c_opt_log, 'column', class_path;
+EXEC sp_addextendedproperty 'MS_Description', '请求方法', 'SCHEMA', dbo, 'table', c_opt_log, 'column', action_method;
+EXEC sp_addextendedproperty 'MS_Description', '请求地址', 'SCHEMA', dbo, 'table', c_opt_log, 'column', request_uri;
+EXEC sp_addextendedproperty 'MS_Description', '请求类型;
+#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}', 'SCHEMA', dbo, 'table', c_opt_log, 'column', http_method;
+EXEC sp_addextendedproperty 'MS_Description', '开始时间', 'SCHEMA', dbo, 'table', c_opt_log, 'column', start_time;
+EXEC sp_addextendedproperty 'MS_Description', '完成时间', 'SCHEMA', dbo, 'table', c_opt_log, 'column', finish_time;
+EXEC sp_addextendedproperty 'MS_Description', '消耗时间', 'SCHEMA', dbo, 'table', c_opt_log, 'column', consuming_time;
+EXEC sp_addextendedproperty 'MS_Description', '浏览器', 'SCHEMA', dbo, 'table', c_opt_log, 'column', ua;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_opt_log, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_opt_log, 'column', created_by;
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_opt_log_ext]') AND type in (N'U')) DROP TABLE [dbo].[c_opt_log_ext];
+CREATE TABLE [dbo].[c_opt_log_ext](
+    id BIGINT NOT NULL,
+    params TEXT,
+    result TEXT,
+    ex_detail TEXT,
+    create_time DATETIME,
+    created_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '系统日志扩展', 'SCHEMA', dbo, 'table', c_opt_log_ext, null, null;
+EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '请求参数', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', params;
+EXEC sp_addextendedproperty 'MS_Description', '返回值', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', result;
+EXEC sp_addextendedproperty 'MS_Description', '异常描述', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', ex_detail;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', created_by;
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_org]') AND type in (N'U')) DROP TABLE [dbo].[c_org];
+CREATE TABLE [dbo].[c_org](
+    id BIGINT NOT NULL,
+    label VARCHAR(255) NOT NULL,
+    type_ CHAR(2),
+    abbreviation VARCHAR(255),
+    parent_id BIGINT DEFAULT  0,
+    tree_path VARCHAR(255),
+    sort_value INT DEFAULT  1,
+    state BIT DEFAULT  1,
+    describe_ VARCHAR(255),
+    create_time DATETIME,
+    created_by BIGINT,
+    update_time DATETIME,
+    updated_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '组织', 'SCHEMA', dbo, 'table', c_org, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_org, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_org, 'column', label;
+EXEC sp_addextendedproperty 'MS_Description', '类型;
+@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)', 'SCHEMA', dbo, 'table', c_org, 'column', type_;
+EXEC sp_addextendedproperty 'MS_Description', '简称', 'SCHEMA', dbo, 'table', c_org, 'column', abbreviation;
+EXEC sp_addextendedproperty 'MS_Description', '父ID', 'SCHEMA', dbo, 'table', c_org, 'column', parent_id;
+EXEC sp_addextendedproperty 'MS_Description', '树结构', 'SCHEMA', dbo, 'table', c_org, 'column', tree_path;
+EXEC sp_addextendedproperty 'MS_Description', '排序', 'SCHEMA', dbo, 'table', c_org, 'column', sort_value;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_org, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', dbo, 'table', c_org, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_org, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_org, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '修改时间', 'SCHEMA', dbo, 'table', c_org, 'column', update_time;
+EXEC sp_addextendedproperty 'MS_Description', '修改人', 'SCHEMA', dbo, 'table', c_org, 'column', updated_by;
+
+
+CREATE UNIQUE INDEX uk_name ON c_org(label);
+CREATE INDEX fu_path ON c_org(tree_path);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_parameter]') AND type in (N'U')) DROP TABLE [dbo].[c_parameter];
+CREATE TABLE [dbo].[c_parameter](
+    id BIGINT NOT NULL,
+    key_ VARCHAR(255) NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    describe_ VARCHAR(255),
+    state BIT DEFAULT  1,
+    readonly_ BIT DEFAULT  0,
+    created_by BIGINT,
+    create_time DATETIME,
+    updated_by BIGINT,
+    update_time DATETIME,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '参数配置', 'SCHEMA', dbo, 'table', c_parameter, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_parameter, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '参数键', 'SCHEMA', dbo, 'table', c_parameter, 'column', key_;
+EXEC sp_addextendedproperty 'MS_Description', '参数值', 'SCHEMA', dbo, 'table', c_parameter, 'column', value;
+EXEC sp_addextendedproperty 'MS_Description', '参数名称', 'SCHEMA', dbo, 'table', c_parameter, 'column', name;
+EXEC sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', dbo, 'table', c_parameter, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_parameter, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '内置', 'SCHEMA', dbo, 'table', c_parameter, 'column', readonly_;
+EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_parameter, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_parameter, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'table', c_parameter, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_parameter, 'column', update_time;
+
+
+CREATE UNIQUE INDEX uk_key ON c_parameter(key_);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_resource]') AND type in (N'U')) DROP TABLE [dbo].[c_resource];
+CREATE TABLE [dbo].[c_resource](
+    id BIGINT NOT NULL,
+    code VARCHAR(500),
+    name VARCHAR(255) NOT NULL,
+    menu_id BIGINT,
+    describe_ VARCHAR(255),
+    readonly_ BIT DEFAULT  1,
+    created_by BIGINT,
+    create_time DATETIME,
+    updated_by BIGINT,
+    update_time DATETIME,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '资源', 'SCHEMA', dbo, 'table', c_resource, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_resource, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '编码', 'SCHEMA', dbo, 'table', c_resource, 'column', code;
+EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_resource, 'column', name;
+EXEC sp_addextendedproperty 'MS_Description', '菜单;#c_menu', 'SCHEMA', dbo, 'table', c_resource, 'column', menu_id;
+EXEC sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', dbo, 'table', c_resource, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '内置', 'SCHEMA', dbo, 'table', c_resource, 'column', readonly_;
+EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_resource, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_resource, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'table', c_resource, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_resource, 'column', update_time;
+
+
+CREATE UNIQUE INDEX uk_code ON c_resource(code);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role]') AND type in (N'U')) DROP TABLE [dbo].[c_role];
+CREATE TABLE [dbo].[c_role](
+    id BIGINT NOT NULL,
+    category CHAR(2),
+    name VARCHAR(30) NOT NULL,
+    code VARCHAR(20),
+    describe_ VARCHAR(100),
+    state BIT DEFAULT  1,
+    readonly_ BIT DEFAULT  0,
+    created_by BIGINT,
+    create_time DATETIME,
+    updated_by BIGINT,
+    update_time DATETIME,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '角色', 'SCHEMA', dbo, 'table', c_role, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_role, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '角色类别;[10-功能角色 20-桌面角色 30-数据角色]', 'SCHEMA', dbo, 'table', c_role, 'column', category;
+EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_role, 'column', name;
+EXEC sp_addextendedproperty 'MS_Description', '编码', 'SCHEMA', dbo, 'table', c_role, 'column', code;
+EXEC sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', dbo, 'table', c_role, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_role, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '内置角色', 'SCHEMA', dbo, 'table', c_role, 'column', readonly_;
+EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_role, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_role, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'table', c_role, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_role, 'column', update_time;
+
+
+CREATE UNIQUE INDEX uk_code ON c_role(code);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role_authority]') AND type in (N'U')) DROP TABLE [dbo].[c_role_authority];
+CREATE TABLE [dbo].[c_role_authority](
+    id BIGINT NOT NULL,
+    authority_id BIGINT NOT NULL,
+    authority_type VARCHAR(10) NOT NULL,
+    role_id BIGINT NOT NULL,
+    create_time DATETIME,
+    created_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '角色的资源', 'SCHEMA', dbo, 'table', c_role_authority, null, null;
+EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_role_authority, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '资源id;
+#c_resource #c_menu', 'SCHEMA', dbo, 'table', c_role_authority, 'column', authority_id;
+EXEC sp_addextendedproperty 'MS_Description', '权限类型;
+#AuthorizeType{MENU:菜单;RESOURCE:资源;}', 'SCHEMA', dbo, 'table', c_role_authority, 'column', authority_type;
+EXEC sp_addextendedproperty 'MS_Description', '角色id;
+#c_role', 'SCHEMA', dbo, 'table', c_role_authority, 'column', role_id;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_role_authority, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_role_authority, 'column', created_by;
+
+
+CREATE UNIQUE INDEX uk_role_authority ON c_role_authority(authority_id,authority_type,role_id);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role_org]') AND type in (N'U')) DROP TABLE [dbo].[c_role_org];
+CREATE TABLE [dbo].[c_role_org](
+    id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    org_id BIGINT NOT NULL,
+    create_time DATETIME,
+    created_by BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '角色组织关系', 'SCHEMA', dbo, 'table', c_role_org, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_role_org, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '角色;#c_role', 'SCHEMA', dbo, 'table', c_role_org, 'column', role_id;
+EXEC sp_addextendedproperty 'MS_Description', '部门;#c_org', 'SCHEMA', dbo, 'table', c_role_org, 'column', org_id;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_role_org, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_role_org, 'column', created_by;
+
+
+CREATE UNIQUE INDEX uk_role_org ON c_role_org(org_id,role_id);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_station]') AND type in (N'U')) DROP TABLE [dbo].[c_station];
+CREATE TABLE [dbo].[c_station](
+    id BIGINT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    org_id BIGINT,
+    state BIT DEFAULT  1,
+    describe_ VARCHAR(255),
+    create_time DATETIME,
+    created_by BIGINT,
+    update_time DATETIME,
+    updated_by BIGINT,
+    created_org_id BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '岗位', 'SCHEMA', dbo, 'table', c_station, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_station, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_station, 'column', name;
+EXEC sp_addextendedproperty 'MS_Description', '组织;#c_org;@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)', 'SCHEMA', dbo, 'table', c_station, 'column', org_id;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_station, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', dbo, 'table', c_station, 'column', describe_;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_station, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_station, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '修改时间', 'SCHEMA', dbo, 'table', c_station, 'column', update_time;
+EXEC sp_addextendedproperty 'MS_Description', '修改人', 'SCHEMA', dbo, 'table', c_station, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建者所属机构', 'SCHEMA', dbo, 'table', c_station, 'column', created_org_id;
+
+
+CREATE UNIQUE INDEX uk_name ON c_station(name);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_user]') AND type in (N'U')) DROP TABLE [dbo].[c_user];
+CREATE TABLE [dbo].[c_user](
+    id BIGINT NOT NULL,
+    account VARCHAR(30) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    org_id BIGINT,
+    station_id BIGINT,
+    readonly BIT NOT NULL DEFAULT  0,
+    email VARCHAR(255),
+    mobile VARCHAR(20),
+    sex VARCHAR(1) DEFAULT  'M',
+    state BIT DEFAULT  1,
+    avatar VARCHAR(255),
+    nation CHAR(2),
+    education CHAR(2),
+    position_status CHAR(2),
+    work_describe VARCHAR(255),
+    password_error_last_time DATETIME,
+    password_error_num INT DEFAULT  0,
+    password_expire_time DATETIME,
+    password VARCHAR(64) NOT NULL,
+    salt VARCHAR(20) NOT NULL,
+    last_login_time DATETIME,
+    created_by BIGINT,
+    create_time DATETIME,
+    updated_by BIGINT,
+    update_time DATETIME,
+    created_org_id BIGINT,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '用户', 'SCHEMA', dbo, 'table', c_user, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_user, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '账号', 'SCHEMA', dbo, 'table', c_user, 'column', account;
+EXEC sp_addextendedproperty 'MS_Description', '姓名', 'SCHEMA', dbo, 'table', c_user, 'column', name;
+EXEC sp_addextendedproperty 'MS_Description', '组织;#c_org;@Echo(api = ORG_ID_CLASS,  beanClass = Org.class)', 'SCHEMA', dbo, 'table', c_user, 'column', org_id;
+EXEC sp_addextendedproperty 'MS_Description', '岗位;#c_station;@Echo(api = STATION_ID_CLASS)', 'SCHEMA', dbo, 'table', c_user, 'column', station_id;
+EXEC sp_addextendedproperty 'MS_Description', '内置', 'SCHEMA', dbo, 'table', c_user, 'column', readonly;
+EXEC sp_addextendedproperty 'MS_Description', '邮箱', 'SCHEMA', dbo, 'table', c_user, 'column', email;
+EXEC sp_addextendedproperty 'MS_Description', '手机', 'SCHEMA', dbo, 'table', c_user, 'column', mobile;
+EXEC sp_addextendedproperty 'MS_Description', '性别;
+#Sex{W:女;M:男;N:未知}', 'SCHEMA', dbo, 'table', c_user, 'column', sex;
+EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_user, 'column', state;
+EXEC sp_addextendedproperty 'MS_Description', '头像', 'SCHEMA', dbo, 'table', c_user, 'column', avatar;
+EXEC sp_addextendedproperty 'MS_Description', '民族;
+@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)', 'SCHEMA', dbo, 'table', c_user, 'column', nation;
+EXEC sp_addextendedproperty 'MS_Description', '学历;
+@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)', 'SCHEMA', dbo, 'table', c_user, 'column', education;
+EXEC sp_addextendedproperty 'MS_Description', '职位状态;
+@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)', 'SCHEMA', dbo, 'table', c_user, 'column', position_status;
+EXEC sp_addextendedproperty 'MS_Description', '工作描述', 'SCHEMA', dbo, 'table', c_user, 'column', work_describe;
+EXEC sp_addextendedproperty 'MS_Description', '最后一次输错密码时间', 'SCHEMA', dbo, 'table', c_user, 'column', password_error_last_time;
+EXEC sp_addextendedproperty 'MS_Description', '密码错误次数', 'SCHEMA', dbo, 'table', c_user, 'column', password_error_num;
+EXEC sp_addextendedproperty 'MS_Description', '密码过期时间', 'SCHEMA', dbo, 'table', c_user, 'column', password_expire_time;
+EXEC sp_addextendedproperty 'MS_Description', '密码', 'SCHEMA', dbo, 'table', c_user, 'column', password;
+EXEC sp_addextendedproperty 'MS_Description', '密码盐', 'SCHEMA', dbo, 'table', c_user, 'column', salt;
+EXEC sp_addextendedproperty 'MS_Description', '最后登录时间', 'SCHEMA', dbo, 'table', c_user, 'column', last_login_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_user, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_user, 'column', create_time;
+EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'table', c_user, 'column', updated_by;
+EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_user, 'column', update_time;
+EXEC sp_addextendedproperty 'MS_Description', '创建者所属机构', 'SCHEMA', dbo, 'table', c_user, 'column', created_org_id;
+
+
+CREATE UNIQUE INDEX uk_account ON c_user(account);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_user_role]') AND type in (N'U')) DROP TABLE [dbo].[c_user_role];
+CREATE TABLE [dbo].[c_user_role](
+    id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    created_by BIGINT,
+    create_time DATETIME,
+    PRIMARY KEY (id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '角色分配;账号角色绑定', 'SCHEMA', dbo, 'table', c_user_role, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_user_role, 'column', id;
+EXEC sp_addextendedproperty 'MS_Description', '角色;#c_role', 'SCHEMA', dbo, 'table', c_user_role, 'column', role_id;
+EXEC sp_addextendedproperty 'MS_Description', '用户;#c_user', 'SCHEMA', dbo, 'table', c_user_role, 'column', user_id;
+EXEC sp_addextendedproperty 'MS_Description', '创建人ID', 'SCHEMA', dbo, 'table', c_user_role, 'column', created_by;
+EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_user_role, 'column', create_time;
+
+
+CREATE UNIQUE INDEX uk_user_role ON c_user_role(role_id,user_id);
 

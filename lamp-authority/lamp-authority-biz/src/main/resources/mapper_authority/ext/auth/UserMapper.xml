@@ -4,8 +4,8 @@
 
     <select id="findUserByRoleId" resultMap="BaseResultMap" parameterType="map">
         SELECT u.id as id, account, name, mobile, sex
-        FROM c_user u INNER JOIN c_user_role ur on u.id = ur.user_id
-        where ur.role_id = #{roleId, jdbcType=BIGINT}
+        FROM c_user u INNER JOIN c_user_role ura on u.id = ura.user_id
+        where ura.role_id = #{roleId, jdbcType=BIGINT}
         <if test="keyword != null and keyword != ''">
             and (u.account like #{keyword, typeHandler=fullLike} or u.name like #{keyword, typeHandler=fullLike})
         </if>
@@ -37,8 +37,8 @@
     <select id="pageByRole" resultMap="BaseResultMap" parameterType="map">
         SELECT
         <include refid="User_Column_List"/>
-        FROM c_user u LEFT JOIN c_user_role ur on u.id= ur.user_id
-        LEFT JOIN c_role r on r.id = ur.role_id
+        FROM c_user u LEFT JOIN c_user_role ura on u.id= ura.user_id
+        LEFT JOIN c_role r on r.id = ura.role_id
         where r.code = #{param.extra.roleCode}
         <if test="param.model.account != null and param.model.account != ''">
             and u.account like #{param.model.account, typeHandler=fullLike}

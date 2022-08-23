@@ -1,5 +1,6 @@
 package top.tangyh.lamp.userinfo.service;
 
+import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import top.tangyh.basic.cache.repository.CacheOps;
@@ -55,7 +56,7 @@ public class ResourceHelperService {
             return visibleResource.stream().map(SysResource::getId).collect(Collectors.toList());
         });
 
-        if (visibleResource.isEmpty()) {
+        if (visibleResource.isEmpty() && CollUtil.isNotEmpty(list)) {
             visibleResource.addAll(resourceHelperMapper.selectBatchIds(list));
         }
         return resourceListFilterGroup(resource.getMenuId(), visibleResource);
