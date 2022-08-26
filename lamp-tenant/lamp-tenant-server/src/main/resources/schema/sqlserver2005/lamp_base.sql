@@ -281,8 +281,6 @@ EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_menu, 'column', update_time;
 
 
-CREATE UNIQUE INDEX uk_path ON c_menu(path);
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_opt_log]') AND type in (N'U')) DROP TABLE [dbo].[c_opt_log];
 CREATE TABLE [dbo].[c_opt_log](
     id BIGINT NOT NULL,

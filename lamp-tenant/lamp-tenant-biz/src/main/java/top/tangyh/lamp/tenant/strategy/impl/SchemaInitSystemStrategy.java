@@ -17,6 +17,8 @@ import top.tangyh.lamp.tenant.dto.TenantConnectDTO;
 import top.tangyh.lamp.tenant.strategy.InitSystemStrategy;
 
 import javax.sql.DataSource;
+import java.io.BufferedReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -43,6 +45,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
      */
     private static final String SCHEMA_PATH = "schema/{}/{}.sql";
     private static final String DATA_PATH = "data/{}/{}.sql";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private final DataSource dataSource;
     private final InitDbMapper initDbMapper;
@@ -68,17 +71,11 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
 
     @Override
     public boolean reset(String tenant) {
-        ScriptRunner runner;
-        try {
-            runner = getScriptRunner();
-            String tenantDatabasePrefix = databaseProperties.getTenantDatabasePrefix();
-            useDb(tenant, runner, tenantDatabasePrefix);
-            String dataScript = tenantDatabasePrefix + StrUtil.UNDERLINE + tenant;
-            runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, getDbType().getDb(), dataScript)));
-        } catch (Exception e) {
-            log.error("重置数据失败", e);
-            return false;
-        }
+        ScriptRunner runner = this.getScriptRunner();
+        this.initSchema(runner, tenant);
+        this.initData(runner, tenant);
+        // 切换为默认数据源
+        this.resetDatabase(runner);
         return true;
     }
 
@@ -88,19 +85,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
     }
 
     public void initSchema(ScriptRunner runner, String tenant) {
-        try {
-            for (String database : databaseProperties.getInitDatabasePrefix()) {
-                this.useDb(tenant, runner, database);
-                runner.runScript(Resources.getResourceAsReader(StrUtil.format(SCHEMA_PATH, getDbType().getDb(), database)));
-            }
-        } catch (Exception e) {
-            log.error("初始化表失败", e);
-            throw new BizException("初始化表失败", e);
-        }
-    }
-
-    private DbType getDbType() {
-        return DbPlusUtil.getDbType(dataSource);
+        runScript(runner, tenant, SCHEMA_PATH);
     }
 
     /**
@@ -111,17 +96,38 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
      * @param tenant 租户编码
      */
     public void initData(ScriptRunner runner, String tenant) {
+        runScript(runner, tenant, DATA_PATH);
+    }
+
+    private void runScript(ScriptRunner runner, String tenant, String path) {
         try {
             for (String database : databaseProperties.getInitDatabasePrefix()) {
-                this.useDb(tenant, runner, database);
-                String dataScript = database;
-                runner.runScript(Resources.getResourceAsReader(StrUtil.format(DATA_PATH, getDbType().getDb(), dataScript)));
+                String useDb = StrUtil.format("use {};", StrUtil.join(StrUtil.UNDERLINE, database, tenant));
+
+                StringBuilder script = new StringBuilder();
+                script.append(useDb);
+                script.append(LINE_SEPARATOR);
+
+                Reader reader = Resources.getResourceAsReader(StrUtil.format(path, getDbType().getDb(), database));
+                BufferedReader lineReader = new BufferedReader(reader);
+                String line;
+                while ((line = lineReader.readLine()) != null) {
+                    script.append(line);
+                    script.append(LINE_SEPARATOR);
+                }
+
+                runner.runScript(new StringReader(script.toString()));
             }
         } catch (Exception e) {
             log.error("初始化数据失败", e);
             throw new BizException("初始化数据失败", e);
         }
     }
+
+    private DbType getDbType() {
+        return DbPlusUtil.getDbType(dataSource);
+    }
+
 
     public void resetDatabase(ScriptRunner runner) {
         try {
@@ -130,12 +136,6 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
             log.error("切换为默认数据源失败", e);
             throw new BizException("切换为默认数据源失败", e);
         }
-    }
-
-    public String useDb(String tenant, ScriptRunner runner, String database) {
-        String db = StrUtil.join(StrUtil.UNDERLINE, database, tenant);
-        runner.runScript(new StringReader(StrUtil.format("use {};", db)));
-        return db;
     }
 
     @SuppressWarnings("AlibabaRemoveCommentedCode")
