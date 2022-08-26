@@ -1,3 +1,5 @@
+use lamp_base_1234;
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_appendix]') AND type in (N'U')) DROP TABLE [dbo].[c_appendix];
 CREATE TABLE [dbo].[c_appendix](
     id BIGINT NOT NULL,
@@ -56,8 +58,7 @@ EXEC sp_addextendedproperty 'MS_Description', '客户端密码', 'SCHEMA', dbo, 
 EXEC sp_addextendedproperty 'MS_Description', '官网', 'SCHEMA', dbo, 'table', c_application, 'column', website;
 EXEC sp_addextendedproperty 'MS_Description', '应用名称', 'SCHEMA', dbo, 'table', c_application, 'column', name;
 EXEC sp_addextendedproperty 'MS_Description', '应用图标', 'SCHEMA', dbo, 'table', c_application, 'column', icon;
-EXEC sp_addextendedproperty 'MS_Description', '类型;
-#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}', 'SCHEMA', dbo, 'table', c_application, 'column', app_type;
+EXEC sp_addextendedproperty 'MS_Description', '类型;#{SERVER:服务应用;APP:手机应用;PC:PC网页应用;WAP:手机网页应用}', 'SCHEMA', dbo, 'table', c_application, 'column', app_type;
 EXEC sp_addextendedproperty 'MS_Description', '备注', 'SCHEMA', dbo, 'table', c_application, 'column', describe_;
 EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_application, 'column', state;
 EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'table', c_application, 'column', created_by;
@@ -361,8 +362,7 @@ CREATE TABLE [dbo].[c_org](
 EXEC sp_addextendedproperty 'MS_Description', '组织', 'SCHEMA', dbo, 'table', c_org, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_org, 'column', id;
 EXEC sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', dbo, 'table', c_org, 'column', label;
-EXEC sp_addextendedproperty 'MS_Description', '类型;
-@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)', 'SCHEMA', dbo, 'table', c_org, 'column', type_;
+EXEC sp_addextendedproperty 'MS_Description', '类型;@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)', 'SCHEMA', dbo, 'table', c_org, 'column', type_;
 EXEC sp_addextendedproperty 'MS_Description', '简称', 'SCHEMA', dbo, 'table', c_org, 'column', abbreviation;
 EXEC sp_addextendedproperty 'MS_Description', '父ID', 'SCHEMA', dbo, 'table', c_org, 'column', parent_id;
 EXEC sp_addextendedproperty 'MS_Description', '树结构', 'SCHEMA', dbo, 'table', c_org, 'column', tree_path;
@@ -587,16 +587,12 @@ EXEC sp_addextendedproperty 'MS_Description', '岗位;#c_station;@Echo(api = STA
 EXEC sp_addextendedproperty 'MS_Description', '内置', 'SCHEMA', dbo, 'table', c_user, 'column', readonly;
 EXEC sp_addextendedproperty 'MS_Description', '邮箱', 'SCHEMA', dbo, 'table', c_user, 'column', email;
 EXEC sp_addextendedproperty 'MS_Description', '手机', 'SCHEMA', dbo, 'table', c_user, 'column', mobile;
-EXEC sp_addextendedproperty 'MS_Description', '性别;
-#Sex{W:女;M:男;N:未知}', 'SCHEMA', dbo, 'table', c_user, 'column', sex;
+EXEC sp_addextendedproperty 'MS_Description', '性别;#Sex{W:女;M:男;N:未知}', 'SCHEMA', dbo, 'table', c_user, 'column', sex;
 EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_user, 'column', state;
 EXEC sp_addextendedproperty 'MS_Description', '头像', 'SCHEMA', dbo, 'table', c_user, 'column', avatar;
-EXEC sp_addextendedproperty 'MS_Description', '民族;
-@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)', 'SCHEMA', dbo, 'table', c_user, 'column', nation;
-EXEC sp_addextendedproperty 'MS_Description', '学历;
-@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)', 'SCHEMA', dbo, 'table', c_user, 'column', education;
-EXEC sp_addextendedproperty 'MS_Description', '职位状态;
-@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)', 'SCHEMA', dbo, 'table', c_user, 'column', position_status;
+EXEC sp_addextendedproperty 'MS_Description', '民族;@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)', 'SCHEMA', dbo, 'table', c_user, 'column', nation;
+EXEC sp_addextendedproperty 'MS_Description', '学历;@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)', 'SCHEMA', dbo, 'table', c_user, 'column', education;
+EXEC sp_addextendedproperty 'MS_Description', '职位状态;@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)', 'SCHEMA', dbo, 'table', c_user, 'column', position_status;
 EXEC sp_addextendedproperty 'MS_Description', '工作描述', 'SCHEMA', dbo, 'table', c_user, 'column', work_describe;
 EXEC sp_addextendedproperty 'MS_Description', '最后一次输错密码时间', 'SCHEMA', dbo, 'table', c_user, 'column', password_error_last_time;
 EXEC sp_addextendedproperty 'MS_Description', '密码错误次数', 'SCHEMA', dbo, 'table', c_user, 'column', password_error_num;
