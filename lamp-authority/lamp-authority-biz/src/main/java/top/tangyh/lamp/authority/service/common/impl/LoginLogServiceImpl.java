@@ -191,7 +191,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
             return map.stream().map(item -> {
                 Map<String, String> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
                 kv.put("login_date", item.get("login_date"));
-                kv.put("count", String.valueOf(item.get("count")));
+                kv.put("count", String.valueOf(item.get("num")));
                 return kv;
             }).collect(Collectors.toList());
         });
@@ -200,13 +200,30 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     @Override
     public List<Map<String, Object>> findByBrowser() {
         CacheKey loginLogBrowserKey = new LoginLogBrowserCacheKeyBuilder().key();
-        return cacheOps.get(loginLogBrowserKey, k -> baseMapper.findByBrowser());
+        return cacheOps.get(loginLogBrowserKey, k -> {
+            List<Map<String, Object>> map = baseMapper.findByBrowser();
+            return map.stream().map(item -> {
+                Map<String, Object> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
+                kv.put("browser", item.get("browser"));
+                kv.put("count", String.valueOf(item.get("num")));
+                return kv;
+            }).collect(Collectors.toList());
+        });
     }
 
     @Override
     public List<Map<String, Object>> findByOperatingSystem() {
         CacheKey loginLogSystemKey = new LoginLogSystemCacheKeyBuilder().key();
-        return cacheOps.get(loginLogSystemKey, k -> baseMapper.findByOperatingSystem());
+        return cacheOps.get(loginLogSystemKey, k -> {
+            List<Map<String, Object>> map =  baseMapper.findByOperatingSystem();
+
+            return map.stream().map(item -> {
+                Map<String, Object> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
+                kv.put("operating_system", item.get("operating_system"));
+                kv.put("count", String.valueOf(item.get("num")));
+                return kv;
+            }).collect(Collectors.toList());
+        });
     }
 
     @Override
