@@ -3,29 +3,24 @@ lamp_nacos、lamp_seata、lamp_sw是第三方组件的库， 分别为：nacos�
 
 lamp_none、lamp_activiti、lamp_column、lamp_defaults、lamp_base_0000、lamp_extend_0000 是lamp-cloud项目需要的库
  */
--- none 模式
-CREATE DATABASE IF NOT EXISTS `lamp_nacos` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_seata` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_sw` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+-- 三方组件
+CREATE DATABASE lamp_seata COLLATE Chinese_PRC_CI_AS;
+CREATE DATABASE lamp_seata COLLATE Chinese_PRC_CI_AS;
+CREATE DATABASE lamp_sw COLLATE Chinese_PRC_CI_AS;
+GO
 
-CREATE DATABASE IF NOT EXISTS `lamp_none` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_activiti` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+-- none 模式 业务库
+CREATE DATABASE lamp_none COLLATE Chinese_PRC_CI_AS;
+CREATE DATABASE lamp_activiti COLLATE Chinese_PRC_CI_AS;
+GO
 
--- column 模式
-CREATE DATABASE IF NOT EXISTS `lamp_nacos` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_seata` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_sw` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+-- column 模式 业务库
+CREATE DATABASE lamp_column COLLATE Chinese_PRC_CI_AS;
+CREATE DATABASE lamp_activiti COLLATE Chinese_PRC_CI_AS;
+GO
 
-CREATE DATABASE IF NOT EXISTS `lamp_column` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_activiti` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
--- schema 模式、datasource模式 （暂不支持工作流）
-CREATE DATABASE IF NOT EXISTS `lamp_nacos` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_seata` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_sw` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-CREATE DATABASE IF NOT EXISTS `lamp_defaults` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_base_0000` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE IF NOT EXISTS `lamp_extend_0000` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-
+-- schema 模式、datasource模式  业务库（暂不支持工作流）
+CREATE DATABASE lamp_defaults COLLATE Chinese_PRC_CI_AS;
+CREATE DATABASE lamp_base_0000 COLLATE Chinese_PRC_CI_AS;
+CREATE DATABASE lamp_extend_0000 COLLATE Chinese_PRC_CI_AS;
+GO
