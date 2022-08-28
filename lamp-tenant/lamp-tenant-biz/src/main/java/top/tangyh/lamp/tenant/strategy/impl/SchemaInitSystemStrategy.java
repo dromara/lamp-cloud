@@ -155,7 +155,7 @@ public class SchemaInitSystemStrategy implements InitSystemStrategy {
 
             Resources.setCharset(StandardCharsets.UTF_8);
 //            设置分隔符
-            runner.setDelimiter(databaseProperties.getDelimiter());
+//            runner.setDelimiter(databaseProperties.getDelimiter());
             runner.setFullLineDelimiter(false);
             return runner;
         } catch (Exception ex) {
