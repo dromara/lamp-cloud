@@ -4,6 +4,10 @@ lamp:
       tenant:
         title: 租户模块
         base-package: top.tangyh.lamp.tenant.controller
-
+  database:
+    initDatabasePrefix:
+      - lamp_base
+      - lamp_extend
+      
 server:
   port: 8778

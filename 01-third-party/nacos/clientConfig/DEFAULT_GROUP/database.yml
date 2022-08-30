@@ -1,14 +1,40 @@
 lamp:
-  mysql:
-    ip: 127.0.0.1
-    port: 3306
-    driverClassName: com.mysql.cj.jdbc.Driver
-    database: lamp_defaults
+  oracle: &db-oracle
+    db-type: oracle     
+    validation-query: SELECT 'x' FROM DUAL   
+    filters: stat,wall,slf4j       # druid不支持使用p6spy打印日志，所以采用druid 的 slf4j 过滤器来打印可执行日志
+    username: 'lamp_defaults'
+    password: 'lamp_defaults'
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@172.26.3.67:1521:helowin
+    owner: ''
+  mysql: &db-mysql
+    db-type: mysql   
+    validation-query: SELECT 'x'  
+    filters: stat,wall
     username: 'root'
     password: 'root'
-    url: jdbc:mysql://${lamp.mysql.ip}:${lamp.mysql.port}/${lamp.mysql.database}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
+    owner: ''
+    # 生产使用原生驱动，开发使用p6spy驱动打印日志
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/lamp_defaults?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true  
+  sqlserver: &db-sqlserver
+    username: 'sa'
+    password: '1234@abcd'
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://172.26.3.67:1433;DatabaseName=lamp_defaults
+    db-type: sqlserver    
+    validation-query: SELECT 'x'   
+    filters: stat,wall
+    owner: 'dbo'
   database: # 字段介绍参考 DatabaseProperties
-    tenantDatabasePrefix: lamp_base   # 这里的前缀要和lamp-*-server/src/main/resources/sqls/下的文件名一致
+    <<: *db-sqlserver
+    # <<: *db-mysql
+    # <<: *db-oracle
+    tenantDatabasePrefix: lamp_base  # schema 模式专用
+    initDatabasePrefix:   #  # schema 和 datasource 模式需要初始化的租户库前缀
+      - lamp_base
+      - lamp_extend
     multiTenantType: SCHEMA
     # COLUMN模式中隔离 租户 的列名
     tenantIdColumn: tenant_code
@@ -16,10 +42,20 @@ lamp:
     isNotWrite: false
     # 是否启用  sql性能规范插件
     isBlockAttack: false
+    # 是否启用  sql性能规范插件
+    isIllegalSql: false
     # 是否启用分布式事务
     isSeata: false
     # 生产环境请设置p6spy = false
     p6spy: true
+    # 分页大小限制
+    maxLimit: -1
+    # 溢出总页数后是否进行处理
+    overflow: true
+    # 生成 countSql 优化掉 join 现在只支持 left join
+    optimizeJoin: true
+    # 是否启用数据权限
+    isDataScope: true
     # id生成策略
     id-type: HU_TOOL
     hutoolId:
@@ -40,17 +76,12 @@ spring:
   datasource:
     dynamic:
       enabled: false  # 这里一定要写成false，无论是什么模式
-      # 从这里开始(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
-      # 联系微信：tyh306479353 购买开通
-    # 从这里结束(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
     druid:
       enable: true
       # 从这里开始(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
-      username: ${lamp.mysql.username}
-      password: ${lamp.mysql.password}
-      driver-class-name: ${lamp.mysql.driverClassName}
-      url: jdbc:mysql://${lamp.mysql.ip}:${lamp.mysql.port}/${lamp.mysql.database}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
-      db-type: mysql
+      # <<: *db-mysql
+      <<: *db-sqlserver
+      # <<: *db-oracle
       initialSize: 10
       minIdle: 10
       maxActive: 200
@@ -63,14 +94,18 @@ spring:
       test-while-idle: true
       time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
-      filters: stat,wall
+      # filters: stat,wall
       filter:
         wall:
           enabled: true
           config:
+            strictSyntaxCheck: false
             commentAllow: true
             multiStatementAllow: true
             noneBaseStatementAllow: true
+        slf4j:   
+          enabled: false     # 使用slf4j打印可执行日志时，改成true
+          statement-executable-sql-log-enable: true            
       # 从这里结束(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
 
       # 以下的2段配置，同时适用于所有模式
@@ -107,7 +142,7 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
-    defaultEnumTypeHandler: top.tangyh.basic.database.mybatis.handlers.MybatisEnumTypeHandler
+    default-enum-type-handler: top.tangyh.basic.database.mybatis.handlers.MybatisEnumTypeHandler
 
 # 分布式事务相关
 seata:

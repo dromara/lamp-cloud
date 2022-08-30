@@ -1,6 +1,9 @@
 lamp:
   database:
     tenantDatabasePrefix: lamp_extend
+    initDatabasePrefix:
+      - lamp_base
+      - lamp_extend
   swagger:
     docket:
       msg:

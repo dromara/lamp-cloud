@@ -7,14 +7,14 @@ lamp:
   file:
     storageType: LOCAL  #  FAST_DFS LOCAL MIN_IO ALI_OSS HUAWEI_OSS QINIU_OSS
     delFile: false
-    publicBucket: 
+    publicBucket:
       - public
-    local: 
+    local:
       storagePath: /Users/tangyh/data/projects/uploadfile/file/     # 文件存储路径  （ 某些版本的 window 需要改成  D:\\data\\projects\\uploadfile\\file\\  ）
       urlPrefix: http://127.0.0.1/file/   # 文件访问 （部署nginx后，配置nginx的ip，并配置nginx静态代理storage-path地址的静态资源）
       innerUrlPrefix: null  #  内网的url前缀
     fastDfs:
-      urlPrefix: https://fastdfs.tangyh.top/   
+      urlPrefix: https://fastdfs.tangyh.top/
     ali:
       # 请填写自己的阿里云存储配置
       urlPrefix: "https://zuihou-admin-cloud.oss-cn-beijing.aliyuncs.com/"
@@ -25,7 +25,7 @@ lamp:
     minIo:
       endpoint: "https://static.tangyh.top/"
       accessKey: "lamp"
-      secretKey: "lamp"
+      secretKey: "."
       bucket: "dev"
     huawei:
       urlPrefix: "https://huawei.tangyh.top/"
@@ -33,8 +33,8 @@ lamp:
       accessKey: "1"
       secretKey: "2"
       location: "cn-southwest-2"
-      bucket: "pjcp-public"
-    qiNiu:    
+      bucket: "-public"
+    qiNiu:
       domain: qiniu.tangyh.top
       useHttps: true
       zone: "z0"

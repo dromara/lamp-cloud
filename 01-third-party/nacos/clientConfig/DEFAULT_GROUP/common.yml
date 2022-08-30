@@ -9,11 +9,11 @@ lamp:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    contact:
+    contact:  # 联系人信息
       url: https://github.com/zuihou
       name: zuiou
       email: 306479353@qq.com
-    global-operation-parameters:
+    global-operation-parameters:  # 全局参数
       - name: token
         description: 用户身份token
         modelRef: String
@@ -61,7 +61,7 @@ lamp:
     height: 58
     len: 2
     charType: 2
-  async:
+  async:  # 全局线程池配置
     corePoolSize: 2
     maxPoolSize: 50
     queueCapacity: 10000
@@ -134,7 +134,7 @@ feign:
   hystrix:
     enabled: false
   sentinel:
-    enabled: true
+    enabled: true    
     #支持压缩的mime types
   compression:  # 请求压缩
     request:

@@ -72,12 +72,13 @@ spring:
             - Path=/example/**
           filters:
             - StripPrefix=1
-      # default-filters:
-      #   - name: Hystrix
-      #     args:
-      #       name: default
-      #       fallbackUri: 'forward:/fallback'
-
+        # websocket
+        - id: wsMsg
+          uri: lb:ws://lamp-msg-server
+          predicates:
+            - Path=/wsMsg/**
+          filters:
+            - StripPrefix=1
 
 server:
   port: 8760

@@ -15,3 +15,4 @@ spring:
     password: ${lamp.redis.password}
     port: ${lamp.redis.port}
     database: ${lamp.redis.database}
+
