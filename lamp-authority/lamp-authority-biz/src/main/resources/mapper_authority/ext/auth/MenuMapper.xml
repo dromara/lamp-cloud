@@ -20,9 +20,9 @@
         from c_menu where state = 1 and is_general = 0
         and id in (
         SELECT distinct authority_id FROM c_role_authority ra
-        INNER JOIN c_user_role ur on ra.role_id = ur.role_id
+        INNER JOIN c_user_role ura on ra.role_id = ura.role_id
         INNER JOIN c_role r on r.id = ra.role_id
-        where ur.user_id = #{userId, jdbcType=BIGINT} and r.state = 1
+        where ura.user_id = #{userId, jdbcType=BIGINT} and r.state = 1
         and ra.authority_type = 'MENU'
         and c_menu.resource_type = '20'
         )

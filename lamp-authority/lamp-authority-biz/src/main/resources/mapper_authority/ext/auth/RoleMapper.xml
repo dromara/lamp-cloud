@@ -10,13 +10,13 @@
     <select id="findRoleByUserId" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="R_Column_List"/>
-        from c_role r INNER JOIN c_user_role ur on r.id = ur.role_id
-        where state = 1 and ur.user_id = #{userId, jdbcType=BIGINT}
+        from c_role r INNER JOIN c_user_role ura on r.id = ura.role_id
+        where state = 1 and ura.user_id = #{userId, jdbcType=BIGINT}
     </select>
 
 
     <select id="findUserIdByCode" parameterType="map" resultType="java.lang.Long">
-        select ur.user_id from c_user_role ur INNER JOIN c_role r on r.id = ur.role_id
+        select ura.user_id from c_user_role ura INNER JOIN c_role r on r.id = ura.role_id
         where r.state = 1
         and r.code in
         <foreach close=")" collection="codes" item="code" open="(" separator=",">

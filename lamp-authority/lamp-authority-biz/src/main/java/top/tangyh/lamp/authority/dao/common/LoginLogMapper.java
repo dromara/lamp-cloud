@@ -34,7 +34,7 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      * @param today 今天
      * @return 今日访问次数
      */
-    Long getTodayLoginPv(@Param("today") LocalDate today);
+    Long getTodayLoginPv(@Param("today") String today);
 
     /**
      * 获取系统今日 登录IV
@@ -42,7 +42,7 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      * @param today 今天
      * @return 今日访问IP数
      */
-    Long getTodayLoginIv(@Param("today") LocalDate today);
+    Long getTodayLoginIv(@Param("today") String today);
 
     /**
      * 获取系统 登录IV

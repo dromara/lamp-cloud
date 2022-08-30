@@ -13,7 +13,8 @@
                 and state = #{query.state}
             </if>
         </where>
-        group by type
+        group by type,label
+        order by create_time DESC
     </select>
 
 </mapper>

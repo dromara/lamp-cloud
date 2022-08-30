@@ -7,9 +7,9 @@
         <include refid="Base_Column_List"/>
         from c_resource where 1=1
         and id in (
-        SELECT authority_id FROM c_role_authority ra INNER JOIN c_user_role ur on ra.role_id = ur.role_id
+        SELECT authority_id FROM c_role_authority ra INNER JOIN c_user_role ura on ra.role_id = ura.role_id
         INNER JOIN c_role r on r.id = ra.role_id
-        where ur.user_id = #{userId, jdbcType=BIGINT} and r.state = 1
+        where ura.user_id = #{userId, jdbcType=BIGINT} and r.state = 1
         and ra.authority_type = 'RESOURCE'
         )
     </select>

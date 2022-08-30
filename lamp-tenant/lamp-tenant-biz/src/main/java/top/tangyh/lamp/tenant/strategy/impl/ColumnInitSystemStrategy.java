@@ -126,7 +126,8 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
 
     private boolean initApplication() {
         List<Application> list = new ArrayList<>();
-        list.add(Application.builder().clientId("lamp_web").clientSecret("lamp_web_secret").website("http://tangyh.top:10000/lamp-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
+        list.add(Application.builder().clientId("lamp_web").clientSecret("lamp_web_secret").website("https://boot.tangyh.top/lamp-web/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
+        list.add(Application.builder().clientId("lamp_web_plus").clientSecret("lamp_web_plus_secret").website("https://boot.tangyh.top/").name("微服务快速开发管理后台").appType(ApplicationAppTypeEnum.PC).state(true).build());
         return applicationService.saveBatch(list);
     }
 
@@ -263,6 +264,10 @@ public class ColumnInitSystemStrategy implements InitSystemStrategy {
         Long loginLogId = menuMap.get(LOGIN_LOG);
         resourceList.add(Resource.builder().code("authority:loginLog:delete").name("删除").menuId(loginLogId).build());
         resourceList.add(Resource.builder().code("authority:loginLog:view").name("查看").menuId(loginLogId).build());
+
+        Long onlineId = menuMap.get(ONLINE);
+        resourceList.add(Resource.builder().code("authority:online:delete").name("删除").menuId(onlineId).build());
+        resourceList.add(Resource.builder().code("authority:online:view").name("查看").menuId(onlineId).build());
 
         Long applicationId = menuMap.get(APPLICATION);
         resourceList.add(Resource.builder().code("authority:application:add").name("新增").menuId(applicationId).build());

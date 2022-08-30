@@ -93,7 +93,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
      */
     @ApiModelProperty(value = "行政区级")
     @Size(max = 10, message = "行政区级长度不能超过10")
-    @TableField(value = "level", condition = LIKE)
+    @TableField(value = "level_", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.AREA_LEVEL)
     @Excel(name = "行政区级")
     private String level;

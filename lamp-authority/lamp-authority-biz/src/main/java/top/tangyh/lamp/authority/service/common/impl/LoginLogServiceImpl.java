@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +166,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     public Long getTodayLoginPv() {
         LocalDate now = LocalDate.now();
         CacheKey loginLogTodayKey = TodayLoginPvCacheKeyBuilder.build(now);
-        return Convert.toLong(cacheOps.get(loginLogTodayKey, k -> this.baseMapper.getTodayLoginPv(now)), 0L);
+        return Convert.toLong(cacheOps.get(loginLogTodayKey, k -> this.baseMapper.getTodayLoginPv(now.format(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_FORMAT)))), 0L);
     }
 
     @Override
@@ -178,7 +179,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     public Long getTodayLoginIv() {
         LocalDate now = LocalDate.now();
         CacheKey loginLogTodayIpKey = TodayLoginIvCacheKeyBuilder.build(now);
-        return Convert.toLong(cacheOps.get(loginLogTodayIpKey, k -> this.baseMapper.getTodayLoginIv(now)), 0L);
+        return Convert.toLong(cacheOps.get(loginLogTodayIpKey, k -> this.baseMapper.getTodayLoginIv(now.format(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_FORMAT)))), 0L);
     }
 
     @Override
@@ -190,8 +191,8 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
             List<Map<String, String>> map = baseMapper.findLastTenDaysVisitCount(tenDaysAgo, account);
             return map.stream().map(item -> {
                 Map<String, String> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
-                kv.put("login_date", item.get("login_date"));
-                kv.put("count", String.valueOf(item.get("num")));
+                kv.put("login_date", item.get("LOGIN_DATE"));
+                kv.put("count", String.valueOf(item.get("NUM")));
                 return kv;
             }).collect(Collectors.toList());
         });
@@ -204,8 +205,8 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
             List<Map<String, Object>> map = baseMapper.findByBrowser();
             return map.stream().map(item -> {
                 Map<String, Object> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
-                kv.put("browser", item.get("browser"));
-                kv.put("count", String.valueOf(item.get("num")));
+                kv.put("browser", item.get("BROWSER"));
+                kv.put("count", String.valueOf(item.get("NUM")));
                 return kv;
             }).collect(Collectors.toList());
         });
@@ -219,8 +220,8 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
             return map.stream().map(item -> {
                 Map<String, Object> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
-                kv.put("operating_system", item.get("operating_system"));
-                kv.put("count", String.valueOf(item.get("num")));
+                kv.put("operating_system", item.get("OPERATING_SYSTEM"));
+                kv.put("count", String.valueOf(item.get("NUM")));
                 return kv;
             }).collect(Collectors.toList());
         });
