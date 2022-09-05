@@ -1,0 +1,41 @@
+lamp:
+  database:
+    multiTenantType: COLUMN
+    tenantDatabasePrefix: lamp_extend
+  mysql:
+    ip: 127.0.0.1
+    port: 3306
+    database: lamp_activiti
+    username: root
+    password: root
+  swagger:
+    docket:
+      activiti:
+        title: 流程组件模块
+        base-package: top.tangyh.lamp.activiti.controller
+
+spring:
+  freemarker:
+    suffix: .ftl
+    cache: false
+    charset: UTF-8
+    contentType: text/html
+    requestContextAttribute: ctx
+    templateEncoding: UTF-8
+    templateLoaderPath: classpath:/
+    settings:
+      defaultEncoding: UTF-8
+      url_escaping_charset: UTF-8
+      locale: zh_CN
+  activiti:
+    database-schema-update: true
+    async-executor-activate: false
+    history-level: FULL
+    check-process-definitions: false
+
+server:
+  port: 8779
+
+setting:
+  path:
+    uploadPath: /data/projects/uploadfile/temp/

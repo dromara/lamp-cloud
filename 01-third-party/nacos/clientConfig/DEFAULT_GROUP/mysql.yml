@@ -1,42 +1,20 @@
 lamp:
-  oracle: &db-oracle
-    db-type: oracle     
-    validation-query: SELECT 'x' FROM DUAL   
-    filters: stat,wall,slf4j       # druid不支持使用p6spy打印日志，所以采用druid 的 slf4j 过滤器来打印可执行日志
-    username: 'lamp_defaults'
-    password: 'lamp_defaults'
-    driverClassName: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@172.26.3.67:1521:helowin
-    owner: ''
-  mysql: &db-mysql
-    db-type: mysql   
-    validation-query: SELECT 'x'  
-    filters: stat,wall
+  druid:
     username: 'root'
     password: 'root'
-    owner: ''
     # 生产使用原生驱动，开发使用p6spy驱动打印日志
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/lamp_defaults?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true  
-  sqlserver: &db-sqlserver
-    username: 'sa'
-    password: '1234@abcd'
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://172.26.3.67:1433;DatabaseName=lamp_defaults
-    db-type: sqlserver    
-    validation-query: SELECT 'x'   
-    filters: stat,wall
-    owner: 'dbo'
   database: # 字段介绍参考 DatabaseProperties
-    <<: *db-sqlserver
-    # <<: *db-mysql
-    # <<: *db-oracle
-    tenantDatabasePrefix: lamp_base  # schema 模式专用
-    initDatabasePrefix:   #  # schema 和 datasource 模式需要初始化的租户库前缀
+    # 需要初始化的数据库前缀
+    initDatabasePrefix:
       - lamp_base
-      - lamp_extend
+    # SCHEMA模式专用 当前服务的租户库前缀
+    tenantDatabasePrefix: lamp_base  
+    owner: ''      # SCHEMA模式专用
     multiTenantType: SCHEMA
-    # COLUMN模式中隔离 租户 的列名
+    dbType: mysql
+    # COLUMN模式专用 隔离租户的字段
     tenantIdColumn: tenant_code
     # 是否不允许写入数据  WriteInterceptor
     isNotWrite: false
@@ -79,22 +57,23 @@ spring:
     druid:
       enable: true
       # 从这里开始(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
-      # <<: *db-mysql
-      <<: *db-sqlserver
-      # <<: *db-oracle
+      username: ${lamp.druid.username}
+      password: ${lamp.druid.password}
+      driverClassName: ${lamp.druid.driverClassName}
+      url: ${lamp.druid.url}
+      db-type: mysql   
+      validation-query: SELECT 'x'  
       initialSize: 10
       minIdle: 10
       maxActive: 200
       max-wait: 60000
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
-      validation-query: SELECT 'x'
       test-on-borrow: false
       test-on-return: false
       test-while-idle: true
       time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
-      # filters: stat,wall
       filter:
         wall:
           enabled: true
@@ -103,9 +82,6 @@ spring:
             commentAllow: true
             multiStatementAllow: true
             noneBaseStatementAllow: true
-        slf4j:   
-          enabled: false     # 使用slf4j打印可执行日志时，改成true
-          statement-executable-sql-log-enable: true            
       # 从这里结束(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
 
       # 以下的2段配置，同时适用于所有模式
@@ -142,7 +118,7 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
-    default-enum-type-handler: top.tangyh.basic.database.mybatis.handlers.MybatisEnumTypeHandler
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
 
 # 分布式事务相关
 seata:

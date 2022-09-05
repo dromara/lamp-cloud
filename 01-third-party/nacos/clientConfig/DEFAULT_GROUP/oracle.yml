@@ -1,0 +1,149 @@
+lamp:
+  druid:
+    username: 'lamp_defaults'
+    password: 'lamp_defaults'
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@172.26.3.67:1521:helowin
+  database: # 字段介绍参考 DatabaseProperties
+    # 需要初始化的数据库前缀
+    initDatabasePrefix:
+      - lamp_base
+    # SCHEMA模式专用 当前服务的租户库前缀
+    tenantDatabasePrefix: lamp_base  
+    owner: ''      # SCHEMA模式专用
+    multiTenantType: DATASOURCE
+    # COLUMN模式专用 隔离租户的字段
+    tenantIdColumn: tenant_code
+    dbType: oracle
+    # 是否不允许写入数据  WriteInterceptor
+    isNotWrite: false
+    # 是否启用  sql性能规范插件
+    isBlockAttack: false
+    # 是否启用  sql性能规范插件
+    isIllegalSql: false
+    # 是否启用分布式事务
+    isSeata: false
+    # 生产环境请设置p6spy = false
+    p6spy: true
+    # 分页大小限制
+    maxLimit: -1
+    # 溢出总页数后是否进行处理
+    overflow: true
+    # 生成 countSql 优化掉 join 现在只支持 left join
+    optimizeJoin: true
+    # 是否启用数据权限
+    isDataScope: true
+    # id生成策略
+    id-type: HU_TOOL
+    hutoolId:
+      workerId: 0
+      dataCenterId: 0
+    cache-id:
+      time-bits: 31
+      worker-bits: 22
+      seq-bits: 10
+      epochStr: '2020-09-15'
+      boost-power: 3
+      padding-factor: 50
+
+# mysql 通用配置
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  datasource:
+    dynamic:
+      enabled: false    # 这里一定要写成false，无论是什么模式
+    druid:
+      enable: true
+      # 从这里开始(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
+      username: ${lamp.druid.username}
+      password: ${lamp.druid.password}
+      driverClassName: ${lamp.druid.driverClassName}
+      url: ${lamp.druid.url}  
+      db-type: oracle     
+      validation-query: SELECT 'x' FROM DUAL  
+      initialSize: 10
+      minIdle: 10
+      maxActive: 200
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
+      filter:
+        wall:
+          enabled: true
+          config:
+            strictSyntaxCheck: false
+            commentAllow: true
+            multiStatementAllow: true
+            noneBaseStatementAllow: true
+      # 从这里结束(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
+
+      # 以下的2段配置，同时适用于所有模式
+      web-stat-filter:  # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js , *.gif ,*.jpg ,*.png ,*.css ,*.ico , /druid/*"
+        session-stat-max-count: 1000
+        profile-enable: true
+        session-stat-enable: false
+      stat-view-servlet:  #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
+        enabled: true
+        url-pattern: /druid/*   #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：http://127.0.0.1:9000/druid/index.html
+        reset-enable: true    #允许清空统计数据
+        login-username: lamp
+        login-password: lamp
+        allow: ''
+
+mybatis-plus:
+  mapper-locations:
+    - classpath*:mapper_**/**/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: top.tangyh.lamp.*.entity;top.tangyh.basic.database.mybatis.typehandler
+  typeEnumsPackage: top.tangyh.lamp.*.enumeration
+  global-config:
+    db-config:
+      id-type: INPUT
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+      where-strategy: NOT_EMPTY
+  configuration:
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    #配置JdbcTypeForNull, oracle数据库必须配置
+    jdbc-type-for-null: 'null'
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+
+# 分布式事务相关
+seata:
+  enabled: ${lamp.database.isSeata}
+  enableAutoDataSourceProxy: true
+  tx-service-group: lamp_cloud_seata_tx_group
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${lamp.nacos.ip}:${lamp.nacos.port}
+      username: ${lamp.nacos.username}
+      password: ${lamp.nacos.password}
+      namespace: ${lamp.seata.namespace}
+  config:
+    type: nacos
+    nacos:
+      server-addr: ${lamp.nacos.ip}:${lamp.nacos.port}
+      username: ${lamp.nacos.username}
+      password: ${lamp.nacos.password}
+      namespace: ${lamp.seata.namespace}
+  service:
+    grouplist:
+      default: ${lamp.seata.ip:}:${lamp.seata.port:}
+    vgroup-mapping:
+      lamp_cloud_seata_tx_group: default
+    disable-global-transaction: false
+  client:
+    rm:
+      report-success-enable: false
