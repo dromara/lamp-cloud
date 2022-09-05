@@ -31,7 +31,7 @@ public class TenantConnectDTO {
     @NotEmpty(message = "企业编码不能为空")
     private String tenant;
     /**
-     * LOCAL： 同一个数据库(物理)，链接不同的数据库实例. 从database.yml中读取master数据源来自动新增其他数据库
+     * LOCAL： 同一个数据库(物理)，链接不同的数据库实例. 从mysql.yml、oracle.yml、sqlserver.yml中读取master数据源来自动新增其他数据库
      * REMOTE： 不同的数据库(物理)，需要先在DatasourceConfig表配置链接源信息，然后指定以下字段（xxxDatasource）
      */
     @ApiModelProperty(value = "连接类型", example = "LOCAL,REMOTE")
