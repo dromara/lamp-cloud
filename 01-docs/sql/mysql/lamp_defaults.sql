@@ -98,7 +98,7 @@ CREATE TABLE `c_tenant_datasource_config`
     `create_time`          datetime              DEFAULT NULL COMMENT '创建时间',
     `created_by`           bigint(20) DEFAULT NULL COMMENT '创建人',
     PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `uk_tenan_application` (`tenant_id`,`datasource_config_id`,`application`)
+    UNIQUE KEY `uk_tenan_application` (`tenant_id`,`datasource_config_id`,`db_prefix`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='租户数据源关系';
 
 -- ----------------------------
