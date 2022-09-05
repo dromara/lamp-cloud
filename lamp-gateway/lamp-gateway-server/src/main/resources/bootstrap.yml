@@ -32,7 +32,7 @@ spring:
             refresh: true
           - dataId: redis.yml
             refresh: false
-          - dataId: database.yml
+          - dataId: @db.dataId@
             refresh: true
           - dataId: rabbitmq.yml
             refresh: false
