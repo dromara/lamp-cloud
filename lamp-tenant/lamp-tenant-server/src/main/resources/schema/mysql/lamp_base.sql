@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 06/06/2022 10:24:42
+ Date: 10/10/2022 17:33:41
 */
 
 SET NAMES utf8mb4;
@@ -72,7 +72,7 @@ CREATE TABLE `c_area` (
   `sort_value` int(11) DEFAULT '1' COMMENT '排序',
   `longitude` varchar(255) DEFAULT '' COMMENT '经度',
   `latitude` varchar(255) DEFAULT '' COMMENT '维度',
-  `level` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)',
+  `level_` varchar(10) DEFAULT '' COMMENT '行政区级 \n@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)',
   `source_` varchar(255) DEFAULT '' COMMENT '数据来源',
   `state` bit(1) DEFAULT b'0' COMMENT '状态',
   `parent_id` bigint(20) DEFAULT '0' COMMENT '父ID',
@@ -81,7 +81,7 @@ CREATE TABLE `c_area` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_code` (`code`) USING BTREE
+  UNIQUE KEY `uk_area_code` (`code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
 
 -- ----------------------------
@@ -243,8 +243,8 @@ CREATE TABLE `c_org` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_name` (`label`),
-  FULLTEXT KEY `fu_path` (`tree_path`)
+  UNIQUE KEY `uk_org_name` (`label`),
+  FULLTEXT KEY `fu_org_path` (`tree_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
 -- ----------------------------
@@ -264,7 +264,7 @@ CREATE TABLE `c_parameter` (
   `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_key` (`key_`) USING BTREE
+  UNIQUE KEY `uk_param_key` (`key_`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数配置';
 
 -- ----------------------------
@@ -283,7 +283,7 @@ CREATE TABLE `c_resource` (
   `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_code` (`code`) USING BTREE
+  UNIQUE KEY `uk_res_code` (`code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源';
 
 -- ----------------------------
@@ -303,7 +303,7 @@ CREATE TABLE `c_role` (
   `updated_by` bigint(20) DEFAULT NULL COMMENT '更新人id',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_code` (`code`) USING BTREE
+  UNIQUE KEY `uk_role_code` (`code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
@@ -351,7 +351,7 @@ CREATE TABLE `c_station` (
   `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
   `created_org_id` bigint(20) DEFAULT NULL COMMENT '创建者所属机构',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_name` (`name`)
+  UNIQUE KEY `uk_station_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
@@ -386,7 +386,7 @@ CREATE TABLE `c_user` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `created_org_id` bigint(20) DEFAULT NULL COMMENT '创建者所属机构',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uk_account` (`account`) USING BTREE
+  UNIQUE KEY `uk_user_account` (`account`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------

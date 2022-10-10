@@ -78,7 +78,7 @@ CREATE TABLE [dbo].[c_area](
     sort_value INT DEFAULT  1,
     longitude VARCHAR(255),
     latitude VARCHAR(255),
-    level VARCHAR(10),
+    level_ VARCHAR(10),
     source_ VARCHAR(255),
     state BIT DEFAULT  0,
     parent_id BIGINT DEFAULT  0,
@@ -98,7 +98,7 @@ EXEC sp_addextendedproperty 'MS_Description', '排序', 'SCHEMA', dbo, 'table', 
 EXEC sp_addextendedproperty 'MS_Description', '经度', 'SCHEMA', dbo, 'table', c_area, 'column', longitude;
 EXEC sp_addextendedproperty 'MS_Description', '维度', 'SCHEMA', dbo, 'table', c_area, 'column', latitude;
 EXEC sp_addextendedproperty 'MS_Description', '行政区级;
-@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)', 'SCHEMA', dbo, 'table', c_area, 'column', level;
+@Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)', 'SCHEMA', dbo, 'table', c_area, 'column', level_;
 EXEC sp_addextendedproperty 'MS_Description', '数据来源', 'SCHEMA', dbo, 'table', c_area, 'column', source_;
 EXEC sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', dbo, 'table', c_area, 'column', state;
 EXEC sp_addextendedproperty 'MS_Description', '父ID', 'SCHEMA', dbo, 'table', c_area, 'column', parent_id;
