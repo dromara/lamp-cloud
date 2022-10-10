@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 16/08/2021 21:10:53
+ Date: 01/09/2022 16:58:51
 */
 
 SET NAMES utf8mb4;
@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `b_order`;
 CREATE TABLE `b_order` (
   `id` bigint(20) NOT NULL COMMENT 'ID',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
-  `education` varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = "orderServiceImpl", dictType = DictionaryType.EDUCATION)',
-  `nation` varchar(255) DEFAULT NULL COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = DictionaryType.NATION)',
+  `education` varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = "orderServiceImpl", dictType = EchoDictType.EDUCATION)',
+  `nation` varchar(255) DEFAULT NULL COMMENT '民族 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.NATION)',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID \n#c_org@Echo(api = ORG_ID_FEIGN_CLASS)',
   `code` varchar(255) DEFAULT NULL COMMENT '编号',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -49,7 +49,7 @@ CREATE TABLE `b_product` (
   `updated_by` bigint(20) DEFAULT NULL COMMENT '修改人',
   `type_` text COMMENT '商品类型 \n#ProductType{ordinary:普通;gift:赠品}',
   `type2` longtext COMMENT '商品类型2 \n#{ordinary:普通;gift:赠品;}',
-  `type3` varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = DictionaryType.EDUCATION)',
+  `type3` varchar(255) DEFAULT NULL COMMENT '学历 \n@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.EDUCATION)',
   `state` bit(1) DEFAULT NULL COMMENT '状态',
   `test4` tinyint(3) DEFAULT NULL COMMENT '测试',
   `test5` date DEFAULT NULL COMMENT '时间',
@@ -57,7 +57,7 @@ CREATE TABLE `b_product` (
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父id',
   `label` varchar(255) DEFAULT NULL COMMENT '名称',
   `sort_value` int(10) DEFAULT NULL COMMENT '排序',
-  `test7` char(10) DEFAULT NULL COMMENT '测试字段 \n@InjectionField(api = "userApi") RemoteData<Long, String>',
+  `test7` char(10) DEFAULT NULL COMMENT '测试字段 \n@Echo(api = "userApi") RemoteData<Long, String>',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户 \n@Echo(api = USER_ID_FEIGN_CLASS)',
   `org_id` bigint(20) DEFAULT NULL COMMENT '组织 \n@Echo(api = ORG_ID_FEIGN_CLASS)',
   PRIMARY KEY (`id`) USING BTREE
@@ -206,29 +206,6 @@ CREATE TABLE `e_sms_template` (
   `update_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信模板';
-
--- ----------------------------
--- Records of e_sms_template
--- ----------------------------
-BEGIN;
-INSERT INTO `e_sms_template`
-VALUES (1412275572473593856, 'ALI', '1', '2', '', '阿里', '使用ali云 ${xx} 作为占位符，有效期${vv}.  sm${xx}',
-        '[{\"key\":\"xx\",\"value\":\"\"},{\"key\":\"vv\",\"value\":\"\"},{\"key\":\"xx\",\"value\":\"\"}]', '12', '',
-        '', 2, '2021-07-06 13:01:50', 2, '2021-07-17 00:43:35');
-INSERT INTO `e_sms_template`
-VALUES (1416073412907892736, 'TENCENT', '1', '1', '', '腾讯', '使用腾讯云 {xx} 作为占位符，有效期{vv}.  sm{xx}',
-        '[{\"key\":\"xx\",\"value\":\"\"},{\"key\":\"vv\",\"value\":\"\"},{\"key\":\"xx\",\"value\":\"\"}]', '123', '',
-        '', 2, '2021-07-17 00:33:06', 2, '2021-07-17 00:43:28');
-INSERT INTO `e_sms_template`
-VALUES (1416073582500380672, 'BAIDU', '11', '11', '', '百度', '使用百度云 ${xx} 作为占位符，有效期${vv}.  sm${xx}',
-        '[{\"key\":\"xx\",\"value\":\"\"},{\"key\":\"vv\",\"value\":\"\"},{\"key\":\"xx\",\"value\":\"\"}]', '12', '',
-        '', 2, '2021-07-17 00:33:46', 2, '2021-07-17 00:43:22');
-INSERT INTO `e_sms_template`
-VALUES (1416073809147985920, 'CL', '1', '1', 'http://smssh1.253.com/msg/variable/json', '创蓝注册',
-        '使用腾讯云 {$var} 作为占位符，有效期{$var}.  sm{$var}',
-        '[{\"key\":\"$var\",\"value\":\"\"},{\"key\":\"$var\",\"value\":\"\"},{\"key\":\"$var\",\"value\":\"\"}]', '1',
-        '', '', 2, '2021-07-17 00:34:40', 2, '2021-07-17 00:43:10');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for undo_log
