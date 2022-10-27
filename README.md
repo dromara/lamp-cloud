@@ -77,6 +77,7 @@
 
 # 作者参与过或PR过的项目
 - [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin)
+- [knife4j](https://gitee.com/xiaoym/knife4j)
 - [x-easypdf](https://gitee.com/dromara/x-easypdf)
 - [J2Cache](https://gitee.com/ld/J2Cache)
 
