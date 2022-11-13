@@ -51,6 +51,13 @@
 | lamp-web-plus(强烈推荐！👏👏👏) | [lamp-web-plus](https://gitee.com/zuihou111/lamp-web-plus) | [lamp-web-plus](https://github.com/zuihou/lamp-web-plus) | 基于 vue-vben-admin （vue 3 + ant design vue 2） | https://pro.tangyh.top |
 | lamp-web | [lamp-web](https://gitee.com/zuihou111/lamp-web) | [lamp-web](https://github.com/zuihou/lamp-web) | 基于 vue-admin-element (element-ui) | https://pro.tangyh.top/lamp-web |
 
+## 注意：
+- lamp-cloud 和 lamp-boot 依赖 lamp-util
+- lamp-job 依赖 lamp-cloud 或 lamp-boot
+- lamp-generator 依赖 lamp-cloud 或 lamp-boot
+
+所以，你想运行 lamp-cloud 和 lamp-boot ，请先自行下载并编译(mvn install) lamp-util， lamp-job、lamp-generator同理！
+
 # lamp-cloud 简介
 
 `lamp-cloud`只是`lamp`项目的其中一个项目，她基于`jdk11/jdk8` + `SpringCloud`  + `SpringBoot` 开发，
