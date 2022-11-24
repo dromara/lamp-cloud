@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.annotation.echo.EchoResult;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
+import top.tangyh.basic.database.mybatis.auth.DataScopeHelper;
 import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import top.tangyh.basic.model.database.DataScope;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.authority.dao.core.StationMapper;
@@ -83,7 +85,9 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
                 .like(Station::getDescribe, station.getDescribe())
                 .eq(Station::getOrgId, station.getOrgId())
                 .eq(Station::getState, station.getState());
-        return baseMapper.findStationPage(page, wrapper);
+//        return baseMapper.findStationPage(page, wrapper);
+        DataScopeHelper.startDataScope(new DataScope());
+        return baseMapper.selectPage(page, wrapper);
     }
 
     @Override
