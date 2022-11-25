@@ -19,7 +19,7 @@
 
     <name>${project.artifactId}</name>
     <description>lamp项目业务父pom</description>
-    <url>https://github.com/zuihou/lamp-cloud</url>
+    <url>https://github.com/dromara/lamp-cloud</url>
     <properties>
         <lamp-util.version>3.8.2</lamp-util.version>
         <lamp-project.version>3.8.2</lamp-project.version>

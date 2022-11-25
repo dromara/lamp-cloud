@@ -1504,7 +1504,7 @@ GO
 INSERT INTO [dbo].[c_menu]  VALUES (N'212', N'获取源码', N'20', N'1', N',90,', N'', N'1', N'https://github.com/zuihou', N'Layout', N'1', N'30', N'', N'', NULL, NULL, NULL, N'90', N'1', N'1', N'2020-11-23 11:47:31.000', N'2', N'2020-12-01 11:34:20.000')
 GO
 
-INSERT INTO [dbo].[c_menu]  VALUES (N'213', N'问题反馈', N'20', N'1', N',90,', N'', N'1', N'https://github.com/zuihou/lamp-cloud/issues', N'Layout', N'1', N'40', N'', N'', NULL, NULL, NULL, N'90', N'1', N'1', N'2020-11-23 11:47:31.000', N'1', N'2020-11-23 11:47:31.000')
+INSERT INTO [dbo].[c_menu]  VALUES (N'213', N'问题反馈', N'20', N'1', N',90,', N'', N'1', N'https://github.com/dromara/lamp-cloud/issues', N'Layout', N'1', N'40', N'', N'', NULL, NULL, NULL, N'90', N'1', N'1', N'2020-11-23 11:47:31.000', N'1', N'2020-11-23 11:47:31.000')
 GO
 
 INSERT INTO [dbo].[c_menu]  VALUES (N'214', N'更新日志', N'20', N'1', N',90,', N'', N'1', N'https://www.kancloud.cn/zuihou/zuihou-admin-cloud/1465302', N'Layout', N'1', N'50', N'', N'', NULL, NULL, NULL, N'90', N'1', N'1', N'2020-11-23 11:47:31.000', N'1', N'2020-11-23 11:47:31.000')

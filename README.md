@@ -1,21 +1,13 @@
 # lamp 快速开发平台
 
-[![Language](https://img.shields.io/badge/语言-Java%20%7C%20SpringCloud%20%7C%20Vue3%20%7C%20...-red?style=flat-square&color=42b883)](https://github.com/zuihou/lamp-cloud)
-[![License](https://img.shields.io/github/license/zuihou/lamp-cloud?color=42b883&style=flat-square)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
+[![Language](https://img.shields.io/badge/语言-Java%20%7C%20SpringCloud%20%7C%20Vue3%20%7C%20...-red?style=flat-square&color=42b883)](https://github.com/dromara/lamp-cloud)
+[![License](https://img.shields.io/github/license/dromara/lamp-cloud?color=42b883&style=flat-square)](https://github.com/dromara/lamp-cloud/blob/master/LICENSE)
 [![Author](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![Version](https://img.shields.io/badge/版本-3.8.2-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
-[![Star](https://img.shields.io/github/stars/zuihou/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/zuihou/lamp-cloud/stargazers)
-[![Fork](https://img.shields.io/github/forks/zuihou/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/zuihou/lamp-cloud/network/members)
-[![Star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
-[![Fork](https://gitee.com/zuihou111/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/zuihou111/lamp-cloud/members)
-
-# 推广
-- 【阿里云】超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
-- 【阿里云】服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
-- 【阿里云】服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
-- 【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
-- 【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
-- 通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud) 一份。
+[![Version](https://img.shields.io/badge/版本-3.8.2-brightgreen.svg)](https://github.com/dromara/lamp-cloud)
+[![Star](https://img.shields.io/github/stars/dromara/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/dromara/lamp-cloud/stargazers)
+[![Fork](https://img.shields.io/github/forks/dromara/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/dromara/lamp-cloud/network/members)
+[![Star](https://gitee.com/dromara/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/stargazers)
+[![Fork](https://gitee.com/dromara/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/members)
 
 # 官网
 [https://tangyh.top](https://tangyh.top)
@@ -26,7 +18,7 @@
 
 [点我了解项目详细介绍](https://tangyh.top)
 
-`灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，由"工具集"、"后端"、"前端"组成，包含以下几个子项目
+`灯灯`(简称灯， 英文名：lamp)，她是一个项目集，由"工具集"、"后端"、"前端"组成，为满足高内聚低耦合设计原则，将一个**大项目**拆解为以下几个子项目
 
 ## 工具集
 
@@ -40,7 +32,7 @@
 
 | 项目 | gitee | github | 备注 |
 | --- | --- | --- | --- |
-| lamp-cloud | [lamp-cloud](https://gitee.com/zuihou111/lamp-cloud) |  [lamp-cloud](https://github.com/zuihou/lamp-cloud) | SpringCloud(微服务)版 |
+| lamp-cloud | [lamp-cloud](https://gitee.com/dromara/lamp-cloud) |  [lamp-cloud](https://github.com/dromara/lamp-cloud) | SpringCloud(微服务)版 |
 | lamp-boot | [lamp-boot](https://gitee.com/zuihou111/lamp-boot) |  [lamp-boot](https://github.com/zuihou/lamp-boot) | SpringBoot(单体)版 |
 | 微服务版示例 | [lamp-samples](https://github.com/zuihou/lamp-samples) | [lamp-samples](https://github.com/zuihou/lamp-samples) | 常用示例 |
 
@@ -79,8 +71,8 @@
 
 # 快速上手
 - 入门到精通，参考 [在线文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
-- 发现bug和建议，请提交 [issue](https://github.com/zuihou/lamp-cloud/issues)
-- 常见问题，请参考 [Discussions](https://github.com/zuihou/lamp-cloud/discussions)
+- 发现bug和建议，请提交 [issue](https://github.com/dromara/lamp-cloud/issues)
+- 常见问题，请参考 [Discussions](https://github.com/dromara/lamp-cloud/discussions)
 
 # 作者参与过或PR过的项目
 - [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin)
@@ -99,6 +91,15 @@
 | ![预览.png](01-docs/image/监控/sw拓扑图.png) | ![预览.png](01-docs/image/监控/sw追踪列表.png)  |
 | ![预览.png](01-docs/image/1000star.png) | ![预览.png](01-docs/image/软著V2.5.0.jpg) |
 
+# 推广
+- 【阿里云】超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
+- 【阿里云】服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
+- 【阿里云】服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
+- 【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
+- 【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
+- 通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud) 一份。
+
+
 # 企业版
 本项目分为开源版、个人学习版和企业商用版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 个人和企业版源码在私有gitlab托管，购买后开通账号。
 
@@ -111,4 +112,4 @@ Apache Licence 2.0 Licence是著名的非盈利开源组织Apache采用的协议
 - 如果你修改了代码，需要在被修改的文件中说明。
 - 在延伸的代码中（修改和有源代码衍生的代码中）需要带有原来代码中的协议，商标，专利声明和其他原来作者规定需要包含的说明。
 - 如果再发布的产品中包含一个Notice文件，则在Notice文件中需要带有Apache Licence。你可以在Notice中增加自己的许可，但不可以表现为对Apache Licence构成更改。 Apache Licence也是对商业应用友好的许可。使用者也可以在需要的时候修改代码来满足需要并作为开源或商业产品发布/销售。
-- 若你借鉴或学习了本项目的源码，请你在你的项目源码和说明文档中显著的表明引用于本项目，并附上本项目的github访问地址。（https://github.com/zuihou/lamp-cloud）
+- 若你借鉴或学习了本项目的源码，请你在你的项目源码和说明文档中显著的表明引用于本项目，并附上本项目的github访问地址。（https://github.com/dromara/lamp-cloud）
