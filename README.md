@@ -12,6 +12,9 @@
 # 官网
 [https://tangyh.top](https://tangyh.top)
 
+# 说明
+本项目已于2022年11月正式加入 [Dromara 开源社区](https://dromara.org/) ，因此项目地址发生了变更，原来 `git clone` 到本地的代码，需要自行修改`.git/config`中的项目地址，或者直接重新 git clone 代码，以免影响代码的更新。
+
 # lamp 项目名字由来
 在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。 走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
 我和媳妇相视一笑，然后一起说：哈哈，就用这个名字！！！
@@ -51,19 +54,19 @@
 所以，你想运行 lamp-cloud 和 lamp-boot ，请先自行下载并编译(mvn install) lamp-util， lamp-job、lamp-generator同理！
 
 # lamp-cloud 简介
+`lamp-cloud`是基于`jdk11/jdk8` + `SpringCloudAlibaba` +  `SpringCloud` + `SpringBoot` 开发的微服务中后台快速开发平台，专注于多租户(SaaS架构)解决方案，亦可作为普通项目（非SaaS架构）的基础开发框架使用，目前已实现插拔式 **数据库隔离**、**SCHEMA隔离**、**字段隔离** 等租户隔离方案。
 
-`lamp-cloud`只是`lamp`项目的其中一个项目，她基于`jdk11/jdk8` + `SpringCloud`  + `SpringBoot` 开发，
-她是一个微服务中后台快速开发平台，可以通过插件无缝切换是否启用SaaS模式、通过配置切换SaaS模式采用独立数据库模式还是字段模式。
+她拥有自研RBAC（基于租户应用的角色权限控制体系）、网关统一鉴权、数据权限、优雅缓存解决方案、防缓存击穿、前后端统一表单校验、字典数据自动回显、可视化前后端代码生成器、支持多种文件存储、支持多种短信邮件发送接口、灰度发布、防XSS攻击、防SQL注入、分布式事务、分布式定时任务等功能； 支持多业务系统并行开发， 支持多服务并行开发，是中后台系统开发脚手架的最佳选择。
 
-她具备SaaS模式切换、完备的RBAC功能、网关统一鉴权、灰度发布、数据权限、可插拔缓存、统一封装缓存的key、表单校验前后端统一验证、字典数据自动回显、Xss防跨站攻击、自动生成前后端代码、多种存储系统、分布式事务、分布式定时任务等多个功能和模块，
-支持多业务系统并行开发， 支持多服务并行开发，是中后台系统开发脚手架的最佳选择。代码简洁，注释齐全，架构清晰，非常适合学习和企业作为基础框架使用。
+lamp-cloud 代码简洁，注释齐全，架构清晰，非常适合个人学习以及中小企业作为基础框架使用。采用Spring Cloud Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking等主要框架和中间件。 本项目旨在实现基础框架能力，不涉及具体业务。
 
-核心技术采用Spring Cloud Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking等主要框架和中间件。
-希望能努力打造一套从 `Web基础框架` - `分布式微服务架构` - `持续集成` - `系统监测` 的解决方案。本项目旨在实现基础框架能力，不涉及具体业务。
+![架构图.png](01-docs/image/架构图/lamp-cloud架构图.png)
 
-# 企业版演示地址
+# 演示地址
 - 官网：[https://tangyh.top](https://tangyh.top)
-- 4.0版本：后端使用lamp-cloud-pro， 前端使用lamp-web-pro。演示地址：   [https://pro.tangyh.top](https://pro.tangyh.top)
+- 4.0版本：后端使用lamp-cloud-pro-datasource-column， 前端使用lamp-web-pro。演示地址：   [https://datasource.tangyh.top](https://datasource.tangyh.top)
+- 4.0版本：后端使用lamp-cloud-pro-column， 前端使用lamp-web-pro。演示地址：   [https://column.tangyh.top](https://column.tangyh.top)
+- 4.0版本：后端使用lamp-cloud-pro-none， 前端使用lamp-web-pro。演示地址：   [https://none.tangyh.top](https://none.tangyh.top)
 - 3.x版本：后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址：  [https://boot.tangyh.top](https://boot.tangyh.top)
 - 3.x版本：后端使用lamp-boot-plus， 前端使用lamp-web。演示地址：     [https://boot.tangyh.top/lamp-web](https://boot.tangyh.top/lamp-web)
 
@@ -98,6 +101,92 @@
 - 【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
 - 【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
 - 通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud) 一份。
+
+#  Dromara 成员项目
+
+<p align="center">
+<a href="https://gitee.com/dromara/TLog" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/tlog2.png" title="一个轻量级的分布式日志标记追踪神器，10分钟即可接入，自动对日志打标签完成微服务的链路追踪" width="15%">
+</a>
+<a href="https://gitee.com/dromara/liteFlow" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/liteflow.png" title="轻量，快速，稳定，可编排的组件式流程引擎" width="15%">
+</a>
+<a href="https://hutool.cn/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/hutool.jpg" title="小而全的Java工具类库，使Java拥有函数式语言般的优雅，让Java语言也可以“甜甜的”。" width="15%">
+</a>
+<a href="https://sa-token.dev33.cn/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/sa-token.png" title="一个轻量级 java 权限认证框架，让鉴权变得简单、优雅！" width="15%">
+</a>
+<a href="https://gitee.com/dromara/hmily" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/hmily.png" title="高性能一站式分布式事务解决方案。" width="15%">
+</a>
+<a href="https://gitee.com/dromara/Raincat" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/raincat.png" title="强一致性分布式事务解决方案。" width="15%">
+</a>
+</p>
+<p align="center">
+<a href="https://gitee.com/dromara/myth" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/myth.png" title="可靠消息分布式事务解决方案。" width="15%">
+</a>
+<a href="https://cubic.jiagoujishu.com/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/cubic.png" title="一站式问题定位平台，以agent的方式无侵入接入应用，完整集成arthas功能模块，致力于应用级监控，帮助开发人员快速定位问题" width="15%">
+</a>
+<a href="https://maxkey.top/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/maxkey.png" title="业界领先的身份管理和认证产品" width="15%">
+</a>
+<a href="http://forest.dtflyx.com/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/forest-logo.png" title="Forest能够帮助您使用更简单的方式编写Java的HTTP客户端" width="15%">
+</a>
+<a href="https://jpom.io/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/jpom.png" title="一款简而轻的低侵入式在线构建、自动部署、日常运维、项目监控软件" width="15%">
+</a>
+<a href="https://su.usthe.com/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/sureness.png" title="面向 REST API 的高性能认证鉴权框架" width="15%">
+</a>
+</p>
+<p align="center">
+<a href="https://easy-es.cn/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/easy-es2.png" title="傻瓜级ElasticSearch搜索引擎ORM框架" width="15%">
+</a>
+<a href="https://gitee.com/dromara/northstar" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/northstar_logo.png" title="Northstar盈富量化交易平台" width="15%">
+</a>
+<a href="https://hertzbeat.com/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/hertzbeat_brand.jpg" title="易用友好的云监控系统" width="15%">
+</a>
+<a href="https://plugins.sheng90.wang/fast-request/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/fast-request.gif" title="Idea 版 Postman，为简化调试API而生" width="15%">
+</a>
+<a href="https://www.jeesuite.com/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/mendmix.png" title="开源分布式云原生架构一站式解决方案" width="15%">
+</a>
+<a href="https://gitee.com/dromara/koalas-rpc" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/koalas-rpc2.png" title="企业生产级百亿日PV高可用可拓展的RPC框架。" width="15%">
+</a>
+</p>
+<p align="center">
+<a href="https://async.sizegang.cn/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/gobrs-async.png" title="配置极简功能强大的异步任务动态编排框架" width="15%">
+</a>
+<a href="https://dynamictp.cn/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/dynamic-tp.png" title="基于配置中心的轻量级动态可监控线程池" width="15%">
+</a>
+<a href="https://www.x-easypdf.cn" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/x-easypdf.png" title="一个用搭积木的方式构建pdf的框架（基于pdfbox）" width="15%">
+</a>
+<a href="http://dromara.gitee.io/image-combiner" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/image-combiner.png" title="一个专门用于图片合成的工具，没有很复杂的功能，简单实用，却不失强大" width="15%">
+</a>
+<a href="https://www.herodotus.cn/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/dante-cloud2.png" title="Dante-Cloud 是一款企业级微服务架构和服务能力开发平台。" width="15%">
+</a>
+<a href="https://dromara.org/zh/projects/" target="_blank">
+<img src="https://oss.dev33.cn/sa-token/link/dromara.png" title="让每一位开源爱好者，体会到开源的快乐。" width="15%">
+</a>
+</p>
+<p align="center">
+为往圣继绝学，一个人或许能走的更快，但一群人会走的更远。
+</p>
 
 
 # 企业版
