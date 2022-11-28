@@ -11,8 +11,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import top.tangyh.lamp.model.enumeration.base.FileType;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**

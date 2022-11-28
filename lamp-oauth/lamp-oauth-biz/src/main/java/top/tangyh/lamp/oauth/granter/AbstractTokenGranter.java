@@ -15,7 +15,7 @@ package top.tangyh.lamp.oauth.granter;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import top.tangyh.basic.base.R;
@@ -134,7 +134,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
      * 检测 client
      */
     protected R<String[]> checkClient() {
-        String basicHeader = ServletUtil.getHeader(WebUtils.request(), BASIC_HEADER_KEY, StrPool.UTF_8);
+        String basicHeader = JakartaServletUtil.getHeader(WebUtils.request(), BASIC_HEADER_KEY, StrPool.UTF_8);
         String[] client = JwtUtil.getClient(basicHeader);
         Application application = applicationService.getByClient(client[0], client[1]);
 

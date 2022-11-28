@@ -12,8 +12,8 @@ import lombok.experimental.Accessors;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.lamp.model.vo.save.AppendixSaveVO;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

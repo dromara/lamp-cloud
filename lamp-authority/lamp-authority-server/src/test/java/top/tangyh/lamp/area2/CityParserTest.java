@@ -8,7 +8,7 @@ import top.tangyh.lamp.authority.entity.common.Area;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 //@SpringBootTest

@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import static top.tangyh.lamp.model.constant.Condition.LIKE;
 

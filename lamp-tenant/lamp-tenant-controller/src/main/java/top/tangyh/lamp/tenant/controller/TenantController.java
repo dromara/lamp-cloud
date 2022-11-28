@@ -26,7 +26,7 @@ import top.tangyh.lamp.tenant.entity.Tenant;
 import top.tangyh.lamp.model.enumeration.system.TenantStatusEnum;
 import top.tangyh.lamp.tenant.service.TenantService;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 import static top.tangyh.lamp.model.enumeration.system.TenantStatusEnum.NORMAL;

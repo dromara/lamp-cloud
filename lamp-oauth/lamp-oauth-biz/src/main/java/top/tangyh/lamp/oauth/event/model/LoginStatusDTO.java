@@ -1,7 +1,7 @@
 package top.tangyh.lamp.oauth.event.model;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.log.util.AddressUtil;
 import top.tangyh.lamp.authority.dto.auth.Online;
@@ -17,7 +17,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 /**
@@ -113,7 +113,7 @@ public class LoginStatusDTO implements Serializable {
             return this;
         }
         String tempUa = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
-        String tempIp = ServletUtil.getClientIP(request);
+        String tempIp = JakartaServletUtil.getClientIP(request);
         String tempLocation = AddressUtil.getRegion(tempIp);
         this.ua = tempUa;
         this.ip = tempIp;

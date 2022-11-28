@@ -56,9 +56,9 @@ import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.model.entity.base.SysUser;
 import top.tangyh.lamp.userinfo.service.UserHelperService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.groups.Default;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.groups.Default;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;

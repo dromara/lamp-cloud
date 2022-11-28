@@ -93,10 +93,10 @@
         <!--<artifactId>spring-boot-starter-mail</artifactId>-->
         <!--</dependency>-->
         <!-- JMX-bean Manager-->
-        <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-core</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jolokia</groupId>-->
+<!--            <artifactId>jolokia-core</artifactId>-->
+<!--        </dependency>-->
 
 
     </dependencies>

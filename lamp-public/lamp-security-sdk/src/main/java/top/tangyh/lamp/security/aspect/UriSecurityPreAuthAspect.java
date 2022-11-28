@@ -30,7 +30,7 @@ import top.tangyh.basic.exception.ForbiddenException;
 import top.tangyh.basic.exception.code.ExceptionCode;
 import top.tangyh.basic.utils.StrPool;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**

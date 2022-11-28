@@ -12,8 +12,8 @@ import lombok.experimental.Accessors;
 import top.tangyh.lamp.msg.enumeration.MsgBizType;
 import top.tangyh.lamp.msg.enumeration.MsgType;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**

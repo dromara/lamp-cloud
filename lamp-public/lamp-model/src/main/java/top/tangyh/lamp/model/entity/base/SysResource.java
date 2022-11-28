@@ -15,8 +15,8 @@ import top.tangyh.basic.base.entity.Entity;
 import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.lamp.model.constant.EchoDictType;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.EQUAL;
 import static top.tangyh.lamp.model.constant.Condition.LIKE;

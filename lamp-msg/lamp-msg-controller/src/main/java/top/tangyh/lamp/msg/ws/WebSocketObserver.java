@@ -1,6 +1,7 @@
 package top.tangyh.lamp.msg.ws;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
+
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;

@@ -13,7 +13,7 @@ import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.model.constant.EchoDictType;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 
