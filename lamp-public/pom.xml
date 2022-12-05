@@ -5,7 +5,7 @@
     <parent>
         <groupId>top.tangyh.lamp</groupId>
         <artifactId>lamp-dependencies-parent</artifactId>
-        <version>3.8.2</version>
+        <version>3.9.0</version>
         <relativePath>../lamp-dependencies-parent/pom.xml</relativePath>
     </parent>
 
