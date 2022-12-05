@@ -1,8 +1,14 @@
 package top.tangyh.lamp.sms.strategy.impl;
 
-import cn.hutool.core.convert.Convert;
-import com.github.qcloudsms.SmsSingleSender;
-import com.github.qcloudsms.SmsSingleSenderResult;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.profile.ClientProfile;
+import com.tencentcloudapi.common.profile.HttpProfile;
+import com.tencentcloudapi.sms.v20190711.SmsClient;
+import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
+import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
+import com.tencentcloudapi.sms.v20190711.models.SendStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.model.Kv;
 import top.tangyh.lamp.sms.dao.SmsTaskMapper;
@@ -10,8 +16,6 @@ import top.tangyh.lamp.sms.enumeration.ProviderType;
 import top.tangyh.lamp.sms.service.SmsSendStatusService;
 import top.tangyh.lamp.sms.strategy.domain.SmsDO;
 import top.tangyh.lamp.sms.strategy.domain.SmsResult;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,23 +79,108 @@ public class SmsTencentStrategy extends AbstractSmsStrategy {
     @Override
     protected SmsResult send(SmsDO smsDO) {
         try {
-            //初始化单发
-            SmsSingleSender singleSender = new SmsSingleSender(Convert.toInt(smsDO.getAppId(), 0), smsDO.getAppSecret());
+
+            //单次请求最多支持200个手机号且要求全为境内手机号或全为境外手机号。
+            String[] phoneNumbers = new String[]{smsDO.getTelNum()};
+
+            // 实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey,此处还需注意密钥对的保密
+            Credential cred = new Credential(smsDO.getAppId(), smsDO.getAppSecret());
+
+            // 实例化一个http选项，可选，没有特殊需求可以跳过
+            HttpProfile httpProfile = new HttpProfile();
+            // 设置代理
+            // httpProfile.setProxyHost("真实代理ip");
+            // httpProfile.setProxyPort(真实代理端口);
+            /* SDK默认使用POST方法。
+             * 如果你一定要使用GET方法，可以在这里设置。GET方法无法处理一些较大的请求 */
+            httpProfile.setReqMethod("POST");
+            /* SDK有默认的超时时间，非必要请不要进行调整
+             * 如有需要请在代码中查阅以获取最新的默认值 */
+            httpProfile.setConnTimeout(60);
+            /* 指定接入地域域名，默认就近地域接入域名为 sms.tencentcloudapi.com ，也支持指定地域域名访问，例如广州地域的域名为 sms.ap-guangzhou.tencentcloudapi.com */
+//            httpProfile.setEndpoint(property.getEndpoint());
+
+            /* 非必要步骤:
+             * 实例化一个客户端配置对象，可以指定超时时间等配置 */
+            ClientProfile clientProfile = new ClientProfile();
+            /* SDK默认用TC3-HMAC-SHA256进行签名
+             * 非必要请不要修改这个字段 */
+            clientProfile.setSignMethod("HmacSHA256");
+            clientProfile.setHttpProfile(httpProfile);
+
+            /* 实例化要请求产品(以sms为例)的client对象
+             * 第二个参数是地域信息，可以直接填写字符串ap-guangzhou，支持的地域列表参考 https://cloud.tencent.com/document/api/382/52071#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8 */
+            SmsClient client = new SmsClient(cred, "ap-guangzhou", clientProfile);
+
+            SendSmsRequest req = new SendSmsRequest();
+            /* 短信应用ID: 短信SdkAppId在 [短信控制台] 添加应用后生成的实际SdkAppId，示例如1400006666 */
+//            req.setSmsSdkAppid(smsDO.getAppId());
+
+            /* 短信签名内容: 使用 UTF-8 编码，必须填写已审核通过的签名 */
+            // 签名信息可前往 [国内短信](https://console.cloud.tencent.com/smsv2/csms-sign) 或 [国际/港澳台短信](https://console.cloud.tencent.com/smsv2/isms-sign) 的签名管理查看
+            req.setSign(smsDO.getSignName());
+
+            /* 模板 ID: 必须填写已审核通过的模板 ID */
+            // 模板 ID 可前往 [国内短信](https://console.cloud.tencent.com/smsv2/csms-template) 或 [国际/港澳台短信](https://console.cloud.tencent.com/smsv2/isms-template) 的正文模板管理查看
+            req.setTemplateID(smsDO.getTemplateCode());
 
             String paramStr = smsDO.getTemplateParams();
             List<Kv> param = JsonUtil.parseArray(paramStr, Kv.class);
 
-            ArrayList<String> paramList = new ArrayList<>();
+            List<String> paramList = new ArrayList<>();
             for (Kv kv : param) {
                 paramList.add(kv.getValue());
             }
+            /* 模板参数: 模板参数的个数需要与 TemplateId 对应模板的变量个数保持一致，若无模板参数，则设置为空 */
+            req.setTemplateParamSet(paramList.stream().toArray(String[]::new));
 
-            SmsSingleSenderResult singleSenderResult = singleSender.sendWithParam("86", smsDO.getTelNum(),
-                    Convert.toInt(smsDO.getTemplateCode()), paramList, smsDO.getSignName(), "", "");
-            log.info("tencent result={}", singleSenderResult.toString());
-            return SmsResult.build(ProviderType.TENCENT, String.valueOf(singleSenderResult.result),
-                    singleSenderResult.sid, singleSenderResult.ext,
-                    ERROR_CODE_MAP.getOrDefault(String.valueOf(singleSenderResult.result), singleSenderResult.errMsg), singleSenderResult.fee);
+            /* 下发手机号码，采用 E.164 标准，+[国家或地区码][手机号]
+             * 示例如：+8613711112222， 其中前面有一个+号 ，86为国家码，13711112222为手机号，最多不要超过200个手机号 */
+            req.setPhoneNumberSet(phoneNumbers);
+
+            /* 用户的 session 内容（无需要可忽略）: 可以携带用户侧 ID 等上下文信息，server 会原样返回 */
+            req.setSessionContext(String.valueOf(smsDO.getTaskId()));
+
+            /* 短信码号扩展号（无需要可忽略）: 默认未开通，如需开通请联系 [腾讯云短信小助手] */
+//            String extendCode = "";
+//            req.setExtendCode(extendCode);
+
+            /* 国际/港澳台短信 SenderId（无需要可忽略）: 国内短信填空，默认未开通，如需开通请联系 [腾讯云短信小助手] */
+//            String senderid = "";
+//            req.setSenderId(senderid);
+
+            SendSmsResponse sendSmsResponse = client.SendSms(req);
+
+            SendStatus[] sendStatusSet = sendSmsResponse.getSendStatusSet();
+
+            if (sendStatusSet != null && sendStatusSet.length > 0) {
+                SendStatus sendStatus = sendStatusSet[0];
+
+                return SmsResult.build(ProviderType.TENCENT, sendStatus.getCode(),
+                        sendStatus.getSerialNo(), sendSmsResponse.getRequestId(),
+                        ERROR_CODE_MAP.getOrDefault(sendStatus.getMessage(), sendStatus.getMessage()), Integer.parseInt(String.valueOf(sendStatus.getFee())));
+            }
+
+            return SmsResult.fail("发送失败");
+//
+//            //初始化单发
+//            SmsSingleSender singleSender = new SmsSingleSender(Convert.toInt(smsDO.getAppId(), 0), smsDO.getAppSecret());
+//
+//
+//            String paramStr = smsDO.getTemplateParams();
+//            List<Kv> param = JsonUtil.parseArray(paramStr, Kv.class);
+//
+//            ArrayList<String> paramList = new ArrayList<>();
+//            for (Kv kv : param) {
+//                paramList.add(kv.getValue());
+//            }
+//
+//            SmsSingleSenderResult singleSenderResult = singleSender.sendWithParam("86", smsDO.getTelNum(),
+//                    Convert.toInt(smsDO.getTemplateCode()), paramList, smsDO.getSignName(), "", "");
+//            log.info("tencent result={}", singleSenderResult.toString());
+//            return SmsResult.build(ProviderType.TENCENT, String.valueOf(singleSenderResult.result),
+//                    singleSenderResult.sid, singleSenderResult.ext,
+//                    ERROR_CODE_MAP.getOrDefault(String.valueOf(singleSenderResult.result), singleSenderResult.errMsg), singleSenderResult.fee);
         } catch (Exception e) {
             log.error(e.getMessage());
             return SmsResult.fail(e.getMessage());

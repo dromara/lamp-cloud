@@ -14,10 +14,7 @@ import com.obs.services.model.TemporarySignatureRequest;
 import com.obs.services.model.TemporarySignatureResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.utils.CollHelper;
@@ -31,7 +28,6 @@ import top.tangyh.lamp.file.enumeration.FileStorageType;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.impl.AbstractFileStrategy;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +41,6 @@ import java.util.Set;
 
 @Component("HUAWEI_OSS")
 public class HuaweiFileStrategyImpl extends AbstractFileStrategy {
-    private static OkHttpClient httpClient = new OkHttpClient.Builder().followRedirects(false)
-            .retryOnConnectionFailure(false).cache(null).build();
-
-
     public HuaweiFileStrategyImpl(FileServerProperties fileProperties, FileMapper fileMapper) {
         super(fileProperties, fileMapper);
     }
@@ -59,17 +51,6 @@ public class HuaweiFileStrategyImpl extends AbstractFileStrategy {
             builder.header(entry.getKey(), entry.getValue());
         }
         return builder.url(res.getSignedUrl());
-    }
-
-    private static String getResponse(Request request) throws IOException {
-        Call c = httpClient.newCall(request);
-        Response res = c.execute();
-        if (res.body() != null) {
-            String content = res.body().string();
-            return content;
-        }
-        res.close();
-        return StrPool.EMPTY;
     }
 
     @Override

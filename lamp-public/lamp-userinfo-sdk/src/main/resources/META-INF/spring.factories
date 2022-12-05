@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    top.tangyh.lamp.userinfo.config.LoginArgResolverConfig

@@ -51,10 +51,6 @@
             <version>${lamp-project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>eu.bitwalker</groupId>
-            <artifactId>UserAgentUtils</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

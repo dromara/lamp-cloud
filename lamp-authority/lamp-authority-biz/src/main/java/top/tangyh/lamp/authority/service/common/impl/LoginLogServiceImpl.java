@@ -2,10 +2,16 @@ package top.tangyh.lamp.authority.service.common.impl;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-
+import cn.hutool.http.useragent.Browser;
+import cn.hutool.http.useragent.OS;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import top.tangyh.basic.base.service.SuperServiceImpl;
-import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.cache.repository.CacheOps;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.DateUtils;
 import top.tangyh.lamp.authority.dao.common.LoginLogMapper;
@@ -22,14 +28,6 @@ import top.tangyh.lamp.common.cache.common.TodayPvCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.common.TotalLoginIvCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.common.TotalLoginPvCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.common.TotalPvCacheKeyBuilder;
-import eu.bitwalker.useragentutils.Browser;
-import eu.bitwalker.useragentutils.OperatingSystem;
-import eu.bitwalker.useragentutils.UserAgent;
-import eu.bitwalker.useragentutils.Version;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -53,7 +51,6 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @Service
-
 @RequiredArgsConstructor
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
     private final UserService userService;
@@ -90,15 +87,15 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
                 .requestIp(ip).ua(ua)
                 .build();
 
-        UserAgent userAgent = UserAgent.parseUserAgentString(ua);
+        UserAgent userAgent = UserAgentUtil.parse(ua);
         Browser browser = userAgent.getBrowser();
-        OperatingSystem operatingSystem = userAgent.getOperatingSystem();
-        Version browserVersion = userAgent.getBrowserVersion();
+        OS operatingSystem = userAgent.getOs();
+        String browserVersion = userAgent.getVersion();
         if (browser != null) {
             loginLog.setBrowser(simplifyBrowser(browser.getName()));
         }
         if (browserVersion != null) {
-            loginLog.setBrowserVersion(browserVersion.getVersion());
+            loginLog.setBrowserVersion(browserVersion);
         }
         if (operatingSystem != null) {
             loginLog.setOperatingSystem(simplifyOperatingSystem(operatingSystem.getName()));
@@ -216,7 +213,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     public List<Map<String, Object>> findByOperatingSystem() {
         CacheKey loginLogSystemKey = new LoginLogSystemCacheKeyBuilder().key();
         return cacheOps.get(loginLogSystemKey, k -> {
-            List<Map<String, Object>> map =  baseMapper.findByOperatingSystem();
+            List<Map<String, Object>> map = baseMapper.findByOperatingSystem();
 
             return map.stream().map(item -> {
                 Map<String, Object> kv = new HashMap<>(CollHelper.initialCapacity(map.size()));
