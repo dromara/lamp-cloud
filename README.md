@@ -78,10 +78,12 @@ lamp-cloud 代码简洁，注释齐全，架构清晰，非常适合个人学习
 - 常见问题，请参考 [Discussions](https://github.com/dromara/lamp-cloud/discussions)
 
 # 作者参与过或PR过的项目
-- [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin)
-- [knife4j](https://gitee.com/xiaoym/knife4j)
-- [x-easypdf](https://gitee.com/dromara/x-easypdf)
-- [J2Cache](https://gitee.com/ld/J2Cache)
+- [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin) : vue3 + ant design vue 前端框架 
+- [soybean-admin](https://github.com/honghuangdc/soybean-admin) : vue3 + Naive UI 前端框架
+- [electron-egg](https://github.com/wallace5303/electron-egg) : electron 桌面软件框架
+- [knife4j](https://gitee.com/xiaoym/knife4j) : Swagger 在线文档
+- [x-easypdf](https://gitee.com/dromara/x-easypdf) : pdf 工具
+- [J2Cache](https://gitee.com/ld/J2Cache) : 2级缓存
 
 # 项目截图：
 
