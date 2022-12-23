@@ -1,6 +1,7 @@
 lamp:
   cache:
     type: REDIS
+    cacheNullVal: true
   redis:
     ip: 127.0.0.1
     port: 16379
@@ -10,9 +11,10 @@ lamp:
 spring:
   cache:
     type: GENERIC
-  redis:
-    host: ${lamp.redis.ip}
-    password: ${lamp.redis.password}
-    port: ${lamp.redis.port}
-    database: ${lamp.redis.database}
+  data:
+    redis:
+      host: ${lamp.redis.ip}
+      password: ${lamp.redis.password}
+      port: ${lamp.redis.port}
+      database: ${lamp.redis.database}
 
