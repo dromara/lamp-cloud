@@ -34,12 +34,10 @@
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-log-starter</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-captcha-starter</artifactId>
         </dependency>
-
     </dependencies>
 
 
