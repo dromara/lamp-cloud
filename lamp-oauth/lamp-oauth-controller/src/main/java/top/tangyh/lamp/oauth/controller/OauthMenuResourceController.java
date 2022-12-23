@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import top.tangyh.basic.annotation.user.LoginUser;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.dozer.DozerUtils;
+import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.basic.utils.TreeUtil;
@@ -53,7 +53,6 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @AllArgsConstructor
 @Api(value = "OauthMenuResource", tags = "资源")
 public class OauthMenuResourceController {
-    private final DozerUtils dozer;
     private final ResourceHelperService resourceHelperService;
     private final MenuService menuService;
     private final RoleService roleService;
@@ -123,7 +122,16 @@ public class OauthMenuResourceController {
             userId = sysUser.getId();
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
-        List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
+//        List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
+        List<VueRouter> treeList = new ArrayList<>();
+        list.forEach(item -> {
+            VueRouter vueRouter = BeanPlusUtil.toBean(item, VueRouter.class);
+            vueRouter.setName(item.getLabel());
+            vueRouter.setMeta(RouterMeta.builder()
+                    .title(item.getLabel()).icon(item.getIcon()).build());
+            treeList.add(vueRouter);
+        });
+
         return R.success(TreeUtil.buildTree(treeList));
     }
 
