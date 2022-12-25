@@ -1,8 +1,9 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import top.tangyh.lamp.authority.enumeration.auth.ApplicationAppTypeEnum;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +11,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.lamp.authority.enumeration.auth.ApplicationAppTypeEnum;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -31,7 +31,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "ApplicationSaveDTO", description = "应用")
+@Schema(description = "应用")
 public class ApplicationSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,6 +40,7 @@ public class ApplicationSaveDTO implements Serializable {
      * 客户端ID
      */
     @ApiModelProperty(value = "客户端ID")
+    @Schema(description = "客户端ID")
     @Size(max = 24, message = "客户端ID长度不能超过24")
     private String clientId;
     /**

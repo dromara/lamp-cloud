@@ -39,6 +39,7 @@ public class IgnoreProperties {
             "/**/*.jpeg",
             "/**/*.png",
             "/**/*.gif",
+            "/**/v3/**",
             "/**/v2/**",
             "/**/api-docs/**",
             "/**/api-docs-ext/**",
