@@ -6,8 +6,8 @@ import top.tangyh.basic.base.R;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.lamp.authority.entity.auth.RoleAuthority;
 import top.tangyh.lamp.authority.service.auth.RoleAuthorityService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +31,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/roleAuthority")
-@Api(value = "RoleAuthority", tags = "角色的资源")
+@Tag(name = "角色的资源")
 @RequiredArgsConstructor
 public class RoleAuthorityController {
 
@@ -43,7 +43,7 @@ public class RoleAuthorityController {
      * @param roleId 角色id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询指定角色关联的菜单和资源", notes = "查询指定角色关联的菜单和资源")
+    @Operation(summary = "查询指定角色关联的菜单和资源", description = "查询指定角色关联的菜单和资源")
     @GetMapping("/{roleId}")
     @SysLog(value = "'查询指定角色关联的菜单和资源", response = false)
     public R<List<RoleAuthority>> queryByRoleId(@PathVariable Long roleId) {

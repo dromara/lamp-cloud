@@ -12,8 +12,8 @@ import top.tangyh.lamp.authority.dto.common.AreaSaveDTO;
 import top.tangyh.lamp.authority.dto.common.AreaUpdateDTO;
 import top.tangyh.lamp.authority.entity.common.Area;
 import top.tangyh.lamp.authority.service.common.AreaService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +37,11 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/area")
-@Api(value = "Area", tags = "地区表")
+@Tag(name = "地区表")
 @PreAuth(replace = "authority:area:")
 public class AreaController extends SuperCacheController<AreaService, Long, Area, AreaPageQuery, AreaSaveDTO, AreaUpdateDTO> {
 
-    @ApiOperation(value = "检测地区编码是否重复", notes = "检测地区编码是否重复")
+    @Operation(summary = "检测地区编码是否重复", description = "检测地区编码是否重复")
     @GetMapping("/check/{code}")
     @SysLog("检测地区编码是否重复")
     public R<Boolean> check(@RequestParam(required = false) Long id, @PathVariable String code) {
@@ -62,7 +62,7 @@ public class AreaController extends SuperCacheController<AreaService, Long, Area
      * @param parentId 父ID
      * @return 查询结果
      */
-    @ApiOperation(value = "级联查询缓存中的地区", notes = "级联查询缓存中的地区")
+    @Operation(summary = "级联查询缓存中的地区", description = "级联查询缓存中的地区")
     @GetMapping("/linkage")
     @SysLog("级联查询地区")
     public R<List<Area>> linkageQuery(@RequestParam(defaultValue = "0", required = false) Long parentId) {

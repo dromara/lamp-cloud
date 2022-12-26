@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.enumeration.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import top.tangyh.basic.interfaces.BaseEnum;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "ResourceTypeEnum", description = "资源类型-枚举")
+@Schema(description="资源类型-枚举")
 public enum ResourceTypeEnum implements BaseEnum {
     /**
      * 菜单
@@ -60,7 +60,7 @@ public enum ResourceTypeEnum implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "20,30,40,50,60", example = "20")
+    @Schema(description="编码", allowableValues = "20,30,40,50,60", example = "20")
     public String getCode() {
         return this.code;
     }

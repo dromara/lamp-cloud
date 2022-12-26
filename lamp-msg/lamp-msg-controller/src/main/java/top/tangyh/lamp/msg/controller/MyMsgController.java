@@ -2,8 +2,8 @@ package top.tangyh.lamp.msg.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -36,13 +36,13 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/anyone/myMsg")
-@Api(value = "MyMsgController", tags = "我的消息")
+@Tag(name = "我的消息")
 @Validated
 @RequiredArgsConstructor
 public class MyMsgController {
     private final MsgService msgService;
 
-    @ApiOperation(value = "全量查询我的消息", notes = "全量查询我的消息")
+    @Operation(summary = "全量查询我的消息", description = "全量查询我的消息")
     @PostMapping
     @SysLog(value = "'全量查询我的消息:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
     public R<MyMsgResult> myMsg(@RequestBody @Validated PageParams<MsgQuery> params) {
@@ -74,7 +74,7 @@ public class MyMsgController {
         return R.success(result);
     }
 
-    @ApiOperation(value = "分页查询我的消息", notes = "分页查询我的消息")
+    @Operation(summary = "分页查询我的消息", description = "分页查询我的消息")
     @PostMapping("/page")
     @SysLog(value = "'分页查询我的消息:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
     public R<IPage<MsgPageResult>> page(@RequestBody @Validated PageParams<MsgQuery> params) {
@@ -90,7 +90,7 @@ public class MyMsgController {
      * @param msgIds 主表id
      * @return 是否成功
      */
-    @ApiOperation(value = "标记消息为已读", notes = "标记消息为已读")
+    @Operation(summary = "标记消息为已读", description = "标记消息为已读")
     @PostMapping(value = "/mark")
     public R<Boolean> mark(@RequestBody List<Long> msgIds) {
         return R.success(msgService.mark(msgIds, ContextUtil.getUserId()));

@@ -1,7 +1,7 @@
 package top.tangyh.lamp.msg.enumeration;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "MsgType", description = "消息类型-枚举")
+@Schema(description="消息类型-枚举")
 public enum MsgType implements BaseEnum {
 
     /**
@@ -42,7 +42,7 @@ public enum MsgType implements BaseEnum {
     EARLY_WARNING("预警"),
     ;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String desc;
 
 
@@ -62,7 +62,7 @@ public enum MsgType implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "TO_DO,NOTIFY,NOTICE,EARLY_WARNING", example = "TO_DO")
+    @Schema(description="编码", allowableValues = "TO_DO,NOTIFY,NOTICE,EARLY_WARNING", example = "TO_DO")
     public String getCode() {
         return this.name();
     }

@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,26 +32,26 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "UserUpdatePasswordDTO", description = "用户")
+@Schema(description="用户")
 public class UserUpdatePasswordDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键")
+    @Schema(description="主键")
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
     private Long id;
 
     /**
      * 密码
      */
-    @ApiModelProperty(value = "当前密码")
+    @Schema(description="当前密码")
 //    @NotEmpty(message = "当前密码不能为空")
     @Size(max = 64, message = "当前密码长度不能超过64")
     private String oldPassword;
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码")
+    @Schema(description="密码")
     @NotEmpty(message = "密码不能为空")
     @Size(min = 6, max = 64, message = "密码长度不能小于6且超过64个字符")
     private String password;
@@ -59,13 +59,13 @@ public class UserUpdatePasswordDTO implements Serializable {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "确认密码")
+    @Schema(description="确认密码")
     @NotEmpty(message = "确认密码不能为空")
     @Size(min = 6, max = 64, message = "密码长度不能小于6且超过64个字符")
     private String confirmPassword;
     /**
      * 租户编码
      */
-    @ApiModelProperty(value = "租户编码，lamp-admin-ui页面使用")
+    @Schema(description="租户编码，lamp-admin-ui页面使用")
     private String tenantCode;
 }

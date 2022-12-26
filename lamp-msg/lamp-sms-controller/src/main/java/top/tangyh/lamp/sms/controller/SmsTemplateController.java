@@ -10,7 +10,7 @@ import top.tangyh.lamp.sms.dto.SmsTemplateSaveDTO;
 import top.tangyh.lamp.sms.dto.SmsTemplateUpdateDTO;
 import top.tangyh.lamp.sms.entity.SmsTemplate;
 import top.tangyh.lamp.sms.service.SmsTemplateService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/smsTemplate")
-@Api(value = "SmsTemplate", tags = "短信模板")
+@Tag(name = "短信模板")
 @PreAuth(replace = "msg:smsTemplate:")
 public class SmsTemplateController extends SuperController<SmsTemplateService, Long, SmsTemplate, SmsTemplatePageQuery, SmsTemplateSaveDTO, SmsTemplateUpdateDTO> {
 

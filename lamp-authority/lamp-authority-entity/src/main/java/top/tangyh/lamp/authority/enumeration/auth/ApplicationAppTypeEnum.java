@@ -1,8 +1,8 @@
 package top.tangyh.lamp.authority.enumeration.auth;
 
 import top.tangyh.basic.interfaces.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "ApplicationAppTypeEnum", description = "类型-枚举")
+@Schema(description="类型-枚举")
 public enum ApplicationAppTypeEnum implements BaseEnum {
 
     /**
@@ -42,7 +42,7 @@ public enum ApplicationAppTypeEnum implements BaseEnum {
     WAP("手机网页应用"),
     ;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String desc;
 
 
@@ -62,7 +62,7 @@ public enum ApplicationAppTypeEnum implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "SERVER,APP,PC,WAP", example = "SERVER")
+    @Schema(description="编码", allowableValues = "SERVER,APP,PC,WAP", example = "SERVER")
     public String getCode() {
         return this.name();
     }

@@ -1,16 +1,17 @@
 package top.tangyh.lamp.oauth.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 import top.tangyh.basic.annotation.user.LoginUser;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.utils.BeanPlusUtil;
@@ -34,10 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
-
 
 /**
  * <p>
@@ -51,7 +48,7 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@Api(value = "OauthMenuResource", tags = "资源")
+@Tag(name = "资源")
 public class OauthMenuResourceController {
     private final ResourceHelperService resourceHelperService;
     private final MenuService menuService;
@@ -65,9 +62,9 @@ public class OauthMenuResourceController {
      *                 menuId 菜单 <br>
      *                 userId 当前登录人id
      */
-    @ApiOperation(value = "查询用户可用的所有资源", notes = "查询用户可用的所有资源")
+    @Operation(summary = "查询用户可用的所有资源", description = "查询用户可用的所有资源")
     @GetMapping("/resource/visible")
-    public R<AuthorityResourceDTO> visible(ResourceQueryDTO resource, @ApiIgnore @LoginUser SysUser sysUser) {
+    public R<AuthorityResourceDTO> visible(ResourceQueryDTO resource, @Parameter(hidden = true) @LoginUser SysUser sysUser) {
         if (resource == null) {
             resource = new ResourceQueryDTO();
         }
@@ -91,15 +88,15 @@ public class OauthMenuResourceController {
      * @param group  分组 <br>
      * @param userId 指定用户id
      */
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "group", value = "菜单组", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "userId", value = "用户id", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
+    @Parameters({
+            @Parameter(name = "group", description = "菜单组", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+            @Parameter(name = "userId", description = "用户id", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
     })
-    @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
+    @Operation(summary = "查询用户可用的所有菜单", description = "查询用户可用的所有菜单")
     @GetMapping("/menu/menus")
     public R<List<Menu>> myMenus(@RequestParam(value = "group", required = false) String group,
                                  @RequestParam(value = "userId", required = false) Long userId,
-                                 @ApiIgnore @LoginUser SysUser sysUser) {
+                                 @Parameter(hidden = true) @LoginUser SysUser sysUser) {
         if (userId == null || userId <= 0) {
             userId = sysUser.getId();
         }
@@ -109,15 +106,15 @@ public class OauthMenuResourceController {
         return R.success(tree);
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "group", value = "菜单组", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "userId", value = "用户id", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
+    @Parameters({
+            @Parameter(name = "group", description = "菜单组", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+            @Parameter(name = "userId", description = "用户id", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
     })
-    @ApiOperation(value = "查询用户可用的所有菜单路由树", notes = "查询用户可用的所有菜单路由树")
+    @Operation(summary = "查询用户可用的所有菜单路由树", description = "查询用户可用的所有菜单路由树")
     @GetMapping("/menu/router")
     public R<List<VueRouter>> myRouter(@RequestParam(value = "group", required = false) String group,
                                        @RequestParam(value = "userId", required = false) Long userId,
-                                       @ApiIgnore @LoginUser SysUser sysUser) {
+                                       @Parameter(hidden = true) @LoginUser SysUser sysUser) {
         if (userId == null || userId <= 0) {
             userId = sysUser.getId();
         }

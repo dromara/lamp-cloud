@@ -1,7 +1,7 @@
 package top.tangyh.lamp.tenant.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "DatasourceConfigPageQuery", description = "数据源")
+@Schema(description="数据源")
 public class DatasourceConfigPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,27 +36,27 @@ public class DatasourceConfigPageQuery implements Serializable {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称")
+    @Schema(description="名称")
     private String name;
     /**
      * 账号
      */
-    @ApiModelProperty(value = "账号")
+    @Schema(description="账号")
     private String username;
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码")
+    @Schema(description="密码")
     private String password;
     /**
      * 链接
      */
-    @ApiModelProperty(value = "链接")
+    @Schema(description="链接")
     private String url;
     /**
      * 驱动
      */
-    @ApiModelProperty(value = "驱动")
+    @Schema(description="驱动")
     private String driverClassName;
 
 }

@@ -1,7 +1,8 @@
 package top.tangyh.lamp.file.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.context.ContextUtil;
@@ -38,9 +38,9 @@ import java.nio.file.Paths;
 @RestController
 @Slf4j
 @RequestMapping("/chunk")
-@Api(value = "文件续传+秒传", tags = "文件续传+秒传功能，所有方法均需要webuploder.js插件进行配合使用， 且4个方法需要配合使用，单核接口没有意义")
+@Tag(name = "文件续传+秒传功能，所有方法均需要webuploder.js插件进行配合使用， 且4个方法需要配合使用，单核接口没有意义")
 @RequiredArgsConstructor
-@ApiIgnore
+@Hidden
 @Deprecated
 public class FileChunkController {
     private final FileServerProperties fileProperties;
@@ -54,7 +54,7 @@ public class FileChunkController {
      *
      * @param md5 文件md5
      */
-    @ApiOperation(value = "秒传接口，上传文件前先验证， 存在则启动秒传", notes = "前端通过webUploader获取文件md5，上传前的验证")
+    @Operation(summary = "秒传接口，上传文件前先验证， 存在则启动秒传", description = "前端通过webUploader获取文件md5，上传前的验证")
     @RequestMapping(value = "/md5", method = RequestMethod.POST)
     @ResponseBody
     public R<Boolean> saveMd5Check(@RequestParam(name = "md5") String md5) {
@@ -66,7 +66,7 @@ public class FileChunkController {
     /**
      * 检查分片存不存在
      */
-    @ApiOperation(value = "续传接口，检查每个分片存不存在", notes = "断点续传功能检查分片是否存在， 已存在的分片无需重复上传， 达到续传效果")
+    @Operation(summary = "续传接口，检查每个分片存不存在", description = "断点续传功能检查分片是否存在， 已存在的分片无需重复上传， 达到续传效果")
     @RequestMapping(value = "/check", method = RequestMethod.POST)
     @ResponseBody
     public R<Boolean> chunkCheck(@RequestBody FileChunkCheckDTO info) {
@@ -82,7 +82,7 @@ public class FileChunkController {
      * 分片上传
      * 该接口不能用作 单文件上传！
      */
-    @ApiOperation(value = "分片上传", notes = "前端通过webUploader获取截取分片， 然后逐个上传")
+    @Operation(summary = "分片上传", description = "前端通过webUploader获取截取分片， 然后逐个上传")
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public R<String> uploadFile(FileUploadDTO info, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
@@ -125,7 +125,7 @@ public class FileChunkController {
      *
      * @param info 分片合并参数
      */
-    @ApiOperation(value = "分片合并", notes = "所有分片上传成功后，调用该接口对分片进行合并")
+    @Operation(summary = "分片合并", description = "所有分片上传成功后，调用该接口对分片进行合并")
     @RequestMapping(value = "/merge", method = RequestMethod.POST)
     @ResponseBody
     @SysLog("上传大文件")

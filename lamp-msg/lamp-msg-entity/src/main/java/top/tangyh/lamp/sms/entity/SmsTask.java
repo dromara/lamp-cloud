@@ -8,8 +8,8 @@ import top.tangyh.basic.base.entity.Entity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.sms.enumeration.SourceType;
 import top.tangyh.lamp.sms.enumeration.TaskStatus;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,7 +43,7 @@ import static top.tangyh.lamp.model.constant.EchoApi.SMS_TEMPLATE_ID_CLASS;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("e_sms_task")
-@ApiModel(value = "SmsTask", description = "发送任务")
+@Schema(description="发送任务")
 @AllArgsConstructor
 public class SmsTask extends Entity<Long> implements EchoVO {
 
@@ -54,7 +54,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
      * 短信模板
      * #e_sms_template
      */
-    @ApiModelProperty(value = "短信模板")
+    @Schema(description="短信模板")
     @NotNull(message = "请填写短信模板")
     @TableField(value = "template_id")
     @Excel(name = "短信模板")
@@ -66,7 +66,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
      * (手机号具体发送状态看sms_send_status表)
      * #TaskStatus{WAITING:等待执行;SUCCESS:执行成功;FAIL:执行失败}
      */
-    @ApiModelProperty(value = "执行状态")
+    @Schema(description="执行状态")
     @TableField(value = "status")
     @Excel(name = "执行状态", replace = {"等待执行_WAITING", "执行成功_SUCCESS", "执行失败_FAIL", "_null"})
     private TaskStatus status;
@@ -75,7 +75,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
      * 发送渠道
      * #SourceType{APP:应用;SERVICE:服务}
      */
-    @ApiModelProperty(value = "发送渠道")
+    @Schema(description="发送渠道")
     @TableField(value = "source_type")
     @Excel(name = "发送渠道", replace = {"应用_APP", "服务_SERVICE", "_null"})
     private SourceType sourceType;
@@ -83,7 +83,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
     /**
      * 主题
      */
-    @ApiModelProperty(value = "主题")
+    @Schema(description="主题")
     @Size(max = 255, message = "主题长度不能超过255")
     @TableField(value = "topic", condition = LIKE)
     @Excel(name = "主题")
@@ -93,7 +93,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
      * 参数
      * 需要封装为{‘key’:’value’, ...}格式且key必须有序
      */
-    @ApiModelProperty(value = "参数")
+    @Schema(description="参数")
     @Size(max = 500, message = "参数长度不能超过500")
     @TableField(value = "template_params", condition = LIKE)
     @Excel(name = "参数")
@@ -102,7 +102,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
     /**
      * 发送时间
      */
-    @ApiModelProperty(value = "发送时间")
+    @Schema(description="发送时间")
     @TableField(value = "send_time")
     @Excel(name = "发送时间", format = DEFAULT_DATE_TIME_FORMAT, width = 20)
     private LocalDateTime sendTime;
@@ -111,7 +111,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
      * 发送内容
      * 需要封装正确格式化: 您s好，张三，您有一个新的快递。
      */
-    @ApiModelProperty(value = "发送内容")
+    @Schema(description="发送内容")
     @Size(max = 500, message = "发送内容长度不能超过500")
     @TableField(value = "content", condition = LIKE)
     @Excel(name = "发送内容")
@@ -120,7 +120,7 @@ public class SmsTask extends Entity<Long> implements EchoVO {
     /**
      * 是否草稿
      */
-    @ApiModelProperty(value = "是否草稿")
+    @Schema(description="是否草稿")
     @TableField(value = "draft")
     @Excel(name = "是否草稿", replace = {"是_true", "否_false", "_null"})
     private Boolean draft;

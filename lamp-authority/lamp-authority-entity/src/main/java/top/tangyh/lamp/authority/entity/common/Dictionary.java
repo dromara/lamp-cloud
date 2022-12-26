@@ -4,8 +4,8 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.base.entity.Entity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +35,7 @@ import static top.tangyh.lamp.model.constant.Condition.LIKE;
 @EqualsAndHashCode(of = {"type", "code"})
 @Accessors(chain = true)
 @TableName("c_dictionary")
-@ApiModel(value = "Dictionary", description = "字典项")
+@Schema(description="字典项")
 @AllArgsConstructor
 public class Dictionary extends Entity<Long> {
 
@@ -44,7 +44,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 类型
      */
-    @ApiModelProperty(value = "类型")
+    @Schema(description="类型")
     @NotEmpty(message = "类型不能为空")
     @Size(max = 255, message = "类型长度不能超过255")
     @TableField(value = "type", condition = LIKE)
@@ -54,7 +54,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 类型标签
      */
-    @ApiModelProperty(value = "类型标签")
+    @Schema(description="类型标签")
     @NotEmpty(message = "类型标签不能为空")
     @Size(max = 255, message = "类型标签长度不能超过255")
     @TableField(value = "label", condition = LIKE)
@@ -64,7 +64,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 编码
      */
-    @ApiModelProperty(value = "编码")
+    @Schema(description="编码")
     @NotEmpty(message = "编码不能为空")
     @Size(max = 64, message = "编码长度不能超过64")
     @TableField(value = "code", condition = LIKE)
@@ -74,7 +74,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称")
+    @Schema(description="名称")
     @NotEmpty(message = "名称不能为空")
     @Size(max = 64, message = "名称长度不能超过64")
     @TableField(value = "name", condition = LIKE)
@@ -84,7 +84,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     @TableField("state")
     @Excel(name = "状态", replace = {"是_true", "否_false", "_null"})
     private Boolean state;
@@ -92,7 +92,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
@@ -101,7 +101,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 排序
      */
-    @ApiModelProperty(value = "排序")
+    @Schema(description="排序")
     @TableField("sort_value")
     @Excel(name = "排序")
     private Integer sortValue;
@@ -109,7 +109,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 图标
      */
-    @ApiModelProperty(value = "图标")
+    @Schema(description="图标")
     @Size(max = 255, message = "图标长度不能超过255")
     @TableField(value = "icon", condition = LIKE)
     @Excel(name = "图标")
@@ -118,7 +118,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * css样式
      */
-    @ApiModelProperty(value = "css样式")
+    @Schema(description="css样式")
     @Size(max = 255, message = "css样式长度不能超过255")
     @TableField(value = "css_style", condition = LIKE)
     @Excel(name = "css样式")
@@ -127,7 +127,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 类选择器
      */
-    @ApiModelProperty(value = "类选择器")
+    @Schema(description="类选择器")
     @Size(max = 255, message = "类选择器长度不能超过255")
     @TableField(value = "css_class", condition = LIKE)
     @Excel(name = "类选择器")
@@ -136,7 +136,7 @@ public class Dictionary extends Entity<Long> {
     /**
      * 内置
      */
-    @ApiModelProperty(value = "内置")
+    @Schema(description="内置")
     @TableField("readonly_")
     @Excel(name = "内置", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;

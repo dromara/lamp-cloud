@@ -3,10 +3,12 @@ package top.tangyh.lamp.sms.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -33,8 +35,6 @@ import top.tangyh.lamp.sms.service.SmsTaskService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_PATH;
-
 /**
  * <p>
  * 前端控制器
@@ -50,7 +50,7 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_PATH;
 @Validated
 @RestController
 @RequestMapping("/smsTask")
-@Api(value = "SmsTask", tags = "短信发送")
+@Tag(name = "短信发送")
 @PreAuth(replace = "msg:sms:")
 @RequiredArgsConstructor
 public class SmsTaskController extends SuperController<SmsTaskService, Long, SmsTask, SmsTaskPageQuery, SmsTaskSaveDTO, SmsTaskUpdateDTO> {
@@ -58,10 +58,10 @@ public class SmsTaskController extends SuperController<SmsTaskService, Long, Sms
     private final SmsSendStatusService smsSendStatusService;
     private final EchoService echoService;
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "主键", dataType = "long", paramType = PARAM_TYPE_PATH),
+    @Parameters({
+            @Parameter(name = "id", description = "主键", schema = @Schema(type = "long"), in = ParameterIn.PATH),
     })
-    @ApiOperation(value = "详情", notes = "单体查询")
+    @Operation(summary = "详情", description = "单体查询")
     @GetMapping("/detail/{id}")
     @SysLog("'查询:' + #id")
     @PreAuth("hasAnyPermission('{}view')")

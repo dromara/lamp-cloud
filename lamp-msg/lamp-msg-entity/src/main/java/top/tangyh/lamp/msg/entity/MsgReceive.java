@@ -4,8 +4,8 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.base.entity.Entity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("e_msg_receive")
-@ApiModel(value = "MsgReceive", description = "消息接收表")
+@Schema(description="消息接收表")
 @AllArgsConstructor
 public class MsgReceive extends Entity<Long> {
 
@@ -42,7 +42,7 @@ public class MsgReceive extends Entity<Long> {
      * 消息ID
      * #msg
      */
-    @ApiModelProperty(value = "消息ID")
+    @Schema(description="消息ID")
     @NotNull(message = "消息ID不能为空")
     @TableField("msg_id")
     @Excel(name = "消息ID")
@@ -52,7 +52,7 @@ public class MsgReceive extends Entity<Long> {
      * 接收人ID
      * #c_user
      */
-    @ApiModelProperty(value = "接收人ID")
+    @Schema(description="接收人ID")
     @NotNull(message = "接收人ID不能为空")
     @TableField("user_id")
     @Excel(name = "接收人ID")
@@ -61,7 +61,7 @@ public class MsgReceive extends Entity<Long> {
     /**
      * 是否已读
      */
-    @ApiModelProperty(value = "是否已读")
+    @Schema(description="是否已读")
     @TableField("is_read")
     @Excel(name = "是否已读", replace = {"是_true", "否_false", "_null"})
     private Boolean isRead;

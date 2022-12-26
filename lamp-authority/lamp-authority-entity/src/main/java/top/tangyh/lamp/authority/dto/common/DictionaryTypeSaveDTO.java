@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.common;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +30,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "DictionaryTypeSaveDTO", description = "字典类型")
+@Schema(description="字典类型")
 public class DictionaryTypeSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class DictionaryTypeSaveDTO implements Serializable {
     /**
      * 类型
      */
-    @ApiModelProperty(value = "类型")
+    @Schema(description="类型")
     @NotEmpty(message = "类型不能为空")
     @Size(max = 255, message = "类型长度不能超过255")
     private String type;
@@ -46,7 +46,7 @@ public class DictionaryTypeSaveDTO implements Serializable {
     /**
      * 类型标签
      */
-    @ApiModelProperty(value = "类型标签")
+    @Schema(description="类型标签")
     @NotEmpty(message = "类型标签不能为空")
     @Size(max = 255, message = "类型标签长度不能超过255")
     private String label;
@@ -54,7 +54,7 @@ public class DictionaryTypeSaveDTO implements Serializable {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     private Boolean state;
 
 }

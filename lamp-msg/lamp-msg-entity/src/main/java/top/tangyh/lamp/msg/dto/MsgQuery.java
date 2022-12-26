@@ -1,7 +1,7 @@
 package top.tangyh.lamp.msg.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,27 +23,27 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-@ApiModel(value = "MsgQuery", description = "消息分页参数")
+@Schema(description="消息分页参数")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class MsgQuery implements Serializable {
     private static final long serialVersionUID = -2054606159972155030L;
-    @ApiModelProperty(value = "接收人ID")
+    @Schema(description="接收人ID")
     private Long userId;
-    @ApiModelProperty(value = "是否已读")
+    @Schema(description="是否已读")
     private Boolean isRead;
-    @ApiModelProperty(value = "消息类型")
+    @Schema(description="消息类型")
     private MsgType msgType;
-    @ApiModelProperty(value = "业务类型")
+    @Schema(description="业务类型")
     private MsgBizType bizType;
 
-    @ApiModelProperty(value = "内容")
+    @Schema(description="内容")
     private String content;
-    @ApiModelProperty(value = "标题")
+    @Schema(description="标题")
     private String title;
 
-    @ApiModelProperty(value = "作者")
+    @Schema(description="作者")
     private String author;
 
 }

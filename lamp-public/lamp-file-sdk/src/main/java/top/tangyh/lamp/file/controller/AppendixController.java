@@ -1,7 +1,7 @@
 package top.tangyh.lamp.file.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +31,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/anyone/appendix")
-@Api(value = "AppendixController", tags = "业务附件")
+@Tag(name = "业务附件")
 public class AppendixController extends SuperSimpleController<AppendixService, Appendix> {
 
 
@@ -41,7 +41,7 @@ public class AppendixController extends SuperSimpleController<AppendixService, A
      * @param bizId   业务id
      * @param bizType 业务类型
      */
-    @ApiOperation(value = "根据业务id 和 业务类型查询附件信息", notes = "根据业务id 和 业务类型查询附件信息")
+    @Operation(summary = "根据业务id 和 业务类型查询附件信息", description = "根据业务id 和 业务类型查询附件信息")
     @PostMapping(value = "/listByBizId")
     @SysLog("根据业务id 和 业务类型查询附件信息")
     public R<List<AppendixResultVO>> listByBizId(@RequestParam Long bizId, @RequestParam(required = false) String bizType) {

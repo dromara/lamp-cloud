@@ -7,8 +7,8 @@ import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.lamp.authority.dto.auth.Online;
 import top.tangyh.lamp.authority.service.auth.OnlineService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/online")
-@Api(value = "OnlineController", tags = "在线用户")
+@Tag(name = "在线用户")
 @PreAuth(replace = "authority:online:")
 @RequiredArgsConstructor
 public class OnlineController {
@@ -55,7 +55,7 @@ public class OnlineController {
         return R.success(page);
     }
 
-    @ApiOperation(value = "T人", notes = "T人")
+    @Operation(summary = "T人", description = "T人")
     @PostMapping(value = "/t")
     @PreAuth("hasAnyPermission('{}delete')")
     public R<Boolean> logout(String userToken, Long userId, String clientId) {

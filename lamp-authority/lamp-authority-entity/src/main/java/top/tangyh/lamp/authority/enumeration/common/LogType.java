@@ -1,8 +1,8 @@
 package top.tangyh.lamp.authority.enumeration.common;
 
 import top.tangyh.basic.interfaces.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "LogType", description = "日志类型-枚举")
+@Schema(description="日志类型-枚举")
 public enum LogType implements BaseEnum {
 
     /**
@@ -34,7 +34,7 @@ public enum LogType implements BaseEnum {
     EX("异常类型"),
     ;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String desc;
 
 
@@ -54,7 +54,7 @@ public enum LogType implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "OPT,EX", example = "OPT")
+    @Schema(description="编码", allowableValues = "OPT,EX", example = "OPT")
     public String getCode() {
         return this.name();
     }

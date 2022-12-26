@@ -2,7 +2,7 @@ package top.tangyh.lamp.model.entity.base;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,7 +46,7 @@ public class SysResource extends Entity<Long> {
     /**
      * 编码
      */
-    @ApiModelProperty(value = "编码")
+    @Schema(description="编码")
     @Size(max = 500, message = "编码长度不能超过500")
     @TableField(value = "code", condition = LIKE)
     private String code;
@@ -54,7 +54,7 @@ public class SysResource extends Entity<Long> {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称")
+    @Schema(description="名称")
     @NotEmpty(message = "名称不能为空")
     @Size(max = 255, message = "名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
@@ -64,14 +64,14 @@ public class SysResource extends Entity<Long> {
      * 菜单ID
      * #c_menu
      */
-    @ApiModelProperty(value = "菜单ID")
+    @Schema(description="菜单ID")
     @TableField("menu_id")
     private Long menuId;
 
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     private String describe;
@@ -79,7 +79,7 @@ public class SysResource extends Entity<Long> {
     /**
      * 内置
      */
-    @ApiModelProperty(value = "内置")
+    @Schema(description="内置")
     @TableField("readonly_")
     private Boolean readonly;
 

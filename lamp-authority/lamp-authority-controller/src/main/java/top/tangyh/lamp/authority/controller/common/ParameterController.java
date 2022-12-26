@@ -8,7 +8,7 @@ import top.tangyh.lamp.authority.dto.common.ParameterSaveDTO;
 import top.tangyh.lamp.authority.dto.common.ParameterUpdateDTO;
 import top.tangyh.lamp.authority.entity.common.Parameter;
 import top.tangyh.lamp.authority.service.common.ParameterService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/parameter")
-@Api(value = "Parameter", tags = "参数配置")
+@Tag(name = "参数配置")
 @PreAuth(replace = "authority:parameter:")
 public class ParameterController extends SuperController<ParameterService, Long, Parameter, ParameterPageQuery, ParameterSaveDTO, ParameterUpdateDTO> {
 

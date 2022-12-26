@@ -3,10 +3,12 @@ package top.tangyh.lamp.authority.controller.auth;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -35,9 +37,6 @@ import top.tangyh.lamp.common.constant.BizConstant;
 
 import java.util.List;
 
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
-
 /**
  * <p>
  * 前端控制器
@@ -51,7 +50,7 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @Validated
 @RestController
 @RequestMapping("/globalUser")
-@Api(value = "GlobalUser", tags = "全局账号")
+@Tag(name = "全局账号")
 @SysLog(enabled = false)
 @RequiredArgsConstructor
 public class GlobalUserController extends SuperController<UserService, Long, User, GlobalUserPageDTO, GlobalUserSaveDTO, GlobalUserUpdateDTO> {
@@ -77,11 +76,11 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
         return success(user);
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "tenantCode", value = "企业编码", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "account", value = "账号", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
+    @Parameters({
+            @Parameter(name = "tenantCode", description = "企业编码", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+            @Parameter(name = "account", description = "账号", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
     })
-    @ApiOperation(value = "检测账号是否可用", notes = "检测账号是否可用")
+    @Operation(summary = "检测账号是否可用", description = "检测账号是否可用")
     @GetMapping("/check")
     public R<Boolean> check(@RequestParam String tenantCode, @RequestParam String account) {
         ContextUtil.setTenant(tenantCode);
@@ -104,11 +103,11 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
     }
 
 
-    @ApiOperation(value = "删除用户")
+    @Operation(summary = "删除用户")
     @DeleteMapping("/delete")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "tenantCode", value = "企业编码", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "ids[]", value = "主键id", dataType = DATA_TYPE_STRING, allowMultiple = true, paramType = PARAM_TYPE_QUERY),
+    @Parameters({
+            @Parameter(name = "tenantCode", description = "企业编码", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+            @Parameter(name = "ids[]", description = "主键id", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
     })
     public R<Boolean> delete(@RequestParam String tenantCode, @RequestParam("ids[]") List<Long> ids) {
         ContextUtil.setTenant(tenantCode);
@@ -121,7 +120,7 @@ public class GlobalUserController extends SuperController<UserService, Long, Use
      *
      * @param model 修改实体
      */
-    @ApiOperation(value = "修改密码", notes = "修改密码")
+    @Operation(summary = "修改密码", description = "修改密码")
     @PutMapping("/reset")
     public R<Boolean> updatePassword(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO model) {
         ContextUtil.setTenant(model.getTenantCode());

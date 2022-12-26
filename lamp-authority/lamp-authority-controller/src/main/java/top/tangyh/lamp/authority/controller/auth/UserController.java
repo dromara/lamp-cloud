@@ -9,10 +9,15 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -56,18 +61,11 @@ import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.model.entity.base.SysUser;
 import top.tangyh.lamp.userinfo.service.UserHelperService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.groups.Default;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 
 
 /**
@@ -83,7 +81,7 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @Validated
 @RestController
 @RequestMapping("/user")
-@Api(value = "User", tags = "用户")
+@Tag(name = "用户")
 @PreAuth(replace = "authority:user:")
 @RequiredArgsConstructor
 public class UserController extends SuperCacheController<UserService, Long, User, UserPageQuery, UserSaveDTO, UserUpdateDTO> {
@@ -93,11 +91,12 @@ public class UserController extends SuperCacheController<UserService, Long, User
     private final ExcelUserVerifyHandlerImpl excelUserVerifyHandler;
     private final UserExcelDictHandlerImpl userExcelDictHandlerIImpl;
     private final UserHelperService userHelperService;
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
+
+    @Parameters({
+            @Parameter(name = "id", description = "ID", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
+            @Parameter(name = "name", description = "名称", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
     })
-    @ApiOperation(value = "检测名称是否可用", notes = "检测名称是否可用")
+    @Operation(summary = "检测名称是否可用", description = "检测名称是否可用")
     @GetMapping("/check")
     public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
         return success(baseService.check(id, name));
@@ -114,7 +113,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
         User user = BeanUtil.toBean(data, User.class);
         user.setReadonly(false);
         SysUser sysUser = userHelperService.getUserByIdCache(ContextUtil.getUserId());
-        if (sysUser!= null) {
+        if (sysUser != null) {
             data.setCreatedOrgId(sysUser.getOrgId());
         }
         baseService.saveUser(user);
@@ -152,7 +151,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param data 用户基础信息
      * @return 用户
      */
-    @ApiOperation(value = "修改基础信息")
+    @Operation(summary = "修改基础信息")
     @PutMapping("/base")
     @SysLog(value = "'修改基础信息:' + #data?.id", request = false)
     @PreAuth("hasAnyPermission('{}edit')")
@@ -168,7 +167,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param data 用户头像信息
      * @return 用户
      */
-    @ApiOperation(value = "修改头像", notes = "修改头像")
+    @Operation(summary = "修改头像", description = "修改头像")
     @PutMapping("/avatar")
     @SysLog("'修改头像:' + #p0.id")
     public R<Boolean> avatar(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateAvatarDTO data) {
@@ -181,7 +180,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param data 修改实体
      * @return 是否成功
      */
-    @ApiOperation(value = "修改密码", notes = "修改密码")
+    @Operation(summary = "修改密码", description = "修改密码")
     @PutMapping("/password")
     @SysLog("'修改密码:' + #p0.id")
     public R<Boolean> updatePassword(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO data) {
@@ -194,7 +193,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param data 用户重置密码信息
      * @return 是否成功
      */
-    @ApiOperation(value = "重置密码", notes = "重置密码")
+    @Operation(summary = "重置密码", description = "重置密码")
     @PostMapping("/reset")
     @SysLog("'重置密码:' + #data.id")
     public R<Boolean> reset(@RequestBody @Validated(SuperEntity.Update.class) UserUpdatePasswordDTO data) {
@@ -209,7 +208,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
      * @param keyword 账号或名称
      * @return 用户角色
      */
-    @ApiOperation(value = "查询角色的已关联用户", notes = "查询角色的已关联用户")
+    @Operation(summary = "查询角色的已关联用户", description = "查询角色的已关联用户")
     @GetMapping(value = "/role/{roleId}")
     public R<UserRoleDTO> findUserByRoleId(@PathVariable("roleId") Long roleId, @RequestParam(value = "keyword", required = false) String keyword) {
         List<User> list = baseService.findUserByRoleId(roleId, keyword);
@@ -218,14 +217,14 @@ public class UserController extends SuperCacheController<UserService, Long, User
     }
 
 
-    @ApiOperation(value = "查询所有用户", notes = "查询所有用户")
+    @Operation(summary = "查询所有用户", description = "查询所有用户")
     @GetMapping("/find")
     @SysLog("查询所有用户")
     public R<List<Long>> findAllUserId() {
         return success(baseService.findAllUserId());
     }
 
-    @ApiOperation(value = "查询所有用户实体", notes = "查询所有用户实体")
+    @Operation(summary = "查询所有用户实体", description = "查询所有用户实体")
     @GetMapping("/findAll")
     @SysLog("查询所有用户")
     public R<List<User>> findAll() {
@@ -349,7 +348,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
         return page;
     }
 
-    @ApiOperation(value = "分页查询所有用户", notes = "分页查询所有用户")
+    @Operation(summary = "分页查询所有用户", description = "分页查询所有用户")
     @PostMapping("/pageAll")
     @SysLog(value = "'分页列表查询:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
     public R<IPage<User>> pageAll(@RequestBody @Validated PageParams<UserPageQuery> params) {

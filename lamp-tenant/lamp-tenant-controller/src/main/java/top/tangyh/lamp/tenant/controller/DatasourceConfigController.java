@@ -1,6 +1,6 @@
 package top.tangyh.lamp.tenant.controller;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ import top.tangyh.lamp.tenant.service.DatasourceConfigService;
 @Validated
 @RestController
 @RequestMapping("/datasourceConfig")
-@Api(value = "DatasourceConfig", tags = "数据源")
+@Tag(name = "数据源")
 @PreAuth(enabled = false)
 @SysLog(enabled = false)
 public class DatasourceConfigController extends SuperController<DatasourceConfigService, Long, DatasourceConfig, DatasourceConfigPageQuery, DatasourceConfigSaveDTO, DatasourceConfigUpdateDTO> {

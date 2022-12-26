@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +29,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "RoleOrgSaveDTO", description = "角色组织关系")
+@Schema(description="角色组织关系")
 public class RoleOrgSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,14 +38,14 @@ public class RoleOrgSaveDTO implements Serializable {
      * 角色ID
      * #c_role
      */
-    @ApiModelProperty(value = "角色ID")
+    @Schema(description="角色ID")
     @NotNull(message = "角色ID不能为空")
     private Long roleId;
     /**
      * 部门ID
      * #c_org
      */
-    @ApiModelProperty(value = "部门ID")
+    @Schema(description="部门ID")
     @NotNull(message = "部门ID不能为空")
     private Long orgId;
 

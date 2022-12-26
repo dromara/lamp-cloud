@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.common;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "ParameterPageQuery", description = "参数配置")
+@Schema(description="参数配置")
 public class ParameterPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,32 +36,32 @@ public class ParameterPageQuery implements Serializable {
     /**
      * 参数键
      */
-    @ApiModelProperty(value = "参数键")
+    @Schema(description="参数键")
     private String key;
     /**
      * 参数值
      */
-    @ApiModelProperty(value = "参数值")
+    @Schema(description="参数值")
     private String value;
     /**
      * 参数名称
      */
-    @ApiModelProperty(value = "参数名称")
+    @Schema(description="参数名称")
     private String name;
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String describe;
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     private Boolean state;
     /**
      * 内置
      */
-    @ApiModelProperty(value = "内置")
+    @Schema(description="内置")
     private Boolean readonly;
 
 }

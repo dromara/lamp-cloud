@@ -2,7 +2,7 @@ package top.tangyh.lamp.model.entity.base;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,7 +43,7 @@ public class SysStation extends Entity<Long> implements EchoVO {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称")
+    @Schema(description="名称")
     @NotEmpty(message = "名称不能为空")
     @Size(max = 255, message = "名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
@@ -55,7 +55,7 @@ public class SysStation extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织")
+    @Schema(description="组织")
     @TableField("org_id")
     @Echo(api = ORG_ID_CLASS, beanClass = SysOrg.class)
     private Long orgId;
@@ -63,14 +63,14 @@ public class SysStation extends Entity<Long> implements EchoVO {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     @TableField("state")
     private Boolean state;
 
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     private String describe;

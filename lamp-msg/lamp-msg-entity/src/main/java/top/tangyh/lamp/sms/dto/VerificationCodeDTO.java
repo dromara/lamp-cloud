@@ -2,8 +2,8 @@ package top.tangyh.lamp.sms.dto;
 
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.lamp.sms.enumeration.VerificationCodeType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,16 +29,16 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "VerificationCodeDTO", description = "验证码发送验证DTO")
+@Schema(description="验证码发送验证DTO")
 public class VerificationCodeDTO implements Serializable {
-    @ApiModelProperty(value = "手机号")
+    @Schema(description="手机号")
     @NotEmpty(message = "手机号不能为空")
     private String mobile;
-    @ApiModelProperty(value = "类型")
+    @Schema(description="类型")
     @NotNull(message = "类型不能为空")
     private VerificationCodeType type;
 
-    @ApiModelProperty(value = "验证码")
+    @Schema(description="验证码")
     @NotEmpty(groups = SuperEntity.Update.class, message = "验证码不能为空")
     private String code;
 }

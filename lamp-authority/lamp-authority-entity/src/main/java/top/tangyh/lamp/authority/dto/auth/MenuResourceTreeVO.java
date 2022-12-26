@@ -4,7 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.ToString;
 
@@ -31,7 +31,7 @@ public class MenuResourceTreeVO extends TreeEntity<MenuResourceTreeVO, Long> {
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     @Size(max = 200, message = "描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")

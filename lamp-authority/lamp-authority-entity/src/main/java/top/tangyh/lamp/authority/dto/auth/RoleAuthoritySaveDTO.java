@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +30,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "RoleAuthoritySaveDTO", description = "角色的资源")
+@Schema(description="角色的资源")
 public class RoleAuthoritySaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class RoleAuthoritySaveDTO implements Serializable {
      * 菜单ID
      * #c_menu
      */
-    @ApiModelProperty(value = "资源ID")
+    @Schema(description="资源ID")
     private List<Long> menuIdList;
 
     /**
@@ -52,7 +52,7 @@ public class RoleAuthoritySaveDTO implements Serializable {
      * 角色id
      * #c_role
      */
-    @ApiModelProperty(value = "角色id")
+    @Schema(description="角色id")
     @NotNull(message = "角色id不能为空")
     private Long roleId;
 

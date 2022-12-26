@@ -1,10 +1,12 @@
 package top.tangyh.lamp.authority.controller.core;
 
 import cn.hutool.core.convert.Convert;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +35,6 @@ import java.util.stream.Collectors;
 
 import static top.tangyh.basic.utils.StrPool.DEF_PARENT_ID;
 import static top.tangyh.basic.utils.StrPool.EMPTY;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 
 
 /**
@@ -50,16 +49,17 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @Slf4j
 @RestController
 @RequestMapping("/org")
-@Api(value = "Org", tags = "组织")
+@Tag(name = "组织")
 @PreAuth(replace = "authority:org:")
 @RequiredArgsConstructor
 public class OrgController extends SuperCacheController<OrgService, Long, Org, OrgPageQuery, OrgSaveDTO, OrgUpdateDTO> {
     private final EchoService echoService;
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
+
+    @Parameters({
+            @Parameter(name = "id", description = "ID", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
+            @Parameter(name = "name", description = "名称", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
     })
-    @ApiOperation(value = "检测名称是否可用", notes = "检测名称是否可用")
+    @Operation(summary = "检测名称是否可用", description = "检测名称是否可用")
     @GetMapping("/check")
     public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
         return success(baseService.check(id, name));
@@ -107,7 +107,7 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
      * @author zuihou
      * @date 2019-07-29 11:59
      */
-    @ApiOperation(value = "查询系统所有的组织树", notes = "查询系统所有的组织树")
+    @Operation(summary = "查询系统所有的组织树", description = "查询系统所有的组织树")
     @GetMapping("/tree")
     @PreAuth("hasAnyPermission('{}view')")
     @SysLog("查询系统所有的组织树")

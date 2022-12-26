@@ -1,8 +1,8 @@
 //package top.tangyh.lamp.sms.enumeration;
 //
 //import top.tangyh.basic.base.BaseEnum;
-//import io.swagger.annotations.ApiModel;
-//import io.swagger.annotations.ApiModelProperty;
+//
+//import io.swagger.v3.oas.annotations.media.Schema;
 //import lombok.AllArgsConstructor;
 //import lombok.Getter;
 //import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@
 //@Getter
 //@AllArgsConstructor
 //@NoArgsConstructor
-//@ApiModel(value = "TemplateCodeType", description = "短信模板类型")
+//@Schema(description="短信模板类型")
 //public enum TemplateCodeType implements BaseEnum {
 //    /**
 //     * 通用短信
@@ -34,7 +34,7 @@
 //    SGW_REG("闪购网"),
 //    ;
 //
-//    @ApiModelProperty(value = "描述")
+//    @Schema(description="描述")
 //    private String desc;
 //
 //
@@ -51,7 +51,7 @@
 //    }
 //
 //    @Override
-//    @ApiModelProperty(value = "编码", allowableValues = "LAMP_COMMON,TFD_REG,SGW_REG", example = "LAMP_COMMON")
+//    @Schema(description="编码", allowableValues = "LAMP_COMMON,TFD_REG,SGW_REG", example = "LAMP_COMMON")
 //    public String getCode() {
 //        return this.name();
 //    }

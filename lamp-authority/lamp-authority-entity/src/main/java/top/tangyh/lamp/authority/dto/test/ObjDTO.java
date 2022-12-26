@@ -1,7 +1,8 @@
 package top.tangyh.lamp.authority.dto.test;
 
 
-import io.swagger.annotations.ApiModel;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel(value = "ObjDTO", description = "测试戏")
+@Schema(description="测试戏")
 public class ObjDTO implements Serializable {
     private List<String> xx;
     private List<Object> yy;

@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_role_authority")
-@ApiModel(value = "RoleAuthority", description = "角色的资源")
+@Schema(description="角色的资源")
 @AllArgsConstructor
 public class RoleAuthority extends SuperEntity<Long> {
 
@@ -43,7 +43,7 @@ public class RoleAuthority extends SuperEntity<Long> {
      * 资源id
      * #c_resource #c_menu
      */
-    @ApiModelProperty(value = "资源id")
+    @Schema(description="资源id")
     @NotNull(message = "资源id不能为空")
     @TableField("authority_id")
     @Excel(name = "资源id")
@@ -53,7 +53,7 @@ public class RoleAuthority extends SuperEntity<Long> {
      * 权限类型
      * #AuthorizeType{MENU:菜单;RESOURCE:资源;}
      */
-    @ApiModelProperty(value = "权限类型")
+    @Schema(description="权限类型")
     @NotNull(message = "权限类型不能为空")
     @TableField("authority_type")
     @Excel(name = "权限类型", replace = {"菜单_MENU", "资源_RESOURCE", "_null"})
@@ -63,7 +63,7 @@ public class RoleAuthority extends SuperEntity<Long> {
      * 角色id
      * #c_role
      */
-    @ApiModelProperty(value = "角色id")
+    @Schema(description="角色id")
     @NotNull(message = "角色id不能为空")
     @TableField("role_id")
     @Excel(name = "角色id")

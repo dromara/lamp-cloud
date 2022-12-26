@@ -3,8 +3,8 @@ package top.tangyh.lamp.authority.entity.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,7 +46,7 @@ import static top.tangyh.lamp.model.constant.EchoApi.STATION_ID_CLASS;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_user")
-@ApiModel(value = "User", description = "用户")
+@Schema(description="用户")
 @AllArgsConstructor
 public class User extends Entity<Long> implements EchoVO {
 
@@ -56,7 +56,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 账号
      */
-    @ApiModelProperty(value = "账号")
+    @Schema(description="账号")
     @NotEmpty(message = "账号不能为空")
     @Size(max = 30, message = "账号长度不能超过30")
     @TableField(value = "account", condition = LIKE)
@@ -66,7 +66,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 姓名
      */
-    @ApiModelProperty(value = "姓名")
+    @Schema(description="姓名")
     @NotEmpty(message = "姓名不能为空")
     @Size(max = 50, message = "姓名长度不能超过50")
     @TableField(value = "name", condition = LIKE)
@@ -79,7 +79,7 @@ public class User extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织")
+    @Schema(description="组织")
     @TableField("org_id")
     @Echo(api = ORG_ID_CLASS, beanClass = Org.class)
     @Excel(name = "组织")
@@ -91,7 +91,7 @@ public class User extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = STATION_ID_CLASS)
      */
-    @ApiModelProperty(value = "岗位")
+    @Schema(description="岗位")
     @TableField("station_id")
     @Echo(api = STATION_ID_CLASS)
     @Excel(name = "岗位")
@@ -100,7 +100,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 内置
      */
-    @ApiModelProperty(value = "内置")
+    @Schema(description="内置")
     @NotNull(message = "内置不能为空")
     @TableField("readonly")
     private Boolean readonly;
@@ -108,7 +108,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 邮箱
      */
-    @ApiModelProperty(value = "邮箱")
+    @Schema(description="邮箱")
     @Size(max = 255, message = "邮箱长度不能超过255")
     @TableField(value = "email", condition = LIKE)
     @Excel(name = "邮箱")
@@ -117,7 +117,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 手机
      */
-    @ApiModelProperty(value = "手机")
+    @Schema(description="手机")
     @Size(max = 20, message = "手机长度不能超过20")
     @TableField(value = "mobile", condition = LIKE)
     @Excel(name = "手机")
@@ -127,7 +127,7 @@ public class User extends Entity<Long> implements EchoVO {
      * 性别
      * #Sex{W:女;M:男;N:未知}
      */
-    @ApiModelProperty(value = "性别")
+    @Schema(description="性别")
     @TableField("sex")
     @Excel(name = "性别", replace = {"女_W", "男_M", "未知_N", "_null"})
     private Sex sex;
@@ -135,7 +135,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     @TableField("state")
     @Excel(name = "状态", replace = {"启用_true", "禁用_false", "_null"})
     private Boolean state;
@@ -143,7 +143,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 头像
      */
-    @ApiModelProperty(value = "头像")
+    @Schema(description="头像")
     @Size(max = 255, message = "头像长度不能超过255")
     @TableField(value = "avatar", condition = LIKE)
     @Excel(name = "头像")
@@ -154,7 +154,7 @@ public class User extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)
      */
-    @ApiModelProperty(value = "民族")
+    @Schema(description="民族")
     @Size(max = 2, message = "民族长度不能超过2")
     @TableField(value = "nation", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.NATION)
@@ -166,7 +166,7 @@ public class User extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)
      */
-    @ApiModelProperty(value = "学历")
+    @Schema(description="学历")
     @Size(max = 2, message = "学历长度不能超过2")
     @TableField(value = "education", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.EDUCATION)
@@ -178,7 +178,7 @@ public class User extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)
      */
-    @ApiModelProperty(value = "职位状态")
+    @Schema(description="职位状态")
     @Size(max = 2, message = "职位状态长度不能超过2")
     @TableField(value = "position_status", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.POSITION_STATUS)
@@ -188,7 +188,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 工作描述
      */
-    @ApiModelProperty(value = "工作描述")
+    @Schema(description="工作描述")
     @Size(max = 255, message = "工作描述长度不能超过255")
     @TableField(value = "work_describe", condition = LIKE)
     @Excel(name = "工作描述")
@@ -197,28 +197,28 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 最后一次输错密码时间
      */
-    @ApiModelProperty(value = "最后一次输错密码时间")
+    @Schema(description="最后一次输错密码时间")
     @TableField("password_error_last_time")
     private LocalDateTime passwordErrorLastTime;
 
     /**
      * 密码错误次数
      */
-    @ApiModelProperty(value = "密码错误次数")
+    @Schema(description="密码错误次数")
     @TableField("password_error_num")
     private Integer passwordErrorNum;
 
     /**
      * 密码过期时间
      */
-    @ApiModelProperty(value = "密码过期时间")
+    @Schema(description="密码过期时间")
     @TableField("password_expire_time")
     private LocalDateTime passwordExpireTime;
 
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码")
+    @Schema(description="密码")
     @NotEmpty(message = "密码不能为空")
     @Size(max = 64, message = "密码长度不能超过64")
     @TableField(value = "password", condition = LIKE)
@@ -227,7 +227,7 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 密码盐
      */
-    @ApiModelProperty(value = "密码盐")
+    @Schema(description="密码盐")
     @NotEmpty(message = "密码盐不能为空")
     @Size(max = 20, message = "密码盐长度不能超过20")
     @TableField(value = "salt", condition = LIKE)
@@ -236,11 +236,11 @@ public class User extends Entity<Long> implements EchoVO {
     /**
      * 最后登录时间
      */
-    @ApiModelProperty(value = "最后登录时间")
+    @Schema(description="最后登录时间")
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
 
-    @ApiModelProperty(value = "创建者所属机构")
+    @Schema(description="创建者所属机构")
     @TableField(value = "created_org_id", condition = LIKE)
     private Long createdOrgId;
 

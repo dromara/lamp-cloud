@@ -2,7 +2,7 @@ package top.tangyh.lamp.sms.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ import top.tangyh.lamp.sms.service.SmsSendStatusService;
 @Validated
 @RestController
 @RequestMapping("/smsSendStatus")
-@Api(value = "SmsSendStatus", tags = "短信发送状态")
+@Tag(name = "短信发送状态")
 public class SmsSendStatusController extends SuperSimpleController<SmsSendStatusService, SmsSendStatus>
         implements QueryController<SmsSendStatus, Long, SmsSendStatusPageQuery> {
 

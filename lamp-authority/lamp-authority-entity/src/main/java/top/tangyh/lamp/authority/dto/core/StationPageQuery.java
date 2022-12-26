@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.core;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "StationPageQuery", description = "岗位")
+@Schema(description="岗位")
 public class StationPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ public class StationPageQuery implements Serializable {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称")
+    @Schema(description="名称")
     private String name;
     /**
      * 组织
@@ -44,17 +44,17 @@ public class StationPageQuery implements Serializable {
      *
      * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
-    @ApiModelProperty(value = "组织")
+    @Schema(description="组织")
     private Long orgId;
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     private Boolean state;
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String describe;
     private Long createdOrgId;
 }

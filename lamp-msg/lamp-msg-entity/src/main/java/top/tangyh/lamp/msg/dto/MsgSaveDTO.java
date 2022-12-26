@@ -1,8 +1,8 @@
 package top.tangyh.lamp.msg.dto;
 
 import com.google.common.collect.Sets;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,11 +32,11 @@ import java.util.Set;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "MsgSaveDTO", description = "消息中心")
+@Schema(description="消息中心")
 public class MsgSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty(value = "消息内容")
+    @Schema(description="消息内容")
     @NotNull(message = "消息内容不能为空")
     @Valid
     private MsgDTO msgDTO;
@@ -45,14 +45,14 @@ public class MsgSaveDTO implements Serializable {
      * 接收人集合
      *
      */
-    @ApiModelProperty(value = "接收人id集合")
+    @Schema(description="接收人id集合")
     private Set<Long> userIdList;
 
     /**
      * 角色编码
      *
      */
-    @ApiModelProperty(value = "角色编码")
+    @Schema(description="角色编码")
     private Set<String> roleCodeList;
 
 

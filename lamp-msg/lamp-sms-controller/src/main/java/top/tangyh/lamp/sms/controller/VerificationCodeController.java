@@ -11,8 +11,8 @@ import top.tangyh.lamp.sms.dto.SmsTaskSaveDTO;
 import top.tangyh.lamp.sms.dto.VerificationCodeDTO;
 import top.tangyh.lamp.sms.enumeration.SourceType;
 import top.tangyh.lamp.sms.service.SmsTaskService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +35,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/verification")
-@Api(value = "VerificationCode", tags = "验证码")
+@Tag(name = "验证码")
 @RequiredArgsConstructor
 public class VerificationCodeController {
 
@@ -47,7 +47,7 @@ public class VerificationCodeController {
      * <p>
      * 一个系统可能有很多地方需要发送验证码（注册、找回密码等），每增加一个场景，VerificationCodeType 就需要增加一个枚举值
      */
-    @ApiOperation(value = "发送验证码", notes = "发送验证码")
+    @Operation(summary = "发送验证码", description = "发送验证码")
     @PostMapping(value = "/send")
     public R<Boolean> send(@Validated @RequestBody VerificationCodeDTO data) {
         String code = RandomUtil.randomNumbers(6);
@@ -71,7 +71,7 @@ public class VerificationCodeController {
     /**
      * 对某种类型的验证码进行校验
      */
-    @ApiOperation(value = "验证验证码", notes = "验证验证码")
+    @Operation(summary = "验证验证码", description = "验证验证码")
     @PostMapping
     public R<Boolean> verification(@Validated(SuperEntity.Update.class) @RequestBody VerificationCodeDTO data) {
         CacheKey cacheKey = new VerificationCodeCacheKeyBuilder().key(data.getType().name(), data.getMobile());

@@ -12,8 +12,8 @@ import top.tangyh.lamp.authority.dto.auth.MenuSaveDTO;
 import top.tangyh.lamp.authority.dto.auth.MenuUpdateDTO;
 import top.tangyh.lamp.authority.entity.auth.Menu;
 import top.tangyh.lamp.authority.service.auth.MenuService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +36,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/menu")
-@Api(value = "Menu", tags = "菜单")
+@Tag(name = "菜单")
 @PreAuth(replace = "authority:menu:")
 public class MenuController extends SuperCacheController<MenuService, Long, Menu, Menu, MenuSaveDTO, MenuUpdateDTO> {
 
@@ -64,7 +64,7 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
      * 查询系统中所有的的菜单树结构， 不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
      *
      */
-    @ApiOperation(value = "查询系统所有的菜单", notes = "查询系统所有的菜单")
+    @Operation(summary = "查询系统所有的菜单", description = "查询系统所有的菜单")
     @PostMapping("/tree")
     @SysLog("查询系统所有的菜单")
     public R<List<Menu>> allTree() {
@@ -75,7 +75,7 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
     /**
      * 查询系统所有的菜单和资源树， 不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
      */
-    @ApiOperation(value = "查询系统所有的菜单和资源树", notes = "查询系统所有的菜单和资源树")
+    @Operation(summary = "查询系统所有的菜单和资源树", description = "查询系统所有的菜单和资源树")
     @PostMapping("/menuResourceTree")
     @SysLog("查询系统所有的菜单和资源树")
     public R<List<MenuResourceTreeVO>> menuResourceTree() {
@@ -84,7 +84,7 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
     /**
      * 查询系统所有的数据权限  不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
      */
-    @ApiOperation(value = "查询系统所有的数据权限", notes = "查询系统所有的数据权限")
+    @Operation(summary = "查询系统所有的数据权限", description = "查询系统所有的数据权限")
     @PostMapping("/findMenuDataScopeTree")
     @SysLog("查询系统所有的数据权限")
     public R<List<MenuResourceTreeVO>> findMenuDataScopeTree() {

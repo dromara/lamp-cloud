@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,16 +25,16 @@ import jakarta.validation.constraints.NotEmpty;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "LoginParamDTO", description = "登录参数")
+@Schema(description="登录参数")
 public class LoginParamDTO {
-    @ApiModelProperty(value = "验证码KEY")
+    @Schema(description="验证码KEY")
     private String key;
-    @ApiModelProperty(value = "验证码")
+    @Schema(description="验证码")
     private String code;
 
-    @ApiModelProperty(value = "账号")
+    @Schema(description="账号")
     private String account;
-    @ApiModelProperty(value = "密码")
+    @Schema(description="密码")
     private String password;
 
     /**
@@ -42,13 +42,13 @@ public class LoginParamDTO {
      * refresh_token: 刷新token
      * captcha: 验证码
      */
-    @ApiModelProperty(value = "授权类型", example = "captcha", allowableValues = "captcha,refresh_token,password")
+    @Schema(description="授权类型", example = "captcha", allowableValues = "captcha,refresh_token,password")
     @NotEmpty(message = "授权类型不能为空")
     private String grantType;
 
     /**
      * 前端界面点击清空缓存时调用
      */
-    @ApiModelProperty(value = "刷新token")
+    @Schema(description="刷新token")
     private String refreshToken;
 }

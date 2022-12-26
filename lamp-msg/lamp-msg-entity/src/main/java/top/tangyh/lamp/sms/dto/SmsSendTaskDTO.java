@@ -1,7 +1,7 @@
 //package top.tangyh.lamp.sms.dto;
 //
-//import io.swagger.annotations.ApiModel;
-//import io.swagger.annotations.ApiModelProperty;
+//
+//import io.swagger.v3.oas.annotations.media.Schema;
 //import lombok.AllArgsConstructor;
 //import lombok.Builder;
 //import lombok.Data;
@@ -25,17 +25,17 @@
 //@Builder
 //@AllArgsConstructor
 //@NoArgsConstructor
-//@ApiModel(value = "SmsSendTask", description = "短信发送DTO")
+//@Schema(description="短信发送DTO")
 //public class SmsSendTaskDTO {
 //
-//    @ApiModelProperty(value = "接收者手机")
+//    @Schema(description="接收者手机")
 //    @Size(min = 1, message = "请填写接收者手机")
 //    private List<String> telNum;
 //
 //    /**
 //     * 短信主题
 //     */
-//    @ApiModelProperty(value = "短信主题")
+//    @Schema(description="短信主题")
 //    @Size(max = 255, message = "短信主题不能超过255")
 //    private String topic;
 //
@@ -46,7 +46,7 @@
 //     * java代码中请使用 JSONObject.parseObject(xxx, Feature.OrderedField); 进行解析
 //     * java代码中请使用 JSONObject obj = new JSONObject(true); 来设置有序的key
 //     */
-//    @ApiModelProperty(value = "短信模板参数")
+//    @Schema(description="短信模板参数")
 //    @Size(max = 500, message = "短信模板参数不能超过500")
 //    @NotNull(message = "短信模板参数不能为空")
 //    private LinkedHashMap<String, String> templateParam;
@@ -54,20 +54,20 @@
 //    /**
 //     * 短信发送时间
 //     */
-//    @ApiModelProperty(value = "短信发送时间")
+//    @Schema(description="短信发送时间")
 //    private LocalDateTime sendTime;
 //
 //    /**
 //     * 发送内容
 //     */
-//    @ApiModelProperty(value = "发送内容")
+//    @Schema(description="发送内容")
 //    @Size(max = 500, message = "发送内容不能超过450")
 //    private String content;
 //    /**
 //     * 是否为草稿
 //     * #BooleanStatus
 //     */
-//    @ApiModelProperty(value = "是否为草稿")
+//    @Schema(description="是否为草稿")
 //    private Boolean draft;
 //
 //    /**

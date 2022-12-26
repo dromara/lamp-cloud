@@ -2,8 +2,8 @@ package top.tangyh.lamp.authority.controller.common;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -42,7 +42,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/dictionary")
-@Api(value = "Dictionary", tags = "字典类型")
+@Tag(name = "字典类型")
 @PreAuth(replace = "authority:dictionary:")
 @RequiredArgsConstructor
 public class DictionaryController
@@ -64,7 +64,7 @@ public class DictionaryController
         return this.success(true);
     }
 
-    @ApiOperation(value = "分页列表查询-字典类型")
+    @Operation(summary = "分页列表查询-字典类型")
     @PostMapping(value = "/pageType")
     @PreAuth("hasAnyPermission('{}view')")
     public R<IPage<Dictionary>> pageType(@RequestBody @Validated PageParams<DictionaryPageQuery> params) {
@@ -73,21 +73,21 @@ public class DictionaryController
         return R.success(page);
     }
 
-    @ApiOperation(value = "保存-字典类型")
+    @Operation(summary = "保存-字典类型")
     @PostMapping(value = "/type")
     @PreAuth("hasAnyPermission('{}add')")
     public R<Dictionary> saveType(@RequestBody @Validated DictionaryTypeSaveDTO dictType) {
         return R.success(baseService.saveType(dictType));
     }
 
-    @ApiOperation(value = "修改-字典类型")
+    @Operation(summary = "修改-字典类型")
     @PutMapping(value = "/type")
     @PreAuth("hasAnyPermission('{}edit')")
     public R<Boolean> updateType(@RequestBody @Validated DictionaryTypeSaveDTO dictType) {
         return R.success(baseService.updateType(dictType));
     }
 
-    @ApiOperation(value = "删除-字典类型")
+    @Operation(summary = "删除-字典类型")
     @DeleteMapping(value = "/type")
     @PreAuth("hasAnyPermission('{}delete')")
     public R<Boolean> deleteType(@RequestBody List<String> types) {

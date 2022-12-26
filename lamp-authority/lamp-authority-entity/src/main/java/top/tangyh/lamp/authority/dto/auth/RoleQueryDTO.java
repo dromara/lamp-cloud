@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,46 +29,46 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "RoleSaveDTO", description = "角色")
+@Schema(description="角色")
 public class RoleQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty(value = "ID")
+    @Schema(description="ID")
     private Long id;
 
     /**
      * 角色名称
      */
-    @ApiModelProperty(value = "角色名称")
+    @Schema(description="角色名称")
     private String name;
     /**
      * 角色编码
      */
-    @ApiModelProperty(value = "角色编码")
+    @Schema(description="角色编码")
     private String code;
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String describe;
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     private Boolean state;
     /**
      * 内置角色
      */
-    @ApiModelProperty(value = "内置角色")
+    @Schema(description="内置角色")
     private Boolean readonly;
     /**
      * 角色类别;[10-功能角色 20-桌面角色 30-数据角色]
      */
-    @ApiModelProperty(value = "角色类别")
+    @Schema(description="角色类别")
     private String category;
     /**
      * 关联的组织
      */
-    @ApiModelProperty(value = "关联的组织")
+    @Schema(description="关联的组织")
     private List<Long> orgList;
 }

@@ -1,8 +1,8 @@
 package top.tangyh.lamp.tenant.controller;
 
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,11 +61,11 @@ import static top.tangyh.lamp.model.enumeration.system.TenantStatusEnum.NORMAL;
 @Validated
 @RestController
 @RequestMapping("/tenant")
-@Api(value = "Tenant", tags = "企业")
+@Tag(name = "企业")
 @SysLog(enabled = false)
 public class TenantController extends SuperCacheController<TenantService, Long, Tenant, TenantPageQuery, TenantSaveDTO, TenantUpdateDTO> {
 
-    @ApiOperation(value = "查询所有企业", notes = "查询所有企业")
+    @Operation(summary = "查询所有企业", description = "查询所有企业")
     @GetMapping("/all")
     public R<List<Tenant>> list() {
         return success(baseService.list(Wraps.<Tenant>lbQ().eq(Tenant::getStatus, NORMAL)));
@@ -83,7 +83,7 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
         return success(tenant);
     }
 
-    @ApiOperation(value = "检测租户是否存在", notes = "检测租户是否存在")
+    @Operation(summary = "检测租户是否存在", description = "检测租户是否存在")
     @GetMapping("/check/{code}")
     public R<Boolean> check(@PathVariable("code") String code) {
         return success(baseService.check(code));
@@ -97,14 +97,14 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
     }
 
 
-    @ApiOperation(value = "删除租户和基础租户数据，请谨慎操作")
+    @Operation(summary = "删除租户和基础租户数据，请谨慎操作")
     @DeleteMapping("/deleteAll")
     @PreAuth("hasAnyRole('PT_ADMIN')")
     public R<Boolean> deleteAll(@RequestBody List<Long> ids) {
         return success(baseService.deleteAll(ids));
     }
 
-    @ApiOperation(value = "修改租户状态", notes = "修改租户状态")
+    @Operation(summary = "修改租户状态", description = "修改租户状态")
     @PostMapping("/status")
     public R<Boolean> updateStatus(@RequestParam("ids[]") List<Long> ids,
                                    @RequestParam(defaultValue = "FORBIDDEN") @NotNull(message = "状态不能为空") TenantStatusEnum status) {
@@ -114,7 +114,7 @@ public class TenantController extends SuperCacheController<TenantService, Long, 
     /**
      * 初始化
      */
-    @ApiOperation(value = "连接数据源", notes = "连接数据源")
+    @Operation(summary = "连接数据源", description = "连接数据源")
     @PostMapping("/initConnect")
     public R<Boolean> initConnect(@Validated @RequestBody TenantConnectDTO tenantConnect) {
         return success(baseService.connect(tenantConnect));

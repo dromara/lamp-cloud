@@ -1,8 +1,7 @@
 package top.tangyh.lamp.model.vo.query;
 
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,18 +17,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel(value = "ResourceQueryDTO", description = "资源查询")
+@Schema(description = "资源查询")
 public class ResourceQueryDTO {
 
     /**
      * 父资源id， 用于查询按钮
      */
-    @ApiModelProperty(value = "菜单id", notes = "指定菜单id")
+    @Schema(title = "菜单id", description = "指定菜单id")
     private Long menuId;
     /**
      * 登录人用户id
      */
-    @ApiModelProperty(value = "指定用户id", notes = "指定用户id，前端不传则自动获取")
+    @Schema(title = "指定用户id", description = "指定用户id，前端不传则自动获取")
     private Long userId;
 
 }

@@ -10,8 +10,8 @@ import top.tangyh.basic.database.mybatis.conditions.query.QueryWrap;
 import top.tangyh.lamp.authority.dto.common.LoginLogUpdateDTO;
 import top.tangyh.lamp.authority.entity.common.LoginLog;
 import top.tangyh.lamp.authority.service.common.LoginLogService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 @Validated
 @RestController
 @RequestMapping("/loginLog")
-@Api(value = "LoginLog", tags = "登录日志")
+@Tag(name = "登录日志")
 @PreAuth(replace = "authority:loginLog:")
 public class LoginLogController extends SuperController<LoginLogService, Long, LoginLog, LoginLog, LoginLog, LoginLogUpdateDTO> {
 
@@ -59,7 +59,7 @@ public class LoginLogController extends SuperController<LoginLogService, Long, L
         return wrapper;
     }
 
-    @ApiOperation("清空日志")
+    @Operation(summary = "清空日志")
     @DeleteMapping("clear")
     @SysLog("清空日志")
     public R<Boolean> clear(@RequestParam(required = false, defaultValue = "1") Integer type) {

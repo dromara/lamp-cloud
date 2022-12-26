@@ -1,7 +1,7 @@
 package top.tangyh.lamp.model.enumeration.base;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "OrgTypeEnum", description = "机构类型-枚举")
+@Schema(description="机构类型-枚举")
 public enum OrgTypeEnum implements BaseEnum {
 
     /**
@@ -54,7 +54,7 @@ public enum OrgTypeEnum implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "10,20", example = "10")
+    @Schema(description="编码", allowableValues = "10,20", example = "10")
     public String getCode() {
         return this.code;
     }

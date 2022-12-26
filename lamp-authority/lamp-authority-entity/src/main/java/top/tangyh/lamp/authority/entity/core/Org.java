@@ -7,8 +7,8 @@ import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.model.constant.EchoDictType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,7 +41,7 @@ import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_org")
-@ApiModel(value = "Org", description = "组织")
+@Schema(description="组织")
 @AllArgsConstructor
 public class Org extends TreeEntity<Org, Long> implements EchoVO {
 
@@ -53,7 +53,7 @@ public class Org extends TreeEntity<Org, Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
      */
-    @ApiModelProperty(value = "类型")
+    @Schema(description="类型")
     @Size(max = 2, message = "类型长度不能超过2")
     @TableField(value = "type_", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.ORG_TYPE)
@@ -63,7 +63,7 @@ public class Org extends TreeEntity<Org, Long> implements EchoVO {
     /**
      * 简称
      */
-    @ApiModelProperty(value = "简称")
+    @Schema(description="简称")
     @Size(max = 255, message = "简称长度不能超过255")
     @TableField(value = "abbreviation", condition = LIKE)
     @Excel(name = "简称")
@@ -72,7 +72,7 @@ public class Org extends TreeEntity<Org, Long> implements EchoVO {
     /**
      * 树结构
      */
-    @ApiModelProperty(value = "树结构")
+    @Schema(description="树结构")
     @Size(max = 255, message = "树结构长度不能超过255")
     @TableField(value = "tree_path", condition = LIKE)
     @Excel(name = "树结构")
@@ -81,7 +81,7 @@ public class Org extends TreeEntity<Org, Long> implements EchoVO {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     @TableField("state")
     @Excel(name = "状态", replace = {"是_true", "否_false", "_null"})
     private Boolean state;
@@ -89,7 +89,7 @@ public class Org extends TreeEntity<Org, Long> implements EchoVO {
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")

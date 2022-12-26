@@ -12,8 +12,8 @@ import top.tangyh.lamp.authority.entity.common.Dictionary;
 import top.tangyh.lamp.authority.service.common.DictionaryService;
 import top.tangyh.lamp.authority.service.common.ParameterService;
 import top.tangyh.lamp.model.vo.result.Option;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RestController
-@Api(value = "Common", tags = "通用Controller")
+@Tag(name = "通用Controller")
 @AllArgsConstructor
 public class OauthGeneralController {
     private final DictionaryService dictionaryService;
@@ -86,7 +86,7 @@ public class OauthGeneralController {
         return newMap;
     }
 
-    @ApiOperation(value = "获取当前系统指定枚举 Map", notes = "获取当前系统指定枚举（lamp-web使用）")
+    @Operation(summary = "获取当前系统指定枚举 Map", description = "获取当前系统指定枚举（lamp-web使用）")
     @PostMapping("/enums")
     public R<Map<String, Map<String, String>>> enums(@RequestBody String[] codes) {
         if (ArrayUtil.isEmpty(codes)) {
@@ -102,13 +102,13 @@ public class OauthGeneralController {
         return R.success(map);
     }
 
-    @ApiOperation(value = "根据类型编码查询字典项", notes = "根据类型编码查询字典项")
+    @Operation(summary = "根据类型编码查询字典项", description = "根据类型编码查询字典项")
     @PostMapping("/dictionary/codes")
     public R<Map<String, List<Dictionary>>> list(@RequestBody String[] types) {
         return R.success(this.dictionaryService.listByTypes(types));
     }
 
-    @ApiOperation(value = "获取当前系统指定枚举 List", notes = "获取当前系统指定枚举（lamp-web使用）")
+    @Operation(summary = "获取当前系统指定枚举 List", description = "获取当前系统指定枚举（lamp-web使用）")
     @PostMapping("/enumList")
     public R<Map<String, List<Option>>> enumLists(@RequestBody String[] codes) {
         if (ArrayUtil.isEmpty(codes)) {
@@ -124,7 +124,7 @@ public class OauthGeneralController {
         return R.success(map);
     }
 
-    @ApiOperation(value = "根据类型编码查询字典项", notes = "根据类型编码查询字典项")
+    @Operation(summary = "根据类型编码查询字典项", description = "根据类型编码查询字典项")
     @PostMapping("/dictionary/codeList")
     public R<Map<String, List<Option>>> codeList(@RequestBody String[] types) {
         return R.success(mapOptionByDict(dictionaryService.listByTypes(types)));
@@ -132,13 +132,13 @@ public class OauthGeneralController {
 
 
     @GetMapping("/parameter/value")
-    @ApiOperation(value = "根据key获取系统参数", notes = "根据key获取系统参数")
+    @Operation(summary = "根据key获取系统参数", description = "根据key获取系统参数")
     public R<String> getValue(@RequestParam(value = "key") String key, @RequestParam(value = "defVal", required = false) String defVal) {
         return R.success(parameterService.getValue(key, defVal));
     }
 
     @PostMapping("/parameter/findParams")
-    @ApiOperation(value = "根据key批量获取系统参数", notes = "根据key批量获取系统参数")
+    @Operation(summary = "根据key批量获取系统参数", description = "根据key批量获取系统参数")
     public R<Map<String, String>> findParams(@RequestBody List<String> keys) {
         return R.success(parameterService.findParams(keys));
     }

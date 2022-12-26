@@ -1,8 +1,8 @@
 package top.tangyh.lamp.file.enumeration;
 
 import top.tangyh.basic.interfaces.BaseEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "FileStorageType", description = "文件存储类型")
+@Schema(description="文件存储类型")
 public enum FileStorageType implements BaseEnum {
     /**
      * 本地
@@ -37,7 +37,7 @@ public enum FileStorageType implements BaseEnum {
     HUAWEI_OSS("华为云OSS"),
     ;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String desc;
 
     /**
@@ -52,7 +52,7 @@ public enum FileStorageType implements BaseEnum {
     }
 
     @Override
-    @ApiModelProperty(value = "编码", allowableValues = "LOCAL,FAST_DFS,MIN_IO,ALI,QINIU", example = "LOCAL")
+    @Schema(description="编码", allowableValues = "LOCAL,FAST_DFS,MIN_IO,ALI,QINIU", example = "LOCAL")
     public String getCode() {
         return this.name();
     }

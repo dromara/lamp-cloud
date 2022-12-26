@@ -1,9 +1,8 @@
 package top.tangyh.lamp.sms.dto;
 
-import top.tangyh.basic.model.Kv;
-import top.tangyh.lamp.sms.enumeration.SourceType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +10,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.model.Kv;
+import top.tangyh.lamp.sms.enumeration.SourceType;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -35,55 +34,55 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "SmsTaskSaveDTO", description = "发送任务")
+@Schema(description = "发送任务")
 public class SmsTaskSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private SourceType sourceType;
 
     /**
      * 短信模板
      * #e_sms_template
      */
-    @ApiModelProperty(value = "短信模板")
+    @Schema(description = "短信模板")
     @NotNull(message = "请填写短信模板")
     private Long templateId;
 
-    @ApiModelProperty(value = "接收者手机")
+    @Schema(description = "接收者手机")
     @Size(min = 1, message = "请填写接收者手机")
     private List<String> telNum;
 
     /**
      * 主题
      */
-    @ApiModelProperty(value = "主题")
+    @Schema(description = "主题")
     @Size(max = 255, message = "主题长度不能超过255")
     private String topic;
     /**
      * 参数
      * 需要封装为{‘key’:’value’, ...}格式且key必须有序
      */
-    @ApiModelProperty(value = "参数")
+    @Schema(description = "参数")
     private List<Kv> templateParam;
 
     /**
      * 发送时间
      */
-    @ApiModelProperty(value = "发送时间")
+    @Schema(description = "发送时间")
     private LocalDateTime sendTime;
     /**
      * 发送内容
      * 需要封装正确格式化: 您好，张三，您有一个新的快递。
      */
-    @ApiModelProperty(value = "发送内容")
+    @Schema(description = "发送内容")
     @Size(max = 500, message = "发送内容长度不能超过500")
     private String content;
     /**
      * 是否草稿
      */
-    @ApiModelProperty(value = "是否草稿")
+    @Schema(description = "是否草稿")
     private Boolean draft;
 
 

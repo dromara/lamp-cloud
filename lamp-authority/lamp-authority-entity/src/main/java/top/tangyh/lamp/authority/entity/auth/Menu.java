@@ -3,8 +3,8 @@ package top.tangyh.lamp.authority.entity.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,6 @@ import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.lamp.model.constant.EchoDictType;
 
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.EQUAL;
@@ -38,7 +37,7 @@ import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_FEIGN_CLASS
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_menu")
-@ApiModel(value = "Menu", description = "菜单")
+@Schema(description="菜单")
 @AllArgsConstructor
 public class Menu extends TreeEntity<Menu, Long> {
 
@@ -47,7 +46,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     @Size(max = 200, message = "描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
@@ -55,7 +54,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 类型;[20-菜单 60-数据]
      */
-    @ApiModelProperty(value = "类型")
+    @Schema(description="类型")
     @Size(max = 2, message = "类型长度不能超过{max}")
     @TableField(value = "resource_type", condition = LIKE)
     @Excel(name = "类型")
@@ -66,7 +65,7 @@ public class Menu extends TreeEntity<Menu, Long> {
      * 通用菜单
      * True表示无需分配所有人就可以访问的
      */
-    @ApiModelProperty(value = "通用菜单")
+    @Schema(description="通用菜单")
     @TableField("is_general")
     @Excel(name = "通用菜单", replace = {"是_true", "否_false", "_null"})
     private Boolean isGeneral;
@@ -74,7 +73,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 路径
      */
-    @ApiModelProperty(value = "路径")
+    @Schema(description="路径")
     @Size(max = 255, message = "路径长度不能超过255")
     @TableField(value = "path", condition = LIKE)
     @Excel(name = "路径")
@@ -83,7 +82,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 组件
      */
-    @ApiModelProperty(value = "组件")
+    @Schema(description="组件")
     @Size(max = 255, message = "组件长度不能超过255")
     @TableField(value = "component", condition = LIKE)
     @Excel(name = "组件")
@@ -92,7 +91,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     @TableField("state")
     @Excel(name = "状态", replace = {"是_true", "否_false", "_null"})
     private Boolean state;
@@ -100,7 +99,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 菜单图标
      */
-    @ApiModelProperty(value = "菜单图标")
+    @Schema(description="菜单图标")
     @Size(max = 255, message = "菜单图标长度不能超过255")
     @TableField(value = "icon", condition = LIKE)
     @Excel(name = "菜单图标")
@@ -109,7 +108,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 分组
      */
-    @ApiModelProperty(value = "分组")
+    @Schema(description="分组")
     @Size(max = 20, message = "分组长度不能超过20")
     @TableField(value = "group_", condition = LIKE)
     @Excel(name = "分组")
@@ -118,7 +117,7 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 内置
      */
-    @ApiModelProperty(value = "内置")
+    @Schema(description="内置")
     @TableField("readonly_")
     @Excel(name = "内置", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;
@@ -126,14 +125,14 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]
      */
-    @ApiModelProperty(value = "数据范围")
+    @Schema(description="数据范围")
     @TableField(value = "data_scope", condition = LIKE)
     @Size(max = 2, message = "数据范围长度不能超过{max}")
     private String dataScope;
     /**
      * 实现类;自定义实现类全类名
      */
-    @ApiModelProperty(value = "实现类")
+    @Schema(description="实现类")
     @TableField(value = "custom_class", condition = LIKE)
     @Size(max = 255, message = "实现类长度不能超过{max}")
     private String customClass;
@@ -141,20 +140,20 @@ public class Menu extends TreeEntity<Menu, Long> {
     /**
      * 是否默认
      */
-    @ApiModelProperty(value = "是否默认")
+    @Schema(description="是否默认")
     @TableField(value = "is_def")
     private Boolean isDef;
 
     /**
      * 树层级
      */
-    @ApiModelProperty(value = "树层级")
+    @Schema(description="树层级")
     @TableField(value = "tree_grade", condition = EQUAL)
     private Integer treeGrade;
     /**
      * 树路径;用id拼接树结构
      */
-    @ApiModelProperty(value = "树路径")
+    @Schema(description="树路径")
     @TableField(value = "tree_path", condition = LIKE)
     private String treePath;
 

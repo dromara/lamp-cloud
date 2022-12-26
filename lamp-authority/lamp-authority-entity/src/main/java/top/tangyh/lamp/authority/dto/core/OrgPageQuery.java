@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.core;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,42 +28,42 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "OrgPageQuery", description = "组织")
+@Schema(description="组织")
 public class OrgPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "名称")
+    @Schema(description="名称")
     protected String label;
     /**
      * 简称
      */
-    @ApiModelProperty(value = "简称")
+    @Schema(description="简称")
     private String abbreviation;
     /**
      * 树结构
      */
-    @ApiModelProperty(value = "树结构")
+    @Schema(description="树结构")
     private String treePath;
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     private Boolean state;
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     private String describe;
-    @ApiModelProperty(value = "父ID")
+    @Schema(description="父ID")
     protected Long parentId;
-    @ApiModelProperty(value = "排序号")
+    @Schema(description="排序号")
     protected Integer sortValue;
     /**
      * 类型
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
      */
-    @ApiModelProperty(value = "类型")
+    @Schema(description="类型")
     private String type;
 }

@@ -1,8 +1,8 @@
 package top.tangyh.lamp.authority.controller.auth;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -53,7 +53,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("/role")
-@Api(value = "Role", tags = "角色")
+@Tag(name = "角色")
 @PreAuth(replace = "authority:role:")
 @RequiredArgsConstructor
 public class RoleController extends SuperCacheController<RoleService, Long, Role, RolePageQuery, RoleSaveDTO, RoleUpdateDTO> {
@@ -92,7 +92,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询角色", notes = "查询角色")
+    @Operation(summary = "查询角色", description = "查询角色")
     @GetMapping("/details")
     @SysLog("查询角色")
     public R<RoleQueryDTO> getDetails(@RequestParam Long id) {
@@ -101,7 +101,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
         return success(query);
     }
 
-    @ApiOperation(value = "检测角色编码", notes = "检测角色编码")
+    @Operation(summary = "检测角色编码", description = "检测角色编码")
     @GetMapping("/check")
     @SysLog("检测角色编码")
     public R<Boolean> check(@RequestParam String code) {
@@ -132,7 +132,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @param userRole 用户角色授权对象
      * @return 新增结果
      */
-    @ApiOperation(value = "给用户分配角色", notes = "给用户分配角色")
+    @Operation(summary = "给用户分配角色", description = "给用户分配角色")
     @PostMapping("/saveUserRole")
     @SysLog("给角色分配用户")
     @PreAuth("hasAnyPermission('{}config')")
@@ -147,7 +147,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @param roleUser 用户角色授权对象
      * @return 新增结果
      */
-    @ApiOperation(value = "给角色绑定用户", notes = "给角色绑定用户")
+    @Operation(summary = "给角色绑定用户", description = "给角色绑定用户")
     @PostMapping("/saveRoleUser")
     @SysLog("给角色绑定用户")
     @PreAuth("hasAnyPermission('{}config')")
@@ -161,7 +161,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @param roleId 角色id
      * @return 新增结果
      */
-    @ApiOperation(value = "查询角色的用户", notes = "查询角色的用户")
+    @Operation(summary = "查询角色的用户", description = "查询角色的用户")
     @GetMapping("/userList")
     @SysLog("查询角色的用户")
     @PreAuth("hasAnyPermission('{}view')")
@@ -176,7 +176,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @param roleId 角色id
      * @return 新增结果
      */
-    @ApiOperation(value = "查询角色拥有的资源id集合", notes = "查询角色拥有的资源id集合")
+    @Operation(summary = "查询角色拥有的资源id集合", description = "查询角色拥有的资源id集合")
     @GetMapping("/resourceList")
     @SysLog("查询角色拥有的资源")
     @PreAuth("hasAnyPermission('{}view')")
@@ -197,7 +197,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @param roleAuthoritySaveDTO 角色权限授权对象
      * @return 新增结果
      */
-    @ApiOperation(value = "给角色配置权限", notes = "给角色配置权限")
+    @Operation(summary = "给角色配置权限", description = "给角色配置权限")
     @PostMapping("/saveResource")
     @SysLog("给角色配置权限")
     @PreAuth("hasAnyPermission('{}auth')")
@@ -212,7 +212,7 @@ public class RoleController extends SuperCacheController<RoleService, Long, Role
      * @param codes 编码集合
      * @return 查询结果
      */
-    @ApiOperation(value = "根据角色编码查询用户ID", notes = "根据角色编码查询用户ID")
+    @Operation(summary = "根据角色编码查询用户ID", description = "根据角色编码查询用户ID")
     @GetMapping("/codes")
     @SysLog("根据角色编码查询用户ID")
     public R<List<Long>> findUserIdByCode(@RequestParam(value = "codes") String[] codes) {

@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +30,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value = "GlobalUserSaveDTO", description = "全局账号")
+@Schema(description="全局账号")
 public class GlobalUserPageDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,33 +38,33 @@ public class GlobalUserPageDTO implements Serializable {
     /**
      * 租户编号
      */
-    @ApiModelProperty(value = "租户编号")
+    @Schema(description="租户编号")
     @NotEmpty(message = "租户编号不能为空")
     @Size(max = 10, message = "租户编号长度不能超过10")
     private String tenantCode;
     /**
      * 账号
      */
-    @ApiModelProperty(value = "账号")
+    @Schema(description="账号")
     @NotEmpty(message = "账号不能为空")
     @Size(max = 30, message = "账号长度不能超过30")
     private String account;
     /**
      * 手机
      */
-    @ApiModelProperty(value = "手机")
+    @Schema(description="手机")
     @Size(max = 20, message = "手机长度不能超过20")
     private String mobile;
     /**
      * 姓名
      */
-    @ApiModelProperty(value = "姓名")
+    @Schema(description="姓名")
     @Size(max = 50, message = "姓名长度不能超过20")
     private String name;
     /**
      * 邮箱
      */
-    @ApiModelProperty(value = "邮箱")
+    @Schema(description="邮箱")
     @Size(max = 255, message = "邮箱长度不能超过255")
     private String email;
 

@@ -4,8 +4,8 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tangyh.basic.base.entity.Entity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +35,7 @@ import static top.tangyh.lamp.model.constant.Condition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_parameter")
-@ApiModel(value = "Parameter", description = "参数配置")
+@Schema(description="参数配置")
 @AllArgsConstructor
 public class Parameter extends Entity<Long> {
 
@@ -44,7 +44,7 @@ public class Parameter extends Entity<Long> {
     /**
      * 参数键
      */
-    @ApiModelProperty(value = "参数键")
+    @Schema(description="参数键")
     @NotEmpty(message = "参数键不能为空")
     @Size(max = 255, message = "参数键长度不能超过255")
     @TableField(value = "key_", condition = LIKE)
@@ -54,7 +54,7 @@ public class Parameter extends Entity<Long> {
     /**
      * 参数值
      */
-    @ApiModelProperty(value = "参数值")
+    @Schema(description="参数值")
     @NotEmpty(message = "参数值不能为空")
     @Size(max = 255, message = "参数值长度不能超过255")
     @TableField(value = "value", condition = LIKE)
@@ -64,7 +64,7 @@ public class Parameter extends Entity<Long> {
     /**
      * 参数名称
      */
-    @ApiModelProperty(value = "参数名称")
+    @Schema(description="参数名称")
     @NotEmpty(message = "参数名称不能为空")
     @Size(max = 255, message = "参数名称长度不能超过255")
     @TableField(value = "name", condition = LIKE)
@@ -74,7 +74,7 @@ public class Parameter extends Entity<Long> {
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述")
+    @Schema(description="描述")
     @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     @Excel(name = "描述")
@@ -83,7 +83,7 @@ public class Parameter extends Entity<Long> {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态")
+    @Schema(description="状态")
     @TableField("state")
     @Excel(name = "状态", replace = {"是_true", "否_false", "_null"})
     private Boolean state;
@@ -91,7 +91,7 @@ public class Parameter extends Entity<Long> {
     /**
      * 内置
      */
-    @ApiModelProperty(value = "内置")
+    @Schema(description="内置")
     @TableField("readonly_")
     @Excel(name = "内置", replace = {"是_true", "否_false", "_null"})
     private Boolean readonly;

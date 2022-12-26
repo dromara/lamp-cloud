@@ -1,5 +1,17 @@
 package top.tangyh.lamp.authority.controller.auth;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperCacheController;
@@ -8,22 +20,8 @@ import top.tangyh.lamp.authority.dto.auth.ResourceSaveDTO;
 import top.tangyh.lamp.authority.dto.auth.ResourceUpdateDTO;
 import top.tangyh.lamp.authority.entity.auth.Resource;
 import top.tangyh.lamp.authority.service.auth.ResourceService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 
 /**
  * <p>
@@ -38,15 +36,15 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @Validated
 @RestController
 @RequestMapping("/resource")
-@Api(value = "Resource", tags = "资源")
+@Tag(name = "资源")
 @PreAuth(replace = "authority:resource:")
 public class ResourceController extends SuperCacheController<ResourceService, Long, Resource, Resource, ResourceSaveDTO, ResourceUpdateDTO> {
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
-            @ApiImplicitParam(name = "code", value = "编码", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
+    @Parameters({
+            @Parameter(name = "id", description = "ID", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
+            @Parameter(name = "code", description = "编码", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
     })
-    @ApiOperation(value = "检测资源编码是否可用", notes = "检测资源编码是否可用")
+    @Operation(summary = "检测资源编码是否可用", description = "检测资源编码是否可用")
     @GetMapping("/check")
     public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String code) {
         return success(baseService.check(id, code));

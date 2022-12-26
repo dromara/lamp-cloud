@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.dto.auth;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,18 +20,18 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "UserRegisterDTO", description = "用户注册DTO")
+@Schema(description="用户注册DTO")
 public class UserRegisterDTO implements Serializable {
 
     @NotEmpty(message = "手机号不能为空")
-    @ApiModelProperty(value = "手机号")
+    @Schema(description="手机号")
     private String mobile;
 
     @NotEmpty(message = "密码不能为空")
-    @ApiModelProperty(value = "密码")
+    @Schema(description="密码")
     private String password;
 
-    @ApiModelProperty(value = "验证码")
+    @Schema(description="验证码")
     @NotEmpty(message = "验证码不能为空")
     private String verificationCode;
 }
