@@ -13,10 +13,20 @@
 
 [https://tangyh.top](https://tangyh.top)
 
-# 说明
+# 分支说明
 
-本项目已于2022年11月正式加入 [Dromara 开源社区](https://dromara.org/) ，因此项目地址发生了变更，原来 `git clone`
-到本地的代码，需要自行修改`.git/config`中的项目地址，或者直接重新 git clone 代码，以免影响代码的更新。
+- master：稳定版；功能稳定，bug少
+  - jdk 8
+  - spring cloud 2021.0.5
+  - spring cloud alibaba 2021.0.4.0
+  - nacos.version 2.1.2
+  - spring boot 2.7.6
+- java17: 激进版；技术栈最新，可能存在未知bug
+  - jdk 17
+  - spring cloud 2022.0.0
+  - spring cloud alibaba 2022.0.0.0-RC1
+  - nacos.version 2.2.0
+  - spring boot 3.0.0
 
 # lamp 项目名字由来
 
@@ -120,12 +130,9 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 - 【阿里云】超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
 - 【阿里云】服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
 - 【阿里云】服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
--
-【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
--
-【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
--
-通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
+- 【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
+- 【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
+- 通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
 一份。
 
 # Dromara 成员项目
