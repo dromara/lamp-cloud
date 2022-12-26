@@ -10,7 +10,8 @@ import top.tangyh.lamp.model.entity.base.SysUser;
 public interface UserResolverService {
     /**
      * 根据id查询用户
-     *¬
+     * ¬
+     *
      * @param userQuery 查询条件
      * @return 用户信息
      */

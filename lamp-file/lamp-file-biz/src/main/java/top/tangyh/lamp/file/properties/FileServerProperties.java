@@ -53,6 +53,15 @@ public class FileServerProperties {
     private Local local = new Local();
     private FastDfs fastDfs = new FastDfs();
 
+    public enum Region {
+        z0,
+        z1,
+        z2,
+        na0,
+        as0,
+        ;
+    }
+
     @Data
     public static class FastDfs {
         /**
@@ -152,16 +161,6 @@ public class FileServerProperties {
             return urlPrefix;
         }
     }
-
-    public enum Region {
-        z0,
-        z1,
-        z2,
-        na0,
-        as0,
-        ;
-    }
-
 
     @Data
     public static class QiNiu {

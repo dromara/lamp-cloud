@@ -1,8 +1,8 @@
 package top.tangyh.lamp.common.api.fallback;
 
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.model.log.OptLogDTO;
-import org.springframework.stereotype.Component;
 import top.tangyh.lamp.common.api.LogApi;
 
 /**

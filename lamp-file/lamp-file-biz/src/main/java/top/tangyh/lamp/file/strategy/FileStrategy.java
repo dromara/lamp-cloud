@@ -1,9 +1,9 @@
 package top.tangyh.lamp.file.strategy;
 
+import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.lamp.file.domain.FileDeleteBO;
 import top.tangyh.lamp.file.domain.FileGetUrlBO;
 import top.tangyh.lamp.file.entity.File;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;

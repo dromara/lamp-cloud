@@ -1,10 +1,10 @@
 package top.tangyh.lamp.authority.api;
 
-import top.tangyh.basic.base.R;
-import top.tangyh.lamp.authority.api.hystrix.RoleApiFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.tangyh.basic.base.R;
+import top.tangyh.lamp.authority.api.hystrix.RoleApiFallback;
 
 import java.util.List;
 

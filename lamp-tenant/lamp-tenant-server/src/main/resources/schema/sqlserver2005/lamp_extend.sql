@@ -1,17 +1,42 @@
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_block_list]') AND type in (N'U')) DROP TABLE [dbo].[e_block_list];
-CREATE TABLE [dbo].[e_block_list](
-                                     id BIGINT NOT NULL,
-                                     ip VARCHAR(20),
-    request_uri VARCHAR(255),
-    request_method VARCHAR(10),
-    limit_start VARCHAR(8),
-    limit_end VARCHAR(8),
-    state BIT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_block_list]') AND type in (N'U'))
+DROP TABLE [dbo].[e_block_list];
+CREATE TABLE [dbo].[e_block_list]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    ip
+    VARCHAR
+(
+    20
+),
+    request_uri VARCHAR
+(
+    255
+),
+    request_method VARCHAR
+(
+    10
+),
+    limit_start VARCHAR
+(
+    8
+),
+    limit_end VARCHAR
+(
+    8
+),
+    state BIT DEFAULT 0,
     create_time DATETIME,
     created_by BIGINT,
     update_time DATETIME,
     updated_by BIGINT,
-    PRIMARY KEY (id)
+    PRIMARY KEY
+(
+    id
+)
     );
 
 EXEC sp_addextendedproperty 'MS_Description', '黑名单', 'SCHEMA', dbo, 'table', e_block_list, null, null;
@@ -28,23 +53,54 @@ EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table
 EXEC sp_addextendedproperty 'MS_Description', '修改时间', 'SCHEMA', dbo, 'table', e_block_list, 'column', update_time;
 EXEC sp_addextendedproperty 'MS_Description', '修改人', 'SCHEMA', dbo, 'table', e_block_list, 'column', updated_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_msg]') AND type in (N'U')) DROP TABLE [dbo].[e_msg];
-CREATE TABLE [dbo].[e_msg](
-                              id BIGINT NOT NULL,
-                              biz_id VARCHAR(64),
-    biz_type VARCHAR(64),
-    msg_type VARCHAR(20) NOT NULL,
-    title VARCHAR(255),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_msg]') AND type in (N'U'))
+DROP TABLE [dbo].[e_msg];
+CREATE TABLE [dbo].[e_msg]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    biz_id
+    VARCHAR
+(
+    64
+),
+    biz_type VARCHAR
+(
+    64
+),
+    msg_type VARCHAR
+(
+    20
+) NOT NULL,
+    title VARCHAR
+(
+    255
+),
     content TEXT,
-    author VARCHAR(50),
-    handler_url VARCHAR(255),
-    handler_params VARCHAR(500),
-    is_single_handle BIT DEFAULT  1,
+    author VARCHAR
+(
+    50
+),
+    handler_url VARCHAR
+(
+    255
+),
+    handler_params VARCHAR
+(
+    500
+),
+    is_single_handle BIT DEFAULT 1,
     create_time DATETIME,
     created_by BIGINT,
     update_time DATETIME,
     updated_by BIGINT,
-    PRIMARY KEY (id)
+    PRIMARY KEY
+(
+    id
+)
     );
 
 EXEC sp_addextendedproperty 'MS_Description', '消息表', 'SCHEMA', dbo, 'table', e_msg, null, null;
@@ -66,17 +122,40 @@ EXEC sp_addextendedproperty 'MS_Description', '创建人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', e_msg, 'column', update_time;
 EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 'table', e_msg, 'column', updated_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_msg_receive]') AND type in (N'U')) DROP TABLE [dbo].[e_msg_receive];
-CREATE TABLE [dbo].[e_msg_receive](
-                                      id BIGINT NOT NULL,
-                                      msg_id BIGINT NOT NULL,
-                                      user_id BIGINT NOT NULL,
-                                      is_read BIT DEFAULT  0,
-                                      create_time DATETIME,
-                                      created_by BIGINT,
-                                      update_time DATETIME,
-                                      updated_by BIGINT,
-                                      PRIMARY KEY (id)
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_msg_receive]') AND type in (N'U'))
+DROP TABLE [dbo].[e_msg_receive];
+CREATE TABLE [dbo].[e_msg_receive]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    msg_id
+    BIGINT
+    NOT
+    NULL,
+    user_id
+    BIGINT
+    NOT
+    NULL,
+    is_read
+    BIT
+    DEFAULT
+    0,
+    create_time
+    DATETIME,
+    created_by
+    BIGINT,
+    update_time
+    DATETIME,
+    updated_by
+    BIGINT,
+    PRIMARY
+    KEY
+(
+    id
+)
     );
 
 EXEC sp_addextendedproperty 'MS_Description', '消息接收表', 'SCHEMA', dbo, 'table', e_msg_receive, null, null;
@@ -91,21 +170,46 @@ EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table
 EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', e_msg_receive, 'column', update_time;
 EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 'table', e_msg_receive, 'column', updated_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_rate_limiter]') AND type in (N'U')) DROP TABLE [dbo].[e_rate_limiter];
-CREATE TABLE [dbo].[e_rate_limiter](
-                                       id BIGINT NOT NULL,
-                                       count INT DEFAULT  0,
-                                       request_uri VARCHAR(255),
-    request_method VARCHAR(10),
-    limit_start VARCHAR(8),
-    limit_end VARCHAR(8),
-    state BIT DEFAULT  0,
-    interval_sec BIGINT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_rate_limiter]') AND type in (N'U'))
+DROP TABLE [dbo].[e_rate_limiter];
+CREATE TABLE [dbo].[e_rate_limiter]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    count
+    INT
+    DEFAULT
+    0,
+    request_uri
+    VARCHAR
+(
+    255
+),
+    request_method VARCHAR
+(
+    10
+),
+    limit_start VARCHAR
+(
+    8
+),
+    limit_end VARCHAR
+(
+    8
+),
+    state BIT DEFAULT 0,
+    interval_sec BIGINT DEFAULT 0,
     create_time DATETIME,
     created_by BIGINT,
     update_time DATETIME,
     updated_by BIGINT,
-    PRIMARY KEY (id)
+    PRIMARY KEY
+(
+    id
+)
     );
 
 EXEC sp_addextendedproperty 'MS_Description', '限流', 'SCHEMA', dbo, 'table', e_rate_limiter, null, null;
@@ -123,22 +227,53 @@ EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table
 EXEC sp_addextendedproperty 'MS_Description', '修改时间', 'SCHEMA', dbo, 'table', e_rate_limiter, 'column', update_time;
 EXEC sp_addextendedproperty 'MS_Description', '修改人', 'SCHEMA', dbo, 'table', e_rate_limiter, 'column', updated_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_sms_send_status]') AND type in (N'U')) DROP TABLE [dbo].[e_sms_send_status];
-CREATE TABLE [dbo].[e_sms_send_status](
-                                          id BIGINT NOT NULL,
-                                          task_id BIGINT NOT NULL,
-                                          send_status VARCHAR(10) NOT NULL,
-    tel_num VARCHAR(20) NOT NULL,
-    biz_id VARCHAR(255),
-    ext VARCHAR(255),
-    code VARCHAR(255),
-    message VARCHAR(500),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_sms_send_status]') AND type in (N'U'))
+DROP TABLE [dbo].[e_sms_send_status];
+CREATE TABLE [dbo].[e_sms_send_status]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    task_id
+    BIGINT
+    NOT
+    NULL,
+    send_status
+    VARCHAR
+(
+    10
+) NOT NULL,
+    tel_num VARCHAR
+(
+    20
+) NOT NULL,
+    biz_id VARCHAR
+(
+    255
+),
+    ext VARCHAR
+(
+    255
+),
+    code VARCHAR
+(
+    255
+),
+    message VARCHAR
+(
+    500
+),
     fee INT,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
+    PRIMARY KEY
+(
+    id
+)
     );
 
 EXEC sp_addextendedproperty 'MS_Description', '短信发送状态', 'SCHEMA', dbo, 'table', e_sms_send_status, null, null;
@@ -162,24 +297,52 @@ EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 
 EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', e_sms_send_status, 'column', update_time;
 
 
-CREATE INDEX task_id_tel_num ON e_sms_send_status(task_id,tel_num);
+CREATE INDEX task_id_tel_num ON e_sms_send_status (task_id, tel_num);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_sms_task]') AND type in (N'U')) DROP TABLE [dbo].[e_sms_task];
-CREATE TABLE [dbo].[e_sms_task](
-                                   id BIGINT NOT NULL,
-                                   template_id BIGINT NOT NULL,
-                                   status VARCHAR(10),
-    source_type VARCHAR(10),
-    topic VARCHAR(255),
-    template_params VARCHAR(500),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_sms_task]') AND type in (N'U'))
+DROP TABLE [dbo].[e_sms_task];
+CREATE TABLE [dbo].[e_sms_task]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    template_id
+    BIGINT
+    NOT
+    NULL,
+    status
+    VARCHAR
+(
+    10
+),
+    source_type VARCHAR
+(
+    10
+),
+    topic VARCHAR
+(
+    255
+),
+    template_params VARCHAR
+(
+    500
+),
     send_time DATETIME,
-    content VARCHAR(500),
-    draft BIT DEFAULT  0,
+    content VARCHAR
+(
+    500
+),
+    draft BIT DEFAULT 0,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
+    PRIMARY KEY
+(
+    id
+)
     );
 
 EXEC sp_addextendedproperty 'MS_Description', '发送任务', 'SCHEMA', dbo, 'table', e_sms_task, null, null;
@@ -202,26 +365,66 @@ EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 
 EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', e_sms_task, 'column', update_time;
 
 
-CREATE INDEX tempate_id_topic_content ON e_sms_task(template_id,topic,content);
+CREATE INDEX tempate_id_topic_content ON e_sms_task (template_id, topic, content);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_sms_template]') AND type in (N'U')) DROP TABLE [dbo].[e_sms_template];
-CREATE TABLE [dbo].[e_sms_template](
-                                       id BIGINT NOT NULL,
-                                       provider_type VARCHAR(10) NOT NULL,
-    app_id VARCHAR(255) NOT NULL,
-    app_secret VARCHAR(255) NOT NULL,
-    url VARCHAR(255),
-    name VARCHAR(255),
-    content VARCHAR(255) NOT NULL,
-    template_params VARCHAR(255) NOT NULL,
-    template_code VARCHAR(50) NOT NULL,
-    sign_name VARCHAR(100),
-    template_describe VARCHAR(255),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[e_sms_template]') AND type in (N'U'))
+DROP TABLE [dbo].[e_sms_template];
+CREATE TABLE [dbo].[e_sms_template]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    provider_type
+    VARCHAR
+(
+    10
+) NOT NULL,
+    app_id VARCHAR
+(
+    255
+) NOT NULL,
+    app_secret VARCHAR
+(
+    255
+) NOT NULL,
+    url VARCHAR
+(
+    255
+),
+    name VARCHAR
+(
+    255
+),
+    content VARCHAR
+(
+    255
+) NOT NULL,
+    template_params VARCHAR
+(
+    255
+) NOT NULL,
+    template_code VARCHAR
+(
+    50
+) NOT NULL,
+    sign_name VARCHAR
+(
+    100
+),
+    template_describe VARCHAR
+(
+    255
+),
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
+    PRIMARY KEY
+(
+    id
+)
     );
 
 EXEC sp_addextendedproperty 'MS_Description', '短信模板', 'SCHEMA', dbo, 'table', e_sms_template, null, null;

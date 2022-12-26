@@ -15,10 +15,10 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @Component
 public final class FileLock {
+    private static final Map<String, Lock> LOCKS = new HashMap<>(16);
+
     private FileLock() {
     }
-
-    private static final Map<String, Lock> LOCKS = new HashMap<>(16);
 
     /**
      * 获取锁

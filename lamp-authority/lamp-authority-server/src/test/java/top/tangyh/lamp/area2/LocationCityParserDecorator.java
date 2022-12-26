@@ -1,8 +1,8 @@
 package top.tangyh.lamp.area2;
 
 import cn.hutool.log.StaticLog;
-import top.tangyh.lamp.authority.entity.common.Area;
 import org.springframework.stereotype.Component;
+import top.tangyh.lamp.authority.entity.common.Area;
 
 import java.util.List;
 

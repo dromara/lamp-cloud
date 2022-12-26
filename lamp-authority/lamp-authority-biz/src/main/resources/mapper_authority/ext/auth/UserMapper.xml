@@ -13,11 +13,16 @@
 
 
     <update id="incrPasswordErrorNumById">
-        update c_user set password_error_num = password_error_num + 1, password_error_last_time = #{now, jdbcType=TIMESTAMP}
+        update c_user
+        set password_error_num       = password_error_num + 1,
+            password_error_last_time = #{now, jdbcType=TIMESTAMP}
         where id = #{id, jdbcType=BIGINT}
     </update>
     <update id="resetPassErrorNum">
-        update c_user set password_error_num = 0, password_error_last_time = null, last_login_time = #{now, jdbcType=TIMESTAMP}
+        update c_user
+        set password_error_num       = 0,
+            password_error_last_time = null,
+            last_login_time          = #{now, jdbcType=TIMESTAMP}
         where id = #{id, jdbcType=BIGINT}
     </update>
 
@@ -28,7 +33,10 @@
     </select>
 
     <sql id="User_Column_List">
-        u.id,u.created_by,u.create_time,u.updated_by,u.update_time,
+        u
+        .
+        id
+        ,u.created_by,u.create_time,u.updated_by,u.update_time,
         u.account, u.name, u.org_id, u.station_id, u.readonly, u.email, u.mobile,
         u.sex, u.state, u.avatar, u.nation, u.education, u.position_status, u.work_describe,
         u.password_error_last_time, u.password_error_num, u.password_expire_time, u.password, u.last_login_time, u.salt

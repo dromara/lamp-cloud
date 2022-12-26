@@ -21,11 +21,15 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,label,parent_id,sort_value,create_time,created_by,update_time,updated_by,
+        id
+        ,label,parent_id,sort_value,create_time,created_by,update_time,updated_by,
         type_, abbreviation, tree_path, state, describe_
     </sql>
     <sql id="Alias_Column_List">
-        o.id,o.label,o.parent_id,o.sort_value,o.create_time,o.created_by,o.update_time,o.updated_by,
+        o
+        .
+        id
+        ,o.label,o.parent_id,o.sort_value,o.create_time,o.created_by,o.update_time,o.updated_by,
         o.type_, o.abbreviation, o.tree_path, o.state, o.describe_
     </sql>
 

@@ -2,11 +2,6 @@ package top.tangyh.lamp.authority.controller.common;
 
 import com.baidu.fsg.uid.UidGenerator;
 import io.swagger.v3.oas.annotations.Parameter;
-import top.tangyh.basic.annotation.user.LoginUser;
-import top.tangyh.basic.base.R;
-import top.tangyh.lamp.model.entity.base.SysUser;
-import top.tangyh.lamp.authority.service.auth.UserService;
-import top.tangyh.lamp.authority.service.common.LoginLogService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +9,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.Hidden;
+import top.tangyh.basic.annotation.user.LoginUser;
+import top.tangyh.basic.base.R;
+import top.tangyh.lamp.authority.service.auth.UserService;
+import top.tangyh.lamp.authority.service.common.LoginLogService;
+import top.tangyh.lamp.model.entity.base.SysUser;
 
 import java.util.HashMap;
 import java.util.Map;

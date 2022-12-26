@@ -9,11 +9,11 @@ lamp:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    contact:  # 联系人信息
+    contact: # 联系人信息
       url: https://github.com/zuihou
       name: zuiou
       email: 306479353@qq.com
-    global-operation-parameters:  # 全局参数
+    global-operation-parameters: # 全局参数
       - name: token
         description: 用户身份token
         modelRef: String
@@ -33,7 +33,7 @@ lamp:
         parameterType: header
         required: true
         defaultValue: "MDAwMA=="
-  echo:  #详情看: EchoProperties
+  echo: #详情看: EchoProperties
     # 是否启用 远程数据 手动注入
     enabled: true
     # 是否启用 远程数据 注解AOP注入
@@ -45,7 +45,7 @@ lamp:
     type: FEIGN
     # uri权限验证时，是否区分@PreAuth(value="xxx")的大小写
     caseSensitive: false
-  log:  # 详情看：OptLogProperties
+  log: # 详情看：OptLogProperties
     # 开启记录操作日志
     enabled: true
     # 记录到什么地方  DB:mysql LOGGER:日志文件
@@ -61,7 +61,7 @@ lamp:
     height: 58
     len: 2
     charType: 2
-  async:  # 全局线程池配置
+  async: # 全局线程池配置
     corePoolSize: 2
     maxPoolSize: 50
     queueCapacity: 10000
@@ -134,12 +134,12 @@ feign:
   hystrix:
     enabled: false
   sentinel:
-    enabled: true    
+    enabled: true
     #支持压缩的mime types
-  compression:  # 请求压缩
+  compression: # 请求压缩
     request:
       enabled: true
       mime-types: text/xml,application/xml,application/json
       min-request-size: 2048
-    response:  # 响应压缩
+    response: # 响应压缩
       enabled: true

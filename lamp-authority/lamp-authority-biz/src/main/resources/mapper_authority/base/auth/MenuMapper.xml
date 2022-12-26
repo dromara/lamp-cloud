@@ -30,7 +30,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,label,sort_value,parent_id,created_by,create_time,updated_by,update_time, tree_grade, tree_path,
+        id
+        ,label,sort_value,parent_id,created_by,create_time,updated_by,update_time, tree_grade, tree_path,
         describe_, is_general, path, component, state, icon, group_, readonly_, resource_type, is_def, custom_class, data_scope
     </sql>
 

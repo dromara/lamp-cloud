@@ -1,11 +1,11 @@
 package top.tangyh.lamp.common.api;
 
-import top.tangyh.basic.base.R;
-import top.tangyh.lamp.common.dto.XxlJobInfoVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import top.tangyh.basic.base.R;
+import top.tangyh.lamp.common.dto.XxlJobInfoVO;
 
 /**
  * @author zuihou

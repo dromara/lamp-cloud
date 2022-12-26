@@ -2,9 +2,9 @@ package top.tangyh.lamp.area2;
 
 
 import cn.hutool.core.collection.CollUtil;
+import org.springframework.stereotype.Component;
 import top.tangyh.lamp.authority.entity.common.Area;
 import top.tangyh.lamp.authority.service.common.AreaService;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

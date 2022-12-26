@@ -7,14 +7,12 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.StrPool;
-
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.domain.FileDeleteBO;
 import top.tangyh.lamp.file.domain.FileGetUrlBO;

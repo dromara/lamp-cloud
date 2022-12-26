@@ -1,11 +1,10 @@
 package top.tangyh.lamp.model.enumeration;
 
-import top.tangyh.basic.interfaces.BaseEnum;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -15,7 +14,7 @@ import java.util.stream.Stream;
  * @author zuihou
  */
 @Getter
-@Schema(description="HTTP方法-枚举")
+@Schema(description = "HTTP方法-枚举")
 @AllArgsConstructor
 @NoArgsConstructor
 public enum HttpMethod implements BaseEnum {
@@ -52,7 +51,7 @@ public enum HttpMethod implements BaseEnum {
      */
     OPTIONS("OPTIONS"),
     ;
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
     public static HttpMethod match(String val, HttpMethod def) {
@@ -68,7 +67,7 @@ public enum HttpMethod implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "GET,POST,PUT,DELETE,PATCH,TRACE,HEAD,OPTIONS", example = "GET")
+    @Schema(description = "编码", allowableValues = "GET,POST,PUT,DELETE,PATCH,TRACE,HEAD,OPTIONS", example = "GET")
     public String getCode() {
         return this.name();
     }

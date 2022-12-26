@@ -1,6 +1,10 @@
 package top.tangyh.lamp.authority.service.common.impl;
 
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.model.log.OptLogDTO;
 import top.tangyh.basic.utils.BeanPlusUtil;
@@ -10,11 +14,6 @@ import top.tangyh.lamp.authority.dto.common.OptLogResult;
 import top.tangyh.lamp.authority.entity.common.OptLog;
 import top.tangyh.lamp.authority.entity.common.OptLogExt;
 import top.tangyh.lamp.authority.service.common.OptLogService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import java.time.LocalDateTime;
 

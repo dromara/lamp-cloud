@@ -2,14 +2,14 @@ package top.tangyh.lamp.file.strategy.impl.fastdfs;
 
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.AppendFileStorageClient;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import top.tangyh.basic.base.R;
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
 import top.tangyh.lamp.file.entity.File;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

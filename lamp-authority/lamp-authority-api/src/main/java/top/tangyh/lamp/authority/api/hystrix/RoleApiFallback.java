@@ -1,8 +1,8 @@
 package top.tangyh.lamp.authority.api.hystrix;
 
-import top.tangyh.lamp.authority.api.RoleApi;
-import top.tangyh.basic.base.R;
 import org.springframework.stereotype.Component;
+import top.tangyh.basic.base.R;
+import top.tangyh.lamp.authority.api.RoleApi;
 
 import java.util.List;
 

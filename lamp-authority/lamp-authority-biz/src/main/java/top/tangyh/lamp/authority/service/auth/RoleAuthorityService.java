@@ -43,7 +43,7 @@ public interface RoleAuthorityService extends SuperService<RoleAuthority> {
      * @param roleUser 用于角色
      * @return 是否成功
      */
-    List<Long>  saveRoleUser(RoleUserSaveVO roleUser);
+    List<Long> saveRoleUser(RoleUserSaveVO roleUser);
 
     /**
      * 根据角色查找用户

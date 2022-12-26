@@ -1,13 +1,13 @@
 package top.tangyh.lamp.oauth.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.Hidden;
 import top.tangyh.basic.annotation.base.IgnoreResponseBodyAdvice;
 import top.tangyh.lamp.authority.service.auth.UserService;
 import top.tangyh.lamp.authority.service.common.DictionaryService;

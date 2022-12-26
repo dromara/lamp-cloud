@@ -1,8 +1,8 @@
 package top.tangyh.lamp.sms.dao;
 
+import org.springframework.stereotype.Repository;
 import top.tangyh.basic.base.mapper.SuperMapper;
 import top.tangyh.lamp.sms.entity.SmsSendStatus;
-import org.springframework.stereotype.Repository;
 
 /**
  * <p>

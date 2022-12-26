@@ -3,6 +3,7 @@ package top.tangyh.lamp.model.entity.base;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +14,6 @@ import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.model.constant.EchoDictType;
 
-import jakarta.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public class SysOrg extends TreeEntity<SysOrg, Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
      */
-    @Schema(description="类型")
+    @Schema(description = "类型")
     @Size(max = 2, message = "类型长度不能超过2")
     @TableField(value = "type_", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.ORG_TYPE)
@@ -54,7 +54,7 @@ public class SysOrg extends TreeEntity<SysOrg, Long> implements EchoVO {
     /**
      * 简称
      */
-    @Schema(description="简称")
+    @Schema(description = "简称")
     @Size(max = 255, message = "简称长度不能超过255")
     @TableField(value = "abbreviation", condition = LIKE)
     private String abbreviation;
@@ -62,7 +62,7 @@ public class SysOrg extends TreeEntity<SysOrg, Long> implements EchoVO {
     /**
      * 树结构
      */
-    @Schema(description="树结构")
+    @Schema(description = "树结构")
     @Size(max = 255, message = "树结构长度不能超过255")
     @TableField(value = "tree_path", condition = LIKE)
     private String treePath;
@@ -70,14 +70,14 @@ public class SysOrg extends TreeEntity<SysOrg, Long> implements EchoVO {
     /**
      * 状态
      */
-    @Schema(description="状态")
+    @Schema(description = "状态")
     @TableField("state")
     private Boolean state;
 
     /**
      * 描述
      */
-    @Schema(description="描述")
+    @Schema(description = "描述")
     @Size(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     private String describe;

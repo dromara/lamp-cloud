@@ -5,12 +5,12 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.log.StaticLog;
-import top.tangyh.lamp.authority.entity.common.Area;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import top.tangyh.lamp.authority.entity.common.Area;
 
 import java.nio.charset.Charset;
 import java.util.LinkedList;

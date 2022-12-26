@@ -1,11 +1,10 @@
 package top.tangyh.lamp.msg.enumeration;
 
-import top.tangyh.basic.interfaces.BaseEnum;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="业务类型-枚举")
+@Schema(description = "业务类型-枚举")
 public enum MsgBizType implements BaseEnum {
 
     /**
@@ -38,7 +37,7 @@ public enum MsgBizType implements BaseEnum {
     WORK_APPROVAL("考勤审批"),
     ;
 
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
 
@@ -58,7 +57,7 @@ public enum MsgBizType implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "USER_LOCK,USER_REG,WORK_APPROVAL", example = "USER_LOCK")
+    @Schema(description = "编码", allowableValues = "USER_LOCK,USER_REG,WORK_APPROVAL", example = "USER_LOCK")
     public String getCode() {
         return this.name();
     }

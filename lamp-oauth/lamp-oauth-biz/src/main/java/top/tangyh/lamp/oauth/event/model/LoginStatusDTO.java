@@ -2,9 +2,7 @@ package top.tangyh.lamp.oauth.event.model;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.basic.log.util.AddressUtil;
-import top.tangyh.lamp.authority.dto.auth.Online;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +14,10 @@ import lombok.experimental.Accessors;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import top.tangyh.basic.context.ContextUtil;
+import top.tangyh.basic.log.util.AddressUtil;
+import top.tangyh.lamp.authority.dto.auth.Online;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 /**

@@ -6,22 +6,17 @@ import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teaopenapi.models.Config;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.jackson.JsonUtil;
-import top.tangyh.basic.model.Kv;
-import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.sms.dao.SmsTaskMapper;
 import top.tangyh.lamp.sms.enumeration.ProviderType;
 import top.tangyh.lamp.sms.service.SmsSendStatusService;
 import top.tangyh.lamp.sms.strategy.domain.SmsDO;
 import top.tangyh.lamp.sms.strategy.domain.SmsResult;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * ali 发送短信实现类
@@ -41,12 +36,11 @@ public class SmsAliStrategy extends AbstractSmsStrategy {
      * 产品域名,开发者无需替换
      */
     private static final String DOMAIN = "dysmsapi.aliyuncs.com";
+    private final static Map<String, com.aliyun.dysmsapi20170525.Client> CACHE = new HashMap<>();
 
     public SmsAliStrategy(SmsTaskMapper smsTaskMapper, SmsSendStatusService smsSendStatusService) {
         super(smsTaskMapper, smsSendStatusService);
     }
-
-    private final static Map<String, com.aliyun.dysmsapi20170525.Client> CACHE = new HashMap<>();
 
     /**
      * 使用AK&SK初始化账号Client
@@ -55,7 +49,7 @@ public class SmsAliStrategy extends AbstractSmsStrategy {
      * @throws Exception
      */
     @SneakyThrows
-    public static com.aliyun.dysmsapi20170525.Client createClient(SmsDO smsDO)  {
+    public static com.aliyun.dysmsapi20170525.Client createClient(SmsDO smsDO) {
         String key = StrUtil.format("{}:{}:{}:{}", smsDO.getAppId(), smsDO.getAppSecret(),
                 PRODUCT, DOMAIN);
 

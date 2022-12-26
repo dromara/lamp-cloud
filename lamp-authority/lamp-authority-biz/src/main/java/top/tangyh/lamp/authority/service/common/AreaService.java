@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.service.common;
 
-import top.tangyh.lamp.authority.entity.common.Area;
 import top.tangyh.basic.base.service.SuperCacheService;
+import top.tangyh.lamp.authority.entity.common.Area;
 
 import java.util.List;
 

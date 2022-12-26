@@ -3,6 +3,7 @@ package top.tangyh.lamp.model.entity.base;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +14,6 @@ import lombok.experimental.Accessors;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.TreeEntity;
 import top.tangyh.lamp.model.constant.EchoDictType;
-
-import jakarta.validation.constraints.Size;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.EQUAL;
 import static top.tangyh.lamp.model.constant.Condition.LIKE;
@@ -44,14 +43,14 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
     /**
      * 描述
      */
-    @Schema(description="描述")
+    @Schema(description = "描述")
     @Size(max = 200, message = "描述长度不能超过200")
     @TableField(value = "describe_", condition = LIKE)
     private String describe;
     /**
      * 类型;[20-菜单 60-数据]
      */
-    @Schema(description="类型")
+    @Schema(description = "类型")
     @Size(max = 2, message = "类型长度不能超过{max}")
     @TableField(value = "resource_type", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.RESOURCE_TYPE)
@@ -61,14 +60,14 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
      * 通用菜单
      * True表示无需分配所有人就可以访问的
      */
-    @Schema(description="通用菜单")
+    @Schema(description = "通用菜单")
     @TableField("is_general")
     private Boolean isGeneral;
 
     /**
      * 路径
      */
-    @Schema(description="路径")
+    @Schema(description = "路径")
     @Size(max = 255, message = "路径长度不能超过255")
     @TableField(value = "path", condition = LIKE)
     private String path;
@@ -76,7 +75,7 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
     /**
      * 组件
      */
-    @Schema(description="组件")
+    @Schema(description = "组件")
     @Size(max = 255, message = "组件长度不能超过255")
     @TableField(value = "component", condition = LIKE)
     private String component;
@@ -84,14 +83,14 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
     /**
      * 状态
      */
-    @Schema(description="状态")
+    @Schema(description = "状态")
     @TableField("state")
     private Boolean state;
 
     /**
      * 菜单图标
      */
-    @Schema(description="菜单图标")
+    @Schema(description = "菜单图标")
     @Size(max = 255, message = "菜单图标长度不能超过255")
     @TableField(value = "icon", condition = LIKE)
     private String icon;
@@ -99,7 +98,7 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
     /**
      * 分组
      */
-    @Schema(description="分组")
+    @Schema(description = "分组")
     @Size(max = 20, message = "分组长度不能超过20")
     @TableField(value = "group_", condition = LIKE)
     private String group;
@@ -107,21 +106,21 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
     /**
      * 内置
      */
-    @Schema(description="内置")
+    @Schema(description = "内置")
     @TableField("readonly_")
     private Boolean readonly;
 
     /**
      * 数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]
      */
-    @Schema(description="数据范围")
+    @Schema(description = "数据范围")
     @TableField(value = "data_scope", condition = LIKE)
     @Size(max = 2, message = "数据范围长度不能超过{max}")
     private String dataScope;
     /**
      * 实现类;自定义实现类全类名
      */
-    @Schema(description="实现类")
+    @Schema(description = "实现类")
     @TableField(value = "custom_class", condition = LIKE)
     @Size(max = 255, message = "实现类长度不能超过{max}")
     private String customClass;
@@ -129,20 +128,20 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
     /**
      * 是否默认
      */
-    @Schema(description="是否默认")
+    @Schema(description = "是否默认")
     @TableField(value = "is_def")
     private Boolean isDef;
 
     /**
      * 树层级
      */
-    @Schema(description="树层级")
+    @Schema(description = "树层级")
     @TableField(value = "tree_grade", condition = EQUAL)
     private Integer treeGrade;
     /**
      * 树路径;用id拼接树结构
      */
-    @Schema(description="树路径")
+    @Schema(description = "树路径")
     @TableField(value = "tree_path", condition = LIKE)
     private String treePath;
 }

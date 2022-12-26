@@ -13,6 +13,8 @@ import com.aliyun.oss.model.UploadPartCopyRequest;
 import com.aliyun.oss.model.UploadPartCopyResult;
 import com.aliyun.oss.model.UploadPartRequest;
 import com.aliyun.oss.model.UploadPartResult;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.file.dao.FileMapper;
@@ -20,8 +22,6 @@ import top.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
 import top.tangyh.lamp.file.entity.File;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

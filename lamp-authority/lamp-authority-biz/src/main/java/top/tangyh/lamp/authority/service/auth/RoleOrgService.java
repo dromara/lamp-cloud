@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.service.auth;
 
-import top.tangyh.lamp.authority.entity.auth.RoleOrg;
 import top.tangyh.basic.base.service.SuperService;
+import top.tangyh.lamp.authority.entity.auth.RoleOrg;
 
 import java.util.List;
 

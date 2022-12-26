@@ -1,8 +1,8 @@
 package top.tangyh.lamp.file.domain;
 
-import top.tangyh.lamp.file.enumeration.FileStorageType;
 import lombok.Builder;
 import lombok.Data;
+import top.tangyh.lamp.file.enumeration.FileStorageType;
 
 /**
  * 文件删除

@@ -3,9 +3,8 @@ package top.tangyh.lamp.authority.entity.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.base.entity.SuperEntity;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +12,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.base.entity.SuperEntity;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -32,7 +31,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_role_org")
-@Schema(description="角色组织关系")
+@Schema(description = "角色组织关系")
 @AllArgsConstructor
 public class RoleOrg extends SuperEntity<Long> {
 
@@ -42,7 +41,7 @@ public class RoleOrg extends SuperEntity<Long> {
      * 角色ID
      * #c_role
      */
-    @Schema(description="角色ID")
+    @Schema(description = "角色ID")
     @NotNull(message = "角色ID不能为空")
     @TableField("role_id")
     @Excel(name = "角色ID")
@@ -52,7 +51,7 @@ public class RoleOrg extends SuperEntity<Long> {
      * 部门ID
      * #c_org
      */
-    @Schema(description="部门ID")
+    @Schema(description = "部门ID")
     @NotNull(message = "部门ID不能为空")
     @TableField("org_id")
     @Excel(name = "部门ID")

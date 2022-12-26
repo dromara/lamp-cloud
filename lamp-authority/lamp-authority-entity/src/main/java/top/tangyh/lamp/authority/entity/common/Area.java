@@ -3,12 +3,9 @@ package top.tangyh.lamp.authority.entity.common;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.annotation.echo.Echo;
-import top.tangyh.basic.base.entity.TreeEntity;
-import top.tangyh.basic.interfaces.echo.EchoVO;
-import top.tangyh.lamp.model.constant.EchoDictType;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,9 +13,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.annotation.echo.Echo;
+import top.tangyh.basic.base.entity.TreeEntity;
+import top.tangyh.basic.interfaces.echo.EchoVO;
+import top.tangyh.lamp.model.constant.EchoDictType;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +41,7 @@ import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_area")
-@Schema(description="地区表")
+@Schema(description = "地区表")
 @AllArgsConstructor
 public class Area extends TreeEntity<Area, Long> implements EchoVO {
 
@@ -52,7 +51,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
     /**
      * 编码
      */
-    @Schema(description="编码")
+    @Schema(description = "编码")
     @NotEmpty(message = "编码不能为空")
     @Size(max = 64, message = "编码长度不能超过64")
     @TableField(value = "code", condition = LIKE)
@@ -62,7 +61,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
     /**
      * 全名
      */
-    @Schema(description="全名")
+    @Schema(description = "全名")
     @Size(max = 255, message = "全名长度不能超过255")
     @TableField(value = "full_name", condition = LIKE)
     @Excel(name = "全名")
@@ -71,7 +70,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
     /**
      * 经度
      */
-    @Schema(description="经度")
+    @Schema(description = "经度")
     @Size(max = 255, message = "经度长度不能超过255")
     @TableField(value = "longitude", condition = LIKE)
     @Excel(name = "经度")
@@ -80,7 +79,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
     /**
      * 维度
      */
-    @Schema(description="维度")
+    @Schema(description = "维度")
     @Size(max = 255, message = "维度长度不能超过255")
     @TableField(value = "latitude", condition = LIKE)
     @Excel(name = "维度")
@@ -91,7 +90,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.AREA_LEVEL)
      */
-    @Schema(description="行政区级")
+    @Schema(description = "行政区级")
     @Size(max = 10, message = "行政区级长度不能超过10")
     @TableField(value = "level_", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.AREA_LEVEL)
@@ -101,7 +100,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
     /**
      * 数据来源
      */
-    @Schema(description="数据来源")
+    @Schema(description = "数据来源")
     @Size(max = 255, message = "数据来源长度不能超过255")
     @TableField(value = "source_", condition = LIKE)
     @Excel(name = "数据来源")
@@ -110,7 +109,7 @@ public class Area extends TreeEntity<Area, Long> implements EchoVO {
     /**
      * 状态
      */
-    @Schema(description="状态")
+    @Schema(description = "状态")
     @TableField("state")
     @Excel(name = "状态", replace = {"是_true", "否_false", "_null"})
     private Boolean state;

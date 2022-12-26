@@ -1,15 +1,15 @@
 package top.tangyh.lamp.authority.event.listener;
 
-import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.lamp.authority.event.ParameterUpdateEvent;
-import top.tangyh.lamp.authority.event.model.ParameterUpdate;
-import top.tangyh.lamp.authority.service.auth.OnlineService;
-import top.tangyh.lamp.common.constant.ParameterKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import top.tangyh.basic.context.ContextUtil;
+import top.tangyh.lamp.authority.event.ParameterUpdateEvent;
+import top.tangyh.lamp.authority.event.model.ParameterUpdate;
+import top.tangyh.lamp.authority.service.auth.OnlineService;
+import top.tangyh.lamp.common.constant.ParameterKey;
 
 /**
  * 参数修改事件监听，用于调整具体的业务

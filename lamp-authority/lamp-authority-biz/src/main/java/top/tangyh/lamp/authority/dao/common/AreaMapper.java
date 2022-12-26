@@ -1,8 +1,8 @@
 package top.tangyh.lamp.authority.dao.common;
 
-import top.tangyh.lamp.authority.entity.common.Area;
-import top.tangyh.basic.base.mapper.SuperMapper;
 import org.springframework.stereotype.Repository;
+import top.tangyh.basic.base.mapper.SuperMapper;
+import top.tangyh.lamp.authority.entity.common.Area;
 
 /**
  * <p>

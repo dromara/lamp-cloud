@@ -2,7 +2,6 @@ package top.tangyh.lamp.userinfo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.lamp.model.entity.base.SysOrg;
 import top.tangyh.lamp.model.entity.base.SysStation;

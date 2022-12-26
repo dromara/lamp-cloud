@@ -2,7 +2,6 @@ package top.tangyh.lamp.file.strategy.impl.minio;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-
 import io.minio.BucketExistsArgs;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MakeBucketArgs;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.StrPool;
-
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.domain.FileDeleteBO;
 import top.tangyh.lamp.file.domain.FileGetUrlBO;
@@ -38,7 +36,6 @@ import java.util.Set;
 @Component("MIN_IO")
 
 public class MinIoFileStrategyImpl extends AbstractFileStrategy {
-    private final MinioClient minioClient;
     /**
      * 桶占位符
      */
@@ -55,6 +52,7 @@ public class MinIoFileStrategyImpl extends AbstractFileStrategy {
      * bucket权限-读写
      */
     private static final String READ_WRITE = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+    private final MinioClient minioClient;
 
     public MinIoFileStrategyImpl(FileServerProperties fileProperties, MinioClient minioClient,
                                  FileMapper fileMapper) {

@@ -51,6 +51,18 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
     private final RoleOrgService roleOrgService;
     private final UserMapper userMapper;
 
+    private static Org getMainCompany(ImmutableMap<Long, Org> map, Long parentId) {
+        Org parent = map.get(parentId);
+        if (parent == null) {
+            return null;
+        }
+        if (OrgTypeEnum.COMPANY.eq(parent.getType())) {
+            return parent;
+        }
+
+        return getMainCompany(map, parent.getParentId());
+    }
+
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
         return new OrgCacheKeyBuilder();
@@ -119,7 +131,6 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         return CollHelper.uniqueIndex(findOrg(ids), Org::getId, org -> org);
     }
 
-
     @Override
     public Long getMainDeptIdByUserId(Long userId) {
         Org baseOrg = baseMapper.getDeptByUserId(userId);
@@ -165,19 +176,6 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         List<Org> parentList = listByIds(parentIdList);
         ImmutableMap<Long, Org> map = CollHelper.uniqueIndex(parentList, Org::getId, org -> org);
         return getMainCompany(map, baseOrg.getParentId());
-    }
-
-
-    private static Org getMainCompany(ImmutableMap<Long, Org> map, Long parentId) {
-        Org parent = map.get(parentId);
-        if (parent == null) {
-            return null;
-        }
-        if (OrgTypeEnum.COMPANY.eq(parent.getType())) {
-            return parent;
-        }
-
-        return getMainCompany(map, parent.getParentId());
     }
 
     @Override

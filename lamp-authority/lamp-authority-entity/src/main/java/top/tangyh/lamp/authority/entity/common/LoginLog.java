@@ -3,9 +3,8 @@ package top.tangyh.lamp.authority.entity.common;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.base.entity.SuperEntity;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +12,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.base.entity.SuperEntity;
 
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 import static top.tangyh.lamp.model.constant.Condition.LIKE;
@@ -34,7 +33,7 @@ import static top.tangyh.lamp.model.constant.Condition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_login_log")
-@Schema(description="登录日志")
+@Schema(description = "登录日志")
 @AllArgsConstructor
 public class LoginLog extends SuperEntity<Long> {
 
@@ -43,7 +42,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录IP
      */
-    @Schema(description="登录IP")
+    @Schema(description = "登录IP")
     @Size(max = 50, message = "登录IP长度不能超过50")
     @TableField(value = "request_ip", condition = LIKE)
     @Excel(name = "登录IP")
@@ -52,7 +51,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录人ID
      */
-    @Schema(description="登录人ID")
+    @Schema(description = "登录人ID")
     @TableField("user_id")
     @Excel(name = "登录人ID")
     private Long userId;
@@ -60,7 +59,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录人姓名
      */
-    @Schema(description="登录人姓名")
+    @Schema(description = "登录人姓名")
     @Size(max = 50, message = "登录人姓名长度不能超过50")
     @TableField(value = "user_name", condition = LIKE)
     @Excel(name = "登录人姓名")
@@ -69,7 +68,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录人账号
      */
-    @Schema(description="登录人账号")
+    @Schema(description = "登录人账号")
     @Size(max = 30, message = "登录人账号长度不能超过30")
     @TableField(value = "account", condition = LIKE)
     @Excel(name = "登录人账号")
@@ -78,7 +77,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录描述
      */
-    @Schema(description="登录描述")
+    @Schema(description = "登录描述")
     @Size(max = 255, message = "登录描述长度不能超过255")
     @TableField(value = "description", condition = LIKE)
     @Excel(name = "登录描述")
@@ -87,7 +86,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录时间
      */
-    @Schema(description="登录时间")
+    @Schema(description = "登录时间")
     @Size(max = 10, message = "登录时间长度不能超过10")
     @TableField(value = "login_date", condition = LIKE)
     @Excel(name = "登录时间")
@@ -96,7 +95,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 浏览器请求头
      */
-    @Schema(description="浏览器请求头")
+    @Schema(description = "浏览器请求头")
     @Size(max = 500, message = "浏览器请求头长度不能超过500")
     @TableField(value = "ua", condition = LIKE)
     @Excel(name = "浏览器请求头")
@@ -105,7 +104,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 浏览器名称
      */
-    @Schema(description="浏览器名称")
+    @Schema(description = "浏览器名称")
     @Size(max = 255, message = "浏览器名称长度不能超过255")
     @TableField(value = "browser", condition = LIKE)
     @Excel(name = "浏览器名称")
@@ -114,7 +113,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 浏览器版本
      */
-    @Schema(description="浏览器版本")
+    @Schema(description = "浏览器版本")
     @Size(max = 255, message = "浏览器版本长度不能超过255")
     @TableField(value = "browser_version", condition = LIKE)
     @Excel(name = "浏览器版本")
@@ -123,7 +122,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 操作系统
      */
-    @Schema(description="操作系统")
+    @Schema(description = "操作系统")
     @Size(max = 255, message = "操作系统长度不能超过255")
     @TableField(value = "operating_system", condition = LIKE)
     @Excel(name = "操作系统")
@@ -132,7 +131,7 @@ public class LoginLog extends SuperEntity<Long> {
     /**
      * 登录地点
      */
-    @Schema(description="登录地点")
+    @Schema(description = "登录地点")
     @Size(max = 50, message = "登录地点长度不能超过50")
     @TableField(value = "location", condition = LIKE)
     @Excel(name = "登录地点")

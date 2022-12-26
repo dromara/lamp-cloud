@@ -1,14 +1,13 @@
 package top.tangyh.lamp.authority.service.auth.impl;
 
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import top.tangyh.basic.base.service.SuperServiceImpl;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.lamp.authority.dao.auth.RoleOrgMapper;
 import top.tangyh.lamp.authority.entity.auth.RoleOrg;
 import top.tangyh.lamp.authority.service.auth.RoleOrgService;
-import top.tangyh.basic.base.service.SuperServiceImpl;
-import top.tangyh.basic.database.mybatis.conditions.Wraps;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 import java.util.stream.Collectors;

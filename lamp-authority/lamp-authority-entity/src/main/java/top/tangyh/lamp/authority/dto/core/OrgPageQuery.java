@@ -28,42 +28,42 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description="组织")
+@Schema(description = "组织")
 public class OrgPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description="名称")
+    @Schema(description = "名称")
     protected String label;
+    @Schema(description = "父ID")
+    protected Long parentId;
+    @Schema(description = "排序号")
+    protected Integer sortValue;
     /**
      * 简称
      */
-    @Schema(description="简称")
+    @Schema(description = "简称")
     private String abbreviation;
     /**
      * 树结构
      */
-    @Schema(description="树结构")
+    @Schema(description = "树结构")
     private String treePath;
     /**
      * 状态
      */
-    @Schema(description="状态")
+    @Schema(description = "状态")
     private Boolean state;
     /**
      * 描述
      */
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String describe;
-    @Schema(description="父ID")
-    protected Long parentId;
-    @Schema(description="排序号")
-    protected Integer sortValue;
     /**
      * 类型
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
      */
-    @Schema(description="类型")
+    @Schema(description = "类型")
     private String type;
 }

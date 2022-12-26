@@ -3,6 +3,9 @@ package top.tangyh.lamp.model.entity.base;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,9 +18,6 @@ import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.model.constant.EchoDictType;
 import top.tangyh.lamp.model.enumeration.Sex;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
     /**
      * 账号
      */
-    @Schema(description="账号")
+    @Schema(description = "账号")
     @NotEmpty(message = "账号不能为空")
     @Size(max = 30, message = "账号长度不能超过30")
     @TableField(value = "account", condition = LIKE)
@@ -56,7 +56,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
     /**
      * 姓名
      */
-    @Schema(description="姓名")
+    @Schema(description = "姓名")
     @NotEmpty(message = "姓名不能为空")
     @Size(max = 50, message = "姓名长度不能超过50")
     @TableField(value = "name", condition = LIKE)
@@ -68,7 +68,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
-    @Schema(description="组织")
+    @Schema(description = "组织")
     @TableField("org_id")
     @Echo(api = ORG_ID_CLASS, beanClass = SysOrg.class)
     private Long orgId;
@@ -79,7 +79,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = STATION_ID_CLASS)
      */
-    @Schema(description="岗位")
+    @Schema(description = "岗位")
     @TableField("station_id")
     @Echo(api = STATION_ID_CLASS)
     private Long stationId;
@@ -87,7 +87,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
     /**
      * 内置
      */
-    @Schema(description="内置")
+    @Schema(description = "内置")
     @NotNull(message = "内置不能为空")
     @TableField("readonly")
     private Boolean readonly;
@@ -95,7 +95,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
     /**
      * 邮箱
      */
-    @Schema(description="邮箱")
+    @Schema(description = "邮箱")
     @Size(max = 255, message = "邮箱长度不能超过255")
     @TableField(value = "email", condition = LIKE)
     private String email;
@@ -103,7 +103,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
     /**
      * 手机
      */
-    @Schema(description="手机")
+    @Schema(description = "手机")
     @Size(max = 20, message = "手机长度不能超过20")
     @TableField(value = "mobile", condition = LIKE)
     private String mobile;
@@ -112,21 +112,21 @@ public class SysUser extends Entity<Long> implements EchoVO {
      * 性别
      * #Sex{W:女;M:男;N:未知}
      */
-    @Schema(description="性别")
+    @Schema(description = "性别")
     @TableField("sex")
     private Sex sex;
 
     /**
      * 状态
      */
-    @Schema(description="状态")
+    @Schema(description = "状态")
     @TableField("state")
     private Boolean state;
 
     /**
      * 头像
      */
-    @Schema(description="头像")
+    @Schema(description = "头像")
     @Size(max = 255, message = "头像长度不能超过255")
     @TableField(value = "avatar", condition = LIKE)
     private String avatar;
@@ -136,7 +136,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.NATION)
      */
-    @Schema(description="民族")
+    @Schema(description = "民族")
     @Size(max = 2, message = "民族长度不能超过2")
     @TableField(value = "nation", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.NATION)
@@ -147,7 +147,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.EDUCATION)
      */
-    @Schema(description="学历")
+    @Schema(description = "学历")
     @Size(max = 2, message = "学历长度不能超过2")
     @TableField(value = "education", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.EDUCATION)
@@ -158,7 +158,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
      *
      * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.POSITION_STATUS)
      */
-    @Schema(description="职位状态")
+    @Schema(description = "职位状态")
     @Size(max = 2, message = "职位状态长度不能超过2")
     @TableField(value = "position_status", condition = LIKE)
     @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.POSITION_STATUS)
@@ -167,7 +167,7 @@ public class SysUser extends Entity<Long> implements EchoVO {
     /**
      * 工作描述
      */
-    @Schema(description="工作描述")
+    @Schema(description = "工作描述")
     @Size(max = 255, message = "工作描述长度不能超过255")
     @TableField(value = "work_describe", condition = LIKE)
     private String workDescribe;
@@ -175,28 +175,28 @@ public class SysUser extends Entity<Long> implements EchoVO {
     /**
      * 最后一次输错密码时间
      */
-    @Schema(description="最后一次输错密码时间")
+    @Schema(description = "最后一次输错密码时间")
     @TableField("password_error_last_time")
     private LocalDateTime passwordErrorLastTime;
 
     /**
      * 密码错误次数
      */
-    @Schema(description="密码错误次数")
+    @Schema(description = "密码错误次数")
     @TableField("password_error_num")
     private Integer passwordErrorNum;
 
     /**
      * 密码过期时间
      */
-    @Schema(description="密码过期时间")
+    @Schema(description = "密码过期时间")
     @TableField("password_expire_time")
     private LocalDateTime passwordExpireTime;
 
     /**
      * 最后登录时间
      */
-    @Schema(description="最后登录时间")
+    @Schema(description = "最后登录时间")
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
 

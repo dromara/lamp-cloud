@@ -21,7 +21,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,label,parent_id,sort_value,create_time,created_by,update_time,updated_by,
+        id
+        ,label,parent_id,sort_value,create_time,created_by,update_time,updated_by,
         type_, abbreviation, tree_path, state, describe_
     </sql>
 

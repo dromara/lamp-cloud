@@ -1,9 +1,9 @@
 package top.tangyh.lamp.tenant.dao;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
+import org.springframework.stereotype.Repository;
 import top.tangyh.basic.base.mapper.SuperMapper;
 import top.tangyh.lamp.tenant.entity.TenantDatasourceConfig;
-import org.springframework.stereotype.Repository;
 
 /**
  * 租户数据源关系 Mapper

@@ -15,15 +15,17 @@
     </select>
 
     <insert id="saveOrUpdateUnique" parameterType="top.tangyh.lamp.authority.entity.auth.Resource">
-    insert into c_resource ( id, created_by, create_time, updated_by, update_time,
-        code, name, menu_id, describe_)
-    values (#{id,jdbcType=BIGINT}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},#{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},
-      #{code,jdbcType=VARCHAR},  #{name,jdbcType=VARCHAR}, #{menuId,jdbcType=BIGINT}, #{tags,jdbcType=VARCHAR},  #{describe,jdbcType=VARCHAR}   )
-    ON DUPLICATE KEY UPDATE
-      name = #{name,jdbcType=VARCHAR},
-      describe_ = #{describe,jdbcType=VARCHAR},
-      updated_by = #{updateUser,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+        insert into c_resource (id, created_by, create_time, updated_by, update_time,
+                                code, name, menu_id, describe_)
+        values (#{id,jdbcType=BIGINT}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},
+                #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{menuId,jdbcType=BIGINT}, #{tags,jdbcType=VARCHAR},
+                #{describe,jdbcType=VARCHAR}) ON DUPLICATE KEY
+        UPDATE
+            name = #{name,jdbcType=VARCHAR},
+            describe_ = #{describe,jdbcType=VARCHAR},
+            updated_by = #{updateUser,jdbcType=BIGINT},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
     </insert>
 
     <select id="findMenuIdByResourceId" parameterType="map" resultType="java.lang.Long">

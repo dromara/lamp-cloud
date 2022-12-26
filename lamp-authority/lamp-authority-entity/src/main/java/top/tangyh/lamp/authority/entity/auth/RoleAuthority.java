@@ -3,10 +3,8 @@ package top.tangyh.lamp.authority.entity.auth;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.base.entity.SuperEntity;
-import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +12,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.base.entity.SuperEntity;
+import top.tangyh.lamp.authority.enumeration.auth.AuthorizeType;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -33,7 +32,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("c_role_authority")
-@Schema(description="角色的资源")
+@Schema(description = "角色的资源")
 @AllArgsConstructor
 public class RoleAuthority extends SuperEntity<Long> {
 
@@ -43,7 +42,7 @@ public class RoleAuthority extends SuperEntity<Long> {
      * 资源id
      * #c_resource #c_menu
      */
-    @Schema(description="资源id")
+    @Schema(description = "资源id")
     @NotNull(message = "资源id不能为空")
     @TableField("authority_id")
     @Excel(name = "资源id")
@@ -53,7 +52,7 @@ public class RoleAuthority extends SuperEntity<Long> {
      * 权限类型
      * #AuthorizeType{MENU:菜单;RESOURCE:资源;}
      */
-    @Schema(description="权限类型")
+    @Schema(description = "权限类型")
     @NotNull(message = "权限类型不能为空")
     @TableField("authority_type")
     @Excel(name = "权限类型", replace = {"菜单_MENU", "资源_RESOURCE", "_null"})
@@ -63,7 +62,7 @@ public class RoleAuthority extends SuperEntity<Long> {
      * 角色id
      * #c_role
      */
-    @Schema(description="角色id")
+    @Schema(description = "角色id")
     @NotNull(message = "角色id不能为空")
     @TableField("role_id")
     @Excel(name = "角色id")

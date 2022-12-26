@@ -1,26 +1,26 @@
 package top.tangyh.lamp.oauth.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.model.cache.CacheKey;
-import top.tangyh.basic.cache.repository.CacheOps;
-import top.tangyh.basic.exception.BizException;
-import top.tangyh.lamp.common.cache.common.CaptchaCacheKeyBuilder;
-import top.tangyh.lamp.oauth.properties.CaptchaProperties;
-import top.tangyh.lamp.oauth.service.ValidateCodeService;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.ChineseCaptcha;
 import com.wf.captcha.ChineseGifCaptcha;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.cache.repository.CacheOps;
+import top.tangyh.basic.exception.BizException;
+import top.tangyh.basic.model.cache.CacheKey;
+import top.tangyh.lamp.common.cache.common.CaptchaCacheKeyBuilder;
+import top.tangyh.lamp.oauth.properties.CaptchaProperties;
+import top.tangyh.lamp.oauth.service.ValidateCodeService;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static top.tangyh.basic.exception.code.ExceptionCode.CAPTCHA_ERROR;

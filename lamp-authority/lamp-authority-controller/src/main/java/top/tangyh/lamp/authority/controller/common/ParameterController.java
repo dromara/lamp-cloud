@@ -1,6 +1,11 @@
 package top.tangyh.lamp.authority.controller.common;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.controller.SuperController;
 import top.tangyh.lamp.authority.dto.common.ParameterPageQuery;
@@ -8,11 +13,6 @@ import top.tangyh.lamp.authority.dto.common.ParameterSaveDTO;
 import top.tangyh.lamp.authority.dto.common.ParameterUpdateDTO;
 import top.tangyh.lamp.authority.entity.common.Parameter;
 import top.tangyh.lamp.authority.service.common.ParameterService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>

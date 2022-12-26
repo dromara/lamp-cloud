@@ -1,10 +1,10 @@
 package top.tangyh.lamp.file.manager;
 
 
-import top.tangyh.lamp.file.dto.chunk.FileUploadDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import top.tangyh.lamp.file.dto.chunk.FileUploadDTO;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

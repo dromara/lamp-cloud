@@ -3,17 +3,8 @@ package top.tangyh.lamp.oauth.controller;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
-import top.tangyh.basic.interfaces.BaseEnum;
-import top.tangyh.basic.base.R;
-import top.tangyh.basic.utils.ClassUtils;
-import top.tangyh.basic.utils.CollHelper;
-import top.tangyh.basic.utils.StrPool;
-import top.tangyh.lamp.authority.entity.common.Dictionary;
-import top.tangyh.lamp.authority.service.common.DictionaryService;
-import top.tangyh.lamp.authority.service.common.ParameterService;
-import top.tangyh.lamp.model.vo.result.Option;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import top.tangyh.basic.base.R;
+import top.tangyh.basic.interfaces.BaseEnum;
+import top.tangyh.basic.utils.ClassUtils;
+import top.tangyh.basic.utils.CollHelper;
+import top.tangyh.basic.utils.StrPool;
+import top.tangyh.lamp.authority.entity.common.Dictionary;
+import top.tangyh.lamp.authority.service.common.DictionaryService;
+import top.tangyh.lamp.authority.service.common.ParameterService;
+import top.tangyh.lamp.model.vo.result.Option;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,16 +43,12 @@ import java.util.stream.Collectors;
 @Tag(name = "通用Controller")
 @AllArgsConstructor
 public class OauthGeneralController {
-    private final DictionaryService dictionaryService;
-    private final ParameterService parameterService;
-
     private static final Map<String, Map<String, String>> ENUM_MAP = new HashMap<>();
     private static final Map<String, List<Option>> ENUM_LIST_MAP = new HashMap<>();
     /**
      * 过滤那些枚举
      */
     private static final Predicate<Class<?>> CLASS_FILTER = item -> item != null && item.isEnum() && item.isEnum() && MybatisEnumTypeHandler.isMpEnums(item);
-
     /**
      * 需要让前端查询的枚举类所在的包
      */
@@ -73,6 +69,9 @@ public class OauthGeneralController {
 
         log.info("扫描: {} ,共加载了{}个枚举类, 分别为: {}", ENUMS_PACKAGE, ENUM_MAP.size(), enumSb);
     }
+
+    private final DictionaryService dictionaryService;
+    private final ParameterService parameterService;
 
     private static Map<String, List<Option>> mapOptionByDict(Map<String, List<Dictionary>> map) {
         if (MapUtil.isEmpty(map)) {

@@ -1,9 +1,9 @@
 package top.tangyh.lamp.authority.dao.common;
 
-import top.tangyh.basic.base.mapper.SuperMapper;
-import top.tangyh.lamp.authority.entity.common.OptLogExt;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import top.tangyh.basic.base.mapper.SuperMapper;
+import top.tangyh.lamp.authority.entity.common.OptLogExt;
 
 import java.time.LocalDateTime;
 

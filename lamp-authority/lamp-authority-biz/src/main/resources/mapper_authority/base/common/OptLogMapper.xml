@@ -23,7 +23,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,create_time,created_by,
+        id
+        ,create_time,created_by,
         request_ip, type, user_name, description, class_path, action_method, request_uri, http_method, start_time, finish_time, consuming_time, ua
     </sql>
 

@@ -1,8 +1,7 @@
 package top.tangyh.lamp.sms.dto;
 
-import top.tangyh.lamp.sms.entity.SmsTask;
 import lombok.Data;
-import lombok.Setter;
+import top.tangyh.lamp.sms.entity.SmsTask;
 
 import java.util.List;
 

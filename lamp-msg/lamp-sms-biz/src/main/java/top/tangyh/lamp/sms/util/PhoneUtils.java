@@ -17,12 +17,11 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public final class PhoneUtils {
-    private PhoneUtils() {
-    }
-
     public static final String REG_EX = "(.*?<(.*?)?>),";
     public static final String PHONE_SEPARATOR = "<";
     public static final String CONTACTS_SEPARATOR = ",";
+    private PhoneUtils() {
+    }
 
     public static Set<String> getPhone(String receiverPhone) {
         return getPhone(receiverPhone, REG_EX);

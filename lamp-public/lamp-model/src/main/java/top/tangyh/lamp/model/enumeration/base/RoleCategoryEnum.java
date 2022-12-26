@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="角色类别-枚举")
+@Schema(description = "角色类别-枚举")
 public enum RoleCategoryEnum implements BaseEnum {
 
     /**
@@ -40,7 +40,7 @@ public enum RoleCategoryEnum implements BaseEnum {
 
     ;
 
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String code;
 
     private String desc;
@@ -62,7 +62,7 @@ public enum RoleCategoryEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "FUNCTION,DESKTOP,DATA_SCOPE", example = "FUNCTION")
+    @Schema(description = "编码", allowableValues = "FUNCTION,DESKTOP,DATA_SCOPE", example = "FUNCTION")
     public String getCode() {
         return this.code;
     }

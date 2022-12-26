@@ -1,10 +1,10 @@
 package top.tangyh.lamp.tenant.dao;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import top.tangyh.basic.base.mapper.SuperMapper;
-import top.tangyh.lamp.tenant.entity.Tenant;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import top.tangyh.basic.base.mapper.SuperMapper;
+import top.tangyh.lamp.tenant.entity.Tenant;
 
 /**
  * <p>

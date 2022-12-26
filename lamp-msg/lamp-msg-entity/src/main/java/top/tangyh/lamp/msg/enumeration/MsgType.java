@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="消息类型-枚举")
+@Schema(description = "消息类型-枚举")
 public enum MsgType implements BaseEnum {
 
     /**
@@ -42,7 +42,7 @@ public enum MsgType implements BaseEnum {
     EARLY_WARNING("预警"),
     ;
 
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
 
@@ -62,7 +62,7 @@ public enum MsgType implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "TO_DO,NOTIFY,NOTICE,EARLY_WARNING", example = "TO_DO")
+    @Schema(description = "编码", allowableValues = "TO_DO,NOTIFY,NOTICE,EARLY_WARNING", example = "TO_DO")
     public String getCode() {
         return this.name();
     }

@@ -8,8 +8,9 @@ import java.io.Serializable;
 
 /**
  * 树配置属性相关
- *
+ * <p>
  * 代码参考 hutool
+ *
  * @author tangyh
  */
 @Getter

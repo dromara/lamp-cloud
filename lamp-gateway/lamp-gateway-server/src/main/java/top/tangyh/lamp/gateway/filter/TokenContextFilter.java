@@ -20,7 +20,6 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.context.ContextConstants;
 import top.tangyh.basic.context.ContextUtil;
@@ -29,6 +28,7 @@ import top.tangyh.basic.exception.UnauthorizedException;
 import top.tangyh.basic.jwt.TokenUtil;
 import top.tangyh.basic.jwt.model.AuthInfo;
 import top.tangyh.basic.jwt.utils.JwtUtil;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.common.cache.common.TokenUserIdCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.BizConstant;
@@ -53,13 +53,13 @@ import static top.tangyh.basic.exception.code.ExceptionCode.JWT_OFFLINE;
 @RequiredArgsConstructor
 @EnableConfigurationProperties({IgnoreProperties.class})
 public class TokenContextFilter implements WebFilter, Ordered {
+    private final IgnoreProperties ignoreProperties;
+    private final TokenUtil tokenUtil;
+    private final CacheOps cacheOps;
     @Value("${spring.profiles.active:dev}")
     protected String profiles;
     @Value("${lamp.database.multiTenantType:SCHEMA}")
     protected String multiTenantType;
-    private final IgnoreProperties ignoreProperties;
-    private final TokenUtil tokenUtil;
-    private final CacheOps cacheOps;
 
     protected boolean isDev(String token) {
         return !StrPool.PROD.equalsIgnoreCase(profiles) && (StrPool.TEST_TOKEN.equalsIgnoreCase(token) || StrPool.TEST.equalsIgnoreCase(token));

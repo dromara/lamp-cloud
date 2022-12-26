@@ -1,11 +1,11 @@
 package top.tangyh.lamp.authority.dao.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import top.tangyh.basic.base.mapper.SuperMapper;
 import top.tangyh.lamp.authority.dto.common.DictionaryPageQuery;
 import top.tangyh.lamp.authority.entity.common.Dictionary;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * <p>

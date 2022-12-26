@@ -2,15 +2,14 @@ package top.tangyh.lamp.authority.service.auth.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperServiceImpl;
-import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.lamp.authority.dao.auth.ResourceMapper;
 import top.tangyh.lamp.authority.dao.auth.RoleAuthorityMapper;
@@ -27,7 +26,6 @@ import top.tangyh.lamp.common.cache.auth.RoleResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserRoleCacheKeyBuilder;
-
 
 import java.util.ArrayList;
 import java.util.Collection;

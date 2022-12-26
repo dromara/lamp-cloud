@@ -23,7 +23,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,label,sort_value,parent_id,create_time,created_by,update_time,updated_by,
+        id
+        ,label,sort_value,parent_id,create_time,created_by,update_time,updated_by,
         code, full_name, longitude, latitude, level, source_, state
     </sql>
 

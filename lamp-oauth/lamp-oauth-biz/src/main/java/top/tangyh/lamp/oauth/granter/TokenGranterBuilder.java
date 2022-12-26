@@ -1,7 +1,7 @@
 package top.tangyh.lamp.oauth.granter;
 
-import top.tangyh.basic.exception.BizException;
 import org.springframework.stereotype.Component;
+import top.tangyh.basic.exception.BizException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

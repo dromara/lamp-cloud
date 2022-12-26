@@ -27,14 +27,14 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description="权限资源")
+@Schema(description = "权限资源")
 public class AuthorityResourceDTO implements Serializable {
-    @Schema(description="是否启用URI/按钮权限")
+    @Schema(description = "是否启用URI/按钮权限")
     private Boolean enabled;
-    @Schema(description="是否区分大小写")
+    @Schema(description = "是否区分大小写")
     private Boolean caseSensitive;
-    @Schema(description="拥有的资源编码")
+    @Schema(description = "拥有的资源编码")
     private List<String> resourceList;
-    @Schema(description="拥有的角色编码")
+    @Schema(description = "拥有的角色编码")
     private List<String> roleList;
 }

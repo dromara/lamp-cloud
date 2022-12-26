@@ -1,6 +1,5 @@
 package top.tangyh.lamp;
 
-import top.tangyh.basic.validator.annotation.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
+import top.tangyh.basic.validator.annotation.EnableFormValidator;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

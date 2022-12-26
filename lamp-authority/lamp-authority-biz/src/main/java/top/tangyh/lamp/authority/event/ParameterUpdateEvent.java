@@ -1,7 +1,7 @@
 package top.tangyh.lamp.authority.event;
 
-import top.tangyh.lamp.authority.event.model.ParameterUpdate;
 import org.springframework.context.ApplicationEvent;
+import top.tangyh.lamp.authority.event.model.ParameterUpdate;
 
 /**
  * 登录事件

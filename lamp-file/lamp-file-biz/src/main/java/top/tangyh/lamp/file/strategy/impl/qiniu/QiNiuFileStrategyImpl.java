@@ -2,7 +2,6 @@ package top.tangyh.lamp.file.strategy.impl.qiniu;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.DownloadUrl;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.StrPool;
-
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.domain.FileDeleteBO;
 import top.tangyh.lamp.file.domain.FileGetUrlBO;

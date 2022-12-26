@@ -3,7 +3,8 @@
 <mapper namespace="top.tangyh.lamp.authority.dao.auth.MenuMapper">
     <!-- 通用查询结果列 -->
     <sql id="V_Column_List">
-        id,  label, path, component, state, sort_value, icon, group_, parent_id, resource_type,  tree_grade, tree_path
+        id
+        ,  label, path, component, state, sort_value, icon, group_, parent_id, resource_type,  tree_grade, tree_path
     </sql>
 
     <select id="findVisibleMenu" parameterType="map"

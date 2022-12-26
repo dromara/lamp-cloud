@@ -18,7 +18,10 @@
 
     <!-- 通用查询结果列 -->
     <sql id="SysRole_Column_List">
-        r.id,r.created_by,r.create_time,r.updated_by,r.update_time, r.category,
+        r
+        .
+        id
+        ,r.created_by,r.create_time,r.updated_by,r.update_time, r.category,
         r.name, r.code, r.describe_, r.state, r.readonly_
     </sql>
 

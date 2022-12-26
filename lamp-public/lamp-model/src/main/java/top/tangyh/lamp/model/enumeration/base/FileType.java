@@ -1,11 +1,10 @@
 package top.tangyh.lamp.model.enumeration.base;
 
-import top.tangyh.basic.interfaces.BaseEnum;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="文件类型-枚举")
+@Schema(description = "文件类型-枚举")
 public enum FileType implements BaseEnum {
 
     /**
@@ -46,7 +45,7 @@ public enum FileType implements BaseEnum {
     OTHER("其他"),
     ;
 
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
 
@@ -66,7 +65,7 @@ public enum FileType implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
+    @Schema(description = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
     public String getCode() {
         return this.name();
     }

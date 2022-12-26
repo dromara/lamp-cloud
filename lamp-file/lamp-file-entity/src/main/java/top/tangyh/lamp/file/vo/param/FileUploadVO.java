@@ -1,12 +1,11 @@
 package top.tangyh.lamp.file.vo.param;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import top.tangyh.lamp.file.enumeration.FileStorageType;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
-import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -16,16 +15,16 @@ import java.io.Serializable;
  * @date 2019-05-12 18:49
  */
 @Data
-@Schema(description="附件上传")
+@Schema(description = "附件上传")
 public class FileUploadVO implements Serializable {
 
-    @Schema(description="业务类型")
+    @Schema(description = "业务类型")
     @NotBlank(message = "请填写业务类型")
     private String bizType;
 
-    @Schema(description="桶")
+    @Schema(description = "桶")
     private String bucket;
 
-    @Schema(description="存储类型")
+    @Schema(description = "存储类型")
     private FileStorageType storageType;
 }

@@ -1,11 +1,10 @@
 package top.tangyh.lamp.authority.enumeration.auth;
 
-import top.tangyh.basic.interfaces.BaseEnum;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="权限类型-枚举")
+@Schema(description = "权限类型-枚举")
 public enum AuthorizeType implements BaseEnum {
 
     /**
@@ -35,7 +34,7 @@ public enum AuthorizeType implements BaseEnum {
     RESOURCE("资源"),
     ;
 
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
 
@@ -55,7 +54,7 @@ public enum AuthorizeType implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "MENU,RESOURCE", example = "MENU")
+    @Schema(description = "编码", allowableValues = "MENU,RESOURCE", example = "MENU")
     public String getCode() {
         return this.name();
     }

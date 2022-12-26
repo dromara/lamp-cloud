@@ -31,7 +31,9 @@
 
     <!-- 通用查询结果列 -->
     <sql id="SysUser_Column_List">
-        u.id
+        u
+        .
+        id
         ,u.created_by,u.create_time,u.updated_by,u.update_time,
         u.account, u.name, u.org_id, u.station_id, u.readonly, u.email, u.mobile, u.sex, u.state, u.avatar,
         u.nation, u.education, u.position_status,

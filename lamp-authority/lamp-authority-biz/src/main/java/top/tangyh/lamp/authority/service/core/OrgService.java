@@ -45,7 +45,6 @@ public interface OrgService extends SuperCacheService<Org>, LoadService {
     boolean check(Long id, String name);
 
 
-
     /**
      * 查询员工主部门ID
      *

@@ -1,10 +1,10 @@
 package top.tangyh.lamp.authority.strategy.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.exception.BizException;
 import top.tangyh.basic.exception.code.ExceptionCode;
 import top.tangyh.lamp.authority.strategy.AbstractDataScopeHandler;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

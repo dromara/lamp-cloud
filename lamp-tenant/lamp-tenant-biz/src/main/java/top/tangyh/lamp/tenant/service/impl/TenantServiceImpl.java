@@ -1,7 +1,6 @@
 package top.tangyh.lamp.tenant.service.impl;
 
 import cn.hutool.core.convert.Convert;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.lamp.common.cache.tenant.TenantCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.tenant.TenantCodeCacheKeyBuilder;
-
 import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.model.enumeration.system.TenantConnectTypeEnum;
 import top.tangyh.lamp.model.enumeration.system.TenantStatusEnum;

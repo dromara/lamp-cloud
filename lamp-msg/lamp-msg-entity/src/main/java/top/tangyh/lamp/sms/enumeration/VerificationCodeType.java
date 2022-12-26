@@ -1,11 +1,10 @@
 package top.tangyh.lamp.sms.enumeration;
 
-import top.tangyh.basic.interfaces.BaseEnum;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -18,7 +17,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="验证码类型")
+@Schema(description = "验证码类型")
 public enum VerificationCodeType implements BaseEnum {
     /**
      * 用户注册
@@ -26,7 +25,7 @@ public enum VerificationCodeType implements BaseEnum {
     REGISTER_USER("用户注册"),
     ;
 
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
 
@@ -43,7 +42,7 @@ public enum VerificationCodeType implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "REGISTER_USER", example = "REGISTER_USER")
+    @Schema(description = "编码", allowableValues = "REGISTER_USER", example = "REGISTER_USER")
     public String getCode() {
         return this.name();
     }

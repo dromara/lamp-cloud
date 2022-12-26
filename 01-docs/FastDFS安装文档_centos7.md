@@ -1,14 +1,15 @@
 CentOS7.x 安装教程， centos6 安装可能与此不同
 使用 zuihou 帐号安装。某些文件夹没有权限的， 需要sudo授权
 
-#1,  安装机器
-| 软件              |          机器          |   系统   |
+#1, 安装机器
+| 软件 | 机器 | 系统 |
 | :--------------- | :------------------: | :----: |
-| Tracker          | 192.168.65.129:22122 | CentOS |
-| FashDHT          | 192.168.65.129:22122 | CentOS |
+| Tracker | 192.168.65.129:22122 | CentOS |
+| FashDHT | 192.168.65.129:22122 | CentOS |
 | Group1-Storage11 | 192.168.65.130:23000 | CentOS |
 
 #2,所需安装包
+
 * db-6.2.32.tar.gz
 * fastdht-master.zip
 * libfastcommon-master.zip
@@ -17,7 +18,8 @@ CentOS7.x 安装教程， centos6 安装可能与此不同
 * ngx_cache_purge-2.1.tar.gz  (可选)
 * nginx-1.10.3.tar.gz
 
-#3，文件夹初始化: 
+#3，文件夹初始化:
+
 * 配置tracker所需的base_path:
     + 192.168.65.129机子上创建 /home/zuihou/fastdfs/tracker/
 * 配置storage所需的日志目录:
@@ -26,6 +28,7 @@ CentOS7.x 安装教程， centos6 安装可能与此不同
     + 192.168.65.130机子上创建/home/zuihou/fastdfs/storage/data
 
 #4, 安装libfastcommon-1.0.7.zip:
+
 ```
  unzip libfastcommon-master.zip
  sudo mv libfastcommon-master /usr/local/src/
@@ -41,6 +44,7 @@ CentOS7.x 安装教程， centos6 安装可能与此不同
 ```
 
 #5,安装FastDFS
+
 ```
  sudo mv FastDFS /usr/local/src/
  cd /usr/local/src/FastDFS
@@ -55,6 +59,7 @@ CentOS7.x 安装教程， centos6 安装可能与此不同
 ```
 
 #6,配置Tracker，配置storage:
+
 ```
 vim storage.conf
 disabled=false            #启用配置文件
@@ -77,22 +82,25 @@ tracker_server=123.249.76.119:22122  # 这里若有多台，则配置多个 不�
 http.tracker_server_port=6080
 
 ```
+
 ##启动命令：
-    /usr/bin/fdfs_trackerd  /etc/fdfs/tracker.conf  restart
-    /usr/bin/fdfs_storaged  /etc/fdfs/storage.conf  restart
+/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf restart
+/usr/bin/fdfs_storaged /etc/fdfs/storage.conf restart
 
 启动完毕后，可以通过以下两个方法查看tracker是否启动成功:
 
-* a. netstat -unltp|grep fdfs，查看`22122/23000`端口监听情况 
-* b. 通过以下命令查看tracker的启动日志，看是否有错误: `tail -100f  /home/zuihou/fastdfs/tracker/logs/trackerd.log`
-* c. 通过以下命令查看storage的启动日志，看是否有错误: `tail -100f  /home/zuihou/fastdfs/storage/logs/storaged.log`
+* a. netstat -unltp|grep fdfs，查看`22122/23000`端口监听情况
+* b. 通过以下命令查看tracker的启动日志，看是否有错误: `tail -100f /home/zuihou/fastdfs/tracker/logs/trackerd.log`
+* c. 通过以下命令查看storage的启动日志，看是否有错误: `tail -100f /home/zuihou/fastdfs/storage/logs/storaged.log`
 
 如果启动没有问题，可以通过以下步骤，将tracker的启动添加到服务器的开机启动中:
+
 * a. 打开文件 vi /etc/rc.d/rc.local
-* b. 将如下命令添加到该文件中: `/usr/bin/fdfs_trackerd  /etc/fdfs/tracker.conf  restart`
-* b. 将如下命令添加到该文件中: `/usr/bin/fdfs_storaged  /etc/fdfs/storage.conf  restart`
+* b. 将如下命令添加到该文件中: `/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf  restart`
+* b. 将如下命令添加到该文件中: `/usr/bin/fdfs_storaged /etc/fdfs/storage.conf  restart`
 
 也可以创建服务：
+
 ```
 ln -s /usr/bin/fdfs_trackerd /usr/local/bin
 ln -s /usr/bin/stop.sh /usr/local/bin
@@ -100,6 +108,7 @@ ln -s /usr/bin/restart.sh /usr/local/bin
 
 ln -s /usr/bin/fdfs_storaged /usr/local/bin
 ```
+
 通过命令启动Tracker服务器：`service fdfs_trackerd start`
 通过命令启动Storage服务器：`service fdfs_storaged start`
 
@@ -107,26 +116,28 @@ ln -s /usr/bin/fdfs_storaged /usr/local/bin
 [2014-05-30 16:22:21] ERROR - file: fdht_client/fdht_func.c, line: 361, invalid group count: 0 <= 0!
 [2014-05-30 16:22:21] CRIT - exit abnormally!
 
-check_file_duplicate=0  # 先将这个设置成0， 在安装了FastDHT后，才将它设置为1，否则启动会报错
-
+check_file_duplicate=0 # 先将这个设置成0， 在安装了FastDHT后，才将它设置为1，否则启动会报错
 
 #7,初步测试
 测试时需要设置客户端的配置文件，编辑/etc/fdfs目录下的client.conf 文件，打开文件后依次做以下修改：
+
 ```
 base_path=/home/zuihou/fastdfs/tracker #tracker服务器文件路径
 tracker_server=123.249.76.119:22122 #tracker服务器IP地址和端口号
 http.tracker_server_port=6080 # tracker 服务器的 http 端口号，必须和tracker的设置对应起来
 ```
-执行：`/usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg`
+
+执行：`/usr/bin/fdfs_upload_file /etc/fdfs/client.conf /home/zuihou/tools/fastdfs/logo.jpg`
 一切成功的话，会返回一个url，但你访问：
 http://123.249.76.119:6080/group1/M00/00/00/e_lMd1kgST-AQAodAAATIDVcVxc531.jpg
-却无法访问，因为FastDFS目前已不支持http协议，我们在FastDFS 5.0.5的版本更新日志中可以看到这样一条信息： 
+却无法访问，因为FastDFS目前已不支持http协议，我们在FastDFS 5.0.5的版本更新日志中可以看到这样一条信息：
 ​    
-    * remove embed HTTP support
+* remove embed HTTP support
 所以余大提供了nginx上使用FastDFS的模块fastdfs-nginx-module
 
-#8,安装nginx和fastdfs-nginx-module模块 
+#8,安装nginx和fastdfs-nginx-module模块
 查看nginx安装了那些模块： nginx/sbin/nginx -V
+
 ```
 cd /usr/local/src/fastdfs-nginx-module
 vim config # 修改如下2行代码
@@ -226,7 +237,9 @@ cp -r /usr/local/src/FastDFS/conf/http.conf /etc/fdfs/
 cp -r /usr/local/src/FastDFS/conf/mime.types /etc/fdfs/
 
 ```
+
 vim /etc/fdfs/mod_fastdfs.conf
+
 ```
 base_path=/home/zuihou/fastdfs/storage
 tracker_server=123.249.91.119:22122 #tracker服务器的IP地址以及端口号
@@ -236,22 +249,23 @@ store_path0=/home/zuihou/fastdfs/storage # 存储路径
 group_count = 1 #设置组的个数，事实上这次只使用了group1
 
 ```
+
 建立软连接:
-`ln  -s  /home/zuihou/fastdfs/storage/data  /home/zuihou/fastdfs/storage/M00`
+`ln -s /home/zuihou/fastdfs/storage/data /home/zuihou/fastdfs/storage/M00`
 
 启动nginx：
 /usr/local/nginx/sbin/nginx
 或者 重启
 /usr/local/nginx/sbin/nginx -s reload
 
-
 #测试上传
-1. 打开 /etc/fdfs 文件夹，编辑 client.conf 文件，编辑内容如下:
-  a. base_path=/home/zuihou/fastdfs/tracker      #存放路径
-  b. tracker_server=123.249.76.119:22122          #tracker服务器IP地址和端口号
-  c. http.tracker_server_port=6080              #tracker服务器的http端口号，注意，这个配置在fastdfs5.0.5中已经没有用了
 
-2. 模拟上传文件，执行如下命令: /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg
+1. 打开 /etc/fdfs 文件夹，编辑 client.conf 文件，编辑内容如下:
+   a. base_path=/home/zuihou/fastdfs/tracker #存放路径
+   b. tracker_server=123.249.76.119:22122 #tracker服务器IP地址和端口号
+   c. http.tracker_server_port=6080 #tracker服务器的http端口号，注意，这个配置在fastdfs5.0.5中已经没有用了
+
+2. 模拟上传文件，执行如下命令: /usr/bin/fdfs_upload_file /etc/fdfs/client.conf /home/zuihou/tools/fastdfs/logo.jpg
 
 使用浏览器访问返回的url: http://123.249.76.119:6080/group1/M00/00/00/wKjgGlVYgi6AAv3tAAAADv4ZzcQ572.txt
 
@@ -262,6 +276,7 @@ group_count = 1 #设置组的个数，事实上这次只使用了group1
 我们还可以通过在url中添加purge清除缓存，例如: http://123.249.76.119:6080/purge/group1/M00/00/00/wKjgGlVYgi6AAv3tAAAADv4ZzcQ572.txt
 
 #9, 安装db-6.2.32
+
 ```
  mv db-6.2.32 /usr/local/src
  cd /usr/local/src/db-6.2.32/build_unix
@@ -271,6 +286,7 @@ group_count = 1 #设置组的个数，事实上这次只使用了group1
 ```
 
 #10, 安装FastDHT
+
 ```
  mv fastdht-master /usr/local/src
  cd /usr/local/src/fastdht-master
@@ -279,13 +295,17 @@ group_count = 1 #设置组的个数，事实上这次只使用了group1
  ./make.sh
  ./make.sh install
 ```
- 配置FastDHT:
+
+配置FastDHT:
+
 ```
 vim /etc/fdht/fdht_servers.conf
 group_count = 1
 group0 = 123.249.76.119:11411
 ```
+
 配置fdhtd.conf文件
+
 ```
 vim /etc/fdht/fdhtd.conf
 port=11411
@@ -293,7 +313,9 @@ base_path=/home/zuihou/fastdht （该目录必须是已经存在的）
 cache_size = 32MB
 #include /etc/fdhtd/fdht_servers.conf -> (本行前有#表示打开，如果想关闭此选项，则应该为##开头)
 ```
+
 配置storaged.conf文件
+
 ```
 vim /etc/fdfs/storage.conf
 #是否检测上传文件已经存在。如果已经存在，则建立一个索引链接以节省磁盘空间 
@@ -307,27 +329,28 @@ keep_alive=1
 ```
 
 启动
+
 ```
 fdhtd /etc/fdht/fdhtd.conf 
 fdhtd /etc/fdht/fdhtd.conf restart
 ```
+
 ###出错解决方案:
 fdhtd: error while loading shared libraries: libdb-6.2.so: cannot open shared object file: No such file or directory
+
 * sudo cp /usr/local/db-6.2.32/lib/libdb-6.2.so /usr/lib/
 * 编辑/etc/ld.so.conf文件，在新的一行中加入库文件所在目录；
 * 运行ldconfig，以更新/etc/ld.so.cache文件；
 
-
 #常用命令：
 
-| 命令                                       | 解释                                       |
-| :--------------------------------------- | ---------------------------------------- |
-| service fdfs_trackerd start/stop/restart | tracker启动/停止/重启                          |
-| service fdfs_storaged start/stop/restart | storage启动/停止/重启                          |
-| /usr/bin/fdfs_trackerd  /etc/fdfs/tracker.conf  start/stop/restart | tracker启动/停止/重启                          |
-| /usr/bin/fdfs_storaged  /etc/fdfs/storage.conf  start/stop/restart | storage启动/停止/重启                          |
-| /usr/bin/fdfs_monitor /etc/fdfs/storage.conf | 看storage服务器是否已经登记到 tracker服务器(123.249.76.119  ACTIVE代表已登记成功) |
-| /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg | 测试上传                                     |
-
+| 命令                                                                                    | 解释                                                           |
+|:--------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| service fdfs_trackerd start/stop/restart                                              | tracker启动/停止/重启                                              |
+| service fdfs_storaged start/stop/restart                                              | storage启动/停止/重启                                              |
+| /usr/bin/fdfs_trackerd  /etc/fdfs/tracker.conf  start/stop/restart                    | tracker启动/停止/重启                                              |
+| /usr/bin/fdfs_storaged  /etc/fdfs/storage.conf  start/stop/restart                    | storage启动/停止/重启                                              |
+| /usr/bin/fdfs_monitor /etc/fdfs/storage.conf                                          | 看storage服务器是否已经登记到 tracker服务器(123.249.76.119  ACTIVE代表已登记成功) |
+| /usr/bin/fdfs_upload_file  /etc/fdfs/client.conf  /home/zuihou/tools/fastdfs/logo.jpg | 测试上传                                                         |
 
 ​    

@@ -4,7 +4,6 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.request.PageUtil;
 import top.tangyh.basic.base.service.SuperCacheServiceImpl;
-import top.tangyh.basic.model.cache.CacheKey;
-import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbqWrapper;
+import top.tangyh.basic.model.cache.CacheKey;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.lamp.authority.dao.auth.UserMapper;
@@ -40,7 +39,6 @@ import top.tangyh.lamp.common.cache.auth.UserMenuCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserResourceCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.auth.UserRoleCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.BizConstant;
-
 import top.tangyh.lamp.file.service.AppendixService;
 
 import java.io.Serializable;

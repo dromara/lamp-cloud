@@ -1,9 +1,9 @@
 package top.tangyh.lamp.sms.strategy.domain;
 
 
+import lombok.Data;
 import top.tangyh.lamp.sms.enumeration.ProviderType;
 import top.tangyh.lamp.sms.enumeration.SendStatus;
-import lombok.Data;
 
 /**
  * 阿里：状态码-返回OK代表请求成功,其他错误码详见错误码列表      # https://help.aliyun.com/document_detail/55284.html?spm=a2c4g.11186623.6.567.17555777p1osU3

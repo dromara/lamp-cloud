@@ -1,11 +1,11 @@
 package top.tangyh.lamp.msg.api.fallback;
 
+import org.springframework.stereotype.Component;
 import top.tangyh.basic.base.R;
 import top.tangyh.lamp.msg.api.SmsApi;
 import top.tangyh.lamp.sms.dto.SmsTaskSaveDTO;
 import top.tangyh.lamp.sms.dto.VerificationCodeDTO;
 import top.tangyh.lamp.sms.entity.SmsTask;
-import org.springframework.stereotype.Component;
 
 /**
  * 熔断

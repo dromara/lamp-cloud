@@ -2,6 +2,9 @@ package top.tangyh.lamp.file.strategy.impl;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.lamp.file.dao.FileMapper;
@@ -11,9 +14,6 @@ import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.FileChunkStrategy;
 import top.tangyh.lamp.file.strategy.FileLock;
 import top.tangyh.lamp.file.utils.FileTypeUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Paths;

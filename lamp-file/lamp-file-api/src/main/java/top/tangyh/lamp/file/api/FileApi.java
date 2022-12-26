@@ -1,15 +1,15 @@
 package top.tangyh.lamp.file.api;
 
 
-import top.tangyh.basic.base.R;
-import top.tangyh.lamp.file.enumeration.FileStorageType;
-import top.tangyh.lamp.file.vo.result.FileResultVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import top.tangyh.basic.base.R;
+import top.tangyh.lamp.file.enumeration.FileStorageType;
+import top.tangyh.lamp.file.vo.result.FileResultVO;
 
 /**
  * 文件接口

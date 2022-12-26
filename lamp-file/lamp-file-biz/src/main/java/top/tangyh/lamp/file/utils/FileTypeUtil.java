@@ -2,8 +2,8 @@ package top.tangyh.lamp.file.utils;
 
 
 import cn.hutool.core.util.StrUtil;
-import top.tangyh.lamp.model.enumeration.base.FileType;
 import lombok.extern.slf4j.Slf4j;
+import top.tangyh.lamp.model.enumeration.base.FileType;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -19,15 +19,10 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public final class FileTypeUtil {
     private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy/MM");
-
-    private FileTypeUtil() {
-    }
-
     private static final String IMAGE = "image";
     private static final String VIDEO = "video";
     private static final String AUDIO = "audio";
     private static final String TEXT = "text";
-
     private static final String[] TEXT_MIME = {
             "application/vnd.ms-excel",
             "application/msword",
@@ -40,6 +35,9 @@ public final class FileTypeUtil {
             "application/vnd.ms-word.template.macroEnabled",
             "application/vnd.ms-powerpoint"
     };
+
+    private FileTypeUtil() {
+    }
 
     /**
      * 根据mine类型，返回文件类型

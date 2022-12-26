@@ -19,7 +19,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,created_by,create_time,updated_by,update_time,
+        id
+        ,created_by,create_time,updated_by,update_time,
         code, name, menu_id, describe_, readonly_
     </sql>
 

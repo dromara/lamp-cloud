@@ -13,7 +13,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,created_by,create_time,
+        id
+        ,created_by,create_time,
         role_id, user_id
     </sql>
 

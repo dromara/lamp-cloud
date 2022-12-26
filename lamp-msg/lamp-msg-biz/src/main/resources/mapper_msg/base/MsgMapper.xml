@@ -22,7 +22,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,create_time,created_by,update_time,updated_by,
+        id
+        ,create_time,created_by,update_time,updated_by,
         biz_id, biz_type, msg_type, title, content, author, handler_url, handler_params, is_single_handle
     </sql>
 

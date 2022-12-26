@@ -2,9 +2,6 @@ package top.tangyh.lamp.file.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import top.tangyh.basic.base.entity.Entity;
-import top.tangyh.lamp.model.enumeration.base.FileType;
-import top.tangyh.lamp.file.enumeration.FileStorageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +9,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.basic.base.entity.Entity;
+import top.tangyh.lamp.file.enumeration.FileStorageType;
+import top.tangyh.lamp.model.enumeration.base.FileType;
 
 import java.time.LocalDateTime;
 

@@ -1,13 +1,12 @@
 package top.tangyh.lamp.authority.config;
 
-import top.tangyh.basic.boot.handler.AbstractGlobalResponseBodyAdvice;
+import jakarta.servlet.Servlet;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.DispatcherServlet;
-
-import jakarta.servlet.Servlet;
+import top.tangyh.basic.boot.handler.AbstractGlobalResponseBodyAdvice;
 
 /**
  * 全局统一返回值 包装器

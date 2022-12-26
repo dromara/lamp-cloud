@@ -23,7 +23,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,create_time,created_by,update_time,updated_by,
+        id
+        ,create_time,created_by,update_time,updated_by,
         code, name, type, connect_type, status, readonly_, duty, expiration_time, logo, describe_
     </sql>
 

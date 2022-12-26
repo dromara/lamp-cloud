@@ -1,5 +1,12 @@
 package top.tangyh.lamp.authority.controller.auth;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.annotation.security.PreAuth;
 import top.tangyh.basic.base.R;
@@ -12,13 +19,6 @@ import top.tangyh.lamp.authority.dto.auth.MenuSaveDTO;
 import top.tangyh.lamp.authority.dto.auth.MenuUpdateDTO;
 import top.tangyh.lamp.authority.entity.auth.Menu;
 import top.tangyh.lamp.authority.service.auth.MenuService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -62,7 +62,6 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
 
     /**
      * 查询系统中所有的的菜单树结构， 不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
-     *
      */
     @Operation(summary = "查询系统所有的菜单", description = "查询系统所有的菜单")
     @PostMapping("/tree")
@@ -81,6 +80,7 @@ public class MenuController extends SuperCacheController<MenuService, Long, Menu
     public R<List<MenuResourceTreeVO>> menuResourceTree() {
         return success(baseService.findMenuResourceTree());
     }
+
     /**
      * 查询系统所有的数据权限  不用缓存，因为该接口很少会使用，就算使用，也会管理员维护菜单时使用
      */

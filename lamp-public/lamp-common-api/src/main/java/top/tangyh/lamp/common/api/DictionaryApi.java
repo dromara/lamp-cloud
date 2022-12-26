@@ -1,9 +1,9 @@
 package top.tangyh.lamp.common.api;
 
-import top.tangyh.basic.interfaces.echo.LoadService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.tangyh.basic.interfaces.echo.LoadService;
 import top.tangyh.lamp.common.api.fallback.DictionaryApiFallback;
 
 import java.io.Serializable;

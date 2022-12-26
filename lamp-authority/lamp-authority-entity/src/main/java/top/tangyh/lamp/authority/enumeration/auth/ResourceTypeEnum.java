@@ -16,7 +16,7 @@ import top.tangyh.basic.interfaces.BaseEnum;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="资源类型-枚举")
+@Schema(description = "资源类型-枚举")
 public enum ResourceTypeEnum implements BaseEnum {
     /**
      * 菜单
@@ -60,7 +60,7 @@ public enum ResourceTypeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "20,30,40,50,60", example = "20")
+    @Schema(description = "编码", allowableValues = "20,30,40,50,60", example = "20")
     public String getCode() {
         return this.code;
     }

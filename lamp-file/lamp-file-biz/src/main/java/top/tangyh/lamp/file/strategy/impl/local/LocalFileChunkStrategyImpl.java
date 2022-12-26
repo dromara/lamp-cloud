@@ -3,6 +3,8 @@ package top.tangyh.lamp.file.strategy.impl.local;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.exception.BizException;
 import top.tangyh.basic.utils.StrPool;
@@ -12,8 +14,6 @@ import top.tangyh.lamp.file.entity.File;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
 import top.tangyh.lamp.file.utils.FileTypeUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

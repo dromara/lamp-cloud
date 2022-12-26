@@ -1,11 +1,10 @@
 package top.tangyh.lamp.model.enumeration.base;
 
-import top.tangyh.basic.interfaces.BaseEnum;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -18,7 +17,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Schema(description="日期类型-枚举")
+@Schema(description = "日期类型-枚举")
 public enum DateType implements BaseEnum {
     /**
      * 一个月
@@ -37,9 +36,9 @@ public enum DateType implements BaseEnum {
      */
     NUL(0, "不限");
 
-    @Schema(description="天")
+    @Schema(description = "天")
     private int day;
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
     public static DateType match(String val, DateType def) {
@@ -55,7 +54,7 @@ public enum DateType implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "MONTH,WEEK,DAY,NUL", example = "NUL")
+    @Schema(description = "编码", allowableValues = "MONTH,WEEK,DAY,NUL", example = "NUL")
     public String getCode() {
         return this.name();
     }

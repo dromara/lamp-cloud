@@ -1,10 +1,10 @@
 package top.tangyh.lamp.authority.strategy.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import top.tangyh.lamp.authority.entity.core.Org;
 import top.tangyh.lamp.authority.service.core.OrgService;
 import top.tangyh.lamp.authority.strategy.AbstractDataScopeHandler;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;

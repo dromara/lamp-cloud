@@ -2,6 +2,8 @@ package top.tangyh.lamp.authority.dto.core;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -30,7 +30,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description="岗位")
+@Schema(description = "岗位")
 public class StationSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class StationSaveDTO implements Serializable {
     /**
      * 名称
      */
-    @Schema(description="名称")
+    @Schema(description = "名称")
     @NotEmpty(message = "名称不能为空")
     @Size(max = 255, message = "名称长度不能超过255")
     private String name;
@@ -48,17 +48,17 @@ public class StationSaveDTO implements Serializable {
      *
      * @Echo(api = ORG_ID_CLASS,  beanClass = Org.class)
      */
-    @Schema(description="组织")
+    @Schema(description = "组织")
     private Long orgId;
     /**
      * 状态
      */
-    @Schema(description="状态")
+    @Schema(description = "状态")
     private Boolean state;
     /**
      * 描述
      */
-    @Schema(description="描述")
+    @Schema(description = "描述")
     @Size(max = 255, message = "描述长度不能超过255")
     private String describe;
 

@@ -49,6 +49,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StationController extends SuperCacheController<StationService, Long, Station, StationPageQuery, StationSaveDTO, StationUpdateDTO> {
     private final UserHelperService userHelperService;
+
     @Parameters({
             @Parameter(name = "id", description = "ID", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
             @Parameter(name = "name", description = "名称", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
@@ -62,7 +63,7 @@ public class StationController extends SuperCacheController<StationService, Long
     @Override
     public R<Station> handlerSave(StationSaveDTO model) {
         SysUser sysUser = userHelperService.getUserByIdCache(ContextUtil.getUserId());
-        if (sysUser!= null) {
+        if (sysUser != null) {
             model.setCreatedOrgId(sysUser.getOrgId());
         }
         return super.handlerSave(model);

@@ -53,15 +53,14 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
-    private final UserService userService;
-    private final CacheOps cacheOps;
-
     private static final Supplier<Stream<String>> BROWSER = () -> Stream.of(
             "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
     );
     private static final Supplier<Stream<String>> OPERATING_SYSTEM = () -> Stream.of(
             "Android", "Linux", "Mac OS X", "Ubuntu", "Windows 10", "Windows 8", "Windows 7", "Windows XP", "Windows Vista"
     );
+    private final UserService userService;
+    private final CacheOps cacheOps;
 
     private static String simplifyOperatingSystem(String operatingSystem) {
         return OPERATING_SYSTEM.get().parallel().filter(b -> StrUtil.containsIgnoreCase(operatingSystem, b)).findAny().orElse(operatingSystem);

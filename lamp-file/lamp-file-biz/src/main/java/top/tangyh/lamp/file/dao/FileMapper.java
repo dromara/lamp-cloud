@@ -1,8 +1,8 @@
 package top.tangyh.lamp.file.dao;
 
+import org.springframework.stereotype.Repository;
 import top.tangyh.basic.base.mapper.SuperMapper;
 import top.tangyh.lamp.file.entity.File;
-import org.springframework.stereotype.Repository;
 
 /**
  * <p>

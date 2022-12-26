@@ -1,7 +1,7 @@
 package top.tangyh.lamp.file.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.log.SysLog;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.controller.SuperSimpleController;
-import top.tangyh.lamp.model.vo.result.AppendixResultVO;
 import top.tangyh.lamp.file.entity.Appendix;
 import top.tangyh.lamp.file.service.AppendixService;
+import top.tangyh.lamp.model.vo.result.AppendixResultVO;
 
 import java.util.List;
 

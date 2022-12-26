@@ -12,9 +12,9 @@ import org.springframework.lang.Nullable;
 import top.tangyh.basic.base.entity.SuperEntity;
 import top.tangyh.basic.base.service.SuperService;
 import top.tangyh.basic.interfaces.echo.EchoVO;
+import top.tangyh.lamp.file.entity.Appendix;
 import top.tangyh.lamp.model.vo.result.AppendixResultVO;
 import top.tangyh.lamp.model.vo.save.AppendixSaveVO;
-import top.tangyh.lamp.file.entity.Appendix;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,16 +30,6 @@ import java.util.List;
  * @create [2021-06-30] [tangyh] [初始创建]
  */
 public interface AppendixService extends SuperService<Appendix> {
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    class AppendixBizKey implements Serializable {
-        private Long bizId;
-        private String bizType;
-    }
 
     /**
      * 回显附件
@@ -97,7 +87,6 @@ public interface AppendixService extends SuperService<Appendix> {
      * @return
      */
     Multimap<AppendixBizKey, AppendixResultVO> listByBizIds(@NonNull List<Long> bizIds, @Nullable String... bizType);
-
 
     /**
      * 根据对象id 和 功能点 查询附件
@@ -189,4 +178,14 @@ public interface AppendixService extends SuperService<Appendix> {
      * @return
      */
     boolean removeByBizId(Long bizId, String bizType);
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    class AppendixBizKey implements Serializable {
+        private Long bizId;
+        private String bizType;
+    }
 }

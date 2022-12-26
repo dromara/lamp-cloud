@@ -1,22 +1,56 @@
-use lamp_base_1234;
+use
+lamp_base_1234;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_appendix]') AND type in (N'U')) DROP TABLE [dbo].[c_appendix];
-CREATE TABLE [dbo].[c_appendix](
-    id BIGINT NOT NULL,
-    biz_id BIGINT NOT NULL DEFAULT  0,
-    biz_type VARCHAR(255) NOT NULL,
-    file_type VARCHAR(255),
-    bucket VARCHAR(255),
-    path VARCHAR(255),
-    original_file_name VARCHAR(255),
-    content_type VARCHAR(255),
-    size_ BIGINT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_appendix]') AND type in (N'U'))
+DROP TABLE [dbo].[c_appendix];
+CREATE TABLE [dbo].[c_appendix]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    biz_id
+    BIGINT
+    NOT
+    NULL
+    DEFAULT
+    0,
+    biz_type
+    VARCHAR
+(
+    255
+) NOT NULL,
+    file_type VARCHAR
+(
+    255
+),
+    bucket VARCHAR
+(
+    255
+),
+    path VARCHAR
+(
+    255
+),
+    original_file_name VARCHAR
+(
+    255
+),
+    content_type VARCHAR
+(
+    255
+),
+    size_ BIGINT DEFAULT 0,
     create_time DATETIME NOT NULL,
     created_by BIGINT,
     update_time DATETIME NOT NULL,
     updated_by BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '业务附件', 'SCHEMA', dbo, 'table', c_appendix, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_appendix, 'column', id;
@@ -33,23 +67,54 @@ EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table
 EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', c_appendix, 'column', update_time;
 EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 'table', c_appendix, 'column', updated_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_application]') AND type in (N'U')) DROP TABLE [dbo].[c_application];
-CREATE TABLE [dbo].[c_application](
-    id BIGINT NOT NULL,
-    client_id VARCHAR(24),
-    client_secret VARCHAR(32),
-    website VARCHAR(100),
-    name VARCHAR(255) NOT NULL,
-    icon VARCHAR(255),
-    app_type VARCHAR(10),
-    describe_ VARCHAR(200),
-    state BIT DEFAULT  1,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_application]') AND type in (N'U'))
+DROP TABLE [dbo].[c_application];
+CREATE TABLE [dbo].[c_application]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    client_id
+    VARCHAR
+(
+    24
+),
+    client_secret VARCHAR
+(
+    32
+),
+    website VARCHAR
+(
+    100
+),
+    name VARCHAR
+(
+    255
+) NOT NULL,
+    icon VARCHAR
+(
+    255
+),
+    app_type VARCHAR
+(
+    10
+),
+    describe_ VARCHAR
+(
+    200
+),
+    state BIT DEFAULT 1,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '应用', 'SCHEMA', dbo, 'table', c_application, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_application, 'column', id;
@@ -67,27 +132,58 @@ EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_application, 'column', update_time;
 
 
-CREATE UNIQUE INDEX uk_client_id ON c_application(client_id);
+CREATE UNIQUE INDEX uk_client_id ON c_application (client_id);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_area]') AND type in (N'U')) DROP TABLE [dbo].[c_area];
-CREATE TABLE [dbo].[c_area](
-    id BIGINT NOT NULL,
-    code VARCHAR(64) NOT NULL,
-    label VARCHAR(255) NOT NULL,
-    full_name VARCHAR(255),
-    sort_value INT DEFAULT  1,
-    longitude VARCHAR(255),
-    latitude VARCHAR(255),
-    level_ VARCHAR(10),
-    source_ VARCHAR(255),
-    state BIT DEFAULT  0,
-    parent_id BIGINT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_area]') AND type in (N'U'))
+DROP TABLE [dbo].[c_area];
+CREATE TABLE [dbo].[c_area]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    code
+    VARCHAR
+(
+    64
+) NOT NULL,
+    label VARCHAR
+(
+    255
+) NOT NULL,
+    full_name VARCHAR
+(
+    255
+),
+    sort_value INT DEFAULT 1,
+    longitude VARCHAR
+(
+    255
+),
+    latitude VARCHAR
+(
+    255
+),
+    level_ VARCHAR
+(
+    10
+),
+    source_ VARCHAR
+(
+    255
+),
+    state BIT DEFAULT 0,
+    parent_id BIGINT DEFAULT 0,
     create_time DATETIME,
     created_by BIGINT,
     update_time DATETIME,
     updated_by BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '地区表', 'SCHEMA', dbo, 'table', c_area, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'id', 'SCHEMA', dbo, 'table', c_area, 'column', id;
@@ -108,28 +204,62 @@ EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'ta
 EXEC sp_addextendedproperty 'MS_Description', '更新人', 'SCHEMA', dbo, 'table', c_area, 'column', updated_by;
 
 
-CREATE UNIQUE INDEX uk_code ON c_area(code);
+CREATE UNIQUE INDEX uk_code ON c_area (code);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_dictionary]') AND type in (N'U')) DROP TABLE [dbo].[c_dictionary];
-CREATE TABLE [dbo].[c_dictionary](
-    id BIGINT NOT NULL,
-    type VARCHAR(255) NOT NULL,
-    label VARCHAR(255) NOT NULL,
-    code VARCHAR(64) NOT NULL,
-    name VARCHAR(64) NOT NULL,
-    state BIT DEFAULT  1,
-    describe_ VARCHAR(255),
-    sort_value INT DEFAULT  1,
-    icon VARCHAR(255),
-    css_style VARCHAR(255),
-    css_class VARCHAR(255),
-    readonly_ BIT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_dictionary]') AND type in (N'U'))
+DROP TABLE [dbo].[c_dictionary];
+CREATE TABLE [dbo].[c_dictionary]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    type
+    VARCHAR
+(
+    255
+) NOT NULL,
+    label VARCHAR
+(
+    255
+) NOT NULL,
+    code VARCHAR
+(
+    64
+) NOT NULL,
+    name VARCHAR
+(
+    64
+) NOT NULL,
+    state BIT DEFAULT 1,
+    describe_ VARCHAR
+(
+    255
+),
+    sort_value INT DEFAULT 1,
+    icon VARCHAR
+(
+    255
+),
+    css_style VARCHAR
+(
+    255
+),
+    css_class VARCHAR
+(
+    255
+),
+    readonly_ BIT DEFAULT 0,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '字典项', 'SCHEMA', dbo, 'table', c_dictionary, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_dictionary, 'column', id;
@@ -150,29 +280,72 @@ EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_dictionary, 'column', update_time;
 
 
-CREATE UNIQUE INDEX uk_type_code ON c_dictionary(type,code);
+CREATE UNIQUE INDEX uk_type_code ON c_dictionary (type, code);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_file]') AND type in (N'U')) DROP TABLE [dbo].[c_file];
-CREATE TABLE [dbo].[c_file](
-    id BIGINT NOT NULL,
-    biz_type VARCHAR(255) NOT NULL,
-    file_type VARCHAR(255),
-    storage_type VARCHAR(255),
-    bucket VARCHAR(255),
-    path VARCHAR(255),
-    url VARCHAR(255),
-    unique_file_name VARCHAR(255),
-    file_md5 VARCHAR(255),
-    original_file_name VARCHAR(255),
-    content_type VARCHAR(255),
-    suffix VARCHAR(255),
-    size_ BIGINT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_file]') AND type in (N'U'))
+DROP TABLE [dbo].[c_file];
+CREATE TABLE [dbo].[c_file]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    biz_type
+    VARCHAR
+(
+    255
+) NOT NULL,
+    file_type VARCHAR
+(
+    255
+),
+    storage_type VARCHAR
+(
+    255
+),
+    bucket VARCHAR
+(
+    255
+),
+    path VARCHAR
+(
+    255
+),
+    url VARCHAR
+(
+    255
+),
+    unique_file_name VARCHAR
+(
+    255
+),
+    file_md5 VARCHAR
+(
+    255
+),
+    original_file_name VARCHAR
+(
+    255
+),
+    content_type VARCHAR
+(
+    255
+),
+    suffix VARCHAR
+(
+    255
+),
+    size_ BIGINT DEFAULT 0,
     create_time DATETIME NOT NULL,
     created_by BIGINT NOT NULL,
     update_time DATETIME NOT NULL,
     updated_by BIGINT NOT NULL,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '增量文件上传日志', 'SCHEMA', dbo, 'table', c_file, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_file, 'column', id;
@@ -194,24 +367,61 @@ EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table
 EXEC sp_addextendedproperty 'MS_Description', '最后修改时间', 'SCHEMA', dbo, 'table', c_file, 'column', update_time;
 EXEC sp_addextendedproperty 'MS_Description', '最后修改人', 'SCHEMA', dbo, 'table', c_file, 'column', updated_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_login_log]') AND type in (N'U')) DROP TABLE [dbo].[c_login_log];
-CREATE TABLE [dbo].[c_login_log](
-    id BIGINT NOT NULL,
-    request_ip VARCHAR(50),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_login_log]') AND type in (N'U'))
+DROP TABLE [dbo].[c_login_log];
+CREATE TABLE [dbo].[c_login_log]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    request_ip
+    VARCHAR
+(
+    50
+),
     user_id BIGINT,
-    user_name VARCHAR(50),
-    account VARCHAR(30),
-    description VARCHAR(255),
-    login_date CHAR(10),
+    user_name VARCHAR
+(
+    50
+),
+    account VARCHAR
+(
+    30
+),
+    description VARCHAR
+(
+    255
+),
+    login_date CHAR
+(
+    10
+),
     ua TEXT,
-    browser VARCHAR(255),
-    browser_version VARCHAR(255),
-    operating_system VARCHAR(255),
-    location VARCHAR(255),
+    browser VARCHAR
+(
+    255
+),
+    browser_version VARCHAR
+(
+    255
+),
+    operating_system VARCHAR
+(
+    255
+),
+    location VARCHAR
+(
+    255
+),
     create_time DATETIME,
     created_by BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '登录日志', 'SCHEMA', dbo, 'table', c_login_log, null, null;
 EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_login_log, 'column', id;
@@ -229,32 +439,72 @@ EXEC sp_addextendedproperty 'MS_Description', '登录地点', 'SCHEMA', dbo, 'ta
 EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_login_log, 'column', create_time;
 EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_login_log, 'column', created_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_menu]') AND type in (N'U')) DROP TABLE [dbo].[c_menu];
-CREATE TABLE [dbo].[c_menu](
-    id BIGINT NOT NULL,
-    label VARCHAR(20) NOT NULL,
-    resource_type CHAR(2),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_menu]') AND type in (N'U'))
+DROP TABLE [dbo].[c_menu];
+CREATE TABLE [dbo].[c_menu]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    label
+    VARCHAR
+(
+    20
+) NOT NULL,
+    resource_type CHAR
+(
+    2
+),
     tree_grade INT,
-    tree_path VARCHAR(512),
-    describe_ VARCHAR(200),
-    is_general BIT DEFAULT  0,
-    path VARCHAR(255),
-    component VARCHAR(255),
-    state BIT DEFAULT  1,
-    sort_value INT DEFAULT  1,
-    icon VARCHAR(255),
-    group_ VARCHAR(20),
-    data_scope CHAR(2),
-    custom_class VARCHAR(255),
-    is_def BIT DEFAULT  0,
-    parent_id BIGINT DEFAULT  0,
-    readonly_ BIT DEFAULT  0,
+    tree_path VARCHAR
+(
+    512
+),
+    describe_ VARCHAR
+(
+    200
+),
+    is_general BIT DEFAULT 0,
+    path VARCHAR
+(
+    255
+),
+    component VARCHAR
+(
+    255
+),
+    state BIT DEFAULT 1,
+    sort_value INT DEFAULT 1,
+    icon VARCHAR
+(
+    255
+),
+    group_ VARCHAR
+(
+    20
+),
+    data_scope CHAR
+(
+    2
+),
+    custom_class VARCHAR
+(
+    255
+),
+    is_def BIT DEFAULT 0,
+    parent_id BIGINT DEFAULT 0,
+    readonly_ BIT DEFAULT 0,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '菜单', 'SCHEMA', dbo, 'table', c_menu, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_menu, 'column', id;
@@ -281,25 +531,62 @@ EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_menu, 'column', update_time;
 
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_opt_log]') AND type in (N'U')) DROP TABLE [dbo].[c_opt_log];
-CREATE TABLE [dbo].[c_opt_log](
-    id BIGINT NOT NULL,
-    request_ip VARCHAR(50),
-    type VARCHAR(5),
-    user_name VARCHAR(50),
-    description VARCHAR(255),
-    class_path VARCHAR(255),
-    action_method VARCHAR(50),
-    request_uri VARCHAR(50),
-    http_method VARCHAR(10),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_opt_log]') AND type in (N'U'))
+DROP TABLE [dbo].[c_opt_log];
+CREATE TABLE [dbo].[c_opt_log]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    request_ip
+    VARCHAR
+(
+    50
+),
+    type VARCHAR
+(
+    5
+),
+    user_name VARCHAR
+(
+    50
+),
+    description VARCHAR
+(
+    255
+),
+    class_path VARCHAR
+(
+    255
+),
+    action_method VARCHAR
+(
+    50
+),
+    request_uri VARCHAR
+(
+    50
+),
+    http_method VARCHAR
+(
+    10
+),
     start_time DATETIME,
     finish_time DATETIME,
     consuming_time BIGINT,
-    ua VARCHAR(500),
+    ua VARCHAR
+(
+    500
+),
     create_time DATETIME,
     created_by BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '系统日志', 'SCHEMA', dbo, 'table', c_opt_log, null, null;
 EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_opt_log, 'column', id;
@@ -320,16 +607,31 @@ EXEC sp_addextendedproperty 'MS_Description', '浏览器', 'SCHEMA', dbo, 'table
 EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_opt_log, 'column', create_time;
 EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_opt_log, 'column', created_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_opt_log_ext]') AND type in (N'U')) DROP TABLE [dbo].[c_opt_log_ext];
-CREATE TABLE [dbo].[c_opt_log_ext](
-    id BIGINT NOT NULL,
-    params TEXT,
-    result TEXT,
-    ex_detail TEXT,
-    create_time DATETIME,
-    created_by BIGINT,
-    PRIMARY KEY (id)
-);
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_opt_log_ext]') AND type in (N'U'))
+DROP TABLE [dbo].[c_opt_log_ext];
+CREATE TABLE [dbo].[c_opt_log_ext]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    params
+    TEXT,
+    result
+    TEXT,
+    ex_detail
+    TEXT,
+    create_time
+    DATETIME,
+    created_by
+    BIGINT,
+    PRIMARY
+    KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '系统日志扩展', 'SCHEMA', dbo, 'table', c_opt_log_ext, null, null;
 EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', id;
@@ -339,23 +641,48 @@ EXEC sp_addextendedproperty 'MS_Description', '异常描述', 'SCHEMA', dbo, 'ta
 EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', create_time;
 EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_opt_log_ext, 'column', created_by;
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_org]') AND type in (N'U')) DROP TABLE [dbo].[c_org];
-CREATE TABLE [dbo].[c_org](
-    id BIGINT NOT NULL,
-    label VARCHAR(255) NOT NULL,
-    type_ CHAR(2),
-    abbreviation VARCHAR(255),
-    parent_id BIGINT DEFAULT  0,
-    tree_path VARCHAR(255),
-    sort_value INT DEFAULT  1,
-    state BIT DEFAULT  1,
-    describe_ VARCHAR(255),
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_org]') AND type in (N'U'))
+DROP TABLE [dbo].[c_org];
+CREATE TABLE [dbo].[c_org]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    label
+    VARCHAR
+(
+    255
+) NOT NULL,
+    type_ CHAR
+(
+    2
+),
+    abbreviation VARCHAR
+(
+    255
+),
+    parent_id BIGINT DEFAULT 0,
+    tree_path VARCHAR
+(
+    255
+),
+    sort_value INT DEFAULT 1,
+    state BIT DEFAULT 1,
+    describe_ VARCHAR
+(
+    255
+),
     create_time DATETIME,
     created_by BIGINT,
     update_time DATETIME,
     updated_by BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '组织', 'SCHEMA', dbo, 'table', c_org, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_org, 'column', id;
@@ -373,24 +700,46 @@ EXEC sp_addextendedproperty 'MS_Description', '修改时间', 'SCHEMA', dbo, 'ta
 EXEC sp_addextendedproperty 'MS_Description', '修改人', 'SCHEMA', dbo, 'table', c_org, 'column', updated_by;
 
 
-CREATE UNIQUE INDEX uk_name ON c_org(label);
-CREATE INDEX fu_path ON c_org(tree_path);
+CREATE UNIQUE INDEX uk_name ON c_org (label);
+CREATE INDEX fu_path ON c_org (tree_path);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_parameter]') AND type in (N'U')) DROP TABLE [dbo].[c_parameter];
-CREATE TABLE [dbo].[c_parameter](
-    id BIGINT NOT NULL,
-    key_ VARCHAR(255) NOT NULL,
-    value VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    describe_ VARCHAR(255),
-    state BIT DEFAULT  1,
-    readonly_ BIT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_parameter]') AND type in (N'U'))
+DROP TABLE [dbo].[c_parameter];
+CREATE TABLE [dbo].[c_parameter]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    key_
+    VARCHAR
+(
+    255
+) NOT NULL,
+    value VARCHAR
+(
+    255
+) NOT NULL,
+    name VARCHAR
+(
+    255
+) NOT NULL,
+    describe_ VARCHAR
+(
+    255
+),
+    state BIT DEFAULT 1,
+    readonly_ BIT DEFAULT 0,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '参数配置', 'SCHEMA', dbo, 'table', c_parameter, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_parameter, 'column', id;
@@ -406,22 +755,41 @@ EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_parameter, 'column', update_time;
 
 
-CREATE UNIQUE INDEX uk_key ON c_parameter(key_);
+CREATE UNIQUE INDEX uk_key ON c_parameter (key_);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_resource]') AND type in (N'U')) DROP TABLE [dbo].[c_resource];
-CREATE TABLE [dbo].[c_resource](
-    id BIGINT NOT NULL,
-    code VARCHAR(500),
-    name VARCHAR(255) NOT NULL,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_resource]') AND type in (N'U'))
+DROP TABLE [dbo].[c_resource];
+CREATE TABLE [dbo].[c_resource]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    code
+    VARCHAR
+(
+    500
+),
+    name VARCHAR
+(
+    255
+) NOT NULL,
     menu_id BIGINT,
-    describe_ VARCHAR(255),
-    readonly_ BIT DEFAULT  1,
+    describe_ VARCHAR
+(
+    255
+),
+    readonly_ BIT DEFAULT 1,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '资源', 'SCHEMA', dbo, 'table', c_resource, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_resource, 'column', id;
@@ -436,23 +804,45 @@ EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_resource, 'column', update_time;
 
 
-CREATE UNIQUE INDEX uk_code ON c_resource(code);
+CREATE UNIQUE INDEX uk_code ON c_resource (code);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role]') AND type in (N'U')) DROP TABLE [dbo].[c_role];
-CREATE TABLE [dbo].[c_role](
-    id BIGINT NOT NULL,
-    category CHAR(2),
-    name VARCHAR(30) NOT NULL,
-    code VARCHAR(20),
-    describe_ VARCHAR(100),
-    state BIT DEFAULT  1,
-    readonly_ BIT DEFAULT  0,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role]') AND type in (N'U'))
+DROP TABLE [dbo].[c_role];
+CREATE TABLE [dbo].[c_role]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    category
+    CHAR
+(
+    2
+),
+    name VARCHAR
+(
+    30
+) NOT NULL,
+    code VARCHAR
+(
+    20
+),
+    describe_ VARCHAR
+(
+    100
+),
+    state BIT DEFAULT 1,
+    readonly_ BIT DEFAULT 0,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '角色', 'SCHEMA', dbo, 'table', c_role, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_role, 'column', id;
@@ -468,18 +858,34 @@ EXEC sp_addextendedproperty 'MS_Description', '更新人id', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'table', c_role, 'column', update_time;
 
 
-CREATE UNIQUE INDEX uk_code ON c_role(code);
+CREATE UNIQUE INDEX uk_code ON c_role (code);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role_authority]') AND type in (N'U')) DROP TABLE [dbo].[c_role_authority];
-CREATE TABLE [dbo].[c_role_authority](
-    id BIGINT NOT NULL,
-    authority_id BIGINT NOT NULL,
-    authority_type VARCHAR(10) NOT NULL,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role_authority]') AND type in (N'U'))
+DROP TABLE [dbo].[c_role_authority];
+CREATE TABLE [dbo].[c_role_authority]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    authority_id
+    BIGINT
+    NOT
+    NULL,
+    authority_type
+    VARCHAR
+(
+    10
+) NOT NULL,
     role_id BIGINT NOT NULL,
     create_time DATETIME,
     created_by BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '角色的资源', 'SCHEMA', dbo, 'table', c_role_authority, null, null;
 EXEC sp_addextendedproperty 'MS_Description', '主键', 'SCHEMA', dbo, 'table', c_role_authority, 'column', id;
@@ -493,17 +899,35 @@ EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'ta
 EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_role_authority, 'column', created_by;
 
 
-CREATE UNIQUE INDEX uk_role_authority ON c_role_authority(authority_id,authority_type,role_id);
+CREATE UNIQUE INDEX uk_role_authority ON c_role_authority (authority_id, authority_type, role_id);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role_org]') AND type in (N'U')) DROP TABLE [dbo].[c_role_org];
-CREATE TABLE [dbo].[c_role_org](
-    id BIGINT NOT NULL,
-    role_id BIGINT NOT NULL,
-    org_id BIGINT NOT NULL,
-    create_time DATETIME,
-    created_by BIGINT,
-    PRIMARY KEY (id)
-);
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_role_org]') AND type in (N'U'))
+DROP TABLE [dbo].[c_role_org];
+CREATE TABLE [dbo].[c_role_org]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    role_id
+    BIGINT
+    NOT
+    NULL,
+    org_id
+    BIGINT
+    NOT
+    NULL,
+    create_time
+    DATETIME,
+    created_by
+    BIGINT,
+    PRIMARY
+    KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '角色组织关系', 'SCHEMA', dbo, 'table', c_role_org, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_role_org, 'column', id;
@@ -513,22 +937,38 @@ EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'ta
 EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', dbo, 'table', c_role_org, 'column', created_by;
 
 
-CREATE UNIQUE INDEX uk_role_org ON c_role_org(org_id,role_id);
+CREATE UNIQUE INDEX uk_role_org ON c_role_org (org_id, role_id);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_station]') AND type in (N'U')) DROP TABLE [dbo].[c_station];
-CREATE TABLE [dbo].[c_station](
-    id BIGINT NOT NULL,
-    name VARCHAR(255) NOT NULL,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_station]') AND type in (N'U'))
+DROP TABLE [dbo].[c_station];
+CREATE TABLE [dbo].[c_station]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    name
+    VARCHAR
+(
+    255
+) NOT NULL,
     org_id BIGINT,
-    state BIT DEFAULT  1,
-    describe_ VARCHAR(255),
+    state BIT DEFAULT 1,
+    describe_ VARCHAR
+(
+    255
+),
     create_time DATETIME,
     created_by BIGINT,
     update_time DATETIME,
     updated_by BIGINT,
     created_org_id BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '岗位', 'SCHEMA', dbo, 'table', c_station, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_station, 'column', id;
@@ -543,38 +983,84 @@ EXEC sp_addextendedproperty 'MS_Description', '修改人', 'SCHEMA', dbo, 'table
 EXEC sp_addextendedproperty 'MS_Description', '创建者所属机构', 'SCHEMA', dbo, 'table', c_station, 'column', created_org_id;
 
 
-CREATE UNIQUE INDEX uk_name ON c_station(name);
+CREATE UNIQUE INDEX uk_name ON c_station (name);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_user]') AND type in (N'U')) DROP TABLE [dbo].[c_user];
-CREATE TABLE [dbo].[c_user](
-    id BIGINT NOT NULL,
-    account VARCHAR(30) NOT NULL,
-    name VARCHAR(50) NOT NULL,
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_user]') AND type in (N'U'))
+DROP TABLE [dbo].[c_user];
+CREATE TABLE [dbo].[c_user]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    account
+    VARCHAR
+(
+    30
+) NOT NULL,
+    name VARCHAR
+(
+    50
+) NOT NULL,
     org_id BIGINT,
     station_id BIGINT,
-    readonly BIT NOT NULL DEFAULT  0,
-    email VARCHAR(255),
-    mobile VARCHAR(20),
-    sex VARCHAR(1) DEFAULT  'M',
-    state BIT DEFAULT  1,
-    avatar VARCHAR(255),
-    nation CHAR(2),
-    education CHAR(2),
-    position_status CHAR(2),
-    work_describe VARCHAR(255),
+    readonly BIT NOT NULL DEFAULT 0,
+    email VARCHAR
+(
+    255
+),
+    mobile VARCHAR
+(
+    20
+),
+    sex VARCHAR
+(
+    1
+) DEFAULT 'M',
+    state BIT DEFAULT 1,
+    avatar VARCHAR
+(
+    255
+),
+    nation CHAR
+(
+    2
+),
+    education CHAR
+(
+    2
+),
+    position_status CHAR
+(
+    2
+),
+    work_describe VARCHAR
+(
+    255
+),
     password_error_last_time DATETIME,
-    password_error_num INT DEFAULT  0,
+    password_error_num INT DEFAULT 0,
     password_expire_time DATETIME,
-    password VARCHAR(64) NOT NULL,
-    salt VARCHAR(20) NOT NULL,
+    password VARCHAR
+(
+    64
+) NOT NULL,
+    salt VARCHAR
+(
+    20
+) NOT NULL,
     last_login_time DATETIME,
     created_by BIGINT,
     create_time DATETIME,
     updated_by BIGINT,
     update_time DATETIME,
     created_org_id BIGINT,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '用户', 'SCHEMA', dbo, 'table', c_user, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_user, 'column', id;
@@ -605,17 +1091,35 @@ EXEC sp_addextendedproperty 'MS_Description', '更新时间', 'SCHEMA', dbo, 'ta
 EXEC sp_addextendedproperty 'MS_Description', '创建者所属机构', 'SCHEMA', dbo, 'table', c_user, 'column', created_org_id;
 
 
-CREATE UNIQUE INDEX uk_account ON c_user(account);
+CREATE UNIQUE INDEX uk_account ON c_user (account);
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_user_role]') AND type in (N'U')) DROP TABLE [dbo].[c_user_role];
-CREATE TABLE [dbo].[c_user_role](
-    id BIGINT NOT NULL,
-    role_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    created_by BIGINT,
-    create_time DATETIME,
-    PRIMARY KEY (id)
-);
+IF
+EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[c_user_role]') AND type in (N'U'))
+DROP TABLE [dbo].[c_user_role];
+CREATE TABLE [dbo].[c_user_role]
+(
+    id
+    BIGINT
+    NOT
+    NULL,
+    role_id
+    BIGINT
+    NOT
+    NULL,
+    user_id
+    BIGINT
+    NOT
+    NULL,
+    created_by
+    BIGINT,
+    create_time
+    DATETIME,
+    PRIMARY
+    KEY
+(
+    id
+)
+    );
 
 EXEC sp_addextendedproperty 'MS_Description', '角色分配;账号角色绑定', 'SCHEMA', dbo, 'table', c_user_role, null, null;
 EXEC sp_addextendedproperty 'MS_Description', 'ID', 'SCHEMA', dbo, 'table', c_user_role, 'column', id;
@@ -625,5 +1129,5 @@ EXEC sp_addextendedproperty 'MS_Description', '创建人ID', 'SCHEMA', dbo, 'tab
 EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', dbo, 'table', c_user_role, 'column', create_time;
 
 
-CREATE UNIQUE INDEX uk_user_role ON c_user_role(role_id,user_id);
+CREATE UNIQUE INDEX uk_user_role ON c_user_role (role_id, user_id);
 

@@ -1,7 +1,7 @@
 package top.tangyh.lamp.oauth.event;
 
-import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
 import org.springframework.context.ApplicationEvent;
+import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
 
 /**
  * 登录事件

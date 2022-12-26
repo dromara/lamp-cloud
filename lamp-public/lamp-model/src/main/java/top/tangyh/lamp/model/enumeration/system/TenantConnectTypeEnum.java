@@ -1,11 +1,10 @@
 package top.tangyh.lamp.model.enumeration.system;
 
-import top.tangyh.basic.interfaces.BaseEnum;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.stream.Stream;
 
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description="连接类型-枚举")
+@Schema(description = "连接类型-枚举")
 public enum TenantConnectTypeEnum implements BaseEnum {
 
     /**
@@ -34,7 +33,7 @@ public enum TenantConnectTypeEnum implements BaseEnum {
     CUSTOM("自定义"),
     ;
 
-    @Schema(description="描述")
+    @Schema(description = "描述")
     private String desc;
 
 
@@ -54,7 +53,7 @@ public enum TenantConnectTypeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description="编码", allowableValues = "LOCAL,REMOTE", example = "LOCAL")
+    @Schema(description = "编码", allowableValues = "LOCAL,REMOTE", example = "LOCAL")
     public String getCode() {
         return this.name();
     }

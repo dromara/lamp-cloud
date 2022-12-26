@@ -82,7 +82,8 @@ CREATE TABLE `c_tenant`
 BEGIN;
 INSERT INTO `c_tenant`
 VALUES (1, '0000', '最后内置的运营&超级租户', 'CREATE', 'LOCAL', 'NORMAL', b'1', '最后', NULL, NULL,
-        '内置租户,用于测试租户系统所有功能, 用于管理整个系统.请勿删除', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35', 1);
+        '内置租户,用于测试租户系统所有功能, 用于管理整个系统.请勿删除', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35',
+        1);
 COMMIT;
 
 -- ----------------------------
@@ -94,7 +95,7 @@ CREATE TABLE `c_tenant_datasource_config`
     `id`                   bigint(20) NOT NULL COMMENT 'ID',
     `tenant_id`            bigint(20) NOT NULL COMMENT '租户id',
     `datasource_config_id` bigint(20) NOT NULL COMMENT '数据源id',
-    `db_prefix`          varchar(100) NOT NULL DEFAULT '' COMMENT '服务',
+    `db_prefix`            varchar(100) NOT NULL DEFAULT '' COMMENT '服务',
     `create_time`          datetime              DEFAULT NULL COMMENT '创建时间',
     `created_by`           bigint(20) DEFAULT NULL COMMENT '创建人',
     PRIMARY KEY (`id`) USING BTREE,
@@ -198,8 +199,10 @@ CREATE TABLE `xxl_job_info`
 -- ----------------------------
 BEGIN;
 INSERT INTO `xxl_job_info`
-VALUES (1, 1, '测试任务1', '2018-11-03 22:21:31', '2018-11-03 22:21:31', 'XXL', '', 'CRON', '0 0 0 * * ? *', 'DO_NOTHING',
-        'FIRST', 'demoJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2018-11-03 22:21:31', '', 0,
+VALUES (1, 1, '测试任务1', '2018-11-03 22:21:31', '2018-11-03 22:21:31', 'XXL', '', 'CRON', '0 0 0 * * ? *',
+        'DO_NOTHING',
+        'FIRST', 'demoJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2018-11-03 22:21:31',
+        '', 0,
         0, 0);
 COMMIT;
 
@@ -321,21 +324,22 @@ COMMIT;
 -- Table structure for c_appendix
 -- ----------------------------
 DROP TABLE IF EXISTS `c_appendix`;
-CREATE TABLE `c_appendix` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `biz_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '业务id',
-  `biz_type` varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
-  `file_type` varchar(255) DEFAULT NULL COMMENT '文件类型',
-  `bucket` varchar(255) DEFAULT '' COMMENT '桶',
-  `path` varchar(255) DEFAULT '' COMMENT '文件相对地址',
-  `original_file_name` varchar(255) DEFAULT '' COMMENT '原始文件名',
-  `content_type` varchar(255) DEFAULT '' COMMENT '文件类型',
-  `size_` bigint(20) DEFAULT '0' COMMENT '大小',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `created_by` bigint(20) NOT NULL COMMENT '创建人',
-  `update_time` datetime NOT NULL COMMENT '最后修改时间',
-  `updated_by` bigint(20) NOT NULL COMMENT '最后修改人',
-  PRIMARY KEY (`id`) USING BTREE
+CREATE TABLE `c_appendix`
+(
+    `id`                 bigint(20) NOT NULL COMMENT 'ID',
+    `biz_id`             bigint(20) NOT NULL DEFAULT '0' COMMENT '业务id',
+    `biz_type`           varchar(255) NOT NULL DEFAULT '' COMMENT '业务类型',
+    `file_type`          varchar(255)          DEFAULT NULL COMMENT '文件类型',
+    `bucket`             varchar(255)          DEFAULT '' COMMENT '桶',
+    `path`               varchar(255)          DEFAULT '' COMMENT '文件相对地址',
+    `original_file_name` varchar(255)          DEFAULT '' COMMENT '原始文件名',
+    `content_type`       varchar(255)          DEFAULT '' COMMENT '文件类型',
+    `size_`              bigint(20) DEFAULT '0' COMMENT '大小',
+    `create_time`        datetime     NOT NULL COMMENT '创建时间',
+    `created_by`         bigint(20) NOT NULL COMMENT '创建人',
+    `update_time`        datetime     NOT NULL COMMENT '最后修改时间',
+    `updated_by`         bigint(20) NOT NULL COMMENT '最后修改人',
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='业务附件';
 
 

@@ -1,7 +1,6 @@
 package top.tangyh.lamp.msg.vo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +20,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode
-@Schema(description="我的消息")
+@Schema(description = "我的消息")
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor

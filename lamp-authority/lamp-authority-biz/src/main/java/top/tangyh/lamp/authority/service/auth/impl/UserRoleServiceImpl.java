@@ -1,6 +1,10 @@
 package top.tangyh.lamp.authority.service.auth.impl;
 
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.exception.BizException;
@@ -9,11 +13,6 @@ import top.tangyh.lamp.authority.dao.auth.UserRoleMapper;
 import top.tangyh.lamp.authority.entity.auth.Role;
 import top.tangyh.lamp.authority.entity.auth.UserRole;
 import top.tangyh.lamp.authority.service.auth.UserRoleService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import static top.tangyh.lamp.common.constant.BizConstant.INIT_ROLE_CODE;
 

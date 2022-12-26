@@ -1,14 +1,14 @@
 package top.tangyh.lamp.file.utils;
 
 
-import top.tangyh.basic.exception.BizException;
-import top.tangyh.basic.utils.StrPool;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
-
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+import top.tangyh.basic.exception.BizException;
+import top.tangyh.basic.utils.StrPool;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -38,10 +38,10 @@ import static top.tangyh.basic.utils.StrPool.SLASH;
  */
 @Slf4j
 public class ZipUtils {
+    private static final String AGENT_FIREFOX = "firefox";
+
     private ZipUtils() {
     }
-
-    private static final String AGENT_FIREFOX = "firefox";
 
     private static void zipFiles(ZipOutputStream out, String path, File... srcFiles) {
         path = path.replaceAll("\\*", SLASH);

@@ -13,13 +13,13 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@Schema(description="文件分片信息")
+@Schema(description = "文件分片信息")
 public class FileChunkCheckDTO {
 
-    @Schema(description="文件大小")
+    @Schema(description = "文件大小")
     private Long size;
-    @Schema(description="文件唯一名")
+    @Schema(description = "文件唯一名")
     private String name;
-    @Schema(description="分片索引")
+    @Schema(description = "分片索引")
     private Integer chunkIndex;
 }

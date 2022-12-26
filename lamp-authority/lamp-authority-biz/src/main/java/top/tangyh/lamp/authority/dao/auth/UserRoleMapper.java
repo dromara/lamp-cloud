@@ -1,8 +1,8 @@
 package top.tangyh.lamp.authority.dao.auth;
 
-import top.tangyh.lamp.authority.entity.auth.UserRole;
-import top.tangyh.basic.base.mapper.SuperMapper;
 import org.springframework.stereotype.Repository;
+import top.tangyh.basic.base.mapper.SuperMapper;
+import top.tangyh.lamp.authority.entity.auth.UserRole;
 
 /**
  * <p>

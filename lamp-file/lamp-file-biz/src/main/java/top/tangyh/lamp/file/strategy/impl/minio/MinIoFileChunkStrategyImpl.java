@@ -1,12 +1,12 @@
 package top.tangyh.lamp.file.strategy.impl.minio;
 
+import lombok.extern.slf4j.Slf4j;
 import top.tangyh.basic.base.R;
 import top.tangyh.lamp.file.dao.FileMapper;
 import top.tangyh.lamp.file.dto.chunk.FileChunksMergeDTO;
 import top.tangyh.lamp.file.entity.File;
 import top.tangyh.lamp.file.properties.FileServerProperties;
 import top.tangyh.lamp.file.strategy.impl.AbstractFileChunkStrategy;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.List;
