@@ -4,11 +4,6 @@ lamp:
     initDatabasePrefix:
       - lamp_base
       - lamp_extend
-  swagger:
-    docket:
-      msg:
-        title: 消息服务
-        base-package: top.tangyh.lamp.msg.controller;top.tangyh.lamp.sms.controller
   cache:
     def:
       keyPrefix: ${spring.profiles.active}
@@ -18,6 +13,16 @@ lamp:
         keyPrefix: aaa
       test:
         timeToLive: 2h
+
+springdoc:
+  group-configs:
+    - group: 'msg_msg'
+      displayName: '消息服务'
+      paths-to-match: '/**'
+      packages-to-scan: 
+        - top.tangyh.lamp.msg.controller
+        - top.tangyh.lamp.sms.controller
+
 
 server:
   port: 8768

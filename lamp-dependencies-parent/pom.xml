@@ -21,8 +21,8 @@
     <description>lamp项目业务父pom</description>
     <url>https://github.com/dromara/lamp-cloud</url>
     <properties>
-        <lamp-util.version>3.9.0-java17</lamp-util.version>
-        <lamp-project.version>3.9.0-java17</lamp-project.version>
+        <lamp-util.version>3.9.0-java17-RC1</lamp-util.version>
+        <lamp-project.version>3.9.0-java17-RC1</lamp-project.version>
         <docker.image.prefix>zuihou</docker.image.prefix>
     </properties>
 

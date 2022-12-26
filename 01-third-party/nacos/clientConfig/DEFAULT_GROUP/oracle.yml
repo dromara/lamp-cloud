@@ -9,7 +9,7 @@ lamp:
     initDatabasePrefix:
       - lamp_base
     # SCHEMA模式专用 当前服务的租户库前缀
-    tenantDatabasePrefix: lamp_base
+    tenantDatabasePrefix: lamp_base  
     owner: ''      # SCHEMA模式专用
     multiTenantType: DATASOURCE
     # COLUMN模式专用 隔离租户的字段
@@ -59,9 +59,9 @@ spring:
       username: ${lamp.druid.username}
       password: ${lamp.druid.password}
       driverClassName: ${lamp.druid.driverClassName}
-      url: ${lamp.druid.url}
-      db-type: oracle
-      validation-query: SELECT 'x' FROM DUAL
+      url: ${lamp.druid.url}  
+      db-type: oracle     
+      validation-query: SELECT 'x' FROM DUAL  
       initialSize: 10
       minIdle: 10
       maxActive: 200
@@ -84,14 +84,14 @@ spring:
       # 从这里结束(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
 
       # 以下的2段配置，同时适用于所有模式
-      web-stat-filter: # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      web-stat-filter:  # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
         enabled: true
         url-pattern: /*
         exclusions: "*.js , *.gif ,*.jpg ,*.png ,*.css ,*.ico , /druid/*"
         session-stat-max-count: 1000
         profile-enable: true
         session-stat-enable: false
-      stat-view-servlet: #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
+      stat-view-servlet:  #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
         enabled: true
         url-pattern: /druid/*   #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：http://127.0.0.1:9000/druid/index.html
         reset-enable: true    #允许清空统计数据

@@ -1,13 +1,16 @@
 lamp:
-  swagger:
-    docket:
-      tenant:
-        title: 租户模块
-        base-package: top.tangyh.lamp.tenant.controller
   database:
     initDatabasePrefix:
       - lamp_base
       - lamp_extend
+      
+springdoc:
+  group-configs:
+    - group: 'tenant_tenant'
+      displayName: '租户模块'
+      paths-to-match: '/**'
+      packages-to-scan: top.tangyh.lamp.tenant.controller
+
 
 server:
   port: 8778

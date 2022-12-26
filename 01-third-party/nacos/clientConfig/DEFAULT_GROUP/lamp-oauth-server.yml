@@ -8,3 +8,11 @@ lamp:
   authentication:
     expire: 28800               # token有效期为8小时
     refreshExpire: 86400        # 刷新token有效期为24小时
+
+springdoc:
+  group-configs:
+    - group: 'oauth_auth'
+      displayName: '认证服务'
+      paths-to-match: '/**'
+      packages-to-scan: top.tangyh.lamp
+

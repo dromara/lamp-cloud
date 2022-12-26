@@ -9,11 +9,11 @@ lamp:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
-    contact: # 联系人信息
+    contact:  # 联系人信息
       url: https://github.com/zuihou
       name: zuiou
       email: 306479353@qq.com
-    global-operation-parameters: # 全局参数
+    global-operation-parameters:  # 全局参数
       - name: token
         description: 用户身份token
         modelRef: String
@@ -33,11 +33,26 @@ lamp:
         parameterType: header
         required: true
         defaultValue: "MDAwMA=="
-  echo: #详情看: EchoProperties
+  echo:  #详情看: EchoProperties
     # 是否启用 远程数据 手动注入
     enabled: true
     # 是否启用 远程数据 注解AOP注入
     aop-enabled: true
+    # 字典类型 和 code 的分隔符
+    dictSeparator: '###'
+    # 多个字典code 之间的的分隔符
+    dictItemSeparator: ','
+    # 递归最大深度
+    maxDepth: 3
+    # 本地缓存配置信息 生产慎用
+    guavaCache:
+      enabled: false
+      maximumSize: 1000
+      refreshWriteTime: 2
+      refreshThreadPoolSize: 10
+    basePackages: 
+      - top.tangyh.basic
+      - top.tangyh.lamp
   security: #详情看: SecurityProperties
     # 全局开启 uri 权限
     enabled: true
@@ -45,7 +60,7 @@ lamp:
     type: FEIGN
     # uri权限验证时，是否区分@PreAuth(value="xxx")的大小写
     caseSensitive: false
-  log: # 详情看：OptLogProperties
+  log:  # 详情看：OptLogProperties
     # 开启记录操作日志
     enabled: true
     # 记录到什么地方  DB:mysql LOGGER:日志文件
@@ -61,7 +76,7 @@ lamp:
     height: 58
     len: 2
     charType: 2
-  async: # 全局线程池配置
+  async:  # 全局线程池配置
     corePoolSize: 2
     maxPoolSize: 50
     queueCapacity: 10000
@@ -73,13 +88,28 @@ lamp:
 knife4j:
   enable: true
   setting:
+    language: zh_cn
+    swagger-model-name: 实体类列表
+    #     是否在每个Debug调试栏后显示刷新变量按钮,默认不显示
     enableReloadCacheParameter: true
+    #    是否开启界面中对某接口的版本控制,如果开启，后端变化后Ui界面会存在小蓝点
     enableVersion: true
+    #    针对RequestMapping的接口请求类型,在不指定参数类型的情况下,如果不过滤,默认会显示7个类型的接口地址参数,如果开启此配置,默认展示一个Post类型的接口地址
+    enableFilterMultipartApis: true
+    #    是否开启动态参数调试功能
     enableDynamicParameter: true
+    #    是否显示Footer
     enableFooter: false
     enableFooterCustom: true
     footerCustomContent: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
 
 server:
   # 优雅停机
@@ -110,10 +140,6 @@ spring:
       max-file-size: 512MB
       max-request-size: 512MB
 
-# 通用dozer配置文件
-dozer:
-  mappingFiles:
-    - classpath*:dozer/*.dozer.xml
 
 management:
   endpoints:
@@ -134,12 +160,12 @@ feign:
   hystrix:
     enabled: false
   sentinel:
-    enabled: true
+    enabled: true    
     #支持压缩的mime types
-  compression: # 请求压缩
+  compression:  # 请求压缩
     request:
       enabled: true
       mime-types: text/xml,application/xml,application/json
       min-request-size: 2048
-    response: # 响应压缩
+    response:  # 响应压缩
       enabled: true

@@ -3,6 +3,7 @@ lamp:
     type: REDIS
     cacheNullVal: true
   redis:
+    # ip: 10.10.10.181
     ip: 127.0.0.1
     port: 16379
     password: 'SbtyMveYNfLzTks7H0apCmyStPzWJqjy'

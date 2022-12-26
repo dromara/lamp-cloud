@@ -5,6 +5,8 @@ lamp:
     enabled: false
   database:
     tenantDatabasePrefix: lamp_extend
+    initDatabasePrefix:
+      - lamp_extend
   ignore:
     token:
       - /ds/**
