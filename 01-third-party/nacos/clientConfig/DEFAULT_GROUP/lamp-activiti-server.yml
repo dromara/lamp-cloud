@@ -8,11 +8,16 @@ lamp:
     database: lamp_activiti
     username: root
     password: root
-  swagger:
-    docket:
-      activiti:
-        title: 流程组件模块
-        base-package: top.tangyh.lamp.activiti.controller
+
+springdoc:
+  group-configs:
+    - group: 'activiti_act'
+      displayName: '流程组件模块'
+      paths-to-match: '/**'
+      packages-to-scan: top.tangyh.lamp.activiti.controller
+
+
+
 
 spring:
   freemarker:
