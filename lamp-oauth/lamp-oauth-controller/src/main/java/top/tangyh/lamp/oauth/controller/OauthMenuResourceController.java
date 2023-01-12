@@ -119,7 +119,6 @@ public class OauthMenuResourceController {
             userId = sysUser.getId();
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
-//        List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
         List<VueRouter> treeList = new ArrayList<>();
         list.forEach(item -> {
             VueRouter vueRouter = BeanPlusUtil.toBean(item, VueRouter.class);
