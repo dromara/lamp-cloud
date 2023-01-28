@@ -13,7 +13,24 @@
 [https://tangyh.top](https://tangyh.top)
 
 # 说明
-本项目已于2022年11月正式加入 [Dromara 开源社区](https://dromara.org/) ，因此项目地址发生了变更，原来 `git clone` 到本地的代码，需要自行修改`.git/config`中的项目地址，或者直接重新 git clone 代码，以免影响代码的更新。
+本项目开源版本已于2022年11月正式加入 [Dromara 开源社区](https://dromara.org/)，因此项目地址发生了变更，原来 `git clone` 到本地的代码，需要自行修改`.git/config`中的项目地址，或者直接重新 git clone 代码，以免影响代码的更新。
+
+> 开源版完全免费开源，没有任何限制，请放心使用。企业版是为了让作者能更有动力、资金来维护开源版以及服务器等。
+
+# 分支说明
+
+- master：稳定版；功能稳定，bug少
+    - jdk 8
+    - spring cloud 2021.0.5
+    - spring cloud alibaba 2021.0.4.0
+    - nacos.version 2.1.2
+    - spring boot 2.7.6
+- java17: 激进版；技术栈最新，可能存在未知bug
+    - jdk 17
+    - spring cloud 2022.0.0
+    - spring cloud alibaba 2022.0.0.0-RC1
+    - nacos.version 2.2.0
+    - spring boot 3.0.0
 
 # lamp 项目名字由来
 在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。 走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
