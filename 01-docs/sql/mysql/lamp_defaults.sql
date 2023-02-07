@@ -61,7 +61,7 @@ CREATE TABLE `c_tenant`
     `code`            varchar(20) NOT NULL COMMENT '企业编码',
     `name`            varchar(255) DEFAULT '' COMMENT '企业名称',
     `type`            varchar(10)  DEFAULT '' COMMENT '类型 \n#{CREATE:创建;REGISTER:注册}',
-    `connect_type`    varchar(10)  DEFAULT '' COMMENT '链接类型 \n#TenantConnectTypeEnum{LOCAL:本地;REMOTE:远程}',
+    `connect_type`    varchar(10)  DEFAULT '' COMMENT '链接类型 \n#TenantConnectTypeEnum{SYSTEM:本地;CUSTOM:远程}',
     `status`          varchar(10)  DEFAULT '' COMMENT '状态 \n#{NORMAL:正常;WAIT_INIT:待初始化;FORBIDDEN:禁用;WAITING:待审核;REFUSE:拒绝;DELETE:已删除}',
     `readonly_`       bit(1)       DEFAULT b'0' COMMENT '内置',
     `duty`            varchar(50)  DEFAULT '' COMMENT '责任人',
@@ -81,7 +81,7 @@ CREATE TABLE `c_tenant`
 -- ----------------------------
 BEGIN;
 INSERT INTO `c_tenant`
-VALUES (1, '0000', '最后内置的运营&超级租户', 'CREATE', 'LOCAL', 'NORMAL', b'1', '最后', NULL, NULL,
+VALUES (1, '0000', '最后内置的运营&超级租户', 'CREATE', 'SYSTEM', 'NORMAL', b'1', '最后', NULL, NULL,
         '内置租户,用于测试租户系统所有功能, 用于管理整个系统.请勿删除', '2019-08-29 16:50:35', 1, '2019-08-29 16:50:35',
         1);
 COMMIT;
