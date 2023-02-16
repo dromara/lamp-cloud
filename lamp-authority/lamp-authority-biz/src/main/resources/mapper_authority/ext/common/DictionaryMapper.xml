@@ -3,7 +3,7 @@
 <mapper namespace="top.tangyh.lamp.authority.dao.common.DictionaryMapper">
 
     <select id="pageType" resultType="top.tangyh.lamp.authority.entity.common.Dictionary" parameterType="map">
-        select type, label, max(state) state, min(create_time) create_time from c_dictionary
+        select type, label,  state, min(create_time) create_time from c_dictionary
         <where>
             <if test="query.label != null and query.label != ''">
                 and (type like #{query.label,typeHandler=fullLike} or label like #{query.label,typeHandler=fullLike} or
@@ -13,8 +13,10 @@
                 and state = #{query.state}
             </if>
         </where>
-        group by type,label
-        order by create_time DESC
+        group by type,label,state
+        <if test="_databaseId == 'mysql' || _databaseId == 'oracle'">
+            order by create_time DESC
+        </if>
     </select>
 
 </mapper>
