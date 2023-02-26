@@ -77,8 +77,8 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      * 清理日志
      *
      * @param clearBeforeTime 多久之前的
-     * @param clearBeforeNum  多少条
+     * @param idList          待删除id
      * @return 是否成功
      */
-    Long clearLog(@Param("clearBeforeTime") LocalDateTime clearBeforeTime, @Param("clearBeforeNum") Integer clearBeforeNum);
+    Long clearLog(@Param("clearBeforeTime") LocalDateTime clearBeforeTime, @Param("idList") List<Long> idList);
 }

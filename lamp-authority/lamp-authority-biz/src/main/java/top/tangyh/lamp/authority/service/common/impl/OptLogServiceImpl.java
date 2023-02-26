@@ -1,11 +1,13 @@
 package top.tangyh.lamp.authority.service.common.impl;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.SuperServiceImpl;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.model.log.OptLogDTO;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.lamp.authority.dao.common.OptLogExtMapper;
@@ -16,6 +18,8 @@ import top.tangyh.lamp.authority.entity.common.OptLogExt;
 import top.tangyh.lamp.authority.service.common.OptLogService;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -47,9 +51,16 @@ public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> im
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum) {
-        return baseMapper.clearLog(clearBeforeTime, clearBeforeNum) > 0;
-    }
+        if (clearBeforeNum != null) {
+            Page<OptLog> page = super.page(new Page<>(0, clearBeforeNum), Wraps.<OptLog>lbQ().select(OptLog::getId).orderByDesc(OptLog::getCreateTime));
+            List<Long> idList = page.getRecords().stream().map(OptLog::getId).collect(Collectors.toList());
 
+            optLogExtMapper.clearLog(clearBeforeTime, idList);
+            return baseMapper.clearLog(clearBeforeTime, idList) > 0;
+        }
+        optLogExtMapper.clearLog(clearBeforeTime, null);
+        return baseMapper.clearLog(clearBeforeTime, null) > 0;
+    }
     @Override
     @Transactional(readOnly = true)
     public OptLogResult getOptLogResultById(Long id) {

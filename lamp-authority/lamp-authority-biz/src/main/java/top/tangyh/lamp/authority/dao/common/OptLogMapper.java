@@ -6,6 +6,7 @@ import top.tangyh.basic.base.mapper.SuperMapper;
 import top.tangyh.lamp.authority.entity.common.OptLog;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -22,8 +23,8 @@ public interface OptLogMapper extends SuperMapper<OptLog> {
      * 清理日志
      *
      * @param clearBeforeTime 多久之前的
-     * @param clearBeforeNum  多少条
+     * @param idList  待删除
      * @return 是否成功
      */
-    Long clearLog(@Param("clearBeforeTime") LocalDateTime clearBeforeTime, @Param("clearBeforeNum") Integer clearBeforeNum);
+    Long clearLog(@Param("clearBeforeTime") LocalDateTime clearBeforeTime, @Param("idList") List<Long> idList);
 }

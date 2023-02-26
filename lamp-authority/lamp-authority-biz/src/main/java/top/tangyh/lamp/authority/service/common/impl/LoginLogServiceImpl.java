@@ -6,11 +6,13 @@ import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.OS;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.tangyh.basic.base.service.SuperServiceImpl;
 import top.tangyh.basic.cache.repository.CacheOps;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.DateUtils;
@@ -225,6 +227,12 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
     @Override
     public boolean clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum) {
-        return baseMapper.clearLog(clearBeforeTime, clearBeforeNum) > 0;
+        if (clearBeforeNum != null) {
+            Page<LoginLog> page = super.page(new Page<>(0, clearBeforeNum), Wraps.<LoginLog>lbQ().select(LoginLog::getId).orderByDesc(LoginLog::getCreateTime));
+            List<Long> idList = page.getRecords().stream().map(LoginLog::getId).collect(Collectors.toList());
+
+            return baseMapper.clearLog(clearBeforeTime, idList) > 0;
+        }
+        return baseMapper.clearLog(clearBeforeTime, null) > 0;
     }
 }

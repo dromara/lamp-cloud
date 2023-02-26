@@ -50,13 +50,11 @@
             <if test="clearBeforeTime != null">
                 AND create_time <![CDATA[ <= ]]> #{clearBeforeTime}
             </if>
-            <if test="clearBeforeNum  != null">
-                AND id NOT in(
-                SELECT id FROM(
-                SELECT id FROM c_login_log AS t
-                ORDER BY t.create_time desc LIMIT 0, #{clearBeforeNum}
-                ) t1
-                )
+            <if test="idList != null and idList.size() > 0">
+                AND id NOT in
+                <foreach close=")" collection="idList" item="id" open="(" separator=",">
+                    #{id}
+                </foreach>
             </if>
         </trim>
     </delete>
