@@ -325,7 +325,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
                 .eq(User::getState, userPage.getState());
 
         if (StrUtil.equalsAny(userPage.getScope(), BizConstant.SCOPE_BIND, BizConstant.SCOPE_UN_BIND) && userPage.getRoleId() != null) {
-            String sql = " select ur.employee_id from c_user_role ura where ura.user_id = s.id \n" +
+            String sql = " select ura.employee_id from c_user_role ura where ura.user_id = s.id \n" +
                     "  and ura.role_id =   " + userPage.getRoleId();
             if (BizConstant.SCOPE_BIND.equals(userPage.getScope())) {
                 wrapper.inSql(User::getId, sql);
@@ -375,7 +375,7 @@ public class UserController extends SuperCacheController<UserService, Long, User
                 .eq(User::getState, userPage.getState());
 
         if (StrUtil.equalsAny(userPage.getScope(), BizConstant.SCOPE_BIND, BizConstant.SCOPE_UN_BIND) && userPage.getRoleId() != null) {
-            String sql = " select ur.user_id from c_user_role ura where ura.user_id = s.id \n" +
+            String sql = " select ura.user_id from c_user_role ura where ura.user_id = s.id \n" +
                     "  and ura.role_id =   " + userPage.getRoleId();
             if (BizConstant.SCOPE_BIND.equals(userPage.getScope())) {
                 wrapper.inSql(User::getId, sql);
