@@ -4,6 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
+        <!--
+        这个依赖爆红，怀疑代码没给全？
+            麻烦先看文档，了解清楚项目的依赖关系，这个依赖在独立的 lamp-util 项目。
+        -->
         <groupId>top.tangyh.basic</groupId>
         <artifactId>lamp-parent</artifactId>
         <version>3.9.0</version>
