@@ -51,20 +51,22 @@ import static top.tangyh.lamp.common.constant.SwaggerConstants.PARAM_TYPE_QUERY;
 @RequiredArgsConstructor
 public class StationController extends SuperCacheController<StationService, Long, Station, StationPageQuery, StationSaveDTO, StationUpdateDTO> {
     private final UserHelperService userHelperService;
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "orgId", value = "orgId", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
             @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
     })
     @ApiOperation(value = "检测名称是否可用", notes = "检测名称是否可用")
     @GetMapping("/check")
-    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
-        return success(baseService.check(id, name));
+    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam Long orgId, @RequestParam String name) {
+        return success(baseService.check(id, orgId, name));
     }
 
     @Override
     public R<Station> handlerSave(StationSaveDTO model) {
         SysUser sysUser = userHelperService.getUserByIdCache(ContextUtil.getUserId());
-        if (sysUser!= null) {
+        if (sysUser != null) {
             model.setCreatedOrgId(sysUser.getOrgId());
         }
         return super.handlerSave(model);

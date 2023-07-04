@@ -51,23 +51,23 @@ public class StationServiceImpl extends SuperCacheServiceImpl<StationMapper, Sta
     }
 
     @Override
-    public boolean check(Long id, String name) {
+    public boolean check(Long id, Long orgId, String name) {
         LbqWrapper<Station> wrap = Wraps.<Station>lbQ()
-                .eq(Station::getName, name).ne(Station::getId, id);
+                .eq(Station::getName, name).eq(Station::getOrgId, orgId).ne(Station::getId, id);
         return count(wrap) > 0;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Station model) {
-        ArgumentAssert.isFalse(check(null, model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
+        ArgumentAssert.isFalse(check(null, model.getOrgId(), model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
         return super.save(model);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(Station model) {
-        ArgumentAssert.isFalse(check(model.getId(), model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
+        ArgumentAssert.isFalse(check(model.getId(), model.getOrgId(), model.getName()), StrUtil.format("岗位[{}]已经存在", model.getName()));
         return super.updateById(model);
     }
 
