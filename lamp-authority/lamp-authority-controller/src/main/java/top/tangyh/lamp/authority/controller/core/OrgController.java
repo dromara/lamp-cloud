@@ -57,12 +57,13 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
     private final EchoService echoService;
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
+            @ApiImplicitParam(name = "parentId", value = "parentId", dataType = DATA_TYPE_LONG, paramType = PARAM_TYPE_QUERY),
             @ApiImplicitParam(name = "name", value = "名称", dataType = DATA_TYPE_STRING, paramType = PARAM_TYPE_QUERY),
     })
     @ApiOperation(value = "检测名称是否可用", notes = "检测名称是否可用")
     @GetMapping("/check")
-    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
-        return success(baseService.check(id, name));
+    public R<Boolean> check(@RequestParam(required = false) Long id,  @RequestParam Long parentId, @RequestParam String name) {
+        return success(baseService.check(id, parentId, name));
     }
 
 

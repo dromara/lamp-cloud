@@ -35,15 +35,15 @@ public interface OrgService extends SuperCacheService<Org>, LoadService {
     /**
      * 检测名称是否存在
      *
-     * @param id   id
-     * @param name name
+     * @param id       机构id
+     * @param parentId 父id
+     * @param name     机构名称
      * @return boolean
      * @author zuihou
      * @date 2021/5/23 9:37 下午
      * @create [2021/5/23 9:37 下午 ] [tangyh] [初始创建]
      */
-    boolean check(Long id, String name);
-
+    boolean check(Long id, Long parentId, String name);
 
 
     /**
