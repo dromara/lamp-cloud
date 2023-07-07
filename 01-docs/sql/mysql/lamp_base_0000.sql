@@ -240,7 +240,7 @@ CREATE TABLE `c_file` (
 -- Records of c_file
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_file` VALUES (1531859537911349248, 'BASE_FILE', 'DOC', 'LOCAL', 'dev', '0000/BASE_FILE/2022/06/01/0bd3aee387bb49f9b17bd429145cda87.xlsx', 'http://127.0.0.1/file/dev/0000/BASE_FILE/2022/06/01/0bd3aee387bb49f9b17bd429145cda87.xlsx', '0bd3aee387bb49f9b17bd429145cda87.xlsx', NULL, '用户列表.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx', 13663, '2022-06-01 12:45:49', 2, '2022-06-01 12:45:49', 2);
+INSERT INTO `c_file` VALUES (1531859537911349248, 'BASE_FILE', 'DOC', 'SYSTEM', 'dev', '0000/BASE_FILE/2022/06/01/0bd3aee387bb49f9b17bd429145cda87.xlsx', 'http://127.0.0.1/file/dev/0000/BASE_FILE/2022/06/01/0bd3aee387bb49f9b17bd429145cda87.xlsx', '0bd3aee387bb49f9b17bd429145cda87.xlsx', NULL, '用户列表.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx', 13663, '2022-06-01 12:45:49', 2, '2022-06-01 12:45:49', 2);
 COMMIT;
 
 -- ----------------------------

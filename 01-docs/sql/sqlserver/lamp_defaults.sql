@@ -302,7 +302,7 @@ GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'链接类型;
-#TenantConnectTypeEnum{LOCAL:本地;REMOTE:远程}',
+#TenantConnectTypeEnum{SYSTEM:系统;CUSTOM:自定义}',
 'SCHEMA', N'dbo',
 'TABLE', N'c_tenant',
 'COLUMN', N'connect_type'

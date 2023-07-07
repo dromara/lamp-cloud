@@ -2196,7 +2196,7 @@ COMMENT ON COLUMN "C_TENANT"."NAME" IS '企业名称';
 COMMENT ON COLUMN "C_TENANT"."TYPE" IS '类型;
 #{CREATE:创建;REGISTER:注册}';
 COMMENT ON COLUMN "C_TENANT"."CONNECT_TYPE" IS '链接类型;
-#TenantConnectTypeEnum{LOCAL:本地;REMOTE:远程}';
+#TenantConnectTypeEnum{SYSTEM:系统;CUSTOM:自定义}';
 COMMENT ON COLUMN "C_TENANT"."STATUS" IS '状态;
 #{NORMAL:正常;WAIT_INIT:待初始化;FORBIDDEN:禁用;WAITING:待审核;REFUSE:拒绝;DELETE:已删除}';
 COMMENT ON COLUMN "C_TENANT"."READONLY_" IS '内置';
@@ -2214,7 +2214,7 @@ COMMENT ON TABLE "C_TENANT" IS '企业';
 -- ----------------------------
 -- Records of C_TENANT
 -- ----------------------------
-INSERT INTO "C_TENANT" VALUES ('1', '0000', '最后内置的运营&超级租户', 'CREATE', 'LOCAL', 'NORMAL', '1', '最后', NULL, NULL, '内置租户,用于测试租户系统所有功能, 用于管理整个系统.请勿删除', NULL, '1', NULL, '1');
+INSERT INTO "C_TENANT" VALUES ('1', '0000', '最后内置的运营&超级租户', 'CREATE', 'SYSTEM', 'NORMAL', '1', '最后', NULL, NULL, '内置租户,用于测试租户系统所有功能, 用于管理整个系统.请勿删除', NULL, '1', NULL, '1');
 INSERT INTO "C_TENANT" VALUES ('1564456337822187520', '3333', '3', 'CREATE', 'SYSTEM', 'NORMAL', '0', NULL, NULL, NULL, NULL, TO_DATE('2022-08-30 11:33:51', 'SYYYY-MM-DD HH24:MI:SS'), '3', TO_DATE('2022-08-30 11:33:51', 'SYYYY-MM-DD HH24:MI:SS'), '3');
 
 -- ----------------------------

@@ -55,7 +55,7 @@ public class TenantPageQuery implements Serializable {
     private TenantTypeEnum type;
     /**
      * 连接类型
-     * #TenantConnectTypeEnum{LOCAL:本地;REMOTE:远程}
+     * #TenantConnectTypeEnum{SYSTEM:系统;CUSTOM:自定义}
      */
     @ApiModelProperty(value = "连接类型")
     private TenantConnectTypeEnum connectType;
