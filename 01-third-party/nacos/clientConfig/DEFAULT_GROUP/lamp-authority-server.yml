@@ -13,6 +13,5 @@ springdoc:
       displayName: '组织模块'
       packages-to-scan: top.tangyh.lamp.authority.controller.core
 
-
 server:
   port: 8764

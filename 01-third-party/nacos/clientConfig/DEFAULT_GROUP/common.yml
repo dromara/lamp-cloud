@@ -52,7 +52,7 @@ lamp:
       refreshThreadPoolSize: 10
     basePackages: 
       - top.tangyh.basic
-      - top.tangyh.lamp
+      - top.tangyh.lamp    
   security: #详情看: SecurityProperties
     # 全局开启 uri 权限
     enabled: true
@@ -140,18 +140,22 @@ spring:
       max-file-size: 512MB
       max-request-size: 512MB
 
-
 management:
   endpoints:
     web:
       base-path: /actuator
       exposure:
         include: '*'
+    #对外开放所有监控点
+    enabled-by-default: true
   endpoint:
     health:
       show-details: ALWAYS
       enabled: true
-
+    #其他
+    beans:
+      enabled: true
+      
 feign:
   httpclient:
     enabled: false

@@ -12,12 +12,12 @@ lamp:
     # SCHEMA模式专用 当前服务的租户库前缀
     tenantDatabasePrefix: lamp_base  
     owner: ''      # SCHEMA模式专用
-    multiTenantType: SCHEMA
-    dbType: mysql
+    multiTenantType: COLUMN
     # COLUMN模式专用 隔离租户的字段
     tenantIdColumn: tenant_code
     # 是否不允许写入数据  WriteInterceptor
     isNotWrite: false
+    dbType: mysql
     # 是否启用  sql性能规范插件
     isBlockAttack: false
     # 是否启用  sql性能规范插件
@@ -54,6 +54,36 @@ spring:
   datasource:
     dynamic:
       enabled: false  # 这里一定要写成false，无论是什么模式
+      # 从这里开始(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
+      p6spy: ${lamp.database.p6spy:false}
+      seata: ${lamp.database.isSeata:false}
+      druid:
+        db-type: mysql   
+        validation-query: SELECT 'x'  
+        initialSize: 10
+        minIdle: 10
+        maxActive: 200
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        test-on-borrow: false
+        test-on-return: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
+        filters: stat,wall
+        wall:
+          strictSyntaxCheck: false
+          comment-allow: true
+          multiStatementAllow: true
+          noneBaseStatementAllow: true
+      datasource:
+        master:
+          username: ${lamp.druid.username}
+          password: ${lamp.druid.password}
+          driverClassName: ${lamp.druid.driverClassName}
+          url: ${lamp.druid.url}
+    # 从这里结束(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
     druid:
       enable: true
       # 从这里开始(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时
@@ -86,14 +116,14 @@ spring:
 
       # 以下的2段配置，同时适用于所有模式
       web-stat-filter:  # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
-        enabled: true
+        enabled: false
         url-pattern: /*
         exclusions: "*.js , *.gif ,*.jpg ,*.png ,*.css ,*.ico , /druid/*"
         session-stat-max-count: 1000
         profile-enable: true
         session-stat-enable: false
       stat-view-servlet:  #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
-        enabled: true
+        enabled: false
         url-pattern: /druid/*   #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：http://127.0.0.1:9000/druid/index.html
         reset-enable: true    #允许清空统计数据
         login-username: lamp

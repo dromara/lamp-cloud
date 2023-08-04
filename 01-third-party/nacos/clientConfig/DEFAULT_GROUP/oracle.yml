@@ -14,9 +14,9 @@ lamp:
     multiTenantType: DATASOURCE
     # COLUMN模式专用 隔离租户的字段
     tenantIdColumn: tenant_code
-    dbType: oracle
     # 是否不允许写入数据  WriteInterceptor
     isNotWrite: false
+    dbType: oracle
     # 是否启用  sql性能规范插件
     isBlockAttack: false
     # 是否启用  sql性能规范插件
@@ -52,7 +52,37 @@ spring:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   datasource:
     dynamic:
-      enabled: false    # 这里一定要写成false，无论是什么模式
+      enabled: false  # 这里一定要写成false，无论是什么模式
+      # 从这里开始(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
+      p6spy: ${lamp.database.p6spy:false}
+      seata: ${lamp.database.isSeata:false}
+      druid:
+        initialSize: 10
+        minIdle: 10
+        maxActive: 200
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        test-on-borrow: false
+        test-on-return: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        min-evictable-idle-time-millis: 300000    #配置一个连接在池中最小生存的时间，单位是毫秒
+        db-type: oracle     
+        validation-query: SELECT 'x' FROM DUAL  
+        filters: stat,wall
+        wall:
+          strictSyntaxCheck: false
+          comment-allow: true
+          multiStatementAllow: true
+          noneBaseStatementAllow: true
+      datasource:
+        master:
+          username: ${lamp.druid.username}
+          password: ${lamp.druid.password}
+          driverClassName: ${lamp.druid.driverClassName}
+          url: ${lamp.druid.url}
+    # 从这里结束(dynamic)，中间的这段配置用于 lamp.database.multiTenantType == DATASOURCE 时
     druid:
       enable: true
       # 从这里开始(druid)，中间的这段配置用于 lamp.database.multiTenantType != DATASOURCE 时

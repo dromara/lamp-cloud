@@ -53,7 +53,6 @@ fdfs:
     jmx-name-base: 1
     jmx-name-prefix: 1
 
-
 springdoc:
   group-configs:
     - group: 'file_file'
@@ -62,6 +61,4 @@ springdoc:
       packages-to-scan: top.tangyh.lamp.file.controller
 
 server:
-  servlet:
-    context-path:
   port: 8765

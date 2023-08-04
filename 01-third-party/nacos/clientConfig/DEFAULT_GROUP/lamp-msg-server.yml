@@ -23,6 +23,5 @@ springdoc:
         - top.tangyh.lamp.msg.controller
         - top.tangyh.lamp.sms.controller
 
-
 server:
   port: 8768

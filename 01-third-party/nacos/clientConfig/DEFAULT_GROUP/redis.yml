@@ -1,18 +1,19 @@
 lamp:
   cache:
     type: REDIS
+    serializerType: ProtoStuff
     cacheNullVal: true
   redis:
     # ip: 10.10.10.181
     ip: 127.0.0.1
     port: 16379
     password: 'SbtyMveYNfLzTks7H0apCmyStPzWJqjy'
-    database: 0
+    database: 3
 
 spring:
   cache:
     type: GENERIC
-  data:
+  data:  
     redis:
       host: ${lamp.redis.ip}
       password: ${lamp.redis.password}

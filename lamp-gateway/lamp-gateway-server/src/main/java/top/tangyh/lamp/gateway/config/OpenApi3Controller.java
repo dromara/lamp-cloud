@@ -71,7 +71,7 @@ public class OpenApi3Controller {
             Map<String, Object> item = list.get(i);
             if (map.containsKey("urls")) {
                 List urls = (List) item.get("urls");
-                ((List) map.get("urls")).addAll(urls);
+                ((List) map.get("urls")).addAll(urls != null ? urls : Collections.emptyList());
             } else {
                 List urls = (List) item.get("urls");
                 map.put("urls", urls != null ? urls : Collections.emptyList());
