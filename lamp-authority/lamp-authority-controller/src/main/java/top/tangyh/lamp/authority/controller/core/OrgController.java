@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 
 import static top.tangyh.basic.utils.StrPool.DEF_PARENT_ID;
 import static top.tangyh.basic.utils.StrPool.EMPTY;
+import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
 
 
 /**
@@ -57,12 +58,13 @@ public class OrgController extends SuperCacheController<OrgService, Long, Org, O
 
     @Parameters({
             @Parameter(name = "id", description = "ID", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
+            @Parameter(name = "parentId", description = "parentId", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
             @Parameter(name = "name", description = "名称", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
     })
     @Operation(summary = "检测名称是否可用", description = "检测名称是否可用")
     @GetMapping("/check")
-    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
-        return success(baseService.check(id, name));
+    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam Long parentId, @RequestParam String name) {
+        return success(baseService.check(id, parentId, name));
     }
 
 

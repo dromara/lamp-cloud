@@ -27,11 +27,7 @@ import top.tangyh.lamp.common.constant.DefValConstants;
 import top.tangyh.lamp.model.enumeration.base.OrgTypeEnum;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -51,41 +47,28 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
     private final RoleOrgService roleOrgService;
     private final UserMapper userMapper;
 
-    private static Org getMainCompany(ImmutableMap<Long, Org> map, Long parentId) {
-        Org parent = map.get(parentId);
-        if (parent == null) {
-            return null;
-        }
-        if (OrgTypeEnum.COMPANY.eq(parent.getType())) {
-            return parent;
-        }
-
-        return getMainCompany(map, parent.getParentId());
-    }
-
     @Override
     protected CacheKeyBuilder cacheKeyBuilder() {
         return new OrgCacheKeyBuilder();
     }
 
     @Override
-    public boolean check(Long id, String name) {
-        LbqWrapper<Org> wrap = Wraps.<Org>lbQ()
-                .eq(Org::getLabel, name).ne(Org::getId, id);
+    public boolean check(Long id, Long parentId, String name) {
+        LbqWrapper<Org> wrap = Wraps.<Org>lbQ().eq(Org::getLabel, name).eq(Org::getParentId, parentId).ne(Org::getId, id);
         return count(wrap) > 0;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(Org model) {
-        ArgumentAssert.isFalse(check(null, model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
+        ArgumentAssert.isFalse(check(null, model.getParentId(), model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
         return super.save(model);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(Org model) {
-        ArgumentAssert.isFalse(check(model.getId(), model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
+        ArgumentAssert.isFalse(check(model.getId(), model.getParentId(), model.getLabel()), StrUtil.format("组织[{}]已经存在", model.getLabel()));
         return super.updateById(model);
     }
 
@@ -176,6 +159,19 @@ public class OrgServiceImpl extends SuperCacheServiceImpl<OrgMapper, Org> implem
         List<Org> parentList = listByIds(parentIdList);
         ImmutableMap<Long, Org> map = CollHelper.uniqueIndex(parentList, Org::getId, org -> org);
         return getMainCompany(map, baseOrg.getParentId());
+    }
+
+
+    private static Org getMainCompany(ImmutableMap<Long, Org> map, Long parentId) {
+        Org parent = map.get(parentId);
+        if (parent == null) {
+            return null;
+        }
+        if (OrgTypeEnum.COMPANY.eq(parent.getType())) {
+            return parent;
+        }
+
+        return getMainCompany(map, parent.getParentId());
     }
 
     @Override

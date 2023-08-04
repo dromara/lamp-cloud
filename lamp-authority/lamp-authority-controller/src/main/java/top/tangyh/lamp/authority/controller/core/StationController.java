@@ -52,12 +52,13 @@ public class StationController extends SuperCacheController<StationService, Long
 
     @Parameters({
             @Parameter(name = "id", description = "ID", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
+            @Parameter(name = "orgId", description = "orgId", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
             @Parameter(name = "name", description = "名称", schema = @Schema(type = "string"), in = ParameterIn.QUERY),
     })
     @Operation(summary = "检测名称是否可用", description = "检测名称是否可用")
     @GetMapping("/check")
-    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam String name) {
-        return success(baseService.check(id, name));
+    public R<Boolean> check(@RequestParam(required = false) Long id, @RequestParam Long orgId, @RequestParam String name) {
+        return success(baseService.check(id, orgId, name));
     }
 
     @Override
