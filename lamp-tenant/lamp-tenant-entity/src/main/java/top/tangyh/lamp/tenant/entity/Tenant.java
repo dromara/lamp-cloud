@@ -75,11 +75,11 @@ public class Tenant extends Entity<Long> {
 
     /**
      * 连接类型
-     * #TenantConnectTypeEnum{LOCAL:本地;REMOTE:远程}
+     * #TenantConnectTypeEnum{SYSTEM:系统;CUSTOM:自定义}
      */
     @Schema(description = "连接类型")
     @TableField("connect_type")
-    @Excel(name = "连接类型", width = 20, replace = {"本地_LOCAL", "远程_REMOTE", "_null"})
+    @Excel(name = "连接类型", width = 20, replace = {"系统_SYSTEM", "自定义_CUSTOM", "_null"})
     private TenantConnectTypeEnum connectType;
 
     /**

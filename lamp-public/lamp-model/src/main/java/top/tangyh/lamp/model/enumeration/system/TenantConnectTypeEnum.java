@@ -53,7 +53,7 @@ public enum TenantConnectTypeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "LOCAL,REMOTE", example = "LOCAL")
+    @Schema(description = "编码", allowableValues = "SYSTEM,CUSTOM", example = "SYSTEM")
     public String getCode() {
         return this.name();
     }
