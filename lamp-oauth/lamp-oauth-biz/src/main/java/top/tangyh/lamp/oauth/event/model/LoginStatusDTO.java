@@ -113,7 +113,7 @@ public class LoginStatusDTO implements Serializable {
             return this;
         }
         String tempUa = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
-        String tempIp = JakartaServletUtil.getClientIPByHeader(request);
+        String tempIp = JakartaServletUtil.getClientIP(request);
         String tempLocation = AddressUtil.getRegion(tempIp);
         this.ua = tempUa;
         this.ip = tempIp;
