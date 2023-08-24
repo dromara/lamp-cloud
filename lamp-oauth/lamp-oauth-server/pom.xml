@@ -24,7 +24,10 @@
             <artifactId>lamp-oauth-controller</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-jwt-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-all</artifactId>
