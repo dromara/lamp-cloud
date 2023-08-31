@@ -1,6 +1,8 @@
 lamp:
   cache:
     type: REDIS
+    serializerType: ProtoStuff
+    cacheNullVal: true
   redis:
     ip: 127.0.0.1
     port: 16379

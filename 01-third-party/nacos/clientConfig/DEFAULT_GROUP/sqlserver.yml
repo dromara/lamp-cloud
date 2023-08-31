@@ -70,7 +70,7 @@ spring:
       max-wait: 60000
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
-      test-on-borrow: true
+      test-on-borrow: false
       test-on-return: false
       test-while-idle: true
       time-between-eviction-runs-millis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
