@@ -17,16 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
 import top.tangyh.basic.utils.StrPool;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -77,7 +69,6 @@ public class OpenApi3Controller {
                 map.put("urls", urls != null ? urls : Collections.emptyList());
             }
         }
-
         return map;
     }
 
@@ -106,6 +97,7 @@ public class OpenApi3Controller {
                         for (Map<String, Object> item : list) {
                             String url = (String) item.get("url");
                             item.put("url", contextPath + StrPool.SLASH + route.getId() + url);
+                            item.put("contextPath", contextPath + StrPool.SLASH + route.getId());
                         }
 
                     }
