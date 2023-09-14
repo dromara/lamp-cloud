@@ -39,11 +39,6 @@
             <artifactId>lamp-security-sdk</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-        <!-- jwt 只有Oauth服务需要使用 -->
-        <dependency>
-            <groupId>top.tangyh.basic</groupId>
-            <artifactId>lamp-jwt-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-file-entity</artifactId>

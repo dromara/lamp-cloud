@@ -24,7 +24,6 @@
             <artifactId>lamp-tenant-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-        <!-- jwt 只有认证服务需要使用 -->
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-jwt-starter</artifactId>
