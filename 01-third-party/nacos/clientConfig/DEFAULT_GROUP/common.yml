@@ -104,6 +104,8 @@ knife4j:
     footerCustomContent: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
 
 springdoc:
+  # 默认是false，需要设置为true
+  default-flat-param-object: true
   swagger-ui:
     path: /swagger-ui.html
     tags-sorter: alpha
