@@ -7,11 +7,15 @@ lamp:
     # 生产使用原生驱动，开发使用p6spy驱动打印日志
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/lamp_activiti?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
-  swagger:
-    docket:
-      activiti:
-        title: 流程组件模块
-        base-package: top.tangyh.lamp.activiti.controller
+
+springdoc:
+  group-configs:
+    - group: 'activiti_act'
+      displayName: '流程组件模块'
+      paths-to-match: '/**'
+      packages-to-scan: top.tangyh.lamp.activiti.controller
+
+
 
 spring:
   freemarker:
