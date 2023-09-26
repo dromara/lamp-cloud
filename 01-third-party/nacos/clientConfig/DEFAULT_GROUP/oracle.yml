@@ -152,7 +152,7 @@ mybatis-plus:
 # 分布式事务相关
 seata:
   enabled: ${lamp.database.isSeata}
-  enableAutoDataSourceProxy: true
+  enableAutoDataSourceProxy: ${lamp.database.isSeata}
   tx-service-group: lamp_cloud_seata_tx_group
   registry:
     type: nacos
@@ -161,6 +161,7 @@ seata:
       username: ${lamp.nacos.username}
       password: ${lamp.nacos.password}
       namespace: ${lamp.seata.namespace}
+      group: 'SEATA_GROUP'
   config:
     type: nacos
     nacos:
@@ -168,6 +169,8 @@ seata:
       username: ${lamp.nacos.username}
       password: ${lamp.nacos.password}
       namespace: ${lamp.seata.namespace}
+      group: 'SEATA_GROUP'
+      dataId: seataServer.properties
   service:
     grouplist:
       default: ${lamp.seata.ip:}:${lamp.seata.port:}
