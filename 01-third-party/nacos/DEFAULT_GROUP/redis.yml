@@ -1,0 +1,19 @@
+lamp:
+  cache:
+    type: REDIS
+  redis:
+    # ip: 10.10.10.181
+    ip: 127.0.0.1
+    port: 16379
+    password: 'SbtyMveYNfLzTks7H0apCmyStPzWJqjy'
+    database: 0
+
+spring:
+  cache:
+    type: GENERIC
+  redis:
+    host: ${lamp.redis.ip}
+    password: ${lamp.redis.password}
+    port: ${lamp.redis.port}
+    database: ${lamp.redis.database}
+

@@ -1,0 +1,163 @@
+lamp:
+  feign:
+    # xxl-job-admin 的地址
+    job-server: http://127.0.0.1:8767
+  webmvc:
+    undertow: true
+    header: true
+  scan:
+    enabled: true
+    basePackage: top.tangyh
+  system:
+    # 登录时否验证密码有效性 （常用于开发环境快速登录）
+    verifyPassword: true
+    # 登录时否验证验证码有效性 （常用于开发环境快速登录）
+    verifyCaptcha: true
+    # 默认用户密码
+    defPwd: '123456'
+    # 密码最大输错次数  小于0不限制
+    maxPasswordErrorNum: 10
+    # 密码错误锁定用户时间  除了0表示锁定到今天结束，还支持m、h、d、w、M、y等单位 
+    passwordErrorLockUserTime: '0'
+    # 缓存Key前缀
+    cachePrefix: lc
+    # oauth 服务扫描枚举类的包路径
+    enumPackage: "top.tangyh"
+  # swagger 文档通用配置， 主要配置了全局参数、版本号信息、联系人信息  详情看: SwaggerProperties
+  swagger:
+    license: Powered By zuihou
+    licenseUrl: https://github.com/zuihou
+    termsOfServiceUrl: https://github.com/zuihou
+    contact:  # 联系人信息
+      url: https://github.com/zuihou
+      name: zuiou
+      email: 306479353@qq.com
+    global-operation-parameters:  # 全局参数
+      - name: Token
+        description: 用户信息
+        modelRef: String
+        parameterType: header
+        required: true
+        # 默认值只是方便本地开发时，少填参数，生产环境请禁用swagger或者禁用默认参数
+        defaultValue: "test"
+      - name: Authorization
+        description: 客户端信息
+        modelRef: String
+        parameterType: header
+        required: true
+        defaultValue: "bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0"
+      - name: ApplicationId
+        description: 应用ID
+        modelRef: String
+        parameterType: header
+        required: true
+        defaultValue: "1"        
+  echo:  #详情看: EchoProperties
+    # 是否启用 远程数据 手动注入
+    enabled: true
+    # 是否启用 远程数据 注解AOP注入
+    aop-enabled: true
+  log:  # 详情看：OptLogProperties
+    # 开启记录操作日志
+    enabled: true
+    # 记录到什么地方  DB:mysql LOGGER:日志文件
+    type: DB
+  xss:
+    # 是否开启 xss 过滤器  详情看：XssProperties
+    enabled: true
+    requestBodyEnabled: false
+  captcha:
+    # 登录界面的验证码配置 详情看：CaptchaProperties
+    type: ARITHMETIC
+    width: 158
+    height: 58
+    len: 2
+    charType: 2
+  async:  # 全局线程池配置
+    corePoolSize: 2
+    maxPoolSize: 50
+    queueCapacity: 10000
+    keepAliveSeconds: 300
+    threadNamePrefix: 'lamp-async-executor-'
+
+
+# knife4j 文档通用配置 详情看: Knife4jProperties
+knife4j:
+  enable: true
+  setting:
+    enableReloadCacheParameter: true
+    enableVersion: true
+    enableDynamicParameter: true
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
+
+
+server:
+  # 优雅停机
+  shutdown: GRACEFUL
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  undertow:
+    threads:
+      io: 4 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      worker: 80  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    buffer-size: 2048  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
+    direct-buffers: true  # 是否分配的直接内存
+
+spring:
+  mvc:
+    pathmatch:
+      # 升级springboot2.6.6后临时处理，防止swagger报错
+      matching-strategy: ANT_PATH_MATCHER
+  lifecycle:
+    # 优雅停机宽限期时间
+    timeout-per-shutdown-phase: 30s
+  servlet:
+    # 上传文件最大值
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
+
+# 通用dozer配置文件
+dozer:
+  mappingFiles:
+    - classpath*:dozer/*.dozer.xml
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  hystrix:
+    enabled: false
+  sentinel:
+    enabled: true   
+  client:
+    config:
+      default:
+        # feign client 调用全局超时时间
+        connectTimeout: 60000
+        readTimeout: 60000     
+    #支持压缩的mime types
+  compression:  # 请求压缩
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:  # 响应压缩
+      enabled: true
