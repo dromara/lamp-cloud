@@ -19,15 +19,18 @@ import top.tangyh.basic.context.ContextConstants;
  */
 @Component
 public class TraceFilter implements WebFilter, Ordered {
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         //链路追踪id
         String traceId = IdUtil.fastSimpleUUID();
-        MDC.put(ContextConstants.LOG_TRACE_ID, traceId);
+        MDC.put(ContextConstants.TRACE_ID_HEADER, traceId);
         ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate()
                 .headers(h -> h.add(ContextConstants.TRACE_ID_HEADER, traceId))
                 .build();
+
+//        ServerHttpResponse originalResponse = exchange.getResponse();
+//        ServerHttpResponseDecorator decoratedResponse = new CommonResponseDecorator(originalResponse);
+//        ServerWebExchange build = exchange.mutate().request(serverHttpRequest).response(decoratedResponse).build();
 
         ServerWebExchange build = exchange.mutate().request(serverHttpRequest).build();
         return chain.filter(build);
@@ -35,6 +38,6 @@ public class TraceFilter implements WebFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        return OrderedConstant.TRACE;
     }
 }

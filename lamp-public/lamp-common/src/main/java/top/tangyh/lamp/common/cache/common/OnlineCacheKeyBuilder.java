@@ -3,7 +3,7 @@ package top.tangyh.lamp.common.cache.common;
 
 import cn.hutool.core.util.StrUtil;
 import top.tangyh.basic.model.cache.CacheKeyBuilder;
-import top.tangyh.lamp.common.cache.CacheKeyDefinition;
+import top.tangyh.lamp.common.cache.CacheKeyTable;
 
 /**
  * online:{userid} -> token (String)
@@ -14,8 +14,8 @@ import top.tangyh.lamp.common.cache.CacheKeyDefinition;
  */
 public class OnlineCacheKeyBuilder implements CacheKeyBuilder {
     @Override
-    public String getPrefix() {
-        return CacheKeyDefinition.ONLINE;
+    public String getTable() {
+        return CacheKeyTable.ONLINE;
     }
 
     /**
@@ -25,6 +25,6 @@ public class OnlineCacheKeyBuilder implements CacheKeyBuilder {
      */
     @Override
     public String getPattern() {
-        return StrUtil.format("{}:{}:*", getTenant(), getPrefix());
+        return StrUtil.format("{}:{}:*", getTenant(), getTable());
     }
 }

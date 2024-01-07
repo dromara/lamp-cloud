@@ -1,24 +1,26 @@
 package top.tangyh.lamp.model.entity.base;
 
+import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import top.tangyh.basic.annotation.echo.Echo;
-import top.tangyh.basic.base.entity.TreeEntity;
+import top.tangyh.basic.base.entity.Entity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
+import top.tangyh.lamp.model.constant.EchoApi;
 import top.tangyh.lamp.model.constant.EchoDictType;
 
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.Map;
 
 import static top.tangyh.lamp.model.constant.Condition.LIKE;
-import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
+
 
 /**
  * <p>
@@ -33,54 +35,70 @@ import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@EqualsAndHashCode
-@TableName("c_org")
-public class SysOrg extends TreeEntity<SysOrg, Long> implements EchoVO {
+@EqualsAndHashCode(callSuper=false)
+@Accessors(chain = true)
+@Schema(description = "组织")
+@TableName("base_org")
+public class SysOrg extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;
     @TableField(exist = false)
-    private Map<String, Object> echoMap = new HashMap<>();
+    private Map<String, Object> echoMap = MapUtil.newHashMap();
+
     /**
-     * 类型
-     *
-     * @Echo(api = DICTIONARY_ITEM_CLASS,  dictType = EchoDictType.ORG_TYPE)
+     * 名称
+     */
+    @Schema(description = "名称")
+    @TableField(value = "name", condition = LIKE)
+    private String name;
+    /**
+     * 类型;[10-单位 20-部门]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.ORG_TYPE)
      */
     @Schema(description = "类型")
-    @Size(max = 2, message = "类型长度不能超过2")
+    @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.ORG_TYPE)
     @TableField(value = "type_", condition = LIKE)
-    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.ORG_TYPE)
     private String type;
-
     /**
      * 简称
      */
     @Schema(description = "简称")
-    @Size(max = 255, message = "简称长度不能超过255")
-    @TableField(value = "abbreviation", condition = LIKE)
-    private String abbreviation;
-
+    @TableField(value = "short_name", condition = LIKE)
+    private String shortName;
     /**
-     * 树结构
+     * 父ID
      */
-    @Schema(description = "树结构")
-    @Size(max = 255, message = "树结构长度不能超过255")
+    @Schema(description = "父ID")
+    @TableField(value = "parent_id")
+    private Long parentId;
+    /**
+     * 树层级
+     */
+    @Schema(description = "树层级")
+    @TableField(value = "tree_grade")
+    private Integer treeGrade;
+    /**
+     * 树路径;用id拼接树结构
+     */
+    @Schema(description = "树路径")
     @TableField(value = "tree_path", condition = LIKE)
     private String treePath;
-
     /**
-     * 状态
+     * 排序
+     */
+    @Schema(description = "排序")
+    @TableField(value = "sort_value")
+    private Integer sortValue;
+    /**
+     * 状态;[0-禁用 1-启用]
      */
     @Schema(description = "状态")
-    @TableField("state")
+    @TableField(value = "state")
     private Boolean state;
-
     /**
-     * 描述
+     * 备注
      */
-    @Schema(description = "描述")
-    @Size(max = 255, message = "描述长度不能超过255")
-    @TableField(value = "describe_", condition = LIKE)
-    private String describe;
-
+    @Schema(description = "备注")
+    @TableField(value = "remarks", condition = LIKE)
+    private String remarks;
 
 }

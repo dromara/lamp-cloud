@@ -10,7 +10,7 @@ import lombok.ToString;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import top.tangyh.basic.base.entity.SuperEntity;
-import top.tangyh.basic.base.service.SuperService;
+import top.tangyh.basic.base.manager.SuperManager;
 import top.tangyh.basic.interfaces.echo.EchoVO;
 import top.tangyh.lamp.file.entity.Appendix;
 import top.tangyh.lamp.model.vo.result.AppendixResultVO;
@@ -29,7 +29,7 @@ import java.util.List;
  * @date 2021-06-30
  * @create [2021-06-30] [tangyh] [初始创建]
  */
-public interface AppendixService extends SuperService<Appendix> {
+public interface AppendixService extends SuperManager<Appendix> {
 
     /**
      * 回显附件
@@ -58,7 +58,7 @@ public interface AppendixService extends SuperService<Appendix> {
      *
      * @param bizId   对象id
      * @param bizType 功能点
-     * @return
+     * @return 业务附件
      */
     default AppendixBizKey buildBiz(@NonNull Long bizId, @NonNull String bizType) {
         return AppendixBizKey.builder().bizId(bizId).bizType(bizType).build();

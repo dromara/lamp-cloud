@@ -19,6 +19,10 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 public enum HttpMethod implements BaseEnum {
     /**
+     * ALL
+     */
+    ALL("ALL"),
+    /**
      * GET:GET
      */
     GET("GET"),
@@ -50,6 +54,7 @@ public enum HttpMethod implements BaseEnum {
      * OPTIONS:OPTIONS
      */
     OPTIONS("OPTIONS"),
+
     ;
     @Schema(description = "描述")
     private String desc;
@@ -63,7 +68,7 @@ public enum HttpMethod implements BaseEnum {
     }
 
     public boolean eq(HttpMethod val) {
-        return val == null ? false : eq(val.name());
+        return val != null && eq(val.name());
     }
 
     @Override

@@ -13,8 +13,8 @@ import java.time.Duration;
  */
 public class VerificationCodeCacheKeyBuilder implements CacheKeyBuilder {
     @Override
-    public String getPrefix() {
-        return CacheKeyDefinition.REGISTER_USER;
+    public String getTable() {
+        return CacheKeyTable.REGISTER_USER;
     }
 
     @Override

@@ -2,7 +2,7 @@ package top.tangyh.lamp.common.cache.common;
 
 
 import top.tangyh.basic.model.cache.CacheKeyBuilder;
-import top.tangyh.lamp.common.cache.CacheKeyDefinition;
+import top.tangyh.lamp.common.cache.CacheKeyTable;
 
 /**
  * 参数 KEY
@@ -15,8 +15,8 @@ import top.tangyh.lamp.common.cache.CacheKeyDefinition;
  */
 public class LoginLogTenDayCacheKeyBuilder implements CacheKeyBuilder {
     @Override
-    public String getPrefix() {
-        return CacheKeyDefinition.LOGIN_LOG_TEN_DAY;
+    public String getTable() {
+        return CacheKeyTable.LOGIN_LOG_TEN_DAY;
     }
 
 }

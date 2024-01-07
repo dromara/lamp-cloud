@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import top.tangyh.basic.constant.Constants;
 
 /**
  * @author zuihou
@@ -16,7 +17,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @RefreshScope
 @ConfigurationProperties(prefix = CaptchaProperties.PREFIX)
 public class CaptchaProperties {
-    public static final String PREFIX = "lamp.captcha";
+    public static final String PREFIX = Constants.PROJECT_PREFIX + ".captcha";
 
     private CaptchaType type = CaptchaType.ARITHMETIC;
     /**
@@ -68,7 +69,7 @@ public class CaptchaProperties {
         ARITHMETIC("image/png"),
         ;
 
-        String contentType;
+        final String contentType;
 
     }
 

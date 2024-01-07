@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.system.DefAreaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.system.entity.system.DefArea">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="full_name" jdbcType="VARCHAR" property="fullName"/>
+        <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+        <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
+        <result column="level_" jdbcType="CHAR" property="level"/>
+        <result column="source_" jdbcType="CHAR" property="source"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="tree_grade" jdbcType="INTEGER" property="treeGrade"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,name,sort_value,parent_id,created_time,created_by,updated_time,updated_by,
+        code, full_name, longitude, latitude, level_, source_, state, tree_grade, tree_path
+    </sql>
+
+</mapper>

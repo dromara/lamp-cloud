@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.base.mapper.user.BaseEmployeeOrgRelMapper">
+
+    <select id="selectOrgByEmployeeId" parameterType="map" resultType="long">
+        select org_id
+        from base_employee_org_rel
+        where employee_id = #{employeeId}
+    </select>
+
+</mapper>

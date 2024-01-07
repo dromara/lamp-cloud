@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.msg.mapper.ExtendInterfaceLoggingMapper">
+    <!--
+        代码生成器 by 2022-07-09 23:58:59
+        自定义sql建议在base文件夹同级新建ext文件夹，并新建同名且同namespace的xml进行编写。方便修改字段时，重新生成此文件。
+    -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.msg.entity.ExtendInterfaceLogging">
+        <id column="id" property="id"/>
+        <result column="log_id" property="logId"/>
+        <result column="exec_time" property="execTime"/>
+        <result column="status" property="status"/>
+        <result column="params" property="params"/>
+        <result column="result" property="result"/>
+        <result column="biz_id" property="bizId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="updated_by" property="updatedBy"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , log_id, exec_time, status, params, result,
+        biz_id, created_time, created_by, updated_time, updated_by
+    </sql>
+
+</mapper>

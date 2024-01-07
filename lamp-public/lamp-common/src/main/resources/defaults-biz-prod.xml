@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <!-- logback/defaults-prod.xml 文件位于lamp-util/lamp-log-starter/src/main/resources -->
+    <include resource="logback/defaults-prod.xml"/>
+
+    <!-- 基础服务 -->
+    <logger name="top.tangyh.lamp.base.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.base.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.base.mapper" additivity="false" level="${log.level.mapper}">
+        <appender-ref ref="ASYNC_MAPPER_APPENDER"/>
+    </logger>
+    <!-- 文件服务 -->
+    <logger name="top.tangyh.lamp.file.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.file.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.file.mapper" additivity="false" level="${log.level.mapper}">
+        <appender-ref ref="ASYNC_MAPPER_APPENDER"/>
+    </logger>
+
+    <!-- 租户服务 -->
+    <logger name="top.tangyh.lamp.system.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.system.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.system.mapper" additivity="false" level="${log.level.mapper}">
+        <appender-ref ref="ASYNC_MAPPER_APPENDER"/>
+    </logger>
+
+    <!-- 认证服务 -->
+    <logger name="top.tangyh.lamp.oauth.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.oauth.mapper" additivity="false" level="${log.level.mapper}">
+        <appender-ref ref="ASYNC_MAPPER_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.oauth" additivity="true" level="${log.level.service}">
+        <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+    </logger>
+
+    <!-- 消息服务 -->
+    <logger name="top.tangyh.lamp.msg.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.msg.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.msg.mapper" additivity="false" level="${log.level.mapper}">
+        <appender-ref ref="ASYNC_MAPPER_APPENDER"/>
+    </logger>
+</included>

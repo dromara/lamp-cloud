@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.generator.mapper.DefGenTableMapper">
+    <!--
+        代码生成器 by 2022-04-07 09:33:26
+        自定义sql建议在base文件夹同级新建ext文件夹，并新建同名且同namespace的xml进行编写。方便修改字段时，重新生成此文件。
+    -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.generator.entity.DefGenTable">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="comment_" property="comment"/>
+        <result column="swagger_comment" property="swaggerComment"/>
+        <result column="ds_id" property="dsId"/>
+        <result column="author" property="author"/>
+        <result column="sub_id" property="subId"/>
+        <result column="sub_java_field_name" property="subJavaFieldName"/>
+        <result column="entity_name" property="entityName"/>
+        <result column="entity_super_class" property="entitySuperClass"/>
+        <result column="super_class" property="superClass"/>
+        <result column="parent" property="parent"/>
+        <result column="plus_application_name" property="plusApplicationName"/>
+        <result column="plus_module_name" property="plusModuleName"/>
+        <result column="service_name" property="serviceName"/>
+        <result column="module_name" property="moduleName"/>
+        <result column="child_package_name" property="childPackageName"/>
+        <result column="is_tenant_line" property="isTenantLine"/>
+        <result column="ds_value" property="dsValue"/>
+        <result column="is_ds" property="isDs"/>
+        <result column="is_lombok" property="isLombok"/>
+        <result column="is_chain" property="isChain"/>
+        <result column="is_column_constant" property="isColumnConstant"/>
+        <result column="gen_type" property="genType"/>
+        <result column="output_dir" property="outputDir"/>
+        <result column="front_output_dir" property="frontOutputDir"/>
+        <result column="tpl_type" property="tplType"/>
+        <result column="popup_type" property="popupType"/>
+        <result column="add_auth" property="addAuth"/>
+        <result column="edit_auth" property="editAuth"/>
+        <result column="delete_auth" property="deleteAuth"/>
+        <result column="view_auth" property="viewAuth"/>
+        <result column="copy_auth" property="copyAuth"/>
+        <result column="add_show" property="addShow"/>
+        <result column="edit_show" property="editShow"/>
+        <result column="delete_show" property="deleteShow"/>
+        <result column="copy_show" property="copyShow"/>
+        <result column="view_show" property="viewShow"/>
+        <result column="options" property="options"/>
+        <result column="remark" property="remark"/>
+        <result column="menu_parent_id" property="menuParentId"/>
+        <result column="menu_application_id" property="menuApplicationId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_icon" property="menuIcon"/>
+        <result column="tree_parent_id" property="treeParentId"/>
+        <result column="tree_name" property="treeName"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , name, comment_, swagger_comment, ds_id, author,
+        sub_id, sub_java_field_name, entity_name, entity_super_class, super_class, parent,
+        plus_application_name, plus_module_name, service_name, module_name, child_package_name, is_tenant_line,
+        ds_value, is_ds, is_lombok, is_chain, is_column_constant, gen_type,
+        output_dir, front_output_dir, tpl_type, popup_type, add_auth, edit_auth,
+        delete_auth, view_auth, copy_auth, add_show, edit_show, delete_show,
+        copy_show, view_show, options, remark, menu_parent_id, menu_application_id,
+        menu_name, menu_icon, tree_parent_id, tree_name, created_by, created_time,
+        updated_by, updated_time
+    </sql>
+
+</mapper>

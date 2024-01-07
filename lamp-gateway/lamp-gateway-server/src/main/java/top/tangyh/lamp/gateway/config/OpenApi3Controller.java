@@ -17,9 +17,16 @@ import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
 import top.tangyh.basic.utils.StrPool;
 
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Swagger配置
@@ -52,7 +59,7 @@ public class OpenApi3Controller {
 
     private Map<String, Object> get() {
         List<Map<String, Object>> list = gatewayProperties.getRoutes().stream().
-                map(this::swaggerConfig).filter(Objects::nonNull).collect(Collectors.toList());
+                map(this::swaggerConfig).filter(Objects::nonNull).toList();
         if (CollUtil.isEmpty(list)) {
             return Collections.emptyMap();
         }
@@ -91,7 +98,7 @@ public class OpenApi3Controller {
                 return null;
             }
             map.forEach((k, v) -> {
-                if (k.equals("urls")) {
+                if ("urls".equals(k)) {
                     if (v instanceof List) {
                         List<Map<String, Object>> list = (List<Map<String, Object>>) v;
                         for (Map<String, Object> item : list) {

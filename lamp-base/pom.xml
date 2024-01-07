@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>top.tangyh.lamp</groupId>
+        <artifactId>lamp-dependencies-parent</artifactId>
+        <version>4.15.0-java17</version>
+        <relativePath>../lamp-dependencies-parent/pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>lamp-base</artifactId>
+    <name>${project.artifactId}</name>
+    <description>基础服务</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>lamp-base-api</module>
+        <module>lamp-base-server</module>
+        <module>lamp-base-entity</module>
+        <module>lamp-base-biz</module>
+        <module>lamp-base-controller</module>
+    </modules>
+</project>

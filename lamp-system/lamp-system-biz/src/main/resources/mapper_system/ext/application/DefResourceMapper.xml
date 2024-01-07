@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.application.DefResourceMapper">
+
+    <sql id="R_Column_List">
+        r
+        .
+        id
+        ,r.name, r.parent_id, r.sort_value, r.created_by, r.created_time, r.updated_by, r.updated_time,
+        r.application_id, r.code, r.resource_type, r.describe_, r.path, r.open_with, r.component, r.redirect, r.icon, r.is_general,
+        r.state, r.sub_group, r.field_is_secret, r.field_is_edit, r.data_scope, r.custom_class, r.is_def, r.meta_json, r.tree_grade, r.tree_path
+    </sql>
+
+
+    <sql id="DataScope_Column_List">
+        id
+        ,name,parent_id,sort_value,created_by,created_time,updated_by,updated_time,
+        data_scope, custom_class, is_def
+    </sql>
+    <sql id="DataScope_R_Column_List">
+        r
+        .
+        id
+        ,r.name,r.parent_id,r.sort_value,r.created_by,r.created_time,r.updated_by,r.updated_time,
+        r.data_scope, r.custom_class, r.is_def
+    </sql>
+
+    <delete id="deleteRoleResourceRelByResourceId" parameterType="map">
+        delete from base_role_resource_rel where resource_id in
+        <foreach close=")" collection="resourceIds" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

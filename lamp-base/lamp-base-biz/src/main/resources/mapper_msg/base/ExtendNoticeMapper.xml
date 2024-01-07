@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.msg.mapper.ExtendNoticeMapper">
+    <!--
+        代码生成器 by 2022-07-04 15:51:37
+        自定义sql建议在base文件夹同级新建ext文件夹，并新建同名且同namespace的xml进行编写。方便修改字段时，重新生成此文件。
+    -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.msg.entity.ExtendNotice">
+        <id column="id" property="id"/>
+        <result column="biz_id" property="bizId"/>
+        <result column="biz_type" property="bizType"/>
+        <result column="recipient_id" property="recipientId"/>
+        <result column="remind_mode" property="remindMode"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="author" property="author"/>
+        <result column="url" property="url"/>
+        <result column="target_" property="target"/>
+        <result column="auto_read" property="autoRead"/>
+        <result column="handle_time" property="handleTime"/>
+        <result column="read_time" property="readTime"/>
+        <result column="is_read" property="isRead"/>
+        <result column="is_handle" property="isHandle"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="created_org_id" property="createdOrgId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , biz_id, biz_type, recipient_id, remind_mode, title,
+        content, author, url, target_, auto_read, handle_time,
+        read_time, is_read, is_handle, created_time, created_by, updated_time,
+        updated_by, created_org_id
+    </sql>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.system.DefLoginLogMapper">
+
+    <delete id="clearLog" parameterType="map">
+        delete from def_login_log
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="clearBeforeTime != null">
+                AND created_time <![CDATA[ <= ]]> #{clearBeforeTime}
+            </if>
+            <if test="idList != null and idList.size() > 0">
+                AND id NOT in
+                <foreach close=")" collection="idList" item="id" open="(" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </trim>
+    </delete>
+
+</mapper>

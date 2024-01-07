@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import top.tangyh.basic.boot.config.BaseConfig;
 import top.tangyh.basic.log.event.SysLogListener;
-import top.tangyh.lamp.authority.service.common.OptLogService;
+import top.tangyh.basic.utils.BeanPlusUtil;
+import top.tangyh.lamp.base.service.system.BaseOperationLogService;
+import top.tangyh.lamp.base.vo.save.system.BaseOperationLogSaveVO;
 import top.tangyh.lamp.common.properties.SystemProperties;
 
 /**
@@ -22,7 +24,7 @@ public class OauthWebConfiguration extends BaseConfig {
      */
     @Bean
     @ConditionalOnExpression("${lamp.log.enabled:true} && 'DB'.equals('${lamp.log.type:LOGGER}')")
-    public SysLogListener sysLogListener(OptLogService optLogService) {
-        return new SysLogListener(optLogService::save);
+    public SysLogListener sysLogListener(BaseOperationLogService logApi) {
+        return new SysLogListener(data -> logApi.save(BeanPlusUtil.toBean(data, BaseOperationLogSaveVO.class)));
     }
 }

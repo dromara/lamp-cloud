@@ -5,7 +5,7 @@
     <parent>
         <artifactId>lamp-support</artifactId>
         <groupId>top.tangyh.lamp</groupId>
-        <version>3.11.0-java17</version>
+        <version>4.15.0-java17</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -59,10 +59,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                    <artifactId>tomcat-embed-websocket</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
@@ -87,17 +83,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- 邮件通知的支持 -->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-mail</artifactId>-->
-        <!--</dependency>-->
-        <!-- JMX-bean Manager-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.jolokia</groupId>-->
-        <!--            <artifactId>jolokia-core</artifactId>-->
-        <!--        </dependency>-->
-
 
     </dependencies>
     <build>

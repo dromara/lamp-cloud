@@ -1,8 +1,8 @@
 package top.tangyh.lamp.model.vo.save;
 
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -88,6 +88,7 @@ public class AppendixSaveVO implements Serializable {
     private Long size;
 
     @Schema(description = "附件id c_file表的id")
+    @NotNull(message = "请上传附件")
     private Long id;
 
 }

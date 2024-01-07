@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.base.mapper.user.BaseOrgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.base.entity.user.BaseOrg">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type_" jdbcType="CHAR" property="type"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="tree_grade" jdbcType="INTEGER" property="treeGrade"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , created_time, created_by, updated_time, updated_by,
+        name, type_, short_name, parent_id, tree_grade, tree_path, sort_value, state, remarks
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="O_Column_List">
+        o
+        .
+        id
+        , o.created_time, o.created_by, o.updated_time, o.updated_by,
+        o.name, o.type_, o.short_name, o.parent_id, o.tree_grade, o.tree_path, o.sort_value, o.state, o.remarks
+    </sql>
+</mapper>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>top.tangyh.lamp</groupId>
         <artifactId>lamp-public</artifactId>
-        <version>3.11.0-java17</version>
+        <version>4.15.0-java17</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,10 +14,6 @@
     <description>业务文件sdk</description>
 
     <dependencies>
-        <dependency>
-            <groupId>top.tangyh.basic</groupId>
-            <artifactId>lamp-mvc</artifactId>
-        </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-common</artifactId>
@@ -29,17 +25,13 @@
         </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>
-            <artifactId>lamp-boot-util</artifactId>
+            <artifactId>lamp-mvc</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
-                <exclusion>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                    <artifactId>tomcat-embed-websocket</artifactId>
-                </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>

@@ -25,7 +25,6 @@ import java.net.URI;
  */
 @Slf4j
 public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerClientFilter {
-    private static final int LOAD_BALANCER_CLIENT_FILTER_ORDER = 10150;
     private static final String LB = "lb";
     private GatewayLoadBalancerProperties properties;
 
@@ -39,7 +38,7 @@ public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalan
 
     @Override
     public int getOrder() {
-        return LOAD_BALANCER_CLIENT_FILTER_ORDER;
+        return OrderedConstant.GRAY;
     }
 
     @Override

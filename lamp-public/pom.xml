@@ -5,7 +5,7 @@
     <parent>
         <groupId>top.tangyh.lamp</groupId>
         <artifactId>lamp-dependencies-parent</artifactId>
-        <version>3.11.0-java17</version>
+        <version>4.15.0-java17</version>
         <relativePath>../lamp-dependencies-parent/pom.xml</relativePath>
     </parent>
 
@@ -17,13 +17,13 @@
     <name>${project.artifactId}</name>
     <description>业务相关公共模块</description>
     <modules>
+        <module>lamp-model</module>
         <module>lamp-common</module>
         <module>lamp-common-api</module>
+        <module>lamp-database-mode</module>
         <module>lamp-file-sdk</module>
-        <module>lamp-model</module>
-        <module>lamp-security-sdk</module>
-        <module>lamp-userinfo-sdk</module>
-        <module>lamp-saas-mode</module>
+        <module>lamp-data-scope-sdk</module>
+        <module>lamp-oauth-userinfo</module>
     </modules>
 
 </project>

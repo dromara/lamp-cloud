@@ -2,7 +2,7 @@ package top.tangyh.lamp.common.constant;
 
 import top.tangyh.basic.utils.ArgumentAssert;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +22,7 @@ public final class AppendixType {
      * 命名规则:
      * 业务表名_字段名
      */
-    public static final List<String> ALL_TYPES = Arrays.asList(Authority.APPLICATION_LOGO_URL,
-            Authority.APPLICATION_TITLE_ICON);
+    public static final List<String> ALL_TYPES = new ArrayList<>();
 
 
     private AppendixType() {
@@ -33,28 +32,31 @@ public final class AppendixType {
         ArgumentAssert.contain(ALL_TYPES, type, "附件类型未定义");
     }
 
-    /**
-     * 权限管理系统中有关的的附件类型定义
-     *
-     * @author zuihou
-     */
-    public interface Authority {
+    public interface System {
         /**
-         * 权限管理系统中的应用表中的logo
+         * 默认库 应用logo
          */
-        String APPLICATION_LOGO_URL = "auth_application_logo";
+        String DEF__APPLICATION__LOGO = "DEF__APPLICATION__LOGO";
+
         /**
-         * 权限管理系统中的应用表中的应用标题图标
-         */
-        String APPLICATION_TITLE_ICON = "auth_application_titleIcon";
-        /**
-         * 基础库 用户头像
+         * 默认库 用户头像
          *
          * @author tangyh
          * @date 2021/8/14 8:47 下午
          * @create [2021/8/14 8:47 下午 ] [tangyh] [初始创建]
          */
-        String BASE_USER_AVATAR = "BASE_USER_AVATAR";
+        String DEF__USER__AVATAR = "DEF__USER__AVATAR";
+    }
+
+    /**
+     * 权限管理系统中有关的的附件类型定义
+     *
+     * @author zuihou
+     */
+
+    public interface Base {
+
+
     }
 
     /**
@@ -68,7 +70,7 @@ public final class AppendixType {
          * @date 2021/8/14 8:45 下午
          * @create [2021/8/14 8:45 下午 ] [tangyh] [初始创建]
          */
-        String BASE_FILE = "BASE_FILE";
+        String BASE__FILE = "BASE__FILE";
     }
 
 
@@ -83,7 +85,7 @@ public final class AppendixType {
          * @date 2021/8/14 8:47 下午
          * @create [2021/8/14 8:47 下午 ] [tangyh] [初始创建]
          */
-        String EXTEND_MSG_CONTENT = "EXTEND_MSG_CONTENT";
+        String EXTEND__MSG__CONTENT = "EXTEND__MSG__CONTENT";
     }
 
 

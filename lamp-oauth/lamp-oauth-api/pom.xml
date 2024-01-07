@@ -5,7 +5,7 @@
     <parent>
         <groupId>top.tangyh.lamp</groupId>
         <artifactId>lamp-oauth</artifactId>
-        <version>3.11.0-java17</version>
+        <version>4.15.0-java17</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,14 +13,13 @@
     <artifactId>lamp-oauth-api</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>权限api模块</description>
+    <description>认证服务-api模块</description>
     <dependencies>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-authority-entity</artifactId>
+            <artifactId>lamp-oauth-entity</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-log-starter</artifactId>

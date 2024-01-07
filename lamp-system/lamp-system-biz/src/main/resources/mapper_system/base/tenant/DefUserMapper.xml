@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.tenant.DefUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.system.entity.tenant.DefUser">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="id_card" jdbcType="VARCHAR" property="idCard"/>
+        <result column="wx_open_id" jdbcType="VARCHAR" property="wxOpenId"/>
+        <result column="dd_open_id" jdbcType="VARCHAR" property="ddOpenId"/>
+        <result column="readonly" jdbcType="BIT" property="readonly"/>
+        <result column="nation" jdbcType="CHAR" property="nation"/>
+        <result column="education" jdbcType="CHAR" property="education"/>
+        <result column="sex" jdbcType="CHAR" property="sex"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="work_describe" jdbcType="VARCHAR" property="workDescribe"/>
+        <result column="password_error_last_time" jdbcType="TIMESTAMP" property="passwordErrorLastTime"/>
+        <result column="password_error_num" jdbcType="INTEGER" property="passwordErrorNum"/>
+        <result column="password_expire_time" jdbcType="TIMESTAMP" property="passwordExpireTime"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,created_by,created_time,updated_by,updated_time, nation, education,
+        username, nick_name, email, mobile, id_card, wx_open_id, dd_open_id, readonly, sex, state, work_describe, password_error_last_time, password_error_num, password_expire_time, password, salt, last_login_time
+    </sql>
+
+</mapper>

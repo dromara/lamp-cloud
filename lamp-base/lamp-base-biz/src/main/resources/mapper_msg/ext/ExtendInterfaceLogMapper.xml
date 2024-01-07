@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.msg.mapper.ExtendInterfaceLogMapper">
+    <update id="incrSuccessCount">
+        update extend_interface_log
+        set success_count  = success_count + 1,
+            last_exec_time = #{now}
+        where id = #{id, jdbcType=BIGINT}
+    </update>
+    <update id="incrFailCount">
+        update extend_interface_log
+        set fail_count     = fail_count + 1,
+            last_exec_time = #{now}
+        where id = #{id, jdbcType=BIGINT}
+    </update>
+</mapper>

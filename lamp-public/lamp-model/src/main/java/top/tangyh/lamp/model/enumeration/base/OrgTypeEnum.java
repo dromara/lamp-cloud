@@ -1,6 +1,5 @@
 package top.tangyh.lamp.model.enumeration.base;
 
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,11 +26,11 @@ public enum OrgTypeEnum implements BaseEnum {
     /**
      * 单位
      */
-    COMPANY("01", "单位"),
+    COMPANY("10", "单位"),
     /**
      * 部门
      */
-    DEPT("02", "部门"),
+    DEPT("20", "部门"),
     ;
 
     private String code;
@@ -50,7 +49,7 @@ public enum OrgTypeEnum implements BaseEnum {
     }
 
     public boolean eq(OrgTypeEnum val) {
-        return val != null && eq(val.name());
+        return val != null && eq(val.getCode());
     }
 
     @Override

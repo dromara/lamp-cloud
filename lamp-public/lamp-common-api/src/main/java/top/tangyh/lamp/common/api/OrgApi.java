@@ -1,10 +1,10 @@
 package top.tangyh.lamp.common.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.tangyh.basic.constant.Constants;
 import top.tangyh.basic.interfaces.echo.LoadService;
-import top.tangyh.lamp.common.api.fallback.OrgApiFallback;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -16,8 +16,7 @@ import java.util.Set;
  * @author zuihou
  * @date 2019/08/02
  */
-@FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", path = "/org",
-        fallback = OrgApiFallback.class)
+@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.oauth-server:lamp-oauth-server}", path = "")
 public interface OrgApi extends LoadService {
 
     /**
@@ -27,7 +26,7 @@ public interface OrgApi extends LoadService {
      * @return
      */
     @Override
-    @GetMapping("/findByIds")
+    @PostMapping("/echo/org/findByIds")
     Map<Serializable, Object> findByIds(@RequestParam(value = "ids") Set<Serializable> ids);
 
 }

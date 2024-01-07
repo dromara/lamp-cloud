@@ -12,7 +12,6 @@ import top.tangyh.basic.interfaces.BaseEnum;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author tangyh
@@ -36,6 +35,6 @@ public class Option {
 
     public static List<Option> mapOptions(BaseEnum[] values) {
         return Arrays.stream(values).map(item -> Option.builder().label(item.getDesc())
-                .text(item.getDesc()).value(item.getCode()).build()).collect(Collectors.toList());
+                .text(item.getDesc()).value(item.getCode()).build()).toList();
     }
 }

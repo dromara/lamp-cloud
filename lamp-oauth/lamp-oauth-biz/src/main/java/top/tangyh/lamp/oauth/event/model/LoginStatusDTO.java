@@ -7,16 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.log.util.AddressUtil;
-import top.tangyh.lamp.authority.dto.auth.Online;
+import top.tangyh.lamp.system.enumeration.system.LoginStatusEnum;
 
 import java.io.Serializable;
 
@@ -33,73 +32,85 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
+@Slf4j
 public class LoginStatusDTO implements Serializable {
     private static final long serialVersionUID = -3124612657759050173L;
-    /***
-     * 用户id
-     */
-    private Long id;
+
     /**
-     * 账号
+     * 登录员工
      */
-    private String account;
+    private Long employeeId;
     /**
-     * 租户编码
+     * 登录用户
      */
-    private String tenant;
+    private Long userId;
     /**
-     * 登录类型
+     * 登录IP
      */
-    private Type type;
+    private String requestIp;
+    /**
+     * 登录人姓名
+     */
+    private String nickName;
+    /**
+     * 登录人账号
+     */
+    private String username;
+    private String mobile;
     /**
      * 登录描述
      */
     private String description;
 
     /**
-     * 登录浏览器
+     * 浏览器请求头
      */
     private String ua;
     /**
-     * 登录IP
-     */
-    private String ip;
-    /**
-     * 登录地址
+     * 登录地点
      */
     private String location;
 
-    private Online online;
+    /**
+     * '登录状态;[01-登录成功 02-验证码错误 03-密码错误 04-账号锁定 05-切换租户 06-短信验证码错误]
+     *
+     * @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.LOGIN_STATUS)
+     */
 
-    public static LoginStatusDTO success(Long id, Online online) {
-        LoginStatusDTO loginStatus = LoginStatusDTO.builder()
-                .id(id).tenant(ContextUtil.getTenant())
-                .type(Type.SUCCESS).description("登录成功")
-                .build().setInfo();
-        online.setLoginIp(loginStatus.getIp());
-        online.setLocation(loginStatus.getLocation());
-        loginStatus.setOnline(online);
-        return loginStatus;
-    }
+    private String status;
 
-    public static LoginStatusDTO fail(Long id, String description) {
+    public static LoginStatusDTO success(Long userId, Long employeeId) {
         return LoginStatusDTO.builder()
-                .id(id).tenant(ContextUtil.getTenant())
-                .type(Type.FAIL).description(description)
+                .userId(userId).employeeId(employeeId)
+                .status(LoginStatusEnum.SUCCESS.getCode()).description("登录成功")
                 .build().setInfo();
     }
 
-    public static LoginStatusDTO fail(String account, String description) {
+    public static LoginStatusDTO switchOrg(Long userId, Long employeeId) {
         return LoginStatusDTO.builder()
-                .account(account).tenant(ContextUtil.getTenant())
-                .type(Type.FAIL).description(description)
+                .userId(userId).employeeId(employeeId)
+                .status(LoginStatusEnum.SWITCH.getCode()).description("切换租户")
                 .build().setInfo();
     }
 
-    public static LoginStatusDTO pwdError(Long id, String description) {
+    public static LoginStatusDTO fail(Long userId, LoginStatusEnum status, String description) {
         return LoginStatusDTO.builder()
-                .id(id).tenant(ContextUtil.getTenant())
-                .type(Type.PWD_ERROR).description(description)
+                .userId(userId)
+                .status(status.getCode()).description(description)
+                .build().setInfo();
+    }
+
+    public static LoginStatusDTO fail(String username, LoginStatusEnum status, String description) {
+        return LoginStatusDTO.builder()
+                .username(username)
+                .status(status.getCode()).description(description)
+                .build().setInfo();
+    }
+
+    public static LoginStatusDTO smsCodeError(String mobile, LoginStatusEnum status, String description) {
+        return LoginStatusDTO.builder()
+                .mobile(mobile)
+                .status(status.getCode()).description(description)
                 .build().setInfo();
     }
 
@@ -109,32 +120,14 @@ public class LoginStatusDTO implements Serializable {
             return this;
         }
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-        if (request == null) {
-            return this;
-        }
         String tempUa = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
         String tempIp = JakartaServletUtil.getClientIP(request);
+        log.info("tempIp={}, ua={}", tempIp, tempUa);
         String tempLocation = AddressUtil.getRegion(tempIp);
         this.ua = tempUa;
-        this.ip = tempIp;
+        this.requestIp = tempIp;
         this.location = tempLocation;
         return this;
-    }
-
-    @Getter
-    public enum Type {
-        /**
-         * 成功
-         */
-        SUCCESS,
-        /**
-         * 密码错误
-         */
-        PWD_ERROR,
-        /**
-         * 失败
-         */
-        FAIL
     }
 
 }

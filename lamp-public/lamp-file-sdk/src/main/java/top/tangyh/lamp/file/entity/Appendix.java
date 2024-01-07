@@ -32,7 +32,7 @@ import static top.tangyh.lamp.model.constant.Condition.LIKE;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("c_appendix")
+@TableName("com_appendix")
 @AllArgsConstructor
 public class Appendix extends Entity<Long> {
 
@@ -87,13 +87,13 @@ public class Appendix extends Entity<Long> {
 
 
     @Builder
-    public Appendix(Long id, LocalDateTime createTime, Long createdBy, LocalDateTime updateTime, Long updatedBy,
+    public Appendix(Long id, LocalDateTime createdTime, Long createdBy, LocalDateTime updatedTime, Long updatedBy,
                     Long bizId, String bizType, FileType fileType, String bucket, String path,
                     String originalFileName, String contentType, Long size) {
         this.id = id;
-        this.createTime = createTime;
+        this.createdTime = createdTime;
         this.createdBy = createdBy;
-        this.updateTime = updateTime;
+        this.updatedTime = updatedTime;
         this.updatedBy = updatedBy;
         this.bizId = bizId;
         this.bizType = bizType;

@@ -5,19 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>3.11.0-java17</version>
+    <version>4.15.0-java17</version>
     <packaging>pom</packaging>
     <url>https://github.com/dromara/lamp-cloud</url>
     <name>${project.artifactId}</name>
     <description>lamp-cloud</description>
-    <licenses>
-        <license>
-            <name>Apache 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
     <developers>
         <developer>
             <name>zuihou</name>
@@ -26,14 +18,14 @@
     </developers>
 
     <modules>
+        <!-- @lamp.generator auto insert root.pom.xml -->
         <module>lamp-dependencies-parent</module>
         <module>lamp-public</module>
+        <module>lamp-base</module>
         <module>lamp-oauth</module>
-        <module>lamp-authority</module>
-        <module>lamp-tenant</module>
-        <module>lamp-msg</module>
-        <module>lamp-file</module>
+        <module>lamp-system</module>
         <module>lamp-gateway</module>
         <module>lamp-support</module>
+        <module>lamp-generator</module>
     </modules>
 </project>

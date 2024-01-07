@@ -5,38 +5,57 @@
     <parent>
         <artifactId>lamp-oauth</artifactId>
         <groupId>top.tangyh.lamp</groupId>
-        <version>3.11.0-java17</version>
+        <version>4.15.0-java17</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lamp-oauth-biz</artifactId>
     <name>${project.artifactId}</name>
-    <description>认证服务业务模块</description>
+    <description>认证服务-业务模块</description>
     <dependencies>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-authority-biz</artifactId>
+            <artifactId>lamp-base-api</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+
+        <!-- jwt 只有Oauth服务需要使用 -->
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-jwt-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-oauth-entity</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-tenant-biz</artifactId>
+            <artifactId>lamp-system-biz</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-base-biz</artifactId>
+            <version>${lamp-project.version}</version>
+        </dependency>
+        <!-- jwt 只有认证服务需要使用 -->
+        <dependency>
             <groupId>top.tangyh.basic</groupId>
-            <artifactId>lamp-jwt-starter</artifactId>
+            <artifactId>lamp-webmvc</artifactId>
         </dependency>
         <!-- log 只有认证服务biz模块引用，其他服务都在controller模块 -->
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-log-starter</artifactId>
         </dependency>
+
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-captcha-starter</artifactId>
         </dependency>
+
     </dependencies>
 
 

@@ -1,5 +1,6 @@
 package top.tangyh.lamp.common.dto;
 
+import lombok.ToString;
 import top.tangyh.basic.utils.DateUtils;
 
 import java.io.Serializable;
@@ -8,9 +9,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
+ * job 类
+ *
  * @author zuihou
  * @date 2021/1/5 9:23 上午
  */
+@ToString
 public class XxlJobInfoVO implements Serializable {
 
     private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_TIME_FORMAT);
@@ -79,7 +83,7 @@ public class XxlJobInfoVO implements Serializable {
     /**
      * GLUE更新时间
      */
-    private Date glueUpdatetime;
+    private Date glueupdatedTime;
     /**
      * 子任务ID，多个逗号分隔
      */
@@ -263,12 +267,12 @@ public class XxlJobInfoVO implements Serializable {
         return this;
     }
 
-    public Date getGlueUpdatetime() {
-        return glueUpdatetime;
+    public Date getGlueupdatedTime() {
+        return glueupdatedTime;
     }
 
-    public XxlJobInfoVO setGlueUpdatetime(Date glueUpdatetime) {
-        this.glueUpdatetime = glueUpdatetime;
+    public XxlJobInfoVO setGlueupdatedTime(Date glueupdatedTime) {
+        this.glueupdatedTime = glueupdatedTime;
         return this;
     }
 

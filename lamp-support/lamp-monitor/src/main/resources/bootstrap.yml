@@ -2,7 +2,7 @@ lamp:
   nacos:
     ip: ${NACOS_IP:@nacos.ip@}
     port: ${NACOS_PORT:@nacos.port@}
-    namespace: ${NACOS_ID:@nacos.namespace@}
+    namespace: ${NACOS_NAMESPACE:@nacos.namespace@}
     username: ${NACOS_USERNAME:@nacos.username@}
     password: ${NACOS_PASSWORD:@nacos.password@}
 spring:
@@ -39,7 +39,7 @@ spring:
 logging:
   file:
     # 为什么要用绝对路径，而非相对路径？ 正式环境服务器磁盘通常是外挂到某个目录的，所以需要指定这个路径。 开发环境将所有系统日志存放在一起，便于后期清理日志文件，不用一个项目一个项目删除。
-    path: @logging.file.path@
+    path: '@logging.file.path@'
     name: ${logging.file.path}/${spring.application.name}/root.log
 
 # 用于/actuator/info

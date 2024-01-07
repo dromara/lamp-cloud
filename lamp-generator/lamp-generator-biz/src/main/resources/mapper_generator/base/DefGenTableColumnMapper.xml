@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.generator.mapper.DefGenTableColumnMapper">
+    <!-- 代码生成器 by 2022-03-24 13:27:50 -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.generator.entity.DefGenTableColumn">
+        <id column="id" property="id"/>
+        <result column="table_id" property="tableId"/>
+        <result column="name" property="name"/>
+        <result column="comment_" property="comment"/>
+        <result column="swagger_comment" property="swaggerComment"/>
+        <result column="type" property="type"/>
+        <result column="java_type" property="javaType"/>
+        <result column="java_field" property="javaField"/>
+        <result column="ts_type" property="tsType"/>
+        <result column="size_" property="size"/>
+        <result column="digit" property="digit"/>
+        <result column="is_pk" property="isPk"/>
+        <result column="is_increment" property="isIncrement"/>
+        <result column="is_required" property="isRequired"/>
+        <result column="is_logic_delete_field" property="isLogicDeleteField"/>
+        <result column="is_version_field" property="isVersionField"/>
+        <result column="fill" property="fill"/>
+        <result column="is_edit" property="isEdit"/>
+        <result column="is_list" property="isList"/>
+        <result column="is_query" property="isQuery"/>
+        <result column="width" property="width"/>
+        <result column="query_type" property="queryType"/>
+        <result column="component" property="component"/>
+        <result column="vxe_component" property="vxeComponent"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="echo_str" property="echoStr"/>
+        <result column="enum_str" property="enumStr"/>
+        <result column="sort_value" property="sortValue"/>
+        <result column="edit_def_value" property="editDefValue"/>
+        <result column="edit_help_message" property="editHelpMessage"/>
+        <result column="index_help_message" property="indexHelpMessage"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , table_id, name, comment_, swagger_comment, type,
+        java_type, java_field, ts_type, size_, digit, is_pk, is_increment,
+        is_required, is_logic_delete_field, is_version_field, fill, is_edit, is_list,
+        is_query, width, query_type, component, vxe_component, dict_type,
+        echo_str, enum_str, sort_value, edit_def_value, edit_help_message, index_help_message,
+        created_by, created_time, updated_by, updated_time
+    </sql>
+
+</mapper>

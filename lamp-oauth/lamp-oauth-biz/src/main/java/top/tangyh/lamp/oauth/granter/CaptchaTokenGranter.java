@@ -1,23 +1,18 @@
 package top.tangyh.lamp.oauth.granter;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import top.tangyh.basic.base.R;
-import top.tangyh.basic.database.properties.DatabaseProperties;
 import top.tangyh.basic.exception.BizException;
-import top.tangyh.basic.jwt.TokenUtil;
-import top.tangyh.basic.jwt.model.AuthInfo;
 import top.tangyh.basic.utils.SpringUtils;
-import top.tangyh.lamp.authority.dto.auth.LoginParamDTO;
-import top.tangyh.lamp.authority.service.auth.ApplicationService;
-import top.tangyh.lamp.authority.service.auth.OnlineService;
-import top.tangyh.lamp.authority.service.auth.UserService;
-import top.tangyh.lamp.common.properties.SystemProperties;
-import top.tangyh.lamp.file.service.AppendixService;
+import top.tangyh.basic.utils.StrHelper;
 import top.tangyh.lamp.oauth.event.LoginEvent;
 import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
-import top.tangyh.lamp.oauth.service.ValidateCodeService;
-import top.tangyh.lamp.tenant.service.TenantService;
+import top.tangyh.lamp.oauth.service.CaptchaService;
+import top.tangyh.lamp.oauth.vo.param.LoginParamVO;
+import top.tangyh.lamp.oauth.vo.result.LoginResultVO;
+import top.tangyh.lamp.system.enumeration.system.LoginStatusEnum;
 
 import static top.tangyh.lamp.oauth.granter.CaptchaTokenGranter.GRANT_TYPE;
 
@@ -28,32 +23,37 @@ import static top.tangyh.lamp.oauth.granter.CaptchaTokenGranter.GRANT_TYPE;
  */
 @Component(GRANT_TYPE)
 @Slf4j
-public class CaptchaTokenGranter extends AbstractTokenGranter implements TokenGranter {
+@RequiredArgsConstructor
+public class CaptchaTokenGranter extends PasswordTokenGranter implements TokenGranter {
 
-    public static final String GRANT_TYPE = "captcha";
-    private final ValidateCodeService validateCodeService;
-
-    public CaptchaTokenGranter(TokenUtil tokenUtil, UserService userService, AppendixService appendixService,
-                               TenantService tenantService, ApplicationService applicationService,
-                               DatabaseProperties databaseProperties, ValidateCodeService validateCodeService,
-                               OnlineService onlineService, SystemProperties systemProperties) {
-        super(tokenUtil, userService, tenantService, applicationService, databaseProperties,
-                onlineService, systemProperties, appendixService);
-        this.validateCodeService = validateCodeService;
-    }
+    public static final String GRANT_TYPE = "CAPTCHA";
+    private final CaptchaService captchaService;
 
     @Override
-    public R<AuthInfo> grant(LoginParamDTO loginParam) {
+    protected R<LoginResultVO> checkCaptcha(LoginParamVO loginParam) {
         if (systemProperties.getVerifyCaptcha()) {
-            R<Boolean> check = validateCodeService.check(loginParam.getKey(), loginParam.getCode());
+            R<Boolean> check = captchaService.checkCaptcha(loginParam.getKey(), GRANT_TYPE, loginParam.getCode());
             if (!check.getIsSuccess()) {
                 String msg = check.getMsg();
-                SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.fail(loginParam.getAccount(), msg)));
+                SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.fail(loginParam.getUsername(), LoginStatusEnum.CAPTCHA_ERROR, msg)));
                 throw BizException.validFail(check.getMsg());
             }
         }
+        return R.success(null);
+    }
 
-        return login(loginParam);
+    @Override
+    public R<LoginResultVO> checkParam(LoginParamVO loginParam) {
+        String username = loginParam.getUsername();
+        String password = loginParam.getPassword();
+        if (StrHelper.isAnyBlank(username, password)) {
+            return R.fail("请输入用户名或密码");
+        }
+        if (StrHelper.isAnyBlank(loginParam.getCode(), loginParam.getKey())) {
+            return R.fail("请输入验证码");
+        }
+
+        return R.success(null);
     }
 
 }

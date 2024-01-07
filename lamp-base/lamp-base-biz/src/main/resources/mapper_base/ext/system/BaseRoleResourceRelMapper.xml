@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.base.mapper.system.BaseRoleResourceRelMapper">
+    <sql id="R_Column_List">
+        r
+        .
+        id
+        , r.created_time, r.created_by, r.updated_time, r.updated_by,
+        r.resource_id, r.application_id, r.role_id, r.created_org_id
+    </sql>
+
+    <select id="findByRoleIdAndCategory" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="R_Column_List"/>
+        from base_role_resource_rel r
+        left join base_role role on role.id = r.role_id
+        where r.role_id = #{roleId}
+        and role.category = #{category}
+    </select>
+
+    <select id="selectResourceIdByRoleId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT rrr.resource_id
+        FROM base_role_resource_rel rrr
+        <where>
+            and rrr.role_id = #{roleId}
+            <if test="applicationId != null">
+                and rrr.application_id = #{applicationId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectResourceIdByEmployeeId" parameterType="map" resultType="java.lang.Long">
+        select
+        DISTINCT r.resource_id
+        from base_role_resource_rel r
+        left join base_role role on role.id = r.role_id
+        left join base_employee_role_rel er on er.role_id = role.id
+        where er.employee_id = #{employeeId}
+        <if test="applicationId != null">
+            and r.application_id = #{applicationId}
+        </if>
+        and role.state = 1
+        union
+        select
+        DISTINCT r.resource_id
+        from base_role_resource_rel r
+        left join base_role role on role.id = r.role_id
+        left join base_org_role_rel orr on orr.role_id = role.id
+        left join base_org o on o.id = orr.org_id
+        left join base_employee_org_rel eo on eo.org_id = o.id
+        where eo.employee_id = #{employeeId}
+        <if test="applicationId != null">
+            and r.application_id = #{applicationId}
+        </if>
+        and role.state = 1
+        and o.state= 1
+    </select>
+
+</mapper>

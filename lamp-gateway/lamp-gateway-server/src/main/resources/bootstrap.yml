@@ -1,12 +1,18 @@
 lamp:
   swagger:
-    version: @project.version@
+    version: '@project.version@'
   nacos:
     ip: ${NACOS_IP:@nacos.ip@}
     port: ${NACOS_PORT:@nacos.port@}
     namespace: ${NACOS_NAMESPACE:@nacos.namespace@}
     username: ${NACOS_USERNAME:@nacos.username@}
     password: ${NACOS_PASSWORD:@nacos.password@}
+  seata:
+    ip: ${SEATA_IP:@seata.ip@}
+    port: ${SEATA_PORT:@seata.port@}
+    namespace: ${SEATA_NAMESPACE:@seata.namespace@}
+  sentinel:
+    dashboard: ${SENTINEL_DASHBOARD:@sentinel.dashboard@}
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -32,7 +38,7 @@ spring:
             refresh: true
           - dataId: redis.yml
             refresh: false
-          - dataId: @db.dataId@
+          - dataId: database.yml
             refresh: true
           - dataId: rabbitmq.yml
             refresh: false

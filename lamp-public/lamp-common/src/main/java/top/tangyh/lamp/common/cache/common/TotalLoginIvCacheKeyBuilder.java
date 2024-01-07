@@ -3,7 +3,7 @@ package top.tangyh.lamp.common.cache.common;
 
 import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.model.cache.CacheKeyBuilder;
-import top.tangyh.lamp.common.cache.CacheKeyDefinition;
+import top.tangyh.lamp.common.cache.CacheKeyTable;
 
 /**
  * 参数 KEY
@@ -20,7 +20,7 @@ public class TotalLoginIvCacheKeyBuilder implements CacheKeyBuilder {
     }
 
     @Override
-    public String getPrefix() {
-        return CacheKeyDefinition.TOTAL_LOGIN_IV;
+    public String getTable() {
+        return CacheKeyTable.TOTAL_LOGIN_IV;
     }
 }

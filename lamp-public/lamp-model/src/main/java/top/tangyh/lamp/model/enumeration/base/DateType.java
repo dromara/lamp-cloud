@@ -50,7 +50,7 @@ public enum DateType implements BaseEnum {
     }
 
     public boolean eq(DateType val) {
-        return val == null ? false : eq(val.name());
+        return val != null && eq(val.name());
     }
 
     @Override

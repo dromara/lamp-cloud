@@ -5,23 +5,24 @@
     <parent>
         <artifactId>lamp-oauth</artifactId>
         <groupId>top.tangyh.lamp</groupId>
-        <version>3.11.0-java17</version>
+        <version>4.15.0-java17</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lamp-oauth-server</artifactId>
     <name>${project.artifactId}</name>
-    <description>认证服务启动模块</description>
+    <description>认证服务-启动模块</description>
 
     <dependencies>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-saas-mode</artifactId>
+            <artifactId>lamp-oauth-controller</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-oauth-controller</artifactId>
+            <artifactId>lamp-database-mode</artifactId>
             <version>${lamp-project.version}</version>
         </dependency>
 

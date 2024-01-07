@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.base.mapper.system.BaseRoleMapper">
+
+    <select id="listEmployeeIdByRoleId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT employee_id
+        FROM base_employee_role_rel where role_id in
+        <foreach collection="roleIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <select id="selectRoleIdByOrgId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT r.id
+        FROM base_role r INNER JOIN base_org_role_rel err on r.id = err.role_id
+        <where>
+            err.org_id = #{orgId} and r.state = 1
+        </where>
+    </select>
+
+    <select id="selectRoleByEmployeeId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT r.id
+        FROM base_role r INNER JOIN base_employee_role_rel err on r.id = err.role_id
+        <where>
+            err.employee_id = #{employeeId} and r.state = 1
+        </where>
+    </select>
+
+    <select id="selectRoleByEmployee" parameterType="map" resultMap="BaseResultMap">
+        SELECT r.*
+        FROM base_role r
+        left join base_employee_role_rel er on r.id = er.role_id
+        where er.employee_id = #{employeeId}
+        <if test="codes != null and codes.length > 0">
+            and r.code in
+            <foreach close=")" collection="codes" item="id" open="(" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        and r.state = 1
+        UNION
+        SELECT r.*
+        FROM base_role r
+        left join base_org_role_rel orr on orr.role_id = r.id
+        left join base_org o on o.id = orr.org_id
+        left join base_employee_org_rel eo on eo.org_id = o.id
+        where eo.employee_id = #{employeeId}
+        <if test="codes != null and codes.length > 0">
+            and r.code in
+            <foreach close=")" collection="codes" item="id" open="(" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        and r.state = 1
+        and o.state = 1
+    </select>
+</mapper>

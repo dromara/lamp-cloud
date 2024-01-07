@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.base.mapper.user.BaseEmployeeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ResultVOResultMap" type="top.tangyh.lamp.base.vo.result.user.BaseEmployeeResultVO"
+               extends="top.tangyh.lamp.base.mapper.user.BaseEmployeeMapper.BaseResultMap">
+
+
+        <collection property="orgIdList"
+                    select="top.tangyh.lamp.base.mapper.user.BaseEmployeeOrgRelMapper.selectOrgByEmployeeId"
+                    ofType="long"
+                    column="{employeeId=id}"/>
+    </resultMap>
+
+
+    <select id="selectPageResultVO" resultMap="ResultVOResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from base_employee e ${ew.customSqlSegment}
+    </select>
+
+    <sql id="Uar_Column_List">
+        utr
+        .
+        id
+        , utr.created_by, utr.created_time, utr.updated_by, utr.updated_time,
+        utr.is_default, utr.user_id, utr.state
+    </sql>
+
+    <select id="listEmployeeByUserId" resultMap="ResultVOResultMap">
+        SELECT
+        <include refid="Uar_Column_List"/>
+        FROM base_employee utr
+        where utr.user_id = ${userId}
+        order by utr.state desc, utr.is_default desc
+    </select>
+</mapper>

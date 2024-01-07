@@ -15,22 +15,22 @@ import java.util.stream.Stream;
  * </p>
  *
  * @author zuihou
- * @date 2020-11-19
+ * @date 2021-10-27
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "连接类型-枚举")
+@Schema(description = "数据源链接类型-枚举")
 public enum TenantConnectTypeEnum implements BaseEnum {
 
     /**
-     * SYSTEM="系统"
+     * SYSTEM="系统内置"
      */
-    SYSTEM("系统"),
+    SYSTEM("系统内置数据源"),
     /**
-     * CUSTOM="自定义"
+     * CUSTOM="自定义数据源"
      */
-    CUSTOM("自定义"),
+    CUSTOM("自定义数据源"),
     ;
 
     @Schema(description = "描述")

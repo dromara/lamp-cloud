@@ -1,18 +1,17 @@
 package top.tangyh.lamp.oauth.event.listener;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.basic.database.properties.DatabaseProperties;
-import top.tangyh.basic.database.properties.MultiTenantType;
-import top.tangyh.lamp.authority.service.auth.UserService;
-import top.tangyh.lamp.authority.service.common.LoginLogService;
 import top.tangyh.lamp.oauth.event.LoginEvent;
 import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
+import top.tangyh.lamp.system.enumeration.system.LoginStatusEnum;
+import top.tangyh.lamp.system.service.system.DefLoginLogService;
+import top.tangyh.lamp.system.service.tenant.DefUserService;
+import top.tangyh.lamp.system.vo.save.system.DefLoginLogSaveVO;
 
 /**
  * 登录事件监听，用于记录登录日志
@@ -24,30 +23,23 @@ import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
 @Slf4j
 @RequiredArgsConstructor
 public class LoginListener {
-    private final LoginLogService loginLogService;
-    private final UserService userService;
-    private final DatabaseProperties databaseProperties;
+    private final DefLoginLogService defLoginLogService;
+    private final DefUserService defUserService;
 
     @Async
     @EventListener({LoginEvent.class})
     public void saveSysLog(LoginEvent event) {
         LoginStatusDTO loginStatus = (LoginStatusDTO) event.getSource();
-        log.info("loginStatus={}", loginStatus);
-        if (!MultiTenantType.NONE.eq(databaseProperties.getMultiTenantType()) && StrUtil.isEmpty(loginStatus.getTenant())) {
-            log.warn("忽略记录登录日志:{}", loginStatus);
-            return;
-        }
 
-        ContextUtil.setTenant(loginStatus.getTenant());
-        if (LoginStatusDTO.Type.SUCCESS == loginStatus.getType()) {
+        if (LoginStatusEnum.SUCCESS.eq(loginStatus.getStatus())) {
             // 重置错误次数 和 最后登录时间
-            this.userService.resetPassErrorNum(loginStatus.getId());
-
-        } else if (LoginStatusDTO.Type.PWD_ERROR == loginStatus.getType()) {
+            this.defUserService.resetPassErrorNum(loginStatus.getUserId());
+        } else if (LoginStatusEnum.PASSWORD_ERROR.eq(loginStatus.getStatus())) {
             // 密码错误
-            this.userService.incrPasswordErrorNumById(loginStatus.getId());
+            this.defUserService.incrPasswordErrorNumById(loginStatus.getUserId());
         }
-        loginLogService.save(loginStatus.getId(), loginStatus.getAccount(), loginStatus.getUa(), loginStatus.getIp(), loginStatus.getLocation(), loginStatus.getDescription());
+        DefLoginLogSaveVO saveVO = BeanUtil.toBean(loginStatus, DefLoginLogSaveVO.class);
+        defLoginLogService.save(saveVO);
     }
 
 }

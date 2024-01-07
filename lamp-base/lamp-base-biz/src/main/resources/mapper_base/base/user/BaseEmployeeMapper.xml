@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.base.mapper.user.BaseEmployeeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.base.entity.user.BaseEmployee">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="is_default" jdbcType="BIT" property="isDefault"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="position_id" jdbcType="BIGINT" property="positionId"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="position_status" jdbcType="CHAR" property="positionStatus"/>
+        <result column="active_status" jdbcType="CHAR" property="activeStatus"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="last_company_id" jdbcType="BIGINT" property="lastCompanyId"/>
+        <result column="last_dept_id" jdbcType="BIGINT" property="lastDeptId"/>
+        <result column="created_org_id" jdbcType="BIGINT" property="createdOrgId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , created_by, created_time, updated_by, updated_time,  active_status, last_company_id, last_dept_id,
+        is_default, user_id, position_id, real_name, position_status, state, created_org_id
+    </sql>
+
+</mapper>

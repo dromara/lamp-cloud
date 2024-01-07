@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.msg.mapper.ExtendMsgMapper">
+    <!--
+        代码生成器 by 2022-07-10 11:41:17
+        自定义sql建议在base文件夹同级新建ext文件夹，并新建同名且同namespace的xml进行编写。方便修改字段时，重新生成此文件。
+    -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.msg.entity.ExtendMsg">
+        <id column="id" property="id"/>
+        <result column="template_code" property="templateCode"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="channel" property="channel"/>
+        <result column="param" property="param"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="biz_id" property="bizId"/>
+        <result column="biz_type" property="bizType"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , template_code, type, status, channel, param,
+        title, content, send_time, biz_id, biz_type, created_by,
+        created_time, updated_by, updated_time
+    </sql>
+
+</mapper>

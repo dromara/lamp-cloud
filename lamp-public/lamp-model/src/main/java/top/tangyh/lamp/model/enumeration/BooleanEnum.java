@@ -12,13 +12,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum BooleanEnum {
+    /**
+     * true
+     */
     TRUE(true, 1, "1", "是"),
+    /**
+     * false
+     */
     FALSE(false, 0, "0", "否"),
     ;
-    private Boolean bool;
-    private int integer;
-    private String str;
-    private String describe;
+    private final Boolean bool;
+    private final int integer;
+    private final String str;
+    private final String describe;
 
     public boolean eq(Integer val) {
         if (val == null) {

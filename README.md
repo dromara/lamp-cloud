@@ -3,7 +3,7 @@
 [![Language](https://img.shields.io/badge/语言-Java%20%7C%20SpringCloud%20%7C%20Vue3%20%7C%20...-red?style=flat-square&color=42b883)](https://github.com/dromara/lamp-cloud)
 [![License](https://img.shields.io/github/license/dromara/lamp-cloud?color=42b883&style=flat-square)](https://github.com/dromara/lamp-cloud/blob/master/LICENSE)
 [![Author](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![Version](https://img.shields.io/badge/版本-3.11.0-java17-brightgreen.svg)](https://github.com/dromara/lamp-cloud)
+[![Version](https://img.shields.io/badge/版本-4.15.0-java17-brightgreen.svg)](https://github.com/dromara/lamp-cloud)
 [![Star](https://img.shields.io/github/stars/dromara/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/dromara/lamp-cloud/stargazers)
 [![Fork](https://img.shields.io/github/forks/dromara/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/dromara/lamp-cloud/network/members)
 [![Star](https://gitee.com/dromara/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/stargazers)
@@ -86,24 +86,17 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 
 # 演示地址
 
-- 官网：[https://tangyh.top](https://tangyh.top)
-- 4.0版本：后端使用lamp-cloud-pro-datasource-column，
-  前端使用lamp-web-pro。演示地址：   [https://datasource.tangyh.top](https://datasource.tangyh.top)
-- 4.0版本：后端使用lamp-cloud-pro-column，
-  前端使用lamp-web-pro。演示地址：   [https://column.tangyh.top](https://column.tangyh.top)
-- 4.0版本：后端使用lamp-cloud-pro-none，
-  前端使用lamp-web-pro。演示地址：   [https://none.tangyh.top](https://none.tangyh.top)
-- 3.x版本：后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址：  [https://boot.tangyh.top](https://boot.tangyh.top)
-- 3.x版本：后端使用lamp-boot-plus，
-  前端使用lamp-web。演示地址：     [https://boot.tangyh.top/lamp-web](https://boot.tangyh.top/lamp-web)
+- 官网
+  - [https://tangyh.top](https://tangyh.top)
+- 4.0版本
+  - 后端使用lamp-cloud-pro-datasource-column， 前端使用lamp-web-pro，演示地址：   [https://datasource.tangyh.top](https://datasource.tangyh.top)
+  - 后端使用lamp-cloud-pro-column， 前端使用lamp-web-pro，演示地址：   [https://column.tangyh.top](https://column.tangyh.top)
+  - 后端使用lamp-cloud-pro-none， 前端使用lamp-web-pro，演示地址：   [https://none.tangyh.top](https://none.tangyh.top)
+- 3.x版本
+  - 后端使用lamp-boot-plus， 前端使用lamp-web-plus。演示地址：  [https://boot.tangyh.top](https://boot.tangyh.top)
+  - 后端使用lamp-boot-plus， 前端使用lamp-web。演示地址：     [https://boot.tangyh.top/lamp-web](https://boot.tangyh.top/lamp-web)
 
-> 4.0 企业版源码已经发布，开源版和个人版(4.0功能可能有所不同)发布暂缓，详情咨询作者
 
-# 快速上手
-
-- 入门到精通，参考 [在线文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
-- 发现bug和建议，请提交 [issue](https://github.com/dromara/lamp-cloud/issues)
-- 常见问题，请参考 [Discussions](https://github.com/dromara/lamp-cloud/discussions)
 
 # 作者参与过或PR过的项目
 
@@ -133,7 +126,7 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 - 【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
 - 【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
 - 通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
-一份。
+  一份。
 
 # Dromara 成员项目
 

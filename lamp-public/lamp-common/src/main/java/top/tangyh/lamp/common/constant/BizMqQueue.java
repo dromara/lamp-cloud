@@ -15,23 +15,8 @@ public interface BizMqQueue {
     /**
      * 租户数据源 广播
      */
-    String TENANT_DS_FANOUT_EXCHANGE_AUTHORITY = "tenant_ds_fe_authority";
-    /**
-     * 租户数据源 广播
-     */
-    String TENANT_DS_FANOUT_EXCHANGE_MSG = "tenant_ds_fe_msg";
-    /**
-     * 租户数据源 广播
-     */
-    String TENANT_DS_FANOUT_EXCHANGE_DEMO = "tenant_ds_fe_demo";
-    /**
-     * 租户数据源 广播
-     */
-    String TENANT_DS_FANOUT_EXCHANGE_ORDER = "tenant_ds_fe_order";
-    /**
-     * 租户数据源 广播
-     */
-    String TENANT_DS_FANOUT_EXCHANGE_FILE = "tenant_ds_fe_file";
+    String TENANT_DS_FANOUT_EXCHANGE_BASE = "tenant_ds_fe_base";
+    String TENANT_DS_FANOUT_EXCHANGE_SYSTEM = "tenant_ds_fe_system";
     /**
      * 租户数据源 广播
      */
@@ -40,7 +25,7 @@ public interface BizMqQueue {
     /**
      * 租户数据源 广播
      */
-    String TENANT_DS_FANOUT_EXCHANGE_GATEWAY = "tenant_ds_fe_geteway";
+    String TENANT_DS_FANOUT_EXCHANGE_GATEWAY = "tenant_ds_fe_gateway";
 
     /**
      * 租户数据源 队列 消费者
@@ -54,23 +39,11 @@ public interface BizMqQueue {
     /**
      * 租户数据源 队列 消费者
      */
-    String TENANT_DS_QUEUE_BY_AUTHORITY = "tenant_ds_authority";
+    String TENANT_DS_QUEUE_BY_BASE = "tenant_ds_base";
     /**
      * 租户数据源 队列 消费者
      */
-    String TENANT_DS_QUEUE_BY_DEMO = "tenant_ds_demo";
-    /**
-     * 租户数据源 队列 消费者
-     */
-    String TENANT_DS_QUEUE_BY_ORDER = "tenant_ds_order";
-    /**
-     * 租户数据源 队列 消费者
-     */
-    String TENANT_DS_QUEUE_BY_FILE = "tenant_ds_file";
-    /**
-     * 租户数据源 队列 消费者
-     */
-    String TENANT_DS_QUEUE_BY_MSG = "tenant_ds_msg";
+    String TENANT_DS_QUEUE_BY_SYSTEM = "tenant_ds_system";
     /**
      * 租户数据源 队列 消费者
      */

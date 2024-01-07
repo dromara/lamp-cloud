@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.application.DefResourceApiMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.system.entity.application.DefResourceApi">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="resource_id" jdbcType="BIGINT" property="resourceId"/>
+        <result column="controller" jdbcType="VARCHAR" property="controller"/>
+        <result column="spring_application_name" jdbcType="VARCHAR" property="springApplicationName"/>
+        <result column="request_method" jdbcType="VARCHAR" property="requestMethod"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="uri" jdbcType="VARCHAR" property="uri"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,created_by,created_time,updated_by,updated_time,
+        resource_id, controller, spring_application_name, request_method, name, uri
+    </sql>
+
+</mapper>

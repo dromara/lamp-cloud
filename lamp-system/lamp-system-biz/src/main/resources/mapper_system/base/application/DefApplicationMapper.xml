@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.application.DefApplicationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.system.entity.application.DefApplication">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
+        <result column="introduce" jdbcType="VARCHAR" property="introduce"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="is_visible" jdbcType="BIT" property="isVisible"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , created_by, created_time, updated_by, updated_time,
+        app_key, app_secret, name, version, type, introduce, remark, url, is_visible, sort_value
+    </sql>
+
+
+</mapper>

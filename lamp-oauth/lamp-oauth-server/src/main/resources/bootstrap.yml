@@ -1,17 +1,25 @@
 lamp:
   swagger:
-    version: @project.version@
+    version: '@project.version@'
   nacos:
     ip: ${NACOS_IP:@nacos.ip@}
     port: ${NACOS_PORT:@nacos.port@}
     namespace: ${NACOS_NAMESPACE:@nacos.namespace@}
     username: ${NACOS_USERNAME:@nacos.username@}
     password: ${NACOS_PASSWORD:@nacos.password@}
+  seata:
+    ip: ${SEATA_IP:@seata.ip@}
+    port: ${SEATA_PORT:@seata.port@}
+    namespace: ${SEATA_NAMESPACE:@seata.namespace@}
+  sentinel:
+    dashboard: ${SENTINEL_DASHBOARD:@sentinel.dashboard@}
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
     name: '@project.artifactId@'
+    # lamp自定义配置，用于lamp-scan-starter扫描接口时，拼接uri前缀。 需要和网关配置的前缀一致
+    path: /oauth
   profiles:
     active: '@profile.active@'
   cloud:
@@ -19,7 +27,7 @@ spring:
       enabled: true
       filter:
         enabled: true
-      eager: true
+      eager: true  # 取消Sentinel控制台懒加载
       transport:
         dashboard: ${lamp.sentinel.dashboard}
     nacos:
@@ -32,7 +40,7 @@ spring:
             refresh: true
           - dataId: redis.yml
             refresh: false
-          - dataId: @db.dataId@
+          - dataId: database.yml
             refresh: true
           - dataId: rabbitmq.yml
             refresh: false
@@ -55,6 +63,9 @@ logging:
     # 为什么要用绝对路径，而非相对路径？ 正式环境服务器磁盘通常是外挂到某个目录的，所以需要指定这个路径。 开发环境将所有系统日志存放在一起，便于后期清理日志文件，不用一个项目一个项目删除。
     path: '@logging.file.path@'
     name: ${logging.file.path}/${spring.application.name}/root.log
+  level:
+    com.baomidou.dynamic: info
+    druid.sql.Statement: debug
   config: classpath:logback-spring.xml
 
 # 用于/actuator/info

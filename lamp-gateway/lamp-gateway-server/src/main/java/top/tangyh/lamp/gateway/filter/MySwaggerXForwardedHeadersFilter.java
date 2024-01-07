@@ -29,7 +29,7 @@ public class MySwaggerXForwardedHeadersFilter implements HttpHeadersFilter, Orde
 
     @Override
     public int getOrder() {
-        return 1;
+        return OrderedConstant.SWAGGER;
     }
 
     @Override

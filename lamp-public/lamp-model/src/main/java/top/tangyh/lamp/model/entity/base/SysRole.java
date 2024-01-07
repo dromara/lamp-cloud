@@ -1,30 +1,30 @@
 package top.tangyh.lamp.model.entity.base;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import top.tangyh.basic.annotation.echo.Echo;
 import top.tangyh.basic.base.entity.Entity;
 import top.tangyh.basic.interfaces.echo.EchoVO;
+import top.tangyh.lamp.model.constant.EchoApi;
 import top.tangyh.lamp.model.constant.EchoDictType;
 
+import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static top.tangyh.lamp.model.constant.Condition.LIKE;
-import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 
 /**
  * 角色
@@ -35,61 +35,68 @@ import static top.tangyh.lamp.model.constant.EchoApi.DICTIONARY_ITEM_CLASS;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode
-@TableName("c_role")
-public class SysRole extends Entity<Long> implements EchoVO {
-
+@EqualsAndHashCode(callSuper=false)
+@Schema(description = "角色")
+@TableName("base_role")
+@Builder
+public class SysRole extends Entity<Long> implements Serializable, EchoVO {
     private static final long serialVersionUID = 1L;
     @TableField(exist = false)
-    private Map<String, Object> echoMap = new HashMap<>();
+    @Builder.Default
+    private Map<String, Object> echoMap = MapUtil.newHashMap();
+
+
+    /**
+     * 角色类型;10-系统角色 20-自定义角色
+     */
+    @Schema(description = "角色类型")
+    @TableField(value = "type_", condition = LIKE)
+    private String type;
     /**
      * 角色类别;[10-功能角色 20-桌面角色 30-数据角色]
      */
     @Schema(description = "角色类别")
+    @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.ROLE_CATEGORY)
     @TableField(value = "category", condition = LIKE)
-    @Size(max = 2, message = "角色类别长度不能超过{max}")
-    @Echo(api = DICTIONARY_ITEM_CLASS, dictType = EchoDictType.ROLE_CATEGORY)
     private String category;
     /**
      * 名称
      */
     @Schema(description = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Size(max = 30, message = "名称长度不能超过30")
     @TableField(value = "name", condition = LIKE)
     private String name;
-
     /**
      * 编码
      */
     @Schema(description = "编码")
-    @Size(max = 20, message = "编码长度不能超过20")
     @TableField(value = "code", condition = LIKE)
     private String code;
-
     /**
-     * 描述
+     * 备注
      */
-    @Schema(description = "描述")
-    @Size(max = 100, message = "描述长度不能超过100")
-    @TableField(value = "describe_", condition = LIKE)
-    private String describe;
-
+    @Schema(description = "备注")
+    private String remarks;
     /**
      * 状态
      */
     @Schema(description = "状态")
-    @TableField("state")
+    @TableField(value = "state")
     private Boolean state;
-
     /**
      * 内置角色
      */
     @Schema(description = "内置角色")
-    @TableField("readonly_")
+    @TableField(value = "readonly_")
     private Boolean readonly;
 
+    /**
+     * 创建者组织ID
+     */
+    @Schema(description = "创建者组织ID")
+    @TableField(value = "created_org_id")
+    private Long createdOrgId;
 
     /**
      * 角色列表转换成角色编码列表
@@ -98,7 +105,7 @@ public class SysRole extends Entity<Long> implements EchoVO {
         if (ArrayUtil.isEmpty(list)) {
             return Collections.emptyList();
         }
-        return list.stream().map(SysRole::getCode).collect(Collectors.toList());
+        return list.stream().map(SysRole::getCode).toList();
     }
 
     /**

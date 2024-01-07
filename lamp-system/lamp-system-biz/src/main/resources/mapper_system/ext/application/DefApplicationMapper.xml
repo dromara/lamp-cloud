@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.application.DefApplicationMapper">
+    <sql id="A_Column_List">
+        a
+        .
+        id
+        ,a.created_by, a.created_time, a.updated_by, a.updated_time,
+        a.app_key, a.app_secret, a.name, a.version, a.type, a.introduce, a.remark, a.url, a.is_visible, a.sort_value
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ResultVOMap" type="top.tangyh.lamp.system.vo.result.application.DefApplicationResultVO"
+               extends="BaseResultMap">
+        <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime"/>
+    </resultMap>
+
+    <!-- 查询我的应用 -->
+    <select id="findMyApplication" parameterType="java.util.Map" resultMap="ResultVOMap">
+        select
+        <include refid="A_Column_List"/>
+        from def_application a
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like #{name, typeHandler=fullLike}
+            </if>
+            and a.is_visible = 1
+        </where>
+        order by a.sort_value asc
+    </select>
+
+    <!-- 查询员工拥有的应用 -->
+    <select id="findApplicationByEmployeeId" parameterType="java.util.Map" resultType="java.lang.Long">
+        select DISTINCT tar.application_id
+        from def_tenant_application_rel tar
+                 INNER JOIN def_user_tenant_rel utr on tar.tenant_id = utr.tenant_id
+        where utr.id = #{employeeId}
+          and (tar.expiration_time >= #{now} or tar.expiration_time is null)
+    </select>
+
+</mapper>

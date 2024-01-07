@@ -12,13 +12,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StateEnum {
+    /**
+     * 启用
+     */
     ENABLE(true, 1, "1", "启用"),
+    /**
+     * 禁用
+     */
     DISABLE(false, 0, "0", "禁用"),
     ;
-    private Boolean bool;
-    private int integer;
-    private String str;
-    private String describe;
+    private final Boolean bool;
+    private final int integer;
+    private final String str;
+    private final String describe;
 
     public static StateEnum match(String val, StateEnum... defs) {
         StateEnum def = defs.length > 0 ? defs[0] : DISABLE;

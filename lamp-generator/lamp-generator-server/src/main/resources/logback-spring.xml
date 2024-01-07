@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 此文件位于 lamp-cloud/lamp-public/lamp-common 的 resources 下 -->
+    <include resource="defaults-biz-prod.xml"/>
+
+    <!-- 可以把下面的配置也移动到 defaults-biz-dev.xml 中 -->
+    <logger name="top.tangyh.lamp.generator.controller" additivity="true" level="${log.level.controller}">
+        <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.generator.service" additivity="true" level="${log.level.service}">
+        <appender-ref ref="ASYNC_SERVICE_APPENDER"/>
+    </logger>
+    <logger name="top.tangyh.lamp.generator.mapper" additivity="false" level="${log.level.dao}">
+        <appender-ref ref="ASYNC_DAO_APPENDER"/>
+    </logger>
+</configuration>

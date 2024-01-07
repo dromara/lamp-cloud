@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.tangyh.basic.base.R;
+import top.tangyh.basic.constant.Constants;
 
 /**
  * 参数API
@@ -12,7 +13,7 @@ import top.tangyh.basic.base.R;
  * @author zuihou
  * @date 2020年04月02日22:53:56
  */
-@FeignClient(name = "${lamp.feign.oauth-server:lamp-oauth-server}", path = "/parameter" /* ,fallback = ParameterApiFallback.class*/)
+@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.oauth-server:lamp-oauth-server}", path = "/parameter")
 public interface ParameterApi {
 
     /**

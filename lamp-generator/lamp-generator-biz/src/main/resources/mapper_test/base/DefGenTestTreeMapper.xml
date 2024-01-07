@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.test.mapper.DefGenTestTreeMapper">
+    <!--
+        代码生成器 by 2022-04-20 00:28:30
+        自定义sql建议在base文件夹同级新建ext文件夹，并新建同名且同namespace的xml进行编写。方便修改字段时，重新生成此文件。
+    -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.tangyh.lamp.test.entity.DefGenTestTree">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="sort_value" property="sortValue"/>
+        <result column="stock" property="stock"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="type_" property="type"/>
+        <result column="type2" property="type2"/>
+        <result column="type3" property="type3"/>
+        <result column="state" property="state"/>
+        <result column="test4" property="test4"/>
+        <result column="test5" property="test5"/>
+        <result column="test6" property="test6"/>
+        <result column="label" property="label"/>
+        <result column="test7" property="test7"/>
+        <result column="test12" property="test12"/>
+        <result column="user_id" property="userId"/>
+        <result column="org_id" property="orgId"/>
+        <result column="test8" property="test8"/>
+        <result column="test9" property="test9"/>
+        <result column="test10" property="test10"/>
+        <result column="test11" property="test11"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , name, parent_id, sort_value, stock, created_time,
+        created_by, updated_time, updated_by, type_, type2, type3,
+        state, test4, test5, test6, label, test7,
+        test12, user_id, org_id, test8, test9, test10,
+        test11
+    </sql>
+
+</mapper>

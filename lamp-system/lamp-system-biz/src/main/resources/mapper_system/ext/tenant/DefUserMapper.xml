@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.tenant.DefUserMapper">
+
+    <resultMap id="ResultVOResultMap" type="top.tangyh.lamp.system.vo.result.tenant.DefUserResultVO"
+               extends="BaseResultMap">
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="User_Column_List">
+        u
+        .
+        id
+        ,u.created_by,u.created_time,u.updated_by,u.updated_time, u.nation, u.education,
+        u.username, u.nick_name, u.email, u.mobile, u.id_card, u.wx_open_id, u.dd_open_id, u.readonly, u.sex, u.state, u.work_describe,
+        u.last_login_time
+    </sql>
+
+    <select id="pageUser" resultMap="ResultVOResultMap">
+        SELECT
+        <include refid="User_Column_List"/>
+        FROM def_user u LEFT JOIN base_employee ut on u.id = ut.user_id
+        <where>
+
+            <if test="param.username != null and param.username != ''">
+                and u.username like #{param.username, typeHandler=fullLike}
+            </if>
+            <if test="param.nickName != null and param.nickName != ''">
+                and u.nick_name like #{param.nickName, typeHandler=fullLike}
+            </if>
+            <if test="param.email != null and param.email != ''">
+                and u.email like #{param.email, typeHandler=fullLike}
+            </if>
+            <if test="param.mobile != null and param.mobile != ''">
+                and u.mobile like #{param.mobile, typeHandler=fullLike}
+            </if>
+            <if test="param.idCard != null and param.idCard != ''">
+                and u.id_card like #{param.idCard, typeHandler=fullLike}
+            </if>
+            <if test="param.state != null">
+                and u.state = #{param.state}
+            </if>
+        </where>
+        order by u.created_time desc
+    </select>
+
+    <update id="incrPasswordErrorNumById">
+        update def_user
+        set password_error_num       = password_error_num + 1,
+            password_error_last_time = #{now, jdbcType=TIMESTAMP}
+        where id = #{id, jdbcType=BIGINT}
+    </update>
+    <update id="resetPassErrorNum">
+        update def_user
+        set password_error_num       = 0,
+            password_error_last_time = null,
+            last_login_time          = #{now, jdbcType=TIMESTAMP}
+        where id = #{id, jdbcType=BIGINT}
+    </update>
+
+</mapper>

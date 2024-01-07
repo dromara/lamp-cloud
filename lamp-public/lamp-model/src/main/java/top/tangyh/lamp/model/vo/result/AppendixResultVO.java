@@ -1,6 +1,5 @@
 package top.tangyh.lamp.model.vo.result;
 
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -84,5 +83,5 @@ public class AppendixResultVO implements Serializable {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 }

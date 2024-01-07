@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.system.mapper.application.DefResourceApiMapper">
+    <sql id="Ra_Column_List">
+        ra
+        .
+        id
+        ,ra.created_by,ra.created_time,ra.updated_by,ra.updated_time,
+        ra.resource_id, ra.controller, ra.spring_application_name, ra.request_method, ra.name, ra.uri
+    </sql>
+
+
+    <select id="findResourceApi" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Ra_Column_List"/>
+        FROM def_resource_api ra left join def_resource r on ra.resource_id = r.id
+        WHERE 1=1
+        <if test="resourceTypes != null and resourceTypes.size() > 0">
+            and r.resource_type in
+            <foreach close=")" collection="resourceTypes" item="id" open="(" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        and r.state = 1
+        order by r.sort_value asc
+    </select>
+</mapper>

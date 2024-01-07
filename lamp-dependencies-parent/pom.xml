@@ -4,15 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
+        <!--
+        这个依赖爆红，怀疑代码没给全？
+            拜托你能不能先看文档，了解清楚项目的依赖关系！别一来就折腾代码。
+            这个依赖在独立的 lamp-util 项目
+        -->
         <groupId>top.tangyh.basic</groupId>
         <artifactId>lamp-parent</artifactId>
-        <version>3.11.0-java17</version>
+        <version>4.15.0-java17</version>
         <relativePath/>
     </parent>
 
     <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-dependencies-parent</artifactId>
-    <version>3.11.0-java17</version>
+    <version>4.15.0-java17</version>
 
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
@@ -21,8 +26,8 @@
     <description>lamp项目业务父pom</description>
     <url>https://github.com/dromara/lamp-cloud</url>
     <properties>
-        <lamp-util.version>3.11.0-java17</lamp-util.version>
-        <lamp-project.version>3.11.0-java17</lamp-project.version>
+        <lamp-util.version>4.15.0-java17</lamp-util.version>
+        <lamp-project.version>4.15.0-java17</lamp-project.version>
         <docker.image.prefix>zuihou</docker.image.prefix>
     </properties>
 
@@ -40,12 +45,17 @@
             </dependency>
             <dependency>
                 <groupId>top.tangyh.basic</groupId>
-                <artifactId>lamp-boot-util</artifactId>
+                <artifactId>lamp-webmvc</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
                 <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-cache-starter</artifactId>
+                <version>${lamp-util.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.tangyh.basic</groupId>
+                <artifactId>lamp-captcha-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
@@ -80,17 +90,17 @@
             </dependency>
             <dependency>
                 <groupId>top.tangyh.basic</groupId>
-                <artifactId>lamp-captcha-starter</artifactId>
-                <version>${lamp-util.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-mq-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
                 <groupId>top.tangyh.basic</groupId>
                 <artifactId>lamp-mvc</artifactId>
+                <version>${lamp-util.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.tangyh.basic</groupId>
+                <artifactId>lamp-scan-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
@@ -234,6 +244,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
 
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -242,6 +253,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
+            -->
             <!-- 一键更新子模块版本号 -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.datascope.mapper.DataScopeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DataScopeResultMap" type="top.tangyh.lamp.datascope.entity.DefResourceDataScope">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="data_scope" jdbcType="CHAR" property="dataScope"/>
+        <result column="custom_class" jdbcType="VARCHAR" property="customClass"/>
+        <result column="is_def" jdbcType="BIT" property="isDef"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="OrgResultMap" type="top.tangyh.lamp.datascope.entity.BaseOrgBO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type_" jdbcType="CHAR" property="type"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="tree_grade" jdbcType="INTEGER" property="treeGrade"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <sql id="DataScope_R_Column_List">
+        r
+        .
+        id
+        ,r.name,r.parent_id,r.sort_value,r.created_by,r.created_time,r.updated_by,r.updated_time,
+        r.data_scope, r.custom_class, r.is_def
+    </sql>
+
+    <!-- 通用查询结果列 -->
+    <sql id="O_Column_List">
+        o
+        .
+        id
+        , o.created_time, o.created_by, o.updated_time, o.updated_by,
+        o.name, o.type_, o.short_name, o.parent_id, o.tree_grade, o.tree_path, o.sort_value, o.state, o.remarks
+    </sql>
+
+    <select id="findDataScopeByPath" parameterType="java.util.Map" resultMap="DataScopeResultMap">
+        SELECT
+        <include refid="DataScope_R_Column_List"/>
+        FROM def_resource r
+        LEFT JOIN def_resource menu on menu.id = r.parent_id
+        WHERE menu.application_id = #{applicationId}
+        and menu.path = #{path}
+        and menu.state = 1
+        and r.id in
+        <foreach close=")" collection="dataScopeIdList" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+        ORDER BY r.sort_value ASC
+    </select>
+
+    <select id="findDefDataScopeByPath" parameterType="java.util.Map" resultMap="DataScopeResultMap">
+        SELECT
+        <include refid="DataScope_R_Column_List"/>
+        FROM def_resource r
+        LEFT JOIN def_resource menu on menu.id = r.parent_id
+        WHERE menu.application_id = #{applicationId}
+        and menu.path = #{path}
+        and menu.state = 1
+        ORDER BY r.is_def desc, r.sort_value ASC
+    </select>
+
+
+    <select id="selectDataScopeIdFromRoleByEmployeeId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT rrds.resource_id
+        FROM base_role_resource_rel rrds
+                 INNER JOIN base_role r on r.id = rrds.role_id
+                 INNER JOIN base_employee_role_rel er on er.role_id = r.id
+        WHERE r.category = #{category}
+          and er.employee_id = #{employeeId}
+          and r.state = 1
+    </select>
+    <select id="selectDataScopeIdFromOrgByEmployeeId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT rrds.resource_id
+        FROM base_role_resource_rel rrds
+                 INNER JOIN base_role r on r.id = rrds.role_id
+                 INNER JOIN base_org_role_rel borr on borr.role_id = r.id
+                 inner join base_employee_org_rel beor on beor.org_id = borr.org_id
+        WHERE r.category = #{category}
+          and beor.employee_id = #{employeeId}
+          and r.state = 1
+    </select>
+
+
+    <select id="getMainDeptIdByEmployeeId" resultMap="OrgResultMap">
+        select
+        <include refid="O_Column_List"/>
+        from base_org o left join base_employee e on o.id = e.last_dept_id
+        where e.id = #{employeeId}
+    </select>
+
+</mapper>

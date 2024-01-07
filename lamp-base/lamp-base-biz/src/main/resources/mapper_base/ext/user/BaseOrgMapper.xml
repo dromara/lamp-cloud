@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.tangyh.lamp.base.mapper.user.BaseOrgMapper">
+
+
+    <select id="selectOrgByEmployeeId" parameterType="map" resultType="java.lang.Long">
+        SELECT DISTINCT r.id
+        FROM base_org r INNER JOIN base_employee_org_rel err on r.id = err.org_id
+        <where>
+            err.employee_id = #{employeeId} and r.state = 1
+        </where>
+    </select>
+</mapper>
