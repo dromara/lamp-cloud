@@ -7,7 +7,7 @@
         .
         id
         ,r.name, r.parent_id, r.sort_value, r.created_by, r.created_time, r.updated_by, r.updated_time,
-        r.application_id, r.code, r.resource_type, r.describe_, r.path, r.open_with, r.component, r.redirect, r.icon, r.is_general,
+        r.application_id, r.code, r.resource_type, r.describe_, r.path, r.open_with, r.component, r.redirect, r.icon, r.is_general, r.is_hidden,
         r.state, r.sub_group, r.field_is_secret, r.field_is_edit, r.data_scope, r.custom_class, r.is_def, r.meta_json, r.tree_grade, r.tree_path
     </sql>
 

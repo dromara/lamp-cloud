@@ -1,6 +1,7 @@
 package top.tangyh.lamp.system.vo.result.application;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import static top.tangyh.lamp.model.constant.Condition.LIKE;
 
 /**
  * <p>
@@ -85,6 +88,8 @@ public class DefApplicationResultVO extends Entity<Long> implements Serializable
     @Schema(description = "简介")
     
     private String introduce;
+    @Schema(description = "重定向")
+    private String redirect;
     /**
      * 备注
      */

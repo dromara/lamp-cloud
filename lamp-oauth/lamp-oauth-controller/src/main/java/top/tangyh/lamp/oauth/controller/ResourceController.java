@@ -59,7 +59,7 @@ public class ResourceController {
     @GetMapping("/visible/resource")
     public R<VisibleResourceVO> visible(@Parameter(hidden = true) @LoginUser SysUser sysUser,
                                         @RequestParam(value = "employeeId", required = false) Long employeeId,
-                                        @RequestParam Long applicationId) {
+                                        @RequestParam(value = "applicationId", required = false) Long applicationId) {
         if (employeeId == null || employeeId <= 0) {
             employeeId = sysUser.getEmployeeId();
         }
@@ -92,18 +92,6 @@ public class ResourceController {
         long apiEnd = System.currentTimeMillis();
         log.info("controller 校验api权限:{} - {}  耗时:{}", path, method, (apiEnd - apiStart));
         return R.success(check);
-    }
-
-    /**
-     * 检查员工是否有指定应用的权限
-     *
-     * @param employeeId    员工id
-     * @param applicationId 应用ID
-     */
-    @Operation(summary = "检查员工是否有指定应用的权限", description = "检查员工是否有指定应用的权限")
-    @GetMapping("/checkApplication")
-    public R<Boolean> checkApplication(@RequestParam Long applicationId, @RequestParam Long employeeId) {
-        return R.success(true);
     }
 
     /**

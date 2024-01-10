@@ -131,7 +131,7 @@ public class DefApplicationServiceImpl extends SuperCacheServiceImpl<DefApplicat
         List<Long> applicationIdList = list.stream().map(DefApplication::getId).toList();
         List<DefResource> resourceList;
         if (CollUtil.isNotEmpty(applicationIdList)) {
-            List<String> codes = Arrays.asList(ResourceTypeEnum.MENU.getCode(), ResourceTypeEnum.VIEW.getCode(), ResourceTypeEnum.BUTTON.getCode(), ResourceTypeEnum.FIELD.getCode());
+            List<String> codes = Arrays.asList(ResourceTypeEnum.MENU.getCode(), ResourceTypeEnum.BUTTON.getCode(), ResourceTypeEnum.FIELD.getCode());
             // 不查询数据权限
             resourceList = defResourceManager.findResourceListByApplicationId(applicationIdList, codes);
         } else {

@@ -53,7 +53,7 @@ public class DefResource extends TreeEntity<DefResource, Long> {
     private String name;
 
     /**
-     * 类型;[20-菜单 30-视图 40-按钮 50-字段 06-数据]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.RESOURCE_TYPE)
+     * 类型;[20-菜单 40-按钮 50-字段 06-数据]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.RESOURCE_TYPE)
      * 菜单即左侧显示的菜单，视图即隐藏的菜单(需要配置在路由中)
      */
     @TableField(value = "resource_type", condition = LIKE)
@@ -101,6 +101,12 @@ public class DefResource extends TreeEntity<DefResource, Long> {
      */
     @TableField(value = "is_general")
     private Boolean isGeneral;
+    /**
+     * 是否隐藏菜单;
+     * resource_type=20时生效
+     */
+    @TableField(value = "is_hidden")
+    private Boolean isHidden;
 
     /**
      * 状态;[0-禁用 1-启用]

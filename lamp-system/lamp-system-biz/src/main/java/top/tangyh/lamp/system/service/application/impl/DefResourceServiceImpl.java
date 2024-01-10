@@ -98,7 +98,7 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
     public Boolean checkName(Long id, Long applicationId, String name) {
         return superManager.count(Wraps.<DefResource>lbQ().ne(DefResource::getId, id)
                 .eq(DefResource::getApplicationId, applicationId)
-                .in(DefResource::getResourceType, ResourceTypeEnum.MENU.getCode(), ResourceTypeEnum.VIEW.getCode())
+                .in(DefResource::getResourceType, ResourceTypeEnum.MENU.getCode())
                 .eq(DefResource::getName, name)) > 0;
     }
 
@@ -237,11 +237,10 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
         node.setTreePath(parent == null ? DefValConstants.TREE_PATH_SPLIT : TreeUtil.getTreePath(parent.getTreePath(), parent.getId()));
     }
 
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DefResource saveWithCache(DefResourceSaveVO data) {
-        if (StrUtil.containsAny(data.getResourceType(), ResourceTypeEnum.MENU.getCode(), ResourceTypeEnum.VIEW.getCode())) {
+        if (StrUtil.containsAny(data.getResourceType(), ResourceTypeEnum.MENU.getCode())) {
             ArgumentAssert.notEmpty(data.getPath(), "请填写【地址栏路径】");
             ArgumentAssert.notEmpty(data.getComponent(), "请填写【页面路径】");
             ArgumentAssert.isFalse(checkName(null, data.getApplicationId(), data.getName()), "【名称】:{}重复", data.getName());
@@ -252,6 +251,16 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
         ArgumentAssert.isFalse(check(null, data.getCode()), "【资源编码】：{}重复", data.getCode());
         data.setMetaJson(parseMetaJson(data.getMetaJson()));
         DefResource resource = BeanPlusUtil.toBean(data, DefResource.class);
+
+        DefResource parent = superManager.getById(data.getParentId());
+        if (parent != null) {
+            if (ResourceTypeEnum.MENU.eq(data.getResourceType())) {
+                ArgumentAssert.isFalse(!ResourceTypeEnum.MENU.eq(parent.getResourceType()),
+                        "菜单只能挂载在菜单下级");
+                ArgumentAssert.isFalse(parent.getIsHidden() != null && parent.getIsHidden(),
+                        "菜单不能挂载在隐藏菜单下级");
+            }
+        }
 
         checkGeneral(resource, false);
 
@@ -278,7 +287,7 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DefResource updateWithCacheById(DefResourceUpdateVO data) {
-        if (StrUtil.containsAny(data.getResourceType(), ResourceTypeEnum.MENU.getCode(), ResourceTypeEnum.VIEW.getCode())) {
+        if (StrUtil.containsAny(data.getResourceType(), ResourceTypeEnum.MENU.getCode())) {
             ArgumentAssert.notEmpty(data.getPath(), "【地址栏路径】不能为空");
             ArgumentAssert.notEmpty(data.getComponent(), "【页面路径】不能为空");
             ArgumentAssert.isFalse(checkName(data.getId(), data.getApplicationId(), data.getName()), "【资源名称】:{}重复", data.getName());

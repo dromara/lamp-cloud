@@ -1,5 +1,6 @@
 package top.tangyh.lamp.gateway.filter;
 
+import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -21,7 +22,6 @@ import top.tangyh.basic.exception.code.ExceptionCode;
 import top.tangyh.lamp.common.properties.IgnoreProperties;
 import top.tangyh.lamp.gateway.feign.AsyncAnyoneApi;
 
-import jakarta.annotation.Resource;
 import java.util.concurrent.Future;
 
 /**
@@ -33,7 +33,6 @@ import java.util.concurrent.Future;
 @Component
 @Slf4j
 public class AuthenticationFilter implements WebFilter, Ordered {
-    private final static String UN_APPLICATION_AUTHORIZED = "对不起，您无该应用的权限!";
     private final static String UN_RESOURCE_AUTHORIZED = "对不起，您无该URI资源的权限!";
     private final static String DEF_MSG = "对不起，您无权限!";
     @Resource
@@ -68,21 +67,6 @@ public class AuthenticationFilter implements WebFilter, Ordered {
 
         Long applicationId = ContextUtil.getApplicationId();
         Long employeeId = ContextUtil.getEmployeeId();
-
-        // 2. 判断是否拥有该应用的权限
-        log.info("applicationId={}, employeeId={}", applicationId, employeeId);
-        long appStart = System.currentTimeMillis();
-        Future<R<Boolean>> hasAppAsync = anyoneApi.checkApplication(applicationId, employeeId);
-        R<Boolean> hasApp = hasAppAsync.get();
-        long appEnd = System.currentTimeMillis();
-        log.info("校验application权限，耗时:{}", (appEnd - appStart));
-        if (!hasApp.getIsSuccess()) {
-            log.warn("1. uri={}, applicationId={}, employeeId={}, eId={}, hasApp={}", request.getPath(), applicationId, employeeId, eId, hasApp);
-            return forbidden(response, hasApp.getMsg());
-        } else if (hasApp.getData() == null || !hasApp.getData()) {
-            log.warn("2. uri={}, applicationId={}, employeeId={}, eId={}, hasApp={}", request.getPath(), applicationId, employeeId, eId, hasApp);
-            return forbidden(response, UN_APPLICATION_AUTHORIZED);
-        }
 
         // 3. 普通用户 需要校验 uri + method 的权限, 租户管理员 拥有分配给该企业的所有 资源权限
         long apiStart = System.currentTimeMillis();

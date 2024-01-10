@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import top.tangyh.basic.context.ContextUtil;
+import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.jackson.JsonUtil;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.CollHelper;
@@ -19,12 +20,14 @@ import top.tangyh.lamp.common.constant.BizConstant;
 import top.tangyh.lamp.common.constant.RoleConstant;
 import top.tangyh.lamp.model.enumeration.HttpMethod;
 import top.tangyh.lamp.model.enumeration.system.ResourceTypeEnum;
+import top.tangyh.lamp.system.entity.application.DefApplication;
 import top.tangyh.lamp.system.entity.application.DefResource;
 import top.tangyh.lamp.system.entity.application.DefResourceApi;
 import top.tangyh.lamp.system.enumeration.tenant.ResourceOpenWithEnum;
+import top.tangyh.lamp.system.service.application.DefApplicationService;
 import top.tangyh.lamp.system.service.application.DefResourceService;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,21 +43,25 @@ import java.util.List;
 public class ResourceBiz {
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
     private final DefResourceService defResourceService;
+    private final DefApplicationService defApplicationService;
     private final BaseRoleService baseRoleService;
 
     /**
      * 是否所有的子都是视图
+     *
+     * 若某个菜单的子集，全部都是视图，这需要标记为隐藏子集
+     *
      */
     private static boolean hideChildrenInMenu(List<VueRouter> children) {
         if (CollUtil.isEmpty(children)) {
             return false;
         }
 
-        return children.stream().noneMatch(item -> ResourceTypeEnum.MENU.eq(item.getResourceType()));
+        return !children.stream().allMatch(item -> item.getIsHidden() == null || item.getIsHidden());
     }
 
     /**
-     * 查询当前用户可用的 按钮 + 字段 + 视图
+     * 查询当前用户可用的资源
      *
      * @param applicationId 应用id
      * @return 资源树
@@ -62,7 +69,7 @@ public class ResourceBiz {
     public List<String> findVisibleResource(Long employeeId, Long applicationId) {
         List<DefResource> list;
         boolean isAdmin = baseRoleService.checkRole(employeeId, RoleConstant.TENANT_ADMIN);
-        List<String> resourceCodes = Arrays.asList(ResourceTypeEnum.BUTTON.getCode(), ResourceTypeEnum.VIEW.getCode(), ResourceTypeEnum.FIELD.getCode());
+        List<String> resourceCodes = Collections.emptyList();
         if (isAdmin) {
             // 管理员 拥有所有权限，查询指定应用，指定类型的 所有资源
             list = defResourceService.findResourceListByApplicationId(applicationId != null ? Collections.singletonList(applicationId) : Collections.emptyList(), resourceCodes);
@@ -80,27 +87,68 @@ public class ResourceBiz {
     public List<VueRouter> findAllVisibleRouter(Long employeeId, String subGroup) {
         List<DefResource> list;
         boolean isAdmin = baseRoleService.checkRole(employeeId, RoleConstant.TENANT_ADMIN);
-        List<String> menuCodes = Arrays.asList(ResourceTypeEnum.MENU.getCode(), ResourceTypeEnum.VIEW.getCode());
-        if (isAdmin) {
-            // 管理员 拥有所有权限，查询指定应用，指定类型的 所有路由
-            list = defResourceService.findResourceListByApplicationId(Collections.emptyList(), menuCodes);
-        } else {
-            List<Long> resourceIdList = baseRoleService.findResourceIdByEmployeeId(null, employeeId);
-            if (resourceIdList.isEmpty()) {
-                return Collections.emptyList();
+        List<String> menuCodes = Collections.singletonList(ResourceTypeEnum.MENU.getCode());
+
+        List<DefApplication> applicationList = defApplicationService.list(Wraps.<DefApplication>lbQ().orderByAsc(DefApplication::getSortValue));
+        List<VueRouter> treeList = new ArrayList<>();
+        for (DefApplication defApplication : applicationList) {
+            if (isAdmin) {
+                // 管理员 拥有所有权限，查询指定应用，指定类型的 所有路由
+                list = defResourceService.findResourceListByApplicationId(Collections.singletonList(defApplication.getId()), menuCodes);
+            } else {
+                List<Long> resourceIdList = baseRoleService.findResourceIdByEmployeeId(defApplication.getId(), employeeId);
+                if (resourceIdList.isEmpty()) {
+                    continue;
+                }
+
+                list = defResourceService.findByIdsAndType(resourceIdList, menuCodes);
             }
 
-            list = defResourceService.findByIdsAndType(resourceIdList, menuCodes);
+            if (StrUtil.isNotEmpty(subGroup)) {
+                list = list.stream().filter(item -> subGroup.equals(item.getSubGroup())).toList();
+            }
+
+            if (list.isEmpty()) {
+                continue;
+            }
+
+            List<VueRouter> routers = BeanPlusUtil.copyToList(list, VueRouter.class);
+            List<VueRouter> tree = TreeUtil.buildTree(routers);
+            forEachTree(tree, 1);
+
+            VueRouter applicationRouter = new VueRouter();
+            applicationRouter.setName(defApplication.getName());
+            applicationRouter.setPath("/" + defApplication.getId());
+            applicationRouter.setComponent(BizConstant.LAYOUT);
+            VueRouter childrenFirst = getChildrenFirst(tree);
+            applicationRouter.setRedirect(StrUtil.isNotEmpty(defApplication.getRedirect()) ? defApplication.getRedirect() : (childrenFirst != null ? childrenFirst.getPath() : null));
+
+            RouterMeta meta = new RouterMeta();
+            meta.setTitle(defApplication.getName());
+            meta.setHideMenu(false);
+            // 是否所有的子都是视图
+            meta.setHideChildrenInMenu(false);
+
+            applicationRouter.setMeta(meta);
+            applicationRouter.setResourceType(ResourceTypeEnum.MENU.getCode());
+            applicationRouter.setOpenWith(ResourceOpenWithEnum.INNER_COMPONENT.getCode());
+
+            applicationRouter.setChildren(tree);
+            treeList.add(applicationRouter);
         }
 
-        if (StrUtil.isNotEmpty(subGroup)) {
-            list = list.stream().filter(item -> subGroup.equals(item.getSubGroup())).toList();
-        }
+        return treeList;
+    }
 
-        List<VueRouter> routers = BeanPlusUtil.copyToList(list, VueRouter.class);
-        List<VueRouter> tree = TreeUtil.buildTree(routers);
-        forEachTree(tree, 1);
-        return tree;
+    private VueRouter getChildrenFirst(List<VueRouter> list) {
+        if (CollUtil.isEmpty(list)) {
+            return null;
+        }
+        VueRouter vueRouter = list.get(0);
+        if (CollUtil.isEmpty(vueRouter.getChildren())) {
+            return vueRouter;
+        }
+        return getChildrenFirst(vueRouter.getChildren());
     }
 
     /**
@@ -115,7 +163,7 @@ public class ResourceBiz {
     public List<VueRouter> findVisibleRouter(Long applicationId, Long employeeId, String subGroup) {
         List<DefResource> list;
         boolean isAdmin = baseRoleService.checkRole(employeeId, RoleConstant.TENANT_ADMIN);
-        List<String> menuCodes = Arrays.asList(ResourceTypeEnum.MENU.getCode(), ResourceTypeEnum.VIEW.getCode());
+        List<String> menuCodes = Collections.singletonList(ResourceTypeEnum.MENU.getCode());
         if (isAdmin) {
             // 管理员 拥有所有权限，查询指定应用，指定类型的 所有路由
             list = defResourceService.findResourceListByApplicationId(applicationId != null ? Collections.singletonList(applicationId) : Collections.emptyList(), menuCodes);
@@ -226,9 +274,8 @@ public class ResourceBiz {
             }
 
             // 视图需要隐藏
-            if (ResourceTypeEnum.VIEW.eq(item.getResourceType())) {
-                meta.setHideMenu(true);
-            }
+            meta.setHideMenu(item.getIsHidden() != null ? item.getIsHidden() : false);
+
             // 是否所有的子都是视图
             meta.setHideChildrenInMenu(hideChildrenInMenu(item.getChildren()));
             item.setMeta(meta);

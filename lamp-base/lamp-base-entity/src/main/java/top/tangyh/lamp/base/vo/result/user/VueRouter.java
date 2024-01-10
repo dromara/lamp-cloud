@@ -50,6 +50,8 @@ public class VueRouter extends TreeEntity<VueRouter, Long> implements EchoVO {
     private String openWith;
 
     @JsonIgnore
+    private Boolean isHidden;
+    @JsonIgnore
     private String metaJson;
     @JsonIgnore
     private String icon;

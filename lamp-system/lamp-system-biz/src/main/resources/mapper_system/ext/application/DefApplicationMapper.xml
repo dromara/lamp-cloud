@@ -5,7 +5,7 @@
         a
         .
         id
-        ,a.created_by, a.created_time, a.updated_by, a.updated_time,
+        ,a.created_by, a.created_time, a.updated_by, a.updated_time, a.redirect,
         a.app_key, a.app_secret, a.name, a.version, a.type, a.introduce, a.remark, a.url, a.is_visible, a.sort_value
     </sql>
 

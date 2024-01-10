@@ -114,6 +114,12 @@ public class DefResourceResultVO extends TreeEntity<DefResourceResultVO, Long> i
     
     private Boolean isGeneral;
     /**
+     * 是否隐藏菜单;
+     * resource_type=20时生效
+     */
+    @Schema(description = "是否隐藏菜单")
+    private Boolean isHidden;
+    /**
      * 状态;[0-禁用 1-启用]
      */
     @Schema(description = "状态")

@@ -15,6 +15,7 @@
         <result column="version" jdbcType="VARCHAR" property="version"/>
         <result column="type" jdbcType="CHAR" property="type"/>
         <result column="introduce" jdbcType="VARCHAR" property="introduce"/>
+        <result column="redirect" jdbcType="VARCHAR" property="redirect"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="is_visible" jdbcType="BIT" property="isVisible"/>
@@ -24,7 +25,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , created_by, created_time, updated_by, updated_time,
+        , created_by, created_time, updated_by, updated_time, redirect,
         app_key, app_secret, name, version, type, introduce, remark, url, is_visible, sort_value
     </sql>
 

@@ -41,7 +41,9 @@ public class DefApplicationUpdateVO implements Serializable {
     @Schema(description = "主键")
     @NotNull(message = "请填写主键", groups = SuperEntity.Update.class)
     private Long id;
-
+    @Schema(description = "重定向")
+    @Size(max = 255, message = "重定向长度不能超过255")
+    private String redirect;
     /**
      * 应用名称
      */

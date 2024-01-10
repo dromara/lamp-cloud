@@ -35,7 +35,9 @@ import java.io.Serializable;
 public class DefApplicationSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @Schema(description = "重定向")
+    @Size(max = 255, message = "重定向长度不能超过255")
+    private String redirect;
     /**
      * 应用名称
      */

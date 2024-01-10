@@ -22,6 +22,7 @@
         <result column="redirect" jdbcType="VARCHAR" property="redirect"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="is_general" jdbcType="BIT" property="isGeneral"/>
+        <result column="is_hidden" jdbcType="BIT" property="isHidden"/>
         <result column="state" jdbcType="BIT" property="state"/>
         <result column="sub_group" jdbcType="VARCHAR" property="subGroup"/>
         <result column="field_is_secret" jdbcType="BIT" property="fieldIsSecret"/>
@@ -38,7 +39,7 @@
     <sql id="Base_Column_List">
         id
         ,name,parent_id,sort_value,created_by,created_time,updated_by,updated_time,
-        application_id, code, resource_type, describe_, open_with, path, component, redirect, icon, is_general, state, sub_group,
+        application_id, code, resource_type, describe_, open_with, path, component, redirect, icon, is_general, is_hidden, state, sub_group,
         field_is_secret, field_is_edit, data_scope, custom_class, is_def, meta_json, tree_grade, tree_path
     </sql>
 

@@ -2,6 +2,7 @@ package top.tangyh.lamp.system.entity.application;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -72,7 +73,9 @@ public class DefApplication extends Entity<Long> {
      */
     @TableField(value = "introduce", condition = LIKE)
     private String introduce;
-
+    @Schema(description = "重定向")
+    @TableField(value = "redirect", condition = LIKE)
+    private String redirect;
     /**
      * 备注
      */

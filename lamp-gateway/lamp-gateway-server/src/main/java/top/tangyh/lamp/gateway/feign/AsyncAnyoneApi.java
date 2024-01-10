@@ -1,5 +1,6 @@
 package top.tangyh.lamp.gateway.feign;
 
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -8,7 +9,6 @@ import top.tangyh.basic.base.R;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.lamp.oauth.api.AnyoneApi;
 
-import jakarta.annotation.Resource;
 import java.util.concurrent.Future;
 
 /**
@@ -20,12 +20,6 @@ public class AsyncAnyoneApi {
     @Resource
     @Lazy
     private AnyoneApi anyoneApi;
-
-    @Async
-    public Future<R<Boolean>> checkApplication(Long applicationId, Long employeeId) {
-        R<Boolean> hasApp = anyoneApi.checkApplication(applicationId, employeeId);
-        return new AsyncResult<>(hasApp);
-    }
 
     @Async
     public Future<R<Boolean>> checkUri(Long employeeId, Long applicationId, String path, String method) {

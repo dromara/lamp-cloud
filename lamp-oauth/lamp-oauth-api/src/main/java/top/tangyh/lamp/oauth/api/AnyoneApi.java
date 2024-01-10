@@ -25,13 +25,4 @@ public interface AnyoneApi {
     @GetMapping("/checkUri")
     R<Boolean> checkUri(@RequestParam("path") String path, @RequestParam("method") String method);
 
-    /**
-     * 查询员工是否拥有指定应用
-     *
-     * @param employeeId    员工id
-     * @param applicationId 应用ID
-     * @return 是否有权限
-     */
-    @GetMapping("/checkApplication")
-    R<Boolean> checkApplication(@RequestParam("applicationId") Long applicationId, @RequestParam("employeeId") Long employeeId);
 }
