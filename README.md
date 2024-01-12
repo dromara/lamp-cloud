@@ -1,6 +1,6 @@
 # lamp 快速开发平台
 
-[![Language](https://img.shields.io/badge/语言-Java%20%7C%20SpringCloud%20%7C%20Vue3%20%7C%20...-red?style=flat-square&color=42b883)](https://github.com/dromara/lamp-cloud)
+[![Language](https://img.shields.io/badge/语言-Java17%20%7C%20SpringCloud%20%7C%20Vue3%20%7C%20...-red?style=flat-square&color=42b883)](https://github.com/dromara/lamp-cloud)
 [![License](https://img.shields.io/github/license/dromara/lamp-cloud?color=42b883&style=flat-square)](https://github.com/dromara/lamp-cloud/blob/master/LICENSE)
 [![Author](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
 [![Star](https://img.shields.io/github/stars/dromara/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/dromara/lamp-cloud/stargazers)
@@ -14,14 +14,14 @@
 
 # 分支说明
 
-|           | master  | java17       | 4.x_java17 |
-|-----------|---------|--------------|------------|
-| 源码版本      | 3.x     | 3.x          | 4.x        |
-| JDK版本     | jdk8    | jdk17        | jdk17      |
-| 支持说明      | 不在更新新功能 | 不在更新新功能      | 持续更新       |
-| 是否支持数据源模式 | 是(企业版支持)       | 是(企业版支持)     | 否(企业版支持)   |
-| 是否支持字段模式  | 是(开源版企业版均支持)       | 是(开源版企业版均支持) | 否(企业版支持)   |
-| 是否支持非租户模式 | 是(开源版企业版均支持)       | 是(开源版企业版均支持)            | 是(开源版支持)   |
+| 分支        | master        | java17       | 4.x_java17      |
+|-----------|---------------|--------------|-----------------|
+| 源码版本      | 3.x           | 3.x          | 4.x             |
+| JDK版本     | jdk8          | jdk17        | jdk17           |
+| 是否继续升级新功能 | 不开发新功能,仅修复bug | 不开发新功能,仅修复bug     | 持续开发新功能和bug修复   |
+| 是否支持数据源模式 | 是(企业版支持)      | 是(企业版支持)     | 否([企业版](https://tangyh.top/vip/%E6%8E%88%E6%9D%83%E8%B4%B9%E7%94%A8.html)支持)        |
+| 是否支持字段模式  | 是(开源版企业版均支持)  | 是(开源版企业版均支持) | 否([企业版](https://tangyh.top/vip/%E6%8E%88%E6%9D%83%E8%B4%B9%E7%94%A8.html)支持)        |
+| 是否支持非租户模式 | 是(开源版企业版均支持)  | 是(开源版企业版均支持) | 是(开源版支持(就是本项目)) |
 
 # lamp 项目名字由来
 
@@ -29,10 +29,10 @@
 走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
 我和媳妇相视一笑，然后一起说：哈哈，就用这个名字！！！
 
-[点我了解项目详细介绍](https://tangyh.top)
-
 `灯灯`(简称灯， 英文名：lamp)，她是一个项目集，由"工具集"、"后端"、"前端"组成，为满足高内聚低耦合设计原则，将一个**大项目**
-拆解为以下几个子项目
+拆解为以下几个子项目：
+
+[点我了解项目详细介绍](https://tangyh.top)
 
 ## 工具集
 
@@ -59,13 +59,13 @@
 - lamp-cloud 和 lamp-boot 依赖 lamp-util
 - lamp-job 依赖 lamp-cloud 或 lamp-boot
 
-所以，你想运行 lamp-cloud 和 lamp-boot ，请先自行下载并编译(mvn install) lamp-util， lamp-job、lamp-generator同理！
+所以，项目的编译顺序是：lamp-util -> lamp-cloud/lamp-boot -> lamp-job ！
 
 # lamp-cloud 简介
 
 `lamp-cloud`是基于`java`+ `SpringCloudAlibaba` +`SpringCloud`+`SpringBoot`
-开发的微服务中后台快速开发平台，专注于多租户(SaaS架构)解决方案，亦可作为普通项目（非SaaS架构）的基础开发框架使用，目前已实现插拔式
-**数据库隔离**、**SCHEMA隔离**、**字段隔离** 等租户隔离方案。
+开发的微服务中后台快速开发平台，专注于多租户 (SaaS架构) 解决方案，亦可作为普通项目（非SaaS架构）的基础开发框架使用，目前已实现
+**大租户嵌套小租户隔离**、**数据库隔离**、**字段隔离**、 **无租户隔离** 等几种模式。
 
 她拥有自研RBAC（基于租户应用的角色权限控制体系）、网关统一鉴权、数据权限、优雅缓存解决方案、防缓存击穿、前后端统一表单校验、字典数据自动回显、可视化前后端代码生成器、支持多种文件存储、支持多种短信邮件发送接口、灰度发布、防XSS攻击、防SQL注入、分布式事务、分布式定时任务等功能；
 支持多业务系统并行开发， 支持多服务并行开发，是中后台系统开发脚手架的最佳选择。
@@ -73,7 +73,11 @@
 lamp-cloud 代码简洁，注释齐全，架构清晰，非常适合个人学习以及中小企业作为基础框架使用。采用Spring Cloud
 Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking等主要框架和中间件。 本项目旨在实现基础框架能力，不涉及具体业务。
 
-![架构图.png](01-docs/image/架构图/lamp-cloud架构图.png)
+> 开源版的 4.x_java17 分支仅支持 **无租户隔离** 模式，开源版完全免费，**大租户嵌套小租户隔离**、**数据库隔离** 和 **字段隔离** 需要购买企业版方可使用。
+> 
+> 开源版的 master、java17 分支 支持 **无租户隔离** 模式，**数据库隔离** 和 **字段隔离**， 完全免费。
+
+![架构图.png](A极其重要/01-docs/image/架构图/lamp-cloud架构图.png)
 
 # 演示地址
 
@@ -97,11 +101,11 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 
 | 预览                                             | 预览                                      |
 |------------------------------------------------|-----------------------------------------|
-| ![预览.png](01-docs/image/架构图/lamp-cloud架构图.png) | ![预览.png](01-docs/image/业务/swagger.png) |
-| ![预览.png](01-docs/image/业务/nacos.jpg)          | ![预览.png](01-docs/image/业务/工作流.png)     |
-| ![预览.png](01-docs/image/业务/基础平台.png)          | ![预览.png](01-docs/image/业务/开发运营系统.png)   |
-| ![预览.png](01-docs/image/监控/sw拓扑图.png)          | ![预览.png](01-docs/image/监控/sw追踪列表.png)  |
-| ![预览.png](01-docs/image/1000star.png)          | ![预览.png](01-docs/image/软著V2.5.0.jpg)   |
+| ![预览.png](A极其重要/01-docs/image/架构图/lamp-cloud架构图.png) | ![预览.png](A极其重要/01-docs/image/业务/swagger.png) |
+| ![预览.png](A极其重要/01-docs/image/业务/nacos.jpg)          | ![预览.png](A极其重要/01-docs/image/业务/工作流.png)     |
+| ![预览.png](A极其重要/01-docs/image/业务/基础平台.png)          | ![预览.png](A极其重要/01-docs/image/业务/开发运营系统.png)   |
+| ![预览.png](A极其重要/01-docs/image/监控/sw拓扑图.png)          | ![预览.png](A极其重要/01-docs/image/监控/sw追踪列表.png)  |
+| ![预览.png](A极其重要/01-docs/image/1000star.png)          | ![预览.png](A极其重要/01-docs/image/软著V2.5.0.jpg)   |
 
 # 推广
 
@@ -203,7 +207,7 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 
 本项目分为开源版、个人学习版和企业商用版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 个人和企业版源码在私有gitlab托管，购买后开通账号。
 
-区别请看：[会员版](https://tangyh.top/vip/%E6%8E%88%E6%9D%83%E8%B4%B9%E7%94%A8)
+区别请看：[会员版](https://tangyh.top/vip/%E6%8E%88%E6%9D%83%E8%B4%B9%E7%94%A8.html)
 
 # 开源协议
 
@@ -215,6 +219,4 @@ Apache Licence 2.0 Licence是著名的非盈利开源组织Apache采用的协议
 - 在延伸的代码中（修改和有源代码衍生的代码中）需要带有原来代码中的协议，商标，专利声明和其他原来作者规定需要包含的说明。
 - 如果再发布的产品中包含一个Notice文件，则在Notice文件中需要带有Apache Licence。你可以在Notice中增加自己的许可，但不可以表现为对Apache
   Licence构成更改。 Apache Licence也是对商业应用友好的许可。使用者也可以在需要的时候修改代码来满足需要并作为开源或商业产品发布/销售。
--
-
-若你借鉴或学习了本项目的源码，请你在你的项目源码和说明文档中显著的表明引用于本项目，并附上本项目的github访问地址。（https://github.com/dromara/lamp-cloud）
+- 若你借鉴或学习了本项目的源码，请你在你的项目源码和说明文档中显著的表明引用于本项目，并附上本项目的github访问地址。（https://github.com/dromara/lamp-cloud）
