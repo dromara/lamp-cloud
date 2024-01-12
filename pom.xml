@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-cloud</artifactId>
-    <version>4.15.0-java17</version>
+    <version>4.16.0-java17</version>
     <packaging>pom</packaging>
     <url>https://github.com/dromara/lamp-cloud</url>
     <name>${project.artifactId}</name>
