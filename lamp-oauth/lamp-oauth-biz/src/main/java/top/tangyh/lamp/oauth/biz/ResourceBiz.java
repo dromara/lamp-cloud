@@ -57,7 +57,9 @@ public class ResourceBiz {
             return false;
         }
 
-        return !children.stream().allMatch(item -> item.getIsHidden() == null || item.getIsHidden());
+        // hidden： true - 视图   false - 菜单  null - 菜单
+
+        return children.stream().allMatch(item -> item.getIsHidden() != null && item.getIsHidden());
     }
 
     /**
