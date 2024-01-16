@@ -207,13 +207,13 @@ public class ResourceBiz {
         if (isAdmin) {
             // 方案2 查db
             long queryResStart = System.currentTimeMillis();
-            apiList = defResourceService.findResourceApi(applicationId != null ? Collections.singletonList(applicationId) : Collections.emptyList(), Collections.emptyList());
+            apiList = defResourceService.findResourceApi(Collections.emptyList(), Collections.emptyList());
             long queryResEnd = System.currentTimeMillis();
             log.info("biz query 校验api权限:{} - {}  耗时:{}", path, method, (queryResEnd - queryResStart));
         } else {
             // 普通用户 需要校验 uri + method 的权限
             long queryResStart = System.currentTimeMillis();
-            List<Long> resourceIdList = baseRoleService.findResourceIdByEmployeeId(applicationId, employeeId);
+            List<Long> resourceIdList = baseRoleService.findResourceIdByEmployeeId(null, employeeId);
             if (resourceIdList.isEmpty()) {
                 return false;
             }
