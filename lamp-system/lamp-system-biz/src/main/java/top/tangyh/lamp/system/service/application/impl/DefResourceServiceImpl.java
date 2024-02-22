@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -216,7 +217,7 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
         superManager.updateById(current);
 
         // 只修改了 父ID、path等字段，清理资源缓存，无需清理 资源API的缓存
-        List<Long> allIdList = childrenList.stream().map(DefResource::getId).toList();
+        List<Long> allIdList = childrenList.stream().map(DefResource::getId).collect(Collectors.toList());
         allIdList.add(current.getId());
         superManager.delCache(allIdList);
     }
