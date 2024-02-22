@@ -32,7 +32,7 @@ import java.util.Map;
  * @author zuihou
  * @date 2021/8/4 23:47
  */
-@ServerEndpoint("/anno/myMsg/{tenantId}/{principal}")
+@ServerEndpoint("/anno/myMsg/{principal}")
 @Component
 @Slf4j
 public class MsgEndpoint {
@@ -85,11 +85,11 @@ public class MsgEndpoint {
      * @param text
      */
     @OnMessage
-    public String onMsg(@PathParam("tenantId") String tenantId, @PathParam("principal") String principal, String text) {
+    public String onMsg(@PathParam("principal") String principal, String text) {
         if (StrUtil.isEmpty(text) || "ping".equals(text)) {
             return StrPool.EMPTY;
         }
-        log.info("tenantId={}, employeeId={}, text={}", tenantId, principal, text);
+        log.info("employeeId={}, text={}", principal, text);
         ContextUtil.setEmployeeId(principal);
 
         PageParams<ExtendNotice> params = new PageParams<>(1, 10);
