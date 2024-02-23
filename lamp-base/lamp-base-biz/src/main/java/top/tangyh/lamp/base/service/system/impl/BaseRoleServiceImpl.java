@@ -163,6 +163,7 @@ public class BaseRoleServiceImpl extends SuperCacheServiceImpl<BaseRoleManager, 
             }
             keys.add(RoleResourceCacheKeyBuilder.build(applicationId, saveVO.getRoleId()));
         });
+        keys.add(RoleResourceCacheKeyBuilder.build(null, saveVO.getRoleId()));
         boolean flag = baseRoleResourceRelManager.saveBatch(list);
 
         cacheOps.del(keys);
