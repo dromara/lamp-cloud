@@ -11,13 +11,13 @@
         -->
         <groupId>top.tangyh.basic</groupId>
         <artifactId>lamp-parent</artifactId>
-        <version>4.16.0-java17</version>
+        <version>4.17.0-java17</version>
         <relativePath/>
     </parent>
 
     <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-dependencies-parent</artifactId>
-    <version>4.16.0-java17</version>
+    <version>4.17.0-java17</version>
 
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
@@ -26,8 +26,8 @@
     <description>lamp项目业务父pom</description>
     <url>https://github.com/dromara/lamp-cloud</url>
     <properties>
-        <lamp-util.version>4.16.0-java17</lamp-util.version>
-        <lamp-project.version>4.16.0-java17</lamp-project.version>
+        <lamp-util.version>4.17.0-java17</lamp-util.version>
+        <lamp-project.version>4.17.0-java17</lamp-project.version>
         <docker.image.prefix>zuihou</docker.image.prefix>
     </properties>
 
