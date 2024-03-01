@@ -45,6 +45,7 @@ public class BaseRoleResourceRelManagerImpl extends SuperManagerImpl<BaseRoleRes
         List<CacheKey> keys = new ArrayList<>();
         for (BaseRoleResourceRel rr : roleResourceRelList) {
             keys.add(RoleResourceCacheKeyBuilder.build(rr.getApplicationId(), rr.getRoleId()));
+            keys.add(RoleResourceCacheKeyBuilder.build(null, rr.getRoleId()));
         }
         cacheOps.del(keys);
     }
