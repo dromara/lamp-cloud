@@ -2,9 +2,6 @@ package top.tangyh.lamp.oauth.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,17 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import top.tangyh.basic.annotation.user.LoginUser;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.context.ContextUtil;
-import top.tangyh.lamp.base.vo.result.user.VueRouter;
 import top.tangyh.lamp.common.properties.IgnoreProperties;
 import top.tangyh.lamp.model.entity.system.SysUser;
 import top.tangyh.lamp.oauth.biz.ResourceBiz;
 import top.tangyh.lamp.oauth.vo.result.VisibleResourceVO;
+import top.tangyh.lamp.system.enumeration.system.ClientTypeEnum;
 
 import java.util.Collections;
 import java.util.List;
-
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_LONG;
-import static top.tangyh.lamp.common.constant.SwaggerConstants.DATA_TYPE_STRING;
 
 
 /**
@@ -52,22 +46,30 @@ public class ResourceController {
     /**
      * 查询用户可用的所有资源
      *
+     * @param type 应用类型 根据类型决定返回的数据格式
      * @param applicationId 应用id
+     *                          应用id为空，则返回所有应用的菜单数据
      * @param employeeId    当前登录人id
      */
     @Operation(summary = "查询用户可用的所有资源", description = "根据员工ID和应用ID查询员工在某个应用下可用的资源")
     @GetMapping("/visible/resource")
     public R<VisibleResourceVO> visible(@Parameter(hidden = true) @LoginUser SysUser sysUser,
+                                        @RequestParam(value = "type", required = false) ClientTypeEnum type,
                                         @RequestParam(value = "employeeId", required = false) Long employeeId,
-                                        @RequestParam(value = "applicationId", required = false) Long applicationId) {
+                                        @RequestParam(value = "applicationId", required = false) Long applicationId,
+                                        @RequestParam(value = "subGroup", required = false) String subGroup
+    ) {
         if (employeeId == null || employeeId <= 0) {
             employeeId = sysUser.getEmployeeId();
         }
         return R.success(VisibleResourceVO.builder()
+                .enabled(ignoreProperties.getAuthEnabled())
+                .caseSensitive(ignoreProperties.getCaseSensitive())
                 .roleList(Collections.singletonList("PT_ADMIN"))
                 .resourceList(oauthResourceBiz.findVisibleResource(employeeId, applicationId))
-                .caseSensitive(ignoreProperties.getCaseSensitive())
-                .enabled(ignoreProperties.getAuthEnabled())
+                .routerList(
+                        applicationId == null ? oauthResourceBiz.findAllVisibleRouter(employeeId, subGroup, type) : oauthResourceBiz.findVisibleRouter(applicationId, employeeId, subGroup, type)
+                )
                 .build());
     }
 
@@ -104,37 +106,4 @@ public class ResourceController {
     public R<Boolean> checkEmployeeHaveApplication(@RequestParam Long applicationId) {
         return R.success(oauthResourceBiz.checkEmployeeHaveApplication(ContextUtil.getEmployeeId(), applicationId));
     }
-
-    @Parameters({
-            @Parameter(name = "subGroup", description = "菜单组", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
-            @Parameter(name = "employeeId", description = "模板编码: 在「运营平台」-「消息模板」-「模板标识」配置一个邮件模板", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
-            @Parameter(name = "applicationId", description = "应用id", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
-    })
-    @Operation(summary = "查询用户可用的所有菜单路由树", description = "根据员工ID和应用ID查询员工在某个应用下可用的菜单路由树")
-    @GetMapping("/visible/router")
-    public R<List<VueRouter>> myRouter(@RequestParam Long applicationId,
-                                       @RequestParam(value = "subGroup", required = false) String subGroup,
-                                       @RequestParam(value = "employeeId", required = false) Long employeeId,
-                                       @Parameter(hidden = true) @LoginUser SysUser sysUser) {
-        if (employeeId == null || employeeId <= 0) {
-            employeeId = sysUser.getEmployeeId();
-        }
-        return R.success(oauthResourceBiz.findVisibleRouter(applicationId, employeeId, subGroup));
-    }
-
-    @Parameters({
-            @Parameter(name = "subGroup", description = "菜单组", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
-            @Parameter(name = "employeeId", description = "模板编码: 在「运营平台」-「消息模板」-「模板标识」配置一个邮件模板", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
-    })
-    @Operation(summary = "查询用户所有应用的可用路由树", description = "查询用户所有应用的可用路由树")
-    @GetMapping("/visible/allRouter")
-    public R<List<VueRouter>> allRouter(@RequestParam(value = "subGroup", required = false) String subGroup,
-                                        @RequestParam(value = "employeeId", required = false) Long employeeId,
-                                        @Parameter(hidden = true) @LoginUser SysUser sysUser) {
-        if (employeeId == null || employeeId <= 0) {
-            employeeId = sysUser.getEmployeeId();
-        }
-        return R.success(oauthResourceBiz.findAllVisibleRouter(employeeId, subGroup));
-    }
-
 }

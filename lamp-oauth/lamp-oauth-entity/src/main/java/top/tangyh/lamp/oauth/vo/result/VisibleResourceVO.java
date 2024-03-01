@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import top.tangyh.lamp.base.vo.result.user.VueRouter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,6 +35,8 @@ public class VisibleResourceVO implements Serializable {
     private Boolean caseSensitive;
     @Schema(description = "拥有的资源编码")
     private List<String> resourceList;
+    @Schema(description = "拥有的菜单路由")
+    private List<VueRouter> routerList;
     @Schema(description = "拥有的角色编码")
     private List<String> roleList;
 }

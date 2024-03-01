@@ -9,11 +9,14 @@ import org.springframework.util.AntPathMatcher;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.jackson.JsonUtil;
+import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
 import top.tangyh.basic.utils.CollHelper;
 import top.tangyh.basic.utils.StrPool;
 import top.tangyh.basic.utils.TreeUtil;
+import top.tangyh.lamp.base.entity.user.BaseEmployee;
 import top.tangyh.lamp.base.service.system.BaseRoleService;
+import top.tangyh.lamp.base.service.user.BaseEmployeeService;
 import top.tangyh.lamp.base.vo.result.user.RouterMeta;
 import top.tangyh.lamp.base.vo.result.user.VueRouter;
 import top.tangyh.lamp.common.constant.BizConstant;
@@ -23,6 +26,7 @@ import top.tangyh.lamp.model.enumeration.system.ResourceTypeEnum;
 import top.tangyh.lamp.system.entity.application.DefApplication;
 import top.tangyh.lamp.system.entity.application.DefResource;
 import top.tangyh.lamp.system.entity.application.DefResourceApi;
+import top.tangyh.lamp.system.enumeration.system.ClientTypeEnum;
 import top.tangyh.lamp.system.enumeration.tenant.ResourceOpenWithEnum;
 import top.tangyh.lamp.system.service.application.DefApplicationService;
 import top.tangyh.lamp.system.service.application.DefResourceService;
@@ -43,8 +47,9 @@ import java.util.List;
 public class ResourceBiz {
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
     private final DefResourceService defResourceService;
-    private final DefApplicationService defApplicationService;
     private final BaseRoleService baseRoleService;
+    private final DefApplicationService defApplicationService;
+    private final BaseEmployeeService baseEmployeeService;
 
     /**
      * 是否所有的子都是视图
@@ -86,7 +91,7 @@ public class ResourceBiz {
         return CollHelper.split(list, DefResource::getCode, StrPool.SEMICOLON);
     }
 
-    public List<VueRouter> findAllVisibleRouter(Long employeeId, String subGroup) {
+    public List<VueRouter> findAllVisibleRouter(Long employeeId, String subGroup, ClientTypeEnum type) {
         List<DefResource> list;
         boolean isAdmin = baseRoleService.checkRole(employeeId, RoleConstant.TENANT_ADMIN);
         List<String> menuCodes = Collections.singletonList(ResourceTypeEnum.MENU.getCode());
@@ -116,7 +121,11 @@ public class ResourceBiz {
 
             List<VueRouter> routers = BeanPlusUtil.copyToList(list, VueRouter.class);
             List<VueRouter> tree = TreeUtil.buildTree(routers);
-            forEachTree(tree, 1);
+            if (ClientTypeEnum.LAMP_WEB_PRO_SOYBEAN.eq(type)) {
+                forEachTreeBySoybean(tree, 1, null);
+            } else {
+                forEachTree(tree, 1);
+            }
 
             VueRouter applicationRouter = new VueRouter();
             applicationRouter.setName(defApplication.getName());
@@ -162,7 +171,7 @@ public class ResourceBiz {
      * @param applicationId 应用id
      * @return 资源树
      */
-    public List<VueRouter> findVisibleRouter(Long applicationId, Long employeeId, String subGroup) {
+    public List<VueRouter> findVisibleRouter(Long applicationId, Long employeeId, String subGroup, ClientTypeEnum type) {
         List<DefResource> list;
         boolean isAdmin = baseRoleService.checkRole(employeeId, RoleConstant.TENANT_ADMIN);
         List<String> menuCodes = Collections.singletonList(ResourceTypeEnum.MENU.getCode());
@@ -184,7 +193,11 @@ public class ResourceBiz {
 
         List<VueRouter> routers = BeanPlusUtil.copyToList(list, VueRouter.class);
         List<VueRouter> tree = TreeUtil.buildTree(routers);
-        forEachTree(tree, 1);
+        if (ClientTypeEnum.LAMP_WEB_PRO_SOYBEAN.eq(type)) {
+            forEachTreeBySoybean(tree, 1, null);
+        } else {
+            forEachTree(tree, 1);
+        }
         return tree;
     }
 
@@ -202,7 +215,11 @@ public class ResourceBiz {
         if (StrUtil.isEmpty(path) || StrUtil.isEmpty(method)) {
             return false;
         }
+        long isAdminStart = System.currentTimeMillis();
         boolean isAdmin = baseRoleService.checkRole(employeeId, RoleConstant.TENANT_ADMIN);
+        long isAdminEnd = System.currentTimeMillis();
+        log.info("biz isAdmin 校验api权限:{} - {}  耗时:{}", path, method, (isAdminEnd - isAdminStart));
+
         List<DefResourceApi> apiList;
         if (isAdmin) {
             // 方案2 查db
@@ -292,6 +309,89 @@ public class ResourceBiz {
             }
         }
     }
+
+    private void forEachTreeBySoybean(List<VueRouter> tree, int level, VueRouter parent) {
+        if (CollUtil.isEmpty(tree)) {
+            return;
+        }
+        for (VueRouter item : tree) {
+            log.debug("level={}, label={}", level, item.getName());
+            RouterMeta meta = null;
+            if (item.getMeta() == null) {
+                if (StrUtil.isNotEmpty(item.getMetaJson()) && !StrPool.BRACE.equals(item.getMetaJson())) {
+                    meta = JsonUtil.parse(item.getMetaJson(), RouterMeta.class);
+                }
+                if (meta == null) {
+                    meta = new RouterMeta();
+                }
+                if (StrUtil.isEmpty(meta.getTitle())) {
+                    meta.setTitle(item.getName());
+                }
+                meta.setIcon(item.getIcon());
+                if (ResourceOpenWithEnum.INNER_CHAIN.eq(item.getOpenWith())) {
+                    //  是否内嵌页面
+                    meta.setFrameSrc(item.getComponent());
+                    item.setComponent(BizConstant.IFRAME);
+                } else if (ResourceOpenWithEnum.OUTER_CHAIN.eq(item.getOpenWith())) {
+                    // 是否外链
+                    item.setComponent(BizConstant.IFRAME);
+
+                    meta.setHref(item.getComponent());
+                }
+                // 视图需要隐藏
+                meta.setHideInMenu(item.getIsHidden() != null ? item.getIsHidden() : false);
+
+                if (meta.getHideInMenu() && StrUtil.isEmpty(meta.getActiveMenu()) && parent != null) {
+                    meta.setActiveMenu(parent.getName());
+                }
+
+            } else {
+                meta = item.getMeta();
+            }
+
+            if (parent != null) {
+                item.setName(parent.getName() + "_" + item.getName());
+            }
+
+
+            item.setMeta(meta);
+
+            if (CollUtil.isNotEmpty(item.getChildren())) {
+                String component = item.getComponent();
+                List<VueRouter> childrenList = item.getChildren();
+                // 是否所有的子都是视图
+                boolean allView = hideChildrenInMenu(item.getChildren());
+                item.setComponent("layout.base");
+                if (allView) {
+                    VueRouter first = new VueRouter();
+                    first.setName(meta.getTitle());
+                    first.setPath(item.getPath() + "/children");
+                    first.setComponent(component);
+                    RouterMeta firstMeta = BeanPlusUtil.toBean(item.getMeta(), RouterMeta.class);
+                    firstMeta.setActiveMenu(item.getName())
+                            .setHideInMenu(true)
+                    ;
+                    first.setMeta(firstMeta);
+
+                    first.setIsHidden(true);
+                    first.setIcon(firstMeta.getIcon());
+
+                    childrenList.add(0, first);
+                    item.setRedirect(first.getPath());
+                    item.setChildren(childrenList);
+                }
+            } else {
+                if (level == 1) {
+                    item.setComponent("layout.base$" + item.getComponent());
+                }
+            }
+
+            if (CollUtil.isNotEmpty(item.getChildren())) {
+                forEachTreeBySoybean(item.getChildren(), level + 1, item);
+            }
+        }
+    }
+
 
     /**
      * 检测员工是否拥有指定应用的权限

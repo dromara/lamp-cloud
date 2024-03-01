@@ -186,4 +186,97 @@ public class RouterMeta extends LinkedHashMap<String, Object> implements Seriali
         this.put(routerMetaConfig.getDotKey(), dot);
         return this;
     }
+
+    @Schema(description = "当前路由不再菜单显示 By Soybean")
+    public Boolean getHideInMenu() {
+        return (Boolean) this.get(routerMetaConfig.getHideInMenuKey());
+    }
+
+    public RouterMeta setHideInMenu(Boolean hideMenu) {
+        this.put(routerMetaConfig.getHideInMenuKey(), hideMenu);
+        return this;
+    }
+
+    @Schema(description = "当前激活的菜单。用于配置详情页时左侧激活的菜单路径 By Soybean")
+    public String getActiveMenu() {
+        return (String) this.get(routerMetaConfig.getActiveMenuKey());
+    }
+
+    public RouterMeta setActiveMenu(String activeMenuKey) {
+        this.put(routerMetaConfig.getActiveMenuKey(), activeMenuKey);
+        return this;
+    }
+
+    @Schema(description = "菜单标题 i18n key By Soybean")
+    public String getI18nKey() {
+        return (String) this.get(routerMetaConfig.getI18nKeyKey());
+    }
+
+    public RouterMeta setI18nKey(String val) {
+        this.put(routerMetaConfig.getI18nKeyKey(), val);
+        return this;
+    }
+    @Schema(description = "是否缓存路由 By Soybean")
+    public String getKeepAlive() {
+        return (String) this.get(routerMetaConfig.getKeepAliveKey());
+    }
+
+    public RouterMeta setKeepAlive(String val) {
+        this.put(routerMetaConfig.getKeepAliveKey(), val);
+        return this;
+    }
+    @Schema(description = "是否缓存路由 By Soybean")
+    public Boolean getConstant() {
+        return (Boolean) this.get(routerMetaConfig.getConstantKey());
+    }
+
+    public RouterMeta setConstant(Boolean val) {
+        this.put(routerMetaConfig.getConstantKey(), val);
+        return this;
+    }
+    @Schema(description = "在 src/assets/svg-icon, ，如果设置了该图标，则icon将被忽略 By Soybean")
+    public String getLocalIcon() {
+        return (String) this.get(routerMetaConfig.getLocalIconKey());
+    }
+
+    public RouterMeta setLocalIcon(String val) {
+        this.put(routerMetaConfig.getLocalIconKey(), val);
+        return this;
+    }
+    @Schema(description = "排序 By Soybean")
+    public Integer getOrder() {
+        return (Integer) this.get(routerMetaConfig.getOrderKey());
+    }
+
+    public RouterMeta setOrder(Integer val) {
+        this.put(routerMetaConfig.getOrderKey(), val);
+        return this;
+    }
+    @Schema(description = "外部链接 By Soybean")
+    public String getHref() {
+        return (String) this.get(routerMetaConfig.getHrefKey());
+    }
+
+    public RouterMeta setHref(String val) {
+        this.put(routerMetaConfig.getHrefKey(), val);
+        return this;
+    }
+    @Schema(description = "默认情况下，同一路由路径将使用一个选项卡，如果设置为true，则将使用多个选项卡 By Soybean")
+    public String getMultiTab() {
+        return (String) this.get(routerMetaConfig.getMultiTabKey());
+    }
+
+    public RouterMeta setMultiTab(String val) {
+        this.put(routerMetaConfig.getMultiTabKey(), val);
+        return this;
+    }
+    @Schema(description = "如果设置，则路由将固定在选项卡中，并且该值是固定选项卡的顺序 By Soybean")
+    public String getFixedIndexInTab() {
+        return (String) this.get(routerMetaConfig.getFixedIndexInTabKey());
+    }
+
+    public RouterMeta setFixedIndexInTab(String val) {
+        this.put(routerMetaConfig.getFixedIndexInTabKey(), val);
+        return this;
+    }
 }
