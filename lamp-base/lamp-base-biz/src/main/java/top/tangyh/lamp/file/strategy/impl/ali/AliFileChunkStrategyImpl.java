@@ -1,6 +1,7 @@
 package top.tangyh.lamp.file.strategy.impl.ali;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.CompleteMultipartUploadRequest;
@@ -70,7 +71,7 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
         log.info("total part count:{}", partCount);
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment;fileName=" + file.getOriginalFileName());
+        metadata.setContentDisposition("attachment;fileName=" + URLUtil.encode(file.getOriginalFileName()));
         metadata.setContentType(file.getContentType());
         // 初始化拷贝任务。可以通过InitiateMultipartUploadRequest指定目标文件元信息。
         InitiateMultipartUploadRequest initiateMultipartUploadRequest = new InitiateMultipartUploadRequest(destinationBucketName, destinationObjectName, metadata);
@@ -123,7 +124,7 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
         String relativeFileName = relativePath + StrPool.SLASH + fileName;
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment;fileName=" + info.getSubmittedFileName());
+        metadata.setContentDisposition("attachment;fileName=" + URLUtil.encode(info.getSubmittedFileName()));
         metadata.setContentType(info.getContextType());
         //步骤1：初始化一个分片上传事件。
         InitiateMultipartUploadRequest request = new InitiateMultipartUploadRequest(bucketName, relativeFileName, metadata);

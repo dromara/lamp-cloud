@@ -2,6 +2,7 @@ package top.tangyh.lamp.file.strategy.impl.ali;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ObjectMetadata;
@@ -59,7 +60,7 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         String path = getPath(file.getBizType(), uniqueFileName);
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment;fileName=" + file.getOriginalFileName());
+        metadata.setContentDisposition("attachment;fileName=" + URLUtil.encode(file.getOriginalFileName()));
         metadata.setContentType(file.getContentType());
         PutObjectRequest request = new PutObjectRequest(bucket, path, multipartFile.getInputStream(), metadata);
         PutObjectResult result = ossClient.putObject(request);
