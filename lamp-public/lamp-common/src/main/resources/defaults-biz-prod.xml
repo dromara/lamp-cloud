@@ -13,6 +13,9 @@
     <logger name="top.tangyh.lamp.base.mapper" additivity="false" level="${log.level.mapper}">
         <appender-ref ref="ASYNC_MAPPER_APPENDER"/>
     </logger>
+    <logger name="top.tangyh.lamp.datascope.mapper" additivity="false" level="${log.level.mapper}">
+        <appender-ref ref="ASYNC_MAPPER_APPENDER"/>
+    </logger>
     <!-- 文件服务 -->
     <logger name="top.tangyh.lamp.file.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>
