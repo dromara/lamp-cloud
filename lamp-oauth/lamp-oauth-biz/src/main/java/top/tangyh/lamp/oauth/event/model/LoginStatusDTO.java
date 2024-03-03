@@ -18,6 +18,8 @@ import top.tangyh.basic.log.util.AddressUtil;
 import top.tangyh.lamp.system.enumeration.system.LoginStatusEnum;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * 登录状态DTO
@@ -123,11 +125,25 @@ public class LoginStatusDTO implements Serializable {
         String tempUa = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
         String tempIp = JakartaServletUtil.getClientIP(request);
         log.info("tempIp={}, ua={}", tempIp, tempUa);
-        String tempLocation = AddressUtil.getRegion(tempIp);
+        String tempLocation = isLocalHostIp(tempIp) ? "localhost" : AddressUtil.getRegion(tempIp);
+
         this.ua = tempUa;
         this.requestIp = tempIp;
         this.location = tempLocation;
         return this;
+    }
+
+    /**
+     * 判断是否为本地IP地址的方法
+     */
+    private boolean isLocalHostIp(String ipAddress) {
+        try {
+            InetAddress inetAddress = InetAddress.getByName(ipAddress);
+            return inetAddress.isLoopbackAddress();
+        } catch (UnknownHostException e) {
+            // 处理异常情况，如果无法解析IP地址，则不视为本地地址
+            return false;
+        }
     }
 
 }
