@@ -24,16 +24,14 @@ public class TraceFilter implements WebFilter, Ordered {
         //链路追踪id
         String traceId = IdUtil.fastSimpleUUID();
         MDC.put(ContextConstants.TRACE_ID_HEADER, traceId);
-        ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate()
-                .headers(h -> h.add(ContextConstants.TRACE_ID_HEADER, traceId))
-                .build();
-
-//        ServerHttpResponse originalResponse = exchange.getResponse();
-//        ServerHttpResponseDecorator decoratedResponse = new CommonResponseDecorator(originalResponse);
-//        ServerWebExchange build = exchange.mutate().request(serverHttpRequest).response(decoratedResponse).build();
-
-        ServerWebExchange build = exchange.mutate().request(serverHttpRequest).build();
-        return chain.filter(build);
+        try {
+            ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate()
+                    .headers(h -> h.add(ContextConstants.TRACE_ID_HEADER, traceId))
+                    .build();
+            return chain.filter(exchange.mutate().request(serverHttpRequest).build());
+        }finally {
+            MDC.remove(ContextConstants.TRACE_ID_HEADER);
+        }
     }
 
     @Override

@@ -85,19 +85,8 @@ public class TokenContextFilter implements WebFilter, Ordered {
     }
 
     protected String getHeader(String headerName, ServerHttpRequest request) {
-        HttpHeaders headers = request.getHeaders();
-        String token = StrUtil.EMPTY;
-        if (headers == null || headers.isEmpty()) {
-            return token;
-        }
-
-        token = headers.getFirst(headerName);
-
-        if (StrUtil.isNotBlank(token)) {
-            return token;
-        }
-
-        return request.getQueryParams().getFirst(headerName);
+        String token = request.getHeaders().getFirst(headerName);
+        return StrUtil.isNotBlank(token) ? token : request.getQueryParams().getFirst(headerName);
     }
 
 
@@ -105,39 +94,32 @@ public class TokenContextFilter implements WebFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
-        ServerHttpRequest.Builder mutate = request.mutate();
-
-        ContextUtil.setGrayVersion(getHeader(ContextConstants.GRAY_VERSION, request));
 
         try {
+            ContextUtil.setGrayVersion(getHeader(ContextConstants.GRAY_VERSION, request));
+
+            ServerHttpRequest.Builder mutate = request.mutate();
+
             // 1,解码 Authorization
             parseClient(request, mutate);
 
             // 2, 获取 应用id
             parseApplication(request, mutate);
 
-            // 4，解码 并验证 token
-            Mono<Void> token = parseToken(exchange, chain);
-            if (token != null) {
-                return token;
-            }
-        } catch (UnauthorizedException e) {
-            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.UNAUTHORIZED);
-        } catch (BizException e) {
-            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.BAD_REQUEST);
+            //4，解码 并验证 token
+            return parseToken(exchange, chain)
+                    .doFinally(signalType -> removeHeaders())
+                    .onErrorResume(e -> handleException(response, e));
         } catch (Exception e) {
-            return errorResponse(response, "验证token出错", R.FAIL_CODE, HttpStatus.BAD_REQUEST);
+            return handleException(response, e);
         }
-
-        ServerHttpRequest build = mutate.build();
-        return chain.filter(exchange.mutate().request(build).build());
     }
-
 
     private Mono<Void> parseToken(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         ServerHttpRequest.Builder mutate = request.mutate();
+
         // 获取请求头中的token
         String token = getHeader(TOKEN_KEY, request);
         addHeader(mutate, ContextConstants.TOKEN_HEADER, token);
@@ -153,38 +135,72 @@ public class TokenContextFilter implements WebFilter, Ordered {
         if (isDev(token)) {
             tokenObj = new Token();
             tokenObj.setUserId(1L).setEmployeeId(160566476187631622L).setCurrentTopCompanyId(1L).setCurrentCompanyId(1L).setCurrentDeptId(1L);
+            setTokenHeaders(mutate, tokenObj);
+            return Mono.empty();
+        }
+
+        tokenObj = tokenUtil.parseToken(token);
+
+        // 验证 是否在其他设备登录或被挤下线
+        // TOKEN_USER_ID:{token} === T
+        CacheKey cacheKey = TokenUserIdCacheKeyBuilder.builder(tokenObj.getUuid());
+        CacheResult<String> tokenCache = cacheOps.get(cacheKey);
+        if (StrUtil.isEmpty(tokenCache.getValue())) {
+            return errorResponse(response, JWT_NOT_LOGIN.getMsg(), JWT_NOT_LOGIN.getCode(), HttpStatus.UNAUTHORIZED);
+        } else if (StrUtil.equals(BizConstant.LOGIN_STATUS, tokenCache.getValue())) {
+            return errorResponse(response, JWT_OFFLINE.getMsg(), JWT_OFFLINE.getCode(), HttpStatus.UNAUTHORIZED);
         } else {
-            tokenObj = tokenUtil.parseToken(token);
+            // 将请求头中的token解析出来的用户信息重新封装到请求头，转发到业务服务
+            // 业务服务在利用HeaderThreadLocalInterceptor拦截器将请求头中的用户信息解析到ThreadLocal中
+            setTokenHeaders(mutate, tokenObj);
+            return chain.filter(exchange.mutate().request(mutate.build()).build());
+        }
+    }
 
-            // 验证 是否在其他设备登录或被挤下线
-            // TOKEN_USER_ID:{token} === T
-            CacheKey cacheKey = TokenUserIdCacheKeyBuilder.builder(tokenObj.getUuid());
-            CacheResult<String> tokenCache = cacheOps.get(cacheKey);
-
-            if (StrUtil.isEmpty(tokenCache.getValue())) {
-                return errorResponse(response, JWT_NOT_LOGIN.getMsg(), JWT_NOT_LOGIN.getCode(), HttpStatus.UNAUTHORIZED);
-            } else if (StrUtil.equals(BizConstant.LOGIN_STATUS, tokenCache.getValue())) {
-                return errorResponse(response, JWT_OFFLINE.getMsg(), JWT_OFFLINE.getCode(), HttpStatus.UNAUTHORIZED);
-            }
+    private void removeHeaders() {
+        if (MDC.get(APPLICATION_ID_HEADER) != null) {
+            MDC.remove(APPLICATION_ID_HEADER);
         }
 
-        // 将请求头中的token解析出来的用户信息重新封装到请求头，转发到业务服务
-        // 业务服务在利用HeaderThreadLocalInterceptor拦截器将请求头中的用户信息解析到ThreadLocal中
-        if (tokenObj != null) {
-            ContextUtil.setUserId(tokenObj.getUserId());
-            ContextUtil.setEmployeeId(tokenObj.getEmployeeId());
-            ContextUtil.setCurrentCompanyId(tokenObj.getCurrentCompanyId());
-            ContextUtil.setCurrentTopCompanyId(tokenObj.getCurrentTopCompanyId());
-            ContextUtil.setCurrentDeptId(tokenObj.getCurrentDeptId());
-            addHeader(mutate, ContextConstants.USER_ID_HEADER, tokenObj.getUserId());
-            addHeader(mutate, ContextConstants.EMPLOYEE_ID_HEADER, tokenObj.getEmployeeId());
-            addHeader(mutate, ContextConstants.CURRENT_DEPT_ID_HEADER, tokenObj.getCurrentDeptId());
-            addHeader(mutate, ContextConstants.CURRENT_COMPANY_ID_HEADER, tokenObj.getCurrentCompanyId());
-            addHeader(mutate, ContextConstants.CURRENT_TOP_COMPANY_ID_HEADER, tokenObj.getCurrentTopCompanyId());
-            MDC.put(ContextConstants.USER_ID_HEADER, String.valueOf(tokenObj.getUserId()));
-            MDC.put(ContextConstants.EMPLOYEE_ID_HEADER, String.valueOf(tokenObj.getEmployeeId()));
+        if (MDC.get(ContextConstants.USER_ID_HEADER) != null) {
+            MDC.remove(ContextConstants.USER_ID_HEADER);
         }
-        return null;
+
+        if (MDC.get(ContextConstants.EMPLOYEE_ID_HEADER) != null) {
+            MDC.remove(ContextConstants.EMPLOYEE_ID_HEADER);
+        }
+    }
+
+    private Mono<Void> handleException(ServerHttpResponse response, Throwable e) {
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        int code = R.FAIL_CODE;
+        String message = "验证 token 出错";
+
+        if (e instanceof UnauthorizedException) {
+            httpStatus = HttpStatus.UNAUTHORIZED;
+            code = ((UnauthorizedException) e).getCode();
+            message = e.getMessage();
+        } else if (e instanceof BizException) {
+            code = ((BizException) e).getCode();
+            message = e.getMessage();
+        }
+
+        return errorResponse(response, message, code, httpStatus);
+    }
+
+    private void setTokenHeaders(ServerHttpRequest.Builder mutate, Token tokenObj) {
+        ContextUtil.setUserId(tokenObj.getUserId());
+        ContextUtil.setEmployeeId(tokenObj.getEmployeeId());
+        ContextUtil.setCurrentCompanyId(tokenObj.getCurrentCompanyId());
+        ContextUtil.setCurrentTopCompanyId(tokenObj.getCurrentTopCompanyId());
+        ContextUtil.setCurrentDeptId(tokenObj.getCurrentDeptId());
+        addHeader(mutate, ContextConstants.USER_ID_HEADER, tokenObj.getUserId());
+        addHeader(mutate, ContextConstants.EMPLOYEE_ID_HEADER, tokenObj.getEmployeeId());
+        addHeader(mutate, ContextConstants.CURRENT_DEPT_ID_HEADER, tokenObj.getCurrentDeptId());
+        addHeader(mutate, ContextConstants.CURRENT_COMPANY_ID_HEADER, tokenObj.getCurrentCompanyId());
+        addHeader(mutate, ContextConstants.CURRENT_TOP_COMPANY_ID_HEADER, tokenObj.getCurrentTopCompanyId());
+        MDC.put(ContextConstants.USER_ID_HEADER, String.valueOf(tokenObj.getUserId()));
+        MDC.put(ContextConstants.EMPLOYEE_ID_HEADER, String.valueOf(tokenObj.getEmployeeId()));
     }
 
     private void parseClient(ServerHttpRequest request, ServerHttpRequest.Builder mutate) {
@@ -215,7 +231,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
     }
 
     protected Mono<Void> errorResponse(ServerHttpResponse response, String errMsg, int errCode, HttpStatus httpStatus) {
-        R tokenError = R.fail(errCode, errMsg);
+        R<Object> tokenError = R.fail(errCode, errMsg);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.setStatusCode(httpStatus);
 //        response.setStatusCode(HttpStatus.OK);
