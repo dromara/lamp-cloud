@@ -43,7 +43,7 @@ public class WebLogController {
      * @param data 保存对象
      * @return 保存结果
      */
-    @PostMapping("/anyUser/optLog")
+    @PostMapping("/optLog")
     @Operation(summary = "保存系统日志", description = "保存系统日志不为空的字段")
     public R<Boolean> save(@RequestBody OptLogDTO data) {
         baseOperationLogService.save(BeanPlusUtil.toBean(data, BaseOperationLogSaveVO.class));

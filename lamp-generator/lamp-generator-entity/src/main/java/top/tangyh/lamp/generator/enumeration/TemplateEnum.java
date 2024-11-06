@@ -31,6 +31,7 @@ public enum TemplateEnum implements BaseEnum {
      * 前端
      */
     WEB_PLUS("02", "前端"),
+    WEB_SOYBEAN("03", "前端"),
     ;
 
     private String value;
