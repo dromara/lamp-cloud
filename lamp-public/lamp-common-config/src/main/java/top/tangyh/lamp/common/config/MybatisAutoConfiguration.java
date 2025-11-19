@@ -1,4 +1,4 @@
-package top.tangyh.lamp.database.none;
+package top.tangyh.lamp.common.config;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import lombok.extern.slf4j.Slf4j;

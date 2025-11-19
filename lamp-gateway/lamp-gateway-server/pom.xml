@@ -73,6 +73,10 @@
                     <groupId>top.tangyh.basic</groupId>
                 </exclusion>
                 <exclusion>
+                    <artifactId>lamp-sa-token-ext</artifactId>
+                    <groupId>top.tangyh.lamp</groupId>
+                </exclusion>
+                <exclusion>
                     <artifactId>lamp-all-boot</artifactId>
                     <groupId>top.tangyh.basic</groupId>
                 </exclusion>
