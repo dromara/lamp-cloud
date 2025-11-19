@@ -135,10 +135,12 @@ public abstract class AbstractTokenGranter implements TokenGranter {
         }
         // 演示环境专用代码，可直接删除 end
 
-        // 3. 判断密码
-        result = checkUserPassword(loginParam, defUser);
-        if (!result.getIsSuccess()) {
-            return result;
+        if (checkPassword) {
+            // 3. 判断密码
+            result = checkUserPassword(loginParam, defUser);
+            if (!result.getIsSuccess()) {
+                return result;
+            }
         }
 
         // 4. 检查用户状态
