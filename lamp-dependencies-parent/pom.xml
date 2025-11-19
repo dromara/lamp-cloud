@@ -10,7 +10,7 @@
         -->
         <groupId>top.tangyh.basic</groupId>
         <artifactId>lamp-parent</artifactId>
-        <version>5.6.2</version>
+        <version>5.7.0</version>
         <relativePath/>
     </parent>
 
@@ -25,9 +25,9 @@
     <url>https://github.com/dromara/lamp-cloud</url>
     <properties>
         <!-- 本项目的版本 -->
-        <revision>5.6.2</revision>
+        <revision>5.7.0</revision>
         <!-- lamp-util基础库的版本 -->
-        <lamp-util.version>5.6.2</lamp-util.version>
+        <lamp-util.version>5.7.0</lamp-util.version>
         <docker.image.prefix>zuihou</docker.image.prefix>
     </properties>
 
