@@ -12,7 +12,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@Schema(description = "文件合并实体")
+@Schema(title = "FileChunksMerge", description = "文件合并实体")
 public class FileChunksMergeDTO {
 
     @Schema(description = "文件唯一名 md5.js 生成的, 与后端生成的一致")

@@ -25,21 +25,10 @@
             <artifactId>lamp-oauth-controller</artifactId>
             <version>${revision}</version>
         </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
-            <version>${revision}</version>
-        </dependency>
         <!-- 用户信息注入 - 微服务版实现类 -->
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-login-user-cloud-impl</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-sa-token-ext</artifactId>
             <version>${revision}</version>
         </dependency>
 

@@ -1,6 +1,7 @@
 package top.tangyh.lamp.oauth.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.tangyh.basic.cache.redis2.CacheResult;
@@ -12,6 +13,7 @@ import top.tangyh.lamp.base.entity.user.BaseEmployee;
 import top.tangyh.lamp.base.entity.user.BaseOrg;
 import top.tangyh.lamp.base.service.user.BaseEmployeeService;
 import top.tangyh.lamp.base.service.user.BaseOrgService;
+import top.tangyh.lamp.common.cache.auth.TempAdminCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.common.CaptchaCacheKeyBuilder;
 import top.tangyh.lamp.common.properties.SystemProperties;
 import top.tangyh.lamp.oauth.service.UserInfoService;
@@ -21,7 +23,10 @@ import top.tangyh.lamp.oauth.vo.result.OrgResultVO;
 import top.tangyh.lamp.system.entity.tenant.DefUser;
 import top.tangyh.lamp.system.service.tenant.DefUserService;
 
+import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tangyh
@@ -94,5 +99,29 @@ public class UserInfoServiceImpl implements UserInfoService {
         defUserService.registerByEmail(defUser);
 
         return defUser.getEmail();
+    }
+
+    @Override
+    public Map<String, Object> registerTempAdmin(String type) {
+        Map<String, Object> result = new HashMap<>(4);
+        String username = RandomUtil.randomNumbers(4);
+        String password = RandomUtil.randomNumbers(2);
+        CacheKey key = TempAdminCacheKeyBuilder.builder(username);
+        CacheKey typeKey = TempAdminCacheKeyBuilder.builder(username, "type");
+        cacheOps.set(key, username + password);
+        cacheOps.set(typeKey, type);
+
+        result.put("username", username);
+        result.put("password", username + password);
+        result.put("expire", key.getExpire());
+        result.put("expireStr", formatDuration(key.getExpire()));
+        return result;
+    }
+
+    private static String formatDuration(Duration duration) {
+        long seconds = duration.getSeconds();
+        long minutes = (seconds % 3600) / 60;
+        long secs = seconds % 60;
+        return String.format("00:%02d:%02d", minutes, secs);
     }
 }

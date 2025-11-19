@@ -25,7 +25,7 @@ import static top.tangyh.basic.utils.ValidatorUtil.REGEX_MOBILE;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "注册")
+@Schema(title = "RegisterByMobileVO", description = "注册")
 public class RegisterByMobileVO extends RegisterVO {
 
     @Schema(description = "登录手机号")

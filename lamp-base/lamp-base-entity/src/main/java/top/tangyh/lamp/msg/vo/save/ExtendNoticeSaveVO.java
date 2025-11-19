@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "通知表")
+@Schema(title = "ExtendNoticeSaveVO", description = "通知表")
 public class ExtendNoticeSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

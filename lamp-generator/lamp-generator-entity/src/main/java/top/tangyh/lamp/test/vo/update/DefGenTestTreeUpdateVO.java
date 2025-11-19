@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "测试树结构")
+@Schema(title = "DefGenTestTreeUpdateVO", description = "测试树结构")
 public class DefGenTestTreeUpdateVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

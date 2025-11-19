@@ -32,7 +32,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "代码生成字段")
+@Schema(title = "DefGenTableColumnUpdateVO", description = "代码生成字段")
 public class DefGenTableColumnUpdateVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

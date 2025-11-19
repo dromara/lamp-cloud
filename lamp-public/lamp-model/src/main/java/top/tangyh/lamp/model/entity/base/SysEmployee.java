@@ -38,7 +38,7 @@ import static top.tangyh.lamp.model.constant.Condition.LIKE;
 @ToString(callSuper = true)
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "员工")
+@Schema(title = "SysEmployee", description = "员工")
 @TableName("base_employee")
 public class SysEmployee extends Entity<Long> implements Serializable, EchoVO {
 

@@ -28,7 +28,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "员工所在部门")
+@Schema(title = "BaseEmployeeOrgRelSaveVO", description = "员工所在部门")
 public class BaseEmployeeOrgRelSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

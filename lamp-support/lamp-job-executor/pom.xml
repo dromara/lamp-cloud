@@ -21,16 +21,16 @@
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-system-biz</artifactId>
             <version>${revision}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>lamp-tenant-datasource-init</artifactId>
-                    <groupId>top.tangyh.lamp</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-base-biz</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-common-config</artifactId>
             <version>${revision}</version>
         </dependency>
 
@@ -63,11 +63,7 @@
             <artifactId>lamp-webmvc</artifactId>
             <version>${lamp-util.version}</version>
         </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
-            <version>${revision}</version>
-        </dependency>
+
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-log-starter</artifactId>

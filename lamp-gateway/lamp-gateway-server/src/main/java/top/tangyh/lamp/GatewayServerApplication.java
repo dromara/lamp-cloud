@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import top.tangyh.lamp.common.ServerApplication;
+import top.tangyh.lamp.common.config.ActuatorSecurityConfig;
 
 import java.net.UnknownHostException;
 
@@ -22,9 +24,12 @@ import static top.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
         DataSourceAutoConfiguration.class
 })
 @EnableDiscoveryClient
-@ComponentScan({
+@ComponentScan(value = {
         UTIL_PACKAGE, BUSINESS_PACKAGE
-})
+}, excludeFilters = @ComponentScan.Filter(
+        type = FilterType.ASSIGNABLE_TYPE,
+        classes = ActuatorSecurityConfig.class
+))
 @EnableFeignClients(value = {
         UTIL_PACKAGE, BUSINESS_PACKAGE
 })

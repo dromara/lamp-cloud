@@ -37,12 +37,12 @@ import java.util.Map;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "员工")
+@Schema(title = "BaseEmployeeResultVO", description = "员工")
 public class BaseEmployeeResultVO extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;
     @Builder.Default
-    private Map<String, Object> echoMap = MapUtil.newHashMap();
+    private final Map<String, Object> echoMap = MapUtil.newHashMap();
 
     @Schema(description = "主键")
     private Long id;

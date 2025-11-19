@@ -32,7 +32,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "员工")
+@Schema(title = "BaseEmployeeUpdateVO", description = "员工")
 public class BaseEmployeeUpdateVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

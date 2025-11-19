@@ -17,7 +17,6 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { ${sub.table.entityName}Api } from '#/api/${sub.table.plusApplicationName}/${sub.table.plusModuleName}/${sub.table.entityName?uncap_first}';
 import { TableAction } from '#/components/table-action';
 import { ActionEnum } from '#/enums/commonEnum';
-import { RoleEnum } from '#/enums/role';
 import { useMessage } from '#/hooks/web/useMessage';
 import { $t } from '#/locales';
 

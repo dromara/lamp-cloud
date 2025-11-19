@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "消息")
+@Schema(title = "ExtendMsgPageQuery", description = "消息")
 public class ExtendMsgPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

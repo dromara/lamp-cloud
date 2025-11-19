@@ -32,15 +32,9 @@ public class DictCacheKeyBuilder implements CacheKeyBuilder {
         return new DictCacheKeyBuilder().hashFieldKey(itemKey, dictKey);
     }
 
-    @Override
-    public String getPrefix() {
-        return CacheKeyModular.PREFIX;
-    }
+    
 
-    @Override
-    public String getTenant() {
-        return null;
-    }
+    
 
     @Override
     public String getTable() {

@@ -27,7 +27,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "生成代码")
+@Schema(title = "DefGenVO", description = "生成代码")
 public class DefGenVO {
 
     @Schema(description = "需生成表")

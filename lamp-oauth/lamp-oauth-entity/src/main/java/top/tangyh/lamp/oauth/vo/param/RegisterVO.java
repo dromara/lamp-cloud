@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "注册")
+@Schema(title = "RegisterVO", description = "注册")
 public class RegisterVO {
     @Schema(description = "验证码KEY")
     @NotEmpty(message = "请填写验证码")

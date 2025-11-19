@@ -20,7 +20,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode
-@Schema(description = "我的消息")
+@Schema(title = "MyMsgResult", description = "我的消息")
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor

@@ -30,7 +30,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "给角色分配员工")
+@Schema(title = "RoleEmployeeSaveVO", description = "给角色分配员工")
 public class RoleEmployeeSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

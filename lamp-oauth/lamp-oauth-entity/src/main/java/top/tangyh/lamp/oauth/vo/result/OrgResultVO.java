@@ -25,7 +25,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "部门信息结果")
+@Schema(title = "OrgResultVO", description = "部门信息结果")
 public class OrgResultVO {
 
     @Schema(description = "当前租户下，所属单位")

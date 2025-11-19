@@ -20,19 +20,11 @@ import java.time.Duration;
  */
 public class OrgCacheKeyBuilder implements CacheKeyBuilder {
     @Override
-    public String getTenant() {
-        return null;
-    }
-
-    @Override
     public String getTable() {
         return CacheKeyTable.Base.BASE_ORG;
     }
 
-    @Override
-    public String getPrefix() {
-        return CacheKeyModular.PREFIX;
-    }
+
 
     @Override
     public String getModular() {

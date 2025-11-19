@@ -25,7 +25,7 @@ import static top.tangyh.basic.utils.ValidatorUtil.REGEX_EMAIL;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "注册")
+@Schema(title = "RegisterByEmailVO", description = "注册")
 public class RegisterByEmailVO extends RegisterVO {
 
 

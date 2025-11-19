@@ -34,7 +34,7 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "消息发送")
+@Schema(title = "ExtendMsgSendVO", description = "消息发送")
 public class ExtendMsgSendVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

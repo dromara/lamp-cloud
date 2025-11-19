@@ -30,7 +30,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "项目生成")
+@Schema(title = "ProjectGeneratorVO", description = "项目生成")
 public class ProjectGeneratorVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -66,7 +66,7 @@ public class ProjectGeneratorVO implements Serializable {
     private String moduleName;
 
     /**
-     * lamp项目 生成代码位于 src/main/java 下的基础包
+     * 项目 生成代码位于 src/main/java 下的基础包
      * 如： top.tangyh.lamp.base.dao.common 包中的 top.tangyh.lamp
      * 如： top.tangyh.lamp.file.dao.xxx 包中的 top.tangyh.lamp
      */

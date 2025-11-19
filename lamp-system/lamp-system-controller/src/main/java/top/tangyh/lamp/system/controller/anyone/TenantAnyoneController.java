@@ -13,6 +13,7 @@ import top.tangyh.basic.annotation.log.WebLog;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.interfaces.echo.EchoService;
+import top.tangyh.lamp.common.constant.AppendixType;
 import top.tangyh.lamp.file.service.AppendixService;
 import top.tangyh.lamp.system.entity.application.DefApplication;
 import top.tangyh.lamp.system.service.application.DefApplicationService;
@@ -56,7 +57,7 @@ public class TenantAnyoneController {
     public R<List<DefApplicationResultVO>> findMyApplication(@RequestParam(required = false) String name) {
         List<DefApplicationResultVO> list = defApplicationService.findMyApplication(name);
         echoService.action(list);
-        appendixService.echoAppendix(list);
+        appendixService.echoAppendix(list, AppendixType.System.DEF__APPLICATION__LOGO);
         return R.success(list);
     }
 
@@ -66,7 +67,7 @@ public class TenantAnyoneController {
     public R<List<DefApplicationResultVO>> findRecommendApplication(@RequestParam(required = false) String name) {
         List<DefApplicationResultVO> list = defApplicationService.findRecommendApplication(name);
         echoService.action(list);
-        appendixService.echoAppendix(list);
+        appendixService.echoAppendix(list, AppendixType.System.DEF__APPLICATION__LOGO);
         return R.success(list);
     }
 

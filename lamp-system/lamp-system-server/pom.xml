@@ -22,11 +22,6 @@
         </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-system-controller</artifactId>
             <version>${revision}</version>
         </dependency>
@@ -52,12 +47,6 @@
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-base-cloud-impl</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-sa-token-ext</artifactId>
             <version>${revision}</version>
         </dependency>
         <!-- 测试 -->

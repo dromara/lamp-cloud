@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.tangyh.basic.model.cache.CacheKeyBuilder;
 import top.tangyh.lamp.common.aspect.LampLogAspect;
-import top.tangyh.lamp.common.cache.CacheKeyModular;
 import top.tangyh.lamp.common.properties.IgnoreProperties;
 import top.tangyh.lamp.common.properties.SystemProperties;
 
@@ -39,7 +39,7 @@ public class CommonAutoConfiguration {
     @PostConstruct
     public void init() {
         if (StrUtil.isNotEmpty(systemProperties.getCachePrefix())) {
-            CacheKeyModular.PREFIX = systemProperties.getCachePrefix();
+            CacheKeyBuilder.Key.setPrefix(systemProperties.getCachePrefix());
             log.info("检查到配置文件中：{}.cachePrefix={}", SystemProperties.PREFIX, systemProperties.getCachePrefix());
         }
     }

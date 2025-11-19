@@ -29,7 +29,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "员工")
+@Schema(title = "BaseEmployeePageQuery", description = "员工")
 public class BaseEmployeePageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

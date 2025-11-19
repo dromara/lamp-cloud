@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "通知表")
+@Schema(title = "ExtendNoticePageQuery", description = "通知表")
 public class ExtendNoticePageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

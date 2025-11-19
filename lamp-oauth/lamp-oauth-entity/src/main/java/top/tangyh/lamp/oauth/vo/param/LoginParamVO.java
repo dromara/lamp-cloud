@@ -24,7 +24,7 @@ import top.tangyh.lamp.oauth.enumeration.GrantType;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "登录参数")
+@Schema(title = "LoginParamVO", description = "登录参数")
 public class LoginParamVO {
     @Schema(description = "验证码KEY")
     private String key;

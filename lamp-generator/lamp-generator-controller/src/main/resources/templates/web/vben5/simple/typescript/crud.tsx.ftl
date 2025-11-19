@@ -16,7 +16,6 @@ import { $t } from '@vben/locales';
 import { ${table.entityName}Api } from '#/api/${table.plusApplicationName}/${table.plusModuleName}/${table.entityName?uncap_first}';
 import { ActionEnum } from '#/enums/commonEnum';
 import { DictEnum } from '#/enums/commonEnum';
-import { RoleEnum } from '#/enums/role';
 import {
   YES_NO_CONSTANT_DICT,
   backendDict,

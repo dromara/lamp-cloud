@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "接口执行日志")
+@Schema(title = "ExtendInterfaceLogSaveVO", description = "接口执行日志")
 public class ExtendInterfaceLogSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

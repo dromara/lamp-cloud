@@ -49,26 +49,6 @@
             <artifactId>lamp-model</artifactId>
             <version>${revision}</version>
         </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
-            <version>${revision}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-webmvc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>lamp-validator-starter</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>lamp-mvc</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
-                </exclusion>
-
-            </exclusions>
-        </dependency>
 
         <dependency>
             <groupId>top.tangyh.basic</groupId>

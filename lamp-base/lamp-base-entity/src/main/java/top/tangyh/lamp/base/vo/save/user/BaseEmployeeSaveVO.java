@@ -35,7 +35,7 @@ import static top.tangyh.basic.utils.ValidatorUtil.REGEX_USERNAME;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "员工")
+@Schema(title = "BaseEmployeeSaveVO", description = "员工")
 public class BaseEmployeeSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

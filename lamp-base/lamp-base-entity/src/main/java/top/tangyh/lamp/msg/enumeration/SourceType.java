@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "发送渠道-枚举")
+@Schema(title = "SourceType", description = "发送渠道-枚举")
 public enum SourceType implements BaseEnum {
 
     /**

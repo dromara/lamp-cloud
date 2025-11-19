@@ -55,8 +55,6 @@ public class CaptchaController {
     }
 
     @Operation(summary = "获取图片验证码", description = "获取图片验证码")
-
-
     @Parameters({
             @Parameter(name = "key", description = "唯一字符串: 前端随机生成一个唯一字符串用于生成验证码，并将key传给后台用于验证",
                     schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),

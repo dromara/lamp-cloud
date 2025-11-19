@@ -37,7 +37,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Schema(description = "代码生成")
+@Schema(title = "DefGenTableResultVO", description = "代码生成")
 public class DefGenTableResultVO extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;

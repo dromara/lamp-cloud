@@ -148,9 +148,9 @@ public class GenUtils {
 
     private static String getSwaggerComment(String comment) {
         String swaggerComment = StrUtil.isBlank(comment) ? StrUtil.EMPTY : StrUtil.trim(comment);
-        if (swaggerComment.contains(StrPool.SEMICOLON)) {
-            swaggerComment = StrUtil.subBefore(swaggerComment, StrPool.SEMICOLON, false);
-        }
+        swaggerComment = StrUtil.subBefore(swaggerComment, StrPool.SEMICOLON, false);
+        swaggerComment = StrUtil.subBefore(swaggerComment, StrPool.CRLF, false);
+        swaggerComment = StrUtil.subBefore(swaggerComment, StrPool.RETURN, false);
         swaggerComment = StrUtil.subBefore(swaggerComment, StrPool.NEWLINE, false);
         return swaggerComment;
     }

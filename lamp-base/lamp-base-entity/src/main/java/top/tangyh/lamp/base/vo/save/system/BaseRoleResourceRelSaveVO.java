@@ -30,7 +30,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "角色的资源")
+@Schema(title = "BaseRoleResourceRelSaveVO", description = "角色的资源")
 public class BaseRoleResourceRelSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

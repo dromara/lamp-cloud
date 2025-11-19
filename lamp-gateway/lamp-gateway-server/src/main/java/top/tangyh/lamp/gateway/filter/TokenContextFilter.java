@@ -151,9 +151,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        HttpHeaders headers = request.getHeaders();
-
-        SaSession tokenSession = StpUtil.getTokenSessionByToken(headers.getFirst(saTokenConfig.getTokenName()));
+        SaSession tokenSession = StpUtil.getTokenSessionByToken(getHeader(saTokenConfig.getTokenName(), request));
         log.info("{}", tokenSession);
 
         if (tokenSession != null) {

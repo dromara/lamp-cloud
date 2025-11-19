@@ -22,15 +22,9 @@ public class DefClientCacheKeyBuilder implements CacheKeyBuilder {
         return new DefClientCacheKeyBuilder().key(id);
     }
 
-    @Override
-    public String getPrefix() {
-        return CacheKeyModular.PREFIX;
-    }
+    
 
-    @Override
-    public String getTenant() {
-        return null;
-    }
+    
 
     @Override
     public String getTable() {

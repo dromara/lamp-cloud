@@ -20,6 +20,11 @@
             <artifactId>${projectPrefix}-${serviceName}-controller</artifactId>
             <version>${r"${revision}"}</version>
         </dependency>
+        <dependency>
+            <groupId>${pg.groupId}</groupId>
+            <artifactId>${projectPrefix}-common-config</artifactId>
+            <version>${r"${revision}"}</version>
+        </dependency>
         <!-- 用户信息注入 - 微服务版实现类 -->
         <dependency>
             <groupId>${pg.groupId}</groupId>
@@ -43,22 +48,12 @@
         </dependency>
         <dependency>
             <groupId>${pg.groupId}</groupId>
-            <artifactId>${projectPrefix}-database-mode</artifactId>
-            <version>${r"${revision}"}</version>
-        </dependency>
-        <dependency>
-            <groupId>${pg.groupId}</groupId>
             <artifactId>${projectPrefix}-data-scope-sdk</artifactId>
             <version>${r"${revision}"}</version>
         </dependency>
         <dependency>
             <groupId>${pg.utilGroupId}</groupId>
             <artifactId>${projectPrefix}-all-cloud</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${pg.groupId}</groupId>
-            <artifactId>${projectPrefix}-sa-token-ext</artifactId>
-            <version>${r"${revision}"}</version>
         </dependency>
         <#if pg.seata?? && pg.seata>
         <!-- 想使用seata请加入以下依赖 -->

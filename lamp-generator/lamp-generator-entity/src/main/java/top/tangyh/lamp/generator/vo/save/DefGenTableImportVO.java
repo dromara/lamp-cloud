@@ -22,7 +22,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "表导入")
+@Schema(title = "DefGenTableImportVO", description = "表导入")
 public class DefGenTableImportVO {
 
     private Long dsId;

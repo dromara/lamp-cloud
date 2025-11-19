@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "授权类型-枚举")
+@Schema(title = "GrantType", description = "授权类型-枚举")
 public enum GrantType implements BaseEnum {
     /**
      * 验证码登录

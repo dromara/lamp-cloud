@@ -19,15 +19,9 @@ import java.time.Duration;
  */
 public class ApplicationCacheKeyBuilder implements CacheKeyBuilder {
 
-    @Override
-    public String getTenant() {
-        return null;
-    }
+    
 
-    @Override
-    public String getPrefix() {
-        return CacheKeyModular.PREFIX;
-    }
+    
 
     @Override
     public String getModular() {

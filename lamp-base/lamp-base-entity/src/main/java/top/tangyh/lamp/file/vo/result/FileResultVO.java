@@ -30,7 +30,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "增量文件上传日志")
+@Schema(title = "FileFileResultVO", description = "增量文件上传日志")
 public class FileResultVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

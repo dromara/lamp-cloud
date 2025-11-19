@@ -21,19 +21,11 @@ public class OrgRoleCacheKeyBuilder implements CacheKeyBuilder {
     }
 
     @Override
-    public String getTenant() {
-        return null;
-    }
-
-    @Override
     public String getTable() {
         return CacheKeyTable.Base.ORG_ROLE;
     }
 
-    @Override
-    public String getPrefix() {
-        return CacheKeyModular.PREFIX;
-    }
+
 
     @Override
     public String getModular() {

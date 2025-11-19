@@ -38,7 +38,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Schema(description = "消息")
+@Schema(title = "ExtendMsgResultVO", description = "消息")
 public class ExtendMsgResultVO extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;

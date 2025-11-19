@@ -32,7 +32,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Schema(description = "接口执行日志")
+@Schema(title = "ExtendInterfaceLogResultVO", description = "接口执行日志")
 public class ExtendInterfaceLogResultVO extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;

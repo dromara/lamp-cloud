@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "测试单表")
+@Schema(title = "DefGenTestSimplePageQuery", description = "测试单表")
 public class DefGenTestSimplePageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

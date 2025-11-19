@@ -1,10 +1,12 @@
 package top.tangyh.lamp.common.properties;
 
-import cn.dev33.satoken.spring.pathmatch.SaPathPatternParserUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.server.PathContainer;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPatternParser;
 import top.tangyh.basic.constant.Constants;
 import top.tangyh.lamp.model.enumeration.HttpMethod;
 
@@ -179,12 +181,24 @@ public class IgnoreProperties {
             String m = entry.getKey();
             Set<String> paths = entry.getValue();
             if (HttpMethod.ALL.name().equalsIgnoreCase(m)) {
-                return paths.stream().anyMatch(url -> SaPathPatternParserUtil.match(url, path));
+                return paths.stream().anyMatch(url -> match(url, path));
             } else {
-                return m.equalsIgnoreCase(method) && paths.stream().anyMatch(url -> SaPathPatternParserUtil.match(url, path));
+                return m.equalsIgnoreCase(method) && paths.stream().anyMatch(url -> match(url, path));
             }
         }
         return false;
+    }
+
+    /**
+     * 判断：指定路由匹配符是否可以匹配成功指定路径
+     * @param pattern 路由匹配符
+     * @param path 要匹配的路径
+     * @return 是否匹配成功
+     */
+    private static boolean match(String pattern, String path) {
+        PathPattern pathPattern = PathPatternParser.defaultInstance.parse(pattern);
+        PathContainer pathContainer = PathContainer.parsePath(path);
+        return pathPattern.matches(pathContainer);
     }
 
 }

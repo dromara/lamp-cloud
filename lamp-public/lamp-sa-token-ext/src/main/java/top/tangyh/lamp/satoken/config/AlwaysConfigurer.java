@@ -20,6 +20,6 @@ public class AlwaysConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new NotAllowWriteInterceptor(systemProperties))
                 .addPathPatterns("/**")
-                .order(Integer.MIN_VALUE);
+                .order(Integer.MAX_VALUE);
     }
 }

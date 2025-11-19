@@ -51,15 +51,9 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-model</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
+            <artifactId>lamp-common-config</artifactId>
             <version>${revision}</version>
             <exclusions>
                 <exclusion>
@@ -70,7 +64,29 @@
                     <artifactId>lamp-validator-starter</artifactId>
                     <groupId>top.tangyh.basic</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>lamp-mvc</artifactId>
+                    <groupId>top.tangyh.basic</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>lamp-swagger2-starter</artifactId>
+                    <groupId>top.tangyh.basic</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>lamp-all-boot</artifactId>
+                    <groupId>top.tangyh.basic</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-boot-starter-security</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>top.tangyh.lamp</groupId>
+            <artifactId>lamp-model</artifactId>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>top.tangyh.basic</groupId>

@@ -19,7 +19,6 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.exception.code.ExceptionCode;
@@ -27,7 +26,6 @@ import top.tangyh.basic.utils.DateUtils;
 import top.tangyh.basic.utils.SpringUtils;
 import top.tangyh.basic.utils.StrHelper;
 import top.tangyh.basic.utils.ValidatorUtil;
-import top.tangyh.lamp.base.service.user.BaseOrgService;
 import top.tangyh.lamp.oauth.event.LoginEvent;
 import top.tangyh.lamp.oauth.event.model.LoginStatusDTO;
 import top.tangyh.lamp.oauth.vo.param.LoginParamVO;
@@ -51,9 +49,6 @@ import static top.tangyh.lamp.oauth.granter.PasswordTokenGranter.GRANT_TYPE;
 public class PasswordTokenGranter extends AbstractTokenGranter implements TokenGranter {
 
     public static final String GRANT_TYPE = "PASSWORD";
-
-    @Autowired
-    protected BaseOrgService baseOrgService;
 
     @Override
     public R<LoginResultVO> checkParam(LoginParamVO loginParam) {

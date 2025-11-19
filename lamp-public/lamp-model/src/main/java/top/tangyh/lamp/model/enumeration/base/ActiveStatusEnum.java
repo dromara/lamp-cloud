@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Schema(description = "激活状态-枚举")
+@Schema(title = "ActiveStatusEnum", description = "激活状态-枚举")
 public enum ActiveStatusEnum implements BaseEnum {
     /**
      * 未激活

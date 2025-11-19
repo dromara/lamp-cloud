@@ -12,7 +12,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@Schema(description = "文件分片信息")
+@Schema(title = "FileChunkCheck", description = "文件分片信息")
 public class FileChunkCheckDTO {
 
     @Schema(description = "文件大小")

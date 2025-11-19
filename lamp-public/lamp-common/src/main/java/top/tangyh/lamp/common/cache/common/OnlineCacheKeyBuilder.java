@@ -25,6 +25,6 @@ public class OnlineCacheKeyBuilder implements CacheKeyBuilder {
      */
     @Override
     public String getPattern() {
-        return StrUtil.format("{}:{}:*", getTenant(), getTable());
+        return StrUtil.format("{}:*", getTable());
     }
 }

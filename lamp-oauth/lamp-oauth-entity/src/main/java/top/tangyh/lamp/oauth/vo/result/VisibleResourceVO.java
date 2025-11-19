@@ -27,7 +27,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "权限资源")
+@Schema(title = "VisibleResourceVO", description = "权限资源")
 public class VisibleResourceVO implements Serializable {
     @Schema(description = "是否启用URI/按钮权限")
     private Boolean enabled;

@@ -27,7 +27,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "角色")
+@Schema(title = "BaseRolePageQuery", description = "角色")
 public class BaseRolePageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

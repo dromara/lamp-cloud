@@ -452,7 +452,7 @@ public class ProjectUtils {
                                     <dependency>
                                         <groupId>{}</groupId>
                                         <artifactId>{}-{}-controller</artifactId>
-                                        <version>\\${revision}</version>
+                                        <version>${revision}</version>
                                     </dependency>
                             """, vo.getGroupId(), projectPrefix, vo.getServiceName());
 

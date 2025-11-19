@@ -35,7 +35,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Schema(description = "接口执行日志记录")
+@Schema(title = "ExtendInterfaceLoggingResultVO", description = "接口执行日志记录")
 public class ExtendInterfaceLoggingResultVO extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;

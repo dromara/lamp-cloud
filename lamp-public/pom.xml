@@ -19,7 +19,6 @@
         <module>lamp-model</module>
         <module>lamp-common</module>
         <module>lamp-common-config</module>
-        <module>lamp-database-mode</module>
         <module>lamp-file-sdk</module>
         <module>lamp-data-scope-sdk</module>
         <module>lamp-login-user-facade</module>

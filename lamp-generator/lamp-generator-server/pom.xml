@@ -21,11 +21,7 @@
             <version>${revision}</version>
         </dependency>
 
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
-            <version>${revision}</version>
-        </dependency>
+
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-login-user-cloud-impl</artifactId>
@@ -51,11 +47,6 @@
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-all-cloud</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-sa-token-ext</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

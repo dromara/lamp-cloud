@@ -35,7 +35,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Schema(description = "通知表")
+@Schema(title = "ExtendNoticeResultVO", description = "通知表")
 public class ExtendNoticeResultVO extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;

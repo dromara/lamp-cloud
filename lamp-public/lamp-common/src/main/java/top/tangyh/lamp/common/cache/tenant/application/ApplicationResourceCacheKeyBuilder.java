@@ -23,15 +23,9 @@ public class ApplicationResourceCacheKeyBuilder implements CacheKeyBuilder {
         return new ApplicationResourceCacheKeyBuilder().key(applicationId);
     }
 
-    @Override
-    public String getTenant() {
-        return null;
-    }
+    
 
-    @Override
-    public String getPrefix() {
-        return CacheKeyModular.PREFIX;
-    }
+    
 
     @Override
     public String getModular() {

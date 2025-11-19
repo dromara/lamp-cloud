@@ -36,7 +36,7 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "代码生成")
+@Schema(title = "DefGenTableUpdateVO", description = "代码生成")
 public class DefGenTableUpdateVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

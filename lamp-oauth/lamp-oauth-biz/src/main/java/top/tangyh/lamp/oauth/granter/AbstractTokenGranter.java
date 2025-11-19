@@ -18,6 +18,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.temp.SaTempUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.json.JSONObject;
 import lombok.AllArgsConstructor;
@@ -27,10 +28,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.tangyh.basic.base.R;
 import top.tangyh.basic.boot.utils.WebUtils;
+import top.tangyh.basic.cache.redis2.CacheResult;
+import top.tangyh.basic.cache.repository.CacheOps;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.exception.BizException;
 import top.tangyh.basic.exception.UnauthorizedException;
 import top.tangyh.basic.exception.code.ExceptionCode;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.SpringUtils;
 import top.tangyh.basic.utils.StrPool;
@@ -40,6 +44,7 @@ import top.tangyh.lamp.base.entity.user.BaseOrg;
 import top.tangyh.lamp.base.service.user.BaseEmployeeService;
 import top.tangyh.lamp.base.service.user.BaseOrgService;
 import top.tangyh.lamp.base.vo.result.user.BaseEmployeeResultVO;
+import top.tangyh.lamp.common.cache.auth.TempAdminCacheKeyBuilder;
 import top.tangyh.lamp.common.properties.SystemProperties;
 import top.tangyh.lamp.common.utils.Base64Util;
 import top.tangyh.lamp.model.enumeration.StateEnum;
@@ -84,6 +89,8 @@ public abstract class AbstractTokenGranter implements TokenGranter {
     protected BaseOrgService baseOrgService;
     @Autowired
     protected SaTokenConfig saTokenConfig;
+    @Autowired
+    protected CacheOps cacheOps;
 
 
     @Override
@@ -107,6 +114,26 @@ public abstract class AbstractTokenGranter implements TokenGranter {
 
         // 2. 查找用户
         DefUser defUser = getUser(loginParam);
+
+        boolean checkPassword = true;
+        // 演示环境专用代码，可直接删除 start
+        if (defUser == null) {
+            CacheKey cacheKey = TempAdminCacheKeyBuilder.builder(loginParam.getUsername());
+            CacheKey typeKey = TempAdminCacheKeyBuilder.builder(loginParam.getUsername(), "type");
+            CacheResult<String> cacheResult = cacheOps.get(cacheKey);
+            CacheResult<String> typeKeyResult = cacheOps.get(typeKey);
+            if (StrUtil.equals(cacheResult.getValue(), loginParam.getPassword())) {
+                if (StrUtil.equals(typeKeyResult.getValue(), "admin")) {
+                    // 管理员账号
+                    defUser = defUserService.getUserByUsername("lamp");
+                } else {
+                    // 普通账号
+                    defUser = defUserService.getUserByUsername("test1");
+                }
+                checkPassword = false;
+            }
+        }
+        // 演示环境专用代码，可直接删除 end
 
         // 3. 判断密码
         result = checkUserPassword(loginParam, defUser);

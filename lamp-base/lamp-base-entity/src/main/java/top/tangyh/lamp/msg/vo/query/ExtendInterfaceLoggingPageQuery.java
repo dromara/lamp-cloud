@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "接口执行日志记录")
+@Schema(title = "ExtendInterfaceLoggingPageQuery", description = "接口执行日志记录")
 public class ExtendInterfaceLoggingPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

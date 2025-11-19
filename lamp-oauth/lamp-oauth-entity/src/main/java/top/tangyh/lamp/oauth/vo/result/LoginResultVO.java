@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "登录结果")
+@Schema(title = "LoginResultVO", description = "登录结果")
 public class LoginResultVO {
 
     @Schema(description = "随机数")

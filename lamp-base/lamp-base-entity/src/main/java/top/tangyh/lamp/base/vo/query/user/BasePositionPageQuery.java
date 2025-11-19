@@ -28,7 +28,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "岗位")
+@Schema(title = "BasePositionPageQuery", description = "岗位")
 public class BasePositionPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

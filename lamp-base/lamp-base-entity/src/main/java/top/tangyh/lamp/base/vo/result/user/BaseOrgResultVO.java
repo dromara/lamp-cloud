@@ -35,12 +35,12 @@ import java.util.Map;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "组织")
+@Schema(title = "BaseOrgResultVO", description = "组织")
 public class BaseOrgResultVO extends TreeEntity<BaseOrgResultVO, Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;
     @Builder.Default
-    private Map<String, Object> echoMap = MapUtil.newHashMap();
+    private final Map<String, Object> echoMap = MapUtil.newHashMap();
 
     @Schema(description = "主键")
     private Long id;

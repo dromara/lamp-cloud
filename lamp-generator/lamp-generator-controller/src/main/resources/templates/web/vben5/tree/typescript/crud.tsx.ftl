@@ -1,7 +1,13 @@
-import { type CreateCrudOptionsRet } from '@fast-crud/fast-crud';
+import type {
+  CrudExpose,
+  CreateCrudOptionsRet,
+} from '@fast-crud/fast-crud';
 import { ${table.entityName}Api } from '#/api/${table.plusApplicationName}/${table.plusModuleName}/${table.entityName?uncap_first}';
 import { YES_NO_CONSTANT_DICT, backendDict } from '#/plugins/fast-crud/common';
 import { $t } from '#/locales';
+import { ActionEnum } from '#/enums/commonEnum';
+import type { FormRulesExt } from '#/api';
+
 
 export function createCrudOptions(): CreateCrudOptionsRet {
   return {

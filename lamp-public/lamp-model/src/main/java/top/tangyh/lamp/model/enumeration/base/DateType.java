@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Schema(description = "日期类型-枚举")
+@Schema(title = "DateType", description = "日期类型-枚举")
 public enum DateType implements BaseEnum {
     /**
      * 一个月

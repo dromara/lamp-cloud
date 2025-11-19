@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "执行状态-枚举")
+@Schema(title = "TaskStatus", description = "执行状态-枚举")
 public enum TaskStatus implements BaseEnum {
 
     /**

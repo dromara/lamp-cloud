@@ -31,7 +31,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "岗位")
+@Schema(title = "BasePositionUpdateVO", description = "岗位")
 public class BasePositionUpdateVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

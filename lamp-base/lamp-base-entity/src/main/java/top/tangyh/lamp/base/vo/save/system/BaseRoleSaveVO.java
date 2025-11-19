@@ -29,7 +29,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "角色")
+@Schema(title = "BaseRoleSaveVO", description = "角色")
 public class BaseRoleSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

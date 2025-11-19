@@ -32,7 +32,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "代码生成")
+@Schema(title = "DefGenTablePageQuery", description = "代码生成")
 public class DefGenTablePageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -33,7 +33,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Schema(description = "代码生成字段")
+@Schema(title = "DefGenTableColumnResultVO", description = "代码生成字段")
 public class DefGenTableColumnResultVO extends Entity<Long> implements Serializable, EchoVO {
 
     private static final long serialVersionUID = 1L;

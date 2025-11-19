@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "消息模板类型-枚举")
+@Schema(title = "MsgTemplateCodeEnum", description = "消息模板类型-枚举")
 public enum MsgTemplateCodeEnum implements BaseEnum {
     // 您的验证码为：${code}，请勿将验证码泄露给他人
     REGISTER_SMS("REGISTER_SMS", "注册短信"),

@@ -28,7 +28,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(description = "代码生成字段")
+@Schema(title = "DefGenTableColumnSaveVO", description = "代码生成字段")
 public class DefGenTableColumnSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

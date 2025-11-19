@@ -6,8 +6,6 @@
 <!-- files  代表你想对项目中的哪个类进行过来  -->
 <!-- checks 代表你想过滤掉哪种检查 -->
 <suppressions>
-    <suppress files="CacheKeyModular.java" checks="VisibilityModifier"/>
-    <suppress files="CacheKeyModular.java" checks="StaticVariableName"/>
     <suppress files="PackageUtils.java" checks="ParameterNumber"/>
     <suppress files="EchoDictType.java" checks="ConstantName"/>
 </suppressions>

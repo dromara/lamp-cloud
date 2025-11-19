@@ -17,11 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-base-controller</artifactId>
             <version>${revision}</version>
         </dependency>
@@ -55,12 +50,6 @@
         <dependency>
             <groupId>top.tangyh.basic</groupId>
             <artifactId>lamp-all-cloud</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-sa-token-ext</artifactId>
-            <version>${revision}</version>
         </dependency>
 
         <!-- websocket -->

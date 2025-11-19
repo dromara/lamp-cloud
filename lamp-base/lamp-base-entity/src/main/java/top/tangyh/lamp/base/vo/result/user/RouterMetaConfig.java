@@ -17,13 +17,11 @@ import java.io.Serializable;
 @Setter
 @Accessors(chain = true)
 public class RouterMetaConfig implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     /**
      * 默认属性配置对象
      */
     public static final RouterMetaConfig DEFAULT_CONFIG = new RouterMetaConfig();
-
+    private static final long serialVersionUID = 1L;
     /* 公共属性 start */
     private String titleKey = "title";
     private String iconKey = "icon";

@@ -20,6 +20,7 @@ import top.tangyh.lamp.model.entity.base.SysEmployee;
 import top.tangyh.lamp.model.entity.base.SysOrg;
 import top.tangyh.lamp.model.entity.base.SysPosition;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,9 +42,10 @@ import static top.tangyh.lamp.model.constant.Condition.LIKE;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @Builder
-@Schema(description = "系统用户")
+@Schema(title = "SysUser", description = "系统用户")
 @TableName("def_user")
 public class SysUser extends Entity<Long> implements Serializable, EchoVO {
+    @Serial
     private static final long serialVersionUID = 1L;
     @TableField(exist = false)
     @Builder.Default

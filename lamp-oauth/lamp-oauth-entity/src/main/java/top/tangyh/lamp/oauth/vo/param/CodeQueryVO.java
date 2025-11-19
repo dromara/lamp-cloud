@@ -25,7 +25,7 @@ import java.util.Objects;
 @Accessors(chain = true)
 @AllArgsConstructor
 @Builder
-@Schema(description = "字典、枚举查询参数")
+@Schema(title = "CodeQueryVO", description = "字典、枚举查询参数")
 public class CodeQueryVO {
     @Schema(description = "字典类型或枚举类型")
     private String type;

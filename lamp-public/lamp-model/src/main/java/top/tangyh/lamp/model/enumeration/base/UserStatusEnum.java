@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Schema(description = "用户状态-枚举")
+@Schema(title = "UserStatusEnum", description = "用户状态-枚举")
 public enum UserStatusEnum implements BaseEnum {
     /**
      * 正常

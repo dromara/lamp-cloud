@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @Builder
-@Schema(description = "消息接收人")
+@Schema(title = "ExtendMsgRecipientPageQuery", description = "消息接收人")
 public class ExtendMsgRecipientPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;

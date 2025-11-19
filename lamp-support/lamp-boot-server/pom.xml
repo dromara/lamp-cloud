@@ -16,12 +16,6 @@
 
     <dependencies>
         <!-- @lamp.generator auto insert server.pom.xml -->
-
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-database-mode</artifactId>
-            <version>${revision}</version>
-        </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-common-config</artifactId>
@@ -63,11 +57,6 @@
             <version>${revision}</version>
         </dependency>
 
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-sa-token-ext</artifactId>
-            <version>${revision}</version>
-        </dependency>
         <!-- 基础服务相关接口 - 单体版实现类 -->
         <dependency>
             <groupId>top.tangyh.lamp</groupId>

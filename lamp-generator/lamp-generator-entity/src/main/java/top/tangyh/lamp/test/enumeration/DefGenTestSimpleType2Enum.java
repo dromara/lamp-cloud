@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "商品类型2 -枚举")
+@Schema(title = "DefGenTestSimpleType2Enum", description = "商品类型2 -枚举")
 public enum DefGenTestSimpleType2Enum implements BaseEnum {
 
     /**

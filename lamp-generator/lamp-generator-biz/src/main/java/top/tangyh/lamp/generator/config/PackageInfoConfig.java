@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class PackageInfoConfig {
 
     /**
-     * lamp项目 生成代码位于 src/main/java 下的基础包
+     * 项目 生成代码位于 src/main/java 下的基础包
      */
     private String parent = "top.tangyh.lamp";
 

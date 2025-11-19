@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "文件存储类型")
+@Schema(title = "FileStorageType", description = "文件存储类型")
 public enum FileStorageType implements BaseEnum {
     /**
      * 本地

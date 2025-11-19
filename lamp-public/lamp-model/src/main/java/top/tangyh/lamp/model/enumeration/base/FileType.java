@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "文件类型-枚举")
+@Schema(title = "FileType", description = "文件类型-枚举")
 public enum FileType implements BaseEnum {
 
     /**

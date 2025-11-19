@@ -23,7 +23,6 @@ import { Button } from 'ant-design-vue';
 
 import { ${table.entityName}Api } from '#/api/${table.plusApplicationName}/${table.plusModuleName}/${table.entityName?uncap_first}';
 import { BasicTree } from '#/components/tree';
-import { RoleEnum } from '#/enums/role';
 import { useMessage } from '#/hooks/web/useMessage';
 import { $t } from '#/locales';
 import { findNodeByKey } from '#/utils/helper/treeHelper';
@@ -264,7 +263,7 @@ defineExpose({ fetch });
     </div>
     <BasicTree
       ref="treeRef"
-      :field-names="{ key: 'id'<#if table.treeName?? && table.treeName != ''>, title: 'name'</#if> }"
+      :field-names="{ key: 'id'<#if table.treeName?? && table.treeName != ''>, title: '${table.treeName}'</#if> }"
       :action-list="actionList"
       :before-right-click="getRightMenuList"
       :click-row-to-expand="false"
