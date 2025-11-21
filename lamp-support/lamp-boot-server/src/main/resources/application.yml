@@ -39,6 +39,7 @@ lamp:
       PUT:
         - /defResource
         - /defResource/moveResource
+        - /defUser/resetPassword
       DELETE:
         - /defResource
         - /defResource*/**
