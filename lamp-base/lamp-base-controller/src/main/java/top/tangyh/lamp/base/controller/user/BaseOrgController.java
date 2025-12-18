@@ -71,14 +71,14 @@ public class BaseOrgController extends SuperCacheController<BaseOrgService, Long
     }
 
     /**
-     * 按树结构查询地区
+     * 按树结构查询
      *
      * @param pageQuery 查询参数
      * @return 查询结果
      */
-    @Operation(summary = "按树结构查询地区")
+    @Operation(summary = "按树结构查询")
     @PostMapping("/tree")
-    @WebLog("级联查询地区")
+    @WebLog("级联查询")
     public R<List<BaseOrgResultVO>> tree(@RequestBody BaseOrgPageQuery pageQuery) {
         List<BaseOrgResultVO> treeList = superService.list(pageQuery);
         echoService.action(treeList);
