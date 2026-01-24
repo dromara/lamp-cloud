@@ -99,6 +99,9 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 - [x-easypdf](https://gitee.com/dromara/x-easypdf) : pdf 工具
 - [J2Cache](https://gitee.com/ld/J2Cache) : 2级缓存
 
+# 优秀案例
+- 即时通讯系统： [HuLa-Server](https://github.com/HuLaSpark/HuLa-Server)
+
 # 项目截图：
 
 | 预览                                                   | 预览                                            |
