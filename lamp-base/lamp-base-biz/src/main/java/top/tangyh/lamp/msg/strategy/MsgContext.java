@@ -2,6 +2,7 @@ package top.tangyh.lamp.msg.strategy;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSON;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -91,10 +92,12 @@ public class MsgContext {
 
             boolean success = msgStrategy.isSuccess(result);
             if (success) {
+                log.info("消息执行结果={}", JSON.toJSONString(result));
                 logging.setStatus(MsgInterfaceLoggingStatusEnum.SUCCESS.getValue());
                 extendMsg.setStatus(TaskStatus.SUCCESS);
                 extendInterfaceLogManager.incrSuccessCount(extendInterfaceLog.getId());
             } else {
+                log.warn("消息执行结果={}", JSON.toJSONString(result));
                 extendMsg.setStatus(TaskStatus.FAIL);
                 logging.setStatus(MsgInterfaceLoggingStatusEnum.FAIL.getValue());
                 extendInterfaceLogManager.incrFailCount(extendInterfaceLog.getId());
