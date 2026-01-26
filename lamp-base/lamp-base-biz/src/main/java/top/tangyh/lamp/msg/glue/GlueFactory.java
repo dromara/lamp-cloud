@@ -3,10 +3,12 @@ package top.tangyh.lamp.msg.glue;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import org.codehaus.groovy.runtime.InvokerHelper;
+import top.tangyh.basic.exception.BizException;
 import top.tangyh.lamp.msg.glue.impl.SpringGlueFactory;
 import top.tangyh.lamp.msg.strategy.MsgStrategy;
 
-import java.math.BigInteger;
+import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,6 +42,19 @@ public class GlueFactory {
     }
 
     /**
+     * 计算SHA256哈希值（Hex格式）
+     *
+     * @param input 输入字符串
+     * @return {@link String} SHA256哈希值（Hex格式）
+     * @throws Exception
+     */
+    private static String sha256Hex(String input) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] digest = md.digest(input.getBytes(StandardCharsets.UTF_8));
+        return DatatypeConverter.printHexBinary(digest).toLowerCase();
+    }
+
+    /**
      * 加载groovy脚本，并实例化
      *
      * @param script groovy脚本
@@ -47,7 +62,7 @@ public class GlueFactory {
      * @throws Exception
      */
     public MsgStrategy loadNewInstance(String script) throws Exception {
-        if (script != null && script.trim().length() > 0) {
+        if (script != null && !script.trim().isEmpty()) {
             Class<?> clazz = getCodeSourceClass(script);
             if (clazz != null) {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
@@ -75,25 +90,22 @@ public class GlueFactory {
      * @update [2022/7/25 9:35 PM ] [tangyh] [变更描述]
      */
     public Object exeGroovyScript(String script, Map<String, Object> params) {
-        if (script != null && script.trim().length() > 0) {
+        if (script != null && !script.trim().isEmpty()) {
             Class<?> clazz = getCodeSourceClass(script);
             if (clazz != null) {
                 return InvokerHelper.createScript(clazz, new Binding(params)).run();
             }
         }
-        throw new IllegalArgumentException("脚本不能为空");
+        throw BizException.wrap("脚本不能为空");
     }
 
     private Class<?> getCodeSourceClass(String codeSource) {
         try {
-            // md5
-            byte[] md5 = MessageDigest.getInstance("MD5").digest(codeSource.getBytes());
-            String md5Str = new BigInteger(1, md5).toString(16);
-
-            Class<?> clazz = CLASS_CACHE.get(md5Str);
+            String hashKey = sha256Hex(codeSource);
+            Class<?> clazz = CLASS_CACHE.get(hashKey);
             if (clazz == null) {
                 clazz = groovyClassLoader.parseClass(codeSource);
-                CLASS_CACHE.putIfAbsent(md5Str, clazz);
+                CLASS_CACHE.putIfAbsent(hashKey, clazz);
             }
             return clazz;
         } catch (Exception e) {
