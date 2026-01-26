@@ -52,7 +52,7 @@ public class BaseOperationLogController extends SuperController<BaseOperationLog
         return R.success(superService.getDetail(id));
     }
 
-    @Operation(summary = "清空日志")
+    @Operation(summary = "清空日志", description = "清空日志")
     @DeleteMapping("clear")
     @WebLog("清空日志")
     public R<Boolean> clear(@RequestParam(required = false, defaultValue = "1") Integer type) {
