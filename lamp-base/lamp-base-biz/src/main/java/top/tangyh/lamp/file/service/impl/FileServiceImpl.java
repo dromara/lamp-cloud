@@ -23,6 +23,7 @@ import top.tangyh.lamp.file.vo.param.FileUploadVO;
 import top.tangyh.lamp.file.vo.result.FileResultVO;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -76,12 +77,18 @@ public class FileServiceImpl extends SuperServiceImpl<FileManager, Long, File> i
 
     @Override
     public Map<String, String> findUrlByPath(List<String> paths) {
+        if (CollUtil.isEmpty(paths)) {
+            return Collections.emptyMap();
+        }
         return fileContext.findUrlByPath(paths);
     }
 
     @Override
-    public Map<Long, String> findUrlById(List<Long> paths) {
-        return fileContext.findUrlById(paths);
+    public Map<Long, String> findUrlById(List<Long> ids) {
+        if (CollUtil.isEmpty(ids)) {
+            return Collections.emptyMap();
+        }
+        return fileContext.findUrlById(ids);
     }
 
     @Override
