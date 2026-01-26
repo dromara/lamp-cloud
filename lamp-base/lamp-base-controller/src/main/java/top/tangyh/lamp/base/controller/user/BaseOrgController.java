@@ -78,7 +78,7 @@ public class BaseOrgController extends SuperCacheController<BaseOrgService, Long
      */
     @Operation(summary = "按树结构查询")
     @PostMapping("/tree")
-    @WebLog("级联查询")
+    @WebLog("按树结构查询")
     public R<List<BaseOrgResultVO>> tree(@RequestBody BaseOrgPageQuery pageQuery) {
         List<BaseOrgResultVO> treeList = superService.list(pageQuery);
         echoService.action(treeList);
