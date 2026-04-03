@@ -61,4 +61,11 @@ public interface CaptchaService {
      */
     R<Boolean> sendEmailCode(String email, String templateCode);
 
+    /**
+     * 忘记密码接口发送短信
+     * @param mobile 手机
+     * @param username 用户名
+     * @return
+     */
+    R<Boolean> sendCodeByForgetPassword(String mobile, String username);
 }

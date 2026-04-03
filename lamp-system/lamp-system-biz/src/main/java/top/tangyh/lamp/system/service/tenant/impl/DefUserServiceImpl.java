@@ -12,25 +12,31 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.impl.SuperCacheServiceImpl;
+import top.tangyh.basic.cache.redis2.CacheResult;
 import top.tangyh.basic.context.ContextUtil;
 import top.tangyh.basic.database.mybatis.conditions.Wraps;
 import top.tangyh.basic.database.mybatis.conditions.query.LbQueryWrap;
 import top.tangyh.basic.exception.BizException;
+import top.tangyh.basic.model.cache.CacheKey;
 import top.tangyh.basic.utils.ArgumentAssert;
 import top.tangyh.basic.utils.BeanPlusUtil;
+import top.tangyh.lamp.common.cache.common.CaptchaCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.tenant.base.DefUserEmailCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.tenant.base.DefUserIdCardCacheKeyBuilder;
 import top.tangyh.lamp.common.cache.tenant.base.DefUserMobileCacheKeyBuilder;
 import top.tangyh.lamp.common.constant.AppendixType;
 import top.tangyh.lamp.common.properties.SystemProperties;
 import top.tangyh.lamp.file.service.AppendixService;
+import top.tangyh.lamp.model.enumeration.base.MsgTemplateCodeEnum;
 import top.tangyh.lamp.model.vo.save.AppendixSaveVO;
 import top.tangyh.lamp.system.entity.tenant.DefUser;
 import top.tangyh.lamp.system.manager.tenant.DefUserManager;
 import top.tangyh.lamp.system.service.tenant.DefUserService;
 import top.tangyh.lamp.system.vo.query.tenant.DefUserPageQuery;
+import top.tangyh.lamp.system.vo.query.tenant.ForgetPasswordDto;
 import top.tangyh.lamp.system.vo.result.tenant.DefUserResultVO;
 import top.tangyh.lamp.system.vo.save.tenant.DefUserSaveVO;
 import top.tangyh.lamp.system.vo.update.tenant.DefUserAvatarUpdateVO;
@@ -260,6 +266,7 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
         boolean flag = superManager.update(Wrappers.<DefUser>lambdaUpdate()
                 .set(DefUser::getPassword, defPassword)
                 .set(DefUser::getPasswordErrorNum, 0L)
+                .set(DefUser::getSalt, salt)
                 .set(DefUser::getPasswordErrorLastTime, null)
                 .set(DefUser::getPasswordExpireTime, null)
                 .eq(DefUser::getId, id)
@@ -333,5 +340,22 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
                 .eq(DefUser::getMobile, params.getMobile());
         List<DefUser> list = superManager.list(wrap);
         return BeanPlusUtil.copyToList(list, DefUserResultVO.class);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<Boolean> forgetPassword(ForgetPasswordDto dto) {
+        CacheKey cacheKey = CaptchaCacheKeyBuilder.build(dto.getMobile(), MsgTemplateCodeEnum.FORGET_PASSWORD.name());
+        CacheResult<String> result = cacheOps.get(cacheKey);
+        ArgumentAssert.equals(result.getValue(), dto.getCode(), "验证码错误");
+
+        DefUser oldUser = getUserByUsername(dto.getUsername());
+        ArgumentAssert.notNull(oldUser, "用户名不存在");
+        ArgumentAssert.equals(oldUser.getMobile(), dto.getMobile(), "用户名或手机号错误");
+
+        updateUserPassword(oldUser.getId(), dto.getPassword(), oldUser.getSalt());
+
+        cacheOps.del(cacheKey);
+        return R.success(true);
     }
 }

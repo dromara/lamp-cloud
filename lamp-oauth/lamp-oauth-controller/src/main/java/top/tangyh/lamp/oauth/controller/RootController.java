@@ -25,6 +25,7 @@ import top.tangyh.lamp.oauth.vo.param.RegisterByEmailVO;
 import top.tangyh.lamp.oauth.vo.param.RegisterByMobileVO;
 import top.tangyh.lamp.oauth.vo.result.LoginResultVO;
 import top.tangyh.lamp.system.service.tenant.DefUserService;
+import top.tangyh.lamp.system.vo.query.tenant.ForgetPasswordDto;
 
 /**
  * 登录页 Controller
@@ -123,6 +124,12 @@ public class RootController {
     @GetMapping("/anyTenant/checkMobile")
     public R<Boolean> checkMobile(@RequestParam String mobile) {
         return R.success(defUserService.checkMobile(mobile, null));
+    }
+
+    @Operation(summary = "忘记密码", description = "忘记密码")
+    @PostMapping(value = "/anyTenant/forgetPassword")
+    public R<Boolean> forgetPassword(@Validated @RequestBody ForgetPasswordDto dto) throws BizException {
+        return defUserService.forgetPassword(dto);
     }
 
 

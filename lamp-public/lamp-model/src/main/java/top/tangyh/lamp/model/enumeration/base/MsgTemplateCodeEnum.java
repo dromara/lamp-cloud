@@ -26,7 +26,8 @@ public enum MsgTemplateCodeEnum implements BaseEnum {
     // 您的验证码为：${code}，请勿将验证码泄露给他人
     MOBILE_LOGIN("MOBILE_LOGIN", "手机登录短信"),
     MOBILE_EDIT("MOBILE_EDIT", "修改手机号"),
-    EMAIL_EDIT("EMAIL_EDIT", "修改邮箱");
+    EMAIL_EDIT("EMAIL_EDIT", "修改邮箱"),
+    FORGET_PASSWORD("FORGET_PASSWORD", "忘记密码");
     String value;
     String desc;
 

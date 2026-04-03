@@ -87,4 +87,15 @@ public class CaptchaController {
         return captchaService.sendEmailCode(email, templateCode);
     }
 
+
+    @Operation(summary = "发送短信验证码-忘记密码", description = "发送短信验证码-忘记密码")
+    @Parameters({
+            @Parameter(name = "phone", description = "手机号", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
+            @Parameter(name = "username", description = "用户名", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
+    })
+    @GetMapping(value = "/sendCodeByForgetPassword")
+    public R<Boolean> sendCodeByForgetPassword(@RequestParam(value = "mobile") String mobile, @RequestParam(value = "username") String username) {
+        return captchaService.sendCodeByForgetPassword(mobile, username);
+    }
+
 }

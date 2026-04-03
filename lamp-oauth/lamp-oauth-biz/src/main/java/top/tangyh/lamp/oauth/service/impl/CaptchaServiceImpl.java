@@ -11,6 +11,7 @@ import com.wf.captcha.base.Captcha;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import top.tangyh.lamp.msg.vo.update.ExtendMsgSendVO;
 import top.tangyh.lamp.oauth.granter.CaptchaTokenGranter;
 import top.tangyh.lamp.oauth.properties.CaptchaProperties;
 import top.tangyh.lamp.oauth.service.CaptchaService;
+import top.tangyh.lamp.system.entity.tenant.DefUser;
 import top.tangyh.lamp.system.service.tenant.DefUserService;
 
 import java.io.IOException;
@@ -92,19 +94,24 @@ public class CaptchaServiceImpl implements CaptchaService {
             ArgumentAssert.isFalse(flag, "该手机号已经被他人使用");
         }
 
-        String code = RandomUtil.randomNumbers(4);
+        return sendMobileByCode(RandomUtil.randomNumbers(4), mobile, templateCode, "短信验证码 cacheKey={}, code={}");
+    }
+
+    @NotNull
+    private R<Boolean> sendMobileByCode(String code, String mobile, String templateCode, String format) {
         CacheKey cacheKey = CaptchaCacheKeyBuilder.build(mobile, templateCode);
         // cacheKey.setExpire(Duration.ofMinutes(15));  // 可以修改有效期
         cacheOps.set(cacheKey, code);
 
-        log.info("短信验证码 cacheKey={}, code={}", cacheKey, code);
+        log.info(format, cacheKey, code);
 
         // 在「运营平台」-「消息模板」配置一个「模板标识」为 templateCode， 且「模板内容」中需要有 code 占位符
         // 也可以考虑给模板增加一个过期时间等参数
         ExtendMsgSendVO msgSendVO = ExtendMsgSendVO.builder().code(templateCode).build();
         msgSendVO.addParam("code", code);
         msgSendVO.addRecipient(mobile);
-        return R.success(msgFacade.sendByTemplate(msgSendVO));
+        msgFacade.sendByTemplate(msgSendVO);
+        return R.success();
     }
 
     @Override
@@ -119,17 +126,18 @@ public class CaptchaServiceImpl implements CaptchaService {
             ArgumentAssert.isFalse(flag, "该邮箱已经被他人使用");
         }
 
-        String code = RandomUtil.randomString(6);
-        CacheKey cacheKey = CaptchaCacheKeyBuilder.build(email, templateCode);
-        cacheOps.set(cacheKey, code);
+        return sendMobileByCode(RandomUtil.randomString(6), email, templateCode, "邮件验证码 cacheKey={}, code={}");
+    }
 
-        log.info("邮件验证码 cacheKey={}, code={}", cacheKey, code);
+    @Override
+    public R<Boolean> sendCodeByForgetPassword(String mobile, String username) {
+        DefUser user = defUserService.getUserByUsername(username);
+        ArgumentAssert.notNull(user, "用户名不存在");
+        ArgumentAssert.equals(user.getMobile(), mobile, "用户名或手机号错误");
 
-        // 在「运营平台」-「消息模板」配置一个「模板标识」为 templateCode， 且「模板内容」中需要有 code 占位符
-        ExtendMsgSendVO msgSendVO = ExtendMsgSendVO.builder().code(templateCode).build();
-        msgSendVO.addParam("code", code);
-        msgSendVO.addRecipient(email);
-        return R.success(msgFacade.sendByTemplate(msgSendVO));
+        String templateCode = MsgTemplateCodeEnum.FORGET_PASSWORD.name();
+
+        return sendMobileByCode(RandomUtil.randomNumbers(4), mobile, templateCode, "短信验证码 cacheKey={}, code={}");
     }
 
     @Override

@@ -1,10 +1,12 @@
 package top.tangyh.lamp.system.service.tenant;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import top.tangyh.basic.base.R;
 import top.tangyh.basic.base.request.PageParams;
 import top.tangyh.basic.base.service.SuperCacheService;
 import top.tangyh.lamp.system.entity.tenant.DefUser;
 import top.tangyh.lamp.system.vo.query.tenant.DefUserPageQuery;
+import top.tangyh.lamp.system.vo.query.tenant.ForgetPasswordDto;
 import top.tangyh.lamp.system.vo.result.tenant.DefUserResultVO;
 import top.tangyh.lamp.system.vo.update.tenant.DefUserAvatarUpdateVO;
 import top.tangyh.lamp.system.vo.update.tenant.DefUserBaseInfoUpdateVO;
@@ -239,4 +241,13 @@ public interface DefUserService extends SuperCacheService<Long, DefUser> {
      * @return
      */
     List<DefUserResultVO> queryUser(DefUserPageQuery params);
+
+
+    /**
+     * 忘记密码
+     * @param dto 入参
+     * @return
+     */
+    R<Boolean> forgetPassword(ForgetPasswordDto dto);
+
 }
