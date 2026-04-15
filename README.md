@@ -100,6 +100,7 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 - [J2Cache](https://gitee.com/ld/J2Cache) : 2级缓存
 
 # 优秀案例
+- 主数据平台： [mddata](https://gitee.com/henhen6/mddata)。 专注于单点登录中心、开放平台、基础管理平台解决方案
 - 即时通讯系统： [HuLa-Server](https://github.com/HuLaSpark/HuLa-Server)
 
 # 项目截图：
