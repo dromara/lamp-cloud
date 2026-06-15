@@ -107,6 +107,12 @@ lamp:
     enabled: true
     # 记录到什么地方  DB:mysql LOGGER:日志文件
     type: DB
+    ipv4:
+      enabled: true
+      xdbPath: file:./01-docs/ip2region_v4.xdb
+    ipv6:
+      enabled: true
+      xdbPath: file:./01-docs/ip2region_v6.xdb
   xss:
     # 是否开启 xss 过滤器  详情看：XssProperties
     enabled: true

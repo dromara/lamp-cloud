@@ -6,7 +6,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 log.path_IS_UNDEFINED
 .DS_Store
+offline_user.md
 spy.log
+*-backup-*.chnr.json
 
 ### STS ###
 .apt_generated
@@ -35,3 +37,5 @@ generatorConfig.xml
 third-party/nacos/derby.log
 third-party/nacos/data/
 third-party/nacos/work/
+
+01-docs/分享/

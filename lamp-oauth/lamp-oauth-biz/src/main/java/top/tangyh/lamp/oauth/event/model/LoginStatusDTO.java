@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import top.tangyh.basic.log.util.AddressUtil;
 import top.tangyh.lamp.system.enumeration.system.LoginStatusEnum;
 
 import java.io.Serializable;
@@ -68,10 +67,6 @@ public class LoginStatusDTO implements Serializable {
      * 浏览器请求头
      */
     private String ua;
-    /**
-     * 登录地点
-     */
-    private String location;
 
     /**
      * '登录状态;[01-登录成功 02-验证码错误 03-密码错误 04-账号锁定 05-切换租户 06-短信验证码错误]
@@ -125,11 +120,9 @@ public class LoginStatusDTO implements Serializable {
         String tempUa = StrUtil.sub(request.getHeader("user-agent"), 0, 500);
         String tempIp = JakartaServletUtil.getClientIP(request);
         log.info("tempIp={}, ua={}", tempIp, tempUa);
-        String tempLocation = isLocalHostIp(tempIp) ? "localhost" : AddressUtil.getRegion(tempIp);
 
         this.ua = tempUa;
         this.requestIp = tempIp;
-        this.location = tempLocation;
         return this;
     }
 

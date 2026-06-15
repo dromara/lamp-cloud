@@ -11,5 +11,13 @@ lamp:
   system:
     # 演示环境启用
     notAllowWrite: true
+  log:
+    ipv4:
+      enabled: true
+      xdbPath: file:/data_prod/target/ip2region_v4.xdb
+    ipv6:
+      enabled: true
+      xdbPath: file:/data_prod/target/ip2region_v6.xdb
+
 server:
   port: 28760

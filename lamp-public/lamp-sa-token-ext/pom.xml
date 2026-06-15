@@ -23,7 +23,7 @@
 
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-autoconfig</artifactId>
+            <artifactId>sa-token-spring-boot-webmvc-v3v4-common</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>

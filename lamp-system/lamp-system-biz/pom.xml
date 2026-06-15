@@ -19,7 +19,10 @@
             <artifactId>lamp-system-entity</artifactId>
             <version>${revision}</version>
         </dependency>
-
+        <dependency>
+            <groupId>top.tangyh.basic</groupId>
+            <artifactId>lamp-log-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>top.tangyh.lamp</groupId>
             <artifactId>lamp-file-sdk</artifactId>

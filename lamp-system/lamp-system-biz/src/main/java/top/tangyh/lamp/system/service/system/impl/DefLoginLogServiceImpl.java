@@ -7,6 +7,7 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.lionsoul.ip2region.service.Ip2Region;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.tangyh.basic.base.service.impl.SuperServiceImpl;
@@ -18,6 +19,8 @@ import top.tangyh.lamp.system.manager.tenant.DefUserManager;
 import top.tangyh.lamp.system.service.system.DefLoginLogService;
 import top.tangyh.lamp.system.vo.save.system.DefLoginLogSaveVO;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -37,6 +40,7 @@ import java.util.stream.Stream;
 @Transactional(readOnly = true)
 
 public class DefLoginLogServiceImpl extends SuperServiceImpl<DefLoginLogManager, Long, DefLoginLog> implements DefLoginLogService {
+    private final Ip2Region ip2Region;
     private static final Supplier<Stream<String>> BROWSER = () -> Stream.of(
             "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
     );
@@ -85,7 +89,27 @@ public class DefLoginLogServiceImpl extends SuperServiceImpl<DefLoginLogManager,
             defLoginLog.setUsername(user.getUsername()).setUserId(user.getId()).setNickName(user.getNickName())
                     .setCreatedBy(user.getId());
         }
+        String ipLocation = null;
+        try {
+            ipLocation = isLocalHostIp(defLoginLogSaveVO.getRequestIp()) ? "" : ip2Region.search(defLoginLogSaveVO.getRequestIp());
+        } catch (Exception e) {
+            log.warn("解析ip失败", e);
+        }
+        defLoginLog.setLocation(ipLocation);
         return defLoginLog;
+    }
+
+    /**
+     * 判断是否为本地IP地址的方法
+     */
+    private boolean isLocalHostIp(String ipAddress) {
+        try {
+            InetAddress inetAddress = InetAddress.getByName(ipAddress);
+            return inetAddress.isLoopbackAddress();
+        } catch (UnknownHostException e) {
+            // 处理异常情况，如果无法解析IP地址，则不视为本地地址
+            return false;
+        }
     }
 
     @Override
