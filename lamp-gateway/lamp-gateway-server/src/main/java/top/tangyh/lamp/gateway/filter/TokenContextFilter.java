@@ -107,6 +107,7 @@ public class TokenContextFilter implements WebFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         ServerHttpRequest.Builder mutate = request.mutate();
+        removeIdentityHeaders(mutate);
 
         ContextUtil.setGrayVersion(getHeader(ContextConstants.GRAY_VERSION, request));
 
@@ -148,7 +149,8 @@ public class TokenContextFilter implements WebFilter, Ordered {
         // 判断接口是否需要忽略token验证
         if (isIgnoreToken(request)) {
             log.debug("当前接口：{}, 不解析用户token", request.getPath());
-            return chain.filter(exchange);
+            ServerHttpRequest build = mutate.build();
+            return chain.filter(exchange.mutate().request(build).build());
         }
 
         SaSession tokenSession = StpUtil.getTokenSessionByToken(getHeader(saTokenConfig.getTokenName(), request));
@@ -169,6 +171,16 @@ public class TokenContextFilter implements WebFilter, Ordered {
         }
 
         return null;
+    }
+
+    private void removeIdentityHeaders(ServerHttpRequest.Builder mutate) {
+        mutate.headers(headers -> {
+            headers.remove(USER_ID_HEADER);
+            headers.remove(EMPLOYEE_ID_HEADER);
+            headers.remove(CURRENT_TOP_COMPANY_ID_HEADER);
+            headers.remove(CURRENT_COMPANY_ID_HEADER);
+            headers.remove(CURRENT_DEPT_ID_HEADER);
+        });
     }
 
     private void parseClient(ServerHttpRequest request, ServerHttpRequest.Builder mutate) {

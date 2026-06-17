@@ -28,6 +28,8 @@
         <revision>5.10.0</revision>
         <!-- lamp-util基础库的版本 -->
         <lamp-util.version>5.10.0</lamp-util.version>
+        <skipTests>true</skipTests>
+        <maven.test.skip>true</maven.test.skip>
         <docker.image.prefix>zuihou</docker.image.prefix>
     </properties>
 
@@ -215,8 +217,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
-                        <skipTests>true</skipTests>
-                        <skip>true</skip>
+                        <skipTests>${skipTests}</skipTests>
+                        <skip>${maven.test.skip}</skip>
                     </configuration>
                 </plugin>
                 <plugin>
