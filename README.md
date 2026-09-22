@@ -13,20 +13,16 @@
 
 [https://tangyh.top](https://tangyh.top)
 
-# lamp 项目名字由来
+## 小程序免费看文档
+![小程序免费看文档](01-docs/灯灯快速开发小程序.jpg)
 
-在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。
-走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
-我和媳妇相视一笑，然后一起说：哈哈，就用这个名字！！！
+
+# lamp 项目名字由来
 
 `灯灯`(简称灯， 英文名：lamp)，她是一个项目集，由"工具集"、"后端"、"前端"组成，为满足高内聚低耦合设计原则，将一个**大项目**
 拆解为以下几个子项目：
 
 [点我了解项目详细介绍](https://tangyh.top)
-
-## 小程序免费看文档
-![小程序免费看文档](01-docs/灯灯快速开发小程序.jpg)
-
 
 ## 工具集
 
@@ -56,17 +52,7 @@
 
 # 分支说明
 
-新用户请直接学习和使用 java17/5.x 分支，其他分支已不在维护
-
-| 分支        | java8/3.x     | java17/3.x    | java17/4.x                                                                   | java17/5.x                                                                   |
-|-----------|---------------|---------------|------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| 源码版本      | 3.x           | 3.x           | 4.x                                                                          | 5.x                                                                          |
-| JDK版本     | jdk8          | jdk17         | jdk17、jdk21                                                                  | jdk17、jdk21                                                                  |
-| 是否继续升级新功能 | 不开发新功能,仅修复bug | 不开发新功能,仅修复bug | 不开发新功能,仅修复bug                                                                | 持续开发新功能和bug修复                                                                |
-| 是否支持数据源模式 | 是(赞助版支持)      | 是(赞助版支持)      | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) |
-| 是否支持字段模式  | 是(开源版赞助版均支持)  | 是(开源版赞助版均支持)  | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) |
-| 是否支持非租户模式 | 是(开源版赞助版均支持)  | 是(开源版赞助版均支持)  | 是(开源版支持)                                                                     | 是(开源版支持)                                                                     |
-
+新用户请直接学习和使用 java17/5.x 分支，其他分支是老版本代码。
 
 # lamp-cloud 简介
 
@@ -95,6 +81,9 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
     - 字段模式（vben2版）：演示地址：   [https://column.tangyh.top](https://column.tangyh.top)
     - 非租户模式：演示地址：   [https://none.tangyh.top](https://none.tangyh.top)
 
+## 广告位
+- [MDP-主数据平台](https://gitee.com/henhen6/mddata) : 专注于**单点登录、开放平台和基础管理平台**解决方案。
+
 # 作者参与过或PR过的项目
 
 - [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin) : vue3 + ant design vue 前端框架
@@ -105,7 +94,7 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 - [J2Cache](https://gitee.com/ld/J2Cache) : 2级缓存
 
 # 优秀案例
-- 主数据平台： [mddata](https://gitee.com/henhen6/mddata)。 专注于单点登录中心、开放平台、基础管理平台解决方案
+- [MDP-主数据平台](https://gitee.com/henhen6/mddata)。 专注于单点登录中心、开放平台、基础管理平台解决方案
 - 即时通讯系统： [HuLa-Server](https://github.com/HuLaSpark/HuLa-Server)
 
 # 项目截图：
@@ -118,102 +107,6 @@ Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、S
 | ![预览.png](A极其重要/01-docs/image/监控/sw拓扑图.png)          | ![预览.png](A极其重要/01-docs/image/监控/sw追踪列表.png)  |
 | ![预览.png](A极其重要/01-docs/image/1000star.png)          | ![预览.png](A极其重要/01-docs/image/灯灯软著证书.png)     |
 
-# 推广
-
-- 【阿里云】超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
-- 【阿里云】服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
-- 【阿里云】服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
-  -【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
-  -【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
--
-通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
-一份。
-
-# Dromara 成员项目
-
-<p align="center">
-<a href="https://gitee.com/dromara/TLog" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/tlog2.png" title="一个轻量级的分布式日志标记追踪神器，10分钟即可接入，自动对日志打标签完成微服务的链路追踪" width="15%">
-</a>
-<a href="https://gitee.com/dromara/liteFlow" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/liteflow.png" title="轻量，快速，稳定，可编排的组件式流程引擎" width="15%">
-</a>
-<a href="https://hutool.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/hutool.jpg" title="小而全的Java工具类库，使Java拥有函数式语言般的优雅，让Java语言也可以“甜甜的”。" width="15%">
-</a>
-<a href="https://sa-token.dev33.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/sa-token.png" title="一个轻量级 java 权限认证框架，让鉴权变得简单、优雅！" width="15%">
-</a>
-<a href="https://gitee.com/dromara/hmily" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/hmily.png" title="高性能一站式分布式事务解决方案。" width="15%">
-</a>
-<a href="https://gitee.com/dromara/Raincat" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/raincat.png" title="强一致性分布式事务解决方案。" width="15%">
-</a>
-</p>
-<p align="center">
-<a href="https://gitee.com/dromara/myth" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/myth.png" title="可靠消息分布式事务解决方案。" width="15%">
-</a>
-<a href="https://cubic.jiagoujishu.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/cubic.png" title="一站式问题定位平台，以agent的方式无侵入接入应用，完整集成arthas功能模块，致力于应用级监控，帮助开发人员快速定位问题" width="15%">
-</a>
-<a href="https://maxkey.top/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/maxkey.png" title="业界领先的身份管理和认证产品" width="15%">
-</a>
-<a href="http://forest.dtflyx.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/forest-logo.png" title="Forest能够帮助您使用更简单的方式编写Java的HTTP客户端" width="15%">
-</a>
-<a href="https://jpom.io/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/jpom.png" title="一款简而轻的低侵入式在线构建、自动部署、日常运维、项目监控软件" width="15%">
-</a>
-<a href="https://su.usthe.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/sureness.png" title="面向 REST API 的高性能认证鉴权框架" width="15%">
-</a>
-</p>
-<p align="center">
-<a href="https://easy-es.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/easy-es2.png" title="傻瓜级ElasticSearch搜索引擎ORM框架" width="15%">
-</a>
-<a href="https://gitee.com/dromara/northstar" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/northstar_logo.png" title="Northstar盈富量化交易平台" width="15%">
-</a>
-<a href="https://hertzbeat.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/hertzbeat_brand.jpg" title="易用友好的云监控系统" width="15%">
-</a>
-<a href="https://plugins.sheng90.wang/fast-request/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/fast-request.gif" title="Idea 版 Postman，为简化调试API而生" width="15%">
-</a>
-<a href="https://www.jeesuite.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/mendmix.png" title="开源分布式云原生架构一站式解决方案" width="15%">
-</a>
-<a href="https://gitee.com/dromara/koalas-rpc" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/koalas-rpc2.png" title="企业生产级百亿日PV高可用可拓展的RPC框架。" width="15%">
-</a>
-</p>
-<p align="center">
-<a href="https://async.sizegang.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/gobrs-async.png" title="配置极简功能强大的异步任务动态编排框架" width="15%">
-</a>
-<a href="https://dynamictp.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/dynamic-tp.png" title="基于配置中心的轻量级动态可监控线程池" width="15%">
-</a>
-<a href="https://www.x-easypdf.cn" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/x-easypdf.png" title="一个用搭积木的方式构建pdf的框架（基于pdfbox）" width="15%">
-</a>
-<a href="http://dromara.gitee.io/image-combiner" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/image-combiner.png" title="一个专门用于图片合成的工具，没有很复杂的功能，简单实用，却不失强大" width="15%">
-</a>
-<a href="https://www.herodotus.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/dante-cloud2.png" title="Dante-Cloud 是一款企业级微服务架构和服务能力开发平台。" width="15%">
-</a>
-<a href="https://dromara.org/zh/projects/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/dromara.png" title="让每一位开源爱好者，体会到开源的快乐。" width="15%">
-</a>
-</p>
-<p align="center">
-为往圣继绝学，一个人或许能走的更快，但一群人会走的更远。
-</p>
 
 # 赞助版
 
