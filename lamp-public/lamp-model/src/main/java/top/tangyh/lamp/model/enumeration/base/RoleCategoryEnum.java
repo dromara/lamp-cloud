@@ -58,7 +58,7 @@ public enum RoleCategoryEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "FUNCTION,DESKTOP,DATA_SCOPE", example = "FUNCTION")
+    @Schema(description = "编码", allowableValues = {"FUNCTION", "DESKTOP", "DATA_SCOPE"}, example = "FUNCTION")
     public String getCode() {
         return this.code;
     }

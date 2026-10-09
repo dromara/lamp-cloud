@@ -144,12 +144,6 @@ public class DefUserManagerImpl extends SuperCacheManagerImpl<DefUserMapper, Def
         return super.removeByIds(list, useFill);
     }
 
-    @Override
-    public boolean removeBatchByIds(Collection<?> list) {
-        delUserCache(list);
-        return super.removeBatchByIds(list);
-    }
-
 
     @Override
     public void delUserCache(Collection<?> list) {

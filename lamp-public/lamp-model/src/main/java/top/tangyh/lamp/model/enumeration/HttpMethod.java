@@ -71,7 +71,7 @@ public enum HttpMethod implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "GET,POST,PUT,DELETE,PATCH,TRACE,HEAD,OPTIONS", example = "GET")
+    @Schema(description = "编码", allowableValues = {"GET", "POST", "PUT", "DELETE", "PATCH", "TRACE", "HEAD", "OPTIONS"}, example = "GET")
     public String getCode() {
         return this.name();
     }

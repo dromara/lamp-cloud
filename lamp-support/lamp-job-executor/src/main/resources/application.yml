@@ -59,7 +59,7 @@ lamp:
   xss:
     enabled: false
     requestBodyEnabled: false
-  swagger:
+  nextdoc4j:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
@@ -68,32 +68,6 @@ lamp:
       url: https://github.com/zuihou
       name: zuiou
       email: 306479353@qq.com
-    global-operation-parameters: # 全局参数
-      - name: Token
-        description: 用户信息
-        modelRef: String
-        parameterType: header
-        required: true
-        # 默认值只是方便本地开发时，少填参数，生产环境请禁用swagger或者禁用默认参数
-        defaultValue: "test"
-      - name: Authorization
-        description: 客户端信息
-        modelRef: String
-        parameterType: header
-        required: true
-        defaultValue: "bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0"
-      - name: TenantId
-        description: 租户ID
-        modelRef: String
-        parameterType: header
-        required: true
-        defaultValue: "1"
-      - name: ApplicationId
-        description: 应用ID
-        modelRef: String
-        parameterType: header
-        required: true
-        defaultValue: "1"
 
 ### xxl-job email
 xxl.job:
@@ -227,16 +201,18 @@ mybatis-plus:
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
 
-# knife4j 文档通用配置 详情看: Knife4jProperties
-knife4j:
-  enable: true
-  setting:
-    enableReloadCacheParameter: true
-    enableVersion: true
-    enableDynamicParameter: true
-    enableFooter: false
-    enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
+# NextDoc4j 在线文档配置
+nextdoc4j:
+  enabled: true
+  # 文档访问密码（basic auth），生产环境请修改
+  auth:
+    enabled: true
+    username: lamp
+    password: lamp
+  extension:
+    enabled: true
+    brand:
+      footer-text: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
 
 
 

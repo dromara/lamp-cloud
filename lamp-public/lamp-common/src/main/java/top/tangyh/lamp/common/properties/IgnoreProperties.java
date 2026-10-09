@@ -59,6 +59,9 @@ public class IgnoreProperties {
             "/favicon.ico",
             "/v3/**",
             "/webjars/**",
+            // nextdoc4j 前端静态资源
+            "/nextdoc/**",
+            "/*/nextdoc/**",
             "/v2/**",
             "/swagger-resources/**",
             "/actuator/**",

@@ -50,7 +50,7 @@ public enum FileStorageType implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "LOCAL,FAST_DFS,MIN_IO,ALI,QINIU", example = "LOCAL")
+    @Schema(description = "编码", allowableValues = {"LOCAL", "FAST_DFS", "MIN_IO", "ALI", "QINIU"}, example = "LOCAL")
     public String getCode() {
         return this.name();
     }

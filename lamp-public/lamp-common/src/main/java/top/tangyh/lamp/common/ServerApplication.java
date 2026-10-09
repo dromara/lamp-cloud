@@ -23,7 +23,7 @@ public class ServerApplication {
                 
                 ----------------------------------------------------------
                 应用 '{}' 启动成功， JDK版本号：{} ！
-                knife4j文档（支持gateway服务聚合文档）: http://{}:{}{}/doc.html
+                NextDoc4j文档（支持gateway服务聚合文档）: http://{}:{}{}/doc.html
                 swagger原始文档（不支持gateway服务聚合文档）：http://{}:{}{}/swagger-ui.html
                 数据库监控（可用于排查数据源是否链接成功）:   http://{}:{}/druid
                 当前环境变量：{} 日志路径：{}

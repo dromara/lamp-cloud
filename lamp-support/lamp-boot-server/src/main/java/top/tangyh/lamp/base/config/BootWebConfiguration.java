@@ -42,11 +42,6 @@ public class BootWebConfiguration implements WebMvcConfigurer {
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/");
-    }
-
-    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("forward:/index");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);

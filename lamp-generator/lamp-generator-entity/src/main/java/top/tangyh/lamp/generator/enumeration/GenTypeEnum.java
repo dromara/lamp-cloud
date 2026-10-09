@@ -52,7 +52,7 @@ public enum GenTypeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "GEN,ZIP", example = "01")
+    @Schema(description = "编码", allowableValues = {"GEN", "ZIP"}, example = "01")
     public String getCode() {
         return this.name();
     }

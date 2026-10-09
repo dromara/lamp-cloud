@@ -59,7 +59,7 @@ public enum ResourceTypeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "20,30,40,50,60", example = "20")
+    @Schema(description = "编码", allowableValues = {"20", "30", "40", "50", "60"}, example = "20")
     public String getCode() {
         return this.code;
     }

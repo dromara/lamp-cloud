@@ -57,7 +57,7 @@ public enum NoticeRemindModeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "TO_DO,NOTICE,EARLY_WARNING", example = "TO_DO")
+    @Schema(description = "编码", allowableValues = {"TO_DO", "NOTICE", "EARLY_WARNING"}, example = "TO_DO")
     public String getCode() {
         return this.value;
     }

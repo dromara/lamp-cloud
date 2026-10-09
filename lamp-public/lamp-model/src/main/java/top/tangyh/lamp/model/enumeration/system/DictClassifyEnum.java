@@ -52,7 +52,7 @@ public enum DictClassifyEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "10,20", example = "20")
+    @Schema(description = "编码", allowableValues = {"10", "20"}, example = "20")
     public String getCode() {
         return this.code;
     }

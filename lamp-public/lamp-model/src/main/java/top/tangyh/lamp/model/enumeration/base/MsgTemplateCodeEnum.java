@@ -48,7 +48,7 @@ public enum MsgTemplateCodeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
+    @Schema(description = "编码", allowableValues = {"IMAGE", "VIDEO", "AUDIO", "DOC", "OTHER"}, example = "IMAGE")
     public String getCode() {
         return this.value;
     }

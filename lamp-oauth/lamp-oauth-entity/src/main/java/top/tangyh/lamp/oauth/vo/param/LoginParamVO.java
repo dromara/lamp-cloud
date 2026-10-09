@@ -44,7 +44,7 @@ public class LoginParamVO {
      * refresh_token: 刷新token
      * captcha: 验证码
      */
-    @Schema(description = "授权类型", example = "CAPTCHA", allowableValues = "CAPTCHA,REFRESH_TOKEN,PASSWORD,MOBILE")
+    @Schema(description = "授权类型", example = "CAPTCHA", allowableValues = {"PASSWORD", "MOBILE", "CAPTCHA", "REFRESH_TOKEN"})
     @NotNull(message = "授权类型不能为空")
     private GrantType grantType;
 

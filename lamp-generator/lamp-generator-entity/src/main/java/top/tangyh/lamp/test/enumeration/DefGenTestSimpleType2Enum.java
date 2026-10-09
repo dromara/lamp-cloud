@@ -53,7 +53,7 @@ public enum DefGenTestSimpleType2Enum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "name", allowableValues = "ORDINARY,GIFT", example = "ORDINARY")
+    @Schema(description = "name", allowableValues = {"ORDINARY", "GIFT"}, example = "ORDINARY")
     public String getCode() {
         return this.name();
     }

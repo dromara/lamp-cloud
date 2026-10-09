@@ -46,7 +46,7 @@ public enum InterfaceExecModeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "name", allowableValues = "01,02", example = "01")
+    @Schema(description = "name", allowableValues = {"01", "02"}, example = "01")
     public String getCode() {
         return this.value;
     }

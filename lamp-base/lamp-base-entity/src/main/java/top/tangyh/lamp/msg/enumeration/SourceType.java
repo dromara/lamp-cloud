@@ -51,7 +51,7 @@ public enum SourceType implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "name", allowableValues = "APP,SERVICE", example = "APP")
+    @Schema(description = "name", allowableValues = {"APP", "SERVICE"}, example = "APP")
     public String getCode() {
         return this.name();
     }

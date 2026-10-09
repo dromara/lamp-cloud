@@ -54,7 +54,7 @@ public enum DateType implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "MONTH,WEEK,DAY,NUL", example = "NUL")
+    @Schema(description = "编码", allowableValues = {"MONTH", "WEEK", "DAY", "NUL"}, example = "NUL")
     public String getCode() {
         return this.name();
     }

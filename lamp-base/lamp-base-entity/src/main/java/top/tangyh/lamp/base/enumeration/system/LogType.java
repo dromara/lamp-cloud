@@ -52,7 +52,7 @@ public enum LogType implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "OPT,EX", example = "OPT")
+    @Schema(description = "编码", allowableValues = {"OPT", "EX"}, example = "OPT")
     public String getCode() {
         return this.name();
     }

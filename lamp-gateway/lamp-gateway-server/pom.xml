@@ -68,8 +68,9 @@
                     <artifactId>lamp-mvc</artifactId>
                     <groupId>top.tangyh.basic</groupId>
                 </exclusion>
+                <!-- 网关为 WebFlux 栈，排除 WebMvc 版的 nextdoc4j starter -->
                 <exclusion>
-                    <artifactId>lamp-swagger2-starter</artifactId>
+                    <artifactId>lamp-nextdoc4j-starter</artifactId>
                     <groupId>top.tangyh.basic</groupId>
                 </exclusion>
                 <exclusion>
@@ -134,9 +135,19 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- knife4j 已替换为 nextdoc4j：网关聚合文档 -->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-ui</artifactId>
+            <groupId>top.nextdoc4j</groupId>
+            <artifactId>nextdoc4j-gateway-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- NextDoc4j 要求宿主自行引入 springdoc UI（WebFlux 栈） -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.nextdoc4j</groupId>
+            <artifactId>nextdoc4j-plugin-security-schemes</artifactId>
         </dependency>
 
         <dependency>

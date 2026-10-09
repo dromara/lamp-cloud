@@ -60,7 +60,7 @@ public enum TaskStatus implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "name", allowableValues = "DRAFT,WAITING,SUCCESS,FAIL", example = "DRAFT")
+    @Schema(description = "name", allowableValues = {"DRAFT", "WAITING", "SUCCESS", "FAIL"}, example = "DRAFT")
     public String getCode() {
         return this.name();
     }

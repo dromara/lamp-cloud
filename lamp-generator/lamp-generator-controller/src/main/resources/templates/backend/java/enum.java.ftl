@@ -52,7 +52,7 @@ public enum ${enumType.enumName} implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "name", allowableValues = "<#list enumType.kvList as kv>${kv.key?upper_case}<#if kv_has_next>,</#if></#list>", example = "${enumType.kvList[0].key?upper_case}")
+    @Schema(description = "name", allowableValues = {<#list enumType.kvList as kv>"${kv.key?upper_case}"<#if kv_has_next> ,</#if></#list>}, example = "${enumType.kvList[0].key?upper_case}")
     public String getCode() {
         return this.name();
     }

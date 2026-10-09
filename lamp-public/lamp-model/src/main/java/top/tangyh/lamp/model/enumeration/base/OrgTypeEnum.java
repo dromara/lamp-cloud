@@ -52,7 +52,7 @@ public enum OrgTypeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "10,20", example = "10")
+    @Schema(description = "编码", allowableValues = {"10", "20"}, example = "10")
     public String getCode() {
         return this.code;
     }

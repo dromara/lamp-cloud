@@ -62,7 +62,7 @@ public enum DataScopeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "ALL,SELF_COMPANY_CHILDREN,SELF_COMPANY,SELF_DEPT_CHILDREN,SELF_DEPT,SELF,CUSTOM", example = "ALL")
+    @Schema(description = "编码", allowableValues = {"ALL", "SELF_COMPANY_CHILDREN", "SELF_COMPANY", "SELF_DEPT_CHILDREN", "SELF_DEPT", "SELF", "CUSTOM"}, example = "ALL")
     public String getCode() {
         return this.val;
     }

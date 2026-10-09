@@ -48,7 +48,7 @@ public enum MsgInterfaceLoggingStatusEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "name", allowableValues = "INIT,SUCCESS,FAIL", example = "INIT")
+    @Schema(description = "name", allowableValues = {"INIT", "SUCCESS", "FAIL"}, example = "INIT")
     public String getCode() {
         return this.name();
     }

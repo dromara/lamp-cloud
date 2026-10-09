@@ -1,5 +1,5 @@
 lamp:
-  swagger:
+  nextdoc4j:
     license: Powered By zuihou
     licenseUrl: https://github.com/zuihou
     termsOfServiceUrl: https://github.com/zuihou
@@ -8,59 +8,36 @@ lamp:
       url: https://github.com/zuihou
       name: zuihou
       email: 306479353@qq.com
-    global-operation-parameters: # 全局参数
-      - name: Token
-        description: 用户信息
-        modelRef: String
-        parameterType: header
-        required: true
-        # 默认值只是方便本地开发时，少填参数，生产环境请禁用swagger或者禁用默认参数
-        defaultValue: "test"
-      - name: Authorization
-        description: 客户端信息
-        modelRef: String
-        parameterType: header
-        required: true
-        defaultValue: "bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0"
-      - name: ApplicationId
-        description: 应用ID
-        modelRef: String
-        parameterType: header
-        required: true
-        defaultValue: "1"
-
-
-# knife4j 文档通用配置 详情看: Knife4jProperties
-knife4j:
-  enable: true
-  # 生产屏蔽文档
-  production: true
-  setting:
-    language: zh_cn
-    swagger-model-name: 实体类列表
-    #     是否在每个Debug调试栏后显示刷新变量按钮,默认不显示
-    enableReloadCacheParameter: true
-    #    是否开启界面中对某接口的版本控制,如果开启，后端变化后Ui界面会存在小蓝点
-    enableVersion: true
-    #    针对RequestMapping的接口请求类型,在不指定参数类型的情况下,如果不过滤,默认会显示7个类型的接口地址参数,如果开启此配置,默认展示一个Post类型的接口地址
-    enableFilterMultipartApis: false
-    #    是否开启动态参数调试功能
-    enableDynamicParameter: true
-    #    是否显示Footer
-    enableFooter: false
-    enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
 
 springdoc:
+  components:
+    security-schemes:
+      Token:
+        type: HTTP
+        in: HEADER
+        name: Token
+        scheme: ''
+        description: "请输入 Token，格式： {token}"
+      Authorization:
+        type: HTTP
+        in: HEADER
+        name: Authorization
+        scheme: 'bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0'
+        description: "客户端信息"
+      ApplicationId:
+        type: HTTP
+        in: HEADER
+        name: ApplicationId
+        scheme: '1'
+        description: "应用ID"
   # 默认是false，需要设置为true
   default-flat-param-object: true
   swagger-ui:
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
-    enabled: ${knife4j.enable}
   api-docs:
-    enabled: ${knife4j.enable}
+    enabled: ${nextdoc4j.enabled}
     path: /v3/api-docs
   group-configs:
     # @lamp.generator auto insert springdoc.groupconfigs
@@ -93,3 +70,20 @@ springdoc:
         - top.tangyh.lamp.generator
         - top.tangyh.lamp.test.controller
 
+# NextDoc4j 在线文档配置
+nextdoc4j:
+  # 生产环境如需彻底屏蔽文档，改为 false 即可
+  enabled: true
+  plugin:
+    security:
+      # 启用认证展示与调试自动注入
+      enabled: true
+  # 文档访问密码（basic auth），生产环境请务必修改
+  auth:
+    enabled: true
+    password: lamp
+  extension:
+    enabled: true
+    brand:
+      title: lamp-cloud 在线文档
+      footer-text: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
